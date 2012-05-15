@@ -962,7 +962,8 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardAttendance,
                          :dashboardStudentHistoricalDataTests,
                          :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests] do
+                         :dashboardStudentGradebookEntryTests,
+                         :dashboardHTMLEscapeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1046,6 +1047,11 @@ end
 desc "Run dashboard sad path tests"
 task :dashboardSadPathTests do
   runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
+end
+
+desc "Run dashboard HTML escape tests"
+task :dashboardHTMLEscapeTests do
+  runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
 end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
