@@ -166,8 +166,8 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        String tenant = (String)realm.getBody().get("tenantId");
-        if (tenant == null || tenant.length()<1) {
+        String tenant = (String) realm.getBody().get("tenantId");
+        if (tenant == null || tenant.length() < 1) {
             // accept the tenantId from the IDP if and only if the realm's tenantId is null
             tenant = attributes.getFirst("tenant");
             if (tenant == null) {
