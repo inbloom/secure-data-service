@@ -28,6 +28,7 @@ public final class ResourceNames {
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String GRADING_PERIODS = "gradingPeriods";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
     public static final String REPORT_CARDS = "reportCards";
@@ -109,6 +110,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_ACTIONS, "getDisciplineAction");
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADEBOOK_ENTRIES, "getGradebookEntry");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADING_PERIODS, "getGradingPeriod");
         SINGULAR_LINK_NAMES.put(ResourceNames.PARENTS, "getParent");
         SINGULAR_LINK_NAMES.put(ResourceNames.PROGRAMS, "getProgram");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTIONS, "getSection");

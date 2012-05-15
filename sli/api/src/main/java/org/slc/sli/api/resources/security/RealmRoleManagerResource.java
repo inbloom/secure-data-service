@@ -328,14 +328,14 @@ public class RealmRoleManagerResource {
             realmName = UNKNOWN_SLI_REALM_NAME;
         }
         if (sliToClientRoles != null) {
-            for (Map<String, Object> sliToClientRole: sliToClientRoles) {
+            for (Map<String, Object> sliToClientRole : sliToClientRoles) {
                 String sliRoleName = (String) sliToClientRole.get("sliRoleName");
                 if (sliRoleName == null) {
                     sliRoleName = UNKNOWN_SLI_ROLE_NAME;
                 }
                 List<Object> clientRoleNames = (List<Object>) sliToClientRole.get("clientRoleName");
                 if (clientRoleNames != null) {
-                    for (Object clientRoleName: clientRoleNames) {
+                    for (Object clientRoleName : clientRoleNames) {
                         oldRoleMapList.add(Pair.of(sliRoleName, realmName + ":" + (String) clientRoleName));
                     }
                 } else {
@@ -349,7 +349,7 @@ public class RealmRoleManagerResource {
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> roleMapList, boolean added) {
         String [] addedDeleted = new String[] {"Added", "Deleted"};
-        for (Pair<String, String> roleMap: roleMapList) {
+        for (Pair<String, String> roleMap : roleMapList) {
             String sliRoleName = roleMap.getLeft();
             String clientRoleName = roleMap.getRight();
             String eventMessage = addedDeleted[added ? 0 : 1] + " role mapping between SLI:" + sliRoleName + " and " + clientRoleName;

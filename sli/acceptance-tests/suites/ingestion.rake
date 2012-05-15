@@ -186,6 +186,11 @@ desc "Run XXE Injection Protection Test"
 task :ingestionXXETest do
   runTests("test/features/ingestion/features/xxe_testing.feature")
 end
+
+desc "Run CompetencyLevelDescriptor Ingestion Test"
+task :ingestionCompetencyLevelDescriptorTest do
+  runTests("test/features/ingestion/features/ingestion_competencyLevelDescriptor.feature")
+end
 ############################################################
 # Ingestion tests end
 ############################################################

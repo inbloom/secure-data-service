@@ -26,6 +26,9 @@ default:
         # Session hard logout (8 hours - only in api)
         sli.session.hardLogout: 28800000
 
+        # Defines the domain where the api session cookie is dropped
+        sli.api.cookieDomain: .slidev.org
+        
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
 
@@ -144,14 +147,24 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in SimpleIDP)
+        # Issuer value used in the Simple-IDP, must match with idp.id in API realm entity
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
+        # Circule of Trust, comma separated, key=value pair for all API nodes that this SimpleIDP should trust
         sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        # LDAP attribute used to search for and authenticate users
         sli.simple-idp.userSearchAttribute: uid
+        # LDAP object class used to search for and authenticate users
         sli.simple-idp.userObjectClass: person
+        # LDAP attribute used to search for a users groups
         sli.simple-idp.groupSearchAttribute: memberuid
+        # LDAP object class used to search for a users groups
         sli.simple-idp.groupObjectClass: posixGroup
+        # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+        # LDAP base URL
+        sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
+        # LDAP base DN
+        sli.simple-idp.ldap.base: dc=slidev,dc=org
         
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
@@ -629,5 +642,9 @@ sandbox:
         bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     misc:
         <<: *MISC-TEAM
-
+        sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: true
+        
 # this is not used but required 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by Edward Comer (private) -->
+<!-- edited with XMLSpy v2012 rel. 2 (x64) (http://www.altova.com) by Edward Comer (private) -->
 <!-- (c) 2011 Michael & Susan Dell Foundation. All Rights Reserved.-->
 <!--This draft data exchange schema was created for the Michael & Susan Dell Foundation by Double Line Partners-->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100" targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:annotation>
-		<xs:documentation>===== Ed-Fi-Core Version 1.0 November 11, 2011 =====
+		<xs:documentation>===== Ed-Fi-Core Version 1.0.03 April 15, 2012 =====
 		
 		Ed-Fi Version History
 		1.0   6/28/11  Release for Comment
@@ -12,6 +12,10 @@
 		1.0   10/7/11  Close of RFC Period
 		1.0   10/17/11  Release 1.0 Candidate A
 		1.0   11/11/11 Release 1.0
+		1.0.01   12/20/11 Minor .01
+		1.0.02   3/18/2012 Minor .02
+		1.0.03   4/15/12 Minor .03 
+		
 
 		</xs:documentation>
 	</xs:annotation>
@@ -368,70 +372,69 @@ Prose
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-    <xs:complexType name="AttendanceEvent">
-        <xs:annotation>
-            <xs:documentation>This event entity represents the recording of whether a student is in attendance for a
-                class or in attendance to receive or participate in program services.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="ComplexObjectType">
-                <xs:sequence>
-                    <xs:element name="EventDate" type="xs:date">
-                        <xs:annotation>
-                            <xs:documentation>Date for this attendance event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>A code describing the type of the attendance event (e.g., daily
-                                attendance, section attendance, etc.)
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType">
-                        <xs:annotation>
-                            <xs:documentation>A code describing the attendance event, for example:
-                                present
-                                Unexcused absence
-                                Excused absence
-                                Tardy
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The reported reason for a student's absence.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The setting in which a child receives education and related services. This
-                                attribute is only used if it differs from the Educational Environment of the section.
-                                This is only used in the AttendanceEvent if different from the associated Section.
-                            </xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="StudentReference" type="StudentReferenceType">
-                        <xs:annotation>
-                            <xs:documentation>The student associated with the attendance event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The section associated with the attendance event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="SchoolReference" type="EducationalOrgReferenceType" minOccurs="0">
-                        <xs:annotation>
-                            <xs:documentation>The school associated with the attendance event.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="BellSchedule">
+	<xs:complexType name="AttendanceEvent">
+		<xs:annotation>
+			<xs:documentation>This event entity represents the recording of whether a student is in attendance for a class or in attendance to receive or participate in program services.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="EventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Date for this attendance event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A code describing the type of the attendance event (e.g., daily attendance, section attendance, etc.)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType">
+						<xs:annotation>
+							<xs:documentation>A code describing the attendance event, for example:
+present
+Unexcused absence
+Excused absence
+Tardy
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The reported reason for a student's absence.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The setting in which a child receives education and related services.  This attribute is only used if it differs from the Educational Environment of the section. This is only used in the AttendanceEvent if different from the associated Section.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentReference" type="StudentReferenceType">
+						<xs:annotation>
+							<xs:documentation>The student associated with the attendance event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SectionReference" type="SectionReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The section associated with the attendance event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The school associated with the attendance event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SessionReference" type="SessionReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The session associated with the attendance event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BellSchedule">
 		<xs:annotation>
 			<xs:documentation>This entity represents the schedule of class period meeting times.</xs:documentation>
 		</xs:annotation>
@@ -1971,6 +1974,58 @@ Bilingual/English as a Second Language</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="RestraintEvent">
+		<xs:annotation>
+			<xs:documentation>This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.
+</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="RestraintEventIdentifier" type="RestraintEventIdentifier">
+						<xs:annotation>
+							<xs:documentation>A unique number or alphanumeric code assigned to a restraint event by a school, school system, a state, or other agency or entity.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EventDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>Month, day and year of the restraint event.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The setting where the restraint was exercised.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RestraintEventReasons" type="RestraintEventReasonsType">
+						<xs:annotation>
+							<xs:documentation>A categorization of the circumstances or reason for the restraint.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentReference" type="StudentReferenceType">
+						<xs:annotation>
+							<xs:documentation>Reference to student that was restrained.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ProgramReference" type="ProgramReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The special education program associated with the restraint event.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
+						<xs:annotation>
+							<xs:documentation>The school where the restraint event occurred.
+</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:complexType name="School">
 		<xs:annotation>
 			<xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.
@@ -2034,58 +2089,6 @@ Bilingual/English as a Second Language</xs:documentation>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="RestraintEvent">
-		<xs:annotation>
-			<xs:documentation>This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.
-</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="RestraintEventIdentifier" type="RestraintEventIdentifier">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned to a restraint event by a school, school system, a state, or other agency or entity.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="EventDate" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>Month, day and year of the restraint event.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The setting where the restraint was exercised.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="RestraintEventReasons" type="RestraintEventReasonsType">
-						<xs:annotation>
-							<xs:documentation>A categorization of the circumstances or reason for the restraint.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="StudentReference" type="StudentReferenceType">
-						<xs:annotation>
-							<xs:documentation>Reference to student that was restrained.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ProgramReference" type="ProgramReferenceType" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The special education program associated with the restraint event.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="SchoolReference" type="EducationalOrgReferenceType">
-						<xs:annotation>
-							<xs:documentation>The school where the restraint event occurred.
-</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 	<xs:complexType name="Section">
 		<xs:annotation>
 			<xs:documentation>This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time.  A course may be offered to more than one class/section.  Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium. 
@@ -2137,7 +2140,7 @@ Center-based instruction
 					</xs:element>
 					<xs:element name="PopulationServed" type="PopulationServedType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The population for which the course was designed; for example:
+							<xs:documentation>The type of students the section is offered and tailored to; for example:
 Bilingual students
 Remedial education students
 Gifted and talented students
@@ -2587,6 +2590,26 @@ such as Displaced Homemaker, Immigrant, Migratory, Military Parent, Pregnant Tee
 							<xs:documentation>The month and year the student is projected to graduate.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="SessionCreditsEarned" type="Credits" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The number of an credits an individual earned in this session.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SessionCreditsAttempted" type="Credits" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The number of an credits an individual attempted to earn in this session.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SessionGradePointsEarned" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The number of grade points an individual earned for this session.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SessionGradePointAverage" type="xs:decimal" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The grade point average for an individual computed as the grade points earned during the session divided by the number of credits attempted.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="StudentReference" type="StudentReferenceType">
 						<xs:annotation>
 							<xs:documentation>Identifies the student that is associated wth the Student Academic Record.</xs:documentation>
@@ -2763,7 +2786,7 @@ Met standard
 </xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentTestAssessmentReference" type="ReferenceType" minOccurs="0">
+					<xs:element name="StudentAssessmentReference" type="ReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Link of the item scores to the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -2926,7 +2949,7 @@ Met standard
 							<xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="StudentTestAssessmentReference" type="ReferenceType">
+					<xs:element name="StudentAssessmentReference" type="ReferenceType">
 						<xs:annotation>
 							<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
 						</xs:annotation>
@@ -3605,7 +3628,12 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 					<xs:documentation>School enrolling the student.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="EntryDate" type="xs:date" minOccurs="0">
+			<xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The school year associated with the student's enrollment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EntryDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an individual enters and begins to receive instructional services in a school.
 </xs:documentation>
@@ -4430,7 +4458,7 @@ Second grade
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
 		</xs:annotation>
-		<xs:choice maxOccurs="unbounded">
+		<xs:choice>
 			<xs:element name="StateOrganizationId" type="IdentificationCode">
 				<xs:annotation>
 					<xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
@@ -4711,7 +4739,7 @@ Second grade
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:choice minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Optional only if education organization context is obtained elsewhere in the interchange.</xs:documentation>
 				</xs:annotation>
@@ -5085,7 +5113,7 @@ Second grade
 							<xs:documentation>The type of the account code (e.g., fund, function, object)</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:choice minOccurs="0">
 						<xs:element name="CodeValue" type="CodeValue">
 							<xs:annotation>
 								<xs:documentation>A code or abbreviation that is used to refer to an account code.</xs:documentation>
@@ -5112,7 +5140,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to an Assessment Period.</xs:documentation>
@@ -5138,7 +5166,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the behavior category.</xs:documentation>
@@ -5164,7 +5192,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
@@ -5185,7 +5213,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the certification field.</xs:documentation>
@@ -5206,7 +5234,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the discipline</xs:documentation>
@@ -5232,18 +5260,25 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
-					<xs:element name="CodeValue" type="CodeValue">
+				<xs:sequence>
+					<xs:choice minOccurs="0">
+						<xs:element name="CodeValue" type="CodeValue">
+							<xs:annotation>
+								<xs:documentation>A code or abbreviation that is used to refer to the performance level.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" type="Description">
+							<xs:annotation>
+								<xs:documentation>The description of the performance level.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="PerformanceLevelMet" type="xs:boolean" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>A code or abbreviation that is used to refer to the performance level.</xs:documentation>
+							<xs:documentation>Optional indicator of whether the perfromance level was met.  When null, means that the performance level was met (equivalent to PerfromanceLevelMet = TRUE).</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Description" type="Description">
-						<xs:annotation>
-							<xs:documentation>The description of the performance level.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
+				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -5253,7 +5288,7 @@ Second grade
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:choice minOccurs="0">
 					<xs:element name="CodeValue" type="CodeValue">
 						<xs:annotation>
 							<xs:documentation>A code or abbreviation that is used to refer to the service.</xs:documentation>
@@ -5363,56 +5398,73 @@ Second grade
 			<xs:documentation>The set of elements that describes an address, including the street address, city, state, and ZIP code.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StreetNumberName">
-				<xs:annotation>
-					<xs:documentation>The street number and street name or post office box number of an address.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="StreetNumberName">
-						<xs:maxLength value="40"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The apartment, room, or suite number of an address. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BuildingSiteNumber" type="BuildingSiteNumber" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The number of the building on the site, if more than one building shares the same address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="City" type="City">
-				<xs:annotation>
-					<xs:documentation>The name of the city in which an address is located. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="StateAbbreviation" type="StateAbbreviationType">
-				<xs:annotation>
-					<xs:documentation>The abbreviation for the state (within the United States) or outlying area in which an address is located. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="PostalCode" type="PostalCode">
-				<xs:annotation>
-					<xs:documentation>The five or nine digit zip code or overseas postal code portion of an address.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="NameOfCounty" type="NameOfCounty" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The name of the county, parish, borough, or comparable unit (within a state) in which an address is located.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CountyFIPSCode" type="CountyFIPSCode" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The Federal Information Processing Standards (FIPS) numeric code for the county issued by the National Institute of Standards and Technology (NIST). Counties are considered to be the "first-order subdivisions" of each State and statistically equivalent entity, regardless of their local designations (county, parish, borough, etc.). Counties in different States will have the same code. A unique county number is created when combined with the 2-digit FIPS State Code</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CountryCode" type="CountryCodeType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The unique two character International Organization for Standardization (ISO) code for the country in which an address is located.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:choice>
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>US Address</xs:documentation>
+					</xs:annotation>
+					<xs:element name="StreetNumberName">
+						<xs:annotation>
+							<xs:documentation>The street number and street name or post office box number of an address.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="StreetNumberName">
+								<xs:maxLength value="40"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ApartmentRoomSuiteNumber" type="ApartmentRoomSuiteNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The apartment, room, or suite number of an address. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BuildingSiteNumber" type="BuildingSiteNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The number of the building on the site, if more than one building shares the same address.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="City" type="City">
+						<xs:annotation>
+							<xs:documentation>The name of the city in which an address is located. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StateAbbreviation" type="StateAbbreviationType">
+						<xs:annotation>
+							<xs:documentation>The abbreviation for the state (within the United States) or outlying area in which an address is located. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PostalCode" type="PostalCode">
+						<xs:annotation>
+							<xs:documentation>The five or nine digit zip code or overseas postal code portion of an address.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="NameOfCounty" type="NameOfCounty" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The name of the county, parish, borough, or comparable unit (within a state) in which an address is located.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CountyFIPSCode" type="CountyFIPSCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Federal Information Processing Standards (FIPS) numeric code for the county issued by the National Institute of Standards and Technology (NIST). Counties are considered to be the "first-order subdivisions" of each State and statistically equivalent entity, regardless of their local designations (county, parish, borough, etc.). Counties in different States will have the same code. A unique county number is created when combined with the 2-digit FIPS State Code</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>International Address</xs:documentation>
+					</xs:annotation>
+					<xs:element name="AddressLine" type="AddressLine" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Any number of address lines associated with an international address.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Country" type="CountryType">
+						<xs:annotation>
+							<xs:documentation>The name of the country per the International Organization for Standardization (ISO) 3166.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
 			<xs:element name="Latitude" type="Coordinate" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The geographic latitude of the physical address.</xs:documentation>
@@ -6498,6 +6550,11 @@ Met standard
 			<xs:enumeration value="Z-score"/>
 			<xs:enumeration value="Other"/>
 			<xs:enumeration value="Not applicable"/>
+			<xs:enumeration value="Quantile Measure"/>
+			<xs:enumeration value="Lexile Measure"/>
+			<xs:enumeration value="Vertical Scale Score"/>
+			<xs:enumeration value="National College-Bound Percentile"/>
+			<xs:enumeration value="State College-Bound Percentile"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="AttendanceEventCategoryType">
@@ -6506,6 +6563,7 @@ Met standard
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="In Attendance"/>
+			<xs:enumeration value="Absence"/>
 			<xs:enumeration value="Excused Absence"/>
 			<xs:enumeration value="Unexcused Absence"/>
 			<xs:enumeration value="Tardy"/>
@@ -6680,7 +6738,7 @@ School standard
 	</xs:simpleType>
 	<xs:simpleType name="CountryCodeType">
 		<xs:annotation>
-			<xs:documentation>The names of countries. (Note: A list of countries and codes is currently maintained and updated by the ISO as ISO 3166 on its website: http://www.iso.org/iso/country_codes.htm)
+			<xs:documentation>The two character code of countries. (Note: A list of countries and codes is currently maintained and updated by the ISO as ISO 3166 on its website: http://www.iso.org/iso/country_codes.htm)
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
@@ -6934,6 +6992,263 @@ School standard
 			<xs:enumeration value="ZW"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="CountryType">
+		<xs:annotation>
+			<xs:documentation>The names of countries. (Note: A list of countries and codes is currently maintained and updated by the ISO as ISO 3166 on its website: http://www.iso.org/iso/country_codes.htm)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="AFGHANISTAN"/>
+			<xs:enumeration value="ÅLAND ISLANDS"/>
+			<xs:enumeration value="ALBANIA"/>
+			<xs:enumeration value="ALGERIA"/>
+			<xs:enumeration value="AMERICAN SAMOA"/>
+			<xs:enumeration value="ANDORRA"/>
+			<xs:enumeration value="ANGOLA"/>
+			<xs:enumeration value="ANGUILLA"/>
+			<xs:enumeration value="ANTARCTICA"/>
+			<xs:enumeration value="ANTIGUA AND BARBUDA"/>
+			<xs:enumeration value="ARGENTINA"/>
+			<xs:enumeration value="ARMENIA"/>
+			<xs:enumeration value="ARUBA"/>
+			<xs:enumeration value="AUSTRALIA"/>
+			<xs:enumeration value="AUSTRIA"/>
+			<xs:enumeration value="AZERBAIJAN"/>
+			<xs:enumeration value="BAHAMAS"/>
+			<xs:enumeration value="BAHRAIN"/>
+			<xs:enumeration value="BANGLADESH"/>
+			<xs:enumeration value="BARBADOS"/>
+			<xs:enumeration value="BELARUS"/>
+			<xs:enumeration value="BELGIUM"/>
+			<xs:enumeration value="BELIZE"/>
+			<xs:enumeration value="BENIN"/>
+			<xs:enumeration value="BERMUDA"/>
+			<xs:enumeration value="BHUTAN"/>
+			<xs:enumeration value="BOLIVIA, PLURINATIONAL STATE OF"/>
+			<xs:enumeration value="BONAIRE, SINT EUSTATIUS AND SABA"/>
+			<xs:enumeration value="BOSNIA AND HERZEGOVINA"/>
+			<xs:enumeration value="BOTSWANA"/>
+			<xs:enumeration value="BOUVET ISLAND"/>
+			<xs:enumeration value="BRAZIL"/>
+			<xs:enumeration value="BRITISH INDIAN OCEAN TERRITORY"/>
+			<xs:enumeration value="BRUNEI DARUSSALAM"/>
+			<xs:enumeration value="BULGARIA"/>
+			<xs:enumeration value="BURKINA FASO"/>
+			<xs:enumeration value="BURUNDI"/>
+			<xs:enumeration value="CAMBODIA"/>
+			<xs:enumeration value="CAMEROON"/>
+			<xs:enumeration value="CANADA"/>
+			<xs:enumeration value="CAPE VERDE"/>
+			<xs:enumeration value="CAYMAN ISLANDS"/>
+			<xs:enumeration value="CENTRAL AFRICAN REPUBLIC"/>
+			<xs:enumeration value="CHAD"/>
+			<xs:enumeration value="CHILE"/>
+			<xs:enumeration value="CHINA"/>
+			<xs:enumeration value="CHRISTMAS ISLAND"/>
+			<xs:enumeration value="COCOS (KEELING) ISLANDS"/>
+			<xs:enumeration value="COLOMBIA"/>
+			<xs:enumeration value="COMOROS"/>
+			<xs:enumeration value="CONGO"/>
+			<xs:enumeration value="CONGO, THE DEMOCRATIC REPUBLIC OF THE"/>
+			<xs:enumeration value="COOK ISLANDS"/>
+			<xs:enumeration value="COSTA RICA"/>
+			<xs:enumeration value="CÔTE D'IVOIRE"/>
+			<xs:enumeration value="CROATIA"/>
+			<xs:enumeration value="CUBA"/>
+			<xs:enumeration value="CURAÇAO"/>
+			<xs:enumeration value="CYPRUS"/>
+			<xs:enumeration value="CZECH REPUBLIC"/>
+			<xs:enumeration value="DENMARK"/>
+			<xs:enumeration value="DJIBOUTI"/>
+			<xs:enumeration value="DOMINICA"/>
+			<xs:enumeration value="DOMINICAN REPUBLIC"/>
+			<xs:enumeration value="ECUADOR"/>
+			<xs:enumeration value="EGYPT"/>
+			<xs:enumeration value="EL SALVADOR"/>
+			<xs:enumeration value="EQUATORIAL GUINEA"/>
+			<xs:enumeration value="ERITREA"/>
+			<xs:enumeration value="ESTONIA"/>
+			<xs:enumeration value="ETHIOPIA"/>
+			<xs:enumeration value="FALKLAND ISLANDS (MALVINAS)"/>
+			<xs:enumeration value="FAROE ISLANDS"/>
+			<xs:enumeration value="FIJI"/>
+			<xs:enumeration value="FINLAND"/>
+			<xs:enumeration value="FRANCE"/>
+			<xs:enumeration value="FRENCH GUIANA"/>
+			<xs:enumeration value="FRENCH POLYNESIA"/>
+			<xs:enumeration value="FRENCH SOUTHERN TERRITORIES"/>
+			<xs:enumeration value="GABON"/>
+			<xs:enumeration value="GAMBIA"/>
+			<xs:enumeration value="GEORGIA"/>
+			<xs:enumeration value="GERMANY"/>
+			<xs:enumeration value="GHANA"/>
+			<xs:enumeration value="GIBRALTAR"/>
+			<xs:enumeration value="GREECE"/>
+			<xs:enumeration value="GREENLAND"/>
+			<xs:enumeration value="GRENADA"/>
+			<xs:enumeration value="GUADELOUPE"/>
+			<xs:enumeration value="GUAM"/>
+			<xs:enumeration value="GUATEMALA"/>
+			<xs:enumeration value="GUERNSEY"/>
+			<xs:enumeration value="GUINEA"/>
+			<xs:enumeration value="GUINEA-BISSAU"/>
+			<xs:enumeration value="GUYANA"/>
+			<xs:enumeration value="HAITI"/>
+			<xs:enumeration value="HEARD ISLAND AND MCDONALD ISLANDS"/>
+			<xs:enumeration value="HOLY SEE (VATICAN CITY STATE)"/>
+			<xs:enumeration value="HONDURAS"/>
+			<xs:enumeration value="HONG KONG"/>
+			<xs:enumeration value="HUNGARY"/>
+			<xs:enumeration value="ICELAND"/>
+			<xs:enumeration value="INDIA"/>
+			<xs:enumeration value="INDONESIA"/>
+			<xs:enumeration value="IRAN, ISLAMIC REPUBLIC OF"/>
+			<xs:enumeration value="IRAQ"/>
+			<xs:enumeration value="IRELAND"/>
+			<xs:enumeration value="ISLE OF MAN"/>
+			<xs:enumeration value="ISRAEL"/>
+			<xs:enumeration value="ITALY"/>
+			<xs:enumeration value="JAMAICA"/>
+			<xs:enumeration value="JAPAN"/>
+			<xs:enumeration value="JERSEY"/>
+			<xs:enumeration value="JORDAN"/>
+			<xs:enumeration value="KAZAKHSTAN"/>
+			<xs:enumeration value="KENYA"/>
+			<xs:enumeration value="KIRIBATI"/>
+			<xs:enumeration value="KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"/>
+			<xs:enumeration value="KOREA, REPUBLIC OF"/>
+			<xs:enumeration value="KUWAIT"/>
+			<xs:enumeration value="KYRGYZSTAN"/>
+			<xs:enumeration value="LAO PEOPLE'S DEMOCRATIC REPUBLIC"/>
+			<xs:enumeration value="LATVIA"/>
+			<xs:enumeration value="LEBANON"/>
+			<xs:enumeration value="LESOTHO"/>
+			<xs:enumeration value="LIBERIA"/>
+			<xs:enumeration value="LIBYA"/>
+			<xs:enumeration value="LIECHTENSTEIN"/>
+			<xs:enumeration value="LITHUANIA"/>
+			<xs:enumeration value="LUXEMBOURG"/>
+			<xs:enumeration value="MACAO"/>
+			<xs:enumeration value="MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF"/>
+			<xs:enumeration value="MADAGASCAR"/>
+			<xs:enumeration value="MALAWI"/>
+			<xs:enumeration value="MALAYSIA"/>
+			<xs:enumeration value="MALDIVES"/>
+			<xs:enumeration value="MALI"/>
+			<xs:enumeration value="MALTA"/>
+			<xs:enumeration value="MARSHALL ISLANDS"/>
+			<xs:enumeration value="MARTINIQUE"/>
+			<xs:enumeration value="MAURITANIA"/>
+			<xs:enumeration value="MAURITIUS"/>
+			<xs:enumeration value="MAYOTTE"/>
+			<xs:enumeration value="MEXICO"/>
+			<xs:enumeration value="MICRONESIA, FEDERATED STATES OF"/>
+			<xs:enumeration value="MOLDOVA, REPUBLIC OF"/>
+			<xs:enumeration value="MONACO"/>
+			<xs:enumeration value="MONGOLIA"/>
+			<xs:enumeration value="MONTENEGRO"/>
+			<xs:enumeration value="MONTSERRAT"/>
+			<xs:enumeration value="MOROCCO"/>
+			<xs:enumeration value="MOZAMBIQUE"/>
+			<xs:enumeration value="MYANMAR"/>
+			<xs:enumeration value="NAMIBIA"/>
+			<xs:enumeration value="NAURU"/>
+			<xs:enumeration value="NEPAL"/>
+			<xs:enumeration value="NETHERLANDS"/>
+			<xs:enumeration value="NEW CALEDONIA"/>
+			<xs:enumeration value="NEW ZEALAND"/>
+			<xs:enumeration value="NICARAGUA"/>
+			<xs:enumeration value="NIGER"/>
+			<xs:enumeration value="NIGERIA"/>
+			<xs:enumeration value="NIUE"/>
+			<xs:enumeration value="NORFOLK ISLAND"/>
+			<xs:enumeration value="NORTHERN MARIANA ISLANDS"/>
+			<xs:enumeration value="NORWAY"/>
+			<xs:enumeration value="OMAN"/>
+			<xs:enumeration value="PAKISTAN"/>
+			<xs:enumeration value="PALAU"/>
+			<xs:enumeration value="PALESTINIAN TERRITORY, OCCUPIED"/>
+			<xs:enumeration value="PANAMA"/>
+			<xs:enumeration value="PAPUA NEW GUINEA"/>
+			<xs:enumeration value="PARAGUAY"/>
+			<xs:enumeration value="PERU"/>
+			<xs:enumeration value="PHILIPPINES"/>
+			<xs:enumeration value="PITCAIRN"/>
+			<xs:enumeration value="POLAND"/>
+			<xs:enumeration value="PORTUGAL"/>
+			<xs:enumeration value="PUERTO RICO"/>
+			<xs:enumeration value="QATAR"/>
+			<xs:enumeration value="RÉUNION"/>
+			<xs:enumeration value="ROMANIA"/>
+			<xs:enumeration value="RUSSIAN FEDERATION"/>
+			<xs:enumeration value="RWANDA"/>
+			<xs:enumeration value="SAINT BARTHÉLEMY"/>
+			<xs:enumeration value="SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"/>
+			<xs:enumeration value="SAINT KITTS AND NEVIS"/>
+			<xs:enumeration value="SAINT LUCIA"/>
+			<xs:enumeration value="SAINT MARTIN (FRENCH PART)"/>
+			<xs:enumeration value="SAINT PIERRE AND MIQUELON"/>
+			<xs:enumeration value="SAINT VINCENT AND THE GRENADINES"/>
+			<xs:enumeration value="SAMOA"/>
+			<xs:enumeration value="SAN MARINO"/>
+			<xs:enumeration value="SAO TOME AND PRINCIPE"/>
+			<xs:enumeration value="SAUDI ARABIA"/>
+			<xs:enumeration value="SENEGAL"/>
+			<xs:enumeration value="SERBIA"/>
+			<xs:enumeration value="SEYCHELLES"/>
+			<xs:enumeration value="SIERRA LEONE"/>
+			<xs:enumeration value="SINGAPORE"/>
+			<xs:enumeration value="SINT MAARTEN (DUTCH PART)"/>
+			<xs:enumeration value="SLOVAKIA"/>
+			<xs:enumeration value="SLOVENIA"/>
+			<xs:enumeration value="SOLOMON ISLANDS"/>
+			<xs:enumeration value="SOMALIA"/>
+			<xs:enumeration value="SOUTH AFRICA"/>
+			<xs:enumeration value="SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"/>
+			<xs:enumeration value="SOUTH SUDAN"/>
+			<xs:enumeration value="SPAIN"/>
+			<xs:enumeration value="SRI LANKA"/>
+			<xs:enumeration value="SUDAN"/>
+			<xs:enumeration value="SURINAME"/>
+			<xs:enumeration value="SVALBARD AND JAN MAYEN"/>
+			<xs:enumeration value="SWAZILAND"/>
+			<xs:enumeration value="SWEDEN"/>
+			<xs:enumeration value="SWITZERLAND"/>
+			<xs:enumeration value="SYRIAN ARAB REPUBLIC"/>
+			<xs:enumeration value="TAIWAN, PROVINCE OF CHINA"/>
+			<xs:enumeration value="TAJIKISTAN"/>
+			<xs:enumeration value="TANZANIA, UNITED REPUBLIC OF"/>
+			<xs:enumeration value="THAILAND"/>
+			<xs:enumeration value="TIMOR-LESTE"/>
+			<xs:enumeration value="TOGO"/>
+			<xs:enumeration value="TOKELAU"/>
+			<xs:enumeration value="TONGA"/>
+			<xs:enumeration value="TRINIDAD AND TOBAGO"/>
+			<xs:enumeration value="TUNISIA"/>
+			<xs:enumeration value="TURKEY"/>
+			<xs:enumeration value="TURKMENISTAN"/>
+			<xs:enumeration value="TURKS AND CAICOS ISLANDS"/>
+			<xs:enumeration value="TUVALU"/>
+			<xs:enumeration value="UGANDA"/>
+			<xs:enumeration value="UKRAINE"/>
+			<xs:enumeration value="UNITED ARAB EMIRATES"/>
+			<xs:enumeration value="UNITED KINGDOM"/>
+			<xs:enumeration value="UNITED STATES"/>
+			<xs:enumeration value="UNITED STATES MINOR OUTLYING ISLANDS"/>
+			<xs:enumeration value="URUGUAY"/>
+			<xs:enumeration value="UZBEKISTAN"/>
+			<xs:enumeration value="VANUATU"/>
+			<xs:enumeration value="VENEZUELA, BOLIVARIAN REPUBLIC OF"/>
+			<xs:enumeration value="VIET NAM"/>
+			<xs:enumeration value="VIRGIN ISLANDS, BRITISH"/>
+			<xs:enumeration value="VIRGIN ISLANDS, U.S."/>
+			<xs:enumeration value="WALLIS AND FUTUNA"/>
+			<xs:enumeration value="WESTERN SAHARA"/>
+			<xs:enumeration value="YEMEN"/>
+			<xs:enumeration value="ZAMBIA"/>
+			<xs:enumeration value="ZIMBABWE"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="CourseAttemptResultType">
 		<xs:annotation>
 			<xs:documentation>The result from the student's attempt to take the course, for example:
@@ -7130,6 +7445,8 @@ Withdrawn
 			<xs:enumeration value="Multiple Disabilities"/>
 			<xs:enumeration value="Orthopedic Impairment"/>
 			<xs:enumeration value="Other Health Impairment"/>
+			<xs:enumeration value="Preschooler with a Disability"/>
+			<xs:enumeration value="Significant Limited Intellectual Capacity"/>
 			<xs:enumeration value="Speech or Language Impairment"/>
 			<xs:enumeration value="Specific Learning Disability"/>
 			<xs:enumeration value="Traumatic Brain Delay"/>
@@ -7165,11 +7482,11 @@ Withdrawn
 			<xs:enumeration value="Hospital class"/>
 			<xs:enumeration value="In-school suspension"/>
 			<xs:enumeration value="Laboratory"/>
-			<xs:enumeration value="Mainstream (Special Education) "/>
+			<xs:enumeration value="Mainstream (Special Education)"/>
 			<xs:enumeration value="Off-school center"/>
 			<xs:enumeration value="Pull-out class"/>
 			<xs:enumeration value="Resource room"/>
-			<xs:enumeration value="Self-contained (Special Education) "/>
+			<xs:enumeration value="Self-contained (Special Education)"/>
 			<xs:enumeration value="Self-study"/>
 			<xs:enumeration value="Shop"/>
 		</xs:restriction>
@@ -7390,7 +7707,7 @@ Vocational
 			<xs:documentation>The enumerated collection for specifying one or more grade levels.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="GradeLevel" type="GradeLevelType" maxOccurs="unbounded">
+			<xs:element name="GradeLevel" type="GradeLevelType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The specification of the grade level.</xs:documentation>
 				</xs:annotation>
@@ -7806,6 +8123,7 @@ Prose
 			<xs:enumeration value="Junior High (Grade Level 6-8)"/>
 			<xs:enumeration value="Secondary (Grade Level 6-12)"/>
 			<xs:enumeration value="Secondary (Grade Level 8-12)"/>
+			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="LimitedEnglishProficiencyType">
@@ -7924,7 +8242,7 @@ Clarification - Word or phrase
 			<xs:enumeration value="Credit by examination"/>
 			<xs:enumeration value="Credit recovery"/>
 			<xs:enumeration value="Online credit"/>
-			<xs:enumeration value="Transfer credit "/>
+			<xs:enumeration value="Transfer credit"/>
 			<xs:enumeration value="Vocational credit"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -7977,6 +8295,8 @@ Clarification - Word or phrase
 			<xs:enumeration value="Basic"/>
 			<xs:enumeration value="Below Basic"/>
 			<xs:enumeration value="Well Below Basic"/>
+			<xs:enumeration value="Pass"/>
+			<xs:enumeration value="Fail"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="PersonalInformationVerificationType">
@@ -8018,7 +8338,7 @@ Clarification - Word or phrase
 	</xs:simpleType>
 	<xs:simpleType name="PopulationServedType">
 		<xs:annotation>
-			<xs:documentation>The type of students the course was designed for.</xs:documentation>
+			<xs:documentation>The type of students the section is offered and tailored to.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="Regular Students"/>
@@ -8051,6 +8371,7 @@ Clarification - Word or phrase
 			<xs:enumeration value="College Acceptance"/>
 			<xs:enumeration value="College Enrollment"/>
 			<xs:enumeration value="FAFSA Application"/>
+			<xs:enumeration value="Student Interest"/>
 			<xs:enumeration value="Vocation Certification"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -8096,8 +8417,10 @@ Clarification - Word or phrase
 			<xs:enumeration value="Community/Junior College Education Program"/>
 			<xs:enumeration value="Compensatory Services for Disadvantaged Students"/>
 			<xs:enumeration value="Counseling Services"/>
+			<xs:enumeration value="District-Funded GED"/>
 			<xs:enumeration value="English as a Second Language (ESL)"/>
 			<xs:enumeration value="Even Start"/>
+			<xs:enumeration value="Expelled Education"/>
 			<xs:enumeration value="Extended Day/Child Care Services"/>
 			<xs:enumeration value="Gifted and Talented"/>
 			<xs:enumeration value="Head Start"/>
@@ -8105,6 +8428,7 @@ Clarification - Word or phrase
 			<xs:enumeration value="High School Equivalency Program (HSEP)"/>
 			<xs:enumeration value="IDEA"/>
 			<xs:enumeration value="Immigrant Education"/>
+			<xs:enumeration value="Independent Study"/>
 			<xs:enumeration value="Indian Education"/>
 			<xs:enumeration value="International Baccalaureate"/>
 			<xs:enumeration value="Library/Media Services Program"/>
@@ -8148,6 +8472,30 @@ Clarification - Word or phrase
 			<xs:enumeration value="Black - African American"/>
 			<xs:enumeration value="Native Hawaiian - Pacific Islander"/>
 			<xs:enumeration value="White"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RatingStandardNameType">
+		<xs:annotation>
+			<xs:documentation>The names of the levels of performance rating standards. For example:
+			Passing
+Standard
+Commended
+...</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Advanced"/>
+			<xs:enumeration value="Below Proficiency"/>
+			<xs:enumeration value="Below Standard"/>
+			<xs:enumeration value="College Ready"/>
+			<xs:enumeration value="Commended"/>
+			<xs:enumeration value="Failing"/>
+			<xs:enumeration value="Met Standard"/>
+			<xs:enumeration value="Meets Proficiency"/>
+			<xs:enumeration value="Passing"/>
+			<xs:enumeration value="Satisfactory"/>
+			<xs:enumeration value="Unsatisfactory"/>
+			<xs:enumeration value="Well Below Proficiency"/>
+			<xs:enumeration value="Well Below Standard"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="RecognitionType">
@@ -8410,7 +8758,6 @@ Second retest
 			<xs:enumeration value="High School"/>
 			<xs:enumeration value="Middle School"/>
 			<xs:enumeration value="Junior High School"/>
-			<xs:enumeration value="Elementary School"/>
 			<xs:enumeration value="SecondarySchool"/>
 			<xs:enumeration value="Ungraded"/>
 			<xs:enumeration value="Adult School"/>
@@ -8418,6 +8765,7 @@ Second retest
 			<xs:enumeration value="Preschool/early childhood"/>
 			<xs:enumeration value="Primary School"/>
 			<xs:enumeration value="Intermediate School"/>
+			<xs:enumeration value="All Levels"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="SchoolFoodServicesEligibilityType">
@@ -8801,6 +9149,7 @@ Oral Administration
 			<xs:enumeration value="Migratory"/>
 			<xs:enumeration value="Parent in Military"/>
 			<xs:enumeration value="Pregnant"/>
+			<xs:enumeration value="Section 504 Handicapped"/>
 			<xs:enumeration value="Single Parent"/>
 			<xs:enumeration value="Unaccompanied Youth"/>
 			<xs:enumeration value="Unschooled Asylee"/>
@@ -8847,7 +9196,7 @@ Oral Administration
 			<xs:enumeration value="Doctoral degree"/>
 			<xs:enumeration value="Met state testing requirement"/>
 			<xs:enumeration value="Special/alternative program completion"/>
-			<xs:enumeration value=" Relevant experience"/>
+			<xs:enumeration value="Relevant experience"/>
 			<xs:enumeration value="Credentials based on reciprocation with another state"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -8929,7 +9278,7 @@ Oral Administration
 			<xs:enumeration value="Public Schoolwide Program"/>
 			<xs:enumeration value="Private school students participating"/>
 			<xs:enumeration value="Local Neglected Program"/>
-			<xs:enumeration value=" Was not served"/>
+			<xs:enumeration value="Was not served"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="TitleIPartASchoolDesignationType">
@@ -8995,6 +9344,15 @@ Oral Administration
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressLine">
+		<xs:annotation>
+			<xs:documentation>A line of an address.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="150"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="AlternateDayName">
