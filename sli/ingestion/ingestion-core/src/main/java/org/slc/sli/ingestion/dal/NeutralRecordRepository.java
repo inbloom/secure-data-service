@@ -172,6 +172,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             }
         }
     }
+    
+    public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+        update(query, update, toStagingCollectionName(collectionName, jobId));
+    }
 
     @Override
     protected String getRecordId(NeutralRecord neutralRecord) {

@@ -26,8 +26,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
-    private static final int ENTITY_SPLITTING_THRESHOLD = 10000;
-    private static final int ENTITY_CONSTANT_SPLIT = 100;
+    private static final int ENTITY_SPLITTING_THRESHOLD = 25000;
+    private static final int ENTITY_CONSTANT_SPLIT = 10000;
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -99,7 +99,7 @@ public class WorkNoteSplitter {
                     workNoteList.add(workNote);
                 }
             } else {
-                LOG.info("Creating one WorkNote for collection {}.", stagedEntity.getCollectionNameAsStaged());
+                LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
                 WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1, 1);
                 workNoteList.add(workNote);
             }

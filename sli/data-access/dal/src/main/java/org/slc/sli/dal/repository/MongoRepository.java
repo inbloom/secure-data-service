@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +16,14 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -187,6 +188,29 @@ public abstract class MongoRepository<T> implements Repository<T> {
         template.save(record, collection);
 
         return true;
+    }
+    
+    public WriteResult update(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Update convertedUpdate = new Update();
+        
+        for (Map.Entry<String, Object> entry : update.entrySet()) {
+            String operation = entry.getKey();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> operands = (Map<String, Object>) entry.getValue();
+            
+            if (operation.equals("push")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
+                }
+            } else if (operation.equals("pushAll")) {
+                for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
+                    convertedUpdate.pushAll(fieldValues.getKey(), (Object[]) fieldValues.getValue());
+                }
+            }
+        }
+        
+        return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
     @Override
