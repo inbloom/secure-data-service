@@ -334,8 +334,8 @@ local:
         bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
 
         bootstrap.app.dashboard.url: http://local.slidev.org:8888/dashboard
-        bootstrap.app.dashboard.client_id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
-        bootstrap.app.dashboard.client_secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
+        bootstrap.app.dashboard.client_id: K2e7Dwhq5J
+        bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
@@ -483,8 +483,8 @@ team:
         bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
 
         bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
-        bootstrap.app.dashboard.client_id: 93,-42,-41,122,-19,-51,-47,-70,21,-8,-18,125,-128,-47,-87,-98
-        bootstrap.app.dashboard.client_secret: -68,-29,17,-23,93,-116,49,56,61,-28,-123,-30,-122,-73,117,84,-62,-33,11,-32,-58,-40,81,-72,70,-124,-1,27,48,-29,-119,-36,12,-43,-3,71,-25,-10,-102,102,106,-105,-42,100,-45,-98,38,53,70,-80,-81,26,-17,-45,33,-59,-77,88,-9,62,46,-58,-84,126
+        bootstrap.app.dashboard.client_id: 6TW4tHwcWG
+        bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
 
 
     misc: &MISC-TEAM
