@@ -22,6 +22,8 @@ SLIAdmin::Application.routes.draw do
     end
   end
 
+  resources :developer_approval
+
 
   match '/logout', :to => 'sessions#destroy'
   match '/callback', :to => 'application#callback'

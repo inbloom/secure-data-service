@@ -1,8 +1,19 @@
-class LandingZoneController < ApplicationController
-  before_filter :check_roles
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
-  rescue_from ProvisioningError, :with => :handle_error
-  rescue_from ActiveResource::ResourceConflict, :with => :already_there
+class DeveloperApprovalController < ApplicationController
+
+    API_BASE=APP_CONFIG["api_base"]
+
+    INVALID_VERIFICATION_CODE = {
+        "status" => 403,
+        "message" => "Invalid account verification code."
+    }
+
+    REST_HEADER = {
+        "Content-Type" => "application/json",
+        "content_type" => "json",
+        "accept" => "application/json"
+    }
+
+    EMAIL_SUBJECT = "SLI Account Verification Request"
 
     #
     # Check if the provided user exists.
@@ -17,19 +28,18 @@ class LandingZoneController < ApplicationController
     # GET /does_user_exist/1.json
     def does_user_exist
         rval = { :exists => true, :validated: => false }
-        usr = ApprovalEngine.get_user(params[:id])
+        user = ApprovalEngine.get_user(params[:id])
 
-        if usr==nil then
+        if (user.nil?)
             rval[:exists] = false
         else
-            if usr[:status] != ApprovalEngine.ACTION_VERIFY_EMAIL then
+            if (user[:status] != ApprovalEngine.ACTION_VERIFY_EMAIL)
                rval[:validated] = true
             end
         end
 
-        j = ActiveSupport::JSON
         respond_to do |format|
-            format.any { :status => 200, :content_type: 'application/JSON', :body => j.encode(rval) }
+            format.any { :status => 200, :content_type: 'application/JSON', :body => @@j.encode(rval) }
         end
     end
 
@@ -37,7 +47,7 @@ class LandingZoneController < ApplicationController
     # Submit the user to the ApprovalEngine.
     #
     # Input:
-	# user_info is a hash with the following fields:
+	# user_info is a JSON object with the following fields:
 	#   - first : first name
 	#   - last  : last name
 	#   - email : email address (also serves as the userid)
@@ -64,17 +74,16 @@ class LandingZoneController < ApplicationController
     def submit_user do
         rval = { :status => 'submitted'. :verificationToken => nil }
 
-        j = ActiveSupport::JSON
-        user_info = j.decode(request.body.read)
+        user_info = @@j.decode(request.body.read)
 
-        if ApprovalEngine.user_exists(user_info[:email]) then
+        if (ApprovalEngine.user_exists?(user_info[:email]))
             rval[:status] = 'existingUser'
         else
             rval[:verificationToken] = ApprovalEngine.add_disabled_user(user_info)
         end
 
         respond_to do |format|
-            format.any { :status => 201, :content_type: 'application/JSON', :body => j.encode(rval) }
+            format.any { :status => 201, :content_type: 'application/JSON', :body => @@j.encode(rval) }
         end
     end
 
@@ -82,7 +91,7 @@ class LandingZoneController < ApplicationController
     # Update the user.
     #
     # Input:
-	# user_info is a hash with the following fields:
+	# user_info is a JSON object with the following fields:
 	#   - first : first name
 	#   - last  : last name
 	#   - email : email address (also serves as the userid)
@@ -109,16 +118,14 @@ class LandingZoneController < ApplicationController
     def update_user do
         rval = { :status => 'unknownUser'. :verificationToken => nil }
 
-        j = ActiveSupport::JSON
-        user_info = j.decode(request.body.read)
-
-        if ApprovalEngine.user_exists(user_info[:email]) then
+        user_info = @@j.decode(request.body.read)
+        if (ApprovalEngine.user_exists(user_info[:email]))
             rval[:status] = 'updated'
             rval[:verificationToken] = ApprovalEngine.update_user_info(user_info)
         end
 
         respond_to do |format|
-            format.any { :status => 201, :content_type: 'application/JSON', :body => j.encode(rval) }
+            format.any { :status => 201, :content_type: 'application/JSON', :body => @@j.encode(rval) }
         end
     end
 
@@ -129,10 +136,12 @@ class LandingZoneController < ApplicationController
     # email. Otherwise, the user is discarded.
     #
     # Input:
-    #    eula_status is a hash with the following fields:
+    #    eula_status is a JSON object with the following fields:
     #    - email: email address
     #    - verificationToken: token returned by submit_user or update_user
     #    - accepted: true/false
+    #    - validateBase: The base resource used in the email verification message.
+    #        This needs to point to a user account registration app endpoint.
     #
     # Return: HTTP Response with no body.  If the verificationToken is not matched
     # to the user, returns a 403 error.
@@ -141,43 +150,63 @@ class LandingZoneController < ApplicationController
     # eula_status = {
     #     'email' : 'joe@example.com',
     #     'verificationToken' : '1234abcd',
-    #     'accepted':true
+    #     'accepted':true,
+    #     'validateBase':'http://dev.slc.org/developer_accounts'
     # }
     #
     # POST /update_eula_status
     def update_eula_status do
-        email = params[:email]
-        token = params[:verificationToken]
-        accepted = params[:accept]
+
+        eula_status = @@j.decode(request.body.read)
+
+        email = eula_status[:email]
+        email_token = eula_status[:verificationToken]
+        validate_base = eula_status[:validateBase]
+
         success = false
 
-        user = ApprovalEngine.get_user_emailtoken(token)
+        user = ApprovalEngine.get_user_emailtoken(email_token)
 
-        if user == nil or user[:email] != email then
+        if (user.nil? or user[:email] != email)
             success = false
+
+        # if the user doesn't accept the EULA, remove their entry.
+        elsif (!eula_status[:accepted])
+            res = RestClient.get(API_BASE + "/" + guid, REST_HEADER){|response, request, result| response }
+            if (res.code==200)
+                jsonDocument = @@j.decode(res.body.read)
+                if (jsonDocument[:userName])
+                    ApprovalEngine.remove_user(jsonDocument[:userName])
+                    res = RestClient.delete(API_BASE+"/"+guid, REST_HEADER){|response, request, result| response }
+                end
+            end
+
         else
+            userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
+
+            email_message = "Your SLI account has been created pending email verification.\n" <<
+                "\n\nPlease visit the following link to confirm your account:\n" <<
+                "\n\n#{userEmailValidationLink}\n\n"
+
+            if (email_token.nil?)
+                email_message = "There was a problem creating your account. Please try again."
+            end
+
+            @@emailer.send_approval_email(
+                user[:email],
+                user[:firstName],
+                user[:lastName],
+                EMAIL_SUBJECT,
+                email_message)
         end
 
         respond_to do |format|
-            if success == false then
-                format.any  { head :forbidden }
+            if (!success)
+                format.any  { head :forbidden, INVALID_VERIFICATION_CODE }
             else
                 format.any { :status => 200 }
             end
         end
-
-        if accepted == true then
-        else
-            if (guid.nil?)
-                return
-            end
-            res = RestClient.get(API_BASE + "/" + guid, REST_HEADER){|response, request, result| response }
-        if (res.code==200)
-        jsonDocument = JSON.parse(res.body)
-        remove_user(jsonDocument["userName"])
-        res = RestClient.delete(API_BASE+"/"+guid, REST_HEADER){|response, request, result| response }
-        end
-       end
     end
 
     #
@@ -190,8 +219,26 @@ class LandingZoneController < ApplicationController
     # Response example:
     #    { 'status':'success' }
     #
-    post '/verifyEmail/:verifyToken' do
-        ApprovalEngine.verify_email(params[:verifyToken])
-    end
+    # POST /verify_email/1
+    # POST /verify_email/1.json
+    def verify_email do
+        token = params[:id]
+        rval = { :status => 'success' }
 
+   		user = ApprovalEngine.get_user_emailtoken(token)
+
+   		if (user.nil?)
+   		    rval[:status] = 'unknownUser'
+
+   		elsif (user[:status] != ApprovalEngine.ACTION_VERIFY_EMAIL)
+   		    rval[:status] = 'previouslyVerified'
+
+   		else
+            ApprovalEngine.verify_email(token)
+   		end
+
+        respond_to do |format|
+            format.any { :status => 200, :body => @@j.encode(rval) }
+        end
+    end
 end
