@@ -2,7 +2,14 @@ class AdminDelegationsController < ApplicationController
   # GET /admin_delegations
   # GET /admin_delegations.json
   def index
-    @admin_delegations = AdminDelegation.all
+    admin_delegations = AdminDelegation.all
+    if admin_delegations == nil
+      @admin_delegation = AdminDelegation.new
+      edOrgId = Check.get("")["edOrg"]
+      @admin_delegation.localEdOrgId = edOrgId
+    else
+      @admin_delegation = admin_delegations[0]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,6 +48,13 @@ class AdminDelegationsController < ApplicationController
   # POST /admin_delegations.json
   def create
     @admin_delegation = AdminDelegation.new(params[:admin_delegation])
+    params[:admin_delegation][:appApprovalEnabled] = boolean_fix params[:admin_delegation][:appApprovalEnabled]
+    params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix params[:admin_delegation][:viewSecurityEventsEnabled]
+
+    params[:admin_delegation][:ingestDataEnabled] = boolean_fix params[:admin_delegation][:ingestDataEnabled]
+
+    puts("Params are #{params.inspect}")
+
 
     respond_to do |format|
       if @admin_delegation.save
@@ -56,7 +70,7 @@ class AdminDelegationsController < ApplicationController
   # PUT /admin_delegations/1
   # PUT /admin_delegations/1.json
   def update
-    @admin_delegation = AdminDelegation.find(params[:id])
+    @admin_delegation = AdminDelegation.find("myEdOrg")
 
     respond_to do |format|
       if @admin_delegation.update_attributes(params[:admin_delegation])
@@ -80,4 +94,14 @@ class AdminDelegationsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def boolean_fix (parameter)
+    case parameter
+    when "1"
+      parameter = true
+    when "0"
+      parameter = false
+    end
+  end
+
 end

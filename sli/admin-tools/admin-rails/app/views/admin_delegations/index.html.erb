@@ -1,11 +1,10 @@
-<% district = AdminDelegation.new %>
 
-<!--EducationOrganization.find(district.localEdOrgId).nameOfInstitution-->
-  <h1>District <%=   %> - Delegate District Privileges</h1>
+  <h1>District <%= @admin_delegation.localEdOrgId  %> - Delegate District Privileges</h1>
 
 
 
-  <%= form_for(district) do |f| %>
+  <%= form_for(@admin_delegation) do |f| %>
+    <%= f.hidden_field :localEdOrgId %>
       <table>
       <tr>
         <td><%= f.check_box :ingestDataEnabled %>  </td>
