@@ -1,6 +1,5 @@
 package org.slc.sli.common.util.logging;
 
-import org.slc.sli.common.util.logging.SecurityEvent;
 
 /**
  * Logging "super class" injected into all sli classes via aspectj

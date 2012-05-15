@@ -225,12 +225,12 @@ public class ApplicationAuthorizationResource {
         }
 
         Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
-        for (Object appId :oldApprovedAppIds) {
+        for (Object appId : oldApprovedAppIds) {
             older.add(Pair.of(oldEdOrgId, (String) appId));
         }
 
         Set<Pair<String, String>> newer = new HashSet<Pair<String, String>>();
-        for (Object appId :newApprovedAppIds) {
+        for (Object appId : newApprovedAppIds) {
             newer.add(Pair.of(newEdOrgId, (String) appId));
         }
 
@@ -252,8 +252,11 @@ public class ApplicationAuthorizationResource {
             EntityBody edOrg = null;
             EntityBody app = null;
             try {
-                edOrgId = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(STATE_ORGANIZATION_ID, "=", stateId))).iterator().next();
-                edOrg = edOrgService.get(edOrgId);
+                Iterable<String> edorgIds = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(STATE_ORGANIZATION_ID, "=", stateId)));
+                if (edorgIds != null && edorgIds.iterator().hasNext()) {
+                    edOrgId = edorgIds.iterator().next();
+                    edOrg = edOrgService.get(edOrgId);
+                }
             } catch (AccessDeniedException e) {
                 LOG.info("No access to EdOrg[" + edOrgId + "].Omitting in Security Log.");
             }

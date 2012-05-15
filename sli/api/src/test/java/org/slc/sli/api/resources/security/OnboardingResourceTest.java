@@ -172,6 +172,7 @@ public class OnboardingResourceTest {
         body.put("name", "Dashboard");
         body.put("is_admin", false);
         body.put("enabled", true);
+        body.put("bootstrap", true);
         body.put("client_id", "K2e7Dwhq5J");
         body.put("behavior", "Full Window App");
         Map<String, String> developerInfo = new HashMap<String, String>();
@@ -193,6 +194,7 @@ public class OnboardingResourceTest {
         body.put("name", "Databrowser");
         body.put("is_admin", true);
         body.put("enabled", true);
+        body.put("bootstrap", true);
         body.put("client_id", "2zhRrEXh8r");
         body.put("behavior", "Iframe App");
         Map<String, String> developerInfo = new HashMap<String, String>();

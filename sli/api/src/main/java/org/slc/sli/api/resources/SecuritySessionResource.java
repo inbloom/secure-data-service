@@ -127,6 +127,7 @@ public class SecuritySessionResource {
             sessionDetails.put("edOrg", principal.getEdOrg());
             sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
             sessionDetails.put("tenantId", principal.getTenantId());
+            sessionDetails.put("external_id", principal.getExternalId());
 
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override

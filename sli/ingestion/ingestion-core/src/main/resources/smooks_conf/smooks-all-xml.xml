@@ -14,6 +14,13 @@
     <param name="gradeType">Final</param>
   </params>
 
+  <reader>
+    <features>
+      <setOff feature="http://xml.org/sax/features/external-general-entities" />
+      <setOff feature="http://xml.org/sax/features/external-parameter-entities" />
+    </features>
+  </reader>
+
   <core:filterSettings defaultSerialization="false" />
 
   <jb:bean beanId="records" class="java.util.ArrayList" createOnElement="#document">
