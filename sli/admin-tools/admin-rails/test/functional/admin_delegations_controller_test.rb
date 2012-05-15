@@ -7,11 +7,11 @@ class AdminDelegationsControllerTest < ActionController::TestCase
     #end
 
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:admin_delegations)
-  end
+  #test "should get index" do
+  #  get :index
+  #  assert_response :success
+  #  assert_not_nil assigns(:admin_delegations)
+  #end
 
 
   #test "should create admin_delegation" do
