@@ -48,7 +48,9 @@ module ApprovalEngineProxy
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
 	#
-	# Return: HTTP Response with JSON 'status' JSON ('submitted' or 'existingUser') in the body.
+	# Return: HTTP Response with JSON 'status' JSON ('submitted' or 'existingUser')
+	# and 'verificationToken':'string' in the body. This token must be passed
+	# to the EULAStatus method to link the verification email to the user.
     #
 	# Input Example:
 	# user_info = {
@@ -60,7 +62,7 @@ module ApprovalEngineProxy
 	# }
 	#
 	# Response body example:
-	# { 'status':'submitted' }
+	# { 'status':'submitted', 'verificationToken':'1234abcd' }
 	#
     def submitUser(user_info)
         response = RestClient.post(@@approvalUri + "/user", user_info)
@@ -77,7 +79,9 @@ module ApprovalEngineProxy
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
 	#
-    # Return: HTTP Response with JSON 'status' ('unknownUser', 'updated') in the body.
+	# Return: HTTP Response with JSON 'status' JSON ('updated' or 'unknownUser')
+	# and 'verificationToken':'string' in the body.  This token must be passed
+	# to the EULAStatus method to link the verification email to the user.
     #
 	# Input Example:
 	# user_info = {
@@ -89,7 +93,7 @@ module ApprovalEngineProxy
 	# }
 	#
 	# Response body example:
-	# { 'status':'unknownUser' }
+	# { 'status':'updated', 'verificationToken':'1234abcd' }
 	#
     def updateUser(user_info)
         response = RestClient.put(@@approvalUri + "/user", user_info)
@@ -98,17 +102,16 @@ module ApprovalEngineProxy
     #
     # Indicate the users response to the EULA.
     #
-    # If the user accepts the EULA, this returns the email verification token.
-    # Otherwise, the user is discarded and the response token is nil.
+    # If the user accepts the EULA, this sends an email with a link containing
+    # the verification token, otherwise the user is discarded.
     #
-    # REturn HTTP Response with JSON 'token' (string) if the user accepts the EULA,
-    # or 'token' (nil) if not.
+    # Return HTTP Response with JSON 'emailSent' (true, false)
     #
     # Response body example:
-    #    { 'token':'abcdefg' }
+    #    { 'emailSent':true }
     #
-    def EULAStatus(email, accepted)
-        response = RestClient.post(@@approvalUri + "/UpdateEULAStatus", email, accepted)
+    def EULAStatus(email, verificationToken, accepted)
+        response = RestClient.post(@@approvalUri + "/UpdateEULAStatus", email, verificationToken, accepted)
     end
 
     #
