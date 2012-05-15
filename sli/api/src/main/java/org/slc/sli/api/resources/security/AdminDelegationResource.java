@@ -94,14 +94,10 @@ public class AdminDelegationResource {
             return Response.ok(results).build();
 
         } else if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-
-            Entity entity = getDelegationRecordForPrincipal();
+            Entity entity = getEntity();
             if (entity == null) {
                 return Response.status(Status.NOT_FOUND).build();
             }
-
-            entity.getBody().put("id", entity.getEntityId());
-
             return Response.status(Status.OK).entity(Arrays.asList(entity.getBody())).build();
 
         }
@@ -154,7 +150,15 @@ public class AdminDelegationResource {
         return setLocalDelegation(body);
     }
     
-    
+    @GET
+    @Path("myEdOrg") 
+    public Response getSingleDelegation() {
+        Entity entity = getEntity();
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.status(Status.OK).entity(entity).build();
+    }
     
 
     private Entity getDelegationRecordForPrincipal() {
@@ -177,4 +181,16 @@ public class AdminDelegationResource {
         return null;
     }
 
+    private Entity getEntity() {
+        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+
+            Entity entity = getDelegationRecordForPrincipal();
+            if (entity != null) {
+                entity.getBody().put("id", entity.getEntityId());
+                return entity;
+            }
+
+        }
+        return null;
+    }
 }
