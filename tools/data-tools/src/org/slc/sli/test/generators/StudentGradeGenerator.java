@@ -250,7 +250,7 @@ public class StudentGradeGenerator {
 		
 		courseTranscript.setGradeLevelWhenTaken(GradeLevelType.EIGHTH_GRADE);
 		courseTranscript.setMethodCreditEarned(MethodCreditEarnedType.ADULT_EDUCATION_CREDIT);
-		courseTranscript.setFinalLetterGradeEarned("A");
+		courseTranscript.setFinalLetterGradeEarned("A B C D E F".split(" ")[rand.nextInt(6)]);
 		courseTranscript.setCourseRepeatCode(CourseRepeatCodeType.REPEAT_COUNTED);
         
 		courseTranscript.setCourseReference(courseRef);
@@ -265,8 +265,10 @@ public class StudentGradeGenerator {
 		idCount++;
 		GradebookEntry gbe = new GradebookEntry();
 		gbe.setDateAssigned(thisDay);
-		gbe.setDescription("Grade Book Entry Description " + idCount);
-		gbe.setGradebookEntryType("Grade Book Entry Type " + idCount);
+		
+		String gradeBookEntry = "Quiz Test".split(" ")[rand.nextInt(2)] + " " + idCount;
+		gbe.setDescription(gradeBookEntry);
+		gbe.setGradebookEntryType(gradeBookEntry);
 		gbe.setGradingPeriodReference(gradingPeriodRef);
 		gbe.setSectionReference(sectionRef);
 		return gbe;
