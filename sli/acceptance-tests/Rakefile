@@ -154,14 +154,14 @@ end
 # Run a whole series of acceptance and integration tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
 task :fullSuite => [
-	:production,
-	:dashboardTests,
-	:ingestionTests,
-	:integrationTests,
-	:JavaSDKTests,
-	:sandboxTests,
-	:adminSandboxTests,
-	:apiSeleniumTests] do
+  :production,
+  :dashboardTests,
+  :ingestionTests,
+  :integrationTests,
+  :JavaSDKTests,
+  :sandboxTests,
+  :adminSandboxTests,
+  :apiSeleniumTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -423,20 +423,6 @@ end
 ############################################################
 
 ############################################################
-# API Sandbox Tests start
-############################################################
-desc "Run Sandbox mode Tests"
-task :adminSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["adminToolsTests"].invoke
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
-end
-############################################################
-# API Sandbox Tests end
-############################################################
-
-############################################################
 # SDK Tests start
 ############################################################
 desc "Run JavaSDK acceptance tests"
@@ -621,6 +607,6 @@ task :tasks do
 
     tasks = Rake.application.tasks
     tasks.each do |t|
-	    puts ":" + t.to_s
+      puts ":" + t.to_s
     end
 end

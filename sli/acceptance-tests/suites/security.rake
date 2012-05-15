@@ -32,7 +32,7 @@ end
 
 desc "Run Sandbox Developer Provisioning acceptance tests"
 task :provisioningTests => [:importSandboxData, :realmInit] do
-    runTests("test/features/sandbox/provisioning.feature")
+    runTests("test/features/sandbox/Provision/provisioning.feature")
 end
 ############################################################
 # Onboarding tests end
