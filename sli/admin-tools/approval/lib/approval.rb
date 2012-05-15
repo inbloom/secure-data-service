@@ -91,9 +91,8 @@ module ApprovalEngine
 				# update the status, set the roles and send an email 
 				@@storage.update_status(user)
 				set_roles(user[:email])
-			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
-				# upate the status and clear the roles 
+				# update the status and clear the roles 
 				@@storage.update_status(user)
 				clear_roles(user[:email])
 			when [STATE_REJECTED, STATE_APPROVED]
@@ -107,8 +106,36 @@ module ApprovalEngine
 				@@storage.update_status(user)
 				set_roles(user[:email])
 			else
-				raise "Unknow state transition #{status} => #{target[transition]}."
-			end
+				raise "Unknown state transition #{status} => #{target[transition]}."
+		end
+    
+    if user[:status] == STATE_APPROVED
+      # TODO: Below should not be hardcoded and should be configurable by admin.
+      email = {
+        :email_addr => user[:email],
+        :name       => "#{user[:first]} #{user[:last]}"
+      }
+      if @@is_sandbox
+        email[:subject] = "Developer Account Approval"
+        email[:content] = "Hello,\n\n" <<
+          "Your request for developer account has been  approved.  There are some additional steps needed before you can use your sandbox environment.\n\n" <<
+          "To provision your landing zone go to:\n" <<
+          "__URI__/landing_zone\n\n" <<
+          "To register your applications go to:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" << 
+          "SLC Operator"
+      else
+        email[:subject] = "Vendor Account Approval"
+        email[:content] = "Hello,\n\n" <<
+          "Your request for vendor account has been  approved.\n\n" << 
+          "To register your applications go to:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" << 
+          "SLC Operator"
+      end
+      @@emailer.send_approval_email email
+    end
 
 		# if this is a sandbox and the new status is pending then move to status approved
 		if @@is_sandbox && (user[:status] == STATE_PENDING)
@@ -195,7 +222,12 @@ module ApprovalEngine
 
 	# Returns an individual user via their email address or nil if the user does not exist. 
 	def ApprovalEngine.get_user(email_address)
-		return @@storage.read_users(email_address)
+		return @@storage.read_user(email_address)
+	end
+
+	# Returns an individual user via their email token or nil if the user does not exist.
+    	def ApprovalEngine.get_user_emailtoken(email_token)
+    		return @@storage.read_user_emailtoken(email_token)
 	end 
 
 	# Update the user information that was submitted via the add_user method. 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+  <!-- Mi-Ha Tran and the other 1st graders -->
+  <Section>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+</InterchangeMasterSchedule>

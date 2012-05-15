@@ -33,4 +33,5 @@ simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap.hostname: ldap.slidev.org
+ldap_hostname: ldap.slidev.org
+ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
