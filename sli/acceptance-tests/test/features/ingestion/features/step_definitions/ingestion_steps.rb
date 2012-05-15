@@ -999,14 +999,13 @@ else
   true
 end
 
-
 def checkForContentInFileGivenPrefix(message, prefix)
 
   if (INGESTION_MODE == 'remote')
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    puts "Showing : <" + @resultOfIngestion + ">"
+    #puts "Showing : <" + @resultOfIngestion + ">"
 
     @messageString = message.to_s
 
@@ -1022,6 +1021,50 @@ def checkForContentInFileGivenPrefix(message, prefix)
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex(prefix))
         # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      aFile.close
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
+def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
+
+  if (INGESTION_MODE == 'remote')
+
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
+    #puts "Showing : <" + @resultOfIngestion + ">"
+
+    @messageString = message.to_s
+
+    if @resultOfIngestion.include? @messageString
+      assert(true, "Processed all the records.")
+    else
+      puts "Actual message was " + @resultOfIngestion
+      assert(false, "Didn't process all the records.")
+    end
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix) && entry.rindex(xml_name))
+        # XML ENTRY IS OUR FILE
         @job_status_filename = entry
       end
     end
@@ -1118,6 +1161,11 @@ end
 Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
     prefix = "warn."
     checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ do |message, xml_name|
+    prefix = "warn."
+    checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 end
 
 Then /^I should not see an error log file created$/ do
