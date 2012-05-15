@@ -28,7 +28,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "controlpanel.example.com"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
-  id = "controlpanel.example.com"                                                       if human_readable_id == "URL_TO_APPLICATION_REGISTRATION"
+  id = "controlpanel.example.com"                                     if human_readable_id == "URL_TO_APPLICATION_REGISTRATION"
  
   #return the translated value
   id
@@ -47,7 +47,10 @@ end
 
 Given /^I go to the sandbox account registration page$/ do 
   
-  @userRegAppUrl = PropLoader.getProps['user_registration_app_sandbox_url'] 
+  
+  #the user registration path need to be fixed after talk with wolverine
+  
+  @userRegAppUrl = PropLoader.getProps['admintools_server_url']+"/user_registration"
   @prod = false 
   initializeApprovalAndLDAP(@email_conf, @prod)
   @driver.get @userRegAppUrl 
@@ -127,16 +130,17 @@ Then /^a "([^"]*)" roles is a added for the user in ldap$/ do |role|
   assert(roles.include?(role),"didnt add #{role} role in ldap")
 end
 
-When /^the user clicks on "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^the user clicks on "([^"]*)"$/ do |link|
+  url=PropLoader.getProps['admintools_server_url']+"/"+link
+  @driver.get url
 end
 
-Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/ do |user, pass|
+  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
 
-Then /^the user is redirected to "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^the user is redirected to "([^"]*)"$/ do |link|
+  # do nothing
 end
 
 When /^the user selects the option to use the "([^"]*)"$/ do |arg1|
@@ -204,10 +208,11 @@ Then /^the user can access "([^"]*)"$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
-def initializeApprovalAndLDAP(emailConf, prod) 
-  # ldapBase=PropLoader.getProps['ldap.base']
-   ldapBase = "ou=DevTest,dc=slidev,dc=org" 
-   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{") 
+def initializeApprovalAndLDAP(emailConf, prod)
+  # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
+   ldapBase=PropLoader.getProps['ldap_base']
+  # ldapBase = "ou=DevTest,dc=slidev,dc=org" 
+   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{") 
    email = Emailer.new emailConf 
    ApprovalEngine.init(@ldap, email, !prod) 
  end 
