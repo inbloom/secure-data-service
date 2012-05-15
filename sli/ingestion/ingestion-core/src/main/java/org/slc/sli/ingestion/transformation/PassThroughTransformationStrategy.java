@@ -56,8 +56,6 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
 
         collection = getCollectionFromDb(passThroughCollectionName);
         LOG.info("{} is loaded into local storage.  Total Count = {}", passThroughCollectionName, collection.size());
-
-        LOG.info("Finished loading data for attendance transformation.");
     }
 
     /**
