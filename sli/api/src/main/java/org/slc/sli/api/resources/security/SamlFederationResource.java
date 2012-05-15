@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -178,8 +179,12 @@ public class SamlFederationResource {
             }
         }
         principal = users.locate(tenant, attributes.getFirst("userId"));
-
-        principal.setName(attributes.getFirst("userName"));
+        String userName = getUserNameFromEntity(principal.getEntity());
+        if (userName != null) {
+            principal.setName(userName);
+        } else {
+            principal.setName(attributes.getFirst("userName"));
+        }
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -191,6 +196,17 @@ public class SamlFederationResource {
 
         return Response.temporaryRedirect(tuple.getRight())
                 .cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
+    }
+
+    private String getUserNameFromEntity(Entity entity) {
+        if (entity != null) {
+            @SuppressWarnings("rawtypes")
+            Map name = (Map) entity.getBody().get("name");
+            if (name != null) {
+                return name.get("firstName") + " " + name.get("lastSurname");
+            }
+        }
+        return null;
     }
 
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
