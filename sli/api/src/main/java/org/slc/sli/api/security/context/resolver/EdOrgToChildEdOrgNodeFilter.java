@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -32,6 +33,16 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     @Override
     public List<String> filterIds(List<String> ids) {
         Set<String> parents = fetchParents(new HashSet<String>(ids));
+        Set<String> toReturn = fetchChildren(ids);
+        toReturn.addAll(parents);
+        return new ArrayList<String>(toReturn);
+    }
+
+    public Set<String> getChildEducationOrganizations(String parentEdOrgId) {
+        return fetchChildren(Arrays.asList(parentEdOrgId));
+    }
+
+    private Set<String> fetchChildren(List<String> ids) {
         Set<String> toReturn = new HashSet<String>(ids);
         Queue<String> toResolve = new LinkedList<String>(ids);
 
@@ -47,10 +58,9 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
             }
 
         }
-        toReturn.addAll(parents);
-        return new ArrayList<String>(toReturn);
+        return toReturn;
     }
-    
+
     private Set<String> fetchParents(Set<String> ids) {
         Set<String> returned = new HashSet<String>(ids);
         String toResolve = "";
