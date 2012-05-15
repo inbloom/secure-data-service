@@ -32,6 +32,8 @@ import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.api.security.saml2.SAML2Validator;
+import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +41,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
-import org.slc.sli.api.security.saml2.SAML2Validator;
-import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -220,7 +219,6 @@ public class SamlHelper {
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
 
         doc.getRootElement().addContent(nameId);
-
         if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
@@ -282,7 +280,6 @@ public class SamlHelper {
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
 
         doc.getRootElement().addContent(nameId);
-
         if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
