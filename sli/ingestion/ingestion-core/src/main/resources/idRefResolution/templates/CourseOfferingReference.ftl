@@ -3,7 +3,7 @@
     <#if (CourseOffering.LocalCourseCode[0])??>
         <LocalCourseCourseCode>${CourseOffering.LocalCourseCode}</LocalCourseCourseCode>
     </#if>
-    
+
     <#if (CourseOffering.CourseCode[0])??>
         <CourseCode
             <#if (CourseOffering.CourseCode.@IdentificationSystem[0])??>
@@ -18,22 +18,22 @@
             </#if>
         </CourseCode>
     </#if>
-    
+
     <#if (CourseOffering.Term[0])??>
         <Term>${CourseOffering.Term}</Term>
     </#if>
-    
+
     <#if (CourseOffering.SchoolYear[0])??>
         <SchoolYear>${CourseOffering.SchoolYear}</SchoolYear>
     </#if>
-    
+
     <#if (CourseOffering.StateOrganizationId[0])?? >
     <StateOrganizationId>${CourseOffering.StateOrganizationId}</StateOrganizationId>
     </#if>
-    
+
     <#if (CourseOffering.CourseOfferingIdentificationCode[0])?? >
     <CourseOfferingIdentificationCode
-        <#if (CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem[0])??> 
+        <#if (CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem[0])??>
         IdentificationSystem="${CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem}"
         </#if>
         >
