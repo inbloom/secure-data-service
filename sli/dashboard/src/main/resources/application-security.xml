@@ -10,8 +10,7 @@
 
 
 <beans:bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
-    <beans:constructor-arg name="keyStoreLocation" value="${sli.encryption.keyStoreLocation}" />
-    <beans:constructor-arg name="keyStoreFile" value="${sli.encryption.keyStoreFile}" />
+    <beans:constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
     <beans:constructor-arg name="clientSecret" value="${oauth.client.secret}" />
     <beans:constructor-arg name="clientId" value="${oauth.client.id}" />
     <beans:constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />

@@ -28,8 +28,7 @@ public class PropertiesDecryptor {
     
     /**
      * Loads a Keystore, and decrypts the clientId, and clientSecret 
-     * @param keyStoreLocation
-     * @param keyStoreFile
+     * @param keyStore
      * @param clientId
      * @param clientSecret
      * @param alias
@@ -37,12 +36,11 @@ public class PropertiesDecryptor {
      * @param aliasPassword
      * @throws Exception
      */
-    public PropertiesDecryptor(String keyStoreLocation, String keyStoreFile,
-                               String clientId, String clientSecret, String alias,
+    public PropertiesDecryptor(String keyStore, String clientId, String clientSecret, String alias,
                                String keyStorePassword, String aliasPassword) throws Exception {
 
         KeyStore ks = KeyStore.getInstance(KEYSTORE_TYPE);
-        ks.load(new FileInputStream(keyStoreLocation + keyStoreFile), keyStorePassword.toCharArray());
+        ks.load(new FileInputStream(keyStore), keyStorePassword.toCharArray());
 
         SecretKey secretKey = (SecretKey) ks.getKey(alias, aliasPassword.toCharArray());
         
