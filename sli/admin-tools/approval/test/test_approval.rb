@@ -5,8 +5,8 @@ require 'test/unit'
 require 'socket'
 
 class MockEmailer 
-	def send_approval_email(email)
-		@last_call = email
+	def send_approval_email(args = {})
+		@last_call = args.clone 
 	end
 end
 

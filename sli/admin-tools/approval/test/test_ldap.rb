@@ -68,6 +68,8 @@ class TestLdap < Test::Unit::TestCase
     All_keys.each do |x| 
       if x.to_s.downcase != "password"
         assert_equal expected[x], actual[x]
+      else
+        assert_equal "{MD5}#{Digest::MD5.base64digest(expected[x])}", actual[x]
       end
     end
   end
@@ -119,7 +121,9 @@ class TestLdap < Test::Unit::TestCase
       :status     => "#{found_user[:status]}UpdateTest",
       :homedir    => "#{found_user[:homedir]}/updateTest",
       :uidnumber  => "#{found_user[:uidnumber]}890",
-      :gidnumber  => "#{found_user[:gidnumber]}890"
+      :gidnumber  => "#{found_user[:gidnumber]}890",
+      :tenant     => "#{found_user[:tenant]}890",
+      :edorg      => "#{found_user[:edorg]}890"
     }
     @ldap.update_user_info(to_update)
     updated_found_user = @ldap.read_user(User_info[:email])
@@ -130,7 +134,9 @@ class TestLdap < Test::Unit::TestCase
       :password, 
       :vendor,
       :emailtoken,
-      :homedir
+      :homedir,
+      :tenant, 
+      :edorg
     ]
 
     to_update.keys.each do |key|

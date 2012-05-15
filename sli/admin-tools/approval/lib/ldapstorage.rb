@@ -68,7 +68,9 @@ class LDAPStorage
 		:password, 
 		:vendor,
 		:emailtoken,
-		:homedir
+		:homedir,
+		:tenant,
+		:edorg
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [
@@ -132,8 +134,7 @@ class LDAPStorage
 		end
 
 		# pack additional fields into the description field 
-		packed_fields = Hash[ PACKED_ENTITY_FIELD_MAPPING.map { |k,v| [v, e_user_info[k]] } ]
-		attributes[LDAP_DESCRIPTION_FIELD] = (packed_fields.map { |k,v|  "#{k}=#{v}" }).join("\n")
+		attributes[LDAP_DESCRIPTION_FIELD] = pack_fields(e_user_info)
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
@@ -196,7 +197,6 @@ class LDAPStorage
 	  		end
 	  	else
 	  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
-	  			puts "LDAP: could not add user group: #{group_found}"
 		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
 	  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
 		  		end
@@ -240,15 +240,31 @@ class LDAPStorage
 	# updates the user_info except for the user status 
 	# user_info is the same input as for create_user 
 	def update_user_info(user_info)
+		return if !user_info || user_info.empty?
+
+		# get the current user entry 
 		curr_user_info = read_user(user_info[:email])
 		if curr_user_info
 			dn = get_DN(user_info[:email])
+
+			#update the ldap attributes 
+			desc_attributes = {}
 			ALLOW_UPDATING.each do |attribute|
 				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+					if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
+						desc_attributes[attribute] = user_info[attribute]
+					else
+						@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+					end
 				end
 			end
-									
+
+			# updat the attributes that are encoded in description 
+			if !desc_attributes.empty? 
+				temp = (curr_user_info.clone).merge(desc_attributes)
+				packed = pack_fields(temp)
+				@ldap.replace_attribute(dn, LDAP_DESCRIPTION_FIELD, packed)
+			end			
 		end
 	end 
 
@@ -306,6 +322,11 @@ class LDAPStorage
 
 			user_rec
 		end
+	end
+
+	def pack_fields(user_info)
+		packed_fields = Hash[ PACKED_ENTITY_FIELD_MAPPING.map { |k,v| [v, user_info[k]] } ]
+		(packed_fields.map { |k,v|  "#{k}=#{v}" }).join("\n")
 	end
 
 	def ldap_ex(msg)
