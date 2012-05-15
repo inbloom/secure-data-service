@@ -1,4 +1,4 @@
-require 'approval'
+require 'proxy'
 
 module UserAccountRegistrationsHelper
 	INDEX=0
@@ -9,13 +9,10 @@ module UserAccountRegistrationsHelper
      def self.register_user(user_account_registration)
      	@apiResponse ={
 	     	"redirect" => true,
-	     	"error" =>""
+	     	"error" =>"",
+        "verificationToken"=> ""
        }
-       if APP_CONFIG["is_sandbox"] == true
-        @currEnvironment=true
-       else
-        @currEnvironment=false
-       end
+       @currEnvironment =(APP_CONFIG["is_sandbox"] == true)
        ApprovalEngineProxy.init(URL,@currEnvironment)
       res = ApprovalEngineProxy.doesUserExist(user_account_registration.email)
       if(res["validated"] == true)
@@ -35,10 +32,11 @@ module UserAccountRegistrationsHelper
         
         ApprovalEngineProxy.init(URL,@currEnvironment)
         if isPost == true
-          ApprovalEngineProxy.submitUser(user_account_registration)
+          response=ApprovalEngineProxy.submitUser(user_account_registration)
         else
-        	ApprovalEngineProxy.updateUser(user_account_registration)
+        	response=ApprovalEngineProxy.updateUser(user_account_registration)
         end
+        @apiResponse["verificationToken"]=response["verificationToken"]
        return @apiResponse 
       end
 end

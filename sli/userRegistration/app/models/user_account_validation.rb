@@ -1,6 +1,7 @@
 
 require 'rest-client'
 require 'json'
+require 'proxy'
 
 class UserAccountValidation
     
@@ -30,11 +31,7 @@ class UserAccountValidation
     
   def self.validate_account(guid)
     emailToken=guid
-    if APP_CONFIG["is_sandbox"] == true
-      @currEnvironment=true
-     else
-      @currEnvironment=false
-     end
+    @currEnvironment =(APP_CONFIG["is_sandbox"] == true)
     ApprovalEngineProxy.init(URL,@currEnvironment)
     status=ApprovalEngineProxy.verifyEmail(emailToken)
     if(status["status"] == "success")

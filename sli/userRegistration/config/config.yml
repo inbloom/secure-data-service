@@ -15,6 +15,7 @@ development:
     email_sender_name: Administrator
     email_sender_address: noreply@slidev.org
     admin_realm: Shared Learning Infrastructure
+    approval_uri: http://local.slidev.org:3010/developer_approval
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest/v1/userAccounts
     client_id: Eg6eseKRzN

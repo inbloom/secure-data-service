@@ -11,17 +11,20 @@ class EulasController < ApplicationController
   end
   
   def create
-     if APP_CONFIG["is_sandbox"] == true
-      @currEnvironment=true
-     else
-      @currEnvironment=false
-     end
+     
+    @currEnvironment =(APP_CONFIG["is_sandbox"] == true)
+     eulaStatus ={
+      "email" => session[:email],
+      "verificationToken" => session[:verificationToken],
+      "accepted" => true
+     }
     ApprovalEngineProxy.init(APP_CONFIG['approval_uri'],@currEnvironment)
     if Eula.accepted?(params)
-      ApprovalEngineProxy.EULAStatus(session[:email],true)
+      ApprovalEngineProxy.EULAStatus(eulaStatus)
       render :finish
     else 
-      ApprovalEngineProxy.EULAStatus(session[:email],false)
+      eulaStatus["accepted"]=false
+      ApprovalEngineProxy.EULAStatus(eulaStatus)
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end

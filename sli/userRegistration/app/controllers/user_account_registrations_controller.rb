@@ -27,13 +27,13 @@ class UserAccountRegistrationsController < ApplicationController
       redirectPage=response["redirect"]
       @user_account_registration.errors.add(:email,response["error"])
       session[:email]=@user_account_registration.email
+      session[:verificationToken]=response["verificationToken"]
     end
     respond_to do |format|
         if redirectPage==true
             
             format.html  { redirect_to("/eula")}
-            format.json  { render :json => @user_account_registration,
-                                   action: "/eulas"}
+            format.json  { render :json => @user_account_registration,action: "/eulas"}
         else
             format.html { render action: "new" }
             format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
