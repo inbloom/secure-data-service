@@ -1,6 +1,7 @@
 package org.slc.sli.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,13 @@ public class ModelAndViewConfig {
     private Map<String, GenericEntity> data;
     private Map<String, Config> config;
     private List<Config> layoutItems;
+    private Collection<Config> widgetConfig;
 
     public ModelAndViewConfig() {
         this.data = new LinkedHashMap<String, GenericEntity>();
         this.config = new LinkedHashMap<String, Config>();
         this.layoutItems = new ArrayList<Config>();
+        this.widgetConfig = new ArrayList<Config>();
     }
 
     public Map<String, GenericEntity> getData() {
@@ -49,5 +52,13 @@ public class ModelAndViewConfig {
 
     public boolean hasDataForAlias(String dataAliasId) {
         return this.data.containsKey(dataAliasId);
+    }
+
+    public void setWidgetConfig(Collection<Config> widgetConfigs) {
+        this.widgetConfig = widgetConfigs;
+    }
+
+    public Collection<Config> getWidgetConfig() {
+        return widgetConfig;
     }
 }

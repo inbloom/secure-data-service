@@ -29,6 +29,11 @@ DashboardProxy = {
 				this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
 			}
 		},
+		loadAll : function(dataConfigObj) {
+			jQuery.extend(this.data, dataConfigObj.data);
+			jQuery.extend(this.config, dataConfigObj.config);
+			this.loadWidgetConfig(dataConfigObj.widgetConfig);
+		},
 		load : function(componentId, id, callback) {
 			var prx = this;
 			$.ajax({

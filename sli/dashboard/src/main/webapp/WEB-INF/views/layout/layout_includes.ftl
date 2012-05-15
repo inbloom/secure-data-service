@@ -51,8 +51,7 @@
 <#noescape>
 <script>
   var contextRootPath = '${CONTEXT_ROOT_PATH}';
-  DashboardProxy.load("${componentId}", "${(entityId)!}");
-  DashboardProxy.loadWidgetConfig(${widgetConfig});
+  DashboardProxy.loadAll(${viewDataConfig});
 </script>
 </#noescape>
 <#include "layout_header.ftl">
