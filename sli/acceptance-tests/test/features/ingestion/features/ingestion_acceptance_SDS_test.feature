@@ -299,6 +299,8 @@ Then I should see following map of entry counts in the corresponding collections
         | disciplineAction            | 3     |
 		| studentDisciplineIncidentAssociation| 8|
         | grade                       | 4     |
+        | gradingPeriod               | 17    |
+        | calendarDate                | 556   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
