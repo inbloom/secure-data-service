@@ -14,21 +14,15 @@
         </#if>
         >
         <#if (AssessmentFamily.AssessmentFamilyIdentificationCode.ID[0])??>
-        <ID>
-            ${AssessmentFamily.AssessmentFamilyIdentificationCode.ID}
-        </ID>
+        <ID>${AssessmentFamily.AssessmentFamilyIdentificationCode.ID}</ID>
         </#if>
     </AssessmentFamilyIdentificationCode>
    </#if>
     <#if (AssessmentFamily.AssessmentFamilyTitle[0])??>
-    <AssessmentFamilyTitle>
-        ${AssessmentFamily.AssessmentFamilyTitle}
-    </AssessmentFamilyTitle>
+    <AssessmentFamilyTitle>${AssessmentFamily.AssessmentFamilyTitle}</AssessmentFamilyTitle>
     </#if>
 
     <#if (AssessmentFamily.Version[0])??>
-    <Version>
-        ${AssessmentFamily.Version}
-    </Version>
+    <Version>${AssessmentFamily.Version}</Version>
      </#if>
 </AssessmentFamilyIdentity>

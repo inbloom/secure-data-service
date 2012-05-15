@@ -1,9 +1,7 @@
 
 <CourseOfferingIdentity>
     <#if (CourseOffering.LocalCourseCode[0])??>
-        <LocalCourseCourseCode>
-            ${CourseOffering.LocalCourseCode}
-        </LocalCourseCourseCode>
+        <LocalCourseCourseCode>${CourseOffering.LocalCourseCode}</LocalCourseCourseCode>
     </#if>
     
     <#if (CourseOffering.CourseCode[0])??>
@@ -16,29 +14,21 @@
             </#if>
             >
             <#if (CourseOffering.CourseCode.ID[0])??>
-                <ID>
-                    ${CourseOffering.CourseCode.ID}
-                </ID>
+                <ID>${CourseOffering.CourseCode.ID}</ID>
             </#if>
         </CourseCode>
     </#if>
     
     <#if (CourseOffering.Term[0])??>
-        <Term>
-            ${CourseOffering.Term}
-        </Term>
+        <Term>${CourseOffering.Term}</Term>
     </#if>
     
     <#if (CourseOffering.SchoolYear[0])??>
-        <SchoolYear>
-            ${CourseOffering.SchoolYear}
-        </SchoolYear>
+        <SchoolYear>${CourseOffering.SchoolYear}</SchoolYear>
     </#if>
     
     <#if (CourseOffering.StateOrganizationId[0])?? >
-    <StateOrganizationId>
-        ${CourseOffering.StateOrganizationId}
-    </StateOrganizationId>
+    <StateOrganizationId>${CourseOffering.StateOrganizationId}</StateOrganizationId>
     </#if>
     
     <#if (CourseOffering.CourseOfferingIdentificationCode[0])?? >
@@ -48,9 +38,7 @@
         </#if>
         >
         <#if (CourseOffering.CourseOfferingIdentificationCode.ID[0])??>
-        <ID>
-            ${CourseOffering.CourseOfferingIdentificationCode.ID}
-        </ID>
+        <ID>${CourseOffering.CourseOfferingIdentificationCode.ID}</ID>
         </#if>
     </CourseOfferingIdentificationCode>
     </#if>
