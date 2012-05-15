@@ -14,13 +14,9 @@ class TestEmails < Test::Unit::TestCase
     @rumbster.add_observer @message_observer
     @rumbster.start
 
-    replacer = {
-      '__URI__' => 'http://localhost:8080'
-    }
     emailer_conf = {
       :sender_email_addr => DefaultSenderEmailAddr,
       :port              => DefaultPort,
-      :replacer          => replacer
     }
     @emailer = Emailer.new emailer_conf
   end
@@ -44,7 +40,10 @@ class TestEmails < Test::Unit::TestCase
   def test_email_replacer
     content = "Landing Zone: __URI__/landing_zone\n\nApp Registration: __URI__/apps"
     assert content.include?('__URI__')
-    result = @emailer.replace(content)
+    replacer = {
+      '__URI__' => 'http://localhost:8080'
+    }
+    result = @emailer.replace(replacer, content)
     puts result
     assert result.include?('http://localhost:8080')
     assert !result.include?('__URI__')
