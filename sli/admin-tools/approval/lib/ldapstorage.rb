@@ -49,8 +49,8 @@ class LDAPStorage
 	# some fields are stored in the description field as 
 	# key/value pairs 
 	PACKED_ENTITY_FIELD_MAPPING = {
-		:tenant => "Tenant",
-		:edorg  => "EdOrg"
+		:tenant => "tenant",
+		:edorg  => "edOrg"
 	}
 
 	# Additional fiels (see above) are packed into this field as key/value pairs
