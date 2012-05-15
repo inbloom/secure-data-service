@@ -383,7 +383,7 @@ DashboardUtil.Grid.Formatters = {
             var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
             returnValue += "<script>";
             returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
-            returnValue += "$('#" + divId + "').parent().attr('title', '');"; 
+            //returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
             returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
             
             var width = options.colModel.formatoptions["fuelGaugeWidth"];
