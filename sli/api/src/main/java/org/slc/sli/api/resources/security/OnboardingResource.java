@@ -154,7 +154,7 @@ public class OnboardingResource {
         
         // create or update the applicationAuthorization collection in mongod for new edorg entity
         createAppAuth(uuid, appIds);
-
+        
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
             
