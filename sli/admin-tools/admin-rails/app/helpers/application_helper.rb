@@ -30,9 +30,9 @@ module ApplicationHelper
   }
   
   UNKNOWN_EMAIL = {
-    "email_address" => "UNKOWN",
-    "first_name" => "UNKOWN",
-    "last_name" => "UNKOWN",
+    "email_address" => "UNKNOWN",
+    "first_name" => "UNKNOWN",
+    "last_name" => "UNKNOWN",
   }
 
   @@ldap=LDAPStorage.new(LDAP_HOST,LDAP_PORT,LDAP_BASE,LDAP_USER,LDAP_PASS)
