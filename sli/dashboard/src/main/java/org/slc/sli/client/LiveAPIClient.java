@@ -55,7 +55,6 @@ public class LiveAPIClient implements APIClient {
     private static final String SESSION_URL = "/v1/sessions/";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
     private static final String STUDENT_SECTION_GRADEBOOK = "/v1/studentSectionGradebookEntries";
-    private static final String STUDENTS_NO_SLASH_URL = "/v1/students";
     private static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
     // resources to append to base urls
@@ -76,6 +75,7 @@ public class LiveAPIClient implements APIClient {
 
     // attributes
     private static final String EDORG_SLI_ID_ATTRIBUTE = "edOrgSliId";
+    private static final String EDORG_ATTRIBUTE = "edOrg";
 
     private String apiUrl;
 
@@ -127,6 +127,7 @@ public class LiveAPIClient implements APIClient {
             if (edOrgEntity != null) {
                 String edOrgSliId = edOrgEntity.getId();
                 staffEntity.put(EDORG_SLI_ID_ATTRIBUTE, edOrgSliId);
+                staffEntity.put(EDORG_ATTRIBUTE, edOrgEntity);
             }
         }
         return staffEntity;
