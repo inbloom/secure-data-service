@@ -3743,11 +3743,6 @@
         <jb:value property="calendarEvent" data="CalendarDateReference/CalendarDateIdentity/CalendarEvent" />
   </jb:bean>
 
-  <jb:bean beanId="calendarDateReference_reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
-        <jb:value property="date" data="CalendarDateReference/CalendarDateIdentity/CalendarDate" />
-        <jb:value property="calendarEvent" data="CalendarDateReference/CalendarDateIdentity/CalendarEvent" />
-  </jb:bean>
-
   <!-- End gradingPeriod mapping -->
 
   <!-- Start calendarDate mapping -->
