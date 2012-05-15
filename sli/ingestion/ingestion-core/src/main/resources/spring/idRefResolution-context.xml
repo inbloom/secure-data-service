@@ -215,6 +215,6 @@
 
     <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference" value-ref="freeMarkerExtendedReferenceResolver" />
-
+    <entry key="/InterchangeEducationOrgCalendar/Session/CalendarDateReference" value-ref="simpleReferenceResolver" />
   </util:map>
 </beans>
