@@ -28,9 +28,10 @@ api_database_name : "sli"
 sampleApp_server_address: "http://local.slidev.org:8081/"
 
 simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
-simpleIDP_realm_params: "response_type=code&client_id=fm67sH6vZZ&redirect_uri=http://local.slidev.org:8081/sample/callback"
+simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
 simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap.hostname: ldap.slidev.org
+ldap_hostname: ldap.slidev.org
+ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"

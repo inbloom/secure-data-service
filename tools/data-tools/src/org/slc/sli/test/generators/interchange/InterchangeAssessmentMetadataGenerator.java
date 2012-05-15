@@ -219,7 +219,7 @@ public class InterchangeAssessmentMetadataGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 assessment = null;
             } else {
-                assessment = AssessmentGenerator.generateLowFi(assessmentMeta, objAssessMap);
+                assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             }
 
             interchangeObjects.add(assessment);

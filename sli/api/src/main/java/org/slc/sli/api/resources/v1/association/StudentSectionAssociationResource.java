@@ -203,4 +203,27 @@ public class StudentSectionAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "_id", studentSectionAssociationId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
     }
+
+    /**
+     * getStudentCompetencies
+     *
+     * @param studentSectionAssociationId
+     *            The Id of the studentSectionAssociationId.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return each $$studentCompetencies$$ that references the given $$studentSectionAssociations$$
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)
+    public Response getStudentCompetencies(@PathParam(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID) final String studentSectionAssociationId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_COMPETENCIES, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID,
+                studentSectionAssociationId, headers, uriInfo);
+    }
 }

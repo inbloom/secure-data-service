@@ -68,6 +68,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
+
         if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -105,7 +106,7 @@ public class Login {
             realm = SLI_ADMIN_REALM;
         }
         
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
         
         User user;
         try {
@@ -126,15 +127,16 @@ public class Login {
             return mav;
         }
         
-        SamlAssertion samlAssertion;
         if (doImpersonation) {
-            samlAssertion = samlService.buildAssertion(impersonateUser, roles, user.getAttributes(), requestInfo);
-            user.setRoles(roles);
             user.setUserId(impersonateUser);
-            
-        } else {
-            samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
+            user.setRoles(roles);
+            // only send the tenant - no other values since this is impersonatation
+            String tenant = user.getAttributes().get("tenant");
+            user.getAttributes().clear();
+            user.getAttributes().put("tenant", tenant);
         }
+        SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                user.getAttributes(), requestInfo);
         
         writeLoginSecurityEvent(true, userId, realm, request);
         

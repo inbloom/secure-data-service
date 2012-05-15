@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-01-01</DateFulfilled>
+        <LetterGradeEarned>A</LetterGradeEarned>
+        <NumericGradeEarned>95</NumericGradeEarned>
+        <CompetencyLevel ref="CL_1" />
+        <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_1" />
+        <GradebookEntryReference ref="GE_1" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-02-02</DateFulfilled>
+        <LetterGradeEarned>B</LetterGradeEarned>
+        <NumericGradeEarned>85</NumericGradeEarned>
+        <CompetencyLevel ref="CL_101" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_2" />
+        <GradebookEntryReference ref="GE_2" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-03-03</DateFulfilled>
+        <LetterGradeEarned>C</LetterGradeEarned>
+        <NumericGradeEarned>75</NumericGradeEarned>
+        <CompetencyLevel ref="CL_2" />
+        <DiagnosticStatement>Logan Brown is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_101" />
+        <GradebookEntryReference ref="GE_3" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-04-04</DateFulfilled>
+        <LetterGradeEarned>D</LetterGradeEarned>
+        <NumericGradeEarned>65</NumericGradeEarned>
+        <CompetencyLevel ref="CL_3" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_3" />
+        <GradebookEntryReference ref="GE_101" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-05-05</DateFulfilled>
+        <LetterGradeEarned>F</LetterGradeEarned>
+        <NumericGradeEarned>55</NumericGradeEarned>
+        <CompetencyLevel ref="CL_102" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_102" />
+        <GradebookEntryReference ref="GE_4" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-06-06</DateFulfilled>
+        <LetterGradeEarned>D</LetterGradeEarned>
+        <NumericGradeEarned>65</NumericGradeEarned>
+        <CompetencyLevel ref="CL_103" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_4" />
+        <GradebookEntryReference ref="GE_102" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-07-07</DateFulfilled>
+        <LetterGradeEarned>C</LetterGradeEarned>
+        <NumericGradeEarned>75</NumericGradeEarned>
+        <CompetencyLevel ref="CL_4" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_103" />
+        <GradebookEntryReference ref="GE_103" />
+    </StudentGradebookEntry>
+	<StudentGradebookEntry>
+        <DateFulfilled>2013-08-08</DateFulfilled>
+        <LetterGradeEarned>B</LetterGradeEarned>
+        <NumericGradeEarned>85</NumericGradeEarned>
+        <CompetencyLevel ref="CL_104" />
+        <DiagnosticStatement>William Smith is scared of me!!!</DiagnosticStatement>
+        <StudentSectionAssociationReference ref="SSA_104" />
+        <GradebookEntryReference ref="GE_104" />
+    </StudentGradebookEntry>
+
+	<GradebookEntry id="GE_1">
+		<GradebookEntryType>funeral homework 1</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_1" />
+		<LearningObjectiveReference ref="LO_1" />
+		<SectionReference ref="S_1" />
+		<GradingPeriodReference ref="GP_1" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_2">
+		<GradebookEntryType>funeral homework 2</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_101" />
+		<LearningObjectiveReference ref="LO_2" />
+		<SectionReference ref="S_2" />
+		<GradingPeriodReference ref="GP_2" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_3">
+		<GradebookEntryType>funeral homework 3</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_101" />
+		<SectionReference ref="S_3" />
+		<GradingPeriodReference ref="GP_3" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_4">
+		<GradebookEntryType>funeral homework 4</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_3" />
+		<LearningObjectiveReference ref="LO_3" />
+		<SectionReference ref="S_101" />
+		<GradingPeriodReference ref="GP_4" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_5">
+		<GradebookEntryType>funeral homework 5</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_4" />
+		<LearningObjectiveReference ref="LO_4" />
+		<SectionReference ref="S_4" />
+		<GradingPeriodReference ref="GP_101" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_6">
+		<GradebookEntryType>funeral homework 6</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_102" />
+		<LearningObjectiveReference ref="LO_102" />
+		<SectionReference ref="S_5" />
+		<GradingPeriodReference ref="GP_5" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_7">
+		<GradebookEntryType>funeral homework 7</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_103" />
+		<LearningObjectiveReference ref="LO_5" />
+		<SectionReference ref="S_102" />
+		<GradingPeriodReference ref="GP_6" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_8">
+		<GradebookEntryType>funeral homework 8</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_104" />
+		<LearningObjectiveReference ref="LO_6" />
+		<SectionReference ref="S_6" />
+		<GradingPeriodReference ref="GP_102" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_9">
+		<GradebookEntryType>funeral homework 9</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_5" />
+		<LearningObjectiveReference ref="LO_103" />
+		<SectionReference ref="S_103" />
+		<GradingPeriodReference ref="GP_7" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_10">
+		<GradebookEntryType>funeral homework 10</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_6" />
+		<LearningObjectiveReference ref="LO_104" />
+		<SectionReference ref="S_7" />
+		<GradingPeriodReference ref="GP_103" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_11">
+		<GradebookEntryType>funeral homework 11</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_7" />
+		<LearningObjectiveReference ref="LO_7" />
+		<SectionReference ref="S_104" />
+		<GradingPeriodReference ref="GP_104" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_12">
+		<GradebookEntryType>funeral homework 12</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_105" />
+		<LearningObjectiveReference ref="LO_105" />
+		<SectionReference ref="S_105" />
+		<GradingPeriodReference ref="GP_8" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_13">
+		<GradebookEntryType>funeral homework 13</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_106" />
+		<LearningObjectiveReference ref="LO_106" />
+		<SectionReference ref="S_8" />
+		<GradingPeriodReference ref="GP_105" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_14">
+		<GradebookEntryType>funeral homework 14</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_107" />
+		<LearningObjectiveReference ref="LO_8" />
+		<SectionReference ref="S_106" />
+		<GradingPeriodReference ref="GP_106" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_15">
+		<GradebookEntryType>funeral homework 15</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_8" />
+		<LearningObjectiveReference ref="LO_107" />
+		<SectionReference ref="S_107" />
+		<GradingPeriodReference ref="GP_107" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_16">
+		<GradebookEntryType>funeral homework 16</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_108" />
+		<LearningObjectiveReference ref="LO_108" />
+		<SectionReference ref="S_108" />
+		<GradingPeriodReference ref="GP_108" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_1">
+		<GradebookEntryType>funeral homework 17</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_1" />
+		<LearningObjectiveReference ref="LO_1" />
+		<SectionReference ref="S_1" />
+		<GradingPeriodReference ref="GP_1" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_2">
+		<GradebookEntryType>funeral homework 18</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_101" />
+		<LearningObjectiveReference ref="LO_2" />
+		<SectionReference ref="S_2" />
+		<GradingPeriodReference ref="GP_2" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_3">
+		<GradebookEntryType>funeral homework 19</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_101" />
+		<SectionReference ref="S_3" />
+		<GradingPeriodReference ref="GP_3" />
+	</GradebookEntry>
+	<GradebookEntry id="GE_4">
+		<GradebookEntryType>funeral homework 20</GradebookEntryType>
+		<DateAssigned>2012-05-08</DateAssigned>
+		<Description>Herman must write a story about his pet Spot</Description>
+		<LearningStandardReference ref="LS_3" />
+		<LearningObjectiveReference ref="LO_3" />
+		<SectionReference ref="S_101" />
+		<GradingPeriodReference ref="GP_4" />
+	</GradebookEntry>
+
+	<CompentencyLevelDescriptor id="CL_1">
+		<CodeValue>Barely Competent 1</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+	<CompentencyLevelDescriptor id="CL_2">
+		<CodeValue>Barely Competent 2</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+	<CompentencyLevelDescriptor id="CL_3">
+		<CodeValue>Barely Competent 3</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+	<CompentencyLevelDescriptor id="CL_4">
+		<CodeValue>Barely Competent 4</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+	<CompentencyLevelDescriptor id="CL_1">
+		<CodeValue>Barely Competent 5</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+	<CompentencyLevelDescriptor id="CL_2">
+		<CodeValue>Barely Competent 6</CodeValue>
+		<Description>Herman tends to throw tantrums</Description>
+		<PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+	</CompentencyLevelDescriptor>
+
+	<StudentSectionAssociationReference id="SSA_1">
+		<StudentSectionAssociationIdentity>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000101</StudentUniqueStateId>
+				<StudentIdentificationCode>
+					<IdentificationCode>Mockingbird School</IdentificationCode>
+					<IdentificationSystem>District</IdentificationSystem>
+					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+				</StudentIdentificationCode>
+				<Name>
+					<FirstName>Herman</FirstName>
+					<MiddleName>G</MiddleName>
+					<LastSurname>Munster</LastSurname>
+				</Name>
+				<OtherName>Flathead</OtherName>
+				<BirthDate>1901-10-31</BirthDate>
+				<Sex>Male</Sex>
+				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+				<Race>Mixed</Race>
+			</StudentIdentity>
+			<SectionIdentity>
+				<StateOrganizationId>1000001</StateOrganizationId>
+				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				<UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+				<CourseCode>
+					<ID>000</ID>
+				</CourseCode>
+				<LocalCourseCode>Scary</LocalCourseCode>
+				<SchoolYear>2012-2013</SchoolYear>
+				<Term>Spring Semester</Term>
+				<ClassPeriodName>First Period</ClassPeriodName>
+				<Location>Dungeon</Location>
+			</SectionIdentity>
+		</StudentSectionAssociationIdentity>
+	</StudentSectionAssociationReference>
+	<StudentSectionAssociationReference id="SSA_2">
+		<StudentSectionAssociationIdentity>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000001</StudentUniqueStateId>
+				<StudentIdentificationCode>
+					<IdentificationCode>Mockingbird School</IdentificationCode>
+					<IdentificationSystem>District</IdentificationSystem>
+					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+				</StudentIdentificationCode>
+				<Name>
+					<FirstName>Herman</FirstName>
+					<MiddleName>G</MiddleName>
+					<LastSurname>Munster</LastSurname>
+				</Name>
+				<OtherName>Flathead</OtherName>
+				<BirthDate>1901-10-31</BirthDate>
+				<Sex>Male</Sex>
+				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+				<Race>Mixed</Race>
+			</StudentIdentity>
+			<SectionIdentity>
+				<StateOrganizationId>1000002</StateOrganizationId>
+				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				<UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+				<CourseCode>
+					<ID>000</ID>
+				</CourseCode>
+				<LocalCourseCode>Scary</LocalCourseCode>
+				<SchoolYear>2012-2013</SchoolYear>
+				<Term>Spring Semester</Term>
+				<ClassPeriodName>First Period</ClassPeriodName>
+				<Location>Dungeon</Location>
+			</SectionIdentity>
+		</StudentSectionAssociationIdentity>
+	</StudentSectionAssociationReference>
+	<StudentSectionAssociationReference id="SSA_3">
+		<StudentSectionAssociationIdentity>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000002</StudentUniqueStateId>
+				<StudentIdentificationCode>
+					<IdentificationCode>Mockingbird School</IdentificationCode>
+					<IdentificationSystem>District</IdentificationSystem>
+					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+				</StudentIdentificationCode>
+				<Name>
+					<FirstName>Herman</FirstName>
+					<MiddleName>G</MiddleName>
+					<LastSurname>Munster</LastSurname>
+				</Name>
+				<OtherName>Flathead</OtherName>
+				<BirthDate>1901-10-31</BirthDate>
+				<Sex>Male</Sex>
+				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+				<Race>Mixed</Race>
+			</StudentIdentity>
+			<SectionIdentity>
+				<StateOrganizationId>1000001</StateOrganizationId>
+				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				<UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+				<CourseCode>
+					<ID>000</ID>
+				</CourseCode>
+				<LocalCourseCode>Scary</LocalCourseCode>
+				<SchoolYear>2012-2013</SchoolYear>
+				<Term>Spring Semester</Term>
+				<ClassPeriodName>First Period</ClassPeriodName>
+				<Location>Dungeon</Location>
+			</SectionIdentity>
+		</StudentSectionAssociationIdentity>
+	</StudentSectionAssociationReference>
+	<StudentSectionAssociationReference id="SSA_4">
+		<StudentSectionAssociationIdentity>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000003</StudentUniqueStateId>
+				<StudentIdentificationCode>
+					<IdentificationCode>Mockingbird School</IdentificationCode>
+					<IdentificationSystem>District</IdentificationSystem>
+					<AssigningOrganizationCode>Graveyard District</AssigningOrganizationCode>
+				</StudentIdentificationCode>
+				<Name>
+					<FirstName>Herman</FirstName>
+					<MiddleName>G</MiddleName>
+					<LastSurname>Munster</LastSurname>
+				</Name>
+				<OtherName>Flathead</OtherName>
+				<BirthDate>1901-10-31</BirthDate>
+				<Sex>Male</Sex>
+				<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+				<Race>Mixed</Race>
+			</StudentIdentity>
+			<SectionIdentity>
+				<StateOrganizationId>1000002</StateOrganizationId>
+				<EducationOrgIdentificationCode>The Munsters</EducationOrgIdentificationCode>
+				<UniqueSectionCode>Miss Marilyn</UniqueSectionCode>
+				<CourseCode>
+					<ID>000</ID>
+				</CourseCode>
+				<LocalCourseCode>Scary</LocalCourseCode>
+				<SchoolYear>2012-2013</SchoolYear>
+				<Term>Spring Semester</Term>
+				<ClassPeriodName>First Period</ClassPeriodName>
+				<Location>Dungeon</Location>
+			</SectionIdentity>
+		</StudentSectionAssociationIdentity>
+	</StudentSectionAssociationReference>
+
+	<LearningStandardReference id="LS_1">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard1</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_2">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard101</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_3">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard2</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_4">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard3</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_5">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard4</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_6">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard102</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_7">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard5</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+	<LearningStandardReference id="LS_8">
+		<LearningStandardIdentity>
+			<LearningStandardId>
+				<IdentificationCode>Standard6</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningStandardId>
+		</LearningStandardIdentity>
+	</LearningStandardReference>
+
+	<LearningObjectiveReference id="LO_1">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective1</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_2">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective2</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_3">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective101</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_4">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective3</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_5">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective4</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_6">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective5</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_7">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Objective102</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+	<LearningObjectiveReference id="LO_8">
+		<LearningObjectiveIdentity>
+			<LearningObjectiveId>
+				<IdentificationCode>Mockingbird School</IdentificationCode>
+				<ContentStandardName>Common Core</ContentStandardName>
+			</LearningObjectiveId>
+		</LearningObjectiveIdentity>
+	</LearningObjectiveReference>
+
+	<SectionReference id="S_1">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>Lizard Husbandry</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_2">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_3">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_4">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_5">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_6">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_7">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+	<SectionReference id="S_8">
+		<SectionIdentity>
+			<StateOrganizationId>100002</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>1B2B3</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+			<UniqueSectionCode>Sec 923</UniqueSectionCode>
+			<CourseCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>School course code</IdentificationSystem>
+				<AssigningOrganizationCode>Monsters, Inc.</AssigningOrganizationCode>
+			</CourseCode>
+			<LocalCourseCode>Dragon Milking</LocalCourseCode>
+			<SchoolYear>2012-2013</SchoolYear>
+			<Term>Spring 2012</Term>
+			<ClassPeriodName>First Period</ClassPeriodName>
+			<Location>Funeral Homeroom</Location>
+		</SectionIdentity>
+	</SectionReference>
+
+	<GradingPeriodReference id="GP_1">
+		<GradingPeriodIdentity>
+			<GradingPeriod>First Trimester</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_2">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Second Trimester</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_3">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Third Trimester</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_4">
+		<GradingPeriodIdentity>
+			<GradingPeriod>First Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_5">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Second Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_6">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Third Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_7">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_8">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+	<GradingPeriodReference id="GP_9">
+		<GradingPeriodIdentity>
+			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+			<SchoolYear>2012-2013</SchoolYear>
+			<StateOrganizationId>Transylvania</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>20/272/G/1.00/1 of 1</ID>
+				<IdentificationSystem>DUNS</IdentificationSystem>
+			</EducationOrgIdentificationCode>
+		</GradingPeriodIdentity>
+	</GradingPeriodReference>
+
+</InterchangeStudentGrade>

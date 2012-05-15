@@ -212,4 +212,28 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
         return super.update(learningObjectiveId, newEntityBody, headers, uriInfo);
     }
 
+    /**
+     * getStudentCompetencies
+     *
+     * @param learningObjectiveId
+     *            The Id of the learningObjective.
+     * @param offset
+     *            Index of the first result to return
+     * @param limit
+     *            Maximum number of results to return.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return each $$studentCompetencies$$ that
+     * references the given $$learningObjectives$$
+     */
+    @GET
+    @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)
+    public Response getStudentCompetencies(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
+                                           @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_COMPETENCIES, ParameterConstants.LEARNINGOBJECTIVE_ID,
+                         learningObjectiveId, headers, uriInfo);
+    }
+
 }

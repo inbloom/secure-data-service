@@ -87,6 +87,27 @@ public class SecurityContextInjector {
         LOG.debug("elevating rights to {}", rights.toString());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
+
+    public void setSeaAdminContext() {
+        String user = "LeaAdmin";
+        String fullName = "LEA Admin";
+        List<String> roles = Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setExternalId("lea_admin");
+        setSecurityContext(principal);
+
+
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
     
     public void setOperatorContext() {
         String user = "Operator";

@@ -45,7 +45,7 @@ public class AssessmentMetaRelations {
     private static final String ASSESSMENT_ITEM_PREFIX = "asit";
     private static final String LEARN_STD_PREFIX = "lstd";
     private static final String PERF_LEVEL_DESC_PREFIX = "pld";
-    private static final String ASSESS_FAMILY_PREFIX = "ISAT Reading";
+    private static final String ASSESS_FAMILY_PREFIX = "asf";
     private static final String ASSESS_PERIOD_DESC_PREFIX = "apd";
 
     public static void buildStandaloneAssessments() {
