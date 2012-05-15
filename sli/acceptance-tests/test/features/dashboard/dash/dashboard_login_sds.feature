@@ -141,11 +141,11 @@ Then I see these values in the drop-down: "Daybreak School District 4529;Sunset 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
-When I select ed org "Sunset School District 4526"
-And I select school "Sunset Central High School"
-And I select course "A.P. Calculus"
-And I select section "A.P. Calculus Sec 201"
-And I see a list of 3 students
+#When I select ed org "Sunset School District 4526"
+#And I select school "Sunset Central High School"
+#And I select course "A.P. Calculus"
+#And I select section "A.P. Calculus Sec 201"
+#And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -251,9 +251,9 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
 When I select ed org "Sunset School District 4526"
 And I select school "Sunset Central High School"
-And I select course "A.P. Calculus"
-And I select section "A.P. Calculus Sec 201"
-And I see a list of 3 students
+#And I select course "A.P. Calculus"
+#And I select section "A.P. Calculus Sec 201"
+#And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -267,7 +267,6 @@ And the search results include:
   |Matt Sollars     |8        |East Daybreak Junior High  |
   |Matt Forker      |11       |Sunset Central High School |
 And I click on student "Matt Forker"
-And I view its student profile
 And I view its student profile
 And their name shown in profile is "Matt Forker"
 And their id shown in proflie is "1000000002"
