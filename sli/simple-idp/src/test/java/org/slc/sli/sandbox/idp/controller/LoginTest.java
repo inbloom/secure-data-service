@@ -11,11 +11,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthRequestService.Request;
@@ -25,12 +27,16 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Unit tests
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LoginTest {
     
     @Mock
@@ -51,6 +57,11 @@ public class LoginTest {
     @InjectMocks
     Login loginController = new Login();
     
+    @Before
+    public void initMocks() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void testLoginSetup() {
         loginController.setSandboxImpersonationEnabled(false);
@@ -164,12 +175,12 @@ public class LoginTest {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn(null);
-        Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
-        Mockito.when(attributes.get("Tenant")).thenReturn("myTenant");
+        Mockito.when(attributes.get("tenant")).thenReturn("myTenant");
         
         List<String> roles = Arrays.asList("role1", "role2");
         UserService.User user = new User("userId", roles, attributes);
@@ -183,7 +194,9 @@ public class LoginTest {
         
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
                 httpSession, null);
-        
+        Mockito.verify(attributes, Mockito.times(1)).clear();
+        Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
+
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
     }

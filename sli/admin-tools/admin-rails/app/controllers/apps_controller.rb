@@ -104,7 +104,7 @@ class AppsController < ApplicationController
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
     @app.is_admin = boolean_fix @app.is_admin
-    @app.enabled = boolean_fix @app.enabled
+    @app.installed = boolean_fix @app.installed
 
     respond_to do |format|
       if @app.save
@@ -127,7 +127,7 @@ class AppsController < ApplicationController
     logger.debug {"App found (Update): #{@app.attributes}"}
 
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
-    params[:app][:enabled] = boolean_fix params[:app][:enabled]
+    params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
 

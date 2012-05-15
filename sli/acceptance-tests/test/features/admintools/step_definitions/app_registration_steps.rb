@@ -17,20 +17,6 @@ When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
 
-When /^I get redirected to the IDP login page$/ do
-  assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
-end
-
-When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end  
-end
-
 Then /^I am redirected to the Application Approval Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Registration Approval") != nil}
 end
@@ -180,7 +166,7 @@ When /^I have entered data into the other required fields except for the shared 
   @driver.find_element(:name, 'app[version]').send_keys "0.9"
   @driver.find_element(:name, 'app[image_url]').send_keys "http://blah.com"
   @driver.find_element(:name, 'app[developer_info][organization]').send_keys "Cucumber"
-  @driver.find_element(:css, 'input[id="app_enabled"]').click
+  @driver.find_element(:css, 'input[id="app_installed"]').click
   list = @driver.find_element(:css, 'input[disabled="disabled"]')
   assert(list, "Should have disabled fields.")
   
@@ -241,7 +227,7 @@ Then /^all the fields are read only$/ do
   assert(@driver.find_element(:name, 'app[version]').attribute("disabled"), "Version isn't disabled" )
   assert(@driver.find_element(:name, 'app[image_url]').attribute("disabled"), "Image URL isn't disabled" )
   assert(@driver.find_element(:name, 'app[developer_info][organization]').attribute("disabled"), "developer organization isn't disabled" )
-  assert(@driver.find_element(:css, 'input[id="app_enabled"]').attribute("disabled"), "app isn't disabled" )
+  assert(@driver.find_element(:css, 'input[id="app_installed"]').attribute("disabled"), "app isn't disabled" )
 end
 
 Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|

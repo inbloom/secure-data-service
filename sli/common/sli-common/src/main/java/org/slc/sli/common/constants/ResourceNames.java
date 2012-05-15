@@ -28,6 +28,7 @@ public final class ResourceNames {
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
     public static final String EDUCATION_ORGANIZATIONS = "educationOrganizations";
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String GRADING_PERIODS = "gradingPeriods";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
     public static final String REPORT_CARDS = "reportCards";
@@ -109,11 +110,13 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_ACTIONS, "getDisciplineAction");
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADEBOOK_ENTRIES, "getGradebookEntry");
+        SINGULAR_LINK_NAMES.put(ResourceNames.GRADING_PERIODS, "getGradingPeriod");
         SINGULAR_LINK_NAMES.put(ResourceNames.PARENTS, "getParent");
         SINGULAR_LINK_NAMES.put(ResourceNames.PROGRAMS, "getProgram");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTIONS, "getSection");
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getLearningObjective");
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
+        SINGULAR_LINK_NAMES.put(ResourceNames.REPORT_CARDS, "getReportCard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
@@ -123,6 +126,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.USER_ACCOUNTS, "getUserAccount");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
     }
 
     /*
