@@ -34,9 +34,9 @@ class LandingZone < Ldap
       :subject    => "Landing Zone Provisioned",
       :content    => "Welcome!\n\n" <<
         "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
-        "Ed-Org: #{result.attribute[:edOrg]}\n" <<
-        "Server: #{result.attribute[:serverName]}\n" <<
-        "LZ Directory: #{result.attribute[:landingZone]}\n\n" <<
+        "Ed-Org: #{result.attributes[:edOrg]}\n" <<
+        "Server: #{result.attributes[:serverName]}\n" <<
+        "LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
         "Sftp to the LZ directory using your ldap credentials.\n\n" <<
         "Thank you,\n" <<
         "SLC Operator\n"

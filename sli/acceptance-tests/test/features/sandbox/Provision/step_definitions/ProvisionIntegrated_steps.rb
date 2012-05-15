@@ -9,18 +9,12 @@ After do |scenario|
   sleep(1)
 end
 
-Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "sunsetadmin"                                if human_readable_id == "USERID"
-  id = "sunsetadmin1234"                            if human_readable_id == "PASSWORD"
-  id
-end
-
-Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
+Given /^I am authenticated to SLI IDP$/ do
   url = PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
   assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "user_id")}
-  @driver.find_element(:id, "user_id").send_keys arg1
-  @driver.find_element(:id, "password").send_keys arg2
+  @driver.find_element(:id, "user_id").send_keys @email
+  @driver.find_element(:id, "password").send_keys @password
   @driver.find_element(:id, "login_button").click
   begin
     @driver.switch_to.alert.accept
@@ -46,14 +40,15 @@ Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
- @email = "devldapuser_#{Socket.gethostname}@slidev.org"
- clear_users()
+  @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+  @password = "secret"
+  clear_users()
 
   user_info = {
     :first => "Loraine",
     :last => "Plyler", 
     :email => @email,
-    :password => "secret", 
+    :password => @password, 
     :emailtoken => "token",
     :vendor => @vendor,
     :status => "pending",

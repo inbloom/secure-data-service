@@ -6,10 +6,11 @@ And I have a "mock" SMTP/Email server configured
 #And I have a "live" SMTP/Email server configured
 And LDAP server has been setup and running
 
+@wip
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone
 Given there is an account in ldap for vendor "Macro Corp" 
 And the account has a tenantId "MacroCorp1234"
-And I am authenticated to SLI IDP as user "<USERID>" with pass "<PASSWORD>"
+And I am authenticated to SLI IDP
 When I go to the provisioning application web page
 And I provision with high-level ed-org to "Test Ed Org"
 Then I get the success message
