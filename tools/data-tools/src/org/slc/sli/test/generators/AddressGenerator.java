@@ -21,14 +21,14 @@ public class AddressGenerator {
 
     private String file_city_US = "database/address/city_US.csv";
     private String file_street_US = "database/address/street_US.csv";
-    private int cityCount;
-    private int streetCount;
-    private Random rand = new Random();
-    private List<String[]> cities = new ArrayList<String[]>();
-    private List<String[]> streets = new ArrayList<String[]>();
+    private static int cityCount;
+    private static int streetCount;
+    private static Random rand = new Random();
+    private static List<String[]> cities = new ArrayList<String[]>();
+    private static List<String[]> streets = new ArrayList<String[]>();
     private String today =  null;
-    private String yearAgo =  null;
-    private String yearHence =  null;
+    private static String yearAgo =  null;
+    private static String yearHence =  null;
 
     public AddressGenerator(StateAbbreviationType state) throws Exception{
         loadData(state);
@@ -85,16 +85,18 @@ public class AddressGenerator {
         streetCount = streets.size();
     }
 
-    private int getRand()
+    private static int getRand()
     {
         int num = rand.nextInt();
         return num < 0? -1 * num:num;
     }
 
-    public Address getRandomAddress()
+    public static Address getRandomAddress()
     {
-        Address add = new Address();
+    	 Address add = new Address();
 
+    try {
+    	 
         int selectedCity   =  getRand() % cityCount;
         int selectedStreet =  getRand() % streetCount;
 
@@ -107,9 +109,11 @@ public class AddressGenerator {
         String postalCode   = selCity[3];
         String areaCode     = selCity[4];
 
+        //add.setStreetNumberName("9999");
+        //String streetName = "myaddress";
         String streetName = selStreet[0];
         String bldgNumber = selStreet[1];
-
+  
         add.setStreetNumberName(streetName);
         add.setApartmentRoomSuiteNumber(String.valueOf(getRand()  % 500));
         add.setBuildingSiteNumber(bldgNumber);
@@ -124,6 +128,11 @@ public class AddressGenerator {
         add.setBeginDate(yearAgo);
         add.setEndDate(yearHence);
         add.setAddressType(AddressType.HOME);
+    } catch (ArithmeticException  e) {
+    	
+    	log.info("Division by zero.");  	
+    	
+    }
         return add;
     }
 

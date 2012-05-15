@@ -315,127 +315,132 @@ public class StudentGradeGenerator {
 
 	}
 
-	public static void main(String [] args) throws Exception
-	{
-		/**
-		 * Elements that need to be serialized
-		 * sea
-		 * lea
-		 * school
-		 * courses
-		 * sessions
-		 * sections
-		 * learningObjective
-		 * scObjectives
-		 * gradingPeriod
-		 * gradeBookEntries
-		 * #### grade and studentCompetancy is contained inside reportCard so they do not have to be serialized seperately
-		 * reportCard
-		 * diploma
-		 * courseTranscript
-		 * academicRecord
-		 * courseTranscript
-		 */
-		EducationAgencyGenerator edOrgGenerator          = new EducationAgencyGenerator();
-		StateEducationAgency sea                         = edOrgGenerator.getSEA("NewYorkEdOrg");
-		EducationalOrgReferenceType seaRef               = edOrgGenerator.getEducationalOrgReferenceType(sea);
-		LocalEducationAgency lea                         = edOrgGenerator.getLEA("ManhattanEdOrg");
-		EducationalOrgReferenceType leaRef               = edOrgGenerator.getEducationalOrgReferenceType(lea);
-		lea.setStateEducationAgencyReference(seaRef);
-	    SchoolGenerator	 schoolGenerator                 = new SchoolGenerator(StateAbbreviationType.NY);
-	    School school                                    = schoolGenerator.getSchool("School-Id");
-		EducationalOrgReferenceType schoolRef            = edOrgGenerator.getEducationalOrgReferenceType(school);
-		EducationOrgIdentificationCode edOrgCode         = (EducationOrgIdentificationCode)schoolRef.getEducationalOrgIdentity().
-				                                            getStateOrganizationIdOrEducationOrgIdentificationCode().get(0);
-		
-		StudentReferenceType studentRef                  = StudentGenerator.getStudentReferenceType("9822389841");
-		
-		CourseGenerator courseGenerator                  = new CourseGenerator(GradeLevelType.EIGHTH_GRADE);
-		int COURSE_COUNT                                 = 1;
-		Course [] courses                                = new Course[COURSE_COUNT];
-		CourseReferenceType [] courseRefs                = new CourseReferenceType[COURSE_COUNT];
-		for(int i = 0; i < COURSE_COUNT; i++){
-			courses[i]                                   = courseGenerator.getCourse("Course" + i);
-			courses[i].setEducationOrganizationReference(schoolRef);
-			courseRefs[i]                                = courseGenerator.getCourseReferenceType(courses[i]);
-	    }
-		
-		SessionGenerator sessionGenerator                = new SessionGenerator();
-		int SESSION_COUNT                                = 1;
-		Session [] sessions                              = new Session[SESSION_COUNT];
-		SessionReferenceType [] sessionRefs              = new SessionReferenceType[SESSION_COUNT];
-		List<String> stateId = new ArrayList<String>();
-		stateId.add("New-York-Ed-Org");
-		for(int i = 0; i < SESSION_COUNT; i++){
-			sessions[i]                                  = sessionGenerator.sessionGenerator(stateId);
-			sessions[i].setEducationOrganizationReference(schoolRef);/**Changed School For Session**/
-			sessionRefs[i]                               = SessionGenerator.getSessinReferenceType(sessions[i]);
-		}
-		
-		int SECTION_COUNT                                = 1;
-		Section [] sections                              = new Section[SECTION_COUNT];
-		SectionReferenceType [] sectionRefs              = new SectionReferenceType[SECTION_COUNT];
-		for(int i = 0; i < SECTION_COUNT; i++){
-			sections[i]                                  = SectionGenerator.generate("sectionCode " + i, 1, "School-Id");
-			sections[i].setSchoolReference(schoolRef);             /**Changed School For Section**/
-			sectionRefs[i]                               = SectionGenerator.getSectionReference(sections[i]);
-		}
-		
-		LearningObjectiveGenerator learningObGenerator   = new LearningObjectiveGenerator();
-		int LEARNING_OBJECTIVE_COUNT                     = 1;
-		LearningObjective [] learningObjectives          = new LearningObjective[LEARNING_OBJECTIVE_COUNT];
-		LearningObjectiveReferenceType [] learningObjectiveRefs = new LearningObjectiveReferenceType[LEARNING_OBJECTIVE_COUNT];
-		for(int i = 0; i < LEARNING_OBJECTIVE_COUNT ; i++){
-			learningObjectives[i]                        = learningObGenerator.getLearningObjective("LOID" + i);
-		    learningObjectiveRefs[i]                     = learningObGenerator.getLearningObjectiveReferenceType(learningObjectives[i]);	
-		}
-		
-		StudentCompetancyObjectiveGenerator scoGenerator = new StudentCompetancyObjectiveGenerator();
-		int STUDENT_COMPETANCY_COUNT                     = 1;
-		StudentCompetencyObjective[] scObjectives       = new StudentCompetencyObjective[STUDENT_COMPETANCY_COUNT];
-		StudentCompetencyObjectiveReferenceType[] scObjectiveRefs = new StudentCompetencyObjectiveReferenceType[STUDENT_COMPETANCY_COUNT];
-		for(int i = 0; i < STUDENT_COMPETANCY_COUNT; i++){
-			scObjectives[i]                             = scoGenerator.getStudentCompetencyObjective("SCOID" + i, schoolRef);
-			scObjectiveRefs[i]                          = scoGenerator.getStudentCompetencyObjectiveReferenceType(scObjectives[i]);
-		}
-		
-		StudentGradeGenerator studentGradeGenerator      = new StudentGradeGenerator();
-		GradingPeriod  gradingPeriod                     = studentGradeGenerator.getGradingPeriod();
-		GradingPeriodReferenceType gradingPeriodRef      = studentGradeGenerator.getGradingPeriodReferenceType(gradingPeriod, edOrgCode );
-		int GRADE_BOOK_ENTRY_COUNT                       = 1;
-		GradebookEntry [] gradeBookEntries               = new GradebookEntry[GRADE_BOOK_ENTRY_COUNT];
-		for(int i = 0; i < GRADE_BOOK_ENTRY_COUNT; i++){
-			gradeBookEntries[i]                          = studentGradeGenerator.getGradeBookEntry(gradingPeriodRef, sectionRefs[0]);                       
-		}
-		
-		StudentSectionAssociationReferenceType ssaRef    = studentGradeGenerator.getStudentSectionAssociationReference(studentRef, sectionRefs[0]);    
-
-		Grade grade                                      = studentGradeGenerator.getGrade(ssaRef, gradingPeriodRef);
-		grade.setId("grade1Id");
-		ReferenceType gradeReference = new ReferenceType();
-		gradeReference.setRef(grade);
-		
-		StudentCompetency studentCompetancy              = studentGradeGenerator.getStudentCompetency(ssaRef, learningObjectiveRefs[0], scObjectiveRefs[0]);
-		studentCompetancy.setId("studentCompetancy1Id");
-		ReferenceType scoReference = new ReferenceType();
-		scoReference.setRef(studentCompetancy);
-		
-		ReportCard reportCard                            = studentGradeGenerator.getReportCard(studentRef, gradingPeriodRef, null, null);
-		reportCard.setId("reportCard1Id");
-		
-		Diploma diploma                                  = studentGradeGenerator.getDiploma(schoolRef);
-		diploma.setId("diploma1Id");
-		ReferenceType diplomaRef                         = new ReferenceType();
-		diplomaRef.setRef(diploma);
-		ReferenceType reportCardRef                      = new ReferenceType();
-		reportCardRef.setRef(reportCard);
-		List<ReferenceType> reportCardRefs               = new ArrayList<ReferenceType>();
-		reportCardRefs.add(reportCardRef);
-		StudentAcademicRecord academicRecord             = studentGradeGenerator.getStudentAcademicRecord(studentRef, sessionRefs[0], reportCardRefs, diplomaRef);
-		ReferenceType  academicRecordReference           = new ReferenceType();
-		academicRecordReference.setRef(academicRecord);
-		
-		CourseTranscript courseTranscript                = studentGradeGenerator.getCourseTranscript(courseRefs[0], academicRecordReference, schoolRef);
-	}
+	
+//	public static void main(String [] args) throws Exception
+//	{
+//		/**
+//		 * Elements that need to be serialized
+//		 * sea
+//		 * lea
+//		 * school
+//		 * courses
+//		 * sessions
+//		 * sections
+//		 * learningObjective
+//		 * scObjectives
+//		 * gradingPeriod
+//		 * gradeBookEntries
+//		 * #### grade and studentCompetancy is contained inside reportCard so they do not have to be serialized seperately
+//		 * reportCard
+//		 * diploma
+//		 * courseTranscript
+//		 * academicRecord
+//		 * courseTranscript
+//		 */
+//		
+//		EducationAgencyGenerator edOrgGenerator          = new EducationAgencyGenerator();
+//		StateEducationAgency sea                         = edOrgGenerator.getSEA("NewYorkEdOrg");
+//		EducationalOrgReferenceType seaRef               = edOrgGenerator.getEducationalOrgReferenceType(sea);
+//		LocalEducationAgency lea                         = edOrgGenerator.getLEA("ManhattanEdOrg");
+//		EducationalOrgReferenceType leaRef               = edOrgGenerator.getEducationalOrgReferenceType(lea);
+//		lea.setStateEducationAgencyReference(seaRef);
+//	    SchoolGenerator	 schoolGenerator                 = new SchoolGenerator(StateAbbreviationType.NY);
+//	    School school                                    = schoolGenerator.getSchool("School-Id");
+//		EducationalOrgReferenceType schoolRef            = edOrgGenerator.getEducationalOrgReferenceType(school);
+//		EducationOrgIdentificationCode edOrgCode         = (EducationOrgIdentificationCode)schoolRef.getEducationalOrgIdentity().
+//				                                            getStateOrganizationIdOrEducationOrgIdentificationCode().get(0);
+//		
+//		StudentReferenceType studentRef                  = StudentGenerator.getStudentReferenceType("9822389841");
+//		
+//		CourseGenerator courseGenerator                  = new CourseGenerator(GradeLevelType.EIGHTH_GRADE);
+//		int COURSE_COUNT                                 = 1;
+//		Course [] courses                                = new Course[COURSE_COUNT];
+//		CourseReferenceType [] courseRefs                = new CourseReferenceType[COURSE_COUNT];
+//		for(int i = 0; i < COURSE_COUNT; i++){
+//			courses[i]                                   = courseGenerator.getCourse("Course" + i);
+//			courses[i].setEducationOrganizationReference(schoolRef);
+//			courseRefs[i]                                = courseGenerator.getCourseReferenceType(courses[i]);
+//	    }
+//		
+//		SessionGenerator sessionGenerator                = new SessionGenerator();
+//		int SESSION_COUNT                                = 1;
+//		Session [] sessions                              = new Session[SESSION_COUNT];
+//		SessionReferenceType [] sessionRefs              = new SessionReferenceType[SESSION_COUNT];
+//		List<String> stateId = new ArrayList<String>();
+//		stateId.add("New-York-Ed-Org");
+//		for(int i = 0; i < SESSION_COUNT; i++){
+//			sessions[i]                                  = sessionGenerator.sessionGenerator(stateId);
+//			sessions[i].setEducationOrganizationReference(schoolRef);/**Changed School For Session**/
+//		
+//			sessionRefs[i]                               = SessionGenerator.getSessinReferenceType(sessions[i]);
+//		}
+//		
+//		int SECTION_COUNT                                = 1;
+//		Section [] sections                              = new Section[SECTION_COUNT];
+//		SectionReferenceType [] sectionRefs              = new SectionReferenceType[SECTION_COUNT];
+//		for(int i = 0; i < SECTION_COUNT; i++){
+//			sections[i]                                  = SectionGenerator.generate("sectionCode " + i, 1, "School-Id");
+//			sections[i].setSchoolReference(schoolRef);             /**Changed School For Section**/
+//		
+//			sectionRefs[i]                               = SectionGenerator.getSectionReference(sections[i]);
+//		}
+//		
+//		LearningObjectiveGenerator learningObGenerator   = new LearningObjectiveGenerator();
+//		int LEARNING_OBJECTIVE_COUNT                     = 1;
+//		LearningObjective [] learningObjectives          = new LearningObjective[LEARNING_OBJECTIVE_COUNT];
+//		LearningObjectiveReferenceType [] learningObjectiveRefs = new LearningObjectiveReferenceType[LEARNING_OBJECTIVE_COUNT];
+//		for(int i = 0; i < LEARNING_OBJECTIVE_COUNT ; i++){
+//			learningObjectives[i]                        = learningObGenerator.getLearningObjective("LOID" + i);
+//		    learningObjectiveRefs[i]                     = learningObGenerator.getLearningObjectiveReferenceType(learningObjectives[i]);	
+//		}
+//		
+//		StudentCompetancyObjectiveGenerator scoGenerator = new StudentCompetancyObjectiveGenerator();
+//		int STUDENT_COMPETANCY_COUNT                     = 1;
+//		StudentCompetencyObjective[] scObjectives       = new StudentCompetencyObjective[STUDENT_COMPETANCY_COUNT];
+//		StudentCompetencyObjectiveReferenceType[] scObjectiveRefs = new StudentCompetencyObjectiveReferenceType[STUDENT_COMPETANCY_COUNT];
+//		for(int i = 0; i < STUDENT_COMPETANCY_COUNT; i++){
+//			scObjectives[i]                             = scoGenerator.getStudentCompetencyObjective("SCOID" + i, schoolRef);
+//			scObjectiveRefs[i]                          = scoGenerator.getStudentCompetencyObjectiveReferenceType(scObjectives[i]);
+//		}
+//		
+//		StudentGradeGenerator studentGradeGenerator      = new StudentGradeGenerator();
+//		GradingPeriod  gradingPeriod                     = studentGradeGenerator.getGradingPeriod();
+//		GradingPeriodReferenceType gradingPeriodRef      = studentGradeGenerator.getGradingPeriodReferenceType(gradingPeriod, edOrgCode );
+//		int GRADE_BOOK_ENTRY_COUNT                       = 1;
+//		GradebookEntry [] gradeBookEntries               = new GradebookEntry[GRADE_BOOK_ENTRY_COUNT];
+//		for(int i = 0; i < GRADE_BOOK_ENTRY_COUNT; i++){
+//			gradeBookEntries[i]                          = studentGradeGenerator.getGradeBookEntry(gradingPeriodRef, sectionRefs[0]);                       
+//		}
+//		
+//		StudentSectionAssociationReferenceType ssaRef    = studentGradeGenerator.getStudentSectionAssociationReference(studentRef, sectionRefs[0]);    
+//
+//		Grade grade                                      = studentGradeGenerator.getGrade(ssaRef, gradingPeriodRef);
+//		grade.setId("grade1Id");
+//		ReferenceType gradeReference = new ReferenceType();
+//		gradeReference.setRef(grade);
+//		
+//		StudentCompetency studentCompetancy              = studentGradeGenerator.getStudentCompetency(ssaRef, learningObjectiveRefs[0], scObjectiveRefs[0]);
+//		studentCompetancy.setId("studentCompetancy1Id");
+//		ReferenceType scoReference = new ReferenceType();
+//		scoReference.setRef(studentCompetancy);
+//		
+//		ReportCard reportCard                            = studentGradeGenerator.getReportCard(studentRef, gradingPeriodRef, null, null);
+//		reportCard.setId("reportCard1Id");
+//		
+//		Diploma diploma                                  = studentGradeGenerator.getDiploma(schoolRef);
+//		diploma.setId("diploma1Id");
+//		ReferenceType diplomaRef                         = new ReferenceType();
+//		diplomaRef.setRef(diploma);
+//		ReferenceType reportCardRef                      = new ReferenceType();
+//		reportCardRef.setRef(reportCard);
+//		List<ReferenceType> reportCardRefs               = new ArrayList<ReferenceType>();
+//		reportCardRefs.add(reportCardRef);
+//		StudentAcademicRecord academicRecord             = studentGradeGenerator.getStudentAcademicRecord(studentRef, sessionRefs[0], reportCardRefs, diplomaRef);
+//		ReferenceType  academicRecordReference           = new ReferenceType();
+//		academicRecordReference.setRef(academicRecord);
+//		
+//		CourseTranscript courseTranscript                = studentGradeGenerator.getCourseTranscript(courseRefs[0], academicRecordReference, schoolRef);
+//		
+//	}
 
 }

@@ -13,9 +13,14 @@ public class LocalEducationAgencyGenerator {
     public static LocalEducationAgency generateLowFi(String id, String seaId) {
 
         LocalEducationAgency localEducationAgency = new LocalEducationAgency();
+        localEducationAgency.setId(id);
         localEducationAgency.setStateOrganizationId(id);
-        localEducationAgency.setNameOfInstitution("Institution name " + id);
-        localEducationAgency.setShortNameOfInstitution("Institution " + id);
+        //grammar, middle, high, indenpend study programm
+//        localEducationAgency.setNameOfInstitution("Institution name " + id);
+//        localEducationAgency.setShortNameOfInstitution("Institution " + id);
+        
+        localEducationAgency.setNameOfInstitution( id + "-HIGH-SCHOOL");
+        localEducationAgency.setShortNameOfInstitution(id + "-HIGH-SCH");
 
         EducationOrganizationCategoriesType category = new EducationOrganizationCategoriesType();
         category.getOrganizationCategory().add(EducationOrganizationCategoryType.LOCAL_EDUCATION_AGENCY);

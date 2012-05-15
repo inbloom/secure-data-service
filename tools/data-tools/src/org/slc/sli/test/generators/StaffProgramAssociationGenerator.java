@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
@@ -46,7 +47,7 @@ public class StaffProgramAssociationGenerator {
             StaffIdentityType sit = new StaffIdentityType();
             sit.setStaffUniqueStateId(staffId);
             StaffReferenceType srt = new StaffReferenceType();
-            srt.setStaffIdentity(sit);
+            srt.setRef(new Ref(staffId));
             staffReferences.add(srt);
         }
 

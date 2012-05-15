@@ -1,5 +1,6 @@
 package org.slc.sli.test.generators;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.CalendarDate;
@@ -8,10 +9,12 @@ import org.slc.sli.test.edfi.entities.CalendarEventType;
 
 
 public class CalendarDateGenerator {
-    Random generator = new Random();
+    static Random generator = new Random();
 
-    public CalendarDate getCalendarDate() {
+    public static CalendarDate getCalendarDate(String id) {
         CalendarDate cd = new CalendarDate();
+        
+        cd.setId(id);
 
         cd.setDate("2011-03-04");
 
@@ -20,8 +23,9 @@ public class CalendarDateGenerator {
         return cd;
     }
 
+    
 
-    public CalendarEventType getCalendarEventType() {
+    public static CalendarEventType getCalendarEventType() {
         int roll = generator.nextInt(8) + 1;
         switch (roll) {
             case 1:  return CalendarEventType.EMERGENCY_DAY;
@@ -40,12 +44,18 @@ public class CalendarDateGenerator {
 
 
     public static void main (String args[]) {
-        CalendarDateGenerator cdg = new CalendarDateGenerator ();
-        for (int i = 0; i < 10; i++) {
-            CalendarDate cd = cdg.getCalendarDate();
-            System.out.println("Date = " + cd.getDate());
-            System.out.println("CalendarEventType = " + cd.getCalendarEvent());
-        }
+//        CalendarDateGenerator cdg = new CalendarDateGenerator ();
+//        for (int i = 0; i < 10; i++) {
+//            CalendarDate cd = cdg.getCalendarDate();
+//            System.out.println("Date = " + cd.getDate());
+//            System.out.println("CalendarEventType = " + cd.getCalendarEvent());
+//        }
     }
+
+
+	public static Calendar generateLowFi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

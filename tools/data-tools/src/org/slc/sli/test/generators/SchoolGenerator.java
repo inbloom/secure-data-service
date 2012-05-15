@@ -16,6 +16,8 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.SchoolCategoriesType;
 import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
@@ -190,7 +192,7 @@ public class SchoolGenerator {
         return school;
     }
 
-    public static School generateLowFi(String schoolId, String leaId) {
+    public static School generateLowFi(String schoolId, String leaId, String programId) {
         School school = new School();
         school.setId(schoolId);
 
@@ -252,13 +254,23 @@ public class SchoolGenerator {
         school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL);
 
         // construct and add the SEA reference
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
-
-        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
-        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
-
-        school.setLocalEducationAgencyReference(leaRef);
+//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+//        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
+//
+//        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+//        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
+//
+//        school.setLocalEducationAgencyReference(leaRef);
+        
+        Ref leaRef = new Ref(leaId);
+        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        eort.setRef(leaRef);
+        school.setLocalEducationAgencyReference(eort);
+        
+        Ref programRef = new Ref(programId);
+        ProgramReferenceType prt = new ProgramReferenceType();
+        prt.setRef(programRef);
+        school.getProgramReference().add(prt);
 
         return school;
     }

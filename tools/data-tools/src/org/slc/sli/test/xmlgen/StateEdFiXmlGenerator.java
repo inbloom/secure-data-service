@@ -49,7 +49,9 @@ public class StateEdFiXmlGenerator {
     /**
      * used by interchange generators to determine which entity generator to invoke
      */
+    //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
+
 
     /**
      * used to determine the output directory for generated interchange and control files

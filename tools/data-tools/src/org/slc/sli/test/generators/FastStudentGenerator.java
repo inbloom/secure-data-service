@@ -24,11 +24,14 @@ import org.slc.sli.test.edfi.entities.SchoolFoodServicesEligibilityType;
 import org.slc.sli.test.edfi.entities.Section504DisabilitiesType;
 import org.slc.sli.test.edfi.entities.Section504DisabilityItemType;
 import org.slc.sli.test.edfi.entities.SexType;
+import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Student;
 import org.slc.sli.test.edfi.entities.StudentCharacteristic;
 import org.slc.sli.test.edfi.entities.StudentCharacteristicType;
 import org.slc.sli.test.edfi.entities.StudentIndicator;
 import org.slc.sli.test.edfi.entities.Telephone;
+import org.slc.sli.test.generators.NameGenerator;
+
 
 /**
  * Dumb, fast student generator for high volume data.
@@ -39,7 +42,93 @@ import org.slc.sli.test.edfi.entities.Telephone;
 public class FastStudentGenerator {
 
     public static final Calendar RIGHT_NOW = Calendar.getInstance();
+    
+    FastStudentGenerator () throws Exception {	
+    }
+    
+    public static AddressGenerator ag;
+    
+   // ag = new AddressGenerator(StateAbbreviationType.NJ);
 
+    public static Student generateMediumFi(String studentId) throws Exception {
+        NameGenerator nameGenerator = new NameGenerator(); //to be research?
+        Random random = new Random();
+
+        Student student = new Student();
+
+        student.setStudentUniqueStateId(studentId);
+
+        student.setSex(random.nextBoolean() ? SexType.MALE : SexType.FEMALE);
+
+        // Name
+        if (student.getSex().equals(SexType.MALE)) {
+        	student.setName(nameGenerator.getMaleName());
+            student.getOtherName().add(nameGenerator.getMaleOtherName());
+            student.getOtherName().add(nameGenerator.getMaleOtherName());
+
+        } else {
+        	student.setName(nameGenerator.getFemaleName());
+        	student.getOtherName().add(nameGenerator.getFemaleOtherName());
+            student.getOtherName().add(nameGenerator.getFemaleOtherName());
+
+        }
+
+//        Address address = AddressGenerator.generateLowFi();
+//
+//        student.getAddress().add(address);
+//        student.getAddress().add(address);
+      
+          student.getAddress().add(ag.getRandomAddress());
+//        if (random.nextBoolean())
+//            student.getAddress().add(ag.getRandomAddress());
+       
+        //setNameAndOtherNames(student);
+
+        student.setHispanicLatinoEthnicity(random.nextBoolean());
+
+        setRace(student);
+
+        student.setBirthData(BirthDataGenerator.generateFastBirthData());
+
+        //setAddresses(student);
+
+        setTelephones(student);
+
+        setEmailAdresses(student);
+
+        student.setProfileThumbnail("StudentPicture.jpg");
+
+        student.setOldEthnicity(OldEthnicityType.WHITE_NOT_OF_HISPANIC_ORIGIN);
+
+        student.setEconomicDisadvantaged(random.nextBoolean());
+
+        student.setSchoolFoodServicesEligibility(SchoolFoodServicesEligibilityType.FULL_PRICE);
+
+        setStudentCharacteristics(student);
+
+        student.setLimitedEnglishProficiency(LimitedEnglishProficiencyType.NOT_LIMITED);
+
+        setLanguagesAndHomeLanguage(student);
+
+        setDisabilities(student);
+
+        setSection504(student);
+
+        student.setDisplacementStatus("Military Deployment");
+
+        setProgramParticipation(student);
+
+        setLearningStyles(student);
+
+        setCohortYears(student);
+
+        setStudentIndicators(student);
+
+        student.setLoginId("StudentLoginID");
+
+        return student;
+    }
+    
     public static Student generateLowFi(String studentId) {
 
         Random random = new Random();
@@ -96,6 +185,10 @@ public class FastStudentGenerator {
 
         return student;
     }
+    
+    
+
+
 
     private static void setAddresses(Student student) {
         Address address = AddressGenerator.generateLowFi();

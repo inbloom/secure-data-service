@@ -155,7 +155,7 @@ public class InterchangeAssessmentMetadataGenerator {
             ObjectiveAssessment objectiveAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                objectiveAssessment = null;
+                objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);//update by lina
             } else {
                 objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);
             }

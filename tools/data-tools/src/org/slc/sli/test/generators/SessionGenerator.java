@@ -12,6 +12,8 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
+import org.slc.sli.test.edfi.entities.Ref;
+import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.Session;
 import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
@@ -142,13 +144,30 @@ public class SessionGenerator {
         }
     }
 
-    public static Session generateLowFi(String id, String schoolId) {
+    public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
         Session session = new Session();
+        Random random = new Random();
+        int roll = random.nextInt(31) + 1;
         session.setSessionName(id);
         session.setSchoolYear("2011-2012");
         session.setTerm(TermType.SPRING_SEMESTER);
-        session.setBeginDate("2012-01-01");
-        session.setEndDate("2012-06-21");
+        String finalRoll = "0" ;
+        if (roll < 10 ) {
+        	finalRoll = finalRoll + roll;
+            session.setBeginDate("2012-01-" + finalRoll );
+        }
+        else
+        	session.setBeginDate("2012-01-" + roll );
+        
+        if (roll < 10 ) {
+            session.setEndDate("2012-01-" + finalRoll );
+        }
+        else
+        	session.setEndDate("2012-06-" + + roll);
+        
+        
+//        session.setBeginDate("2012-01-01");
+//        session.setEndDate("2012-06-21");
         session.setTotalInstructionalDays(120);
         session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
 
@@ -158,6 +177,13 @@ public class SessionGenerator {
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+        
+        for (String cal : calendarList) {
+        	Ref calRef = new Ref(cal);
+        	ReferenceType ref = new ReferenceType();
+        	ref.setRef(calRef);
+        	session.getCalendarDateReference().add(ref);
+        }
 
         session.setEducationOrganizationReference(schoolRef);
         return session;

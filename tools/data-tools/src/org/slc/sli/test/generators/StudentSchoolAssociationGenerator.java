@@ -1,6 +1,14 @@
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
+import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.GraduationPlanType;
+import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.Ref;
+import org.slc.sli.test.edfi.entities.StudentIdentityType;
+import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 
 public class StudentSchoolAssociationGenerator {
 
@@ -20,6 +28,9 @@ public class StudentSchoolAssociationGenerator {
         ssa.setSchoolReference(eor);
 
         ssa.setEntryGradeLevel(GradeLevelType.FIFTH_GRADE);
+        
+        
+       
 
         return ssa;
     }

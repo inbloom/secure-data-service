@@ -3,11 +3,15 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoriesType;
 import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ProgramReferenceType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.SeaMeta;
 
 public class StateEducationAgencyGenerator {
 
-    public static StateEducationAgency generateLowFi(String id) {
+    public static StateEducationAgency generateLowFi(String id, SeaMeta seaMeta) {
 
         StateEducationAgency stateEducationAgency = new StateEducationAgency();
         stateEducationAgency.setStateOrganizationId(id);
@@ -20,7 +24,14 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.setOperationalStatus(OperationalStatusType.ACTIVE);
 
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
-
+        
+       for (String pid:seaMeta.programs.keySet()){
+    	   ProgramMeta pm = seaMeta.programs.get(pid); 
+    	   Ref programRef = new Ref(pm.id);
+    	   ProgramReferenceType prt = new ProgramReferenceType();
+    	   prt.setRef(programRef);
+    	   stateEducationAgency.getProgramReference().add(prt);
+       }
         return stateEducationAgency;
     }
 }
