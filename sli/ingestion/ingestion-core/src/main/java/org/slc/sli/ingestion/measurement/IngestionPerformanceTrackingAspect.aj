@@ -25,7 +25,7 @@ public class IngestionPerformanceTrackingAspect extends PerformanceTrackingAspec
 
     @Before("extractBatchJobIdToContext() && args(exchange)")
     public void handleExtractBatchJobIdToContextPointcut(Exchange exchange) {
-        log.info("================== Assigned Ingestion Batch Id (Setter) = {}",
+        log.debug("================== Assigned Ingestion Batch Id (Setter) = {}",
                 exchange.getIn().getHeader("BatchJobId", String.class));
         store.put("ingestionBatchJobId", exchange.getIn().getHeader("BatchJobId", String.class));
     }
