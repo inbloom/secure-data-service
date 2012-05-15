@@ -185,9 +185,10 @@ public class LiveAPIClient implements APIClient {
 
         // get sections
         List<GenericEntity> sections = null;
-        if (SecurityUtil.isPowerUser()) {
+        if (SecurityUtil.isNotEducator()) {
             sections = getSectionsForNonEducator(token);
         } else {
+            // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token);
         }
@@ -474,7 +475,7 @@ public class LiveAPIClient implements APIClient {
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, sections);
 
-        sections = processSections(sections, true);
+        sections = filterCurrentSections(sections, true);
 
         return sections;
     }
@@ -487,7 +488,8 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC
                 + SECTIONS, token);
 
-        sections = processSections(sections, false);
+        // This isn't really filtering, rather just adding section codes to sections with no name
+        sections = filterCurrentSections(sections, false);
         return sections;
     }
 
@@ -526,7 +528,7 @@ public class LiveAPIClient implements APIClient {
      * @param filterHistoricalData
      * @return
      */
-    private List<GenericEntity> processSections(List<GenericEntity> sections, boolean filterHistoricalData) {
+    private List<GenericEntity> filterCurrentSections(List<GenericEntity> sections, boolean filterHistoricalData) {
         List<GenericEntity> filteredSections = sections;
 
         if (filterHistoricalData) {
@@ -534,6 +536,20 @@ public class LiveAPIClient implements APIClient {
         }
 
         if (sections != null) {
+
+            // Setup grace period date
+            Calendar gracePeriodCalendar = Calendar.getInstance();
+            gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
+
+            try {
+                if (gracePeriod != null && !gracePeriod.equals("")) {
+                    int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
+                    gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
+                }
+            } catch (NumberFormatException exception) {
+                LOGGER.warn("Invalid grace period: {}", exception.getMessage());
+            }
+
             for (GenericEntity section : sections) {
 
                 // if no section name, fill in with section code
@@ -548,32 +564,19 @@ public class LiveAPIClient implements APIClient {
                     // Verify section has been enriched with session details
                     if (session != null) {
                         try {
+                            // Setup session end date
                             String endDateAttribute = (String) session.get(Constants.ATTR_SESSION_END_DATE);
                             DateFormat formatter = new SimpleDateFormat(Constants.ATTR_DATE_FORMAT);
                             Date sessionEndDate = formatter.parse(endDateAttribute);
+                            Calendar sessionEndCalendar = Calendar.getInstance();
+                            sessionEndCalendar.setTimeInMillis(sessionEndDate.getTime());
 
-                            // Verify session end data is present
-                            if (sessionEndDate != null) {
-                                // Setup grace period date
-                                Calendar gracePeriodCalendar = Calendar.getInstance();
-                                gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
-                                if (gracePeriod != null && !gracePeriod.equals("")) {
-                                    int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
-                                    gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
-                                }
-
-                                // Setup session end date
-                                Calendar sessionEndCalendar = Calendar.getInstance();
-                                sessionEndCalendar.setTimeInMillis(sessionEndDate.getTime());
-
-                                // Add filtered section if grace period adjusted date is before
-                                // or equal to session end date
-                                if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
-                                    filteredSections.add(section);
-                                }
+                            // Add filtered section if grace period adjusted date is before
+                            // or equal to session end date
+                            if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
+                                filteredSections.add(section);
                             }
-                        } catch (NumberFormatException exception) {
-                            LOGGER.warn("Invalid grace period: {}", exception.getMessage());
+
                         } catch (IllegalArgumentException exception) {
                             LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
                         } catch (ParseException exception) {

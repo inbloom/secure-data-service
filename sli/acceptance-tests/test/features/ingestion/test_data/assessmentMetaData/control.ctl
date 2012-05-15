@@ -4,4 +4,5 @@ edfi-xml,AssessmentMetadata,basicStandards.xml,7cbc147805144e4adedda19db63abf19
 edfi-xml,StudentParent,InterchangeStudent.xml,3861add7cb9018337c1f61178d4ed1aa
 edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,b36b78d89f9d8877756f3e0cd5b638ba
 edfi-xml,AssessmentMetadata,actAssessmentMetadata.xml,b410eee37aef3cdd6bc6afa4237059a0
+edfi-xml,StudentAssessment,actStudentAssessment.xml,9ceee6d6055bcf605a22373bfccbabda
 

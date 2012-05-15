@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+
+  	<!--  Marilyn Munster's 1st graders -->
+    <Student>
+        <StudentUniqueStateId>100000000</StudentUniqueStateId>
+        <Name>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-07-02</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>351</BuildingSiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Work">
+            <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+            <City>Toronto</City>
+            <StateAbbreviation>WA</StateAbbreviation>
+            <PostalCode>A1B 2C3</PostalCode>
+            <CountryCode>CA</CountryCode>
+        </Address>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Bennie.C@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>B.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+	<Student>
+		<StudentUniqueStateId>100000001</StudentUniqueStateId>
+		<Name>
+			<FirstName>Rafaela</FirstName>
+			<LastSurname>Coleson</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthData>
+			<BirthDate>2005-03-25</BirthDate>
+		</BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>2038 Pearson Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 8121</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-5477</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Physical">
+            <StreetNumberName>8523 Lester Court</StreetNumberName>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10062-3727</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>331-703-1951</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Rafaela.Coleson@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Work">
+            <EmailAddress>rcoleson@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>rafaela_coleson@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+	</Student>
+    <Student>
+        <StudentUniqueStateId>100000002</StudentUniqueStateId>
+        <Name>
+            <FirstName>Archie</FirstName>
+            <LastSurname>Forker</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-10-14</BirthDate>
+        </BirthData>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>630-504-5490</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>ARchie_Forker@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>true</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities>
+            <Section504Disability>Motor Impairment</Section504Disability>
+        </Section504Disabilities>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000003</StudentUniqueStateId>
+        <Name>
+            <FirstName>Gerardo</FirstName>
+            <LastSurname>Gayer</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2006-01-14</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>8455 Ferris Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 9365</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60863-4143</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>847-977-0907</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>224-509-7276</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>847-547-2424</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>847-724-9091</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000004</StudentUniqueStateId>
+        <Name>
+            <FirstName>Malcolm</FirstName>
+            <LastSurname>Haehn</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-07-24</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>498 Dorchester Road</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60447-1536</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Mailing">
+            <StreetNumberName>7472 Ross Street</StreetNumberName>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10180-7445</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-298-8577</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>219-608-1144</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>mhaehn@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>malcolm.haehn@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000005</StudentUniqueStateId>
+        <Name>
+            <FirstName>Garry</FirstName>
+            <LastSurname>Kinsel</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-02-24</BirthDate>
+        </BirthData>
+        <Address AddressType="Work">
+            <StreetNumberName>8823 Blake Court</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 8027</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60267-4406</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>224-167-3247</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>garry_kinsel@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>garry.kinsel@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000006</StudentUniqueStateId>
+        <Name>
+            <FirstName>Preston</FirstName>
+            <LastSurname>Lynds</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2006-02-14</BirthDate>
+        </BirthData>
+        <Address AddressType="Temporary">
+            <StreetNumberName>3836 Clermont Avenue</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 7595</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60813-4537</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Physical">
+            <StreetNumberName>6248 Livonia Avenue</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 6345</ApartmentRoomSuiteNumber>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10639-1170</PostalCode>
+            <NameOfCounty>Kings</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-028-5573</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-315-3477</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>262-073-2981</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>P.Lynds@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000007</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jayme</FirstName>
+            <LastSurname>Mabee</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-05-01</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>4212 Martense Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60991-2644</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>262-583-8809</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>312-574-6646</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>779-715-2876</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>815-657-5475</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Work">
+            <EmailAddress>JMabee@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>J.Mabee@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Jayme_Mabee@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000008</StudentUniqueStateId>
+        <Name>
+            <FirstName>Larissa</FirstName>
+            <LastSurname>Marney</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>2005-10-14</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>7687 Albemarle Terrace</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 1951</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60013-2084</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Other">
+            <StreetNumberName>4692 Hutchinson Court</StreetNumberName>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10751-7708</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>815-380-7412</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>847-333-9848</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000009</StudentUniqueStateId>
+        <Name>
+            <FirstName>Alecia</FirstName>
+            <LastSurname>Nakken</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>2005-11-27</BirthDate>
+        </BirthData>
+        <Address AddressType="Mailing">
+            <StreetNumberName>2923 Bleecker Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 2052</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60727-9444</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Billing">
+            <StreetNumberName>2886 Front Street</StreetNumberName>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10668-8353</PostalCode>
+            <NameOfCounty>Queens</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>779-857-5369</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-359-9620</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>A.Nakken@yahoo.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Alecia.Nakken@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>100000010</StudentUniqueStateId>
+        <Name>
+            <FirstName>Dara</FirstName>
+            <LastSurname>Nemecek</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>2005-09-11</BirthDate>
+        </BirthData>
+        <Address AddressType="Temporary">
+            <StreetNumberName>4606 Albemarle Road</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 5760</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60457-1957</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Home">
+            <StreetNumberName>4256 Wyckoff Street</StreetNumberName>
+            <City>New York</City>
+            <StateAbbreviation>NY</StateAbbreviation>
+            <PostalCode>10473-1436</PostalCode>
+            <NameOfCounty>Kings</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>773-549-3782</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>779-911-6597</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>847-279-6758</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>773-504-6501</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>574-277-5271</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>D.Nemecek@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+
+</InterchangeStudentParent>

@@ -737,17 +737,27 @@ DashboardUtil.checkCondition = function(data, condition) {
 
 DashboardUtil.displayErrorMessage = function (error){
     var errors = document.getElementById("losError");
-    errors.style.display = "block";
-    errors.innerHTML = error;
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "block";
+        errors.innerHTML = error;
+    }
+
     var tabs = document.getElementById("tabs");
-    tabs.style.display = "none";
+    if(tabs !== undefined && tabs !== null ) {
+        tabs.style.display = "none";
+    }
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
     var errors = document.getElementById("losError");
-    errors.style.display = "none";
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "none";
+    }
+
     var tabs = document.getElementById("tabs");
-    tabs.style.display = "block";
+    if(tabs !== undefined && tabs !== null ) {
+        tabs.style.display = "block";
+    }
 }
 
 DashboardUtil.teardrop = {

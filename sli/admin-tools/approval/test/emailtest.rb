@@ -1,5 +1,5 @@
 require 'net/imap'
-require './emailer'
+require '../lib/emailer'
 
 DefaultEmailAddr = 'devldapuser@slidev.org'
 DefaultUser = 'devldapuser'
@@ -8,13 +8,19 @@ DefaultSenderName = 'Test Sender'
 
 time = Time.now.getutc
 
-email_conf = {
-  :host => 'mon.slidev.org',
-  :sender_name => DefaultSenderName,
+emailer_conf = {
+  :host              => 'mon.slidev.org',
+  :port              => 3000,
+  :sender_name       => DefaultSenderName,
   :sender_email_addr => DefaultEmailAddr
 }
-email = Emailer.new email_conf
-email.send_approval_email(DefaultEmailAddr, 'TestFN', 'TestLN', 'This is a test', "Time: #{time}")
+emailer = Emailer.new emailer_conf
+emailer.send_approval_email({
+  :email_addr => DefaultEmailAddr,
+  :name       => 'TestFN TestLN',
+  :subject    => 'This is a test',
+  :content    => "Time: #{time}"
+})
 puts "Approval email sent"
 
 imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)

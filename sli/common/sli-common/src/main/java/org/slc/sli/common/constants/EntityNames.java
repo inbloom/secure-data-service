@@ -18,6 +18,7 @@ public final class EntityNames {
     public static final String DISCIPLINE_ACTION = "disciplineAction";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String GRADEBOOK_ENTRY = "gradebookEntry";
+    public static final String GRADING_PERIOD = "gradingPeriod";
     public static final String PARENT = "parent";
     public static final String PROGRAM = "program";
     public static final String REALM = "realm";
