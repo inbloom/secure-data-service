@@ -1115,8 +1115,8 @@ Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
-Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
-    prefix = "warn."
+Then /^I should see "([^"]*)" in the resulting StudentAssessment warning log file$/ do |message|
+    prefix = "warn.InterchangeStudentAssessment"
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
