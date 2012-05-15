@@ -53,15 +53,16 @@ ldap.search(:filter => filter , :attributes => fetch_attributes) do |entry|
 end
 
 
-dn = "cn=XXX Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
+dn = "cn=Charles Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
 attr = {
-  :cn => "XXX Gray",
+  :cn => "Charles Gray",
   :objectclass => ["top", "inetOrgPerson"],
   :sn => "Gray", 
   # :gn => "Charles", 
   # :mail => "charles@example.com",
   # :uid  => "charles@example.com", 
-  :userPassword => "something", 
+  # :userPassword => "something", 
+  :userPassword => "{MD5}Xr4ilOzQ4PCOq3aQ0qbuaQ==", 
   :uid => "charles@example.com"
 }
 
