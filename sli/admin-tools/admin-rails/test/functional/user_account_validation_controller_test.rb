@@ -11,7 +11,7 @@ class UserAccountValidationControllerTest < ActionController::TestCase
   
   test "should present success/failure screen" do
     UserAccountValidation.stubs(:validate_account).returns(ACCOUNT_VERIFICATION_COMPLETE)
-    get :show
+    get :show ,:id => "123456"
     assert_template :show
   end
 end
