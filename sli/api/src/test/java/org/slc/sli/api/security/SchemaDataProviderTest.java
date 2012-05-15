@@ -52,7 +52,7 @@ public class SchemaDataProviderTest {
 
     @Test
     public void testSphere() {
-        Assert.assertEquals("CEM", this.provider.getDataSphere(ENTITY_TYPE));
+        Assert.assertEquals("CDM", this.provider.getDataSphere(ENTITY_TYPE));
         Assert.assertEquals("Admin", this.provider.getDataSphere("realm"));
     }
 }

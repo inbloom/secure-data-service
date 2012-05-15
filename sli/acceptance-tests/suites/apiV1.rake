@@ -330,10 +330,6 @@ task :v1BlacklistValidationTests => [:realmInit] do
   runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
 end
 
-desc "Run Account Approval Tests"
-task :accountApprovalTests do
-  runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
-end
 ############################################################
 # API V1 tests end
 ############################################################

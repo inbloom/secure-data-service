@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +61,7 @@ public class OnboardingResource {
     public static final String AUTH_TYPE = "authType";
     public static final String AUTH_ID = "authId";
     public static final String APP_IDS = "appIds";
-    public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
+    public static final String APP_BOOTSTRAP = "bootstrap";
 
     /**
      * Provision a landing zone for the provide educational organization.
@@ -143,7 +142,7 @@ public class OnboardingResource {
         uuid = e.getEntityId();
 
         // retrieve the application ids for common applications that already exist in mongod
-        List<String> appIds = getAppIds(COMMON_APP_NAMES);
+        List<String> appIds = getAppIds();
 
         // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
         updateApps(uuid, appIds);
@@ -165,7 +164,7 @@ public class OnboardingResource {
      * @return the location of the landing zone
      */
     private String makeLandingZone() {
-        //TODO stub out for now
+        // TODO stub out for now
         return "landingZoneLocationStub";
     }
 
@@ -174,15 +173,13 @@ public class OnboardingResource {
      *            collection of common application names
      * @return collection of common application id
      */
-    private List<String> getAppIds(List<String> commonAppNames) {
+    private List<String> getAppIds() {
         List<String> appIds = new ArrayList<String>();
-        Iterable<Entity> apps = repo.findAll(APPLICATION_RESOURCE_NAME);
-        for (Entity app : apps) {
-            for (String appName : commonAppNames) {
-                if (((String) app.getBody().get(APPLICATION_NAME)).contains(appName)) {
-                    appIds.add(app.getEntityId());
-                }
-            }
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(APP_BOOTSTRAP, NeutralCriteria.OPERATOR_EQUAL, true));
+        Iterable<String> ids = repo.findAllIds(APPLICATION_RESOURCE_NAME, query);
+        for (String id : ids) {
+            appIds.add(id);
         }
         return appIds;
     }
