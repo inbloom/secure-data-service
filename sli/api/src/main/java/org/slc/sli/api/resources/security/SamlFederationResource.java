@@ -159,15 +159,22 @@ public class SamlFederationResource {
         org.jdom.Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
         
         org.jdom.Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
-        String notBefore = conditions.getAttributeValue("NotBefore");
-        String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
-        verifyTime(notBefore, notOnOrAfter);
+        if (conditions != null) {
+            String notBefore = conditions.getAttributeValue("NotBefore");
+            String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
+            verifyTime(notBefore, notOnOrAfter);
+        }
         
-        org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS).getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
-        String recipient = subjConfirmationData.getAttributeValue("Recipient");
-        
-        if (!uriInfo.getRequestUri().toString().equals(recipient)) {
-            throw new SecurityException("SAML Recipient was invalid, was " + recipient);
+        try {
+            org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS).getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
+            String recipient = subjConfirmationData.getAttributeValue("Recipient");
+            
+            if (!uriInfo.getRequestUri().toString().equals(recipient)) {
+                throw new SecurityException("SAML Recipient was invalid, was " + recipient);
+            }
+
+        } catch (NullPointerException e) {
+            debug("NullPointer trying to confirm the recipient of the SAML response");
         }
         
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
