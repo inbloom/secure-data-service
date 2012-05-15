@@ -1,7 +1,6 @@
 require 'set'
 require 'digest'
 require 'rest_client'
-require 'json'
 
 #
 # Proxy to the ApprovalEngine.
@@ -11,10 +10,13 @@ module ApprovalEngineProxy
 	## backend storage
 	@@approvalUri  = nil
 	@@is_sandbox   = false
+    @@j = ActiveSupport::JSON
+
 
 	# initialize the storage
 	#
-	# approvalUri -- fully qualified uri to the approval engine.
+	# approvalUri -- fully qualified uri to the approval engine. For example,
+	#   https://local.slidev.org:2001/developer_approval
 	# is_sandbox -- true if this is a sandbox environment.
 	#
 	def ApprovalEngineProxy.init(approvalUri, is_sandbox)
@@ -32,8 +34,7 @@ module ApprovalEngineProxy
     # { 'exists':true, 'validated':true }
     #
     def doesUserExist(username)
-        response = RestClient.get(@@approvalUri + "/doesUserExist/" + username)
-        return JSON.parse response.body.read
+        return RestClient.get(@@approvalUri + "/does_user_exist/" + username, {:accept => :json})
     end
 
     #
@@ -48,22 +49,24 @@ module ApprovalEngineProxy
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
 	#
-	# Return: HTTP Response with JSON 'status' JSON ('submitted' or 'existingUser') in the body.
+	# Return: HTTP Response with JSON 'status' JSON ('submitted' or 'existingUser')
+	# and 'verificationToken':'string' in the body. This token must be passed
+	# to the EULAStatus method to link the verification email to the user.
     #
 	# Input Example:
 	# user_info = {
-	#     'first' : 'John',
-	#     'last' : 'Doe',
-	#     'email' : 'jdoe@example.com',
-	#     'password' : 'secret',
-	#     'vendor' : 'Acme Inc.'
+	#     :first => 'John',
+	#     :last => 'Doe',
+	#     :email => 'jdoe@example.com',
+	#     :password => 'secret',
+	#     :vendor => 'Acme Inc.'
 	# }
 	#
 	# Response body example:
-	# { 'status':'submitted' }
+	# { 'status':'submitted', 'verificationToken':'1234abcd' }
 	#
     def submitUser(user_info)
-        response = RestClient.post(@@approvalUri + "/user", user_info)
+        return RestClient.post(@@approvalUri + "/submit_user", @@j.encode(user_info), :content_type => :json, :accept => :json)
     end
 
     #
@@ -77,38 +80,51 @@ module ApprovalEngineProxy
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
 	#
-    # Return: HTTP Response with JSON 'status' ('unknownUser', 'updated') in the body.
+	# Return: HTTP Response with JSON 'status' JSON ('updated' or 'unknownUser')
+	# and 'verificationToken':'string' in the body.  This token must be passed
+	# to the EULAStatus method to link the verification email to the user.
     #
 	# Input Example:
 	# user_info = {
-	#     'first' : 'John',
-	#     'last' : 'Doe',
-	#     'email' : 'jdoe@example.com',
-	#     'password' : 'secret',
-	#     'vendor' : 'Acme Inc.'
+	#     :first => 'John',
+	#     :last => 'Doe',
+	#     :email => 'jdoe@example.com',
+	#     :password => 'secret',
+	#     :vendor => 'Acme Inc.'
 	# }
 	#
 	# Response body example:
-	# { 'status':'unknownUser' }
+	# { 'status':'updated', 'verificationToken':'1234abcd' }
 	#
     def updateUser(user_info)
-        response = RestClient.put(@@approvalUri + "/user", user_info)
+        return RestClient.post(@@approvalUri + "/update_user", @@j.encode(user_info), :content_type => :json, :accept => :json)
     end
 
     #
     # Indicate the users response to the EULA.
     #
-    # If the user accepts the EULA, this returns the email verification token.
-    # Otherwise, the user is discarded and the response token is nil.
+    # If the user accepts the EULA, this updates the user entry and sends a verification
+    # email. Otherwise, the user is discarded.
     #
-    # REturn HTTP Response with JSON 'token' (string) if the user accepts the EULA,
-    # or 'token' (nil) if not.
+    # Input:
+    #    eula_status is a hash with the following fields:
+    #    - email: email address
+    #    - verificationToken: token returned by submit_user or update_user
+    #    - accepted: true/false
     #
-    # Response body example:
-    #    { 'token':'abcdefg' }
+    # Return: HTTP Response with no body.  If the verificationToken is not matched
+    # to the user, returns a 403 error.
     #
-    def EULAStatus(email, accepted)
-        response = RestClient.post(@@approvalUri + "/UpdateEULAStatus", email, accepted)
+    # Input Example:
+    # eula_status = {
+    #     :email => 'joe@example.com',
+    #     :verificationToken => '1234abcd',
+    #     :accepted => true
+    # }
+    #
+    # POST /update_eula_status
+    def EULAStatus(eula_status)
+        return RestClient.post(@@approvalUri + "/update_eula_status", @@j.encode(eula_status), :content_type => :json, :accept => :json)
     end
 
     #
