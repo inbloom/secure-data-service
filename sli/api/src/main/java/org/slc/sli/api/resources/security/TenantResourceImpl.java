@@ -108,37 +108,42 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         
-        Object response = createLandingZone(newTenant);
-        
-        if (response instanceof String) {
+        try {
             // Construct the response
-            String uri = ResourceUtil.getURI(uriInfo, "tenants", (String) response).toString();
+            String uri = ResourceUtil.getURI(uriInfo, "tenants", createLandingZone(newTenant)).toString();
             return Response.status(Status.CREATED).header("Location", uri).build();
-        } else if (response instanceof Response) {
-            return (Response) response;
+        } catch (TenantResourceCreationException e) {            
+            EntityBody body = new EntityBody();
+            body.put("message", e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        throw new RuntimeException("Unexpected return type when provisioning tenant.");
     }
     
     @Override
-    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId) {
-        // TODO
-        // Object response = createLandingZone(tenantId, edOrgId, null, null);
-        // if (response instanceof Response)
-        // return (Entity) ((Response) response).getEntity();
-        return null;
+    public LandingZoneInfo createLandingZone(String tenantId, String edOrgId)
+            throws TenantResourceCreationException {
+        String newTenantId = createLandingZone(tenantId, edOrgId, null, null);
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
+        EntityBody newTenant = tenantService.get(newTenantId);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
+        for (Map<String, Object> lz : newLzs) {
+            if (edOrgId.equals(lz.get(LZ_EDUCATION_ORGANIZATION))) {
+                return new LandingZoneInfo((String) lz.get(LZ_PATH), (String) lz.get(LZ_INGESTION_SERVER));
+            }
+        }
+        throw new TenantResourceCreationException("Failed to find landing zone information after creation.");
     }
     
     @SuppressWarnings({ "unchecked" })
-    protected Object createLandingZone(EntityBody newTenant) {
+    protected String createLandingZone(EntityBody newTenant)
+            throws TenantResourceCreationException {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
         
         // NOTE: OnboardingResource may only send in one at a time
         if (1 != newLzs.size()) {
-            EntityBody body = new EntityBody();
-            body.put("message",
+            throw new TenantResourceCreationException(
                     "Only one landing zone may be provisioned at a time.  Please submit your requests individually.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         
         String tenantId = (String) newTenant.get(TENANT_ID);
@@ -151,7 +156,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected Object createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames) {
+    protected String createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames)
+            throws TenantResourceCreationException {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         
         NeutralQuery query = new NeutralQuery();
@@ -210,10 +216,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones;
         for (Map<String, Object> lz : all) {
             if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
-                EntityBody body = new EntityBody();
-                body.put("message",
+                throw new TenantResourceCreationException(
                         "This tenant/educational organization combination all ready has a landing zone provisioned.");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
         }
         

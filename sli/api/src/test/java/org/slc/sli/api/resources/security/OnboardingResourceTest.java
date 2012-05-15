@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
+import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -123,7 +124,11 @@ public class OnboardingResourceTest {
         
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);
-        when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(landingZone);
+        try {
+            when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(landingZone);
+        } catch (TenantResourceCreationException e) {
+            Assert.fail(e.getMessage());
+        }             
         
         Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
