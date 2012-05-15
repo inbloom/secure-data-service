@@ -23,6 +23,7 @@
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
                 <value>${smooks.targetselector.xml.program}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptor}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -109,6 +110,7 @@
               <list>
                 <value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.student.assessment.item}</value>
               </list>
             </constructor-arg>
           </bean>

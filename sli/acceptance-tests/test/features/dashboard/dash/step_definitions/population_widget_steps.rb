@@ -30,7 +30,7 @@ Then /^I only see "([^"]*)"$/ do |listContent|
       matchCondition = false
     end
   end
-  assert(matchCondition, "School list has more then required string(s) " + listContent)
+  assert(matchCondition, "list has more then required string(s) " + listContent)
 end
 
 When /^I look in the course drop\-down$/ do
@@ -130,4 +130,12 @@ end
 Given /^I paste my copied URL$/ do
   puts @copiedUrl
   @driver.get @copiedUrl
+end
+
+Then /^I don't see a course selection$/ do
+  begin
+    course = @driver.find_element(:id,"courseSelect")
+  rescue
+    assert(course == nil, "Course is not nil")
+  end
 end

@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class UserToAnythingResolver implements EntityContextResolver {
     private String toEntity;
     private static final String ADMIN_SPHERE = "Admin";
-    
+    private static final String PUBLIC_SPHERE = "Public";    
     @Autowired
     private EntityDefinitionStore store;
     
@@ -53,15 +53,19 @@ public class UserToAnythingResolver implements EntityContextResolver {
     @Override
     public List<String> findAccessible(Entity principal) {
         EntityDefinition def = store.lookupByEntityType(toEntity);
-        // Any non-admin are denied.
-        if (!ADMIN_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+        
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+            info("Granting public sphere to resource: {}", def.getResourceName());
+        } else if (ADMIN_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+            info("Granting admin sphere to resource: {}", def.getResourceName());
+        } else {
             info("Denying access to all entities of type {}", toEntity);
             return new ArrayList<String>();
         }
-        // We give access to all admin.
+        // We give access to all admin or to public
         List<String> ids = new ArrayList<String>();
-        info("Granting admin sphere to resource: {}", def.getResourceName());
-        Iterable<String> it = this.repository.findAllIds(def.getResourceName(), null);
+        
+        Iterable<String> it = this.repository.findAllIds(def.getStoredCollectionName(), null);
         for (String id : it) {
             ids.add(id);
         }

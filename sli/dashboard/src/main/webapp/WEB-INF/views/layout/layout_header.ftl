@@ -1,2 +1,2 @@
-<#if headerString??>${headerString}</#if>
+<#noescape><#if headerString??>${headerString}</#if></#noescape>
 

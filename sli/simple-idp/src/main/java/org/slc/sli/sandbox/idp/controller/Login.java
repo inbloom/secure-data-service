@@ -1,5 +1,13 @@
 package org.slc.sli.sandbox.idp.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
 import org.slc.sli.sandbox.idp.service.RoleService;
@@ -7,6 +15,8 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +33,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class Login {
+    private static final Logger LOG = LoggerFactory.getLogger(Login.class);
+    
+    private static final String SLI_ADMIN_REALM = "SLIAdmin";
+    private static final String USER_SESSION_KEY = "user_session_key";
     
     @Autowired
     SamlAssertionService samlService;
@@ -48,43 +62,116 @@ public class Login {
      * 
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
+    public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
+        
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        
+        User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
+
+        if (user != null && !requestInfo.isForceAuthn()) {
+            LOG.debug("Login request with existing session, skipping authentication");
+            SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                    user.getAttributes(), requestInfo);
+            ModelAndView mav = new ModelAndView("post");
+            mav.addObject("samlAssertion", samlAssertion);
+            return mav;
+        }
+        
         ModelAndView mav = new ModelAndView("login");
-        authRequestService.processRequest(encodedSamlRequest, realm);
         mav.addObject("SAMLRequest", encodedSamlRequest);
+        if (isSandboxImpersonationEnabled && (realm == null || realm.length() == 0)) {
+            realm = null;
+            mav.addObject("is_sandbox", true);
+            mav.addObject("roles", roleService.getAvailableRoles());
+        } else {
+            mav.addObject("is_sandbox", false);
+        }
         mav.addObject("realm", realm);
         return mav;
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Object login(@RequestParam("userId") String userId, @RequestParam("password") String password,
-            @RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
+    public ModelAndView login(@RequestParam("user_id") String userId, @RequestParam("password") String password,
+            @RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam(value = "realm", required = false) String incomingRealm,
+            @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
+            @RequestParam(value = "selected_roles", required = false) List<String> roles, HttpSession httpSession,
+            HttpServletRequest request) {
         
-        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        String realm = incomingRealm;
+        boolean doImpersonation = false;
+        if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
+            doImpersonation = true;
+            realm = SLI_ADMIN_REALM;
+        }
+        
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
+        
         User user;
         try {
             user = userService.authenticate(realm, userId, password);
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
-            mav.addObject("msg", "Invalid userId or password");
+            mav.addObject("msg", "Invalid User Name or password");
             mav.addObject("SAMLRequest", encodedSamlRequest);
-            mav.addObject("realm", realm);
+            mav.addObject("realm", incomingRealm);
+            if (doImpersonation) {
+                mav.addObject("is_sandbox", true);
+                mav.addObject("impersonate_user", impersonateUser);
+                mav.addObject("roles", roleService.getAvailableRoles());
+            } else {
+                mav.addObject("is_sandbox", false);
+            }
+            writeLoginSecurityEvent(false, userId, realm, request);
             return mav;
         }
         
-        if (realm.equals(userService.getSLIAdminRealmName()) || !isSandboxImpersonationEnabled) {
-            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(),
-                    requestInfo);
-            ModelAndView mav = new ModelAndView("post");
-            mav.addObject("samlAssertion", samlAssertion);
-            return mav;
+        if (doImpersonation) {
+            user.setUserId(impersonateUser);
+            user.setRoles(roles);
+            // only send the tenant - no other values since this is impersonatation
+            String tenant = user.getAttributes().get("tenant");
+            user.getAttributes().clear();
+            user.getAttributes().put("tenant", tenant);
+        }
+        SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+                user.getAttributes(), requestInfo);
+        
+        writeLoginSecurityEvent(true, userId, realm, request);
+        
+        httpSession.setAttribute(USER_SESSION_KEY, user);
+
+        ModelAndView mav = new ModelAndView("post");
+        mav.addObject("samlAssertion", samlAssertion);
+        return mav;
+        
+    }
+    
+    private void writeLoginSecurityEvent(boolean successful, String userId, String realm, HttpServletRequest request) {
+        SecurityEvent event = new SecurityEvent();
+        
+        event.setUser(userId);
+        event.setTargetEdOrg(realm);
+        
+        try {
+            event.setExecutedOn(LoggingUtils.getCanonicalHostName());
+        } catch (RuntimeException e) {
+        }
+        
+        if (request != null) {
+            event.setActionUri(request.getRequestURI());
+            event.setUserOrigin(request.getRemoteHost());
+        }
+        
+        if (successful) {
+            event.setLogLevel(LogLevelType.TYPE_INFO);
+            event.setLogMessage("Successful login to " + realm + " by " + userId + ".");
         } else {
-            ModelAndView mav = new ModelAndView("selectUser");
-            mav.addObject("SAMLRequest", encodedSamlRequest);
-            mav.addObject("roles", roleService.getAvailableRoles());
-            mav.addObject("realm", realm);
-            return mav;
+            event.setLogLevel(LogLevelType.TYPE_ERROR);
+            event.setLogMessage("Failed login to " + realm + " by " + userId + ".");
         }
         
+        audit(event);
     }
 }

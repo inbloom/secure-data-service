@@ -57,12 +57,12 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 10    |
         | session                     | 22    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -99,7 +99,29 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-    And I should see "Processed 15405 records." in the resulting batch job file
+       | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.1.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.2.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-3    | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
+    And I should see "Processed 15430 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -194,12 +216,12 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -260,12 +282,12 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 27    |
         | session                     | 26    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |

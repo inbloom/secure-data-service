@@ -35,7 +35,7 @@ public class SamlAssertionServiceTest {
     SamlAssertionService service = new SamlAssertionService();
     
     @Test
-    public void test() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyException,
+    public void testWithRealm() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyException,
             TransformerException, MarshalException, XMLSignatureException {
         
         service.setIssuerBase("http://local.slidev.org:8082/simple-idp");
@@ -58,6 +58,34 @@ public class SamlAssertionServiceTest {
         service.buildAssertion("unique_id", roles, attributes, request);
         
         Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/simple-idp?realm=realm",
+                "request_id", "unique_id", attributes, roles);
+        
+    }
+    
+    @Test
+    public void testSandbox() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyException,
+            TransformerException, MarshalException, XMLSignatureException {
+        
+        service.setIssuerBase("http://local.slidev.org:8082/simple-idp");
+        
+        List<String> roles = Arrays.asList("role1", "role2");
+        
+        Map<String, String> attributes = new HashMap<String, String>();
+        Mockito.when(
+                samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/simple-idp?",
+                        "request_id", "unique_id", attributes, roles)).thenReturn("samlResponse");
+        
+        Request request = Mockito.mock(AuthRequestService.Request.class);
+        Mockito.when(request.getRequestId()).thenReturn("request_id");
+        Mockito.when(request.getRealm()).thenReturn(null);
+        Mockito.when(request.getDestination()).thenReturn("destUri");
+        
+        User user = Mockito.mock(User.class);
+        Mockito.when(user.getUserId()).thenReturn("unique_id");
+        
+        service.buildAssertion("unique_id", roles, attributes, request);
+        
+        Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/simple-idp",
                 "request_id", "unique_id", attributes, roles);
         
     }

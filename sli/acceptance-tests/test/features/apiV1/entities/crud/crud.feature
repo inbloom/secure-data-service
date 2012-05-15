@@ -56,6 +56,8 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
+| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
@@ -72,7 +74,7 @@ Examples:
      Then I should receive a return code of 404
     
 Examples:
-| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                 |
+| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "schoolYearAttendance"   | "[]"                                         |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
@@ -95,6 +97,8 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
+| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
@@ -128,3 +132,5 @@ Examples:
 | "teacher"                      | "teachers"                | 4 |
 | "userAccount"                  | "userAccounts"            | 2 |
 | "grade"                        | "grades"                  | 2 |
+| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "reportCard"                   | "reportCards"             | 2 |

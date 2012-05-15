@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+import org.slc.sli.test.DataFidelityType;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
@@ -24,6 +25,9 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public final class MetaRelations {
 
+    // default fidelity of data generation
+    public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
+    
     // knobs to control number of entities to create
 	public static final int TOTAL_SEAS = 1;
     public static final int LEAS_PER_SEA =2;

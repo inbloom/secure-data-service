@@ -94,7 +94,8 @@ $entityData = {
     "maximumAvailableCredit" => {
       "credit" => 1.0
     },
-    "careerPathway" => "Hospitality and Tourism"
+    "careerPathway" => "Hospitality and Tourism",
+    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -250,6 +251,23 @@ $entityData = {
     "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
+  },
+  "studentCompetency" => {
+     "competencyLevel" => [{
+       "description" => "really hard competency"
+     }],
+     "diagnosticStatement" => "passed with flying colors"
+  },
+  "reportCard" => {
+      "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
+      "studentCompetencyId" => "b57643e4-9acf-11e1-89a7-68a86d21d918",
+      "gpaGivenGradingPeriod" => "3.14",
+      "gpaCumulative" => "2.9",
+      "numberOfDaysAbsent" => "15",
+      "numberOfDaysInAttendance" => "150",
+      "numberOfDaysTardy" => "10",
+      "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992"
+      #"gradingPeriodId" => "TODO"
   }
 }
 

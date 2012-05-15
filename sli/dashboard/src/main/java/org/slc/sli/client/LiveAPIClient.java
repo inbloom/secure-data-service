@@ -178,6 +178,7 @@ public class LiveAPIClient implements APIClient {
         return schools;
     }
 
+
     @Override
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
 
@@ -211,6 +212,7 @@ public class LiveAPIClient implements APIClient {
 
         return schools;
     }
+
 
     /**
      * Get a list of student objects, given the student ids
@@ -481,14 +483,7 @@ public class LiveAPIClient implements APIClient {
 
         // call https://<IP address>/api/rest/<version>/sections
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
-        if (sections != null) {
-            for (GenericEntity section : sections) {
-                // if no section name, fill in with section code
-                if (section.get(Constants.ATTR_SECTION_NAME) == null) {
-                    section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-                }
-            }
-        }
+        sections = processSections(sections);
         return sections;
     }
 
@@ -500,16 +495,19 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC
                 + SECTIONS, token);
 
+        sections = processSections(sections);
+        return sections;
+    }
+
+    private List<GenericEntity> processSections(List<GenericEntity> sections) {
         if (sections != null) {
             for (GenericEntity section : sections) {
-
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
             }
         }
-
         return sections;
     }
 

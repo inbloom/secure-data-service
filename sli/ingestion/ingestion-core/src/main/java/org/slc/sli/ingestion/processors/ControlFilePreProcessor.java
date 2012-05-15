@@ -106,6 +106,7 @@ public class ControlFilePreProcessor implements Processor {
                 ipAddr = addr.getAddress();
 
             } catch (UnknownHostException e) {
+                LOG.error("Error getting local host", e);
             }
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
                     "", // user
@@ -113,7 +114,7 @@ public class ControlFilePreProcessor implements Processor {
                     "processUsingNewBatchJob", // Alpha MH (actionUri)
                     "Ingestion", // Alpha MH (appId)
                     "", // origin
-                    ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
+                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
                     "", // Alpha MH (Credential - N/A for ingestion)
                     "", // userOrigin
                     new Date(), // Alpha MH (timeStamp)

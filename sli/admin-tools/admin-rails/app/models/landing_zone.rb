@@ -1,4 +1,4 @@
-class LandingZone
+class LandingZone < Ldap
   
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
@@ -11,16 +11,23 @@ class LandingZone
     end
   end
   
-  def self.provision(edorg_id, tenant)
-    provision = OnBoarding.new(:stateOrganizationId => edorg_id, :tenantId => tenant)
-    saved = provision.save()
-    Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"
-    
-    if (saved == false)
+  def self.provision(edorg_id, tenant, uid)
+    Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}"
+
+    user_info = @@ldap.read_user(uid)
+    if(!user_info)
+      raise ProvisioningError.new "User does not exist in LDAP"
+    end
+
+    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    
+    user_info[:homedir] = result.attributes[:landingZone]
+    @@ldap.update_user_info(user_info)
   end
-  
+
 end
 
 class ProvisioningError < StandardError

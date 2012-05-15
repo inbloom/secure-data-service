@@ -3,10 +3,10 @@ def webdriverDebugMessage(driver, message="Webdriver could not achieve expected 
 end
 
 Given /^I have an open web browser$/ do
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['network.http.prompt-temp-redirect'] = false
-  @driver = Selenium::WebDriver.for :firefox, :profile => profile
-  @driver.manage.timeouts.implicit_wait = 4 # seconds
+  @profile ||= Selenium::WebDriver::Firefox::Profile.new
+  @profile['network.http.prompt-temp-redirect'] = false
+  @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
 end
 
 When /^I wait for a second$/ do
@@ -15,6 +15,18 @@ end
 
 When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep(Integer(secs))
+end
+
+When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
+  if idpType=="OpenAM"
+    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
+  elsif idpType=="ADFS"
+    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton")}
+  elsif idpType=="Simple"
+    assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "login_button")}
+  else
+    raise "IDP type '#{arg1}' not implemented yet"
+  end
 end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
@@ -30,6 +42,10 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_UsernameTextBox").send_keys user
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_PasswordTextBox").send_keys pass
     @driver.find_element(:id, "ctl00_ContentPlaceHolder1_SubmitButton").click
+  elsif idpType=="Simple"
+    @driver.find_element(:id, "user_id").send_keys user
+    @driver.find_element(:id, "password").send_keys pass
+    @driver.find_element(:id, "login_button").click
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
@@ -37,7 +53,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 After do |scenario| 
-  #puts "Running the After hook for Scenario: #{scenario}"
+  #puts "Running the After hook for Scenario: #{scenario}"s
   @driver.quit if @driver
 end
 

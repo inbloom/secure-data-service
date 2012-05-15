@@ -9,10 +9,6 @@ When /^I hit the Admin Application Authorization Tool$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
 end
 
-When /^I was redirected to the "([^"]*)" IDP Login page$/ do |arg1|
-  assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
-end
-
 Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
 end
@@ -251,8 +247,8 @@ end
 Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |arg1|
   step "I have an open web browser"
   step "I hit the Admin Application Authorization Tool"
-  step "I was redirected to the \"OpenAM\" IDP Login page"
-  step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"OpenAM\" login page"
+  step "I was redirected to the \"Simple\" IDP Login page"
+  step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
 end
 

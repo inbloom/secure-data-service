@@ -56,6 +56,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
         model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
         model.addAttribute(Constants.MM_KEY_WIDGET_CONFIGS_JSON, JsonConverter.toJson(customizationAssemblyFactory.getWidgetConfigs()));
+        model.addAttribute(Constants.MM_KEY_LOGGER, logger);
         setContextPath(model, request);
         addHeaderFooter(model);
         // TODO: refactor so the below params can be removed
@@ -66,9 +67,11 @@ public abstract class GenericLayoutController {
     protected void addHeaderFooter(ModelMap model) {
         String token = getToken();
         String header = portalWSManager.getHeader(token);
-        header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
-        model.addAttribute(Constants.ATTR_HEADER_STRING, header);
-        model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(token));
+        if (header != null) {
+            header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
+            model.addAttribute(Constants.ATTR_HEADER_STRING, header);
+            model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(token));
+        }
     }
 
     protected void setContextPath(ModelMap model, HttpServletRequest request) {

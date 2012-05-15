@@ -345,6 +345,7 @@ public class JobReportingProcessor implements Processor {
             ipAddr = addr.getAddress();
 
         } catch (UnknownHostException e) {
+            LOG.error("Error getting local host", e);
         }
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
                 "", // user
@@ -352,7 +353,7 @@ public class JobReportingProcessor implements Processor {
                 "writeLine", // Alpha MH
                 "Ingestion", // Alpha MH (appId)
                 "", // origin
-                ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
+                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
                 "", // Alpha MH (credential- N/A for ingestion)
                 "", // userOrigin
                 new Date(), // Alpha MH (timeStamp)

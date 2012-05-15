@@ -38,8 +38,10 @@ public class PanelController {
         ModelAndViewConfig mac = customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);
         Config config = mac.getComponentViewConfigMap().get(componentId);
         GenericEntity ge = new GenericEntity();
-        ge.put(Constants.MM_KEY_DATA, mac.getData().get(config.getData().getCacheKey()));
-        ge.put(Constants.MM_KEY_VIEW_CONFIG, mac.getComponentViewConfigMap().get(componentId));
+        if (config != null && config.getData() != null) {
+            ge.put(Constants.MM_KEY_DATA, mac.getData().get(config.getData().getCacheKey()));
+        }
+        ge.put(Constants.MM_KEY_VIEW_CONFIG, config);
         return ge;
     }
 

@@ -32,8 +32,8 @@ default:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
-        bootstrap.admin.realm.idpId: https://devapp1.slidev.org:443/sp
-        bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
 
     data-access: &DATA-ACCESS-DEFAULT
@@ -79,6 +79,7 @@ default:
 
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -92,10 +93,10 @@ default:
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         log.level: warn
@@ -136,6 +137,8 @@ default:
         # (only used in data-access)
         sli.encryption.dalKeyPass: changeit
 
+        # (only used in data-access)
+        sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
@@ -220,14 +223,15 @@ devjuggernauts:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://devjuggernauts.slidev.org/
         security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: ke9Dgpo3uI
         oauth.client.secret: 3jgkd3dg3dnbmdmJDKnwpKogJj93dHjd08HdaqP9jgdUwbDi
@@ -246,7 +250,7 @@ devjuggernauts:
 
 
 local:
-    api:
+    api: &API-LOCAL
         <<: *API-DEFAULT
         # local/api/security/security.properties
         #
@@ -266,21 +270,16 @@ local:
         sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
-    data-access:
+        
+    data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
         #
         # Set of substitution filters used for local builds
         #
-
         # Hibernate Options
 
-
-
         # MySQL Options -- In memory for local profile
-
-
-
         # Mongo DB Options
 
         sli.mongodb.database: sli
@@ -303,7 +302,7 @@ local:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
-    ingestion:
+    ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
         landingzone.inbounddir: target/ingestion/lz/inbound
@@ -315,11 +314,12 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
-    dashboard:
+    dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
-    apps:
+    apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
         bootstrap.app.admin.url: http://local.slidev.org:3000
         bootstrap.app.admin.client_id: Eg6eseKRzN
@@ -333,10 +333,8 @@ local:
         bootstrap.app.dashboard.client_id: K2e7Dwhq5J
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
-
-    misc:
+    misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
-
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
@@ -344,6 +342,48 @@ local:
         sli.log4j.logger.org.springframework: WARN
 
         log.path: target/logs
+
+
+#
+# Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
+#
+local-acceptance-tests:
+    api:
+        <<: *API-LOCAL
+        
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: true
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+        api.server.url: http://local.slidev.org:8080/
+        security.server.url: http://local.slidev.org:8080/
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        log.level: warn
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8080/dashboard/callback
+
+    apps:
+        <<: *APPS-LOCAL        
+        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
+        
+        bootstrap.app.admin.url: http://local.slidev.org:2000
+        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+        bootstrap.app.admin.client_id: Eg6eseKRzN
+        
+        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
+        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+        bootstrap.app.databrowser.url: http://local.slidev.org:2001
+
+    misc:
+        <<: *MISC-LOCAL        
+
 
 
 team:
@@ -363,6 +403,8 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -404,15 +446,16 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
-        sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -444,8 +487,9 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
+
 
 
 perf:
@@ -489,6 +533,7 @@ perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 
@@ -517,6 +562,7 @@ test-local:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-team:
@@ -546,6 +592,7 @@ test-team:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-perf:
@@ -556,11 +603,14 @@ test-perf:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:
