@@ -383,6 +383,7 @@ DashboardUtil.Grid.Formatters = {
             var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
             returnValue += "<script>";
             returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+            //TODO: Uncomment the following to fix broken tooltip, after fixing the ATs
             //returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
             returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
             
