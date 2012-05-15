@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+	
+	<LearningObjective id="LO_1">
+		<LearningObjectiveId>
+			<IdentificationCode>Objective1</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
+		</LearningObjectiveId>
+		<Objective>To not get left behind!</Objective>
+		<Description>I wanna know as much as Grandpa!</Description>
+		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<LearningStandardReference ref="LS_101" />
+		<LearningObjectiveReference ref="LO_2" />
+	</LearningObjective>
+	<LearningObjective id="LO_2">
+		<LearningObjectiveId>
+			<IdentificationCode>Objective2</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
+		</LearningObjectiveId>
+		<Objective>To not get left behind!</Objective>
+		<Description>I wanna know as much as Grandpa!</Description>
+		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_101" />
+	</LearningObjective>
+	<LearningObjective id="LO_3">
+		<LearningObjectiveId>
+			<IdentificationCode>Objective3</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
+		</LearningObjectiveId>
+		<Objective>To not get left behind!</Objective>
+		<Description>I wanna know as much as Grandpa!</Description>
+		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<LearningStandardReference id="LS_1" ref="LS_1" />
+		<LearningObjectiveReference ref="LO_3" />
+	</LearningObjective>
+	<LearningObjective id="LO_4">
+		<LearningObjectiveId>
+			<IdentificationCode>Objective4</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
+		</LearningObjectiveId>
+		<Objective>To not get left behind!</Objective>
+		<Description>I wanna know as much as Grandpa!</Description>
+		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_2" />
+	</LearningObjective>
+	<LearningObjective id="LO_5">
+		<LearningObjectiveId>
+			<IdentificationCode>Objective5</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
+		</LearningObjectiveId>
+		<Objective>To not get left behind!</Objective>
+		<Description>I wanna know as much as Grandpa!</Description>
+		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
+		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_3" />
+	</LearningObjective>
+
+	<LearningStandard id="LS_1">
+		<LearningStandardId>
+			<IdentificationCode>Standard1</IdentificationCode>
+		</LearningStandardId>
+		<Description>Find the derivative of a function</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+	<LearningStandard id="LS_2">
+		<LearningStandardId>
+			<IdentificationCode>Standard2</IdentificationCode>
+		</LearningStandardId>
+		<Description>Integrate a function</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+	<LearningStandard id="LS_3">
+		<LearningStandardId>
+			<IdentificationCode>Standard3</IdentificationCode>
+		</LearningStandardId>
+		<Description>Kill someone with your brain</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+	<LearningStandard id="LS_4">
+		<LearningStandardId>
+			<IdentificationCode>Standard4</IdentificationCode>
+		</LearningStandardId>
+		<Description>Find the area under a curve</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+	<LearningStandard id="LS_5">
+		<LearningStandardId>
+			<IdentificationCode>Standard5</IdentificationCode>
+		</LearningStandardId>
+		<Description>Read another person's mind</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+	<LearningStandard id="LS_6">
+		<LearningStandardId>
+			<IdentificationCode>Standard6</IdentificationCode>
+		</LearningStandardId>
+		<Description>Find the sum of a converging series</Description>
+		<ContentStandard>State Standard</ContentStandard>
+		<GradeLevel>Twelfth grade</GradeLevel>
+		<SubjectArea>ELA</SubjectArea>
+	</LearningStandard>
+
+</InterchangeAssessmentMetadata>

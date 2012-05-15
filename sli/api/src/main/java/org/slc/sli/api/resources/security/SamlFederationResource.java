@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -169,8 +170,8 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        String tenant = (String)realm.getBody().get("tenantId");
-        if (tenant == null || tenant.length()<1) {
+        String tenant = (String) realm.getBody().get("tenantId");
+        if (tenant == null || tenant.length() < 1) {
             // accept the tenantId from the IDP if and only if the realm's tenantId is null
             tenant = attributes.getFirst("tenant");
             if (tenant == null) {
@@ -181,8 +182,12 @@ public class SamlFederationResource {
             }
         }
         principal = users.locate(tenant, attributes.getFirst("userId"));
-
-        principal.setName(attributes.getFirst("userName"));
+        String userName = getUserNameFromEntity(principal.getEntity());
+        if (userName != null) {
+            principal.setName(userName);
+        } else {
+            principal.setName(attributes.getFirst("userName"));
+        }
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -199,6 +204,29 @@ public class SamlFederationResource {
 
         return Response.temporaryRedirect(tuple.getRight())
                 .cookie(new NewCookie("_tla", tuple.getLeft(), "/", apiCookieDomain, "", 300, false)).build();
+    }
+
+    private String getUserNameFromEntity(Entity entity) {
+        if (entity != null) {
+            @SuppressWarnings("rawtypes")
+            Map nameMap = (Map) entity.getBody().get("name");
+            if (nameMap != null) {
+                StringBuffer name = new StringBuffer();
+                if (nameMap.containsKey("personalTitlePrefix")) {
+                    name.append((String) nameMap.get("personalTitlePrefix"));
+                    name.append(" ");
+                }
+                name.append((String) nameMap.get("firstName"));
+                name.append(" ");
+                name.append((String) nameMap.get("lastSurname"));
+                if (nameMap.containsKey("generationCodeSuffix")) {
+                    name.append(" ");
+                    name.append((String) nameMap.get("generationCodeSuffix"));
+                }
+                return name.toString();
+            }
+        }
+        return null;
     }
 
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
