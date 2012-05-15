@@ -19,6 +19,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -91,12 +92,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
                 // read parent organization
                 edOrg = getParentEducationalOrganization(getToken(), school);
+                if(edOrg == null) {
+                     throw new DashboardException("No data is available for you to view. Please contact your IT administrator.");
+                }
             }
         }
 
         // create ed-org key and save to cache
         if (edOrg != null) {
-
             @SuppressWarnings("unchecked")
             LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg
                     .get(Constants.METADATA);
