@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * WorkNote splitter to be used from camel
@@ -24,10 +25,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
-    
+
     private static final int ENTITY_SPLITTING_THRESHOLD = 10000;
     private static final int ENTITY_CONSTANT_SPLIT = 100;
-    
+
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
@@ -84,11 +85,13 @@ public class WorkNoteSplitter {
                     stagedEntity.getCollectionNameAsStaged(), new NeutralQuery(), jobId);
 
             LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
-            
-            int numberOfBatches = (int) Math.ceil((double) numRecords / ENTITY_SPLITTING_THRESHOLD);
 
             if (numRecords > ENTITY_SPLITTING_THRESHOLD) {
-                LOG.info("Splitting {} collection.", stagedEntity.getCollectionNameAsStaged());
+                int numberOfBatches = (int) Math.ceil((double) numRecords / ENTITY_CONSTANT_SPLIT);
+
+                LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
+                        stagedEntity.getCollectionNameAsStaged(), numberOfBatches);
+
                 for (int i = 0; i < numRecords; i += ENTITY_CONSTANT_SPLIT) {
                     int chunk = ((i + ENTITY_CONSTANT_SPLIT) > numRecords) ? (numRecords) : (i + ENTITY_CONSTANT_SPLIT);
                     WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, i, chunk - 1,
@@ -96,8 +99,8 @@ public class WorkNoteSplitter {
                     workNoteList.add(workNote);
                 }
             } else {
-                WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1,
-                        numberOfBatches);
+                LOG.info("Creating one WorkNote for collection {}.", stagedEntity.getCollectionNameAsStaged());
+                WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1, 1);
                 workNoteList.add(workNote);
             }
         }
