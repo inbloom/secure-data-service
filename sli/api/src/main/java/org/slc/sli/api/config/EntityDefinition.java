@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
-import org.slc.sli.validation.schema.ListSchema;
 
 /**
  * Definition of an entity resource
@@ -135,6 +135,13 @@ public class EntityDefinition {
 
     public boolean isOfType(String id) {
         return service.exists(id);
+    }
+
+    public boolean isRestrictedForLogging() {
+        if (schema != null) {
+            return schema.isRestrictedForLogging();
+        }
+        return false;
     }
 
     public static void setDefaultRepo(Repository<Entity> defaultRepo) {

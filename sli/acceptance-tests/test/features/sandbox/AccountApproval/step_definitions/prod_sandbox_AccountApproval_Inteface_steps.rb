@@ -1,29 +1,39 @@
 require "selenium-webdriver"
+require "socket"
 
-require_relative '../../../../../utils/sli_utils.rb'
-require_relative '../../../../../utils/selenium_common.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
 
 
-Given /^LDAP server has been setup and running$/ do
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-end
+#Given /^LDAP server has been setup and running$/ do
+#  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+#end
 
 Given /^I navigate to the account management page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/account_managements"
   @driver.get url
 end
 
+Given /^LDAP server has been setup and running$/ do
+  @email = "devldapuser"+Socket.gethostname+"@slidev.org"
+  ldap_base=PropLoader.getProps['ldap_base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+end
+
 Given /^there are accounts in requests pending in the system$/ do
-  clear_all()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
-       :status => "pending"
+       :status => "pending",
+       :homedir => "test",
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -112,49 +122,63 @@ When /^I click on Ok$/ do
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
-  status=@driver.find_element(:id,"status."+@user_name)
-  assert(status.text==arg1,"user account status is not #{arg1}")
+  statuses=@driver.find_elements(:id,"status."+@user_name)
+  found =false
+  statuses.each do |status|
+    if status.text==arg1
+      found=true
+    end
+  end  
+  assert(found,"user account status is not #{arg1}")
+  clear_users()
 end
 
 
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
- clear_all()
+ clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
-       :status => "approved"
+       :status => "approved",
+       :homedir => "test",
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
 end
 
 def create_account(status, vendor)
-  clear_all()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
-       :status => status
+       :status => status,
+       :homedir => "test",
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
 end
 
-def clear_all
-  users=@ldap.read_users()
-  if users.length>0
-    users.each do |user|
-      @ldap.delete_user(user[:email])
+def clear_users
+  # remove all users that have this hostname in their email address
+  users = @ldap.search_users("*#{Socket.gethostname}*")
+  if users
+    users.each do |u|
+      @ldap.delete_user(u[:email])    
     end
   end
 end
