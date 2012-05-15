@@ -36,8 +36,6 @@
 
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference"
           value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference.ftl" />
-
-
     <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference"
           value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.ftl" />
 
@@ -126,6 +124,19 @@
 
   </util:map>
 
+  <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+        <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String"
+            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.xml" />
+        </bean>
+    </entry>
+  </util:map>
+
+  <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
+    <property name="idRefConfigs" ref="idRefConfigs" />
+ </bean>
+
   <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver">
     <property name="idRefConfigs" ref="ftlIdRefConfigs" />
   </bean>
@@ -165,9 +176,11 @@
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
 
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="smooksExtendedReferenceResolver" />
+
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
+   <!--  <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
 
