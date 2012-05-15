@@ -152,6 +152,9 @@ h7 {
     font-size: 36px;
     font-weight: normal;
 }
+
+.studentInfo { clear: both; }
+
 /** JQueryUI overrides */
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { background: #f2f2f2 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
@@ -216,22 +219,26 @@ th.ui-th-column div {
     font-size: 9px;
     font-weight: bold;
     line-height: 10px;
-    margin-right: 50px;
-    margin-top: 2px;
+    margin: 2px 4px 0 4px;
     padding-bottom: 0;
-    width: 17px;
 }
 
 .lozenge-widget-ell
 {
-    color:#33CCFF;
-    border-color: #33CCFF;
+    color:#20c7c5;
+    border-color: #20c7c5;
 }
 
 .lozenge-widget-fre
 {
     color:#8083fc;
     border-color: #8083fc;
+}
+
+.lozenge-widget-504
+{
+    color:#21c1fc;
+    border-color: #21c1fc;
 }
 
 .color-widget-darkgreen
@@ -307,7 +314,6 @@ th.ui-th-column div {
 #viewSelection
 {
    border-top: 2px solid #ccc;
-   border-bottom: 1px solid #ccc;
    margin-top:20px;
 }
 
@@ -1084,8 +1090,12 @@ text-decoration: none;
 
 .csi .colMain
 {
-    margin-left: 20px;
     width: 900px;
+}
+
+.csi .colMain h1
+{
+    float: left;
 }
 
 .csi .studentName

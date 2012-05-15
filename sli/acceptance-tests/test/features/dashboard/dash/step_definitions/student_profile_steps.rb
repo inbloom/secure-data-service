@@ -30,12 +30,6 @@ Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
    assert(containsName, "Actual name is :" + @info["Name"]) 
 end
 
-When /^their nickname shown in profile is "([^"]*)"$/ do |expectedNickName|
-  csiContent = @driver.find_element(:class, "csi")
-  nickName = csiContent.find_element(:xpath,".//div[@class='colMain']/small")
-  assert(nickName.text == expectedNickName, "Actual displayed nickname is: " + nickName.text)
-end
-
 Then /^their id shown in proflie is "([^"]*)"$/ do |studentId|
   assert(@info["ID"] == studentId, "Actual ID is: " + @info["ID"])
 end
@@ -48,7 +42,7 @@ Then /^the lozenges include "([^"]*)"$/ do |lozenge|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
-  all_lozenge = csiContent.find_elements(:xpath, ".//div[contains(@class,'lozenge-widget')]")
+  all_lozenge = csiContent.find_elements(:xpath, ".//span[contains(@class,'lozenge-widget')]")
   all_lozenge.each do |lozengeElement|
     if lozengeElement.attribute("innerHTML").to_s.include?(lozenge)
       labelFound = true
@@ -69,7 +63,7 @@ end
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
 
-  all_lozenges = csiContent.find_elements(:xpath, ".//div[contains(@class,'lozenge-widget')]")
+  all_lozenges = csiContent.find_elements(:xpath, ".//span[contains(@class,'lozenge-widget')]")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end

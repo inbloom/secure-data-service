@@ -61,6 +61,7 @@ public class TimedLogic {
 
     /**
      * Returns the student assessment association with the highest score
+     * TODO - Fix so that it handles multiple instances of ATT_SCALE_SCORE.  If that can happen.
      */
     public static Map getHighestEverAssessment(List<Map<String, Object>> a) {
 
@@ -70,20 +71,41 @@ public class TimedLogic {
             public int compare(Map o1, Map o2) {
                 List<Map<String, String>> scoreResults1 = (List) o1.get(Constants.ATTR_SCORE_RESULTS);
                 List<Map<String, String>> scoreResults2 = (List) o2.get(Constants.ATTR_SCORE_RESULTS);
-                String score1 = "";
-                String score2 = "";
+//                Integer scoreOne = -1;
+//                Integer scoreTwo = -1;
+                String score1 = null;
+                String score2 = null;
                 for (Map<String, String> scoreResult : scoreResults1) {
                     if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                         score1 = scoreResult.get(Constants.ATTR_RESULT);
+//                        Integer temp = Integer.parseInt(scoreResult.get(Constants.ATTR_RESULT));
+//                        if(temp > scoreOne) {
+//                            scoreOne = temp;
+//                        }
                     }
                 }
 
                 for (Map<String, String> scoreResult : scoreResults2) {
                     if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                         score2 = scoreResult.get(Constants.ATTR_RESULT);
+//                        Integer temp = Integer.parseInt(scoreResult.get(Constants.ATTR_RESULT));
+//                        if(temp > scoreTwo) {
+//                            scoreTwo = temp;
+//                        }
                     }
                 }
-
+                if(score1 == null && score2 == null) {
+                    return 0;
+                }
+                
+                if(score1 == null) {
+                    return 1;
+                }
+                
+                if(score2 == null) {
+                    return -1;
+                }
+                
                 return Integer.parseInt(score2) - Integer.parseInt(score1);
             }
         });

@@ -302,7 +302,7 @@ public class LiveAPIClientTest {
             }
 
             @Override
-            public List<GenericEntity> getSchoolsForSection(List<GenericEntity> sections, String token) {
+            public List<GenericEntity> matchSchoolsAndSections(List<GenericEntity> schools, List<GenericEntity> sections, String token) {
                 LinkedList<GenericEntity> list = new LinkedList<GenericEntity>();
                 list.add(new GenericEntity());
                 return list;
@@ -531,47 +531,6 @@ public class LiveAPIClientTest {
         assertEquals(ge, null);
     }
 
-
-    @Test
-    public void testGetSchoolsForSection() {
-        LiveAPIClient liveClient = new LiveAPIClient() {
-            @Override
-            public GenericEntity createEntityFromAPI(String url, String token) {
-                GenericEntity ge = new GenericEntity();
-                ge.put(Constants.ATTR_ID, url);
-                return ge;
-            }
-            @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
-                GenericEntity ge = new GenericEntity();
-                ge.put(Constants.ATTR_ID, "school");
-                List<GenericEntity> list = new ArrayList<GenericEntity>();
-                list.add(ge);
-                return list;
-            }
-
-        };
-
-        List<GenericEntity> list = new LinkedList<GenericEntity>();
-        GenericEntity section = new GenericEntity();
-        List<Map> links = new LinkedList<Map>();
-        Map courseLink = new HashMap<String, String>();
-        courseLink.put(Constants.ATTR_REL, "getCourse");
-        courseLink.put(Constants.ATTR_HREF, "course");
-        Map schoolLink = new HashMap<String, String>();
-        schoolLink.put(Constants.ATTR_REL, "getSchool");
-        schoolLink.put(Constants.ATTR_HREF, "school");
-        links.add(courseLink);
-        links.add(schoolLink);
-        section.put(Constants.ATTR_LINKS, links);
-        section.put(Constants.ATTR_COURSE_ID, "course");
-        section.put(Constants.ATTR_SCHOOL_ID, "school");
-        list.add(section);
-        List<GenericEntity> result = liveClient.getSchoolsForSection(list, null);
-        assertEquals(result.size(), 1);
-        GenericEntity ge = result.get(0);
-        assertEquals(ge.get(Constants.ATTR_ID), "school");
-    }
 
     //Test student enrollment, by mocking out calls to API
     @Test

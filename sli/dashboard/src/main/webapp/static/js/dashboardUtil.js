@@ -99,7 +99,15 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
-DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
+DashboardUtil.getShortDisplayText = function(displayText) {
+	if (displayText.length > 18) {
+		return displayText.substring(0,14) + "...";
+	}
+	
+	return displayText;
+};
+
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, doShortString, callback) {
 	var select =  "";
 	
 	$("#"+name).find("dropdown-menu").html(select);
@@ -107,7 +115,8 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 	
 	if(options === null || options === undefined || options.length == 0) {
-		select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
+		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
+                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 	} else {
 	    	if (options.length == 1 && autoSelect) {
 			autoSelectOption = 0;
@@ -129,7 +138,11 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
 	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
 		$("#"+name + "SelectMenu .selected").removeClass("selected");
-		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
+		var displayText = $(this).find("a").html();
+		if (doShortString) {
+			displayText = DashboardUtil.getShortDisplayText(displayText);
+		}
+		$("#"+name + "SelectMenu").find(".optionText").html(displayText);
 		$("#"+name + "Select").val($(this).find("#selectionValue").val());
 		$(this).addClass("selected");
 		callback();
@@ -139,7 +152,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 };
 
-DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doShortString) {
 	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
 		if (optionValue == $(this).find("#selectionValue").val()) {
 			$(this).addClass("selected");
@@ -147,7 +160,11 @@ DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
 				$(this).click();
 			} else {
 				$("#" + name + "Select").val(optionValue);
-				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
+				var displayText = $(this).find("a").html();
+				if (doShortString) {
+					displayText = DashboardUtil.getShortDisplayText(displayText);
+				}
+				$("#" + name + "SelectMenu .optionText").html(displayText);
 			}
 		}
 	});
@@ -226,7 +243,8 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        rowNum: 10000};
         if(panelData === null || panelData === undefined) {
             gridOptions["data"] = [];
-            gridOptions["caption"] = "There is no data available for your request.";
+            //gridOptions["caption"] = "There is no data available for your request.";
+            DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
         }
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
@@ -611,7 +629,7 @@ DashboardUtil.renderLozenges = function(student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
+					lozenges += '<span class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
@@ -736,6 +754,21 @@ DashboardUtil.checkCondition = function(data, condition) {
     } 
     return false;
 };
+
+DashboardUtil.displayErrorMessage = function (error){
+    var errors = document.getElementById("losError");
+    errors.style.display = "block";
+    errors.innerHTML = error;
+    var tabs = document.getElementById("tabs");
+    tabs.style.display = "none";
+}
+
+DashboardUtil.hideErrorMessage = function ( ){
+    var errors = document.getElementById("losError");
+    errors.style.display = "none";
+    var tabs = document.getElementById("tabs");
+    tabs.style.display = "block";
+}
 
 DashboardUtil.teardrop = {
     GRADE_TREND_CODES: {},
