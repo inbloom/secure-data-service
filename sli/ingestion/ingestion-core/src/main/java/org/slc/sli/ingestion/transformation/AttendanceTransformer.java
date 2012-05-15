@@ -17,6 +17,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author shalka
  */
+@Scope("prototype")
 @Component("attendanceTransformationStrategy")
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
