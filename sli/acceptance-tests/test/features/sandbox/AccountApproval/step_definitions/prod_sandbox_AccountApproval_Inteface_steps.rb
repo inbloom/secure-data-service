@@ -16,8 +16,8 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+Socket.gethostname+"@slidev.org"
-  ldap_base=PropLoader.getProps['ldap.base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  ldap_base=PropLoader.getProps['ldap_base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 end
 
 Given /^there are accounts in requests pending in the system$/ do
