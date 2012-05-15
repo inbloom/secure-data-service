@@ -44,10 +44,11 @@ public class ControllerInputValidatorAspect {
 
     private Validator validator;
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Pointcut("execution(@org.springframework.web.bind.annotation.RequestMapping * *(..))")
     @SuppressWarnings("unused")
     private void controllerInvocation() {
     }
+
 
     @Around("controllerInvocation()")
     public Object aroundController(ProceedingJoinPoint joinPoint) throws Throwable {
