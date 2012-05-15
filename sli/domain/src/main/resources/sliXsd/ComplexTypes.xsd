@@ -2311,6 +2311,9 @@
 				educational
 				institution.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentUniqueStateId" type="uniqueStateIdentifier">
@@ -3030,6 +3033,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentItem" type="assessmentItem">
+            	<xs:annotation>
+                    <xs:documentation>The AssessmentItem to which this studentAssessmentItem is a response to.
+	                </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6949,7 +6958,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="grades" type="grade" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="grades" type="reference" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Grades for the classes attended by the student for this grading period.</xs:documentation>
 					<xs:appinfo>
@@ -6965,12 +6974,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GPAGivenGradingPeriod" type="xs:int">
+			<xs:element name="gpaGivenGradingPeriod" type="xs:double">
 				<xs:annotation>
 					<xs:documentation>A measure of average performance in all courses taken by an individual for the current grading period.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GPACumulative" type="xs:int">
+			<xs:element name="gpaCumulative" type="xs:double">
 				<xs:annotation>
 					<xs:documentation>A measure of cumulative average performance in all courses taken by an individual from the beginning of the school year through the current grading period.</xs:documentation>
 				</xs:annotation>
@@ -7015,11 +7024,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradingPeriodId" type="reference">
+      <!-- TODO remove minOccurs=0 -->
+			<xs:element name="gradingPeriodId" type="reference" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for this report card.</xs:documentation>
 					<xs:appinfo>
-                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+            <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

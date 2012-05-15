@@ -55,7 +55,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     @Value("${sli.sandbox.autoRegisterApps}")
     private boolean autoRegister;
@@ -114,7 +114,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
-        
+
         newApp.put(CLIENT_ID, clientId);
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newApp.put(CREATED_BY, principal.getExternalId());
@@ -128,10 +128,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
-        
+
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
-        
+
         //we don't allow create apps to have the boostrap flag
         newApp.remove("bootstrap");
         return super.create(newApp, headers, uriInfo);
@@ -155,15 +155,20 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
+        Response resp = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.DEV_APP_CRUD)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
+        
+        //synchronizing since extraCriteria isn't thread safe
+        synchronized (this) {
+            if (hasRight(Right.DEV_APP_CRUD)) {
+                extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
+            } else if (!hasRight(Right.SLC_APP_APPROVE)) {
+                debug("ED-ORG of operator/admin {}", principal.getEdOrg());
+                extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
+                        principal.getEdOrg());
+            }
+            resp = super.readAll(offset, limit, headers, uriInfo);
         }
-        Response resp = super.readAll(offset, limit, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -211,7 +216,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             } else if (appObj instanceof List) {
                 appList = (List) appObj;
             }
-            
+
             for (Object app : appList) {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
@@ -244,7 +249,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         EntityBody oldApp = service.get(uuid);
-        
+
         //The client id and secret could be null if they were filtered from the client
         String clientSecret = (String) app.get(CLIENT_SECRET);
         if (clientSecret == null)
@@ -252,7 +257,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String clientId = (String) app.get(CLIENT_ID);
         if (clientId == null)
             app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
-        
+
         String id = (String) app.get("id");
         Map<String, Object> oldReg = ((Map<String, Object>) oldApp.get(REGISTRATION));
         Map<String, Object> newReg = ((Map<String, Object>) app.get(REGISTRATION));
@@ -276,11 +281,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         changedKeys.remove("registration");
         changedKeys.remove("developer_info");   //TODO: developer_info is a pain since it's nested--need to validate this hasn't changed
         changedKeys.remove("metaData");
-        
+
         //Operator - can only change registration status
         if (hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
@@ -288,7 +293,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 body.put("message", "You are not authorized to alter applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             if (newRegStatus.equals("APPROVED") && oldRegStatus.equals("PENDING")) {
                 debug("App approved");
                 newReg.put(STATUS, "APPROVED");
@@ -304,28 +309,28 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 body.put("message", "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-                        
+
         } else if (hasRight(Right.DEV_APP_CRUD)) {  //App Developer
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to register applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             if (oldRegStatus.equals("PENDING")) {
                 EntityBody body = new EntityBody();
                 body.put("message", "Application cannot be modified while approval request is in Pending state.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             //when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
-                
+
                 //TODO: If auto approval is on, approve instead
                 newReg.put(STATUS, "PENDING");
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
-            
+
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
@@ -337,10 +342,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to update application.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         //we don't allow create apps to have the boostrap flag
         app.remove("bootstrap");
-        
+
         return super.update(uuid, app, headers, uriInfo);
     }
 
