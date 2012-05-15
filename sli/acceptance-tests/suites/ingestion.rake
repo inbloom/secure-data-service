@@ -181,6 +181,11 @@ desc "Run Tenant Purge Test"
 task :ingestionTenantPurgeTests do
   runTests("test/features/ingestion/features/tenant_purge.feature")
 end
+
+desc "Run XXE Injection Protection Test"
+task :ingestionXXETest do
+  runTests("test/features/ingestion/features/xxe_testing.feature")
+end
 ############################################################
 # Ingestion tests end
 ############################################################
