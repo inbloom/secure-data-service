@@ -2,8 +2,8 @@ require "selenium-webdriver"
 require "mongo"
 require 'approval'
 require 'active_support/inflector'
-require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../utils/selenium_common.rb'
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
@@ -43,7 +43,7 @@ Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
 end
 
 Given /^I go to the production account registration page$/ do
-  @baseUrl = PropLoader.getProps['user_registration_app_production_url']
+  @baseUrl = PropLoader.getProps['admintools_server_url']
   userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = true
   initializeApprovalAndLDAP(@emailConf, @prod)
@@ -51,7 +51,7 @@ Given /^I go to the production account registration page$/ do
 end
 
 Given /^I go to the sandbox account registration page$/ do
-  @baseUrl = PropLoader.getProps['user_registration_app_sandbox_url']
+  @baseUrl = PropLoader.getProps['admintools_server_url']
   userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = false
   initializeApprovalAndLDAP(@emailConf, @prod)

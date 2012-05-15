@@ -461,14 +461,14 @@ desc "Run User Registration App Tests - Production"
 task :userRegistrationProdTests do
   @tags = ["~@wip", "@production"]
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-  runTests("test/features/sandbox/UserAccountRequest/accountRequest.feature")
+  runTests("test/features/admintools/accountRequest.feature")
 end
 
 desc "Run User Registration App Tests - Sandbox"
 task :userRegistrationSbTests do
   @tags = ["~@wip", "@sandbox"]
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-  runTests("test/features/sandbox/UserAccountRequest/accountRequest.feature")
+  runTests("test/features/admintools/accountRequest.feature")
 end
 
 ############################################################
@@ -542,7 +542,6 @@ task :importSandboxData do
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
-    "userAccount" => "userAccount_fixture.json",
     "grade" => "grade_fixture.json",
     "studentCompetency" => "studentCompetency_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
