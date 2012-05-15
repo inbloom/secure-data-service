@@ -60,7 +60,7 @@ public class ApprovedApplicationResourceTest {
     @Mock
     ApplicationAuthorizationValidator appValidator;
     
-    EntityBody adminApp, userApp, disabledApp;
+    EntityBody adminApp, userApp, installedApp;
     
     @Before
     public void setup() {
@@ -68,7 +68,7 @@ public class ApprovedApplicationResourceTest {
         
         adminApp = new EntityBody();
         adminApp.put("is_admin", true);
-        adminApp.put("enabled", true);
+        adminApp.put("installed", false);
         
         //endpoint list
         List<Map<String, Object>> endpoints = new ArrayList<Map<String, Object>>();
@@ -85,15 +85,15 @@ public class ApprovedApplicationResourceTest {
         
         userApp = new EntityBody();
         userApp.put("is_admin", false);
-        userApp.put("enabled", true);
+        userApp.put("installed", false);
         
-        disabledApp = new EntityBody();
-        disabledApp.put("is_admin", false);
-        disabledApp.put("enabled", false);
+        installedApp = new EntityBody();
+        installedApp.put("is_admin", false);
+        installedApp.put("installed", true);
         
         Mockito.when(service.get("adminAppId")).thenReturn(adminApp);
         Mockito.when(service.get("userAppId")).thenReturn(userApp);
-        Mockito.when(service.get("disabledAppId")).thenReturn(disabledApp);
+        Mockito.when(service.get("disabledAppId")).thenReturn(installedApp);
         Mockito.when(service.listIds(Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
     }
@@ -114,7 +114,7 @@ public class ApprovedApplicationResourceTest {
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
         assertTrue(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
+        assertFalse(ents.contains(installedApp));
     }
     
     @Test
@@ -184,7 +184,7 @@ public class ApprovedApplicationResourceTest {
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse(ents.contains(adminApp));
         assertTrue(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
+        assertFalse(ents.contains(installedApp));
     }
     
     @Test
@@ -196,7 +196,7 @@ public class ApprovedApplicationResourceTest {
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
         assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
+        assertFalse(ents.contains(installedApp));
     }   
     
     @Test
@@ -206,7 +206,7 @@ public class ApprovedApplicationResourceTest {
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse(ents.contains(adminApp));
         assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(disabledApp));
+        assertFalse(ents.contains(installedApp));
     }
     
     private static void setupAuth(GrantedAuthority auth, List<String> roles) {
