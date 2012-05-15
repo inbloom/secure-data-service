@@ -72,7 +72,9 @@ public class GradeResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *              URI information including path and query parameters
      * @return result of CRUD operation
-     * @response.param A 201 response on successfully created entity with the ID of the entity
+     * @response.param {@name Location} {@style header} {@type
+     * {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     * item is accessible.}
      * @response.representation.201.mediaType
      */
     @Override

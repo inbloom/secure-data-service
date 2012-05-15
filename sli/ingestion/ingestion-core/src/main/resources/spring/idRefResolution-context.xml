@@ -92,6 +92,12 @@
       </bean>
     </entry>
 
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+        <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String"
+            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.xml" />
+        </bean>
+    </entry>
 
   </util:map>
 
@@ -133,6 +139,8 @@
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" /> -->
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="smooksExtendedReferenceResolver" />
 
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
