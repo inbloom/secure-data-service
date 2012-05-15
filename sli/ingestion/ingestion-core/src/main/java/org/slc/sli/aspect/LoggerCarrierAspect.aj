@@ -1,14 +1,29 @@
 package org.slc.sli.aspect;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.common.util.logging.LoggerCarrier;
 
 public aspect LoggerCarrierAspect {
 
     declare parents : (org.slc.sli.ingestion.processors.* &&
             !java.lang.Enum+)  implements LoggerCarrier;
 
+    private MongoTemplate template;
+
+    public MongoTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(MongoTemplate template) {
+        this.template = template;
+    }
+
     public void LoggerCarrier.audit(SecurityEvent event) {
+        LoggerCarrierAspect.aspectOf().getTemplate().save(event);
+        
         switch (event.getLogLevel()) {
             case TYPE_DEBUG:
                 LoggerFactory.getLogger("SecurityMonitor").debug(event.toString());

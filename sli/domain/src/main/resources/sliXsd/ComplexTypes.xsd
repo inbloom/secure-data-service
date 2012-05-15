@@ -2311,6 +2311,9 @@
 				educational
 				institution.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentUniqueStateId" type="uniqueStateIdentifier">

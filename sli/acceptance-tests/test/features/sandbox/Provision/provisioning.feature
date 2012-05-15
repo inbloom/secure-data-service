@@ -1,4 +1,4 @@
-Feature: Use the Provisioning REST interface to provision a new sandbox application developer.
+Feature: Use the Provisioning REST interface to provision a new sandbox application developer
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
@@ -29,20 +29,25 @@ Scenario Outline: Deny access to users using SLI Administrator credentials from 
 	| Username        | Password            | Operation | StateOrganizationId | TenantId |
 	| "badadmin"      | "badadmin1234"      | "POST"    | "Test"              | "12345"  |
 
-Scenario Outline: Provision a new landing zone.
+Scenario Outline: Provision a new landing zone
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 201
+	And I should see a top level ed org is created with "stateOrganizationId" is <StateOrganizationId> and "tenantId" is <<TenantId>
+	And I should see this ed org is Authorized to use Apps "Databrowser" and "Dashboard"
 	Examples:
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
 	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "12345"  |
 
-Scenario Outline: Provision a new landing zone twice should fail.
+Scenario Outline: Provision a new landing zone twice should fail
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 201
+	Then I should receive a return code of 201
+	And I should see a top level ed org is created with "stateOrganizationId" is <StateOrganizationId> and "tenantId" is <<TenantId>
+	And I should see this ed org is Authorized to use Apps "Databrowser" and "Dashboard"
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 409
@@ -50,11 +55,3 @@ Scenario Outline: Provision a new landing zone twice should fail.
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
 	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test1"             | "12345"  |
 	
-@wip
-Scenario: As a Vendor/Developer I use a defined a High Level Ed-Org to Provision my Landing Zone
-Given there is an  account in ldap for vendor "Macro Corp"
-And the account has a tenantId "MacroCorp1234"
-When I provision with high-level ed-org to " Test Ed Org"
-Then a "Test Ed Org" ed-org is created in Mongo with the tenantId "MacroCorp1234"
-And a request to provision a landing zone is made
-And the directory structure for the landing zone is stored in ldap	
