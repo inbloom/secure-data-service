@@ -513,6 +513,7 @@ task :importSandboxData do
     "userAccount" => "userAccount_fixture.json",
     "grade" => "grade_fixture.json",
     "studentCompetency" => "studentCompetency_fixture.json",
+    "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json"
   ]
