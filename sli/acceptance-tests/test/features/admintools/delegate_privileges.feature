@@ -1,4 +1,3 @@
-@wip
 Feature: Delegating control from a district administrator to a state administrator
 
 Scenario: District Super Administrator delegates app approval permission to state

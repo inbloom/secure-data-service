@@ -13,7 +13,7 @@ class AdminDelegationsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @admin_delegations }
+      format.json { render json: @admin_delegation }
     end
   end
 

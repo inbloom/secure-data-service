@@ -1,4 +1,5 @@
 SLIAdmin::Application.routes.draw do
+
   resources :admin_delegations
 
   resources :realm_management
