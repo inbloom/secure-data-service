@@ -17,7 +17,7 @@
    },
    "redirect_uri":"${bootstrap.app.dashboard.url}/callback",
    "is_admin":false,
-   "enabled":true,
+   "installed":true,
    "behavior":"Full Window App",
    "developer_info":{
       "organization":"SLI"
