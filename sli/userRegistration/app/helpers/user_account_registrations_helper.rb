@@ -15,6 +15,8 @@ module UserAccountRegistrationsHelper
        @currEnvironment =(APP_CONFIG["is_sandbox"] == true)
        ApprovalEngineProxy.init(URL,@currEnvironment)
       res = ApprovalEngineProxy.doesUserExist(user_account_registration.email)
+      jsoBody=JSON.parse(res)
+      puts("SAMPLE RESPONSE**********#{jsoBody}")
       if(res["validated"] == true)
         @apiResponse["redirect"]=false
         @apiResponse["error"]="User name already exists in record"

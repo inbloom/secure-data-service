@@ -33,7 +33,7 @@ module ApprovalEngineProxy
     # Response body example:
     # { 'exists':true, 'validated':true }
     #
-    def doesUserExist(username)
+    def ApprovalEngineProxy.doesUserExist(username)
         return RestClient.get(@@approvalUri + "/does_user_exist/" + username, {:accept => :json})
     end
 
@@ -65,7 +65,7 @@ module ApprovalEngineProxy
 	# Response body example:
 	# { 'status':'submitted', 'verificationToken':'1234abcd' }
 	#
-    def submitUser(user_info)
+    def ApprovalEngineProxy.submitUser(user_info)
         return RestClient.post(@@approvalUri + "/submit_user", @@j.encode(user_info), :content_type => :json, :accept => :json)
     end
 
@@ -96,7 +96,7 @@ module ApprovalEngineProxy
 	# Response body example:
 	# { 'status':'updated', 'verificationToken':'1234abcd' }
 	#
-    def updateUser(user_info)
+    def ApprovalEngineProxy.updateUser(user_info)
         return RestClient.post(@@approvalUri + "/update_user", @@j.encode(user_info), :content_type => :json, :accept => :json)
     end
 
@@ -123,7 +123,7 @@ module ApprovalEngineProxy
     # }
     #
     # POST /update_eula_status
-    def EULAStatus(eula_status)
+    def ApprovalEngineProxy.EULAStatus(eula_status)
         return RestClient.post(@@approvalUri + "/update_eula_status", @@j.encode(eula_status), :content_type => :json, :accept => :json)
     end
 
@@ -137,7 +137,7 @@ module ApprovalEngineProxy
     # Response example:
     #    { 'status':'success' }
     #
-    def verifyEmail(verifyToken)
+    def ApprovalEngineProxy.verifyEmail(verifyToken)
         response = RestClient.get(@@approvalUri + "/verifyEmail/" + verifyToken)
     end
 end

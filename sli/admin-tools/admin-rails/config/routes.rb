@@ -32,6 +32,14 @@ SLIAdmin::Application.routes.draw do
   match '/logout', :to => 'sessions#destroy'
   match '/callback', :to => 'application#callback'
 
+  resources :user_account_registrations
+  resources :user_account_validation
+  resources :user_account_registration
+
+  match "/eula" => "eulas#show", :via => :get
+  match "/eula" => "eulas#create", :via => :post 
+  match "/registration" => "user_account_registrations#new", :via => :get
+
   root :to => 'roles#index'
 
 end

@@ -15,6 +15,7 @@ development:
     email_port: 3000
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org
 local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -31,7 +32,8 @@ local-acceptance-tests:
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: http://local.slidev.org:2000
-    admin_realm: Shared Learning Infrastructure    
+    admin_realm: Shared Learning Infrastructure  
+    redirect_slc_url: http://www.slcedu.org  
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -49,6 +51,7 @@ development_sb:
     email_port: 3000
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org
 team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -66,6 +69,7 @@ team:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org
 team_sb:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -83,6 +87,7 @@ team_sb:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org
 test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_host: ldap.slidev.org
@@ -96,3 +101,4 @@ test:
     email_host: mon.slidev.org
     email_port: 3000
     admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org

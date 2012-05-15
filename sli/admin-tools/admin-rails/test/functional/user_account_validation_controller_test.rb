@@ -2,7 +2,7 @@ require 'test_helper'
 require 'mocha'
 
 class UserAccountValidationControllerTest < ActionController::TestCase
-  
+ 
   # success message
   ACCOUNT_VERIFICATION_COMPLETE = {
     "status" => "Registration Complete!",
@@ -12,6 +12,6 @@ class UserAccountValidationControllerTest < ActionController::TestCase
   test "should present success/failure screen" do
     UserAccountValidation.stubs(:validate_account).returns(ACCOUNT_VERIFICATION_COMPLETE)
     get :show
-    assert_response :succes
+    assert_template :show
   end
 end
