@@ -2,8 +2,12 @@
     "collection": "attendance_transformed",
     "indexFields":
     [
-        {"name" : "metaData.tenantId", "order" : "1"},
         {"name" : "body.studentId", "order" : "1"},
-        {"name" : "body.schoolId", "order" : "1"}
-    ]
+        {"name" : "body.schoolId", "order" : "1"},
+        {"name" : "metaData.tenantId", "order" : "1"}
+    ],
+    "options":
+    {
+        "unique" : "true"
+    }
 }
