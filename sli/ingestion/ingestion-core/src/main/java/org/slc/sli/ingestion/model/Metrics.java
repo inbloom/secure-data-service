@@ -11,7 +11,7 @@ public class Metrics {
     private String resourceId;
     private long recordCount;
     private long errorCount;
-
+    
     public static Metrics newInstance(String resourceId) {
         Metrics metrics = new Metrics(resourceId);
         metrics.setRecordCount(0);
@@ -25,6 +25,12 @@ public class Metrics {
     
     public Metrics(String resourceId) {
         this.resourceId = resourceId;
+    }
+    
+    public Metrics(String resourceId, long recordCount, long errorCount) {
+        this.resourceId = resourceId;
+        this.recordCount = recordCount;
+        this.errorCount = errorCount;
     }
     
     public String getResourceId() {
@@ -57,6 +63,12 @@ public class Metrics {
         }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
-        
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s ->%d[%d]", this.resourceId, this.recordCount, this.errorCount);
+    }
+    
+    
 }
