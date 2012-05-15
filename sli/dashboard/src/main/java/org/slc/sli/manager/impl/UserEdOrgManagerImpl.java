@@ -58,8 +58,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         GenericEntity edOrg = null;
 
-        // check if ed-org is state-level
-        if (SecurityUtil.isPowerUser()) {
+        // For state-level ed-org - need to take default config, so keep state ed org
+        if (SecurityUtil.isNotEducator()) {
 
             GenericEntity staff = getApiClient().getStaffInfo(token);
             if (staff != null) {
@@ -71,8 +71,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     List<String> edOrgCategories = (List<String>) staffEdOrg.get(Constants.ATTR_ORG_CATEGORIES);
                     if (edOrgCategories != null && edOrgCategories.size() > 0) {
 
-                        if (edOrgCategories.get(0).equals(Constants.STATE_EDUCATION_AGENCY)) {
-                            edOrg = staffEdOrg;
+                        for (String edOrgCategory : edOrgCategories) {
+                            if (edOrgCategory.equals(Constants.STATE_EDUCATION_AGENCY)) {
+                                edOrg = staffEdOrg;
+                                break;
+                            }
                         }
                     }
                 }
