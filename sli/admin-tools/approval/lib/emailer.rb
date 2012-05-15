@@ -36,9 +36,9 @@ class Emailer
     @replacer = args[:replacer] || DefaultReplacer
   end
 
-  def replace(content)
+  def replace(hash, content)
     result = content
-    @replacer.each_pair do |k,v|
+    hash.each_pair do |k,v|
       result = result.gsub(k, v)
     end
     result
@@ -49,9 +49,10 @@ class Emailer
     name       = args[:name]
     subject    = args[:subject] || DefaultSubject
     content    = args[:content] || DefaultContent
-    
+    replacer   = args[:replacer] || @replacer
+
     if content
-      content = replace(content)
+      content = replace(replacer, content)
     end
 
     message = "From: #@sender_name <#@sender_email_addr>\n" +

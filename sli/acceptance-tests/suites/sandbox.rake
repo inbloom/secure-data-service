@@ -18,6 +18,7 @@ end
 desc "Run Sandbox Simple IDP tests"
 task :simpleIdpSandboxTests do
   @tags = ["~@wip", "@sandbox"]
+  Rake::Task["importSandboxData"].invoke
   runTests("test/features/simple_idp/SimpleIDP.feature")
 end
 ############################################################
@@ -58,4 +59,15 @@ end
 ############################################################
 
 
+############################################################
+# Provision tests start
+############################################################
+desc "Run Sandbox Provisioning acceptance tests"
+task :sandboxProvisioning do
+    runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+############################################################
+# Provision tests end
+############################################################
 
