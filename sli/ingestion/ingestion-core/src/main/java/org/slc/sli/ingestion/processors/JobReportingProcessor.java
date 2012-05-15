@@ -97,8 +97,8 @@ public class JobReportingProcessor implements Processor {
         } finally {
             if ("true".equals(clearOnCompletion)) {
                 neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             }
-            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             if (job != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
