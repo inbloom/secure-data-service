@@ -21,7 +21,7 @@
     </jb:bean>
 
     <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="localId" />
+        <jb:value property="externalId" data="attributes localId" />
     </jb:bean>
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
