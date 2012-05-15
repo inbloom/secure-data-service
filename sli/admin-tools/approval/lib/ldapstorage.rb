@@ -97,9 +97,9 @@ class LDAPStorage
 		# inject the constant values into the user info 
 		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
-		if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
-		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
-		end
+		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
+		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		#end
 		
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
 		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
