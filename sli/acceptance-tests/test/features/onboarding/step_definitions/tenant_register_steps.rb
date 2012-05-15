@@ -49,13 +49,6 @@ When /^I POST a new tenant$/ do
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
           "userNames" => [ "jwashington", "jstevenson" ]
-        },
-        { 
-          "educationOrganization" => "Daybreak",
-          "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
-          "desc" => "Daybreak district landing zone",
-          "userNames" => [ "jstevenson" ]
         }
       ],
       "tenantId" => UNIQUE_TENANT_ID_1

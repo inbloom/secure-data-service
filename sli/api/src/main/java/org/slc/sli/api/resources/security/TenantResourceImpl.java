@@ -174,6 +174,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             newLandingZone.put(LZ_DESC, desc);
             newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
             newLandingZone.put(LZ_PATH, path);
+            newLandingZone.put(LZ_USER_NAMES, userNames);
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
@@ -224,6 +225,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         newLandingZone.put(LZ_DESC, desc);
         newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
         newLandingZone.put(LZ_PATH, path);
+        newLandingZone.put(LZ_USER_NAMES, userNames);
         allLandingZones.add(newLandingZone);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
