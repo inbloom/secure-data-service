@@ -20,4 +20,7 @@ class EulasController < ActionController::Base
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end
+   def not_found
+      raise ActionController::RoutingError.new('Not Found')
+    end
 end

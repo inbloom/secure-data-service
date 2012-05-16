@@ -30,6 +30,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	  test "send user verification email where there is a problem" do
 	    ApplicationHelper.stubs(:get_email_info).returns(MOCK_EMAIL_INFO)
 	    ApplicationHelper.stubs(:get_email_token).returns(nil)
+	    Emailer.stubs(:send_approval_email).with(anything).returns({:emailToken=>"abcde"})
 	    ApplicationHelper.send_user_verification_email("http://whatever", "12345")
 	  end
 	 
