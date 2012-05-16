@@ -1,15 +1,5 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,6 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+
+import org.slc.sli.api.security.CallingApplicationInfoProvider;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -130,7 +130,9 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
             Entity appAuth = i.next();
             List<String> appIdArray = (List<String>) appAuth.getBody().get("appIds");
             if (!appIdArray.contains(appId)) {
-                blacklist.add((String) appAuth.getBody().get("authId"));
+                Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
+                        new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, (String) appAuth.getBody().get("authId"))));
+                blacklist.add(edorgEntity.getEntityId());
             }
         }
 
