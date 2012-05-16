@@ -29,7 +29,6 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -57,8 +56,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Autowired
     private EntityDefinitionStore store;
     
-    @Value("${landingzone.inbounddir}")
-    private String inbounddir;
+    @Value("${sli.tenant.landingZoneMountPoint}")
+    private String landingZoneMountPoint;
     
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
@@ -91,32 +90,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @POST
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "You are not authorized to provision tenants or landing zones.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
-        
-        // look up the tenantId; if it exists, add new LZs here to the existing list; otherwise,
-        // create
-        
-        // Create the query
-        if (!newTenant.containsKey(LZ) || !newTenant.containsKey(TENANT_ID)) {
-            EntityBody body = new EntityBody();
-            body.put("message", "Required attributes (" + LZ + "," + TENANT_ID + ") not specified in POST.  "
-                    + "add attribute and try again.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
-        
-        try {
-            // Construct the response
-            String uri = ResourceUtil.getURI(uriInfo, "tenants", createLandingZone(newTenant)).toString();
-            return Response.status(Status.CREATED).header("Location", uri).build();
-        } catch (TenantResourceCreationException e) {            
-            EntityBody body = new EntityBody();
-            body.put("message", e.getMessage());
-            return Response.status(e.getStatus()).entity(body).build();
-        }
+        // Tenants can not be created using this class. They will be created via OnboardingResource
+        return Response.status(Status.FORBIDDEN).build();
     }
     
     @Override
@@ -164,7 +139,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
         
         String ingestionServer = randomIngestionServer();
-        String path = inbounddir + File.pathSeparatorChar + tenantId + "-" + edOrgId;
+        File inboundDirFile = new File(landingZoneMountPoint);
+        File fullPath = new File(inboundDirFile, tenantId + "-" + edOrgId);
+        String path = fullPath.getAbsolutePath();
         
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xs:element name="mappings" type="XmiComparison" />
+
+	<xs:complexType name="XmiComparison">
+		<xs:sequence>
+			<xs:element name="lhsModel" type="XmiDefinition"></xs:element>
+			<xs:element name="rhsModel" type="XmiDefinition"></xs:element>
+			<xs:element name="mapping" type="XmiMapping" minOccurs="0"
+				maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XmiDefinition">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"></xs:element>
+			<xs:element name="version" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XmiFeature">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string"></xs:element>
+			<xs:element name="name" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XmiMapping">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="lhs" type="XmiFeature"></xs:element>
+				<xs:element name="lhsMissing" type="XmiMissing"></xs:element>
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="rhs" type="XmiFeature"></xs:element>
+				<xs:element name="rhsMissing" type="XmiMissing"></xs:element>
+			</xs:choice>
+			<xs:element name="status" type="XmiMappingStatus"></xs:element>
+			<xs:element name="comment" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XmiMissing">
+		<xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="XmiMappingStatus">
+		<xs:annotation>
+			<xs:documentation>Indicator of the eligibility of the student to
+				receive special education services according to the Individuals with
+				Disabilities Education Act (IDEA).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="ignorable" />
+			<xs:enumeration value="match" />
+			<xs:enumeration value="transient" />
+			<xs:enumeration value="unknown" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

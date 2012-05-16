@@ -10,7 +10,7 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
-
+        
         # Security grace period for viewing sections (only use in api)
         sli.security.gracePeriod: 2000
 
@@ -28,18 +28,19 @@ default:
 
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
-
+        
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
-        bootstrap.admin.realm.tenantId: SLI
+        bootstrap.admin.realm.tenantId: SLI	
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
+        sli.tenant.landingZoneMountPoint: /ingestion/lz
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -165,7 +166,7 @@ default:
         sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
-
+        
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -286,6 +287,9 @@ local:
         sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
+        
+        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
+        #li.tenant.landingZoneMountPoint: ~/lzs
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -336,6 +340,9 @@ local:
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
+        
+        # (only used in dashboard)
+        sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
@@ -368,7 +375,7 @@ local:
 local-acceptance-tests:
     api:
         <<: *API-LOCAL
-
+        
     data-access:
         <<: *DATA-ACCESS-LOCAL
 
@@ -429,19 +436,19 @@ local-acceptance-tests:
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
 
     apps:
-        <<: *APPS-LOCAL
+        <<: *APPS-LOCAL        
         bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
-
+        
         bootstrap.app.admin.url: http://local.slidev.org:2000
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
         bootstrap.app.admin.client_id: Eg6eseKRzN
-
+        
         bootstrap.app.databrowser.client_id: 2zhRrEXh8r
         bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
         bootstrap.app.databrowser.url: http://local.slidev.org:2001
 
     misc:
-        <<: *MISC-LOCAL
+        <<: *MISC-LOCAL        
 
 
 
@@ -688,5 +695,5 @@ sandbox:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
-
-# this is not used but required
+        
+# this is not used but required 

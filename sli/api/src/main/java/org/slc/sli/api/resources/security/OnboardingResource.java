@@ -65,8 +65,6 @@ public class OnboardingResource {
     public static final String APP_IDS = "appIds";
     public static final String APP_BOOTSTRAP = "bootstrap";
 
-    public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
-
     /**
      * Provision a landing zone for the provide educational organization.
      *

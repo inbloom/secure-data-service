@@ -3,7 +3,7 @@ require 'net/smtp'
 # The example below sends a message from Administrator with email address "admin@slidev.org"
 # to Joe Chung with email address "joechung@slidev.org" via SMTP server "mon.slidev.org"
 # using default port (25):
-# 
+#
 #email_conf = {
 #  :host => 'mon.slidev.org',
 #  :port => 25,
@@ -36,9 +36,9 @@ class Emailer
     @replacer = args[:replacer] || DefaultReplacer
   end
 
-  def replace(hash, content)
+  def replace(content)
     result = content
-    hash.each_pair do |k,v|
+    @replacer.each_pair do |k,v|
       result = result.gsub(k, v)
     end
     result
@@ -49,10 +49,9 @@ class Emailer
     name       = args[:name]
     subject    = args[:subject] || DefaultSubject
     content    = args[:content] || DefaultContent
-    replacer   = args[:replacer] || @replacer
 
     if content
-      content = replace(replacer, content)
+      content = replace(content)
     end
 
     message = "From: #@sender_name <#@sender_email_addr>\n" +
