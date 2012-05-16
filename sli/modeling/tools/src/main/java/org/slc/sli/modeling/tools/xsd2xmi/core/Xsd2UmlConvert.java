@@ -446,6 +446,24 @@ final class Xsd2UmlConvert {
         }
     }
 
+    private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
+            final Xsd2UmlConfig config) {
+
+        final String name = config.nameFromElementName(attribute.getQName());
+        final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
+        taggedValues.addAll(annotations(attribute, config));
+
+        final XmlSchemaSimpleType simpleType = attribute.getSchemaType();
+        final Identifier type;
+        if (simpleType != null) {
+            type = config.ensureId(getSimpleTypeName(simpleType));
+        } else {
+            type = config.ensureId(attribute.getSchemaTypeName());
+        }
+        final Multiplicity multiplicity = multiplicity(range(Occurs.ONE, Occurs.ONE));
+        return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
+    }
+
     private static final List<Attribute> parseFields(
             final XmlSchemaComplexContentExtension schemaComplexContentExtension, final XmlSchema schema,
             final Xsd2UmlConfig context) {
@@ -456,9 +474,24 @@ final class Xsd2UmlConvert {
 
     private static final List<Attribute> parseFields(final XmlSchemaComplexType schemaComplexType,
             final XmlSchema schema, final Xsd2UmlConfig context) {
+        final List<Attribute> attributes = new LinkedList<Attribute>();
+
+        final XmlSchemaObjectCollection schemaItems = schemaComplexType.getAttributes();
+        for (int i = 0, count = schemaItems.getCount(); i < count; i++) {
+            final XmlSchemaObject schemaObject = schemaItems.getItem(i);
+            if (schemaObject instanceof XmlSchemaAttribute) {
+                final XmlSchemaAttribute schemaAttribute = (XmlSchemaAttribute) schemaObject;
+                System.out.println(schemaComplexType.getQName());
+                attributes.add(parseAttribute(schemaAttribute, schema, context));
+
+            } else {
+                throw new AssertionError(schemaObject);
+            }
+        }
         // parseAttributes(schemaComplexType.getAttributes(), schema);
-        final List<Attribute> attributes = parseParticle(schemaComplexType.getParticle(), schema, context);
-        return attributes;
+        attributes.addAll(parseParticle(schemaComplexType.getParticle(), schema, context));
+
+        return Collections.unmodifiableList(attributes);
     }
 
     private static final List<Attribute> parseParticle(final XmlSchemaParticle particle, final XmlSchema schema,
