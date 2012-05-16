@@ -7,15 +7,15 @@ require 'approval'
 
 class TestLdap < Test::Unit::TestCase
 
-  # Note: Socket.gethostname is used to ensure uniqueness when testers are 
+  # Note: Socket.gethostname is used to ensure uniqueness when testers are
   # running this simultaneously on different machines
   Jd_email = "jdoe@example.com_#{Socket.gethostname}"
   Jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
   User_info = {
     :first      => "John",
-    :last       => "Doe", 
+    :last       => "Doe",
     :email      => Jd_email,
-    :password   => "secret", 
+    :password   => "secret",
     :vendor     => "Acme Inc.",
     :emailtoken => Jd_emailtoken,
     :status     => "submitted",
@@ -24,12 +24,12 @@ class TestLdap < Test::Unit::TestCase
     :gidnumber  => '123'
   }
 
-  # Note: Socket.gethostname is used to ensure uniqueness when testers are 
+  # Note: Socket.gethostname is used to ensure uniqueness when testers are
   # running this simultaneously on different machines
   Td_email = "tdoe@example.com_#{Socket.gethostname}"
-  Td_user_info = User_info.clone 
+  Td_user_info = User_info.clone
   Td_user_info[:first] = "Tom"
-  Td_user_info[:email] = Td_email 
+  Td_user_info[:email] = Td_email
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
@@ -49,7 +49,7 @@ class TestLdap < Test::Unit::TestCase
 
     @ldap.remove_user_group(Td_email, "testgroup")
     @ldap.remove_user_group(Jd_email, "testgroup")
-    
+
     @ldap.delete_user(Email1)
     @ldap.delete_user(Email2)
     @ldap.delete_user(Email3)
@@ -87,12 +87,12 @@ class TestLdap < Test::Unit::TestCase
     @ldap.add_user_group(Td_email, "testgroup")
     @ldap.add_user_group(Jd_email, "abcgroup")
     @ldap.add_user_group(Td_email, "abcgroup")
-    
+
     jd_user_groups = @ldap.get_user_groups(Jd_email)
     assert jd_user_groups.include?("testgroup")
     assert jd_user_groups.include?("abcgroup")
   end
-  
+
   def test_update_user_info
     result = @ldap.create_user(User_info)
     found_user = @ldap.read_user(User_info[:email])
@@ -100,9 +100,9 @@ class TestLdap < Test::Unit::TestCase
     #update the fields except for email, which uniquely id a user
     to_update = {
       :first      => "#{found_user[:first]}UpdateTest",
-      :last       => "#{found_user[:last]}UpdateTest", 
+      :last       => "#{found_user[:last]}UpdateTest",
       :email      => found_user[:email],
-      :password   => "#{found_user[:password]}UpdateTest", 
+      :password   => "#{found_user[:password]}UpdateTest",
       :vendor     => "#{found_user[:vendor]}UpdateTest",
       :emailtoken => "#{found_user[:emailtoken]}UpdateTest",
       :status     => "#{found_user[:status]}UpdateTest",
@@ -112,11 +112,11 @@ class TestLdap < Test::Unit::TestCase
     }
     @ldap.update_user_info(to_update)
     updated_found_user = @ldap.read_user(User_info[:email])
-    
+
     allow_updating = [
       :first,
       :last,
-      :password, 
+      :password,
       :vendor,
       :emailtoken,
       :homedir
@@ -137,34 +137,34 @@ class TestLdap < Test::Unit::TestCase
     new_user_info
   end
 
-  # TODO: enable this test when 
+  # TODO: enable this test when
   def test_search_users
     @ldap.create_user(build_user_info Email1)
     @ldap.create_user(build_user_info Email2)
     @ldap.create_user(build_user_info Email3)
     @ldap.create_user(build_user_info Email4)
     @ldap.create_user(build_user_info Email5)
-    
+
     search_result = @ldap.search_users "*cat*"
     assert_equal 3, search_result.size
-    
+
     search_result = @ldap.search_users "*cow*"
     assert_equal 2, search_result.size
-    
+
     search_result = @ldap.search_users "*pig*"
     assert_equal 1, search_result.size
-    
+
     search_result = @ldap.search_users "*blah blah blah*"
     assert_equal 0, search_result.size
   end
 end
 
 
-# any_email = "anything@example.com" 
+# any_email = "anything@example.com"
 # puts "User #{jd_email} exists: #{ldap.user_exists?(jd_email)}"
 # puts "User #{any_email} exists: #{ldap.user_exists?(any_email)}"
 
-# new_user = user_info.clone 
+# new_user = user_info.clone
 # new_user[:status] = "pending"
 # ldap.update_status(new_user)
 # found_user = ldap.read_user(jd_email)
@@ -183,7 +183,7 @@ end
 # all_users = ldap.read_users
 # all_users.each do |e|
 # 	puts e[:email]
-# end 
+# end
 
 # puts "-----------------------------\nFetching pending users:"
 # pending_users = ldap.read_users("pending")
@@ -191,7 +191,7 @@ end
 # 	puts e[:email]
 # end
 
-# found_user = true 
+# found_user = true
 # ldap.delete_user(jd_email)
 # found_user = ldap.read_user_emailtoken("nothing")
 # if !found_user

@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
@@ -41,14 +41,11 @@ import org.slc.sli.domain.enums.Right;
 public class OnboardingResource {
 
     @Autowired
-    private EntityDefinitionStore store;
+    private Repository<Entity> repo;
 
     @Autowired
-    Repository<Entity> repo;
-    
-    @Autowired
-    TenantResource tenantResource;
-    
+    private TenantResource tenantResource;
+
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
     public static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
@@ -154,15 +151,15 @@ public class OnboardingResource {
 
         // create or update the applicationAuthorization collection in mongod for new edorg entity
         createAppAuth(uuid, appIds);
-        
+
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
-            
+
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZone.getIngestionServerName());
             returnObject.put("edOrg", e.getEntityId());
-            
+
             return Response.status(Status.CREATED).entity(returnObject).build();
         } catch (TenantResourceCreationException trce) {
             EntityBody entity = new EntityBody();

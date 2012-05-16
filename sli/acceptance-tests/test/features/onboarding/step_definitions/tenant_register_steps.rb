@@ -28,7 +28,7 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
   @edOrgColl = @mdb.collection('educationOrganization')
-
+  
   # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
   # it can go away once there is no lingering bad data anywhere
   @tenantColl.find().each do |row|
@@ -54,6 +54,13 @@ When /^I POST a new tenant$/ do
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
           "userNames" => [ "jwashington", "jstevenson" ]
+        },
+        {
+          "educationOrganization" => "Daybreak",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
+          "desc" => "Daybreak district landing zone",
+          "userNames" => [ "jstevenson" ]
         }
       ],
       "tenantId" => UNIQUE_TENANT_ID_1
@@ -65,7 +72,7 @@ end
 
 When /^I provision a new landing zone$/ do
   @format = "application/json"
-  dataObj =  {
+  dataObj = {
       "stateOrganizationId" => UNIQUE_ED_ORG_ID,
       "tenantId" => UNIQUE_TENANT_ID_1
   }
