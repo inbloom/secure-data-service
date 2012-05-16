@@ -152,6 +152,8 @@ public class StagedDataPersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
+                errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
+                
                 Metrics currentMetric = getOrCreateMetricForSourceFile(perFileMetrics, neutralRecord);
 
                 // process NeutralRecord with old or new pipeline
