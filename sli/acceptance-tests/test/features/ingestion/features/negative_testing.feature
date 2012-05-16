@@ -132,10 +132,10 @@ Scenario: Post a zip file where the the edfi input is malformed XML
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file was malformed" in the resulting error log file
-  And I should see "Processed 0 records." in the resulting batch job file
+  And I should see "Processed 1 records." in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "student.xml records considered: 0" in the resulting batch job file
-  And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
+  And I should see "student.xml records considered: 1" in the resulting batch job file
+  And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
 
 #not sure if this is a valid failure or not
