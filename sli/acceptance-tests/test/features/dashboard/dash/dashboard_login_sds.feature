@@ -41,7 +41,7 @@ Then I add a cookie for linda.kim
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
 
-@integration
+@integration @wip
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -131,7 +131,7 @@ And the search results include:
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
   
- @integration
+ @integration @wip
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -169,7 +169,7 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
 
-@integration
+@integration @wip
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -239,7 +239,7 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "Sunset Central High School"
 Then I don't see a course selection
 
-@integration
+@integration @wip
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
