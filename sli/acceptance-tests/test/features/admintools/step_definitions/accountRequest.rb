@@ -8,6 +8,7 @@ require_relative '../../utils/selenium_common.rb'
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+  @baseUrl = PropLoader.getProps['admintools_server_url']
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
   @emailConf = {
@@ -32,6 +33,11 @@ end
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
+Given /^I go to the account registration page$/ do
+  userRegAppUrl = @baseUrl + @registrationAppSuffix
+  @driver.get userRegAppUrl
+end
+
 Given /^there is no registered account for "([^\"]*)" in the SLI database$/ do |email|
   removeUser(email)
   step "the account for \"#{email}\" is removed from SLI database"
@@ -43,19 +49,13 @@ Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
 end
 
 Given /^I go to the production account registration page$/ do
-  @baseUrl = PropLoader.getProps['admintools_server_url']
-  userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = true
   initializeApprovalAndLDAP(@emailConf, @prod)
-  @driver.get userRegAppUrl
 end
 
 Given /^I go to the sandbox account registration page$/ do
-  @baseUrl = PropLoader.getProps['admintools_server_url']
-  userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = false
   initializeApprovalAndLDAP(@emailConf, @prod)
-  @driver.get userRegAppUrl
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
@@ -125,7 +125,7 @@ end
 Then /^I am directed to an acknowledgement page.$/ do
   assertText("Your request was submitted.")
   assertText("You will receive an email asking you to verify your email address, " +
-             "and then provide you with the next steps in the process.")
+                 "and then provide you with the next steps in the process.")
 end
 
 Then /^I get (\d+) record for "([^\"]*)"$/ do |count, email|
