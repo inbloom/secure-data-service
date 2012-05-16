@@ -1,4 +1,4 @@
-class EulasController < ApplicationController
+class EulasController < ActionController::Base
   
   # GET /eula 
   def show
