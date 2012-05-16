@@ -145,6 +145,8 @@ public class StagedDataPersistenceProcessor implements Processor {
             while (recordNumber <= maxRecordNumberToPersist && dbObjectIterator.hasNext()) {
                 DBObject record = dbObjectIterator.next();
 
+                numFailed = 0;
+                
                 recordNumber++;
                 persistedFlag = false;
 
