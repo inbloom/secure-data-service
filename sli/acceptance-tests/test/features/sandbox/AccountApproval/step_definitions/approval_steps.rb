@@ -132,12 +132,12 @@ def verifyEmail
     found = true if content != nil
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
+    assert(subject.include?("Account Approval"), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
     assert(email != nil, "email was not received")
     assert(email.to[0] == @userinfo[:email], "email address was incorrect")
-    assert(email.subject == "Your account has been approved.", "email did not have correct subject")
+    assert(email.subject.include?("Account Approval"), "email did not have correct subject")
   end
 end
