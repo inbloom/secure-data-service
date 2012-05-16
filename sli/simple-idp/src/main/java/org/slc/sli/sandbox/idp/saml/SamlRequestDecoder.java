@@ -89,7 +89,12 @@ public class SamlRequestDecoder {
         Document doc;
 
         try {
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false);
+            DocumentBuilder docBuilder = factory.newDocumentBuilder();
+            
             doc = docBuilder.parse(xmlInputStream);
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
