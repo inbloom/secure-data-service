@@ -3,8 +3,6 @@ require 'digest'
 require 'ldapstorage'
 require 'emailer'
 
-#equire 'approval/storage'
-
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
 	STATE_SUBMITTED = "submitted"
