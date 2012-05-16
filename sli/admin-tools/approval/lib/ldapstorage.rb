@@ -211,12 +211,12 @@ class LDAPStorage
   			})
 
   			if !@ldap.add(:dn => group_dn, :attributes => group_attrib)
-  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
+  				raise ldap_ex("Could not add #{email_address} to new group #{group_id} using attributes: #{group_attrib}")
 	  		end
 	  	else
 	  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
 		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
-	  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
+	  				raise ldap_ex("Could not add #{email_address} to existing  group #{group_id} using attributed '#{GROUP_MEMBER_ATTRIBUTE}' with LDAP base '#{@group_base}'")
 		  		end
 		  	end
 	  	end
