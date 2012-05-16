@@ -2,10 +2,10 @@ require 'approval'
 require 'rumbster'
 require 'message_observers'
 require 'net/imap'
-require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../../../utils/sli_utils.rb'
 
-Before do 
-  
+Before do
+
 end
 
 After do |scenario|
@@ -18,14 +18,13 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   @email_name = "SLC Admin"
   test_port = 2525
   @mode = (live_or_mock == "live")
-  
+
   if @mode
     @email_conf = {
       :host => 'mon.slidev.org',
       :port => 3000,
       :sender_name => @email_name,
-      :sender_email_addr => sender_email_address,
-      :replacer => { "__URI__" => "http://localhost:3000"}
+      :sender_email_addr => sender_email_address
     }
   else
     @rumbster = Rumbster.new(test_port)
@@ -36,8 +35,7 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
       :host => '127.0.0.1',
       :port => test_port,
       :sender_name => @email_name,
-      :sender_email_addr => sender_email_address,
-      :replacer => { "__URI__" => "http://localhost:3000"}
+      :sender_email_addr => sender_email_address
     }
   end
 end
@@ -65,17 +63,17 @@ Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, s
   else
     @userinfo[:email] = email
   end
-  
+
   @userinfo[:password] = "1234"
   @userinfo[:emailtoken] = "qwerty"
   @userinfo[:homedir] = "test"
-  @userinfo[:uidnumber] = "500"
-  @userinfo[:gidnumber] = "500"
-  
+  @userinfo[:uidnumber] = "devldapuser@slidev.org"
+  @userinfo[:gidnumber] = "testgroup"
+
   # delete if there and create a new user to set fixture
   ApprovalEngine.remove_user(@userinfo[:email])
   ApprovalEngine.add_disabled_user(@userinfo)
-  
+
   # set status manually to pending to test Approval Engine transitions
   if @prod
     if(status == ApprovalEngine::STATE_PENDING)
@@ -122,7 +120,7 @@ Then /^an account exists in production LDAP with login name "([^"]*)"$/ do |logi
 end
 
 Then /^state is "([^"]*)"$/ do |state|
-  user_state = @ldap.read_user(@userinfo[:email])[:status] 
+  user_state = @ldap.read_user(@userinfo[:email])[:status]
   assert(user_state == state, "User #{@userinfo[:email]} is in #{user_state} but should be in #{state} state")
 end
 
@@ -141,9 +139,8 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  ldap_base=PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-  
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+
   email = Emailer.new email_conf
   ApprovalEngine.init(@ldap, email, !prod)
 end
@@ -155,19 +152,19 @@ def verifyEmail
     imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
-    
+
     ids = imap.search(["FROM", @email_name])
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
     subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
     found = true if content != nil
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Account Approval"), "Subject in email is not correct")
+    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
     assert(email != nil, "email was not received")
-    assert(email.to[0] == @userinfo[:email], "email address is #{email.to[0]} but should be #{@userinfo[:email]}")
-    assert(email.subject.include?("Account Approval"), "email subject is <#{email.subject}> but should be <Account Approval>")
+    assert(email.to[0] == @userinfo[:email], "email address was incorrect")
+    assert(email.subject == "Your account has been approved.", "email did not have correct subject")
   end
 end

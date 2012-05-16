@@ -2,11 +2,11 @@ require 'rubygems'
 require 'net/ldap'
 require 'date'
 
-class LDAPStorage 
+class LDAPStorage
 	# set the objectClasses for user objects
 	OBJECT_CLASS = ["inetOrgPerson", "posixAccount", "top"]
 
-	# group object classes 
+	# group object classes
 	GROUP_OBJECT_CLASSES = ["groupOfNames", "top"]
 	GROUP_MEMBER_ATTRIBUTE = :member
 
@@ -19,40 +19,40 @@ class LDAPStorage
 		:displayname          => :emailtoken,
 		:destinationindicator => :status,
 		:homeDirectory        => :homedir,
-		:uidNumber            => :uidnumber, 
+		:uidNumber            => :uidnumber,
 		:gidNumber            => :gidnumber
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
-	# READ-ONLY FIELDS 
+	# READ-ONLY FIELDS
 	RO_LDAP_ATTR_MAPPING = {
-		:createTimestamp => :created, 
+		:createTimestamp => :created,
     	:modifyTimestamp => :updated
 	}
 
-	# these values are injected when the user is created 
+	# these values are injected when the user is created
 	ENTITY_CONSTANTS = {
-		:uidnumber => "500", 
+		:uidnumber => "500",
 		:gidnumber => "500"
 	}
 
 	# description field to contain mapping between LDAP and applicaton fields
 	LDAP_DESCRIPTION_FIELD = :description
 
-	# List of fields to fetch from LDAP for user 
+	# List of fields to fetch from LDAP for user
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
 	ALLOW_UPDATING = [
 		:first,
 		:last,
-		:password, 
+		:password,
 		:vendor,
 		:emailtoken,
 		:homedir
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [
-		:createTimestamp, 
+		:createTimestamp,
 		:modifyTimestamp
 	]
 
@@ -73,16 +73,16 @@ class LDAPStorage
      		}
      	}
      	@ldap = Net::LDAP.new @ldap_conf
-     	raise ldap_ex("Could not bind to ldap server.") if !@ldap.bind 
+     	raise ldap_ex("Could not bind to ldap server.") if !@ldap.bind
 	end
 
 	# user_info = {
 	#     :first => "John",
-	#     :last => "Doe", 
+	#     :last => "Doe",
 	#     :email => "jdoe@example.com",
-	#     :password => "secret", 
+	#     :password => "secret",
 	#     :vendor => "Acme Inc."
-	#     :emailtoken ... hash string 
+	#     :emailtoken ... hash string
 	#     :updated ... datetime
 	#     :status  ... "submitted"
 	# }
@@ -94,20 +94,16 @@ class LDAPStorage
 			:objectclass => OBJECT_CLASS,
 		}
 
-		# inject the constant values into the user info 
+		# inject the constant values into the user info
 		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
 		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
-		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set"
 		#end
 
-		if !e_user_info[:homedir]
-		   e_user_info[:homedir] = "/home/example"
-		end
-		
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
 		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
-		# attributes[LDAP_DESCRIPTION_FIELD] = descr
+		attributes[LDAP_DESCRIPTION_FIELD] = descr
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
@@ -118,28 +114,28 @@ class LDAPStorage
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
 		return search_map_user_fields(filter, 1)[0]
 	end
-	
-	# returns extended user_info for the given emailtoken (see create_user) or nil 
+
+	# returns extended user_info for the given emailtoken (see create_user) or nil
 	def read_user_emailtoken(emailtoken)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-		return search_map_user_fields(filter, 1)[0]		
+		return search_map_user_fields(filter, 1)[0]
 	end
 
-	# returns array of extended user_info for all users or all users with given status 
-	# use constants in approval.rb 
+	# returns array of extended user_info for all users or all users with given status
+	# use constants in approval.rb
 	def read_users(status=nil)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
 		return search_map_user_fields(filter)
-	end	
+	end
 
-	# returns array of extended user_info for all users or all users with given status 
-	# use constants in approval.rb 
+	# returns array of extended user_info for all users or all users with given status
+	# use constants in approval.rb
 	def search_users(wildcard_email_address)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
 		return search_map_user_fields(filter)
-	end	
+	end
 
-	# updates the user status from an extended user_info 
+	# updates the user status from an extended user_info
 	def update_status(user)
 		if user_exists?(user[:email])
 			dn = get_DN(user[:email])
@@ -175,7 +171,7 @@ class LDAPStorage
 	  	end
 	end
 
-	# disable login and update the status 
+	# disable login and update the status
 	def remove_user_group(email_address, group_id)
 		user_dn = get_DN(email_address)
 		group_dn = get_group_DN(group_id)
@@ -186,11 +182,11 @@ class LDAPStorage
 		if group_found
 			removed = group_found[:member].delete(user_dn)
 			if removed
-				if group_found[:member].empty? 
+				if group_found[:member].empty?
 					@ldap.delete(:dn => group_dn)
-				else 
+				else
 					@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[:member])
-				end 
+				end
 			end
 		end
 	end
@@ -203,13 +199,13 @@ class LDAPStorage
 		end
 	end
 
-	# returns true if the user exists 
+	# returns true if the user exists
 	def user_exists?(email_address)
 		!!read_user(email_address)
 	end
 
-	# updates the user_info except for the user status 
-	# user_info is the same input as for create_user 
+	# updates the user_info except for the user status
+	# user_info is the same input as for create_user
 	def update_user_info(user_info)
 		curr_user_info = read_user(user_info[:email])
 		if curr_user_info
@@ -219,14 +215,14 @@ class LDAPStorage
 					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
 				end
 			end
-									
-		end
-	end 
 
-	# deletes the user entirely 
+		end
+	end
+
+	# deletes the user entirely
 	def delete_user(email_address)
 		@ldap.delete(:dn => get_DN(email_address))
-	end 
+	end
 
 	#############################################################################
 	# PRIVATE methods
@@ -252,7 +248,7 @@ class LDAPStorage
 
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
-			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k|
 				attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
 				user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
 			end
@@ -266,6 +262,6 @@ class LDAPStorage
 	end
 end
 
-# usage 
+# usage
 #require 'approval'
 #storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")

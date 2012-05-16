@@ -25,15 +25,15 @@ Before do
   @conn = Mongo::Connection.new(INGESTION_DB)
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
-  
-  # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
+
+  # 2012-05-10: this is necessary to remove old style data from the tenant collection;
   # it can go away once there is no lingering bad data anywhere
   @tenantColl.find().each do |row|
     if row['tenantId'] != nil
       @tenantColl.remove(row)
     end
   end
-  
+
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_1})
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_2})
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_3})
@@ -42,15 +42,15 @@ end
 When /^I POST a new tenant$/ do
   @format = "application/json"
   dataObj =  {
-      "landingZone" => [ 
-        { 
+      "landingZone" => [
+        {
           "educationOrganization" => "Sunset",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
           "userNames" => [ "jwashington", "jstevenson" ]
         },
-        { 
+        {
           "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
@@ -68,8 +68,8 @@ end
 When /^I rePOST the new tenant$/ do
   @format = "application/json"
   dataObj = {
-      "landingZone" => [ 
-        { 
+      "landingZone" => [
+        {
           "educationOrganization" => "Twilight",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
@@ -104,8 +104,8 @@ end
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   @format = "application/json"
   dataObj = {
-      "landingZone" => [ 
-        { 
+      "landingZone" => [
+        {
           "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
@@ -145,8 +145,8 @@ end
 
 def getBaseTenant
     return {
-      "landingZone" => [ 
-        { 
+      "landingZone" => [
+        {
           "educationOrganization" => "Twilight",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
