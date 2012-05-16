@@ -1,7 +1,10 @@
+@wip
 Feature: User requests for an account for production or sandbox account
 
 Background:
   Given I have an open web browser
+  And I go to the admin tools page
+  And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 
 @production
 Scenario: As a user I request for a production account
