@@ -64,6 +64,48 @@
     <CourseTitle>Phys-Ed</CourseTitle>
   </LearningStandard>
 
+  <!-- LearningStandards for kindergartners -->
+  <LearningStandard>
+    <LearningStandardId>
+      <IdentificationCode>LS-GK-1</IdentificationCode>
+    </LearningStandardId>
+    <Description>Description of learning standard for reading</Description>
+    <ContentStandard>State Standard</ContentStandard>
+    <GradeLevel>Kindergarten</GradeLevel>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseTitle>Reading</CourseTitle>
+  </LearningStandard>
+  <LearningStandard>
+    <LearningStandardId>
+      <IdentificationCode>LS-GK-2</IdentificationCode>
+    </LearningStandardId>
+    <Description>Description of learning standard for writing</Description>
+    <ContentStandard>State Standard</ContentStandard>
+    <GradeLevel>Kindergarten</GradeLevel>
+    <SubjectArea>Writing</SubjectArea>
+    <CourseTitle>Writing</CourseTitle>
+  </LearningStandard>
+  <LearningStandard>
+    <LearningStandardId>
+      <IdentificationCode>LS-GK-3</IdentificationCode>
+    </LearningStandardId>
+    <Description>Description of learning standard for math</Description>
+    <ContentStandard>State Standard</ContentStandard>
+    <GradeLevel>Kindergarten</GradeLevel>
+    <SubjectArea>Mathematics</SubjectArea>
+    <CourseTitle>Math</CourseTitle>
+  </LearningStandard>
+  <LearningStandard>
+    <LearningStandardId>
+      <IdentificationCode>LS-GK-4</IdentificationCode>
+    </LearningStandardId>
+    <Description>Description of learning standard for science</Description>
+    <ContentStandard>State Standard</ContentStandard>
+    <GradeLevel>Kindergarten</GradeLevel>
+    <SubjectArea>Science</SubjectArea>
+    <CourseTitle>Science</CourseTitle>
+  </LearningStandard>
+
   <!-- LearningObjectives for 3rd graders -->
   <LearningObjective>
     <LearningObjectiveId>
@@ -470,48 +512,6 @@
       </LearningStandardIdentity>
     </LearningStandardReference>
   </LearningObjective>
-
-  <!-- LearningStandards for kindergartners -->
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-1</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for reading</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Reading</SubjectArea>
-    <CourseTitle>Reading</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-2</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for writing</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Writing</SubjectArea>
-    <CourseTitle>Writing</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-3</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for math</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Mathematics</SubjectArea>
-    <CourseTitle>Math</CourseTitle>
-  </LearningStandard>
-  <LearningStandard>
-    <LearningStandardId>
-      <IdentificationCode>LS-GK-4</IdentificationCode>
-    </LearningStandardId>
-    <Description>Description of learning standard for science</Description>
-    <ContentStandard>State Standard</ContentStandard>
-    <GradeLevel>Kindergarten</GradeLevel>
-    <SubjectArea>Science</SubjectArea>
-    <CourseTitle>Science</CourseTitle>
-  </LearningStandard>
 
   <!-- LearningObjectives for kindergartners -->
   <LearningObjective>

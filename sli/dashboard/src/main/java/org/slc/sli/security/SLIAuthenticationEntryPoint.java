@@ -48,12 +48,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Value("${oauth.redirect}")
     private String callbackUrl;
 
-    @Value("${oauth.client.id}")
-    private String clientId;
-
-    @Value("${oauth.client.secret}")
-    private String clientSecret;
-
     @Value("${api.server.url}")
     private String apiUrl;
     
@@ -65,10 +59,23 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private RESTClient restClient;
 
+    private PropertiesDecryptor propDecryptor;
+    
+    public PropertiesDecryptor getPropDecryptor() {
+        return propDecryptor;
+    }
+
+
+    public void setPropDecryptor(PropertiesDecryptor propDecryptor) {
+        this.propDecryptor = propDecryptor;
+    }
+
+
     public RESTClient getRestClient() {
         return restClient;
     }
 
+    
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
@@ -139,7 +146,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 //        DE260: The log below is possibly a security hole!
 //        LOG.debug("Client ID is {}, clientSecret is {}, callbackUrl is {}", new Object[] { clientId, clientSecret,
 //                callbackUrl });
-        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
+        OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(propDecryptor.getDecryptedClientId()).apiSecret(propDecryptor.getDecryptedClientSecret())
                 .callback(callbackUrl).build();
         Object token = session.getAttribute(OAUTH_TOKEN);
 
@@ -190,25 +197,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         }
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public String getCallbackUrl() {
-        return callbackUrl;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;

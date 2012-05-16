@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="studentCompetencyObjectives" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentCompetencyObjective" />
+    </jb:bean>
+
+    <jb:bean beanId="studentCompetencyObjective" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'studentCompetencyObjective'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="studentCompetencyObjectiveMeta" />
+        <jb:wiring property="body" beanIdRef="studentCompetencyObjectiveBody" />
+    </jb:bean>
+
+    <jb:bean beanId="studentCompetencyObjectiveMeta" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="attributes studentCompetencyObjectiveIdentifier" />
+    </jb:bean>
+
+    <jb:bean beanId="studentCompetencyObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="objective" data="attributes objective" />
+        <jb:value property="description" data="attributes description" />
+        <jb:value property="objectiveGradeLevel" data="attributes objectiveGradeLevel" />
+        <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+    </jb:bean>
+
+</smooks-resource-list>
+

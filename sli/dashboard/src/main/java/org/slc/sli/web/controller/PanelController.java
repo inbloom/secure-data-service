@@ -14,7 +14,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
-import org.slc.sli.web.util.SafeUUID;
+import org.slc.sli.web.entity.SafeUUID;
 
 
 /**

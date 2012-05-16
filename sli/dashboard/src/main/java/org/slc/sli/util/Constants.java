@@ -61,9 +61,12 @@ public final class Constants {
 
 
     // entity attributes
+    public static final String ATTR_ROOT = "root";
+    public static final String ATTR_SELECTED_POPULATION = "selectedPopulation";
     public static final String ATTR_COURSES = "courses";
     public static final String ATTR_SCHOOL_ID = "schoolId";
     public static final String ATTR_SCHOOLS = "schools";
+    public static final String ATTR_SECTION = "section";
     public static final String ATTR_SECTIONS = "sections";
     public static final String ATTR_COURSE = "course";
     public static final String ATTR_SECTION_NAME = "sectionName";
@@ -113,6 +116,7 @@ public final class Constants {
     public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
     public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
     public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
+    public static final String ATTR_ORG_CATEGORIES = "organizationCategories";
     public static final String ATTR_NAME_OF_INST = "nameOfInstitution";
     public static final String ATTR_ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ATTR_ASSESSMENTS = "assessments";
@@ -132,6 +136,7 @@ public final class Constants {
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
     public static final String ATTR_FINAL_NUMERIC_GRADE = "finalNumericGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
+    public static final String ATTR_SESSION = "session";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
     public static final String ATTR_TERM = "term";
     public static final String ATTR_NUMERIC_GRADE_EARNED = "numericGradeEarned";
@@ -174,6 +179,8 @@ public final class Constants {
     public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
     public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
+    public static final String ATTR_SESSION_END_DATE = "endDate";
+    public static final String ATTR_DATE_FORMAT = "yyyy-mm-dd";
 
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
@@ -237,6 +244,9 @@ public final class Constants {
     public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
+
+    //Ed-org types
+    public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     /**
      * Contains the possible values for FRE participation
