@@ -19,6 +19,8 @@ public final class XmiGenerator {
 
     public static void main(final String[] args) {
         try {
+            convert("wadl", "../../modeling/discovery/src/main/resources/", new Xsd2UmlPluginForEdFi(
+            /* camelCase */false));
             convert("SLI", "../../domain/src/main/resources/sliXsd/", new Xsd2UmlPluginForSLI());
             convert("Ed-Fi-Core", "../../domain/src/main/resources/edfiXsd/", new Xsd2UmlPluginForEdFi(
             /* camelCase */false));

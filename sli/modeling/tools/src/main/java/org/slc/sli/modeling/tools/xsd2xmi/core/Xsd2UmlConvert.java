@@ -9,7 +9,10 @@ import javax.xml.namespace.QName;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaAnnotated;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
+import org.apache.ws.commons.schema.XmlSchemaAny;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
+import org.apache.ws.commons.schema.XmlSchemaAttribute;
+import org.apache.ws.commons.schema.XmlSchemaAttributeGroup;
 import org.apache.ws.commons.schema.XmlSchemaChoice;
 import org.apache.ws.commons.schema.XmlSchemaComplexContentExtension;
 import org.apache.ws.commons.schema.XmlSchemaComplexContentRestriction;
@@ -19,6 +22,7 @@ import org.apache.ws.commons.schema.XmlSchemaDocumentation;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaEnumerationFacet;
 import org.apache.ws.commons.schema.XmlSchemaFacet;
+import org.apache.ws.commons.schema.XmlSchemaImport;
 import org.apache.ws.commons.schema.XmlSchemaInclude;
 import org.apache.ws.commons.schema.XmlSchemaMaxLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinLengthFacet;
@@ -103,7 +107,6 @@ final class Xsd2UmlConvert {
             final Xsd2UmlConfig config, final Visitor handler, final QName complexTypeName,
             final List<TaggedValue> taggedValues) {
 
-        // final QName complexTypeName = complexType.getQName();
         final Identifier complexTypeId = config.ensureId(complexTypeName);
 
         final List<Attribute> attributes = new LinkedList<Attribute>();
@@ -150,7 +153,12 @@ final class Xsd2UmlConvert {
 
         final XmlSchemaSimpleTypeContent content = simpleType.getContent();
         if (content instanceof XmlSchemaSimpleTypeList) {
-            throw new AssertionError(content);
+            // FIXME: What's the best way to handle? complexType?
+            // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
+            // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()), false,
+                    annotations(simpleType, config));
+            handler.visit(dataType);
         } else if (content instanceof XmlSchemaSimpleTypeRestriction) {
             final XmlSchemaSimpleTypeRestriction restriction = (XmlSchemaSimpleTypeRestriction) content;
 
@@ -217,7 +225,9 @@ final class Xsd2UmlConvert {
                 }
             }
         } else if (content instanceof XmlSchemaSimpleTypeUnion) {
-            throw new AssertionError(content);
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()), false,
+                    annotations(simpleType, config));
+            handler.visit(dataType);
         } else {
             throw new AssertionError(content);
         }
@@ -244,35 +254,50 @@ final class Xsd2UmlConvert {
 
     private static final List<DataType> declareBuiltInDataTypes(final Xsd2UmlConfig context) {
         final List<DataType> dataTypes = new LinkedList<DataType>();
-        dataTypes.add(declareBuiltInDataType("duration", context));
-        dataTypes.add(declareBuiltInDataType("dateTime", context));
-        dataTypes.add(declareBuiltInDataType("time", context));
+        dataTypes.add(declareBuiltInDataType("anyURI", context));
+        dataTypes.add(declareBuiltInDataType("base64Binary", context));
+        dataTypes.add(declareBuiltInDataType("boolean", context));
+        dataTypes.add(declareBuiltInDataType("byte", context));
         dataTypes.add(declareBuiltInDataType("date", context));
+        dataTypes.add(declareBuiltInDataType("dateTime", context));
+        dataTypes.add(declareBuiltInDataType("decimal", context));
+        dataTypes.add(declareBuiltInDataType("double", context));
+        dataTypes.add(declareBuiltInDataType("duration", context));
+        dataTypes.add(declareBuiltInDataType("ENTITY", context));
+        dataTypes.add(declareBuiltInDataType("ENTITIES", context));
+        dataTypes.add(declareBuiltInDataType("float", context));
         dataTypes.add(declareBuiltInDataType("gYearMonth", context));
         dataTypes.add(declareBuiltInDataType("gYear", context));
         dataTypes.add(declareBuiltInDataType("gMonthDay", context));
         dataTypes.add(declareBuiltInDataType("gDay", context));
         dataTypes.add(declareBuiltInDataType("gMonth", context));
-        dataTypes.add(declareBuiltInDataType("boolean", context));
-        dataTypes.add(declareBuiltInDataType("base64Binary", context));
         dataTypes.add(declareBuiltInDataType("hexBinary", context));
-        dataTypes.add(declareBuiltInDataType("float", context));
-        dataTypes.add(declareBuiltInDataType("decimal", context));
-        dataTypes.add(declareBuiltInDataType("integer", context));
-        dataTypes.add(declareBuiltInDataType("long", context));
-        dataTypes.add(declareBuiltInDataType("int", context));
-        dataTypes.add(declareBuiltInDataType("short", context));
-        dataTypes.add(declareBuiltInDataType("byte", context));
-        dataTypes.add(declareBuiltInDataType("double", context));
-        dataTypes.add(declareBuiltInDataType("anyURI", context));
-        dataTypes.add(declareBuiltInDataType("QName", context));
-        dataTypes.add(declareBuiltInDataType("NOTATION", context));
-        dataTypes.add(declareBuiltInDataType("string", context));
-        dataTypes.add(declareBuiltInDataType("normalizedString", context));
-        dataTypes.add(declareBuiltInDataType("token", context));
-        dataTypes.add(declareBuiltInDataType("language", context));
         dataTypes.add(declareBuiltInDataType("ID", context));
         dataTypes.add(declareBuiltInDataType("IDREF", context));
+        dataTypes.add(declareBuiltInDataType("IDREFS", context));
+        dataTypes.add(declareBuiltInDataType("int", context));
+        dataTypes.add(declareBuiltInDataType("integer", context));
+        dataTypes.add(declareBuiltInDataType("language", context));
+        dataTypes.add(declareBuiltInDataType("long", context));
+        dataTypes.add(declareBuiltInDataType("Name", context));
+        dataTypes.add(declareBuiltInDataType("negativeInteger", context));
+        dataTypes.add(declareBuiltInDataType("NCName", context));
+        dataTypes.add(declareBuiltInDataType("nonNegativeInteger", context));
+        dataTypes.add(declareBuiltInDataType("nonPositiveInteger", context));
+        dataTypes.add(declareBuiltInDataType("normalizedString", context));
+        dataTypes.add(declareBuiltInDataType("NOTATION", context));
+        dataTypes.add(declareBuiltInDataType("NMTOKEN", context));
+        dataTypes.add(declareBuiltInDataType("NMTOKENS", context));
+        dataTypes.add(declareBuiltInDataType("positiveInteger", context));
+        dataTypes.add(declareBuiltInDataType("QName", context));
+        dataTypes.add(declareBuiltInDataType("short", context));
+        dataTypes.add(declareBuiltInDataType("string", context));
+        dataTypes.add(declareBuiltInDataType("time", context));
+        dataTypes.add(declareBuiltInDataType("token", context));
+        dataTypes.add(declareBuiltInDataType("unsignedByte", context));
+        dataTypes.add(declareBuiltInDataType("unsignedInt", context));
+        dataTypes.add(declareBuiltInDataType("unsignedLong", context));
+        dataTypes.add(declareBuiltInDataType("unsignedShort", context));
         return dataTypes;
     }
 
@@ -468,6 +493,9 @@ final class Xsd2UmlConvert {
                     }
                 }
 
+            } else if (particle instanceof XmlSchemaAny) {
+                @SuppressWarnings("unused")
+                final XmlSchemaAny xmlSchemaChoice = (XmlSchemaAny) particle;
             } else {
                 throw new RuntimeException("Unsupported XmlSchemaParticle item: "
                         + particle.getClass().getCanonicalName());
@@ -595,6 +623,20 @@ final class Xsd2UmlConvert {
                 // shared so that names resolve to the same objects.
                 final Model embeddedModel = parseXmlSchema("", level + 1, embeddedSchema, config, plugin);
                 ownedElements.addAll(embeddedModel.getOwnedElements());
+            } else if (schemaObject instanceof XmlSchemaImport) {
+                final XmlSchemaImport importedSchema = (XmlSchemaImport) schemaObject;
+                final XmlSchema embeddedSchema = importedSchema.getSchema();
+
+                // While we load the embedded schema the context for looking up identifiers is
+                // shared so that names resolve to the same objects.
+                final Model embeddedModel = parseXmlSchema("", level + 1, embeddedSchema, config, plugin);
+                ownedElements.addAll(embeddedModel.getOwnedElements());
+            } else if (schemaObject instanceof XmlSchemaAttribute) {
+                @SuppressWarnings("unused")
+                final XmlSchemaAttribute schemaAttribute = (XmlSchemaAttribute) schemaObject;
+            } else if (schemaObject instanceof XmlSchemaAttributeGroup) {
+                @SuppressWarnings("unused")
+                final XmlSchemaAttributeGroup schemaAttributeGroup = (XmlSchemaAttributeGroup) schemaObject;
             } else {
                 throw new AssertionError(schemaObject);
             }

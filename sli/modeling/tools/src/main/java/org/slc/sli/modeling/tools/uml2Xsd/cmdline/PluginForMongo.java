@@ -100,26 +100,28 @@ final class PluginForMongo implements Uml2XsdPlugin {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
         xsw.appinfo();
         {
-            if (SliUmlConstants.TAGDEF_DATASTORE_PII.equals(tagDefinition.getName())) {
+            if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_DATASTORE_ENFORCEMENT_READ.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_ENFORCE_READ.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_READ_ENFORCEMENT.getLocalPart(),
                         SliMongoConstants.SLI_READ_ENFORCEMENT.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_DATASTORE_ENFORCEMENT_WRITE.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_ENFORCE_WRITE.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_WRITE_ENFORCEMENT.getLocalPart(),
                         SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_DATASTORE_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
+            }
+            else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
                         SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_DATASTORE_SECURITY_SPHERE.equals(tagDefinition.getName())) {
+            }
+            else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
                         SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
@@ -169,7 +171,7 @@ final class PluginForMongo implements Uml2XsdPlugin {
                             xsw.documentation();
                             xsw.characters(collapseWhitespace(taggedValue.getValue()));
                             xsw.end();
-                        } else if (SliUmlConstants.TAGDEF_DATASTORE_REFERENCE.equals(tagDefinition.getName())) {
+                        } else if (SliUmlConstants.TAGDEF_REFERENCE.equals(tagDefinition.getName())) {
                             // Ignore, or should we used the code below?
                         } else if (TagName.MONGO_NAME.equals(tagDefinition.getName())) {
                             // Ignore.

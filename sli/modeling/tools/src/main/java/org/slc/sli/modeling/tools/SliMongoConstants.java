@@ -19,4 +19,5 @@ public final class SliMongoConstants {
     public static final QName SLI_SECURITY_SPHERE = new QName(NAMESPACE_SLI, "SecuritySphere");
     public static final QName SLI_WRITE_ENFORCEMENT = new QName(NAMESPACE_SLI, "WriteEnforcement");
     public static final QName SLI_RELAXEDBLACKLIST = new QName(NAMESPACE_SLI, "RelaxedBlacklist");
+    public static final QName SLI_RESTRICTED_FOR_LOGGING = new QName(NAMESPACE_SLI, "RestrictedForLogging");
 }

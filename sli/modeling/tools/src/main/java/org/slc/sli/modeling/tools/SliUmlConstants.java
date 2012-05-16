@@ -7,13 +7,14 @@ public final class SliUmlConstants {
     /**
      * Prefix avoids collisions with other tag definitions.
      */
-    private static final String TAGDEF_DATASTORE_PREFIX = "dataStore.";
+    private static final String TAGDEF_PREFIX = "dataStore.";
 
-    public static final String TAGDEF_DATASTORE_PII = TAGDEF_DATASTORE_PREFIX.concat("pii");
-    public static final String TAGDEF_DATASTORE_ENFORCEMENT_READ = TAGDEF_DATASTORE_PREFIX.concat("enforceRead");
-    public static final String TAGDEF_DATASTORE_ENFORCEMENT_WRITE = TAGDEF_DATASTORE_PREFIX.concat("enforceWrite");
-    public static final String TAGDEF_DATASTORE_REFERENCE = TAGDEF_DATASTORE_PREFIX.concat("reference");
-    public static final String TAGDEF_DATASTORE_RELAXED_BLACKLIST = TAGDEF_DATASTORE_PREFIX.concat("relaxedBlacklist");
-    public static final String TAGDEF_DATASTORE_REST_RESOURCE = TAGDEF_DATASTORE_PREFIX.concat("resource");
-    public static final String TAGDEF_DATASTORE_SECURITY_SPHERE = TAGDEF_DATASTORE_PREFIX.concat("securitySphere");
+    public static final String TAGDEF_PII = TAGDEF_PREFIX.concat("pii");
+    public static final String TAGDEF_ENFORCE_READ = TAGDEF_PREFIX.concat("enforceRead");
+    public static final String TAGDEF_ENFORCE_WRITE = TAGDEF_PREFIX.concat("enforceWrite");
+    public static final String TAGDEF_REFERENCE = TAGDEF_PREFIX.concat("reference");
+    public static final String TAGDEF_RELAXED_BLACKLIST = TAGDEF_PREFIX.concat("relaxedBlacklist");
+    public static final String TAGDEF_REST_RESOURCE = TAGDEF_PREFIX.concat("resource");
+    public static final String TAGDEF_RESTRICTED_FOR_LOGGING = TAGDEF_PREFIX.concat("restrictedForLogging");
+    public static final String TAGDEF_SECURITY_SPHERE = TAGDEF_PREFIX.concat("securitySphere");
 }

@@ -133,8 +133,8 @@ public final class XmiWriter {
         xsw.writeEndElement();
     }
 
-    private static final void writeAttribute(final Attribute attribute, final ModelIndex mapper, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void writeAttribute(final Attribute attribute, final ModelIndex mapper,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.ATTRIBUTE.getLocalName(), NAMESPACE_UML);
         try {
             writeId(attribute, xsw);
@@ -158,8 +158,8 @@ public final class XmiWriter {
         }
     }
 
-    private static final void writeClassType(final ClassType classType, final ModelIndex mapper, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void writeClassType(final ClassType classType, final ModelIndex mapper,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.CLASS.getLocalName(), NAMESPACE_UML);
         try {
             writeId(classType, xsw);
@@ -349,8 +349,8 @@ public final class XmiWriter {
         xsw.writeEndElement();
     }
 
-    private static final void writeReference(final Identifier reference, final ModelIndex mapper, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void writeReference(final Identifier reference, final ModelIndex mapper,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         if (reference == null) {
             throw new NullPointerException("reference");
         }
