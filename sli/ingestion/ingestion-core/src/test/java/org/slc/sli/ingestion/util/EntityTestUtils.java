@@ -13,7 +13,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -23,7 +22,6 @@ import org.junit.Assert;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
-import org.mockito.Mockito;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
@@ -44,24 +42,19 @@ public class EntityTestUtils {
     @SuppressWarnings("unchecked")
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException, SmooksException {
+
+        DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
+
         Smooks smooks = new Smooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
-        smooksEdFiVisitor.setNrMongoStagingWriter(Mockito.mock(ResourceWriter.class));
+        smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
 
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
 
-        List<NeutralRecord> entityList = new ArrayList<NeutralRecord>();
-        for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
-            if (resEntry.getValue() instanceof List) {
-                List<?> list = (List<?>) resEntry.getValue();
-                if (list.size() != 0 && list.get(0) instanceof NeutralRecord) {
-                    entityList = (List<NeutralRecord>) list;
-                    break;
-                }
-            }
-        }
+        List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
+
         return entityList;
     }
 
@@ -192,5 +185,24 @@ public class EntityTestUtils {
 
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
+    }
+
+    private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
+
+        private List<NeutralRecord> neutralRecordList;
+
+        private DummyResourceWriter() {
+            this.neutralRecordList = new ArrayList<NeutralRecord>();
+        }
+
+        @Override
+        public void writeResource(NeutralRecord neutralRecord, String jobId) {
+            neutralRecordList.add(neutralRecord);
+        }
+
+        public List<NeutralRecord> getNeutralRecordsList() {
+            return neutralRecordList;
+        }
+
     }
 }
