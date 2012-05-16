@@ -37,7 +37,8 @@ module ApprovalEngine
 
 	# Roles to set in sandbox mode 
 	SANDBOX_ROLES = [
-		"Super_Admin"
+		"Application Developer",
+		"Ingestion User"
 	]
 
 	# Roles to set in production mode 
