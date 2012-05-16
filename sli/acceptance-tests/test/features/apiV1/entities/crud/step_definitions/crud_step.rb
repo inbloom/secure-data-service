@@ -37,7 +37,7 @@ $entityData = {
     "userName" => "bob3@bob.com",
     "firstName" => "Bob",
     "lastName" => "Roberts",
-    "validated" => "false",
+    "validated" => false,
     "environment" => "Sandbox"
   },
   "attendance" => {
