@@ -23,11 +23,6 @@
 
   <core:filterSettings defaultSerialization="false" />
 
-  <jb:bean beanId="records" class="java.util.ArrayList" createOnElement="#document">
-    <jb:wiring beanIdRef="record" />
-  </jb:bean>
-
-
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <!-- jb:value property="sourceId" data="" / -->
