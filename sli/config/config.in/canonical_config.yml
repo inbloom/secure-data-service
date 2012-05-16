@@ -38,6 +38,9 @@ default:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
+        # Used for populating Tenants and LandingZones
+        sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
+        sli.tenant.landingZoneMountPoint: /ingestion/lz
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -285,6 +288,9 @@ local:
 
         api.perf.log.path: target/apilogs/logs
         
+        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
+        #li.tenant.landingZoneMountPoint: ~/lzs
+
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
@@ -319,6 +325,8 @@ local:
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
+        #landingzone.inbounddir: C:/software/ingestion/lz/
+        #logging.path: C:/software/ingestion/logs/
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
