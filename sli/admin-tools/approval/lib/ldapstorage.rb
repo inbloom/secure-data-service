@@ -66,10 +66,9 @@ class LDAPStorage
 	ENTITY_CONSTANTS = {
 		:uidnumber => CONST_GROUPID_NUM,
 		:gidnumber => CONST_USERID_NUM,
-		:vendor     => "none",
-
+		:vendor    => "none",
+		:homedir   => "/dev/null"
 	}
-
 
 	# List of fields to fetch from LDAP for user 
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
@@ -138,7 +137,7 @@ class LDAPStorage
 		# make sure the required features are there 
 		REQUIRED_FIELDS.each do |k| 
 			if !e_user_info[k] || (e_user_info[k].strip == "")
-				raise "The following attributes #{REQUIRED_FIELDS} need to be set" 
+				raise "The following attributes #{REQUIRED_FIELDS} need to be set. These were provided: #{e_user_info}" 
 			end
 		end
 		
