@@ -40,18 +40,6 @@ public class EntityManager extends ApiClientManager {
 
     private static Logger log = LoggerFactory.getLogger(EntityManager.class);
 
-    // Mock Data Files
-    private static final String MOCK_DATA_DIRECTORY = "mock_data/";
-    private static final String MOCK_ENROLLMENT_FILE = "school.json";
-    private static final String MOCK_STUDENTS_FILE = "student.json";
-    private static final String MOCK_PROGRAMS_FILE = "student_program_association.json";
-    private static final String MOCK_ASSESSMENT_METADATA_FILE = "assessment_meta_data.json";
-    private static final String MOCK_ASSESSMENTS_FILE = "assessment.json";
-    private static final String MOCK_ATTENDANCE_FILE = "attendance.json";
-
-    // API Session Id
-    private static final String API_SESSION_KEY = "sessionId";
-
     public EntityManager() {
 
     }
@@ -181,17 +169,6 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getStudentAssessments(token, studentId);
     }
 
-
-    /**
-     * Get custom data
-     * @param token
-     * @param key
-     * @return
-     */
-    public List<GenericEntity> getCustomData(String token, String key) {
-        return getApiClient().getCustomData(token, key);
-    }
-
     /**
      * Retrieves a list of attendance objects for a single student.
      * @param token The current authentication token.
@@ -281,11 +258,11 @@ public class EntityManager extends ApiClientManager {
      * @param lastName
      * @return
      */
-    
+
     public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName) {
         return getApiClient().getStudentsWithSearch(token, firstName, lastName);
     }
-    
+
 
     /**
      * Saves an entity list to the specified file using its JSON representation

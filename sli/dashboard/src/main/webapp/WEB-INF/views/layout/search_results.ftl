@@ -6,6 +6,7 @@
 <#assign layoutConfig = viewConfigs>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
 <script type="text/javascript">
+var dataModel = DashboardProxy.getData("studentSearch");
 var no_result_string = 
         '<h4>I\'m sorry, we do not have results that match your search.</h4>\
         <p>There may be a quick fix:</p><ul>\
@@ -18,7 +19,7 @@ var no_result_string =
         <p>Return to the <a href="#">previous page</a>.</p>';
 
 function noSearchResults() {
-    if (dataModel.studentSearch.numResults == 0) {
+    if (dataModel.numResults == 0) {
         document.getElementById("noSearchResultsDiv").innerHTML = no_result_string;
         }
 }
@@ -44,13 +45,14 @@ function noSearchResults() {
             <div class="panel-header">
             </div>
             <script>
-            if (dataModel.studentSearch.numResults == 1){
+            
+            if (dataModel.numResults == 1){
                      var result_string = ' result.' 
             } else {
                      var result_string = ' results.'
             }
-            document.write('Your search for \"'+ dataModel.studentSearch.searchString +'\" \
-                           returned ' + dataModel.studentSearch.numResults + result_string);
+            document.write('Your search for \"'+ dataModel.searchString +'\" \
+                           returned ' + dataModel.numResults + result_string);
             
                             
             </script>

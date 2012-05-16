@@ -50,12 +50,13 @@ public abstract class GenericLayoutController {
         ModelMap model = new ModelMap();
         ModelAndViewConfig modelAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
-        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getComponentViewConfigMap());
-        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS_JSON, JsonConverter.toJson(modelAndConfig.getComponentViewConfigMap()));
+        model.addAttribute(Constants.MM_COMPONENT_ID, layoutId);
+        model.addAttribute(Constants.MM_ENTITY_ID, entityKey);
+        model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getConfig());
         model.addAttribute(Constants.MM_KEY_LAYOUT, modelAndConfig.getLayoutItems());
         model.addAttribute(Constants.MM_KEY_DATA, modelAndConfig.getData());
-        model.addAttribute(Constants.MM_KEY_DATA_JSON, JsonConverter.toJson(modelAndConfig.getData()));
-        model.addAttribute(Constants.MM_KEY_WIDGET_CONFIGS_JSON, JsonConverter.toJson(customizationAssemblyFactory.getWidgetConfigs()));
+        model.addAttribute(Constants.MM_VIEW_DATA_CONFIG_JSON, JsonConverter.toJson(modelAndConfig));
+
         model.addAttribute(Constants.MM_KEY_LOGGER, logger);
         setContextPath(model, request);
         addHeaderFooter(model);

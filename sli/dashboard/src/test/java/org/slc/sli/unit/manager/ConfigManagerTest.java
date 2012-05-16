@@ -8,11 +8,11 @@ import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.MockAPIClient;
 import org.slc.sli.manager.impl.ConfigManagerImpl;
 import org.slc.sli.security.SLIPrincipal;
 

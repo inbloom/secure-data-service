@@ -45,11 +45,9 @@ public final class Constants {
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
     public static final String MM_KEY_VIEW_CONFIGS = "viewConfigs";
-    public static final String MM_KEY_VIEW_CONFIGS_JSON = "viewConfigsJson";
-    public static final String MM_KEY_WIDGET_CONFIGS_JSON = "widgetConfig";
+    public static final String MM_VIEW_DATA_CONFIG_JSON = "viewDataConfig";
     public static final String MM_KEY_LAYOUT = "layout";
     public static final String MM_KEY_DATA = "data";
-    public static final String MM_KEY_DATA_JSON = "dataJson";
     public static final String MM_KEY_ASSESSMENTS = "assessments";
     public static final String MM_KEY_STUDENTS = "students";
     public static final String MM_KEY_WIDGET_FACTORY = "widgetFactory";
@@ -58,6 +56,8 @@ public final class Constants {
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
     public static final String MM_KEY_LOGGER = "logger";
+    public static final String MM_COMPONENT_ID = "componentId";
+    public static final String MM_ENTITY_ID = "entityId";
 
 
     // entity attributes

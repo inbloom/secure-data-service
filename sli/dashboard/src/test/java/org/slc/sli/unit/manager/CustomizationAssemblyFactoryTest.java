@@ -294,7 +294,7 @@ public class CustomizationAssemblyFactoryTest {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
 
-        Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(3, viewAndConfig.getConfig().size());
     }
 
     /**
@@ -305,10 +305,10 @@ public class CustomizationAssemblyFactoryTest {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
 
-        Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(3, viewAndConfig.getConfig().size());
         viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleFemaleStudentEntity.get("id"));
-        Assert.assertEquals(1, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(1, viewAndConfig.getConfig().size());
     }
 
     /**
