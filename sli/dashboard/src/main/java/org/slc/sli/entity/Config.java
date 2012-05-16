@@ -1,5 +1,6 @@
 package org.slc.sli.entity;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,11 +15,14 @@ import org.slc.sli.web.util.NoBadChars;
 
 /**
  * Main config object for dashboard components
+ * Immutable
  *
  * @author agrebneva
  *
  */
-public class Config implements Cloneable {
+public class Config implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Type of components
      *
@@ -50,6 +54,7 @@ public class Config implements Cloneable {
      *
      */
     public static class Item extends Config {
+        private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
         protected String description;
         @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,100}")
@@ -171,7 +176,8 @@ public class Config implements Cloneable {
      * @author agrebneva
      *
      */
-    public static class Data {
+    public static class Data implements Serializable {
+        private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9]{0,50}")
         protected String entity;
         @Pattern(regexp = "[a-zA-Z0-9 ]{0,50}")
@@ -268,7 +274,8 @@ public class Config implements Cloneable {
      * @author agrebneva
      *
      */
-    public static class Condition {
+    public static class Condition implements Serializable {
+        private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
         protected String field;
         protected Object[] value;

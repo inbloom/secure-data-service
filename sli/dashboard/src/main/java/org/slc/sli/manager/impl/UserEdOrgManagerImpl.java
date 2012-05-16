@@ -19,6 +19,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -28,6 +30,7 @@ import org.slc.sli.util.Constants;
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
 
+    private static final String ED_ORG_ATTR = "edOrg";
     private static final String USER_SCHOOLS_CACHE = "user.schools";
     private static final String USER_ED_ORG_CACHE = "user.district";
 
@@ -52,22 +55,60 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrgKey != null) {
             return edOrgKey;
         }
-        // get list of school
-        List<GenericEntity> schools = getSchools(token);
 
-        if (schools != null && !schools.isEmpty()) {
+        GenericEntity edOrg = null;
 
-            // read first school
-            GenericEntity school = schools.get(0);
+        // For state-level ed-org - need to take default config, so keep state ed org
+        if (SecurityUtil.isNotEducator()) {
 
-            // read parent organization
-            GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
+            GenericEntity staff = getApiClient().getStaffInfo(token);
+            if (staff != null) {
+
+                GenericEntity staffEdOrg = (GenericEntity) staff.get(ED_ORG_ATTR);
+                if (staffEdOrg != null) {
+
+                    @SuppressWarnings("unchecked")
+                    List<String> edOrgCategories = (List<String>) staffEdOrg.get(Constants.ATTR_ORG_CATEGORIES);
+                    if (edOrgCategories != null && edOrgCategories.size() > 0) {
+
+                        for (String edOrgCategory : edOrgCategories) {
+                            if (edOrgCategory.equals(Constants.STATE_EDUCATION_AGENCY)) {
+                                edOrg = staffEdOrg;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // otherwise get school's parent ed-org
+        if (edOrg == null) {
+
+           // get list of school
+           List<GenericEntity> schools = getSchools(token);
+
+            if (schools != null && !schools.isEmpty()) {
+
+                // read first school
+                GenericEntity school = schools.get(0);
+
+                // read parent organization
+                edOrg = getParentEducationalOrganization(getToken(), school);
+                if(edOrg == null) {
+                     throw new DashboardException("No data is available for you to view. Please contact your IT administrator.");
+                }
+            }
+        }
+
+        // create ed-org key and save to cache
+        if (edOrg != null) {
             @SuppressWarnings("unchecked")
-            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
+            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg
                     .get(Constants.METADATA);
             if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), parentEdOrg.getId());
+                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
                     putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
                     return edOrgKey;
                 }

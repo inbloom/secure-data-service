@@ -62,7 +62,7 @@ And their id shown in proflie is "1000000000"
 And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
-And there are "6" Tabs
+And there are "4" Tabs
 
 @integration 
 Scenario: Student with no grade level

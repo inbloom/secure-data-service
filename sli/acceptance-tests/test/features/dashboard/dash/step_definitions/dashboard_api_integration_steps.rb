@@ -86,7 +86,7 @@ When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeNa
      programParticipations = getStudentProgramParticipation(studentCell)
      found = false
      programParticipations.each do |pp|
-       if (pp == lozengeName)
+       if (pp.text == lozengeName)
         found = true  
        end
      end

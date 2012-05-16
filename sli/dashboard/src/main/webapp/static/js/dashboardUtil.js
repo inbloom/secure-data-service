@@ -104,15 +104,7 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
-DashboardUtil.getShortDisplayText = function(displayText) {
-	if (displayText.length > 18) {
-		return displayText.substring(0,14) + "...";
-	}
-	
-	return displayText;
-};
-
-DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, doShortString, callback) {
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
 	var select =  "";
 	
 	$("#"+name).find("dropdown-menu").html(select);
@@ -128,26 +120,24 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	    	}
 		if (defaultOptions != undefined && defaultOptions != null) {
 			jQuery.each(defaultOptions, function(val, displayText) {
-				select += "    <li class=\"\"><a href=\"#\">" + displayText + "</a>" +
+				select += "    <li class=\"\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" + displayText + "</a>" +
 				"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
 			});
 		}
 		for(var index = 0; index < options.length; index++) {
 			var selected = index == autoSelectOption ? "selected" : "";
-			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
+			select += "    <li class=\"" + selected + "\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" +$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
 	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
 		}
+		
+		$("#"+name + "SelectMenu").find(".optionText").html("Choose one");
 	}
 	
 	$("#"+name + "SelectMenu .dropdown-menu").html(select);
 	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
 	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
 		$("#"+name + "SelectMenu .selected").removeClass("selected");
-		var displayText = $(this).find("a").html();
-		if (doShortString) {
-			displayText = DashboardUtil.getShortDisplayText(displayText);
-		}
-		$("#"+name + "SelectMenu").find(".optionText").html(displayText);
+		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
 		$("#"+name + "Select").val($(this).find("#selectionValue").val());
 		$(this).addClass("selected");
 		callback();
@@ -157,7 +147,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 };
 
-DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doShortString) {
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
 	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
 		if (optionValue == $(this).find("#selectionValue").val()) {
 			$(this).addClass("selected");
@@ -165,11 +155,7 @@ DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doSho
 				$(this).click();
 			} else {
 				$("#" + name + "Select").val(optionValue);
-				var displayText = $(this).find("a").html();
-				if (doShortString) {
-					displayText = DashboardUtil.getShortDisplayText(displayText);
-				}
-				$("#" + name + "SelectMenu .optionText").html(displayText);
+				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
 			}
 		}
 	});
@@ -246,9 +232,8 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        viewrecords: true,
 	        autoencode: true,
 	        rowNum: 10000};
-        if(panelData === null || panelData === undefined) {
+        if(panelData === null || panelData === undefined || panelData.length < 1) {
             gridOptions["data"] = [];
-            //gridOptions["caption"] = "There is no data available for your request.";
             DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
         }
 	if (options) {
@@ -410,6 +395,7 @@ DashboardUtil.Grid.Formatters = {
             var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
             returnValue += "<script>";
             returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+            returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
             returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
             
             var width = options.colModel.formatoptions["fuelGaugeWidth"];
@@ -762,17 +748,17 @@ DashboardUtil.checkCondition = function(data, condition) {
 
 DashboardUtil.displayErrorMessage = function (error){
     var errors = document.getElementById("losError");
-    errors.style.display = "block";
-    errors.innerHTML = error;
-    var tabs = document.getElementById("tabs");
-    tabs.style.display = "none";
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "block";
+        errors.innerHTML = error;
+    }
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
     var errors = document.getElementById("losError");
-    errors.style.display = "none";
-    var tabs = document.getElementById("tabs");
-    tabs.style.display = "block";
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "none";
+    }
 }
 
 DashboardUtil.teardrop = {

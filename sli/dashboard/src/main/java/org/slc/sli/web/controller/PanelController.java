@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
-import org.slc.sli.web.util.SafeUUID;
+import org.slc.sli.web.entity.SafeUUID;
 
 
 /**

@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
+import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceConstants;
@@ -44,7 +45,10 @@ public class OnboardingResource {
 
     @Autowired
     Repository<Entity> repo;
-
+    
+    @Autowired
+    TenantResource tenantResource;
+    
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
     public static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
@@ -62,7 +66,7 @@ public class OnboardingResource {
     public static final String AUTH_TYPE = "authType";
     public static final String AUTH_ID = "authId";
     public static final String APP_IDS = "appIds";
-    public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
+    public static final String APP_BOOTSTRAP = "bootstrap";
 
     /**
      * Provision a landing zone for the provide educational organization.
@@ -143,30 +147,28 @@ public class OnboardingResource {
         uuid = e.getEntityId();
 
         // retrieve the application ids for common applications that already exist in mongod
-        List<String> appIds = getAppIds(COMMON_APP_NAMES);
+        List<String> appIds = getAppIds();
 
         // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
         updateApps(uuid, appIds);
 
         // create or update the applicationAuthorization collection in mongod for new edorg entity
         createAppAuth(uuid, appIds);
-
-        String landingZonePath = makeLandingZone();
-        Map<String, String> returnObject = new HashMap<String, String>();
-        returnObject.put("landingZone", landingZonePath);
-        returnObject.put("edOrg", e.getEntityId());
-
-        return Response.status(Status.CREATED).entity(returnObject).build();
-    }
-
-    /**
-     * Generates the landing zone
-     *
-     * @return the location of the landing zone
-     */
-    private String makeLandingZone() {
-        //TODO stub out for now
-        return "landingZoneLocationStub";
+        
+        try {
+            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
+            
+            Map<String, String> returnObject = new HashMap<String, String>();
+            returnObject.put("landingZone", landingZone.getLandingZonePath());
+            returnObject.put("serverName", landingZone.getIngestionServerName());
+            returnObject.put("edOrg", e.getEntityId());
+            
+            return Response.status(Status.CREATED).entity(returnObject).build();
+        } catch (TenantResourceCreationException trce) {
+            EntityBody entity = new EntityBody();
+            body.put("message", trce.getMessage());
+            return Response.status(trce.getStatus()).entity(entity).build();
+        }
     }
 
     /**
@@ -174,15 +176,13 @@ public class OnboardingResource {
      *            collection of common application names
      * @return collection of common application id
      */
-    private List<String> getAppIds(List<String> commonAppNames) {
+    private List<String> getAppIds() {
         List<String> appIds = new ArrayList<String>();
-        Iterable<Entity> apps = repo.findAll(APPLICATION_RESOURCE_NAME);
-        for (Entity app : apps) {
-            for (String appName : commonAppNames) {
-                if (((String) app.getBody().get(APPLICATION_NAME)).contains(appName)) {
-                    appIds.add(app.getEntityId());
-                }
-            }
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(APP_BOOTSTRAP, NeutralCriteria.OPERATOR_EQUAL, true));
+        Iterable<String> ids = repo.findAllIds(APPLICATION_RESOURCE_NAME, query);
+        for (String id : ids) {
+            appIds.add(id);
         }
         return appIds;
     }

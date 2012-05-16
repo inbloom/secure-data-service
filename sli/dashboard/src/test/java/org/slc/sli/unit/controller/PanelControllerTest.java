@@ -18,7 +18,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 import org.slc.sli.web.controller.PanelController;
-import org.slc.sli.web.util.SafeUUID;
+import org.slc.sli.web.entity.SafeUUID;
 
 /**
  * Testing data controller

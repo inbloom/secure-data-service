@@ -116,6 +116,7 @@ public final class Constants {
     public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
     public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
     public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
+    public static final String ATTR_ORG_CATEGORIES = "organizationCategories";
     public static final String ATTR_NAME_OF_INST = "nameOfInstitution";
     public static final String ATTR_ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ATTR_ASSESSMENTS = "assessments";
@@ -244,6 +245,8 @@ public final class Constants {
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
 
+    //Ed-org types
+    public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     /**
      * Contains the possible values for FRE participation

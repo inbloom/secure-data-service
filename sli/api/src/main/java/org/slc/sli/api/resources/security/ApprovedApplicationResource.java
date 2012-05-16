@@ -15,13 +15,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -33,6 +26,12 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -92,7 +91,24 @@ public class ApprovedApplicationResource {
 
             if (result != null) {
                 if (result.containsKey("endpoints")) {
-                    filterEndpoints((List<Map<String, Object>>) result.get("endpoints"));
+                    List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
+                    filterEndpoints(endpoints);
+                    
+                    //we ended up filtering out all the endpoints - no reason to display the app
+                    if (endpoints.size() == 0) {
+                        continue;
+                    }
+                }
+                
+                if (result.containsKey("roles")) {
+                    List<String> userRoles = getUsersRoles();
+                    List<String> reqRoles = (List<String>) result.get("roles");
+                    List<String> intersection = new ArrayList<String>(reqRoles);
+                    intersection.retainAll(userRoles);
+                    if (userRoles.size() == 0 || intersection.size() == 0) {
+                        debug("Filtering app because users roles {} did not match required roles {}.", userRoles, reqRoles);
+                        continue;
+                    }
                 }
 
                 boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
@@ -112,8 +128,8 @@ public class ApprovedApplicationResource {
                     }
                 }
 
-                //don't allow disabled apps
-                if (result.get("enabled") == null || !(Boolean) result.get("enabled")) {
+                // don't allow "installed" apps
+                if (result.get("installed") == null || (Boolean) result.get("installed")) {
                     continue;
                 }
 
@@ -123,10 +139,15 @@ public class ApprovedApplicationResource {
         }
         return Response.status(Status.OK).entity(results).build();
     }
-
-    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+    
+    private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<String> userRoles = principal.getRoles();
+        return userRoles;
+    }
+
+    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+        List<String> userRoles = getUsersRoles();
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
             @SuppressWarnings("unchecked")

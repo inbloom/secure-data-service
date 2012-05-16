@@ -11,29 +11,26 @@ class LandingZone < Ldap
     end
   end
   
-  def self.provision(edorg_id, tenant)
-    provision = OnBoarding.new(:stateOrganizationId => edorg_id, :tenantId => tenant)
-    # TODO: catch exception because we still want to create user on LDAP
-    saved = provision.save()
-    Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"
-    
-    if (saved == false)
+  def self.provision(edorg_id, tenant, uid)
+    Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}"
+
+    user_info = @@ldap.read_user(uid)
+    if(!user_info)
+      raise ProvisioningError.new "User does not exist in LDAP"
+    end
+
+    result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    @landingzone = result.attributes[:landingZone]
+    @server = result.attributes[:serverName]
+    Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
+    
+    user_info[:homedir] = result.attributes[@landingzone]
+    @@ldap.update_user_info(user_info)
+    {:landingzone => @landingzone, :server => @server}
   end
-
-  # user_info = {
-  #     :first => "John",
-  #     :last => "Doe", 
-  #     :email => "jdoe@example.com",
-  #     :password => "secret", 
-  #     :vendor => "Acme Inc."
-  #     :emailtoken ... hash string 
-  #     :updated ... datetime
-  #     :status  ... "submitted"
-  #     :homedirectory ... string
-  # }
-  # @@ldap.create_user(user_info)
 
 end
 

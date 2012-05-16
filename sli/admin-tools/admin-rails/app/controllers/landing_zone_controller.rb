@@ -22,7 +22,7 @@ class LandingZoneController < ApplicationController
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-      LandingZone.provision ed_org_id, tenant
+      @landingzone = LandingZone.provision ed_org_id, tenant, uid
     end
   end
 
@@ -39,6 +39,11 @@ class LandingZoneController < ApplicationController
       logger.warn "Rejecting user #{session[:full_name]} due to insufficient privilages: roles: #{session[:roles]}"
       render_403
     end
+  end
+
+  def uid
+    check = Check.get ""
+    return check["external_id"]
   end
 
   def get_tenant
