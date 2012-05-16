@@ -2,30 +2,31 @@ testdir = File.dirname(__FILE__)
 $LOAD_PATH << testdir + "/../lib"
 require 'approval'
 require 'test/unit'
+require 'socket'
 
-class MockEmailer
-	def send_approval_email(email_address, first, last)
-		@last_call = [email_address, first, last]
+class MockEmailer 
+	def send_approval_email(args = {})
+		@last_call = args.clone 
 	end
 end
 
 class TestApprovalEngine < Test::Unit::TestCase
 	def setup
-		# define two basic users
-		@jd_email = "jdoe@example.com"
+		# define two basic users 
+		@jd_email = "jdoe_#{Socket.gethostname}@example.com"
 		@jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
 		@jd_user = {
 			:first      => "John",
-			:last       => "Doe",
+			:last       => "Doe", 
 			:email      => @jd_email,
-			:password   => "secret",
+			:password   => "secret", 
 			:vendor     => "Acme Inc.",
 			:emailtoken => @jd_emailtoken,
 			:status     => "submitted",
-			:homedir    => "/home/exampleuser"
+			:homedir    => "/home/exampleuser"	
 		}
 
-		@td_email = "tdoe@example.com"
+		@td_email = "tdoe_#{Socket.gethostname}@example.com"
 		@td_user = @jd_user.clone
 		@td_user[:email] = @td_email
 	end
@@ -66,9 +67,9 @@ class TestApprovalEngine < Test::Unit::TestCase
 
 		if is_sandbox
 			assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
-		else
+		else 
 			assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
-		end
+		end 
 
 		ApprovalEngine.change_user_status(@jd_email, ApprovalEngine::ACTION_DISABLE)
 		assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_DISABLED)
@@ -82,14 +83,14 @@ class TestApprovalEngine < Test::Unit::TestCase
 			assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
 		end
 
-		# move the other user to rejected state
+		# move the other user to rejected state 
 		if !is_sandbox
 			ApprovalEngine.verify_email(td_emailtoken)
 			ApprovalEngine.change_user_status(@td_email, ApprovalEngine::ACTION_REJECT)
 			assert(@ldap.read_user(@td_email)[:status] == ApprovalEngine::STATE_REJECTED)
-			roles = ApprovalEngine.get_roles(@td_email)
+			roles = ApprovalEngine.get_roles(@td_email) 
 			assert(roles == [], "Expected empty roles but got #{roles}")
-		end
+		end 
 
 		#ApprovalEngine.remove_user(@jd_email)
 		#assert(!ApprovalEngine.user_exists?(@jd_email))
@@ -98,7 +99,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 		#users = ApprovalEngine.get_users().select { |u| !![@jd_email, @td_email].index(u[:email]) }
 		#assert(users == [], "Expected empty array got #{users}.")
 	end
-
+	
 
 	def test_production
 		regular_workflow(true)
