@@ -8,6 +8,7 @@ import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.NeutralQuery;
@@ -26,8 +27,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
-    private static final int ENTITY_SPLITTING_THRESHOLD = 25000;
-    private static final int ENTITY_CONSTANT_SPLIT = 25000;
+    @Value("${sli.ingestion.splitChunkSize}")
+    private int splitChunkSize;
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -86,14 +87,14 @@ public class WorkNoteSplitter {
 
             LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
 
-            if (numRecords > ENTITY_SPLITTING_THRESHOLD) {
-                int numberOfBatches = (int) Math.ceil((double) numRecords / ENTITY_CONSTANT_SPLIT);
+            if (numRecords > splitChunkSize) {
+                int numberOfBatches = (int) Math.ceil((double) numRecords / splitChunkSize);
 
                 LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
                         stagedEntity.getCollectionNameAsStaged(), numberOfBatches);
 
-                for (int i = 0; i < numRecords; i += ENTITY_CONSTANT_SPLIT) {
-                    int chunk = ((i + ENTITY_CONSTANT_SPLIT) > numRecords) ? (numRecords) : (i + ENTITY_CONSTANT_SPLIT);
+                for (int i = 0; i < numRecords; i += splitChunkSize) {
+                    int chunk = ((i + splitChunkSize) > numRecords) ? (numRecords) : (i + splitChunkSize);
                     WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, i, chunk - 1,
                             numberOfBatches);
                     workNoteList.add(workNote);
