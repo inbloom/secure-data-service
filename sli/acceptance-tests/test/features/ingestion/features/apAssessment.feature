@@ -25,7 +25,6 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature                 |
      | studentAssessmentAssociation| 9                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified |
 #     | studentAssessmentAssociation| 25                  | body.assessmentReference.assessmentIdentity.assessmentIdentificationCode.id | AP English Literature and Composition |
-     | studentAssessmentAssociation| 1                   | metaData.externalId | {administrationDate=2011-05-01, studentId=900000000, assessmentId=AP English Literature and Composition} |
 
   And I should see "Processed 130 records." in the resulting batch job file
   And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
