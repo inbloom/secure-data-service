@@ -955,7 +955,7 @@ Then /^I should see "([^"]*)" in the resulting batch job file for "([^"]*)"$/ do
 end
 
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
-    prefix = "error."
+    prefix = "job_error-"
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
@@ -967,14 +967,14 @@ end
 Then /^I should not see an error log file created$/ do
   if (INGESTION_MODE == 'remote')
     #remote check of file
-    @error_filename_component = "error."
+    @error_filename_component = "job_error-"
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
     puts "Showing : <" + @resultOfIngestion + ">"
 
   else
-    @error_filename_component = "error."
+    @error_filename_component = "job_error-"
 
     @error_status_filename = ""
     Dir.foreach(@landing_zone_path) do |entry|
@@ -997,14 +997,14 @@ end
 def checkForErrorLogFile(landing_zone)
   if (INGESTION_MODE == 'remote')
     #remote check of file
-    @error_filename_component = "error."
+    @error_filename_component = "job_error-"
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
     @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
     puts "Showing : <" + @resultOfIngestion + ">"
 
   else
-    @error_filename_component = "error."
+    @error_filename_component = "job_error-"
 
     @error_status_filename = ""
     Dir.foreach(landing_zone) do |entry|
