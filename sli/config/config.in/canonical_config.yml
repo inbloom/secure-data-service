@@ -41,6 +41,7 @@ default:
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
         sli.tenant.landingZoneMountPoint: /ingestion/lz
+        sli.landingZone.server: devpantheon.slidev.org
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -629,7 +630,7 @@ test-local:
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
+        sli.landingZone.server: landingZone
 
 test-team:
     test:
@@ -659,7 +660,7 @@ test-team:
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
+        sli.landingZone.server: landingZone
 
 test-perf:
     ingestion:

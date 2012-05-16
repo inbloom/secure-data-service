@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -65,6 +66,15 @@ public class OnboardingResource {
     public static final String APP_IDS = "appIds";
     public static final String APP_BOOTSTRAP = "bootstrap";
 
+    private final String landingZoneServer;
+
+
+    @Autowired
+    public OnboardingResource(@Value("${sli.landingZone.server}") String landingZoneServer) {
+        super();
+        this.landingZoneServer = landingZoneServer;
+    }
+
     /**
      * Provision a landing zone for the provide educational organization.
      *
@@ -100,8 +110,6 @@ public class OnboardingResource {
      *            The State Educational Organization identifier.
      * @param tenantId
      *            The EdOrg tenant identifier.
-     * @param unique
-     *            identifier for the new EdOrg entity (out)
      * @return Response of the request as an HTTP Response.
      */
     public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
@@ -157,7 +165,7 @@ public class OnboardingResource {
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
-            returnObject.put("serverName", landingZone.getIngestionServerName());
+            returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", e.getEntityId());
 
             return Response.status(Status.CREATED).entity(returnObject).build();
