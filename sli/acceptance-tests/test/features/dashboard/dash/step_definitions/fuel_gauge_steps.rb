@@ -1,31 +1,17 @@
-Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, score|
+Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)" with cutpoints "([^"]*)"$/ do |studentName, assessment, score, cutpointsArray|
   studentCell = getStudentCell(studentName)
   td = getTdBasedOnAttribute(studentCell, assessment)
-  testFuelGauge(td, score)
+  testFuelGauge(td, score, cutpointsArray)
 end
 
-def testFuelGauge(td, score)
-  title = td.attribute("title")
-  #puts "widget info:" + title
+def testFuelGauge(td, score, cutpointsArray)
+
   cutpoints = []
-  #dashboardUtil.js
   colorCode = ["#eeeeee","#b40610", "#e58829","#dfc836", "#7fc124","#438746"]
   scoreValue = nil
-  #Expected text in the form:
-  #var cutpoints = new Array(6,15,21,28,33)
-  if ( title =~ /cutPoints(.*)new Array\((\d+), (\d+), (\d+), (\d+), (\d+)/ )
-    cutpoints[0] = $2
-    cutpoints[1] = $3
-    cutpoints[2] = $4
-    cutpoints[3] = $5
-    cutpoints[4] = $6
-  end
-  #Expected text in the form:
-  # FuelGaugeWidget ('ISATWriting5', 1, cutpoints)
-  if ( title =~ /FuelGaugeWidget \((.*), (\d+),/ )
-    scoreValue = $2
-  end
-  
+  cutpoints = cutpointsArray.split(',')
+
+  scoreValue = td.attribute("title")
   assert(score == scoreValue, "Expected: " + score + " but found: " + scoreValue)
   
   rects = td.find_elements(:tag_name,"rect")

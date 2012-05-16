@@ -1163,6 +1163,11 @@ Then /^I should see "([^"]*)" in the resulting StudentAssessment warning log fil
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
+Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
+    prefix = "warn."
+    checkForContentInFileGivenPrefix(message, prefix)
+end
+
 Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ do |message, xml_name|
     prefix = "warn."
     checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)

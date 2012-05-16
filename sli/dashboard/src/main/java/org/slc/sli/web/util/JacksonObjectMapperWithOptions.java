@@ -7,7 +7,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.introspect.VisibilityChecker;
 
 /**
- * A wrapper with some useful features enabled
+ * A wrapper for jackson ObjectMapper with some useful features enabled
  * @author agrebneva
  *
  */
