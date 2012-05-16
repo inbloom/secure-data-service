@@ -23,7 +23,7 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 
 public final class DocumentationReader {
@@ -139,7 +139,7 @@ public final class DocumentationReader {
         return new Diagram(title, source, prolog, epilog);
     }
 
-    private static final Documentation<Type> readDocument(final Mapper mapper, final XMLStreamReader reader)
+    private static final Documentation<Type> readDocument(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartDocument(reader);
         Documentation<Type> dm = null;
@@ -172,7 +172,7 @@ public final class DocumentationReader {
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
-    public static final Documentation<Type> readDocumentation(final InputStream stream, final Mapper mapper) {
+    public static final Documentation<Type> readDocumentation(final InputStream stream, final ModelIndex mapper) {
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
@@ -187,7 +187,7 @@ public final class DocumentationReader {
         }
     }
 
-    public static final Documentation<Type> readDocumentation(final String fileName, final Mapper mapper)
+    public static final Documentation<Type> readDocumentation(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -197,7 +197,7 @@ public final class DocumentationReader {
         }
     }
 
-    private static final Domain<Type> readDomain(final Mapper mapper, final XMLStreamReader reader)
+    private static final Domain<Type> readDomain(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.DOMAIN, reader);
@@ -241,7 +241,7 @@ public final class DocumentationReader {
         return new Domain<Type>(title, description, entities, diagrams);
     }
 
-    private static final Documentation<Type> readDomains(final Mapper mapper, final XMLStreamReader reader)
+    private static final Documentation<Type> readDomains(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.PIM_CFG, reader);
@@ -307,7 +307,7 @@ public final class DocumentationReader {
         return collapseWhitespace(sb.toString());
     }
 
-    private static final Entity<Type> readEntity(final Mapper mapper, final XMLStreamReader reader)
+    private static final Entity<Type> readEntity(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.ENTITY, reader);
@@ -323,7 +323,7 @@ public final class DocumentationReader {
                         title = assertNotNull(readTitle(reader));
                     } else if (match(DocumentationElements.CLASS, reader)) {
                         final String className = readClassName(DocumentationElements.CLASS, reader);
-                        final Set<ModelElement> elements = mapper.lookupByName(className);
+                        final Set<ModelElement> elements = mapper.lookupByName(new QName(className));
                         type = assertNotNull(resolveClass(elements, className));
                     } else {
                         throw new AssertionError(reader.getLocalName());

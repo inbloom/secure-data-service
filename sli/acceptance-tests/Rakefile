@@ -212,7 +212,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests, :simpleIdpSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -302,6 +302,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
   Rake::Task["importSandboxData"].execute
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
   displayFailureReport()
@@ -337,17 +338,18 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardIntegratedTests,
                          :dashboardLoginTests,
                          :dashboardStudentProfileTests,
-                         :dashboardAssessmentTests,
                          :dashboardAttendance,
                          :dashboardStudentHistoricalDataTests,
                          :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests] do
+                         :dashboardStudentGradebookEntryTests,
+                         :dashboardHTMLEscapeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+
 end
 ############################################################
 # Dashboard tests end
@@ -357,7 +359,8 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+                         :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
                          :dashboardSdsHSViewTests,
@@ -368,7 +371,7 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardSdsUploadConfigTests] do
+                         :dashboardAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -391,7 +394,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
                          :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
-                         :ingestionBlacklistValidationTests, :ingestionXXETest] do
+                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -442,6 +445,38 @@ end
 
 
 
+
+############################################################
+# User Registration App Tests
+############################################################
+
+desc "Run User Registration App Tests"
+task :userRegistrationTests => [:userRegistrationProdTests, :userRegistrationSbTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run User Registration App Tests - Production"
+task :userRegistrationProdTests do
+  @tags = ["~@wip", "@production"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/admintools/accountRequest.feature")
+end
+
+desc "Run User Registration App Tests - Sandbox"
+task :userRegistrationSbTests do
+  @tags = ["~@wip", "@sandbox"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/admintools/accountRequest.feature")
+end
+
+############################################################
+# User Registration App Tests end
+############################################################
 
 desc "Export Storied Test Data"
 task :exportStoriedData do
@@ -510,9 +545,10 @@ task :importSandboxData do
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
-    "userAccount" => "userAccount_fixture.json",
     "grade" => "grade_fixture.json",
     "studentCompetency" => "studentCompetency_fixture.json",
+    "adminDelegation" => "adminDelegation_fixture.json",
+    "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)

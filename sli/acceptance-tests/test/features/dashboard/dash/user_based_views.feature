@@ -56,4 +56,4 @@ Scenario: Different users have different views defined
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
     And I select <section> "Mrs. Braverman's Homeroom #38"
-  Then I should only see one view named "Early Literacy View"
+  Then I should only see one view named "Default View"

@@ -1,3 +1,4 @@
+
 require 'simplecov'
 require 'simplecov-rcov'
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -29,6 +30,8 @@ class ActiveSupport::TestCase
     @appauth_fixtures = load_fixture("application_authorizations")
     @ed_org_fixtures = load_fixture("education_organization")
     @account_managements_fixtures=load_fixture("account_managements")
+    @admin_delegations_fixtures = load_fixture("admin_delegations")
+
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
       mock.get "/api/rest/admin/roles/0", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
@@ -60,10 +63,43 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=1", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=2", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
 
+      #admin delegations
+      mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
+
       #mock.get "/api/rest/educationOrganization-associations", {"Accept" => "application/json"}, [@ed_org_fixtures["assoc_one"]].to_json
       #ed org associations
       mock.get "/api/rest/"
     end
   end
 
+end
+class MockResponse
+  @responseCode
+  @validation
+  @body
+  
+  def initialize(newCode,newValidation=true,newBody="DEFAULT")
+    @responseCode = newCode
+    @validation = newValidation
+    @body = newBody
+  end
+  
+  def body
+  	if @body == "DEFAULT"
+    	return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
+    else
+    	return @body
+    end
+  end
+   
+  def code
+    return @responseCode
+  end
+  def raw_headers
+  	return {
+  	"location"=>["http://host:8080/api/rest/v1/userAccounts/1234567890"], 
+  	"content-type"=>["application/json"], 
+  	"content-length"=>["0"], 
+  	"server"=>["Jetty(6.1.10)"]}
+  end
 end

@@ -6,6 +6,9 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
     addressable (2.2.7)
     bson (1.6.1)
     bson_ext (1.6.1)
@@ -79,6 +82,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  active_support
   approval!
   bson_ext
   builder
