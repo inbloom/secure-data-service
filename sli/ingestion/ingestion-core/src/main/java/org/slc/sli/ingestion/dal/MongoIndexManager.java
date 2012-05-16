@@ -1,18 +1,18 @@
 package org.slc.sli.ingestion.dal;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Order;
+
+import org.slc.sli.domain.Repository;
 
 /**
  * Mongo indexes manager, which loads the indexes from the json configuration file.
@@ -47,9 +47,10 @@ public final class MongoIndexManager {
                 } else {
                     indexList = collectionIndexes.get(collectionName);
                 }
-                
+
                 if (mongoIndexConfig.getOptions() != null && !mongoIndexConfig.getOptions().isEmpty()) {
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), mongoIndexConfig.getOptions(), count++));
+                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(),
+                            mongoIndexConfig.getOptions(), count++));
                 } else {
                     indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), count++));
                 }
@@ -69,7 +70,6 @@ public final class MongoIndexManager {
      * @param indexName
      *            : the name of the index.
      * @return
-     * @throws IOException
      */
     private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) {
         Index index = new Index();
@@ -81,25 +81,28 @@ public final class MongoIndexManager {
         index.named(String.valueOf(indexName));
         return index;
     }
-    
+
     /**
      * Create unique index definition from parsed map.
-     * 
-     * @param fields fields read in from config (json) files.
-     * @param indexName name of the index (counter).
+     *
+     * @param fields
+     *            fields read in from config (json) files.
+     * @param indexName
+     *            name of the index (counter).
      * @return unique index definition.
      */
-    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, Map<String, String> options, int indexName) {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields,
+            Map<String, String> options, int indexName) {
         Index index = new Index();
 
         for (Map<String, String> field : fields) {
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
-        
+
         if (options.containsKey("unique") && options.get("unique").equals("true")) {
             index.unique();
         }
-        
+
         index.named(String.valueOf(indexName));
         return index;
     }
