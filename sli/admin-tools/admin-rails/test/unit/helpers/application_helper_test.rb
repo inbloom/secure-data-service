@@ -13,7 +13,6 @@ class ApplicationHelperTest < ActionView::TestCase
 	    "first_name" => "Bob",
 	    "last_name" => "Roberts"
 	  }
-	 
 	  MOCK_EMAIL_INFO_FROM_API = "{\"userName\" : \"bob@bob.com\",\"firstName\" : \"Bob\",\"lastName\" : \"Roberts\"}"
 	 
 	  test "removal of user account associated to nil does not error" do
@@ -30,6 +29,7 @@ class ApplicationHelperTest < ActionView::TestCase
 	  test "send user verification email where there is a problem" do
 	    ApplicationHelper.stubs(:get_email_info).returns(MOCK_EMAIL_INFO)
 	    ApplicationHelper.stubs(:get_email_token).returns(nil)
+	    Emailer.any_instance.stubs(:send_approval_email).returns({:emailToken=>"abcde"})
 	    ApplicationHelper.send_user_verification_email("http://whatever", "12345")
 	  end
 	 
