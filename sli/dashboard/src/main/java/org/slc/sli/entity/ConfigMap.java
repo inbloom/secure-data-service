@@ -1,5 +1,6 @@
 package org.slc.sli.entity;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -12,7 +13,8 @@ import org.slc.sli.web.util.NoBadChars;
  * @author agrebneva
  *
  */
-public class ConfigMap {
+public class ConfigMap implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Valid
     @NoBadChars(depth = 1)
     private Map<String, Config> config;
