@@ -16,11 +16,6 @@
 
   <core:filterSettings defaultSerialization="false" />
 
-  <jb:bean beanId="records" class="java.util.ArrayList" createOnElement="#document">
-    <jb:wiring beanIdRef="record" />
-  </jb:bean>
-
-
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <!-- jb:value property="sourceId" data="" / -->
@@ -1104,7 +1099,7 @@
     <jb:value property="maximumScore" data="ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
   </jb:bean>
 
-  <jb:bean beanId="PerformanceLevelType" class="java.util.HashMap" 
+  <jb:bean beanId="PerformanceLevelType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
     <jb:value property="codeValue" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
     <jb:value property="description" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
@@ -1688,7 +1683,7 @@
     createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/CodeValue">
     <jb:value property="codeValue" data="PerformanceLevels/CodeValue" />
   </jb:bean>
-  
+
   <!-- end of studentAssessment mapping -->
 
   <!-- Questionable beings -->
@@ -1743,12 +1738,12 @@
     <jb:value property="MaidenName"
       data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/Name/MaidenName" />
   </jb:bean>
-  
+
   <jb:bean beanId="otherNameTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity">
     <jb:wiring beanIdRef="otherNameMap" />
   </jb:bean>
-  
+
   <jb:bean beanId="otherNameMap" class="java.util.HashMap"
     createOnElement="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/OtherName">
     <jb:value property="OtherNameType"
@@ -1804,7 +1799,7 @@
     <jb:value property="ID"
       data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
   </jb:bean>
-  
+
   <!-- Questionable ends -->
 
   <!-- Start Student Attendance mapping -->
@@ -1979,7 +1974,7 @@
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />    
+    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
@@ -3418,7 +3413,7 @@
   </jb:bean>
 
   <!-- End DisciplineAction mapping -->
-  
+
 <!-- Start StudentDisciplineIncidentAssociation mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
@@ -3529,28 +3524,28 @@
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors" />
   </jb:bean>
 
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors" 
-    class="java.util.ArrayList" 
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors"
+    class="java.util.ArrayList"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/Behaviors">
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_CodeValue" />
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription" />
-    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_Description" />    
+    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_Behaviors_Description" />
   </jb:bean>
-  
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_CodeValue" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_CodeValue"
+    class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/Behaviors/CodeValue">
     <jb:value property="CodeValue" data="StudentDisciplineIncidentAssociation/Behaviors/CodeValue" />
   </jb:bean>
-  
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_ShortDescription"
+    class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/Behaviors/ShortDescription">
     <jb:value property="ShortDescription" data="StudentDisciplineIncidentAssociation/Behaviors/ShortDescription" />
   </jb:bean>
-   
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_Description" 
-    class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_Behaviors_Description"
+    class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/Behaviors/Description">
     <jb:value property="Description" data="StudentDisciplineIncidentAssociation/Behaviors/Description" />
   </jb:bean>
@@ -3563,13 +3558,13 @@
     <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_SecondaryBehaviors" />
   </jb:bean>
 
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_SecondaryBehaviors" 
-    class="java.util.HashMap" 
+  <jb:bean beanId="StudentDisciplineIncidentAssociation_SecondaryBehaviors"
+    class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/SecondaryBehaviors">
     <jb:value property="BehaviorCategory" data="StudentDisciplineIncidentAssociation/SecondaryBehaviors/@BehaviorCategory" />
     <jb:value property="SecondaryBehavior" data="StudentDisciplineIncidentAssociation/SecondaryBehaviors/SecondaryBehavior" />
   </jb:bean>
-  
+
   <!-- End StudentDisciplineIncidentAssociation mapping -->
 
 </smooks-resource-list>
