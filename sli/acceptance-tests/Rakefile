@@ -337,17 +337,18 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardIntegratedTests,
                          :dashboardLoginTests,
                          :dashboardStudentProfileTests,
-                         :dashboardAssessmentTests,
                          :dashboardAttendance,
                          :dashboardStudentHistoricalDataTests,
                          :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests] do
+                         :dashboardStudentGradebookEntryTests,
+                         :dashboardHTMLEscapeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+
 end
 ############################################################
 # Dashboard tests end
@@ -357,7 +358,8 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+                         :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
                          :dashboardSdsHSViewTests,
@@ -368,7 +370,7 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardSdsUploadConfigTests] do
+                         :dashboardAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
