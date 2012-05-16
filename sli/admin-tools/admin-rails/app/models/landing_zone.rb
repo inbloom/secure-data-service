@@ -25,6 +25,10 @@ class LandingZone < Ldap
     end
     
     user_info[:homedir] = result.attributes[:landingZone]
+    user_info[:edorg] = edorg_id
+    if APP_CONFIG["is_sandbox"]
+      user_info[:tenant] = tenant
+    end
     @@ldap.update_user_info(user_info)
 
     # TODO: move this out to a template and not hardcode
