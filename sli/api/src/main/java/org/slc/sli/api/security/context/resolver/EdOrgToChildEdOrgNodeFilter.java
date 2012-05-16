@@ -132,7 +132,9 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
             if (!appIdArray.contains(appId)) {
                 Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
                         new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, (String) appAuth.getBody().get("authId"))));
-                blacklist.add(edorgEntity.getEntityId());
+                if (edorgEntity != null) {
+                    blacklist.add(edorgEntity.getEntityId());
+                }
             }
         }
 
