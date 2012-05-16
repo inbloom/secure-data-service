@@ -1,6 +1,6 @@
 require 'rest-client'
 require 'json'
-class UserAccountRegistrationsController < ApplicationController
+class UserAccountRegistrationsController < ActionController::Base
     before_filter :check_for_cancel, :only => [:create, :update]
   
   # GET /user_account_registrations/new

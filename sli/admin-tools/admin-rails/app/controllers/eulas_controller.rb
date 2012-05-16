@@ -1,4 +1,4 @@
-class EulasController < ApplicationController
+class EulasController < ActionController::Base
   
   # GET /eula 
   def show
@@ -20,4 +20,7 @@ class EulasController < ApplicationController
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end
+   def not_found
+      raise ActionController::RoutingError.new('Not Found')
+    end
 end

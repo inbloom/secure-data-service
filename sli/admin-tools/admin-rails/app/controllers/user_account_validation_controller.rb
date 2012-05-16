@@ -1,5 +1,5 @@
 
-class UserAccountValidationController < ApplicationController
+class UserAccountValidationController < ActionController::Base
   
   # GET /user_account_registrations/validate/1
   # GET /user_account_registrations/validate/1.json
