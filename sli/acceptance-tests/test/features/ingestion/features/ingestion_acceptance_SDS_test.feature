@@ -97,7 +97,7 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-    And I should see "Processed 15401 records." in the resulting batch job file
+    And I should see "Processed 1826 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -156,8 +156,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records considered: 13650" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records ingested successfully: 13650" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file
