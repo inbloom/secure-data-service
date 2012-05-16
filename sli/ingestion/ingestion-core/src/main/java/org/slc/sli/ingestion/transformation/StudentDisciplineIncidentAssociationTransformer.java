@@ -9,8 +9,10 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -21,6 +23,8 @@ import org.springframework.data.mongodb.core.query.Query;
  *
  * @author jtully
  */
+@Scope("prototype")
+@Component("studentDisciplineIncidentAssociationTransformationStrategy")
 public class StudentDisciplineIncidentAssociationTransformer extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(StudentDisciplineIncidentAssociationTransformer.class);

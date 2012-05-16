@@ -150,9 +150,5 @@
     <property name="passThroughCollectionName" value="disciplineAction" />
   </bean>
 
-  <bean id="studentDisciplineIncidentAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentDisciplineIncidentAssociationTransformer"
-    scope="prototype">
-    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-  </bean>
 </beans>
 

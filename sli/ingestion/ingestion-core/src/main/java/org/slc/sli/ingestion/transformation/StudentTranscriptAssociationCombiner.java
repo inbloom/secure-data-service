@@ -1,38 +1,36 @@
 package org.slc.sli.ingestion.transformation;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
  * Transformer for StudentTranscriptAssociation Entities
- *
+ * 
  * @author jcole
  * @author shalka
  */
+@Scope("prototype")
 @Component("studentTranscriptAssociationTransformationStrategy")
 public class StudentTranscriptAssociationCombiner extends AbstractTransformationStrategy {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(StudentTranscriptAssociationCombiner.class);
     
-    private Map<String, Map<Object, NeutralRecord>> collections;
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
-
+    private Map<Object, NeutralRecord> studentTranscripts;
+    
     /**
      * Default constructor.
      */
     public StudentTranscriptAssociationCombiner() {
-        this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.studentTranscripts = new HashMap<Object, NeutralRecord>();
     }
-
+    
     /**
      * The chaining of transformation steps. This implementation assumes that all data will be
      * processed in "one-go"
@@ -41,57 +39,34 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     public void performTransformation() {
         loadData();
         transform();
-        persist();
     }
-
+    
     /**
      * Pre-requisite interchanges for student transcript data to be successfully transformed:
      * student
      */
     public void loadData() {
         LOG.info("Loading data for studentTranscriptAssociation transformation.");
-        List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION);
-        for (String collectionName : collectionsToLoad) {
-            Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
-            collections.put(collectionName, collection);
-            LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
-        }
-        LOG.info("Finished loading data for studentTranscriptAssociation transformation.");
+        this.studentTranscripts = getCollectionFromDb(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
+                studentTranscripts.size());
     }
-
+    
     /**
-     * Transforms student transcript association data to pass SLI data validation.
+     * Transforms student transcript association data to pass SLI data validation and writes into
+     * staging mongo db.
      */
     public void transform() {
-        LOG.info("Transforming student transcript association data");
-        Map<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.
-                get(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION).entrySet()) {
+        LOG.info("Transforming and persisting student transcript association data");
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentTranscripts.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             if (attributes.get("creditsAttempted") == null) {
                 attributes.remove("creditsAttempted");
             }
-            neutralRecord.setAttributes(attributes);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
-        transformedCollections.put(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, newCollection);
-        LOG.info("Finished transforming student transcript association data");
-    }
-
-    /**
-     * Persists the transformed data into staging mongo database.
-     */
-    public void persist() {
-        LOG.info("Persisting transformed data into studentTranscriptAssociation_transformed staging collection.");
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
-            }
-        }
-        LOG.info("Finished persisting transformed data into studentTranscriptAssociation_transformed staging collection.");
+        LOG.info("Finished transforming and persisting student transcript association data");
     }
 }

@@ -21,6 +21,8 @@ import org.springframework.data.mongodb.core.query.Query;
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
     
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
+    protected static final String TYPE_KEY = "type";
+    
     private String batchJobId;
     private Job job;
     private WorkNote workNote;
@@ -93,26 +95,26 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
     
     /**
-     * Returns collection entities found in staging ingestion database. If a work note was note provided for 
+     * Returns collection entities found in staging ingestion database. If a work note was not provided for 
      * the job, then all entities in the collection will be returned.
      *
      * @param collectionName name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
+        Query query = new Query(jobIdCriteria);
+        
         Iterable<NeutralRecord> data;
+        int max = 0;
+        int skip = 0;
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
-            int max = (int) (note.getRangeMaximum() - note.getRangeMinimum() + 1);
-            int skip = (int) note.getRangeMinimum();
-            
-            data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                    collectionName, new Query(jobIdCriteria), getJob().getId(), skip, max); 
-        } else {
-            data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                    collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);            
-        }
+            max = (int) (note.getRangeMaximum() - note.getRangeMinimum() + 1);
+            skip = (int) note.getRangeMinimum();
+        }         
+        
+        data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
+                collectionName, query, getJob().getId(), skip, max);
         
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
