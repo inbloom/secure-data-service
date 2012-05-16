@@ -26,7 +26,8 @@ end
 When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     @explicitWait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
-    @driver.find_element(:name, "Login.Submit").click
+#    @driver.find_element(:name, "Login.Submit").click
+    @driver.find_element(:id, "IDToken2").send_keys(:enter)
     # Catches the encryption pop up seen in local box set up
     begin
       @driver.switch_to.alert.accept
@@ -85,7 +86,7 @@ When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeNa
      programParticipations = getStudentProgramParticipation(studentCell)
      found = false
      programParticipations.each do |pp|
-       if (pp == lozengeName)
+       if (pp.text == lozengeName)
         found = true  
        end
      end

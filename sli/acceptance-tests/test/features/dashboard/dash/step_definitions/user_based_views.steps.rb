@@ -35,25 +35,32 @@ When /^I select <section> "([^"]*)"$/ do |elem|
 end
 
 Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
+  elem += "Menu"
   @selector = @explicitWait.until{@driver.find_element(:id, elem)}
 end
 
 Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
-  options = @selector.find_elements(:tag_name, "option")
+  options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
+  puts options.length
   arr = []
   options.each do |option|
-    arr << option.text
+    link = option.find_element(:tag_name, "a").attribute("text")
+    arr << link
   end
   arr.should include view_name
 end
 
 Then /^I should only see one view named "([^"]*)"$/ do |view_name|
-  span = @explicitWait.until{@driver.find_element(:id, "viewSelect")}
-  span.text.should include view_name
+  @selector = @explicitWait.until{@driver.find_element(:id, "viewSelectMenu")}
+  span = get_all_elements
+  assert(span.length == 1, "Found more than 1 view")
+  span[0].should include view_name
 end
 
 When /^I select view "([^"]*)"$/ do |view|
-  select_by_id(view, "viewSelect")
+  @dropDownId = "viewSelectMenu"
+  puts "@dropDownId = " + @dropDownId
+  selectDropdownOption(@dropDownId, view)
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
@@ -65,8 +72,6 @@ Then /^I should see a table heading "([^"]*)"$/ do |text|
 end
 
 def select_by_id(elem, select)
-  selector = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select))
-  selector.select_by(:text, elem)
-rescue Selenium::WebDriver::Error::NoSuchElementError
-  false
+  @dropDownId = select + "Menu"
+  selectDropdownOption(@dropDownId, elem)
 end

@@ -210,6 +210,7 @@ public class SamlFederationResource {
         } else {
             principal.setName(attributes.getFirst("userName"));
         }
+        
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));

@@ -23,9 +23,13 @@ class LandingZone < Ldap
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    @landingzone = result.attributes[:landingZone]
+    @server = result.attributes[:serverName]
+    Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
     
-    user_info[:homedir] = result.attributes[:landingZone]
+    user_info[:homedir] = result.attributes[@landingzone]
     @@ldap.update_user_info(user_info)
+    {:landingzone => @landingzone, :server => @server}
   end
 
 end

@@ -9,7 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * Validator for NoBadChars.
- * TODO: fix for other objects
  * @author agrebneva
  *
  */
@@ -27,6 +26,13 @@ public class NoBadCharsValidator implements ConstraintValidator<NoBadChars, Obje
         return traverseObject(object, context, 0);
     }
 
+    /**
+     * Traverse object up to N depth levels and validate all found maps, strings, and collections
+     * @param object - to validate
+     * @param context - context
+     * @param count - depth
+     * @return
+     */
     private boolean traverseObject(Object object, ConstraintValidatorContext context, int count) {
         if (count >= depth) {
             return true;

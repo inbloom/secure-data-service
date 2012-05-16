@@ -97,13 +97,17 @@ class LDAPStorage
 		# inject the constant values into the user info 
 		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
-		if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
-		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
+		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		#end
+
+		if !e_user_info[:homedir]
+		   e_user_info[:homedir] = "/home/example"
 		end
 		
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
 		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
-		attributes[LDAP_DESCRIPTION_FIELD] = descr
+		# attributes[LDAP_DESCRIPTION_FIELD] = descr
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
