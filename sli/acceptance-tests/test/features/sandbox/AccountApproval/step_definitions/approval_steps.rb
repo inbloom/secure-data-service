@@ -2,7 +2,7 @@ require 'approval'
 require 'rumbster'
 require 'message_observers'
 require 'net/imap'
-require_relative '../../../../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 Before do
 
