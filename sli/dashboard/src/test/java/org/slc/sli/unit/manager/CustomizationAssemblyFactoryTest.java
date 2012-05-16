@@ -1,6 +1,8 @@
 package org.slc.sli.unit.manager;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,6 +91,11 @@ public class CustomizationAssemblyFactoryTest {
         protected Config getConfig(String componentId) {
 
             return configMap.get(componentId);
+        }
+
+        @Override
+        public Collection<Config> getWidgetConfigs() {
+            return Collections.emptyList();
         }
 
         @Override
