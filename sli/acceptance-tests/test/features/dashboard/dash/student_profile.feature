@@ -32,15 +32,11 @@ And the lozenges include "ELL"
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 #Check Enrollment
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
@@ -70,8 +66,6 @@ And the lozenges count is "0"
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "High School Overview"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 #Check Enrollment
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |

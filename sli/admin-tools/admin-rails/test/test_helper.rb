@@ -1,3 +1,4 @@
+
 require 'simplecov'
 require 'simplecov-rcov'
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -71,4 +72,34 @@ class ActiveSupport::TestCase
     end
   end
 
+end
+class MockResponse
+  @responseCode
+  @validation
+  @body
+  
+  def initialize(newCode,newValidation=true,newBody="DEFAULT")
+    @responseCode = newCode
+    @validation = newValidation
+    @body = newBody
+  end
+  
+  def body
+  	if @body == "DEFAULT"
+    	return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
+    else
+    	return @body
+    end
+  end
+   
+  def code
+    return @responseCode
+  end
+  def raw_headers
+  	return {
+  	"location"=>["http://host:8080/api/rest/v1/userAccounts/1234567890"], 
+  	"content-type"=>["application/json"], 
+  	"content-length"=>["0"], 
+  	"server"=>["Jetty(6.1.10)"]}
+  end
 end
