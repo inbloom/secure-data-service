@@ -23,6 +23,9 @@ class LandingZone < Ldap
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    @landingzone = result.attributes[:landingZone]
+    @server = result.attributes[:serverName]
+    Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
     
     user_info[:homedir] = result.attributes[:landingZone]
     user_info[:edorg] = edorg_id
@@ -47,6 +50,7 @@ class LandingZone < Ldap
     }
 
     @@emailer.send_approval_email email
+    {:landingzone => @landingzone, :server => @server}
   end
 
 end
