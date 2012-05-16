@@ -19,6 +19,10 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Assert;
 import org.milyn.Smooks;
+import org.milyn.SmooksException;
+import org.milyn.payload.JavaResult;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
@@ -35,23 +39,24 @@ import org.xml.sax.SAXException;
  * 
  */
 public class EntityTestUtils {
-    
-    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector) throws IOException, SAXException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputStream);
-        
+
+    @SuppressWarnings("unchecked")
+    public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
+            String targetSelector) throws IOException, SAXException, SmooksException {
+
+        DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
+
         Smooks smooks = new Smooks(smooksConfig);
-        
-        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, nrfWriter, null, null), targetSelector);
-        
-        try {
-            smooks.filterSource(new StreamSource(dataSource));
-        } finally {
-            nrfWriter.close();
-        }
-        
-        return new NeutralRecordFileReader(outputStream.toByteArray());
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
+        smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
+        smooks.addVisitor(smooksEdFiVisitor, targetSelector);
+
+        JavaResult result = new JavaResult();
+        smooks.filterSource(new StreamSource(dataSource), result);
+
+        List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
+
+        return entityList;
     }
     
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
@@ -186,5 +191,24 @@ public class EntityTestUtils {
     
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
+    }
+
+    private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
+
+        private List<NeutralRecord> neutralRecordList;
+
+        private DummyResourceWriter() {
+            this.neutralRecordList = new ArrayList<NeutralRecord>();
+        }
+
+        @Override
+        public void writeResource(NeutralRecord neutralRecord, String jobId) {
+            neutralRecordList.add(neutralRecord);
+        }
+
+        public List<NeutralRecord> getNeutralRecordsList() {
+            return neutralRecordList;
+        }
+
     }
 }
