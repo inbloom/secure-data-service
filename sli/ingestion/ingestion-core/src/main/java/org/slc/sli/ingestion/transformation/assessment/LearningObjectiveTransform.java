@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
  * @author Ryan Farris <rfarris@wgen.net>
  *
  */
+@Scope("prototype")
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
