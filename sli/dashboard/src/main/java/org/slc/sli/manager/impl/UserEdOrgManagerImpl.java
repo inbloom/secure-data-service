@@ -42,6 +42,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return getApiClient().getParentEducationalOrganizations(token, edOrgOrSchool);
     }
 
+    protected boolean isEducator() {
+        return !SecurityUtil.isNotEducator();
+    }
+
     /**
      * read token. Then, find district name associated with school.
      *
@@ -59,7 +63,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         GenericEntity edOrg = null;
 
         // For state-level ed-org - need to take default config, so keep state ed org
-        if (SecurityUtil.isNotEducator()) {
+        if (!isEducator()) {
 
             GenericEntity staff = getApiClient().getStaffInfo(token);
             if (staff != null) {
@@ -301,25 +305,25 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
+        if (staffEntity == null) {
+            staffEntity = new GenericEntity();
+        }
         staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, false);
-        // TODO: refactored out of ConfigController. is this complex code the only way to determine
-        // admin flag?
-        if (staffEntity != null) {
-            List<Object> credentialsList = (List<Object>) staffEntity.get(Constants.ATTR_CREDENTIALS_LIST_ATTRIBUTE);
-            if ((credentialsList != null) && (credentialsList.size() > 0)) {
-                Map<String, Object> credentials = (Map<String, Object>) credentialsList.get(0);
-                if (credentials != null) {
-                    List<Map<String, Object>> credentialFieldsList = (List<Map<String, Object>>) credentials
-                            .get(Constants.ATTR_CREDENTIAL_FIELD_ATTRIBUTE);
-                    if ((credentialFieldsList != null) && (credentialFieldsList.size() > 0)) {
-                        for (Map<String, Object> credentialField : credentialFieldsList) {
-                            String credentialCode = (String) credentialField
-                                    .get(Constants.ATTR_CREDENTIAL_CODE_ATTRIBUTE);
-                            if ((credentialCode != null)
-                                    && (credentialCode.equalsIgnoreCase(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN))) {
-                                staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
-                                break;
-                            }
+        // TODO: refactored out of ConfigController. is this complex code the only way to determine admin flag?
+        List<Object> credentialsList = (List<Object>) staffEntity.get(Constants.ATTR_CREDENTIALS_LIST_ATTRIBUTE);
+        if ((credentialsList != null) && (credentialsList.size() > 0)) {
+            Map<String, Object> credentials = (Map<String, Object>) credentialsList.get(0);
+            if (credentials != null) {
+                List<Map<String, Object>> credentialFieldsList = (List<Map<String, Object>>) credentials
+                        .get(Constants.ATTR_CREDENTIAL_FIELD_ATTRIBUTE);
+                if ((credentialFieldsList != null) && (credentialFieldsList.size() > 0)) {
+                    for (Map<String, Object> credentialField : credentialFieldsList) {
+                        String credentialCode = (String) credentialField
+                                .get(Constants.ATTR_CREDENTIAL_CODE_ATTRIBUTE);
+                        if ((credentialCode != null)
+                                && (credentialCode.equalsIgnoreCase(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN))) {
+                            staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
+                            break;
                         }
                     }
                 }

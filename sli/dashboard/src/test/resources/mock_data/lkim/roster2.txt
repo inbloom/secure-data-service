@@ -1,7 +1,0 @@
-# Student roster data for assessment data generation
-# student uid, grade
-# For the grade 7 class
-111111111,7
-222222222,7
-333333333,7
-444444444,7

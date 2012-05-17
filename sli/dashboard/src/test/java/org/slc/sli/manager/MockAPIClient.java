@@ -54,7 +54,7 @@ public class MockAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getStaffInfo(String token) {
-        return null;
+        return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + "common/staffInfo.json"), "IT Admin");
     }
 
     /**

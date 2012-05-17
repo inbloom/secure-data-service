@@ -1,7 +1,0 @@
-[
-    {
-        "customData": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><viewConfigSet><viewConfig type=\"listOfStudents\" name=\"IL_3-8_ELA\" value=\"3-8\"><displaySet displayName=\"\" ><field type=\"studentInfo\" value=\"name\" format=\"firstLast\" displayName=\"Student\"><lozenges names=\"504 limitedEnglishProficiency schoolFoodServiceEligibility IEP LEA RPT\" position=\"post\" maxCount=\"5\"/></field></displaySet><displaySet displayName=\"ISAT Reading\"><field type=\"assessment\" value=\"ISAT_READING.perfLevel\" timeSlot=\"MOST_RECENT_WINDOW\" visual=\"fuelGauge\" displayName=\"Perf. Lvl.\" /><field type=\"assessment\" value=\"ISAT_READING.scaleScore\" timeSlot=\"MOST_RECENT_WINDOW\" visual=\"\" displayName=\"SS\" /><field type=\"assessment\" value=\"ISAT_READING.percentile\" timeSlot=\"MOST_RECENT_WINDOW\" visual=\"colorByPerf\" displayName=\"%ile Rank\" /><field type=\"assessment\" value=\"ISAT_READING.lexileScore\" timeSlot=\"MOST_RECENT_WINDOW\" visual=\"\" displayName=\"Lexile Score\" /></displaySet><displaySet displayName=\"ISAT Writing (most recent)\"><field type=\"assessment\" value=\"ISAT_WRITING.perfLevel\" timeSlot=\"MOST_RECENT_RESULT\" visual=\"fuelGauge\" displayName=\"Perf. Lvl.\" /><field type=\"assessment\" value=\"ISAT_WRITING.scaleScore\" timeSlot=\"MOST_RECENT_RESULT\" visual=\"\" displayName=\"SS\" /></displaySet></viewConfig></viewConfigSet>"
-    }
-
-]
-
