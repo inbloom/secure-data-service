@@ -100,7 +100,6 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 	
 	if(options === null || options === undefined || options.length == 0) {
-		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
                 DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 	} else {
 	    	if (options.length == 1 && autoSelect) {
@@ -221,13 +220,13 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        autoencode: true,
 	        rowNum: 10000};
         if(panelData === null || panelData === undefined || panelData.length < 1) {
-            gridOptions["data"] = [];
             DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
-        }
-	if (options) {
+        } else {
+	    if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
-	}
-	return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+	    }
+	    return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+        }
 };
 
 DashboardUtil.Grid = {};
@@ -303,7 +302,6 @@ DashboardUtil.Grid.Formatters = {
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
             if (value === undefined || value === null) {
-                //return "<span class='fuelGauge-perfLevel'></span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
                 return "<span class='fuelGauge-perfLevel'></span>";
             }
             
@@ -734,18 +732,13 @@ DashboardUtil.checkCondition = function(data, condition) {
 };
 
 DashboardUtil.displayErrorMessage = function (error){
-    var errors = document.getElementById("losError");
-    if(errors !== undefined && errors !== null ) {
-        errors.style.display = "block";
-        errors.innerHTML = error;
-    }
+    $("#losError").show();
+    $("#viewSelection").hide();
+    $("#losError").html(error);
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
-    var errors = document.getElementById("losError");
-    if(errors !== undefined && errors !== null ) {
-        errors.style.display = "none";
-    }
+    $("#losError").hide();
 }
 
 DashboardUtil.teardrop = {

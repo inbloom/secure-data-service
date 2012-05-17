@@ -6,7 +6,7 @@
         <input type='hidden' value='' id ='edOrgSelect' /> 
         <div class="btn-toolbar">
             <div class="btn-group" id="edOrgSelectMenu" name="edOrgSelectMenu">
-                <a class="btn dropdown-toggle" id="edOrgSelectButton" data-toggle="dropdown" href="#" onclick="DashboardUtil.hideErrorMessage()">
+                <a class="btn dropdown-toggle" id="edOrgSelectButton" data-toggle="dropdown" href="#"> 
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
@@ -20,7 +20,7 @@
         <input type='hidden' value='' id ='schoolSelect' /> 
         <div class="btn-toolbar">
             <div class="btn-group" id="schoolSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" onclick="DashboardUtil.hideErrorMessage()">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
@@ -34,7 +34,7 @@
         <input type='hidden' value='' id ='courseSelect' /> 
         <div class="btn-toolbar">
             <div class="btn-group" id="courseSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" onclick="DashboardUtil.hideErrorMessage()">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
@@ -48,7 +48,7 @@
         <input type='hidden' value='' id ='sectionSelect' /> 
         <div class="btn-toolbar">
             <div class="btn-group" id="sectionSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" onclick="DashboardUtil.hideErrorMessage()">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
