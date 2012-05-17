@@ -4,6 +4,7 @@ class EntitiesController < ApplicationController
   before_filter :set_url
 
   def set_url
+    flash.clear
     @search_field = nil
     case params[:search_type]
     when /teachers/
@@ -20,7 +21,6 @@ class EntitiesController < ApplicationController
     params[:other] = params[:search_type] if @search_field
     Entity.url_type = params[:other]
     params.delete(:search_type)
-    params.delete(:utf8)
     Entity.format = ActiveResource::Formats::JsonLinkFormat
   end
 
@@ -29,10 +29,12 @@ class EntitiesController < ApplicationController
   def show
     if params[:search_id] && @search_field
       @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
+      flash[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
       return
     else
       @entities = Entity.get("")
     end
+    
     if @entities.is_a?(Hash)
       tmp = Array.new()
       tmp.push(@entities)
