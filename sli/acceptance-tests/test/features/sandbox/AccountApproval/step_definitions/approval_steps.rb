@@ -73,7 +73,7 @@ When /^I approve the account request$/ do
 end
 
 Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and the roles are "([^"]*)"$/ do |environment, login_name, roles|
-  login_name = "devldapuser@slidev.org" if @mode1
+  login_name = "devldapuser@slidev.org" if @mode
   roles_arr = roles.strip.split(",").map {|x| x.strip }
   assert(@ldap.read_user(@userinfo[:email])[:email] == login_name, "User #{@userinfo[:email]} is not created in LDAP")
   assert(@ldap.get_user_groups(@userinfo[:email]).sort == roles_arr.sort, "User #{@userinfo[:email]} is does not have roles #{roles_arr}")
