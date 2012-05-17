@@ -185,6 +185,9 @@ public final class Constants {
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
     public static final String ATTR_NUM_RESULTS = "numResults";
+    public static final String ATTR_SEARCH_PAGE_NUM = "searchPageNum";
+    public static final String ATTR_SEARCH_PAGE_SIZE = "searchPageSize";
+    public static final String ATTR_SEARCH_MAX_PAGE_NUM = "searchMaxPageNum";
     public static final String ATTR_ERROR_HEADING = "errorHeading";
     public static final String ATTR_ERROR_CONTENT = "errorContent";
     public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";

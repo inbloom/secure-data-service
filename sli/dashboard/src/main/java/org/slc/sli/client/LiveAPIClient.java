@@ -1239,6 +1239,7 @@ public class LiveAPIClient implements APIClient {
 
         if (queryExists) {
             url += queryString;
+            url += "&limit=0"; //added since otherwise only first 50 results are returned
         }
 
         return createEntitiesFromAPI(url, token);
