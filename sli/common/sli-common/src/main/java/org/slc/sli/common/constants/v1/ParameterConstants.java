@@ -101,6 +101,7 @@ public class ParameterConstants {
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
     public static final String DISCIPLINE_ACTION_ID = "disciplineActionId";
     public static final String GRADEBOOK_ENTRY_ID = "gradebookEntryId";
+    public static final String GRADING_PERIOD_ID = "gradingPeriodId";
     public static final String PARENT_ID = "parentId";
     public static final String PROGRAM_ID = "programId";
     public static final String SCHOOL_ID = "schoolId";

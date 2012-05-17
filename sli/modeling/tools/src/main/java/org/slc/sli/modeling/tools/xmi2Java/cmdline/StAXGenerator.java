@@ -14,8 +14,8 @@ import java.util.Set;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumType;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public class StAXGenerator {
@@ -106,29 +106,31 @@ public class StAXGenerator {
 
     public static void main(final String[] args) {
         try {
-            final Mapper edfi = new DefaultMapper(XmiReader.readModel("Ed-Fi-Core.xmi"));
+            final JavaGenConfig config = new JavaGenConfigBuilder().build();
+            final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel("Ed-Fi-Core.xmi"));
             final String dirName = "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja/parser";
             final File dir = new File(dirName);
             {
                 final String fileName = "EdFiCoreParser.java";
                 final File file = new File(dir, fileName);
-                writeParserClass("EdFiCoreParser", edfi, file);
+                writeParserClass("EdFiCoreParser", edfi, file, config);
             }
             {
                 final String fileName = "EdFiCoreElementName.java";
                 final File file = new File(dir, fileName);
-                writeElementsClass("EdFiCoreElementName", edfi, file);
+                writeElementsClass("EdFiCoreElementName", edfi, file, config);
             }
             for (final ClassType classType : edfi.getClassTypes()) {
                 if (isTemporalClass(classType.getName())) {
                     final String fileName = classType.getName().concat(".java");
                     final File file = new File(dir, fileName);
                     final List<String> importNames = new ArrayList<String>();
-                    importNames.add("java.math.BigDecimal");
-                    importNames.add("java.math.BigInteger");
+                    importNames.add("java.math.*");
+                    importNames.add("java.util.*");
+                    importNames.add("java.util.List");
                     importNames.add("org.slc.sli.modeling.ninja.*");
                     ClassTypeHelper.writeClassType("org.slc.sli.modeling.ninja.parser", importNames, classType, edfi,
-                            file);
+                            file, config);
                 }
             }
         } catch (final FileNotFoundException e) {
@@ -136,11 +138,12 @@ public class StAXGenerator {
         }
     }
 
-    private static final void writeElementsClass(final String name, final Mapper edfi, final File file) {
+    private static final void writeElementsClass(final String name, final ModelIndex edfi, final File file,
+            final JavaGenConfig config) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
-                writeElementsClass(name, edfi, outstream);
+                writeElementsClass(name, edfi, outstream, config);
             } finally {
                 CloseableHelper.closeQuiet(outstream);
             }
@@ -149,10 +152,11 @@ public class StAXGenerator {
         }
     }
 
-    private static final void writeElementsClass(final String name, final Mapper edfi, final OutputStream outstream) {
+    private static final void writeElementsClass(final String name, final ModelIndex edfi,
+            final OutputStream outstream, final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
-            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8");
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 jsw.writePackage("org.slc.sli.modeling.ninja.parser");
                 jsw.beginClass(name, null);
@@ -161,7 +165,7 @@ public class StAXGenerator {
                     for (final ClassType classType : edfi.getClassTypes()) {
                         final List<JavaFeature> features = ClassTypeHelper.getFeatures(classType, edfi);
                         for (final JavaFeature feature : features) {
-                            featureNames.add(feature.getName());
+                            featureNames.add(feature.getName(config));
                         }
                     }
                     for (final String featureName : featureNames) {
@@ -184,11 +188,12 @@ public class StAXGenerator {
         }
     }
 
-    private static final void writeParserClass(final String name, final Mapper edfi, final File file) {
+    private static final void writeParserClass(final String name, final ModelIndex edfi, final File file,
+            final JavaGenConfig config) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
-                writeParserClass(name, edfi, outstream);
+                writeParserClass(name, edfi, outstream, config);
             } finally {
                 CloseableHelper.closeQuiet(outstream);
             }
@@ -197,10 +202,33 @@ public class StAXGenerator {
         }
     }
 
-    private static final void writeParserClass(final String name, final Mapper edfi, final OutputStream outstream) {
+    private static final void declareFeature(final JavaFeature feature, final JavaStreamWriter jsw,
+            final JavaGenConfig config) throws IOException {
+        jsw.beginStmt();
+        if (feature.isZeroOrMore() || feature.isOneOrMore()) {
+            jsw.write("final List<");
+            jsw.write(feature.getPrimeTypeName(config));
+            jsw.write("> ");
+            jsw.elementName(feature.getName(config));
+            jsw.write(" = ");
+            jsw.write("new LinkedList<");
+            jsw.write(feature.getPrimeTypeName(config));
+            jsw.write(">()");
+        } else {
+            jsw.write(feature.getPrimeTypeName(config));
+            jsw.write(" ");
+            jsw.elementName(feature.getName(config));
+            jsw.write(" = ");
+            jsw.write("null");
+        }
+        jsw.endStmt();
+    }
+
+    private static final void writeParserClass(final String name, final ModelIndex edfi, final OutputStream outstream,
+            final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
-            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8");
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 jsw.writePackage("org.slc.sli.modeling.ninja.parser");
                 jsw.writeImport("org.slc.sli.modeling.ninja.*");
@@ -217,8 +245,7 @@ public class StAXGenerator {
                         jsw.write("{");
                         {
                             for (final JavaFeature feature : features) {
-                                jsw.beginStmt().write(feature.getType()).write(" ").elementName(feature.getName())
-                                        .write(" = ").write("null").endStmt();
+                                declareFeature(feature, jsw, config);
                             }
                         }
                         jsw.write("  while (reader.hasNext())");
@@ -233,15 +260,24 @@ public class StAXGenerator {
                             for (final JavaFeature feature : features) {
                                 if (first) {
                                     first = false;
-                                    jsw.write("if(match(EdFiCoreElementName.").write(feature.getName().toUpperCase())
-                                            .write(", reader))");
+                                    jsw.write("if(match(EdFiCoreElementName.")
+                                            .write(feature.getName(config).toUpperCase()).write(", reader))");
                                 } else {
                                     jsw.write("else if(match(EdFiCoreElementName.")
-                                            .write(feature.getName().toUpperCase()).write(", reader))");
+                                            .write(feature.getName(config).toUpperCase()).write(", reader))");
                                 }
                                 jsw.beginBlock();
-                                jsw.beginStmt().elementName(feature.getName());
-                                jsw.write(" = read").write(feature.getType()).write("(reader)").endStmt();
+                                jsw.beginStmt();
+                                if (feature.isZeroOrMore() || feature.isOneOrMore()) {
+                                    jsw.elementName(feature.getName(config));
+                                    jsw.write(".add(");
+                                    jsw.write("read").write(feature.getPrimeTypeName(config)).write("(reader))");
+                                } else {
+                                    jsw.elementName(feature.getName(config));
+                                    jsw.write(" = ");
+                                    jsw.write("read").write(feature.getPrimeTypeName(config)).write("(reader)");
+                                }
+                                jsw.endStmt();
                                 jsw.endBlock();
                             }
                             if (!first) {
@@ -265,7 +301,7 @@ public class StAXGenerator {
                                 } else {
                                     jsw.write(", ");
                                 }
-                                jsw.elementName(feature.getName());
+                                jsw.elementName(feature.getName(config));
                             }
                         }
                         jsw.write(")");
@@ -320,7 +356,7 @@ public class StAXGenerator {
                         jsw.write("  throw new AssertionError()").endStmt();
                         jsw.write("}");
                     }
-                    for (final DataType dataType : edfi.getDataTypes()) {
+                    for (final DataType dataType : edfi.getDataTypes().values()) {
                         jsw.write("public static final ").write(dataType.getName()).write(" read")
                                 .write(dataType.getName())
                                 .write("(final XMLStreamReader reader) throws XMLStreamException");

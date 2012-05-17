@@ -3,7 +3,6 @@
    "description":"SLI dashboard application",
    "version":"1.0",
    "bootstrap": true,
-   "roles": ["Educator", "Aggregate Viewer", "IT Administrator", "Leader"],
    "image_url":"${bootstrap.app.dashboard.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.dashboard.url}",
    "application_url":"${bootstrap.app.dashboard.url}",
@@ -17,7 +16,7 @@
    },
    "redirect_uri":"${bootstrap.app.dashboard.url}/callback",
    "is_admin":false,
-   "installed":true,
+   "installed":false,
    "behavior":"Full Window App",
    "developer_info":{
       "organization":"SLI"

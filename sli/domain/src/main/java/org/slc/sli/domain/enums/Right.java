@@ -21,6 +21,7 @@ public enum Right implements GrantedAuthority {
     ROLE_CRUD,
     SLC_APP_APPROVE,
     EDORG_APP_AUTHZ,
+    EDORG_DELEGATE,
     DEV_APP_CRUD,
     READ_PUBLIC;
 

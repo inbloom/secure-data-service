@@ -50,7 +50,7 @@ end
 
 Given /^I remove the application authorizations in sunset$/ do
   coll()
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+  @sunset = "IL-SUNSET"
   $oldSunsetAuth = @coll.find_one({"body.authId" => @sunset})
   newSunsetAuth = @coll.find_one({"body.authId" => @sunset})
   @coll.remove({"body.authId" => @sunset})
@@ -59,7 +59,7 @@ Given /^I remove the application authorizations in sunset$/ do
 end
 
 Then /^I put back the application authorizations in sunset$/ do
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+  @sunset = "IL-SUNSET"
   coll()
   @coll.remove({"body.authId" => @sunset})
   @coll.insert($oldSunsetAuth)

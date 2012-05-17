@@ -6,8 +6,8 @@ import org.slc.sli.modeling.psm.PsmConfig;
 import org.slc.sli.modeling.psm.PsmConfigReader;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdWriter;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 /**
@@ -18,7 +18,7 @@ public final class WxsGenerator {
     public static void main(final String[] args) {
         try {
             // The UML model provides the types for the logical model.
-            final Mapper model = new DefaultMapper(XmiReader.readModel("SLI.xmi"));
+            final ModelIndex model = new DefaultModelIndex(XmiReader.readModel("SLI.xmi"));
             // The platform-specific model provides the implementation mappings.
             final PsmConfig<Type> psmConfig = PsmConfigReader.readConfig("../data/documents.xml", model);
 
