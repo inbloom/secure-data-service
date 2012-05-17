@@ -80,10 +80,10 @@ Then an account entry is made in ldap with "pending" status
 When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
 And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
 And the SLC operator approves the vendor account for "<USER_EMAIL>"
-Then an approval email is sent to "<USER_EMAIL>"
+Then an approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
 
-@production
+@production @wip
 Scenario: State Super admin provisions LZ for an Ed-Org
 When the "<STATE_SUPER_ADMIN>" accesses the "<ADMIN_APP>"
 Then the "<STATE_SUPER_ADMIN>" authenticates
