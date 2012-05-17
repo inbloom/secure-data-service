@@ -35,21 +35,21 @@
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
          "roles":[
-            "LEA Administrator"
+            "LEA Administrator", "SEA Administrator"
          ]
       },
       {
-         "name":"Realm Role Mapper",
-         "description":"Control how roles are from a IDP are mapped to SLI roles.",
+         "name":"Role Mappings",
+         "description":"Control how roles from an IDP are mapped to SLI roles.",
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
            "Realm Administrator"
          ]
       },
       {
-         "name":"Role Viewer",
-         "description":"View available roles.",
-         "url":"${bootstrap.app.admin.url}",
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
          "roles":[
            "Realm Administrator"
          ]
