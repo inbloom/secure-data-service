@@ -61,12 +61,12 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     }
 
     public Set<String> getChildEducationOrganizations(String parentEdOrgId) {
-        return fetchChildren(Arrays.asList(parentEdOrgId));
+        return getChildEducationOrganizations(Arrays.asList(parentEdOrgId));
     }
 
-    private Set<String> fetchChildren(List<String> ids) {
-        Set<String> toReturn = new HashSet<String>(ids);
-        Queue<String> toResolve = new LinkedList<String>(ids);
+    public Set<String> getChildEducationOrganizations(List<String> parentEdOrgIds) {
+        Set<String> toReturn = new HashSet<String>(parentEdOrgIds);
+        Queue<String> toResolve = new LinkedList<String>(parentEdOrgIds);
 
         while (!toResolve.isEmpty()) {
             NeutralQuery query = new NeutralQuery();
