@@ -19,7 +19,7 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 
 final class PluginForXml implements Uml2XsdPlugin {
@@ -31,7 +31,7 @@ final class PluginForXml implements Uml2XsdPlugin {
     /**
      * Not all association ends have names so we synthesize a name based upon the type.
      */
-    private static final String getName(final AssociationEnd element, final Mapper lookup) {
+    private static final String getName(final AssociationEnd element, final ModelIndex lookup) {
         if (!element.getName().trim().isEmpty()) {
             return element.getName();
         } else {
@@ -80,7 +80,7 @@ final class PluginForXml implements Uml2XsdPlugin {
     }
 
     @Override
-    public void writeAssociation(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
+    public void writeAssociation(final ClassType complexType, final AssociationEnd element, final ModelIndex lookup,
             final Uml2XsdPluginWriter xsw) {
         // if (element.isNavigable()) {
         // xsw.choice();
@@ -94,7 +94,7 @@ final class PluginForXml implements Uml2XsdPlugin {
         // }
     }
 
-    private void writeEmbedded(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
+    private void writeEmbedded(final ClassType complexType, final AssociationEnd element, final ModelIndex lookup,
             final Uml2XsdPluginWriter xsw) {
         final String name = getName(element, lookup);
         final Type type = lookup.getType(element.getType());
@@ -122,7 +122,7 @@ final class PluginForXml implements Uml2XsdPlugin {
     }
 
     @SuppressWarnings("unused")
-    private void writeReference(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
+    private void writeReference(final ClassType complexType, final AssociationEnd element, final ModelIndex lookup,
             final Uml2XsdPluginWriter xsw) {
         final String name = getName(element, lookup);
         final Occurs minOccurs = element.getMultiplicity().getRange().getLower();
@@ -150,6 +150,6 @@ final class PluginForXml implements Uml2XsdPlugin {
     }
 
     @Override
-    public void writeAppInfo(final TaggedValue taggedValue, final Mapper lookup, final Uml2XsdPluginWriter xsw) {
+    public void writeAppInfo(final TaggedValue taggedValue, final ModelIndex lookup, final Uml2XsdPluginWriter xsw) {
     }
 }

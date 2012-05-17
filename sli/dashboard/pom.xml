@@ -20,7 +20,7 @@
 
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>     
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
 	</properties>
 
 	<profiles>
@@ -71,7 +71,7 @@
             </activation>
             <properties>
                 <env>qa2</env>
-				<!-- set mode to 'live' to authenticate against idp, 'test' to use local 
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
 					file based authentication -->
 				<server.mode>test</server.mode>
 			</properties>
@@ -120,13 +120,13 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
-		
+
        <dependency>
             <groupId>com.googlecode.ehcache-spring-annotations</groupId>
             <artifactId>ehcache-spring-annotations</artifactId>
             <version>1.2.0</version>
         </dependency>
-        
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -181,7 +181,7 @@
 			<groupId>org.slc.sli.domain</groupId>
 			<artifactId>domain</artifactId>
 		</dependency>
-		
+
 		<dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
@@ -198,7 +198,7 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
-        
+
 		<!-- Google GSON dependency -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -223,7 +223,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
-		
+
 		<!-- Spring Security dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -237,7 +237,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
-		
+
 		<!-- Spring Test dependency -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -298,6 +298,11 @@
                       <systemProperty>
                         <name>sli.conf</name>
                         <value>${sli.conf}</value>
+                      </systemProperty>
+
+                      <systemProperty>
+                        <name>sli.encryption.keyStore</name>
+                        <value>${sli.home}/data-access/dal/keyStore/localKeystore.jks</value>
                       </systemProperty>
 
                       <systemProperty>

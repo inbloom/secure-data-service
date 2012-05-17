@@ -3,26 +3,58 @@ require 'net/ldap'
 require 'date'
 
 class LDAPStorage 
+	####################################################################
+	# Description of LDAP related data model 
+	# The following should fully describe how we interact with LDAP
+	# no specifics shouldbe in the implementation code below 
+	####################################################################
 	# set the objectClasses for user objects
 	OBJECT_CLASS = ["inetOrgPerson", "posixAccount", "top"]
 
 	# group object classes 
-	GROUP_OBJECT_CLASSES = ["groupOfNames", "top"]
-	GROUP_MEMBER_ATTRIBUTE = :member
+	GROUP_OBJECT_CLASSES = ["posixGroup", "top"]
+	GROUP_MEMBER_ATTRIBUTE = :memberUid
+
+	CONST_GROUPID_NUM = "500"
+	CONST_USERID_NUM  = "500"
+
+	DEFAULT_GROUP_ATTRIBUTES = {
+		:gidNumber => CONST_GROUPID_NUM
+	}
 
 	LDAP_ATTR_MAPPING = {
 		:givenname            => :first,
 		:sn                   => :last,
 		:uid                  => :email,
-		:userpassword         => :password,
+		:userPassword         => :password,
 		:o                    => :vendor,
-		:displayname          => :emailtoken,
-		:destinationindicator => :status,
+		:displayName          => :emailtoken,
+		:destinationIndicator => :status,
 		:homeDirectory        => :homedir,
 		:uidNumber            => :uidnumber, 
 		:gidNumber            => :gidnumber
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
+
+	REQUIRED_FIELDS = [
+		:first,
+		:last,
+		:email,
+		:password,
+		:emailtoken,
+		:homedir, 
+		:status
+	]
+
+	# some fields are stored in the description field as 
+	# key/value pairs 
+	PACKED_ENTITY_FIELD_MAPPING = {
+		:tenant => "tenant",
+		:edorg  => "edOrg"
+	}
+
+	# Additional fiels (see above) are packed into this field as key/value pairs
+	LDAP_DESCRIPTION_FIELD = :description
 
 	# READ-ONLY FIELDS 
 	RO_LDAP_ATTR_MAPPING = {
@@ -32,14 +64,17 @@ class LDAPStorage
 
 	# these values are injected when the user is created 
 	ENTITY_CONSTANTS = {
-		:uidnumber => "500", 
-		:gidnumber => "500"
+		:uidnumber => CONST_GROUPID_NUM,
+		:gidnumber => CONST_USERID_NUM,
+		:vendor    => "none",
+		:homedir   => "/dev/null"
 	}
 
+	# List of fields to fetch from LDAP for user 
 	# description field to contain mapping between LDAP and applicaton fields
 	LDAP_DESCRIPTION_FIELD = :description
 
-	# List of fields to fetch from LDAP for user 
+	# List of fields to fetch from LDAP for user
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
 	ALLOW_UPDATING = [
@@ -48,7 +83,9 @@ class LDAPStorage
 		:password, 
 		:vendor,
 		:emailtoken,
-		:homedir
+		:homedir,
+		:tenant,
+		:edorg
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [
@@ -56,10 +93,13 @@ class LDAPStorage
 		:modifyTimestamp
 	]
 
-	# SEC_AUTH_REALM  = "sandboxAuthRealm"
-	# SEC_ADMIN_REALM = "sandboxAdminRealm"
-	# SEC_EDORG       = "sandboxEdOrg"
+	LDAP_PASSWORD_FIELD = :userPassword
 
+	################################################################
+	# Implementation 
+	################################################################
+
+	# Initialize the module
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
      	@group_base  = "ou=groups,#{base}"
@@ -83,7 +123,8 @@ class LDAPStorage
 	#     :password => "secret", 
 	#     :vendor => "Acme Inc."
 	#     :emailtoken ... hash string 
-	#     :updated ... datetime
+	#     :tenant 
+	#     :edorg 
 	#     :status  ... "submitted"
 	# }
 	def create_user(user_info)
@@ -97,17 +138,20 @@ class LDAPStorage
 		# inject the constant values into the user info 
 		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
-		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
-		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
-		#end
-
-		if !e_user_info[:homedir]
-		   e_user_info[:homedir] = "/home/example"
+		# make sure the required features are there 
+		REQUIRED_FIELDS.each do |k| 
+			if !e_user_info[k] || (e_user_info[k].strip == "")
+				raise "The following attributes #{REQUIRED_FIELDS} need to be set. These were provided: #{e_user_info}" 
+			end
 		end
 		
-		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
-		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
-		# attributes[LDAP_DESCRIPTION_FIELD] = descr
+		LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+			value = (ldap_k == LDAP_PASSWORD_FIELD) ? ldap_md5(e_user_info[rec_k]) : e_user_info[rec_k]
+			attributes[ldap_k] = value 
+		end
+
+		# pack additional fields into the description field 
+		attributes[LDAP_DESCRIPTION_FIELD] = pack_fields(e_user_info)
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
@@ -152,24 +196,27 @@ class LDAPStorage
 	# enable login and update the status
 	# This means the user is added to the LDAP group that corresponds to the given role
 	def add_user_group(email_address, group_id)
-		user_dn  = get_DN(email_address)
+		#user_dn  = get_DN(email_address)
+		user_dn  = email_address
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
 		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
 		if !group_found
-  			member_attrib = {
+			group_attrib = DEFAULT_GROUP_ATTRIBUTES.clone 
+  			group_attrib.update({
     			:cn => group_id,
     			:objectclass => GROUP_OBJECT_CLASSES,
-    			:member => user_dn
-  			}
-  			if !@ldap.add(:dn => group_dn, :attributes => member_attrib)
-  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
+    			GROUP_MEMBER_ATTRIBUTE => user_dn
+  			})
+
+  			if !@ldap.add(:dn => group_dn, :attributes => group_attrib)
+  				raise ldap_ex("Could not add #{email_address} to new group #{group_id} using attributes: #{group_attrib}")
 	  		end
 	  	else
-	  		if !group_found[:member].index(user_dn)
+	  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
 		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
-	  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
+	  				raise ldap_ex("Could not add #{email_address} to existing  group #{group_id} using attributed '#{GROUP_MEMBER_ATTRIBUTE}' with LDAP base '#{@group_base}'")
 		  		end
 		  	end
 	  	end
@@ -177,27 +224,29 @@ class LDAPStorage
 
 	# disable login and update the status 
 	def remove_user_group(email_address, group_id)
-		user_dn = get_DN(email_address)
+		#user_dn = get_DN(email_address)
+		user_dn = email_address
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
 		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
 
 		if group_found
-			removed = group_found[:member].delete(user_dn)
+			removed = group_found[GROUP_MEMBER_ATTRIBUTE].delete(user_dn)
 			if removed
-				if group_found[:member].empty? 
+				if group_found[GROUP_MEMBER_ATTRIBUTE].empty? 
 					@ldap.delete(:dn => group_dn)
 				else 
-					@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[:member])
+					@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[GROUP_MEMBER_ATTRIBUTE])
 				end 
 			end
 		end
 	end
 
 	def get_user_groups(email_address)
-		user_dn = get_DN(email_address)
-		filter = Net::LDAP::Filter.eq( :member, user_dn)
+		#user_dn = get_DN(email_address)
+		user_dn = email_address
+		filter = Net::LDAP::Filter.eq( GROUP_MEMBER_ATTRIBUTE, user_dn)
 		@ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
 			group[:cn][0]
 		end
@@ -211,15 +260,31 @@ class LDAPStorage
 	# updates the user_info except for the user status 
 	# user_info is the same input as for create_user 
 	def update_user_info(user_info)
+		return if !user_info || user_info.empty?
+
+		# get the current user entry 
 		curr_user_info = read_user(user_info[:email])
 		if curr_user_info
 			dn = get_DN(user_info[:email])
+
+			#update the ldap attributes 
+			desc_attributes = {}
 			ALLOW_UPDATING.each do |attribute|
 				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+					if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
+						desc_attributes[attribute] = user_info[attribute]
+					else
+						@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+					end
 				end
 			end
-									
+
+			# updat the attributes that are encoded in description 
+			if !desc_attributes.empty? 
+				temp = (curr_user_info.clone).merge(desc_attributes)
+				packed = pack_fields(temp)
+				@ldap.replace_attribute(dn, LDAP_DESCRIPTION_FIELD, packed)
+			end			
 		end
 	end 
 
@@ -244,7 +309,8 @@ class LDAPStorage
 
 	# extract the user from the ldap record
 	def search_map_user_fields(filter, max_recs=nil)
-		attributes = COMBINED_LDAP_ATTR_MAPPING.keys
+		# search for all fields plus the description field 
+		attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD]
 		arr = @ldap.search(:filter => filter, :attributes => attributes).to_a()
 		if !max_recs
 			max_recs = arr.length
@@ -256,13 +322,40 @@ class LDAPStorage
 				attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
 				user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
 			end
+
+			# unpack the fields that are stored in the description field
+			desc = (entry[LDAP_DESCRIPTION_FIELD] ? entry[LDAP_DESCRIPTION_FIELD] : [])[0]
+			unpacked_fields = if desc && (desc.strip != "")
+								mapping = desc.strip().split("\n").map {|x| x.strip}
+								mapping = mapping.map do |x| 
+									x.split("=").map {|y| y.strip }
+								end
+								mapping = Hash[mapping]
+				              else
+				              	{}
+				              end
+			PACKED_ENTITY_FIELD_MAPPING.each do |rec_k, packed_k| 
+				if unpacked_fields.include?(packed_k)
+					user_rec[rec_k] = unpacked_fields[packed_k]
+				end
+			end 
+
 			user_rec
 		end
+	end
+
+	def pack_fields(user_info)
+		packed_fields = Hash[ PACKED_ENTITY_FIELD_MAPPING.map { |k,v| [v, user_info[k]] } ]
+		(packed_fields.map { |k,v|  "#{k}=#{v}" }).join("\n")
 	end
 
 	def ldap_ex(msg)
 		op = @ldap.get_operation_result
 		"#{msg} (#{op.code}) #{op.message}"
+	end
+
+	def ldap_md5(plaintext)
+		"{MD5}#{Digest::MD5.base64digest(plaintext)}"
 	end
 end
 
