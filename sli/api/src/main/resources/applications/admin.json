@@ -31,6 +31,14 @@
          ]
       },
       {
+         "name":"Admin Delegation",
+         "description":"Delegate the ability to approve applications to SEA admins.",
+         "url":"${bootstrap.app.admin.url}/admin_delegations",
+         "roles":[
+            "LEA Administrator"
+         ]
+      },
+      {
          "name":"Application Authorization",
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
