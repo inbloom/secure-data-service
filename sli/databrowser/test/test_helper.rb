@@ -29,9 +29,11 @@ class ActiveSupport::TestCase
     @school_fixtures = load_fixture("schools")
     # @realm_fixtures = load_fixture("realms")
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/v1/students", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
-      mock.get "/api/rest/v1/teachers", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
+      mock.get "/api/rest/v1/home/", {"Accept" => "application/vnd.slc+json"}, [].to_json
+      mock.get "/api/rest/v1/students/", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
+      mock.get "/api/rest/v1/teachers/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
       mock.get "/api/rest/v1/students/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, @student_fixtures['one'].to_json
+      mock.get "/api/rest/v1/teachers/?teacherUniqueStateId=11111111-1111-1111-1111-111111111111", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
       
       mock.get "/api/rest/v1/teacher-school-associations/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
             

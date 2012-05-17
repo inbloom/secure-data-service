@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>District - <%= Check.get("")["edOrg"].to_s %></h1>
+<h1>District - <%= session[:edOrg] %></h1>
 <h3>Please approve SLI applications to access the district's data</h3>
 
 
@@ -13,20 +13,9 @@
         <th>Status</th>
         <th> </th>
       </tr>
-    <%
-        apps = App.all
-
-        #The reason map is being used is to put the apps in the order that they were authorized
-        authorizedApps = application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId}}
-        unauthorizedApps = apps.select {|app| application_authorization.appIds.find_index(app.id) == nil}
-        apps = authorizedApps + unauthorizedApps
-        apps.each do |app|
-    %>
+    <% @apps.each do |app| %>
+      <% next if app.nil? %>
         <tr>
-          <% if app == nil
-                next
-             end
-          %>
           <td><%= app.name %></td>
           <td><%= app.version  %></td>
           <td><%= app.developer_info.organization %></td>
@@ -53,7 +42,3 @@
         <%end %>
       </table>
 <% end %>
-
-<br />
-
-<%= link_to 'New Application authorization', new_application_authorization_path %>

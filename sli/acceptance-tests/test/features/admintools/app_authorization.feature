@@ -9,7 +9,6 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
-	And in the upper right corner I see my name
 	And I see a label in the middle "IL-SUNSET"
 	And I see the list of all available apps on SLI
 	And the authorized apps for my district are colored green
