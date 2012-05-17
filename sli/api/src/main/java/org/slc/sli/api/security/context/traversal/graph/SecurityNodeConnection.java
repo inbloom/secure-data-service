@@ -5,12 +5,12 @@ package org.slc.sli.api.security.context.traversal.graph;
  * Basic wrapper class for fields that a connection has
  *
  * @author rlatta
- *
  */
 public class SecurityNodeConnection {
     private String fieldName = "";
     private String connectionTo = "";
     private String associationNode = "";
+    private boolean isReferenceInSelf = false;
     private NodeFilter filter;
 
     /**
@@ -21,8 +21,7 @@ public class SecurityNodeConnection {
     }
 
     /**
-     * @param fieldName
-     *            the fieldName to set
+     * @param fieldName the fieldName to set
      */
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
@@ -36,8 +35,7 @@ public class SecurityNodeConnection {
     }
 
     /**
-     * @param connectionTo
-     *            the connectionTo to set
+     * @param connectionTo the connectionTo to set
      */
     public void setConnectionTo(String connectionTo) {
         this.connectionTo = connectionTo;
@@ -55,9 +53,12 @@ public class SecurityNodeConnection {
         return this.filter;
     }
 
+    public boolean isReferenceInSelf() {
+        return isReferenceInSelf;
+    }
+
     /**
-     * @param associationNode
-     *            the associationNode to set
+     * @param associationNode the associationNode to set
      */
     public void setAssociationNode(String associationNode) {
         this.associationNode = associationNode;
@@ -73,10 +74,16 @@ public class SecurityNodeConnection {
     public SecurityNodeConnection(String connectionTo, String fieldName, String associationNode) {
         this(connectionTo, fieldName, associationNode, null);
     }
-    
+
     public SecurityNodeConnection(String connectionTo, String fieldName) {
         this.connectionTo = connectionTo;
         this.fieldName = fieldName;
-        this.associationNode = "";
     }
+
+    public SecurityNodeConnection(String connectionTo, String fieldName, boolean isReferenceInSelf) {
+        this.connectionTo = connectionTo;
+        this.fieldName = fieldName;
+        this.isReferenceInSelf = isReferenceInSelf;
+    }
+
 }
