@@ -12,6 +12,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
+import org.milyn.container.ExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.smooks.NonSilentErrorReport;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -85,7 +87,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
-            smooks.filterSource(new StreamSource(inputStream));
+            ExecutionContext ctx = smooks.createExecutionContext();
+            ctx.setEventListener(new NonSilentErrorReport());
+
+            smooks.filterSource(ctx, new StreamSource(inputStream));
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
                     + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n", se);
