@@ -147,8 +147,10 @@ public class UserService {
             if (raw != null && raw.length() > 0) {
                 String[] rows = raw.split("\n");
                 for (String row : rows) {
-                    String[] pair = row.split("=");
-                    attributes.put(pair[0].trim(), pair[1].trim());
+                    String[] pair = row.split("=", 2);
+                    if (pair.length == 2) {
+                        attributes.put(pair[0].trim(), pair[1].trim());
+                    }
                 }
             }
             user.attributes = attributes;
