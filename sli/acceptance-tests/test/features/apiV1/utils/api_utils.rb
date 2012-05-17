@@ -83,6 +83,13 @@ end
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
+Then /^I should receive a collection with (\d+) elements$/ do |count|;
+  count = convert(count)
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Array), "Expected array of links")
+  @result.length.should == count
+end
+
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")

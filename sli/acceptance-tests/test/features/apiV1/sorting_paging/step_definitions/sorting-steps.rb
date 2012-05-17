@@ -2,23 +2,20 @@ require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
+require_relative '../../utils/api_utils.rb'
 
 # transform <Place Holder Id>
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "9d970849-0116-499d-b8f3-2255aeb69552" if template == "'Dawn Elementary School' ID"
   id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if template == "'Illinois State Ed-org' ID"
+  id = @resource_name                         if template == "QUERY URI"
   id
 end
 
 # transform /path/<Place Holder Id>
 Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
   uri + Transform(template)
-end
-
-# transform /path/<Place Holder Id>/targets
-Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
-  Transform(uri + template) + "/targets"
 end
 
 Given /^query criteria is "([^"]*)"$/ do |arg1|
@@ -44,13 +41,6 @@ Then /^the link at index (\d+) should have "([^\"]*)" equal to "([^\"]*)"$/ do |
     fieldValue = fieldValue[f]
   end
   fieldValue.should == id
-end
-
-Then /^I should receive a collection with (\d+) elements$/ do |count|;
-  count = convert(count)
-  assert(@result != nil, "Response contains no data")
-  assert(@result.is_a?(Array), "Expected array of links")
-  @result.length.should == count
 end
 
 Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
