@@ -21,12 +21,14 @@ module ApplicationHelper
   EMAIL_PORT=APP_CONFIG["email_port"]
   EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name_user_reg_app"]
   EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address_user_reg_app"]
+  REPLACER={"__URI__" => APP_CONFIG["email_replace_uri"]}
 
   EMAIL_CONF = {
     :host=>EMAIL_HOST,
     :port=>EMAIL_PORT,
     :sender_name => EMAIL_SENDER_NAME,
-    :sender_email_addr => EMAIL_SENDER_ADDR
+    :sender_email_addr => EMAIL_SENDER_ADDR,
+    :replacer => REPLACER
   }
   
   UNKNOWN_EMAIL = {
