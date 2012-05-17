@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
+
+    <Session>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <SchoolYear>1999-2000</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-23</EndDate>
+        <TotalInstructionalDays>80</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Baker School</SessionName>
+        <SchoolYear>1997-1998</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-23</EndDate>
+        <TotalInstructionalDays>80</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Charlie School</SessionName>
+        <SchoolYear>1996-1997</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-23</EndDate>
+        <TotalInstructionalDays>80</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Dog School</SessionName>
+        <SchoolYear>2004-2005</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-23</EndDate>
+        <TotalInstructionalDays>80</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Echo School</SessionName>
+        <SchoolYear>2003-2004</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-23</EndDate>
+        <TotalInstructionalDays>80</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901001</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+
+
+    <Session>
+        <SessionName>Spring 2012 Able School</SessionName>
+        <SchoolYear>2005-2006</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2021-2022</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+        <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2021-2022</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+        <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2025-2026</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+        <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2026-2027</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>255901044</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GRDP_20100823"/>
+        <GradingPeriodReference ref="GRDP_20101004"/>
+        <GradingPeriodReference ref="GRDP_20101108"/>
+    </Session>
+    <GradingPeriod id="GRDP_20101004">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110104">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110222">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110411">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20101108">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+
+</InterchangeEducationOrgCalendar>
