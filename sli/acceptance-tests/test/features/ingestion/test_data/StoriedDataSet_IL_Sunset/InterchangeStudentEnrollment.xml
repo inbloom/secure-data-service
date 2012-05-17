@@ -780,7 +780,7 @@
         <SectionReference>
             <SectionIdentity>
                 <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-                <UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
+                <UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <HomeroomIndicator>true</HomeroomIndicator>
@@ -794,7 +794,7 @@
         <SectionReference>
             <SectionIdentity>
                 <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-                <UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
+                <UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <HomeroomIndicator>true</HomeroomIndicator>
@@ -1499,6 +1499,8 @@
         </SchoolReference>
         <EntryDate>2012-01-01</EntryDate>
         <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+        <ExitWithdrawDate>2012-02-02</ExitWithdrawDate>
+        <ExitWithdrawType>Withdrawn due to illness</ExitWithdrawType>
     </StudentSchoolAssociation>
     <StudentSchoolAssociation>
         <StudentReference>
