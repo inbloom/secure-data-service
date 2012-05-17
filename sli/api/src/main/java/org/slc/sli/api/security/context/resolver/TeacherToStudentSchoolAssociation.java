@@ -12,7 +12,7 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 
 /**
- * Resolves which StudentParentAssociation a given teacher is allowed to see.
+ * Resolves which StudentSchoolAssociation a given teacher is allowed to see.
  */
 @Component
 public class TeacherToStudentSchoolAssociation implements EntityContextResolver {
