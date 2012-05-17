@@ -10,7 +10,7 @@ development:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: http://local.slidev.org:3000
@@ -30,7 +30,7 @@ local-acceptance-tests:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: http://local.slidev.org:2000
@@ -48,7 +48,7 @@ development_sb:
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: http://local.slidev.org:3000
@@ -67,7 +67,7 @@ team:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: https://ci.slidev.org:2001
@@ -85,7 +85,7 @@ team_sb:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     email_replace_uri: https://ci.slidev.org:2001
@@ -101,7 +101,7 @@ test:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_sender_name: SLI Administrator
-    email_sender_address: admin@SLC.org
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
     admin_realm: Shared Learning Infrastructure
