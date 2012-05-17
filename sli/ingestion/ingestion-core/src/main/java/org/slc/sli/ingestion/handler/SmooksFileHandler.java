@@ -88,9 +88,14 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             ExecutionContext ctx = smooks.createExecutionContext();
-            ctx.setEventListener(new NonSilentErrorReport());
+            NonSilentErrorReport nser = new NonSilentErrorReport();
+            ctx.setEventListener(nser);
 
             smooks.filterSource(ctx, new StreamSource(inputStream));
+            System.out.println(nser.getEventsPresent());
+            System.out.println(nser.getEventsVisited());
+            System.out.println(nser.getEventsResourceTarget());
+            System.out.println(nser.getEventsProcessed());
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
                     + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n", se);
