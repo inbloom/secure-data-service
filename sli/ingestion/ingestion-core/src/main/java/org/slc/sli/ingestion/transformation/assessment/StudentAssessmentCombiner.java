@@ -14,9 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Transformer for StudentAssessment entities. Current implementation has REMOVED checking for
- * circular
- * references in objective assessments.
+ * Transformer for StudentAssessmentAssociation entities.
  * 
  * @author nbrown
  * @author shalka
@@ -34,7 +32,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<String, Map<Object, NeutralRecord>> collections;
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
-    private Map<String, Map<String, Object>> objectiveAssessments;
     
     /**
      * Default constructor.
@@ -51,7 +48,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     @Override
     public void performTransformation() {
         loadData();
-        buildObjectiveAssessmentMap();
         transform();
         persist();
     }
@@ -135,10 +131,19 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             String studentTestAssessmentRef = (String) assessmentAttributes.get(STUDENT_ASSESSMENT_REFERENCE);
             if (studentTestAssessmentRef.equals(studentAssessmentAssociationId)) {
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
-                Map<String, Object> objectiveAssessment = objectiveAssessments.get(objectiveAssessmentRef);
+                
+                LOG.info("Checking for objective assessment: {}", objectiveAssessmentRef);
+                
+                Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(), getJob().getId()).
+                        getObjectiveAssessment(objectiveAssessmentRef);
+                
                 if (objectiveAssessment != null) {
+                    LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
+                } else {
+                    LOG.warn("Failed to find objective assessment: {} for student assessment: {}", objectiveAssessmentRef, studentAssessmentAssociationId);
                 }
+                
                 Map<String, Object> newAssessmentAttributes = new HashMap<String, Object>();
                 for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
                     if (!entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
@@ -149,14 +154,5 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
         }
         return assessments;
-    }
-    
-    /**
-     * Builds a map of objective assessments, preserving their nesting structure.
-     */
-    private void buildObjectiveAssessmentMap() {
-        ObjectiveAssessmentBuilder builder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
-                getBatchJobId());
-        objectiveAssessments = builder.buildObjectiveAssessmentMap();
     }
 }

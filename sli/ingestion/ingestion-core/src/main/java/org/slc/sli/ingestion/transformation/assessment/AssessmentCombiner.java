@@ -31,7 +31,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<String, Map<Object, NeutralRecord>> collections;
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
-    private Map<String, Map<String, Object>> objectiveAssessments;
     
     public AssessmentCombiner() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
@@ -46,7 +45,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     @Override
     public void performTransformation() {
         loadData();
-        buildObjectiveAssessmentMap();
         transform();
         persist();
     }
@@ -93,8 +91,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    if (objectiveAssessments.containsKey(objectiveAssessmentRef)) {
-                        familyObjectiveAssessments.add(objectiveAssessments.get(objectiveAssessmentRef));
+                    Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(), getJob().getId()).
+                            getObjectiveAssessment(objectiveAssessmentRef);
+                    
+                    if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
+                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef, familyHierarchyName);
+                        familyObjectiveAssessments.add(objectiveAssessment);
                     } else {
                         LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
@@ -108,7 +110,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             if (assessmentPeriodDescriptorRef != null) {
                 attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
             }
-            neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getLocalId(), neutralRecord);
         }
         transformedCollections.put(ASSESSMENT, newCollection);
@@ -189,14 +190,5 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             }
         }
         LOG.info("Finished persisting transformed data into assessment_transformed staging collection.");
-    }
-    
-    /**
-     * Builds a map of objective assessments, preserving their nesting structure.
-     */
-    private void buildObjectiveAssessmentMap() {
-        ObjectiveAssessmentBuilder builder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
-                getBatchJobId());
-        objectiveAssessments = builder.buildObjectiveAssessmentMap();
     }
 }
