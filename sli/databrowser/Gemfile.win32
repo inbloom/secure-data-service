@@ -66,22 +66,3 @@ group :development, :test do
 	gem 'simplecov-rcov', :require=>false, :group=>:test
 	# gem 'turn', "~> 0.9.4"
 end
-# gem 'rspec', :require=>false, :group=>:test
-# gem 'rspec-rails', :require=>false, :group=>:test
-# gem 'webrat', :require=>false, :group=>:test
-
-#Cucumber
-# gem 'cucumber'
-# gem 'cucumber-rails'
-
-#Use Roodi for style check
-gem 'roodi', :require=>false
-
-#Use rails_best_practices to check your design
-gem 'rails_best_practices', :require=>false
-
-
-# group :test do
-#   gem "minitest", "~> 2.12.0"
-# end
-
