@@ -59,7 +59,8 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.OK).build();
+        Response resp = super.readAll(offset, limit, headers, uriInfo);
+        return resp;
     }
 
     @SuppressWarnings("rawtypes")
