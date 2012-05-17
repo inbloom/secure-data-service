@@ -3825,7 +3825,20 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
-
+  <!--carmen artiz elementary school section-->
+  <StudentSectionAssociation>
+    <StudentReference>
+       <StudentIdentity>
+         <StudentUniqueStateId>900000016</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <SectionReference>  
+        <SectionIdentity>
+             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+             <UniqueSectionCode>Gym Class - 4</UniqueSectionCode>
+       </SectionIdentity>
+     </SectionReference>
+  </StudentSectionAssociation>
   <!-- linda.kim's 8th Grade English - Sec 6 (Fall 2011) class -->
   <StudentSectionAssociation>
     <StudentReference>

@@ -51,13 +51,13 @@ Then I should see following map of entry counts in the corresponding collections
         | studentSchoolAssociation    | 167   |
         | course                      | 95    |
         | educationOrganization       | 7     |
-        | section                     | 97    |
-        | studentSectionAssociation   | 296   |
+        | section                     | 98    |
+        | studentSectionAssociation   | 297   |
         | staff                       | 14    |
         | staffEducationOrganizationAssociation| 11|
         | teacherSchoolAssociation    | 3     |
-        | teacherSectionAssociation   | 10    |
-        | session                     | 22    |
+        | teacherSectionAssociation   | 11    |
+        | session                     | 23    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
@@ -125,7 +125,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
-    And I should see "Processed 16072 records." in the resulting batch job file
+    And I should see "Processed 16076 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -133,17 +133,17 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 104" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 104" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 596" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 596" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 97" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 97" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 98" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 98" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 42" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 42" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 644" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 644" in the resulting batch job file
@@ -212,13 +212,13 @@ Then I should see following map of entry counts in the corresponding collections
         | studentSchoolAssociation    | 272   |
         | course                      | 96    |
         | educationOrganization       | 7     |
-        | section                     | 100    |
-        | studentSectionAssociation   | 401   |
+        | section                     | 101    |
+        | studentSectionAssociation   | 402   |
         | staff                       | 21    |
         | staffEducationOrganizationAssociation|17|
         | teacherSchoolAssociation    | 4     |
-        | teacherSectionAssociation   | 13    |
-        | session                     | 22    |
+        | teacherSectionAssociation   | 14    |
+        | session                     | 23    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
@@ -278,13 +278,13 @@ Then I should see following map of entry counts in the corresponding collections
         | studentSchoolAssociation    | 280   |
         | course                      | 104   |
         | educationOrganization       | 14    |
-        | section                     | 116   |
-        | studentSectionAssociation   | 409   |
+        | section                     | 117   |
+        | studentSectionAssociation   | 410   |
         | staff                       | 58    |
         | staffEducationOrganizationAssociation|38|
         | teacherSchoolAssociation    | 20    |
-        | teacherSectionAssociation   | 29    |
-        | session                     | 26    |
+        | teacherSectionAssociation   | 30    |
+        | session                     | 27    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
