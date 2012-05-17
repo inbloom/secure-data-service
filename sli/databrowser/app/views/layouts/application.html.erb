@@ -21,6 +21,9 @@
 		</p>
 	</div>
 	<hr>
+	<div class="search">
+	  <%= render :partial=>"search" %>
+  </div>
 	<div id="content">
 		<%- flash.each do |key, msg| -%>
 		  <div id="<%= key %>">
