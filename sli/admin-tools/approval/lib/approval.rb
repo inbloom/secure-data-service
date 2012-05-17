@@ -41,7 +41,7 @@ module ApprovalEngine
 
 	# Roles to set in production mode
 	PRODUCTION_ROLES = [
-		"Vendor_Admin"
+		"Application Developer"
 	]
 
 	## backend storage
