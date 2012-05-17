@@ -39,6 +39,21 @@ public final class DataType extends NamespaceOwnedElement implements SimpleType 
     }
 
     @Override
+    public boolean isClassType() {
+        return false;
+    }
+
+    @Override
+    public boolean isDataType() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnumType() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");

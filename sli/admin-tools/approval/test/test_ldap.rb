@@ -21,7 +21,9 @@ class TestLdap < Test::Unit::TestCase
     :status     => "submitted",
     :homedir    => 'test',
     :uidnumber  => '456',
-    :gidnumber  => '123'
+    :gidnumber  => '123',
+    :tenant     => 'testtenant',
+    :edorg      => 'testedorg'
   }
 
   # Note: Socket.gethostname is used to ensure uniqueness when testers are 
@@ -33,7 +35,7 @@ class TestLdap < Test::Unit::TestCase
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
-    :status, :homedir, :uidnumber, :gidnumber]
+    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg]
 
   Email1 = "dog_cat_hamster_platypus_elephant"
   Email2 = "mouse_snake_lion_cat_horse"
@@ -49,16 +51,27 @@ class TestLdap < Test::Unit::TestCase
 
     @ldap.remove_user_group(Td_email, "testgroup")
     @ldap.remove_user_group(Jd_email, "testgroup")
-    
+
     @ldap.delete_user(Email1)
     @ldap.delete_user(Email2)
     @ldap.delete_user(Email3)
     @ldap.delete_user(Email4)
     @ldap.delete_user(Email5)
+
+    all_testusers = @ldap.search_users "*#{Socket.gethostname}*"
+    all_testusers.each do |u|
+      @ldap.delete_user u[:email]
+    end    
   end
 
   def assert_equal_user_info(expected, actual)
-    All_keys.each {|x| assert_equal expected[x], actual[x]}
+    All_keys.each do |x| 
+      if x.to_s.downcase != "password"
+        assert_equal expected[x], actual[x]
+      else
+        assert_equal "{MD5}#{Digest::MD5.base64digest(expected[x])}", actual[x]
+      end
+    end
   end
 
   def test_keys
@@ -108,7 +121,9 @@ class TestLdap < Test::Unit::TestCase
       :status     => "#{found_user[:status]}UpdateTest",
       :homedir    => "#{found_user[:homedir]}/updateTest",
       :uidnumber  => "#{found_user[:uidnumber]}890",
-      :gidnumber  => "#{found_user[:gidnumber]}890"
+      :gidnumber  => "#{found_user[:gidnumber]}890",
+      :tenant     => "#{found_user[:tenant]}890",
+      :edorg      => "#{found_user[:edorg]}890"
     }
     @ldap.update_user_info(to_update)
     updated_found_user = @ldap.read_user(User_info[:email])
@@ -119,7 +134,9 @@ class TestLdap < Test::Unit::TestCase
       :password, 
       :vendor,
       :emailtoken,
-      :homedir
+      :homedir,
+      :tenant, 
+      :edorg
     ]
 
     to_update.keys.each do |key|
@@ -157,6 +174,20 @@ class TestLdap < Test::Unit::TestCase
     search_result = @ldap.search_users "*blah blah blah*"
     assert_equal 0, search_result.size
   end
+
+  def test_minimal_arguments
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => "#{Jd_email}_#{Socket.gethostname}",
+      :password   => "secret",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted"
+    }
+    @ldap.create_user(test_user_info)
+    @ldap.delete_user(test_user_info[:email])
+  end 
 end
 
 

@@ -96,5 +96,8 @@ class ApplicationController < ActionController::Base
   def is_slc_admin?
     session[:roles].include? "SLI Administrator"
   end
+  def not_found
+  	  raise ActionController::RoutingError.new('Not Found')
+    end
   
 end

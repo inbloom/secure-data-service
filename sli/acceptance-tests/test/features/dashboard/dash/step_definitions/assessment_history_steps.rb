@@ -22,6 +22,11 @@ Then /^the Assessment History for "([^"]*)" has the following entries:$/ do |tes
   #For ISAT tests, we need to test fuel gauge visualization
   if (test.include? ("ISAT"))
     mapping["Perf Level"] = ["perfLevel", "fuelGauge"]
+    if (test.include? "Reading")
+      @cutPoints = "120,180,231,278,364"
+    else
+      @cutPoints = "6,15,21,28,33"
+    end
   end
   
   checkGridEntries(panel, table, mapping)

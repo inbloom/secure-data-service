@@ -63,6 +63,9 @@ public class BasicService implements EntityService {
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
+    
+    private Right readRight;
+    private Right writeRight; // this is possibly the worst named variable ever
 
     @Autowired
     private Repository<Entity> repo;
@@ -78,19 +81,25 @@ public class BasicService implements EntityService {
 
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
-
-    public BasicService(String collectionName, List<Treatment> treatments) {
+    
+    public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
         this.treatments = treatments;
+        this.readRight = readRight;
+        this.writeRight = writeRight;
+    }
+    
+    public BasicService(String collectionName, List<Treatment> treatments) {
+        this(collectionName, treatments, Right.READ_GENERAL, Right.WRITE_GENERAL);
     }
 
     @Override
     public long count(NeutralQuery neutralQuery) {
-        checkRights(Right.READ_GENERAL);
+        checkRights(this.readRight);
 
         List<String> allowed = findAccessible();
 
-        if (allowed.isEmpty()) {
+        if (allowed.isEmpty() && this.readRight != Right.ANONYMOUS_ACCESS) {
             return 0;
         }
 
@@ -104,8 +113,8 @@ public class BasicService implements EntityService {
             }
         }
         NeutralQuery localNeutralQuery = new NeutralQuery();
-
-        if (allowed.size() < 0) {   //super list
+        
+        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {   //super list
             localNeutralQuery = neutralQuery;
         } else if (!ids.isEmpty()) {
             Set<String> allowedSet = new HashSet<String>(allowed);
@@ -128,7 +137,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public Iterable<String> listIds(NeutralQuery neutralQuery) {
-        checkRights(Right.READ_GENERAL);
+        checkRights(this.readRight);
 
         List<String> allowed = findAccessible();
 
@@ -153,7 +162,10 @@ public class BasicService implements EntityService {
 //        DE260 - Logging of possibly sensitive data
 //        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
 
-        checkRights(determineWriteAccess(content, ""));
+        // if service does not allow anonymous write access, check user rights
+        if (this.writeRight != Right.ANONYMOUS_ACCESS) {
+            checkRights(determineWriteAccess(content, ""));
+        }
 
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
@@ -163,7 +175,7 @@ public class BasicService implements EntityService {
 //        DE260 - Logging of possibly sensitive data
 //        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
 
-        checkAccess(Right.WRITE_GENERAL, id);
+        checkAccess(this.writeRight, id);
 
         try {
             cascadeDelete(id);
@@ -181,9 +193,11 @@ public class BasicService implements EntityService {
     @Override
     public boolean update(String id, EntityBody content) {
         LOG.debug("Updating {} in {}", new String[] { id, collectionName });
-
-        checkAccess(determineWriteAccess(content, ""), id);
-
+        
+        if (this.writeRight != Right.ANONYMOUS_ACCESS) {
+            checkAccess(determineWriteAccess(content, ""), id);
+        }
+        
         Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -206,7 +220,7 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody get(String id) {
-        checkAccess(Right.READ_GENERAL, id);
+        checkAccess(this.readRight, id);
         Entity entity = getRepo().findById(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
@@ -217,7 +231,7 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
-        checkAccess(Right.READ_GENERAL, id);
+        checkAccess(this.readRight, id);
 
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
@@ -267,7 +281,7 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        checkRights(Right.READ_GENERAL);
+        checkRights(this.readRight);
 
         List<String> allowed = findAccessible();
         List<String> idList = new ArrayList<String>();
@@ -304,12 +318,14 @@ public class BasicService implements EntityService {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
-        checkRights(Right.READ_GENERAL);
+        checkRights(this.readRight);
 
         List<String> allowed = findAccessible();
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-
-        if (allowed.isEmpty()) {
+        
+        if (this.readRight == Right.ANONYMOUS_ACCESS) {
+            LOG.debug("super list logic --> {} service allows anonymous access", this.collectionName);
+        } else if (allowed.isEmpty()) {
             return Collections.emptyList();
         } else if (allowed.size() < 0) {
             LOG.debug("super list logic --> only true when using DefaultEntityContextResolver");
@@ -350,7 +366,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean exists(String id) {
-        checkRights(Right.READ_GENERAL);
+        checkRights(this.readRight);
 
         boolean exists = false;
         if (repo.findById(collectionName, id) != null) {
@@ -366,7 +382,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public EntityBody getCustom(String id) {
-        checkAccess(Right.READ_GENERAL, id);
+        checkAccess(this.readRight, id);
 
         String clientId = getClientId();
 
@@ -391,7 +407,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public void deleteCustom(String id) {
-        checkAccess(Right.WRITE_GENERAL, id);
+        checkAccess(this.writeRight, id);
 
         String clientId = getClientId();
 
@@ -416,7 +432,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) {
-        checkAccess(Right.WRITE_GENERAL, id);
+        checkAccess(this.writeRight, id);
 
         String clientId = getClientId();
 
@@ -470,9 +486,11 @@ public class BasicService implements EntityService {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
 
-        // Blank out fields inaccessible to the user
-        filterFields(toReturn, "");
-
+        if (this.readRight != Right.ANONYMOUS_ACCESS) {
+         // Blank out fields inaccessible to the user
+            filterFields(toReturn, "");
+        }
+        
         return toReturn;
     }
 
@@ -556,15 +574,21 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
-        // Check that target entity is accessible to the actor
-        if (entityId != null && !findAccessible().contains(entityId)) {
-            throw new AccessDeniedException("No association between the user and target entity");
+        if (right != Right.ANONYMOUS_ACCESS) {
+         // Check that target entity is accessible to the actor
+            if (entityId != null && !findAccessible().contains(entityId)) {
+                throw new AccessDeniedException("No association between the user and target entity");
+            }
         }
-
     }
 
     private void checkRights(Right neededRight) {
 
+        // anonymous access is always granted
+        if (neededRight == Right.ANONYMOUS_ACCESS) {
+            return;
+        }
+        
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
@@ -574,7 +598,7 @@ public class BasicService implements EntityService {
                 neededRight = Right.READ_PUBLIC;
             }
         }
-
+        
         Collection<GrantedAuthority> auths = getAuths();
 
         if (auths.contains(Right.FULL_ACCESS)) {
@@ -592,9 +616,11 @@ public class BasicService implements EntityService {
         if (auth instanceof AnonymousAuthenticationToken || auth == null) {
             throw new InsufficientAuthenticationException("Login Required");
         }
-
+        
         if (auth instanceof OAuth2Authentication && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            throw new InsufficientAuthenticationException("Login Required");
+            if (this.readRight != Right.ANONYMOUS_ACCESS) {
+                throw new InsufficientAuthenticationException("Login Required");
+            }
         }
 
         return auth.getAuthorities();

@@ -131,6 +131,8 @@ public interface APIClient {
 
     public GenericEntity getSession(String token, String sessionId);
 
+    public List<GenericEntity> getSessions(String token);
+    
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear);
 
     /**
