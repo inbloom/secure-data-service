@@ -128,7 +128,7 @@ public class StagedDataPersistenceProcessor implements Processor {
 
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
         String collectionToPersistFrom = getCollectionNameAfterTransform(job, collectionNameAsStaged);
-        LOG.info("PERSISTING DATA IN COLLECTION: {}", collectionToPersistFrom);
+        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         boolean noTransformationWasPerformed = collectionNameAsStaged.equals(collectionToPersistFrom);
 
