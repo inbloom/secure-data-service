@@ -176,10 +176,11 @@ class TestLdap < Test::Unit::TestCase
   end
 
   def test_minimal_arguments
+    @ldap.delete_user(Jd_email)    
     test_user_info = {
       :first      => "John",
       :last       => "Doe", 
-      :email      => "#{Jd_email}_#{Socket.gethostname}",
+      :email      => Jd_email,
       :password   => "secret",
       :emailtoken => "abc",
       :homedir    => "-", 
@@ -187,6 +188,42 @@ class TestLdap < Test::Unit::TestCase
     }
     @ldap.create_user(test_user_info)
     @ldap.delete_user(test_user_info[:email])
+  end
+
+  def test_packed_fields 
+    @ldap.delete_user(Jd_email)    
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => Jd_email,
+      :password   => "secret",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted"
+    }
+
+    @ldap.create_user(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    desc = ldap_raw[0]
+    assert !!desc 
+    desc = desc[:description][0]
+    assert !desc || (desc.strip == "")
+
+    test_user_info[:tenant] = "testtenant"
+    @ldap.update_user_info(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
+    desc = ldap_raw[0][:description][0]
+    assert desc.strip == "tenant=testtenant"
+
+    test_user_info[:edorg] = "testedorg"
+    @ldap.update_user_info(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
+    desc = ldap_raw[0][:description][0]
+    assert desc.strip == "tenant=testtenant\nedOrg=testedorg"
+
+    @ldap.delete_user(test_user_info[:email])    
   end 
 end
 
