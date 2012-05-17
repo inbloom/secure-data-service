@@ -8,7 +8,9 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
+@wip
 Scenario: User has no data
+#BUG
 When I select "New York Realm" and click go
 When I login as "mario.sanchez" "mario.sanchez1234"
 Then I am informed that "No data is available for you to view."
@@ -26,7 +28,7 @@ Then I am informed that "No data is available for you to view."
 Scenario: User has org, no school
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "ejane" "ejane1234"
-Then I am informed that "the page that you were looking for could not be found"
+Then I am informed that "No data is available for you to view."
 
 Scenario: No sections
 When I select "Illinois Sunset School District 4526" and click go
@@ -41,6 +43,15 @@ Scenario: No schools in district
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "jwashington" "jwashington1234"
 Then I am informed that "No data is available for you to view."
+
+Scenario: Upload Config
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "jstevenson" "jstevenson1234"
+When I enter the Configuration Area
+Then I am authorized to the Configuration Area
+And I paste Valid json config into the text box
+And click Save
+Then I should be shown a success message
 
 Scenario:  Check empty student values
 When I select "Illinois Sunset School District 4526" and click go
