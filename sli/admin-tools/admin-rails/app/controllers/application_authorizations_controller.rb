@@ -8,7 +8,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # enable/disable apps for their LEA.
   # SEA admin authorization not implemented yet.
   def check_rights
-    unless is_lea_admin?
+    unless is_lea_admin? or is_sea_admin?
       render_403
     end
   end
