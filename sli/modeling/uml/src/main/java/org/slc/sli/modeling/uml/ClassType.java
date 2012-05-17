@@ -47,6 +47,21 @@ public final class ClassType extends NamespaceOwnedElement implements Type {
     }
 
     @Override
+    public boolean isClassType() {
+        return true;
+    }
+
+    @Override
+    public boolean isDataType() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnumType() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");

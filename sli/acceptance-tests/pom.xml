@@ -35,21 +35,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
         <dependency>
             <groupId>org.slc.sli.client.sample</groupId>
             <artifactId>sample</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
         <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>simple-idp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
    </dependencies>
 
    <build>
@@ -84,17 +84,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <log>target/tomcat7x/logs/tomcat7x.log</log>
                         <output>target/tomcat7x/logs/tomcat7x.log</output>
 
-			<zipUrlInstaller>
-			    <url>http://mirrors.ibiblio.org/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
-			    <downloadDir>target/tomcat7x/downloads</downloadDir>
-			    <extractDir>target/tomcat7x/extracts</extractDir>
-			</zipUrlInstaller>                    
-		    </container>
+						<zipUrlInstaller>
+						<url>http://mirrors.ibiblio.org/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
+						<downloadDir>target/tomcat7x/downloads</downloadDir>
+						<extractDir>target/tomcat7x/extracts</extractDir>
+						</zipUrlInstaller>
+					</container>
 
                     <configuration>
                         <properties>
                             <cargo.logging>low</cargo.logging>
-		            <cargo.jvmargs>${MAVEN_OPTS}</cargo.jvmargs>
+							<cargo.jvmargs>${MAVEN_OPTS}</cargo.jvmargs>
                         </properties>
                         <deployables>
                             <deployable>
@@ -141,7 +141,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                                     <context>/sample</context>
                                 </properties>
                             </deployable>
-							
+
                         </deployables>
                     </configuration>
                 </configuration>
@@ -153,21 +153,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>1.2.1</version>
 
             <executions>
-                       
+
                <execution>
                    <id>stop-admin-rails-app</id>
                    <phase>post-integration-test</phase>
                    <configuration>
                        <executable>stop-rails</executable>
-                       <arguments>
+	                   <arguments>
                            <argument>admin-rails</argument>
-                       </arguments>
+					   </arguments>
                    </configuration>
                    <goals>
                        <goal>exec</goal>
                    </goals>
-               </execution>
-                                       
+              </execution>
+
                <execution>
                    <id>stop-databrowswer-app</id>
                    <phase>post-integration-test</phase>
@@ -180,9 +180,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                    <goals>
                        <goal>exec</goal>
                    </goals>
-               </execution>
+              </execution>
 
-               <execution>                       
+               <execution>
                   <id>install gems</id>
                   <phase>integration-test</phase>
                   <goals>
@@ -195,7 +195,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                        </arguments>
                    </configuration>
                </execution>
-               
+
                 <execution>
                     <id>run tests</id>
                     <phase>integration-test</phase>
@@ -209,17 +209,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                             <argument>rake</argument>
                             <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
                             <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
-                            
+
                             <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
-                            
+
                             <argument>admintools_server_url=http://local.slidev.org:2000</argument>
-                            
+
                             <argument>api_server_url=http://local.slidev.org:8080</argument>
-                            
+
                             <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
-			    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
-			    <argument>simpleIDP_realm_suffix=local</argument>
-			    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
+						    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
+						    <argument>simpleIDP_realm_suffix=local</argument>
+						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
                             <argument>${TESTS_TO_RUN}</argument>
                         </arguments>
                     </configuration>

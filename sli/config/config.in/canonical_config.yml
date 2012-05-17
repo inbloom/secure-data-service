@@ -38,6 +38,9 @@ default:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
+        # Used for populating Tenants and LandingZones
+        sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
+        sli.tenant.landingZoneMountPoint: /ingestion/lz
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -285,6 +288,9 @@ local:
 
         api.perf.log.path: target/apilogs/logs
         
+        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
+        #li.tenant.landingZoneMountPoint: ~/lzs
+
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
@@ -319,6 +325,8 @@ local:
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
+        #landingzone.inbounddir: C:/software/ingestion/lz/
+        #logging.path: C:/software/ingestion/logs/
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
@@ -368,6 +376,47 @@ local-acceptance-tests:
     api:
         <<: *API-LOCAL
         
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: true
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+        api.server.url: http://local.slidev.org:8080/
+        security.server.url: http://local.slidev.org:8080/
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        log.level: warn
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8080/dashboard/callback
+
+    apps:
+        <<: *APPS-LOCAL
+        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
+
+        bootstrap.app.admin.url: http://local.slidev.org:2000
+        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+        bootstrap.app.admin.client_id: Eg6eseKRzN
+
+        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
+        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+        bootstrap.app.databrowser.url: http://local.slidev.org:2001
+
+    misc:
+        <<: *MISC-LOCAL
+
+
+#
+# Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
+#
+local-acceptance-tests:
+    api:
+        <<: *API-LOCAL
+
     data-access:
         <<: *DATA-ACCESS-LOCAL
 

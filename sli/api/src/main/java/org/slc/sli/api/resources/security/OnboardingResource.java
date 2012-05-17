@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
+import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceConstants;
@@ -39,10 +41,10 @@ import org.slc.sli.domain.enums.Right;
 public class OnboardingResource {
 
     @Autowired
-    private EntityDefinitionStore store;
+    private Repository<Entity> repo;
 
     @Autowired
-    Repository<Entity> repo;
+    private TenantResource tenantResource;
 
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
@@ -150,22 +152,20 @@ public class OnboardingResource {
         // create or update the applicationAuthorization collection in mongod for new edorg entity
         createAppAuth(uuid, appIds);
 
-        String landingZonePath = makeLandingZone();
-        Map<String, String> returnObject = new HashMap<String, String>();
-        returnObject.put("landingZone", landingZonePath);
-        returnObject.put("edOrg", e.getEntityId());
+        try {
+            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
 
-        return Response.status(Status.CREATED).entity(returnObject).build();
-    }
+            Map<String, String> returnObject = new HashMap<String, String>();
+            returnObject.put("landingZone", landingZone.getLandingZonePath());
+            returnObject.put("serverName", landingZone.getIngestionServerName());
+            returnObject.put("edOrg", e.getEntityId());
 
-    /**
-     * Generates the landing zone
-     *
-     * @return the location of the landing zone
-     */
-    private String makeLandingZone() {
-        // TODO stub out for now
-        return "landingZoneLocationStub";
+            return Response.status(Status.CREATED).entity(returnObject).build();
+        } catch (TenantResourceCreationException trce) {
+            EntityBody entity = new EntityBody();
+            body.put("message", trce.getMessage());
+            return Response.status(trce.getStatus()).entity(entity).build();
+        }
     }
 
     /**

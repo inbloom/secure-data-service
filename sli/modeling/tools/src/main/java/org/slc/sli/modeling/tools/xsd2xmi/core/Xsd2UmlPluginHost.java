@@ -16,6 +16,7 @@ public interface Xsd2UmlPluginHost extends Xsd2UmlPlugin {
      *            The name of the tag definition.
      * @return The identifier of the tag definition.
      */
+    // FIXME: This should be a QName.
     Identifier ensureTagDefinitionId(final String name);
 
     /**
