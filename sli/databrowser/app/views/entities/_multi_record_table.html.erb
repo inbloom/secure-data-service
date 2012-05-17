@@ -1,10 +1,12 @@
 <% tableFields = get_table_fields(entities) %>
 
-<table id="simple">
+<table id="simple-table">
   <thead>
+    <tr>
       <% tableFields.each do |field| %>
       <th><%= t(field.split('/').last) %></th>
       <% end %>
+    </tr>
   </thead>
   <tbody>
     <% entities.each do |entity| %>
