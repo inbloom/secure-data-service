@@ -151,9 +151,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ISAT.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file

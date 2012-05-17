@@ -2,18 +2,19 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-  <!-- ISAT Section -->
-  <Assessment id="Grade_8_2011_ISAT_Writing">
-    <AssessmentTitle>Grade 8 2011 ISAT Writing</AssessmentTitle>
+  <!-- StateTest Section -->
+  <Assessment id="Grade_8_2011_StateTest_Writing">
+    <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Grade 8 2011 ISAT Writing</ID>
+      <ID>Grade 8 2011 StateTest Writing</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Writing</AcademicSubject>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>1</Description>
+        <CodeValue>W</CodeValue>
+        <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>6</MinimumScore>
@@ -21,7 +22,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>2</Description>
+        <CodeValue>B</CodeValue>
+        <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>15</MinimumScore>
@@ -29,7 +31,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>3</Description>
+        <CodeValue>S</CodeValue>
+        <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>21</MinimumScore>
@@ -37,7 +40,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>4</Description>
+        <CodeValue>E</CodeValue>
+        <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>28</MinimumScore>
@@ -51,23 +55,24 @@
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT Writing for Grade 8</ID>
+                <ID>StateTest Writing for Grade 8</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
-  
-  <Assessment id="Grade_8_2011_ISAT_Reading">
-    <AssessmentTitle>Grade 8 2011 ISAT Reading</AssessmentTitle>
+
+  <Assessment id="Grade_8_2011_StateTest_Reading">
+    <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Grade 8 2011 ISAT Reading</ID>
+      <ID>Grade 8 2011 StateTest Reading</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>1</Description>
+        <CodeValue>W</CodeValue>
+        <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>120</MinimumScore>
@@ -75,7 +80,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>2</Description>
+        <CodeValue>B</CodeValue>
+        <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>180</MinimumScore>
@@ -83,7 +89,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>3</Description>
+        <CodeValue>S</CodeValue>
+        <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>231</MinimumScore>
@@ -91,7 +98,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>4</Description>
+        <CodeValue>E</CodeValue>
+        <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>278</MinimumScore>
@@ -105,79 +113,79 @@
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT Reading for Grade 8</ID>
+                <ID>StateTest Reading for Grade 8</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
-  
-  <AssessmentFamily id="ISAT">
-    <AssessmentFamilyTitle>ISAT</AssessmentFamilyTitle>
+
+  <AssessmentFamily id="StateTest">
+    <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT</ID>
+        <ID>StateTest</ID>
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
-  
-  <AssessmentFamily id="ISAT_Reading_for_Grades_3-8">
-    <AssessmentFamilyTitle>ISAT Reading for Grades 3-8</AssessmentFamilyTitle>
+
+  <AssessmentFamily id="StateTest_Reading_for_Grades_3-8">
+    <AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Reading for Grades 3-8</ID>
+        <ID>StateTest Reading for Grades 3-8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT</ID>
+                <ID>StateTest</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  
-  <AssessmentFamily id="ISAT_Reading_for_Grade_8">
-    <AssessmentFamilyTitle>ISAT Reading for Grade 8</AssessmentFamilyTitle>
+
+  <AssessmentFamily id="StateTest_Reading_for_Grade_8">
+    <AssessmentFamilyTitle>StateTest Reading for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Reading for Grade 8</ID>
+        <ID>StateTest Reading for Grade 8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT Reading for Grades 3-8</ID>
+                <ID>StateTest Reading for Grades 3-8</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  
-  <AssessmentFamily id="ISAT_Writing_for_Grades_3-8">
-    <AssessmentFamilyTitle>ISAT Writing for Grades 3-8</AssessmentFamilyTitle>
+
+  <AssessmentFamily id="StateTest_Writing_for_Grades_3-8">
+    <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Writing for Grades 3-8</ID>
+        <ID>StateTest Writing for Grades 3-8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT</ID>
+                <ID>StateTest</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
-  
-  <AssessmentFamily id="ISAT_Writing_for_Grade_8">
-    <AssessmentFamilyTitle>ISAT Writing for Grade 8</AssessmentFamilyTitle>
+
+  <AssessmentFamily id="StateTest_Writing_for_Grade_8">
+    <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Writing for Grade 8</ID>
+        <ID>StateTest Writing for Grade 8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT Writing for Grades 3-8</ID>
+                <ID>StateTest Writing for Grades 3-8</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
