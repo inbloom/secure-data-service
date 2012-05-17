@@ -66,6 +66,7 @@ public class RoleInitializer {
         boolean hasAppDeveloper = false;
         boolean hasSLCOperator = false;
         boolean hasRealmAdmin = false;
+        boolean hasSEAAdmin = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -87,6 +88,8 @@ public class RoleInitializer {
                 hasSLCOperator = true;
             } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
                 hasRealmAdmin = true;
+            } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
+                hasSEAAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -115,6 +118,9 @@ public class RoleInitializer {
         }
         if (!hasRealmAdmin) {
             createdRoles.add(buildRealmAdmin());
+        }
+        if (!hasSEAAdmin) {
+            createdRoles.add(buildSEAAdmin());
         }
 
         for (Role body : createdRoles) {
