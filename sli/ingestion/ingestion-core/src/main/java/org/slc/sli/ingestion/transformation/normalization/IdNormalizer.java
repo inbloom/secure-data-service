@@ -91,13 +91,15 @@ public class IdNormalizer {
         }
 
         String resolvedReferences = "";
+        String collectionName = null;
 
         try {
             for (RefDef reference : entityConfig.getReferences()) {
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
+                collectionName = reference.getRef().getCollectionName();
 
-                resolvedReferences += "       collectionName = " + reference.getRef().getCollectionName();
+                resolvedReferences += "       collectionName = " + collectionName;
 
                 for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
                     for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
@@ -106,11 +108,22 @@ public class IdNormalizer {
                                 if (fv.getRef() == null) {
                                     String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
                                             reference.getRef(), refIndex);
-                                    Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                    if (entityValue != null) {
-                                        if (!(entityValue instanceof Collection)) {
-                                            resolvedReferences += ", value = " + entityValue.toString() + "\n";
+                                    try {
+                                        Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                        if (entityValue != null) {
+                                            if (!(entityValue instanceof Collection)) {
+                                                resolvedReferences += ", value = " + entityValue.toString() + "\n";
+                                            }
                                         }
+                                    } catch (Exception e) {
+                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                                + " for bean " + entity.getType() + " ", e.getLocalizedMessage());
+                                        String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                                + "       Entity " + entity.getType() + ": Reference to " + collectionName
+                                                + " is incomplete because the following reference field is not resolved: "
+                                                + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+
+                                        errorReport.error(errorMessage, this);
                                     }
                                 }
                             }
@@ -123,19 +136,24 @@ public class IdNormalizer {
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
 
-                if ((ids == null || ids.size() == 0) && (reference.getRef().isOptional() || numRefInstances == 0)) {
+                if (ids == null || ids.size() == 0) {
+                    if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
+                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
+                                + collectionName);
+                        String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
+                                + entity.getType() + ": Missing reference to " + collectionName;
+
+                        errorReport.error(errorMessage, this);
+                    }
                     continue;
                 }
 
                 if (ids.size() != numRefInstances) {
-                    LOG.error("Error in number of resolved internal ids");
+                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
+                            + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
                     String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
-                            + "       Entity   " + entity.getType() + "\n";
-
-                    if (resolvedReferences != null && !resolvedReferences.equals("")) {
-                        errorMessage += "     The failure can be identified with the following reference information: "
-                                + "\n" + resolvedReferences;
-                    }
+                            + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
+                            + ids.size() + " references to " + collectionName;
 
                     errorReport.error(errorMessage, this);
                 }
@@ -157,10 +175,9 @@ public class IdNormalizer {
 
             }
         } catch (Exception e) {
-            LOG.error("Error accessing property", e);
-            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity   " + entity.getType()
-                    + "\n";
-
+            LOG.error("Error resolving reference to " + collectionName + " in " + entity.getType(), e.getLocalizedMessage());
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
                         + resolvedReferences;
@@ -177,8 +194,8 @@ public class IdNormalizer {
 
         if (ids.size() == 0) {
 
-            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity   " + entity.getType()
-                    + "\n" + "       Field    " + refConfig.getCollectionName() + "\n";
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + refConfig.getCollectionName() + " unresolved" + "\n";
 
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
@@ -199,6 +216,7 @@ public class IdNormalizer {
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         ArrayList<Query> queryOrList = new ArrayList<Query>();
+        String collection = refConfig.getCollectionName();
 
         try {
             int numRefInstances = getNumRefInstances(entity, refConfig);
@@ -220,25 +238,39 @@ public class IdNormalizer {
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
-                                        fieldPath, proxyErrorReport));
+                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
+                                        fieldPath, proxyErrorReport);
+                                if (resolvedIds != null) {
+                                    filterValues.addAll(resolvedIds);
+                                }
                                 if (filterValues.isEmpty()) {
                                     return new ArrayList<String>();
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
                                         refIndex);
-                                Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                if (entityValue instanceof Collection) {
-                                    Collection<?> entityValues = (Collection<?>) entityValue;
-                                    filterValues.addAll(entityValues);
-                                } else if (entityValue == null && isComplex(entity, fieldPath)) {
-                                    NeutralQuery neutralQuery = new NeutralQuery();
-                                    String tenantKey = METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey();
-                                    neutralQuery.addCriteria(new NeutralCriteria(tenantKey, "=", tenantId, false));
-                                    return this.resolveComplexInternalId(entity, fieldPath, neutralQuery);
-                                } else if (entityValue != null) {
-                                    filterValues.add(entityValue.toString());
+                                try {
+                                    Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                    if (entityValue instanceof Collection) {
+                                        Collection<?> entityValues = (Collection<?>) entityValue;
+                                        filterValues.addAll(entityValues);
+                                    } else if (entityValue == null && isComplex(entity, fieldPath)) {
+                                        NeutralQuery neutralQuery = new NeutralQuery();
+                                        String tenantKey = METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey();
+                                        neutralQuery.addCriteria(new NeutralCriteria(tenantKey, "=", tenantId, false));
+                                        return this.resolveComplexInternalId(entity, fieldPath, neutralQuery);
+                                    } else if (entityValue != null) {
+                                        filterValues.add(entityValue.toString());
+                                    }
+                                } catch (Exception e) {
+                                    LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
+                                            + entity.getType() + " ", e.getLocalizedMessage());
+                                    String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                            + "       Entity " + entity.getType() + ": Reference to " + collection
+                                            + " is incomplete because the following reference field is not resolved: "
+                                            + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+
+                                    errorReport.error(errorMessage, this);
                                 }
                             }
                         }
@@ -256,8 +288,11 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            LOG.error("Error accessing property", e);
-            proxyErrorReport.error("Failed to resolve a reference (3).", this);
+            LOG.error("Error resolving reference to " + fieldPath + " in " + entity.getType(), e.getLocalizedMessage());
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collection + " unresolved";
+
+            proxyErrorReport.error(errorMessage, this);
         }
 
         if (proxyErrorReport.hasErrors()) {
@@ -272,7 +307,6 @@ public class IdNormalizer {
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
-        String collection = refConfig.getCollectionName();
         if (collection.equals("school")) {
             collection = "educationOrganization";
         } else if (collection.equals("teacher")) {
