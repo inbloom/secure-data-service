@@ -98,8 +98,8 @@
         ]
     },
     {
-        "id": "DIBELS_NEXT_GRADE_2_BOY_ID_2010",
-        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY_2010",
+        "id": "READ2_NEXT_GRADE_2_BOY_ID_2010",
+        "assessmentTitle": "READ2_NEXT_GRADE_2_BOY_2010",
         "maxRawScore": 364,
         "minRawScore": 0,
         "assessmentPerformanceLevel": [
@@ -129,7 +129,7 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2010",
+        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2010",
         	"description": "Beginning of Year",
         	"shortDescription": "BOY",
         	"beginDate": "2010-08-01",
@@ -137,8 +137,8 @@
         }
     },
     {
-        "id": "DIBELS_NEXT_GRADE_3_BOY_ID_2011",
-        "assessmentTitle": "DIBELS_NEXT_GRADE_3_BOY_2011",
+        "id": "READ2_NEXT_GRADE_3_BOY_ID_2011",
+        "assessmentTitle": "READ2_NEXT_GRADE_3_BOY_2011",
         "maxRawScore": 364,
         "minRawScore": 0,
         "assessmentPerformanceLevel": [
@@ -168,7 +168,7 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2011",
+        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2011",
         	"description": "Beginning of Year",
         	"shortDescription": "BOY",
         	"beginDate": "2011-08-01",

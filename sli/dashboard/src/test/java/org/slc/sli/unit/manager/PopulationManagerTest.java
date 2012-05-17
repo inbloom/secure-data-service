@@ -63,7 +63,7 @@ public class PopulationManagerTest {
         String studentId = "0";
         String sectionId = "sectionId";
         String token = "token";
-        String assessmentName = "Dibels";
+        String assessmentName = "Read2";
         List<String> studentIds = new ArrayList<String>();
         studentIds.add(studentId);
         List<String> programs = new ArrayList<String>();

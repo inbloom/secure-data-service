@@ -439,12 +439,12 @@
   
   
 
-  <!-- Dibels Section -->
+  <!-- Read2 Section -->
 
-  <Assessment id="DIBELS-Next-Kindergarten-1">
-    <AssessmentTitle>DIBELS-Next-Kindergarten</AssessmentTitle>
+  <Assessment id="READ2-Next-Kindergarten-1">
+    <AssessmentTitle>READ2-Next-Kindergarten</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>DIBELS-Next-Kindergarten</ID>
+      <ID>READ2-Next-Kindergarten</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Reading readiness test</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>

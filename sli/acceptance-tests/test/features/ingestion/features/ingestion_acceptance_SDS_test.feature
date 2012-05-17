@@ -148,9 +148,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentGrade.xml records considered: 644" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 644" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 2" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed: 0" in the resulting batch job file

@@ -10,7 +10,7 @@
     params: {
       assessmentFilter: {"StateTest Reading": "HIGHEST_EVER", 
                          "StateTest Writing": "MOST_RECENT_WINDOW", 
-                         "DIBELS Next": "MOST_RECENT_WINDOW",
+                         "READ2 Next": "MOST_RECENT_WINDOW",
                          "TRC": "MOST_RECENT_WINDOW",
                          "SAT Reading": "HIGHEST_EVER",
                          "SAT Writing": "HIGHEST_EVER",
@@ -52,8 +52,8 @@
      items: [
       {name: "Student", field: "name.fullName", width:150, formatter:'restLink', params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: 'Lozenge'},
-      {name: "DIBELS Next", items:[
-        {name: "Perf. Lvl.", field: "assessments.DIBELS Next.perfLevel", width:100}]},
+      {name: "READ2 Next", items:[
+        {name: "Perf. Lvl.", field: "assessments.READ2 Next.perfLevel", width:100}]},
       {name: "Reading", items:[          
         {name: "RL", field: "assessments.TRC.readingLevel", width:100},
         {name: "Prof. Level", field: "assessments.TRC.profLevel", width:100}]},
@@ -101,7 +101,7 @@
     {id: "tab8", name: "Middle School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Fourth Grade", "Fifth Grade", "Sixth Grade", "Seventh Grade", "Eighth grade", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
     {id: "tab9", name: "High School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade", "Adult Education", "Grade 13", "Postsecondary", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
     {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "attendanceHist", type: "GRID"}]},
-    {id: "tabE", name: "Assessments",  type : "TAB", items: [{id : "assessmentHistDIBELS", type: "GRID"}], condition: {field: "gradeLevel", value: ["Infant/toddler", "Early Education", "Preschool/Prekindergarten", "Transitional Kindergarten", "Kindergarten", "First Grade", "Second Grade", "Third Grade", "Other", "Ungraded", "Not Available"]}},
+    {id: "tabE", name: "Assessments",  type : "TAB", items: [{id : "assessmentHistREAD2", type: "GRID"}], condition: {field: "gradeLevel", value: ["Infant/toddler", "Early Education", "Preschool/Prekindergarten", "Transitional Kindergarten", "Kindergarten", "First Grade", "Second Grade", "Third Grade", "Other", "Ungraded", "Not Available"]}},
     {id: "tabM", name: "Assessments",  type : "TAB", items: [{id : "assessmentHistStateTestR", type: "GRID"}, {id : "assessmentHistStateTestW", type: "GRID"}], condition: {field: "gradeLevel", value: ["Fourth Grade", "Fifth Grade", "Sixth Grade", "Seventh Grade", "Eighth grade", "Other", "Ungraded", "Not Available"]}},
     {id: "tabH", name: "Assessments",  type : "TAB", items: [{id : "assessmentHistAPE", type: "GRID"}, {id : "assessmentHistSATR", type: "GRID"}, {id : "assessmentHistSATW", type: "GRID"}], condition: {field: "gradeLevel", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade", "Adult Education", "Grade 13", "Postsecondary", "Other", "Ungraded", "Not Available"]}},
     {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [ {id : "transcriptHistory", type : "PANEL"} ]},
@@ -123,15 +123,15 @@
     }
 }
 ,
-"assessmentHistDIBELS" :
+"assessmentHistREAD2" :
 {
-    id : "assessmentHistDIBELS",
+    id : "assessmentHistREAD2",
     parentId: "assessmentHist",
     type : "GRID",
-    name : "Test History : DIBELS Next",
+    name : "Test History : READ2 Next",
     data : {
-        cacheKey: 'assessmentHistDIBELS',
-        params: { assessmentFamily: "DIBELS Next.DIBELS Next Grade 1"}
+        cacheKey: 'assessmentHistREAD2',
+        params: { assessmentFamily: "READ2 Next.READ2 Next Grade 1"}
     }
 }
 ,
