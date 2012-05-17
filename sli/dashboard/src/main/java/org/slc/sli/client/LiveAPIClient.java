@@ -415,7 +415,7 @@ public class LiveAPIClient implements APIClient {
         String returnValue = "";
         GenericEntity response = createEntityFromAPI(getApiUrl() + HOME_URL, token);
 
-        if(response == null) {
+        if (response == null) {
             return null;
         }
         for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
