@@ -2,6 +2,9 @@ require 'test_helper'
 require 'mocha'
 
 class EulasControllerTest < ActionController::TestCase
+  setup do
+    @request.env['SERVER_PROTOCOL']='HTTP/1.1'
+  end
  
   test "should respond to post for accept/reject" do
     Eula.stubs(:accepted?).returns(true)
