@@ -292,20 +292,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
-Given /^I have a SMTP\/Email server configured$/ do
-    @email_sender_name= "Administrator"
-    @email_sender_address= "noreply@slidev.org"
-     @email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
-      :sender_name => @email_sender_name,
-      :sender_email_addr => @email_sender_address
-    }
-end
-
-Given /^I go to the sandbox account registration page$/ do 
-  
-  
+Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
   
   @admin_url = PropLoader.getProps['admintools_server_url']
@@ -526,13 +513,13 @@ def initializeApprovalAndLDAP(emailConf, prod)
    ldapBase=PropLoader.getProps['ldap_base']
   # ldapBase = "ou=DevTest,dc=slidev,dc=org" 
    @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{") 
-   email = Emailer.new emailConf 
+   email = Emailer.new @email_conf
    ApprovalEngine.init(@ldap, email, !prod) 
  end 
 
 
 def verifyEmail
-  
+  if @mode
     defaultUser = 'devldapuser'
     defaultPassword = 'Y;Gtf@w{'
     imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
@@ -549,6 +536,14 @@ def verifyEmail
     puts subject,content
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
+  else
+    assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
+    email = @message_observer.messages.first
+    assert(email != nil, "email was not received")
+    assert(email.to[0] == @email, "email address was incorrect")
+    assert(email.subject.include?("SLI Account Verification Request"), "email did not have correct subject")
+    @email_content = email.body.to_s
+  end
 end
 
 def getVerificationLink

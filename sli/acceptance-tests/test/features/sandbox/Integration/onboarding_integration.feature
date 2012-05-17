@@ -1,9 +1,11 @@
+@wip
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
 
 Given I have an open web browser
-And I have a SMTP/Email server configured
+And I have a "mock" SMTP/Email server configured
+#And I have a "live" SMTP/Email server configured
 
 @sandbox
 Scenario: Developer is on-boarded in a sandbox enviornment
