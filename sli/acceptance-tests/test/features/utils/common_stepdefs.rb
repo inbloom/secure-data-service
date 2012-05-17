@@ -92,7 +92,7 @@ When /^I POST the entity to "([^"]*)"$/ do |url|
 end
 
 Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
-  sender_email_address = "admin@SLC.org"
+  sender_email_address = "hlufhdsaffhuawiwhfkj@slidev.org"
   @email_name = "SLC Admin"
   test_port = 2525
   @mode = (live_or_mock == "live")

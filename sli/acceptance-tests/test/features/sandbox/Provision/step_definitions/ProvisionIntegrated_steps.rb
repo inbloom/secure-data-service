@@ -30,7 +30,7 @@ Given /^LDAP server has been setup and running$/ do
       :host => 'mon.slidev.org',
       :port => 3000,
       :sender_name => "SLC Admin",
-      :sender_email_addr => "admin@SLC.org"
+      :sender_email_addr => "hdjksflhsfadslfl@slidev.org"
     }
   ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
 end
