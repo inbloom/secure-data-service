@@ -11,6 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.milyn.Smooks;
+import org.milyn.container.MockExecutionContext;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -145,6 +146,9 @@ public class SmooksFileHandlerTest {
     @Test
     public void testXsdPreValidation() throws IOException, SAXException, NoSuchFieldException {
         Smooks smooks = Mockito.mock(Smooks.class);
+
+        Mockito.when(smooks.createExecutionContext()).thenReturn(new MockExecutionContext());
+
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(NeutralRecordFileWriter.class), Mockito.any(ErrorReport.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,8 +59,6 @@ public class JobReportingProcessorTest {
     private static final String RECORDID = "recordIdentifier";
     private static final String ERRORDETAIL = "errorDetail";
 
-    private static PrintStream printOut = new PrintStream(System.out);
-
     @InjectMocks
     JobReportingProcessor jobReportingProcessor = new JobReportingProcessor();
 
@@ -74,9 +71,7 @@ public class JobReportingProcessorTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        if (tmpDir.mkdirs()) {
-            printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
-        }
+        tmpDir.mkdirs();
     }
 
     @After
@@ -117,7 +112,6 @@ public class JobReportingProcessorTest {
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(tmpDir);
         //jobReportingProcessor.setLandingZone(tmpLz);
-        printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         jobReportingProcessor.process(exchange);
 

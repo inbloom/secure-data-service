@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.smooks.mappings;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +77,7 @@ public class StudentAssessmentEntityTest {
             NeutralRecord studentAssessmentNeutralRecord) {
 
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
+        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId().toString());
 
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));

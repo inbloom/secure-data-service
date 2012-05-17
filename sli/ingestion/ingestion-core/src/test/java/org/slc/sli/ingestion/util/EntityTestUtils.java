@@ -11,60 +11,67 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
-import org.milyn.payload.JavaResult;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
-import org.xml.sax.SAXException;
 
 /**
- * 
+ *
  * @author ablum
- * 
+ *
  */
 public class EntityTestUtils {
 
-    @SuppressWarnings("unchecked")
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException, SmooksException {
 
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
 
-        Smooks smooks = new Smooks(smooksConfig);
-        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
-        smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
-        smooks.addVisitor(smooksEdFiVisitor, targetSelector);
+        try {
+            Smooks smooks = new Smooks(smooksConfig);
+            NeutralRecordFileWriter nrfw = new NeutralRecordFileWriter(out);
 
-        JavaResult result = new JavaResult();
-        smooks.filterSource(new StreamSource(dataSource), result);
+            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, nrfw, null, null);
+            smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
 
-        List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
+            smooks.addVisitor(smooksEdFiVisitor, targetSelector);
 
-        return entityList;
+
+            smooks.filterSource(new StreamSource(dataSource));
+
+            return dummyResourceWriter.getNeutralRecordsList();
+        } finally {
+            IOUtils.closeQuietly(out);
+        }
     }
-    
+
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
-        
+
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
         when(e.getType()).thenReturn(schemaName);
-        
+
         try {
             Assert.assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
@@ -74,10 +81,10 @@ public class EntityTestUtils {
             Assert.fail();
         }
     }
-    
+
     /**
      * Utility to make checking values in a map less verbose.
-     * 
+     *
      * @param map
      *            The map containing the entry we want to check.
      * @param key
@@ -89,11 +96,11 @@ public class EntityTestUtils {
     public static void assertObjectInMapEquals(Map map, String key, Object expectedValue) {
         assertEquals("Object value in map does not match expected.", expectedValue, map.get(key));
     }
-    
+
     /**
      * Utility to run smooks with provided configurations and return the first NeutralRecord (if
      * there is one)
-     * 
+     *
      * @param smooksXmlConfigFilePath
      *            path to smooks config xml
      * @param targetSelector
@@ -106,31 +113,22 @@ public class EntityTestUtils {
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData) throws IOException, SAXException {
-        
+
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
-        
-        NeutralRecord neutralRecord = null;
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
-            
-            Assert.assertTrue(nrfr.hasNext());
-            
-            neutralRecord = nrfr.next();
-        } finally {
-            if (nrfr != null)
-                nrfr.close();
-        }
-        
-        return neutralRecord;
+
+        List<NeutralRecord> neutralRecords = getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
+
+        Assert.assertTrue(neutralRecords.size() > 0);
+
+        return neutralRecords.get(0);
     }
-    
+
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-    
+
     /**
      * Reads the entire contents of a resource file found on the classpath and returns it as a
      * string.
-     * 
+     *
      * @param resourceName
      *            the name of the resource to locate on the classpath
      * @return the contents of the resource file
@@ -139,9 +137,10 @@ public class EntityTestUtils {
      */
     public static String readResourceAsString(String resourceName) throws FileNotFoundException {
         InputStream stream = EntityTestUtils.getResourceAsStream(resourceName);
-        if (stream == null)
+        if (stream == null) {
             throw new FileNotFoundException("Could not find resource " + resourceName + " in the classpath");
-        
+        }
+
         try {
             return EntityTestUtils.convertStreamToString(stream);
         } finally {
@@ -153,10 +152,10 @@ public class EntityTestUtils {
             }
         }
     }
-    
+
     /**
      * Reads the contents of a stream in UTF-8 format and returns it as a string.
-     * 
+     *
      * @param stream
      *            the stream to read
      * @return the contents of the stream or an empty string if the stream has not content
@@ -174,21 +173,22 @@ public class EntityTestUtils {
             return "";
         }
     }
-    
+
     public static String delimit(String[] strings, String delimiter) {
         StringBuilder builder = new StringBuilder();
         for (String string : strings) {
-            if (builder.length() > 0)
+            if (builder.length() > 0) {
                 builder.append(delimiter);
+            }
             builder.append(string);
         }
         return builder.toString();
     }
-    
+
     public static URL getResource(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResource(resourceName);
     }
-    
+
     public static InputStream getResourceAsStream(String resourceName) {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }
