@@ -17,8 +17,15 @@ end
 
 Then /^"([^"]*)" results are returned$/ do |numResults|
   assert(@driver.current_url.include?("studentSearchPage"), "Current URL doesn't seem to be the expected search results page: " + @driver.current_url)
-  grid = getStudentGrid()
-  assert(numResults.to_i == grid.length, "Expected number of results: " + numResults + " Actual: " + grid.length.to_s)
+  expectedText = "returned " + numResults + " results"
+  if (numResults.to_i > 0)
+    grid = getStudentGrid()
+    assert(numResults.to_i == grid.length, "Expected number of results: " + numResults + " Actual: " + grid.length.to_s)
+    if (numResults.to_i == 1)
+      expectedText = "returned " + numResults + " result"
+    end
+  end
+  checkForTextInBody(expectedText)
 end
 
 When /^I enter nothing into either field of student search$/ do
