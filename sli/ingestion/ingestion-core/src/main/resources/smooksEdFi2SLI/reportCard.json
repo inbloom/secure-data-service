@@ -1,0 +1,46 @@
+{
+    "keyFields" : ["metaData.externalId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.grades",
+            "ref" :
+            {
+                "collectionName" : "grade",
+                "isRefList" : true,
+                "refObjectPath" : "body.grades",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.grades.gradeId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.studentId",
+            "ref" :
+            {
+                "collectionName" : "student",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.studentId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}
