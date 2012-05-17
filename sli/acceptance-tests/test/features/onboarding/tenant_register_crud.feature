@@ -99,6 +99,7 @@ Scenario Outline: Deny creation when missing individual landingZone fields
     Then I should receive a return code of 400
     Examples:
     | Property                |
+    | "ingestionServer"       |
     | "educationOrganization" |
     | "path"                  |
     | "ingestionServer"       |
