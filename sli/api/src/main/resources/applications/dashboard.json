@@ -1,6 +1,6 @@
 {
-   "name": "Dashboard",
-   "description":"SLI dashboard application",
+   "name": "${bootstrap.app.dashboard.name}",
+   "description":"${bootstrap.app.dashboard.description}",
    "version":"1.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.dashboard.url}/assets/icon.png",
