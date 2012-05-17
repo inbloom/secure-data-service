@@ -63,17 +63,22 @@
 
     </head>
     <body>
-        <div id="fileSelector" class="selector">
-            <button id="saveButton" value="Save Config" >  Save Config </Button>
-        </div>
-        <div id="fileDisplay" class="display">
             
-            <#if configJSON != "error">
-                <h4> In order to modify the current config for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h3>
-    
-                <textarea id="jsonText" >${configJSON}</textarea>
+            <#if configJSON == "nonLocalEducationAgency" >
+                <div id="fileDisplay" class="display">
+                    <h4> This page is currently available for the district level IT Administrator only.</h4>
+                </div>
+            <#elseif configJSON != "error">
+                <div id="fileSelector" class="selector">
+                    <button id="saveButton" value="Save Config" >  Save Config </Button>
+                </div>
+                <div id="fileDisplay" class="display">
+                    <h4> In order to modify the current config for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h4>
+        
+                    <textarea id="jsonText" >${configJSON}</textarea>
+                </div>
             </#if>
-        </div> <br>
+        <br>
         
         
     </body>
