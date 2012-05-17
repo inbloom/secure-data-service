@@ -70,10 +70,6 @@ class LDAPStorage
 		:homedir   => "/dev/null"
 	}
 
-	# List of fields to fetch from LDAP for user 
-	# description field to contain mapping between LDAP and applicaton fields
-	LDAP_DESCRIPTION_FIELD = :description
-
 	# List of fields to fetch from LDAP for user
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
@@ -151,7 +147,10 @@ class LDAPStorage
 		end
 
 		# pack additional fields into the description field 
-		attributes[LDAP_DESCRIPTION_FIELD] = pack_fields(e_user_info)
+		packed_fields = pack_fields(e_user_info)
+		if packed_fields.strip != ""
+			attributes[LDAP_DESCRIPTION_FIELD] = packed_fields
+		end
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
@@ -182,6 +181,11 @@ class LDAPStorage
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
 		return search_map_user_fields(filter)
 	end	
+
+	def search_users_raw(wildcard_email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
+		return search_map_user_fields(filter, nil, true)
+	end 
 
 	# updates the user status from an extended user_info 
 	def update_status(user)
@@ -308,7 +312,7 @@ class LDAPStorage
 	end
 
 	# extract the user from the ldap record
-	def search_map_user_fields(filter, max_recs=nil)
+	def search_map_user_fields(filter, max_recs=nil, raw=false)
 		# search for all fields plus the description field 
 		attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD]
 		arr = @ldap.search(:filter => filter, :attributes => attributes).to_a()
@@ -316,6 +320,10 @@ class LDAPStorage
 			max_recs = arr.length
 		end
 
+		# if the raw ldap records were requested then return them 
+		return arr if raw 
+
+		# process them into records 
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
 			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
@@ -346,7 +354,7 @@ class LDAPStorage
 
 	def pack_fields(user_info)
 		packed_fields = Hash[ PACKED_ENTITY_FIELD_MAPPING.map { |k,v| [v, user_info[k]] } ]
-		(packed_fields.map { |k,v|  "#{k}=#{v}" }).join("\n")
+		((packed_fields.select {|k,v| !!v}).map { |k,v|  "#{k}=#{v}" }).join("\n")
 	end
 
 	def ldap_ex(msg)
