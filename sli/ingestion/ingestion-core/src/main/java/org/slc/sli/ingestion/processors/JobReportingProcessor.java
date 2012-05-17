@@ -95,7 +95,7 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            if (Boolean.valueOf(clearOnCompletion).booleanValue()) {
+            if ("true".equals(clearOnCompletion)) {
                 neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
                 LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             }
