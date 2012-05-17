@@ -18,7 +18,6 @@ end
 
 def get_all_elements
   options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
-  puts options.length
   arr = []
   options.each do |option|
     link = option.find_element(:tag_name, "a").attribute("text")
