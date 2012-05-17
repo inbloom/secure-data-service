@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>District - <%= Check.get("")["edOrg"].to_s %></h1>
+<h1>District - <%= @application_authorization.authId %></h1>
 <h3>Please approve SLI applications to access the district's data</h3>
 <%= render 'form' %>
 <%= link_to 'Back', application_authorizations_path %>

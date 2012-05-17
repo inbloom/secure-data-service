@@ -1,3 +1,4 @@
+<h1>District - <%= @application_authorization.authId %></h1>
 <table id="Authorized Apps Table">
   <tr>
     <th>Name</th>
@@ -35,6 +36,7 @@
       <td><%=
           form_for @application_authorization do |f|
           %>
+            <%= f.hidden_field :authId, :value => @application_authorization.authId %>
             <%= f.hidden_field :appId, :value => app.id %>
             <%= f.submit "Approve", :disabled => isApproved,
                          :confirm => "Do you really want this application to access the district's data?'" %>

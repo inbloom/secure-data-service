@@ -17,9 +17,18 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations.json
   def index
     @application_authorizations = ApplicationAuthorization.all
-    if @application_authorizations.length == 0
+    existing_authorizations = @application_authorizations.map{|cur| cur.authId}
+    if @application_authorizations.length == 0 and is_lea_admin?
       newAppAuthorization = ApplicationAuthorization.new({"authId" => Check.get("")["edOrg"], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
       @application_authorizations = [newAppAuthorization]
+    elsif is_sea_admin?
+      my_delegations = AdminDelegation.all
+      my_authorizations = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
+      missing_authorizations = my_authorizations - existing_authorizations
+      missing_authorizations.each do |edOrg|
+        newAppAuthorization = ApplicationAuthorization.new({"authId" => edOrg, "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
+        @application_authorizations.push(newAppAuthorization)
+      end
     end
 
     respond_to do |format|
@@ -60,7 +69,7 @@ class ApplicationAuthorizationsController < ApplicationController
   def create
     appId = params[:application_authorization][:appId]
 
-    @application_authorization = ApplicationAuthorization.new({"authId" => Check.get("")["edOrg"], "authType" => "EDUCATION_ORGANIZATION", "appIds" => [appId]})
+    @application_authorization = ApplicationAuthorization.new({"authId" => params[:application_authorization][:authId], "authType" => "EDUCATION_ORGANIZATION", "appIds" => [appId]})
 
     respond_to do |format|
       if @application_authorization.save
