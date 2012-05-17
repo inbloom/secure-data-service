@@ -27,7 +27,7 @@
                 <AssessmentReference>
                         <AssessmentIdentity>
                                 <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                                        <ID>Grade 8 2011 ISAT Reading</ID>
+                                        <ID>Grade 8 2011 StateTest Reading</ID>
                                 </AssessmentIdentificationCode>
                         </AssessmentIdentity>
                 </AssessmentReference>
@@ -52,7 +52,7 @@
                 <AssessmentReference>
                         <AssessmentIdentity>
                                 <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                                        <ID>Grade 8 2011 ISAT Writing</ID>
+                                        <ID>Grade 8 2011 StateTest Writing</ID>
                                 </AssessmentIdentificationCode>
                         </AssessmentIdentity>
                 </AssessmentReference>
@@ -77,7 +77,7 @@
                 <AssessmentReference>
                         <AssessmentIdentity>
                                 <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                                        <ID>Grade 8 2011 ISAT Writing</ID>
+                                        <ID>Grade 8 2011 StateTest Writing</ID>
                                 </AssessmentIdentificationCode>
                         </AssessmentIdentity>
                 </AssessmentReference>
