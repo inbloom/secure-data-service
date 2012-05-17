@@ -61,6 +61,11 @@ Before do
       identifier = @tenantId + '-' + educationOrganization
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
+      
+      if !File.directory?(path)
+        FileUtils.mkdir_p(path)
+      end
+      
     end
   end
 
@@ -103,7 +108,7 @@ def initializeTenants()
 
   if !File.directory?(@tenantTopLevelLandingZone)
     if INGESTION_MODE != 'remote'
-      Dir.mkdir(@tenantTopLevelLandingZone)
+      FileUtils.mkdir_p(@tenantTopLevelLandingZone)
     else
       createRemoteDirectory(@tenantTopLevelLandingZone)
     end
