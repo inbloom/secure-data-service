@@ -1,11 +1,13 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
@@ -30,15 +32,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     
-    private Map<String, Map<Object, NeutralRecord>> collections;
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    private Map<Object, NeutralRecord> studentAssessments;
     
     /**
      * Default constructor.
      */
     public StudentAssessmentCombiner() {
-        collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        studentAssessments = new HashMap<Object, NeutralRecord>();
     }
     
     /**
@@ -49,7 +49,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
-        persist();
     }
     
     /**
@@ -58,13 +57,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
-        List<String> collectionsToLoad = Arrays.asList(STUDENT_ASSESSMENT_ASSOCIATION, STUDENT_OBJECTIVE_ASSESSMENT);
-        for (String collectionName : collectionsToLoad) {
-            Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
-            collections.put(collectionName, collection);
-            LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
-        }
-        LOG.info("Finished loading data for studentAssessmentAssociation transformation.");
+        studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
+                studentAssessments.size());
     }
     
     /**
@@ -72,17 +67,15 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming student assessment data");
-        Map<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(STUDENT_ASSESSMENT_ASSOCIATION)
-                .entrySet()) {
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentAssessmentAssociationId = (String) attributes.remove("xmlId");
             
             if (studentAssessmentAssociationId != null) {
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessments(studentAssessmentAssociationId);
-                LOG.warn("found {} student objective assessments for student assessment id: {}.",
+                LOG.info("found {} student objective assessments for student assessment id: {}.",
                         studentObjectiveAssessments.size(), studentAssessmentAssociationId);
                 attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
             } else {
@@ -90,28 +83,12 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
                         studentAssessmentAssociationId);
             }
-            
-            neutralRecord.setAttributes(attributes);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            // newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
-        transformedCollections.put(STUDENT_ASSESSMENT_ASSOCIATION, newCollection);
-        LOG.info("Finished transforming student assessment data for {} student assessment associations.", newCollection
-                .entrySet().size());
-    }
-    
-    /**
-     * Persists the transformed data into mongo.
-     */
-    public void persist() {
-        LOG.info("Persisting transformed data into studentAssessmentAssociation_transformed staging collection.");
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
-            }
-        }
-        LOG.info("Finished persisting transformed data into studentAssessmentAssociation_transformed staging collection.");
+        LOG.info("Finished transforming student assessment data for {} student assessment associations.",
+                studentAssessments.size());
     }
     
     /**
@@ -124,34 +101,44 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     private List<Map<String, Object>> getStudentObjectiveAssessments(String studentAssessmentAssociationId) {
         List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
-        for (Map.Entry<Object, NeutralRecord> studentObjectiveAssessment : collections
-                .get(STUDENT_OBJECTIVE_ASSESSMENT).entrySet()) {
-            NeutralRecord record = studentObjectiveAssessment.getValue();
-            Map<String, Object> assessmentAttributes = record.getAttributes();
-            String studentTestAssessmentRef = (String) assessmentAttributes.get(STUDENT_ASSESSMENT_REFERENCE);
-            if (studentTestAssessmentRef.equals(studentAssessmentAssociationId)) {
-                String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
+        
+        Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
+                .findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
+        
+        if (studentObjectiveAssessments != null) {
+            Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();
+            NeutralRecord studentObjectiveAssessment = null;
+            while (itr.hasNext()) {
+                studentObjectiveAssessment = itr.next();
+                Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
+                String objectiveAssessmentRef = (String) assessmentAttributes.get(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
-                LOG.info("Checking for objective assessment: {}", objectiveAssessmentRef);
-                
-                Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(), getJob().getId()).
-                        getObjectiveAssessment(objectiveAssessmentRef);
+                Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
+                        getJob().getId()).getObjectiveAssessment(objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
                     LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 } else {
-                    LOG.warn("Failed to find objective assessment: {} for student assessment: {}", objectiveAssessmentRef, studentAssessmentAssociationId);
+                    LOG.warn("Failed to find objective assessment: {} for student assessment: {}",
+                            objectiveAssessmentRef, studentAssessmentAssociationId);
                 }
                 
-                Map<String, Object> newAssessmentAttributes = new HashMap<String, Object>();
+                Map<String, Object> attributes = new HashMap<String, Object>();
                 for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
-                    if (!entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
-                        newAssessmentAttributes.put(entry.getKey(), entry.getValue());
+                    if (!entry.getKey().equals(OBJECTIVE_ASSESSMENT_REFERENCE)
+                            && !entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
+                        attributes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                assessments.add(newAssessmentAttributes);
+                LOG.info("added student objective assessment: {}", attributes);
+                assessments.add(attributes);
             }
+        } else {
+            LOG.warn("Couldn't find any student objective assessments for student assessment: {}",
+                    studentAssessmentAssociationId);
         }
         return assessments;
     }
