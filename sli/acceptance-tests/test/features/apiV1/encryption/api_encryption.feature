@@ -100,6 +100,3 @@ Scenario: Can not query PII fields by non-exact matching
     Given parameter "name.firstName" less than or equal to "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
-    Given parameter "name.firstName" matches via regex "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
-    Then I should receive a return code of 400
