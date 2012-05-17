@@ -1,11 +1,11 @@
 package org.slc.sli.api.config;
 
-import java.util.Set;
-import java.util.Map;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -272,6 +272,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
 
         addDefinition(factory.makeEntity("tenant").storeAs("tenant").build());
+        addDefinition(factory.makeEntity("securityEvent").storeAs("securityEvent").build());
 
         this.registerDirectReferences();
     }
@@ -295,7 +296,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 ReferenceSchema schema = fieldSchema.getValue(); // access to the reference schema
                 Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
 
-                if (resources == null) continue;
+                if (resources == null) {
+                    continue;
+                }
                 for (String resource : resources) {
                     EntityDefinition referencedEntity = this.mapping.get(resource);
                     LOG.debug(
