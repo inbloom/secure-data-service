@@ -1,6 +1,8 @@
 package org.slc.sli.unit.manager;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,6 +91,11 @@ public class CustomizationAssemblyFactoryTest {
         protected Config getConfig(String componentId) {
 
             return configMap.get(componentId);
+        }
+
+        @Override
+        public Collection<Config> getWidgetConfigs() {
+            return Collections.emptyList();
         }
 
         @Override
@@ -294,7 +301,7 @@ public class CustomizationAssemblyFactoryTest {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
 
-        Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(3, viewAndConfig.getConfig().size());
     }
 
     /**
@@ -305,10 +312,10 @@ public class CustomizationAssemblyFactoryTest {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
 
-        Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(3, viewAndConfig.getConfig().size());
         viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleFemaleStudentEntity.get("id"));
-        Assert.assertEquals(1, viewAndConfig.getComponentViewConfigMap().size());
+        Assert.assertEquals(1, viewAndConfig.getConfig().size());
     }
 
     /**

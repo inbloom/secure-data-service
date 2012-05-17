@@ -26,9 +26,23 @@ SLIAdmin::Application.routes.draw do
     end
   end
 
+  get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
+  post 'developer_approval/submit_user', :to => 'developer_approval#submit_user'
+  post 'developer_approval/update_user', :to => 'developer_approval#update_user'
+  post 'developer_approval/update_eula_status', :to => 'developer_approval#update_eula_status'
+  post 'developer_approval/verify_email', :to => 'developer_approval#verify_email'
+
 
   match '/logout', :to => 'sessions#destroy'
   match '/callback', :to => 'application#callback'
+
+  resources :user_account_registrations
+  resources :user_account_validation
+  resources :user_account_registration
+
+  match "/eula" => "eulas#show", :via => :get
+  match "/eula" => "eulas#create", :via => :post 
+  match "/registration" => "user_account_registrations#new", :via => :get
 
   root :to => 'roles#index'
 

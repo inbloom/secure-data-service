@@ -214,7 +214,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
         if (componentId != null) {
-            model.addComponentViewConfigMap(componentId, config);
+            model.addConfig(componentId, config);
         }
         return config;
     }
@@ -286,6 +286,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
         populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, lazyOverride);
+        modelAndViewConfig.setWidgetConfig(getWidgetConfigs());
         return modelAndViewConfig;
     }
 

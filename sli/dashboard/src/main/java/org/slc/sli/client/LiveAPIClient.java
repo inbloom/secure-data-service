@@ -93,10 +93,6 @@ public class LiveAPIClient implements APIClient {
     private RESTClient restClient;
     private Gson gson;
 
-    // For now, the live client will use the mock client for api calls not yet
-    // implemented
-    private MockAPIClient mockClient;
-
     private String gracePeriod;
 
     public void setGracePeriod(String gracePeriod) {
@@ -108,7 +104,6 @@ public class LiveAPIClient implements APIClient {
     }
 
     public LiveAPIClient() {
-        mockClient = new MockAPIClient();
         gson = new Gson();
     }
 
@@ -241,14 +236,6 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get custom data
-     */
-    @Override
-    public List<GenericEntity> getCustomData(final String token, String key) {
-        return mockClient.getCustomData(getUsername(), key);
-    }
-
-    /**
      * Get assessment info, given a list of assessment ids
      */
     @Override
@@ -259,14 +246,6 @@ public class LiveAPIClient implements APIClient {
             assmts.add(getAssessment(assmtId, token));
         }
         return assmts;
-    }
-
-    /**
-     * Get program participation, given a list of student ids
-     */
-    @Override
-    public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        return mockClient.getPrograms(getUsername(), studentIds);
     }
 
     /**
