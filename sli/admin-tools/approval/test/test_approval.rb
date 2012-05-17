@@ -2,17 +2,18 @@ testdir = File.dirname(__FILE__)
 $LOAD_PATH << testdir + "/../lib"
 require 'approval'
 require 'test/unit'
+require 'socket'
 
 class MockEmailer 
-	def send_approval_email(email_address, first, last)
-		@last_call = [email_address, first, last]
+	def send_approval_email(args = {})
+		@last_call = args.clone 
 	end
 end
 
 class TestApprovalEngine < Test::Unit::TestCase
 	def setup
 		# define two basic users 
-		@jd_email = "jdoe@example.com"
+		@jd_email = "jdoe_#{Socket.gethostname}@example.com"
 		@jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
 		@jd_user = {
 			:first      => "John",
@@ -25,7 +26,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 			:homedir    => "/home/exampleuser"	
 		}
 
-		@td_email = "tdoe@example.com"
+		@td_email = "tdoe_#{Socket.gethostname}@example.com"
 		@td_user = @jd_user.clone
 		@td_user[:email] = @td_email
 	end
