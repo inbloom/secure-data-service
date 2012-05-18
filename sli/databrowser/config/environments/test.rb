@@ -36,4 +36,7 @@ DbRails::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  # Set the logging destination(s)
+  config.log_to = %w[stdout file]
 end
