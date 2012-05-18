@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
+import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -41,6 +42,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
+    private Set<String> filteredAttributes;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
@@ -89,7 +91,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
 
             ExecutionContext ctx = smooks.createExecutionContext();
-            ctx.setEventListener(new NonSilentErrorReport(errorReport));
+            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, errorReport));
 
             smooks.filterSource(ctx, new StreamSource(inputStream));
         } catch (SmooksException se) {
@@ -116,6 +118,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp", landingZone) : File
                 .createTempFile("neutralRecord_", ".tmp");
         return outputFile;
+    }
+
+    public void setFilteredAttributes(Set<String> filteredAttributes) {
+        this.filteredAttributes = filteredAttributes;
     }
 
 }

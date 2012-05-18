@@ -81,7 +81,13 @@
 
   <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
 
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+      <property name="filteredAttributes">
+        <set>
+          <value>refResolved</value>
+        </set>
+      </property>
+  </bean>
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
     <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />

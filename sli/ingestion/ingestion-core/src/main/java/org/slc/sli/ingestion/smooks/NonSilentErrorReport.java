@@ -27,6 +27,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
     private ErrorReport errorReport;
     private Stack<ElementState> processedElements = new Stack<ElementState>();
+    private Set<String> filteredAttributes;
 
     private final class ElementState {
         SAXElement element;
@@ -42,7 +43,8 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
     }
 
-    public NonSilentErrorReport(ErrorReport errorReport) {
+    public NonSilentErrorReport(Set<String> filteredAttributes, ErrorReport errorReport) {
+        this.filteredAttributes = filteredAttributes;
         this.errorReport = errorReport;
     }
 
@@ -153,7 +155,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
     }
 
-    private static Set<String> getIgnoredAttributes(ElementState element) {
+    private Set<String> getIgnoredAttributes(ElementState element) {
         Set<String> ignoredAttributes = new HashSet<String>();
 
         Attributes attributes = element.element.getAttributes();
@@ -161,7 +163,9 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         for (int i = 0; i < attributes.getLength(); i++) {
             String attribute = attributes.getLocalName(i);
 
-            if (!attribute.isEmpty() && !element.targetedAttributes.contains(attribute)) {
+            if (!attribute.isEmpty()
+                    && !filteredAttributes.contains(attribute)
+                    && !element.targetedAttributes.contains(attribute)) {
                 ignoredAttributes.add(attributes.getQName(i));
             }
         }
