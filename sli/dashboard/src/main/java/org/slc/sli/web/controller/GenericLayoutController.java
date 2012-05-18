@@ -67,8 +67,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(Constants.MM_VIEW_DATA_CONFIG_JSON, JsonConverter.toJson(modelAndConfig));
 
         model.addAttribute(Constants.MM_KEY_LOGGER, logger);
-        setContextPath(model, request);
-        addCommonData(model);
+        addCommonData(model, request);
         // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
@@ -84,15 +83,13 @@ public abstract class GenericLayoutController {
         }
     }
     
-    protected void addCommonData(ModelMap model) {
+    protected void addCommonData(ModelMap model, HttpServletRequest request) {
         addHeaderFooter(model);
         model.addAttribute(GOOGLE_ANALYTICS_TRACKER_CONSTANT, googleAnalyticsTrackerId);
-    }
-    
-    protected void setContextPath(ModelMap model, HttpServletRequest request) {
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
     }
+    
 
     // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {
