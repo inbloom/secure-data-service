@@ -12,6 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mainClass>org.slc.sli.lander.FileLander</mainClass>
     </properties>
 
     <build>
@@ -23,7 +24,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.slc.sli.lander.FileLander</mainClass>
+                            <mainClass>{mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -49,10 +50,44 @@
                                     <exclude>log4j:log4j:jar:</exclude>
                                 </excludes>
                             </artifactSet>
+					        <shadedArtifactAttached>true</shadedArtifactAttached> <!-- Make the shaded artifact not the main one -->
+					        <shadedClassifierName>shaded</shadedClassifierName> <!-- set the suffix to the shaded jar -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            
+			<plugin>
+			    <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+			    <artifactId>launch4j-plugin</artifactId>
+			    <version>1.5.0.0</version>
+			    <executions>		
+			        <!-- Command-line exe -->
+			        <execution>
+			            <id>l4j-cli</id>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>launch4j</goal>
+			            </goals>
+			            <configuration>
+			                <headerType>console</headerType>
+			                <outfile>target/ingestion-upload-tool.exe</outfile>
+			                <jar>target/${artifactId}-${version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
+			                <errTitle>App Err</errTitle>
+			                <classPath>
+			                    <mainClass>${mainClass}</mainClass>
+			                </classPath>
+			                <icon>src/main/resources/icons/sync.ico</icon>
+			                <jre>
+			                    <minVersion>1.5.0</minVersion>
+			                    <maxVersion>1.7.0</maxVersion>
+			                    <initialHeapSize>256</initialHeapSize>
+			                    <maxHeapSize>1024</maxHeapSize>
+			                </jre>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
         </plugins>
     </build>
 
