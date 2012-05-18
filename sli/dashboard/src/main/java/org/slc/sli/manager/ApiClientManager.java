@@ -132,7 +132,7 @@ public abstract class ApiClientManager implements Manager {
             if (cache != null) {
                 Element elem = cache.get(new CacheKey(token, key));
                 if (elem != null) {
-                    return new CacheValue<T>((T) elem.getValue());
+                    return new CacheValue<T>((T) elem.getObjectValue());
                 }
             }
         }

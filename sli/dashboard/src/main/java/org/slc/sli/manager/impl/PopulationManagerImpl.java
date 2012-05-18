@@ -27,6 +27,10 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -35,9 +39,7 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slc.sli.web.entity.PagedSearch;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -65,12 +67,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String,
-     * java.util.List)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String,
+    * java.util.List)
+    */
     @Override
     public List<GenericEntity> getAssessments(String token, List<GenericEntity> studentSummaries) {
         Set<GenericEntity> assessments = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
@@ -96,16 +98,16 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.
-     * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
-     * java.lang.String)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.
+    * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
+    * java.lang.String)
+    */
     @Override
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, String sessionId,
-            String sectionId) {
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds,
+                                                   String sessionId, String sectionId) {
 
         long startTime = System.nanoTime();
         // Initialize student summaries
@@ -116,13 +118,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return studentSummaries;
     }
 
+
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String
-     * , java.lang.Object, org.slc.sli.entity.Config.Data)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String
+    * , java.lang.Object, org.slc.sli.entity.Config.Data)
+    */
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
@@ -350,7 +353,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void addSemesterFinalGrades(GenericEntity student, List<Map<String, Object>> interSections,
-            List<Map<String, Object>> stuTransAssocs) {
+                                        List<Map<String, Object>> stuTransAssocs) {
 
         // Iterate through the course Id's and grab transcripts grades, once
         // we have NUMBER_OF_SEMESTERS transcript grades, we're done
@@ -640,7 +643,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      */
     private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
-            TimedLogic.TimeSlot timeSlot) {
+                                      TimedLogic.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
@@ -674,18 +677,17 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                 // TODO: get the assessment meta data
                 /*
-                 * Set<String> assessmentIds = new HashSet<String>(); for (Map
-                 * studentAssessment : studentAssessmentFiltered) { String
-                 * assessmentId = (String)
-                 * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID); if
-                 * (!assessmentIds.contains(assessmentId)) { GenericEntity
-                 * assessment = metaDataResolver.getAssmtById(assessmentId);
-                 * assessmentMetaData.add(assessment);
-                 * assessmentIds.add(assessmentId); } }
-                 */
+                * Set<String> assessmentIds = new HashSet<String>(); for (Map
+                * studentAssessment : studentAssessmentFiltered) { String
+                * assessmentId = (String)
+                * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID); if
+                * (!assessmentIds.contains(assessmentId)) { GenericEntity
+                * assessment = metaDataResolver.getAssmtById(assessmentId);
+                * assessmentMetaData.add(assessment);
+                * assessmentIds.add(assessmentId); } }
+                */
 
-                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered,
-                        assessmentMetaData);
+                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
                 break;
 
             default:
@@ -707,35 +709,36 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
+
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager
-     * .EntityManager)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager
+    * .EntityManager)
+    */
     @Override
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
-     * java.lang.String)
-     */
+    * (non-Javadoc)
+    *
+    * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+    * java.lang.String)
+    */
     @Override
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
-     * java.lang.Object, org.slc.sli.entity.Config.Data)
-     */
+    * (non-Javadoc)
+    *
+    * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+    * java.lang.Object, org.slc.sli.entity.Config.Data)
+    */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
@@ -748,12 +751,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String,
-     * java.lang.Object, org.slc.sli.entity.Config.Data)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String,
+    * java.lang.Object, org.slc.sli.entity.Config.Data)
+    */
     @Override
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
         String studentId = (String) studentIdObj;
@@ -770,8 +773,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
             @Override
             public int compare(GenericEntity att1, GenericEntity att2) {
-                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo((String) att1
-                        .get(Constants.ATTR_ATTENDANCE_DATE));
+                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo(
+                        (String) att1.get(Constants.ATTR_ATTENDANCE_DATE));
             }
 
         });
@@ -820,12 +823,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
-     * java.lang.String)
-     */
+    * (non-Javadoc)
+    *
+    * @see
+    * org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
+    * java.lang.String)
+    */
     @Override
     public List<String> getSessionDates(String token, String sessionId) {
         // Get the session first.
@@ -870,9 +873,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             studentSearch.put(Constants.ATTR_FIRST_NAME, "");
             studentSearch.put(Constants.ATTR_LAST_SURNAME, "");
             studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
-            studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, 1);
-            studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, 50);
-            studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, 1);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, PagedSearch.DEFAULT_PAGE_NO);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, PagedSearch.DEFAULT_PAGE_SIZE);
+            studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, PagedSearch.DEFAULT_PAGE_NO);
             return studentSearch;
         }
 
@@ -911,20 +914,16 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
-
-        // this is a temporary solution until we decide how to integrate the search with the API
-        // pagination calls
-        // currently, when API is used, the total number of search results is stored in the header
-        // which is not accessible
-        // also, code above performs two searches and combines results - this is a problem if API
-        // pagination is used
+        // this is a temporary solution until we decide how to integrate the search with the API pagination calls
+        // currently, when API is used, the total number of search results is stored in the header which is not accessible
+        // also, code above performs two searches and combines results - this is a problem if API pagination is used
         int numResults = enhancedStudents.size();
         int pageNum = Integer.parseInt(pageNumStr);
         if (pageNum < 1) {
             pageNum = 1;
         }
         int pageSize = Integer.parseInt(pageSizeStr);
-        if (pageSize < 1) {
+        if  (pageSize < 1) {
             pageSize = 1;
         }
         int maxPageNum = enhancedStudents.size() / pageSize;

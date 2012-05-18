@@ -1,18 +1,8 @@
 package org.slc.sli.manager;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +17,6 @@ import org.slc.sli.util.DashboardException;
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
  * by the MVC framework.
- * Adapted from Sravan Vankina's API artifacts in org.slc.sli.client, as well as David Wu's
  * GenericEntity kickoff.
  *
  * @author Sravan Vankina
@@ -135,38 +124,7 @@ public class EntityManager extends ApiClientManager {
 
         List<GenericEntity> studentEnrollment = getApiClient().getStudentEnrollment(token, student);
         student.put(Constants.ATTR_STUDENT_ENROLLMENT, studentEnrollment);
-
-        /*GenericEntity program = getProgram(token, studentId);
-        if (program != null) {
-            student.put(Constants.ATTR_PROGRAMS, program.get(Constants.ATTR_PROGRAMS));
-        } else {
-            student.put(Constants.ATTR_PROGRAMS, new ArrayList());
-        }*/
         return student;
-    }
-
-    /**
-     * Get the list of assessment entities
-     *
-     * @return assessment list
-     */
-    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
-        return getApiClient().getAssessments(token, assessmentIds);
-    }
-
-    /**
-     * Get the list of student assessment entities identified by the student id list and authorized for the
-     * security token
-     *
-     * @param token
-     *            - the principle authentication token
-     * @param studentIds
-     *            - the student id list
-     * @return student assessment list
-     */
-    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-        // TODO: the logic for filtering by student id isn't working right now, so just passing in null
-        return getApiClient().getStudentAssessments(token, studentId);
     }
 
     /**
@@ -188,28 +146,6 @@ public class EntityManager extends ApiClientManager {
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
         return getApiClient().getCourses(token, studentId, params);
-    }
-
-    /**
-     * Returns a list of studentCourseAssociations for a given student and params
-     * @param token Security token
-     * @param studentId The student Id
-     * @param params param map
-     * @return
-     */
-    public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params) {
-        return getApiClient().getStudentTranscriptAssociations(token, studentId, params);
-    }
-
-    /**
-     * Returns a list of sections for the given student and params
-     * @param token Security token
-     * @param studentId The student Id
-     * @param params param map
-     * @return
-     */
-    public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
-        return getApiClient().getSections(token, studentId, params);
     }
 
     /**
@@ -261,100 +197,6 @@ public class EntityManager extends ApiClientManager {
 
     public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName) {
         return getApiClient().getStudentsWithSearch(token, firstName, lastName);
-    }
-
-
-    /**
-     * Saves an entity list to the specified file using its JSON representation
-     *
-     * @param filePath
-     *            - the file path to persist the entity list JSON string representation
-     * @param entityList
-     *            - the generic entity list
-     */
-    public void toFile(String filePath, List<GenericEntity> entityList) {
-
-        BufferedWriter writer = null;
-
-        try {
-
-            // Write JSON file
-            writer = new BufferedWriter(new FileWriter(filePath));
-            Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-            String json = gson.toJson(entityList, new ArrayList<Map>().getClass());
-            writer.write(json);
-
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        } finally {
-            try {
-                if (writer != null) {
-                    writer.flush();
-                    writer.close();
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Retrieves an entity list from the specified file
-     * and instantiates from its JSON representation
-     *
-     * @param filePath
-     *            - the file path to persist the view component XML string representation
-     * @return entityList
-     *         - the generic entity list
-     */
-    public List<GenericEntity> fromFile(String filePath) {
-        List<GenericEntity> entityList = new ArrayList<GenericEntity>();
-
-        BufferedReader reader = null;
-
-        try {
-
-            // Read JSON file
-            reader = new BufferedReader(new FileReader(filePath));
-            StringBuffer jsonBuffer = new StringBuffer();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonBuffer.append(line);
-            }
-
-            // Parse JSON
-            Gson gson = new Gson();
-            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
-
-            for (Map<String, Object> map : maps) {
-                entityList.add(new GenericEntity(map));
-            }
-
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        }
-
-        return entityList;
-    }
-
-    /**
-     * Gets the file path of a specified web resource.
-     *
-     * @return filePath
-     *         possible object is {@link String }
-     *
-     */
-    public String getResourceFilePath(String resourceName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
-        return url.getFile();
     }
 
     public GenericEntity getSession(String token, String sessionId) {

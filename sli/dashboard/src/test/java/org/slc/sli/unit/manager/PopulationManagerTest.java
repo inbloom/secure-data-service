@@ -78,15 +78,6 @@ public class PopulationManagerTest {
         List<GenericEntity> studentPrograms = new ArrayList<GenericEntity>();
         studentPrograms.add(studentProgram);
 
-        // Setup studentAssessments
-        GenericEntity studentAssessment = new GenericEntity();
-        studentAssessment.put("assessmentName", assessmentName);
-        studentAssessment.put("studentId", studentId);
-        List<GenericEntity> studentAssessments = new ArrayList<GenericEntity>();
-        studentAssessments.add(studentAssessment);
-
-        PowerMockito.doReturn(studentAssessments).when(mockedEntityManager, "getStudentAssessments", token, studentId);
-
         // Setup studentSummaries
         GenericEntity studentSummary = new GenericEntity();
         studentSummary.put("id", studentId);
