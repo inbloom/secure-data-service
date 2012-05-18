@@ -197,7 +197,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        LOG.debug("processing transformable neutral record: {}", neutralRecord.getRecordType());
+        LOG.debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
 
         // remove _transformed metadata from type. upcoming transformation is based on type.
         neutralRecord.setRecordType(neutralRecord.getRecordType().replaceFirst("_transformed", ""));
@@ -216,6 +216,8 @@ public class StagedDataPersistenceProcessor implements Processor {
 
             } else {
 
+                LOG.debug("persisting simple entity: {}", xformedEntity);
+                
                 entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
             }
@@ -243,7 +245,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        LOG.debug("processing old-style neutral record: {}", neutralRecord);
+        LOG.debug("persisting neutral record: {}", neutralRecord);
 
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
