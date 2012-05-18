@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.smooks;
 
-import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -60,14 +59,15 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             int sequence = 0;
 
             ElementState last = getLastElementState();
+
+            reportIgnoredAttributes();
+
             while (last != null && !last.element.equals(element.getParent())) {
-                reportErrors();
+                reportIgnoredElements();
 
                 ElementState oldLast = processedElements.pop();
 
                 if (oldLast.element.getName().equals(element.getName())) {
-                    reportErrors();
-
                     sequence = oldLast.sequence + 1;
                 }
 
@@ -79,17 +79,10 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         } else if (event instanceof ResourceTargetingEvent) {
 
             ResourceTargetingEvent targetingEvent = (ResourceTargetingEvent) event;
-            SAXElement element = (SAXElement) targetingEvent.getElement();
 
             ElementState last = getLastElementState();
 
             if (last != null) {
-                if (!last.element.equals(element)) {
-                    PrintStream ps = System.out;
-                    ps.printf("Unexpected element - expected: %s, actiual: %s", last.element.getName().getLocalPart(), element.getName().getLocalPart());
-                    ps.println();
-                }
-
                 String targetAttribute = targetingEvent.getResourceConfig().getTargetAttribute();
                 if (targetAttribute != null) {
                     last.targetedAttributes.add(targetAttribute);
@@ -102,7 +95,10 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             FilterLifecycleEvent lifecycleEvent = (FilterLifecycleEvent) event;
 
             if (lifecycleEvent.getEventType() == EventType.FINISHED) {
-                reportErrors();
+                while (processedElements.size() > 0) {
+                    reportIgnoredElements();
+                    processedElements.pop();
+                }
             }
         }
     }
@@ -129,7 +125,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
     }
 
-    private void reportErrors() {
+    private void reportIgnoredElements() {
         ElementState last = getLastElementState();
 
         if (last == null) {
@@ -137,21 +133,25 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
 
         if (!last.isTargeted) {
-            String message = String.format("%s: Element was not processed", getXPath(processedElements));
+            String message = String.format("%s: The element was not processed", getXPath(processedElements));
             errorReport.warning(message, this);
-            PrintStream ps = System.out;
-            ps.println(message);
-        } else {
-            Set<String> ignoredAttributes = getIgnoredAttributes(last);
+        }
+    }
 
-            String xPath = getXPath(processedElements);
+    private void reportIgnoredAttributes() {
+        ElementState last = getLastElementState();
 
-            PrintStream ps = System.out;
-            for (String attribute : ignoredAttributes) {
-                String message = String.format("%s: The '%s' attribute was not processed", xPath, attribute);
-                errorReport.warning(message, this);
-                ps.println(message);
-            }
+        if (last == null) {
+            return;
+        }
+
+        Set<String> ignoredAttributes = getIgnoredAttributes(last);
+
+        String xPath = getXPath(processedElements);
+
+        for (String attribute : ignoredAttributes) {
+            String message = String.format("%s: The '%s' attribute was not processed", xPath, attribute);
+            errorReport.warning(message, this);
         }
     }
 
@@ -177,7 +177,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         StringBuffer sb = new StringBuffer();
 
         for (ElementState es : elements) {
-            sb.append(String.format("/%s[%d]", es.element.getName().getLocalPart(), es.sequence));
+            sb.append(String.format("/%s(%d)", es.element.getName().getLocalPart(), es.sequence));
         }
 
         return sb.toString();

@@ -85,6 +85,8 @@
       <property name="filteredAttributes">
         <set>
           <value>refResolved</value>
+          <value>id</value>
+          <value>ref</value>
         </set>
       </property>
   </bean>
