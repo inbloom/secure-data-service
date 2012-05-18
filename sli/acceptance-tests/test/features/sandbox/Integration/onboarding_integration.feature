@@ -4,8 +4,8 @@ Feature: Complete onboarding workflow for sandbox and prodution
 Background: 
 
 Given I have an open web browser
-And I have a "mock" SMTP/Email server configured
-#And I have a "live" SMTP/Email server configured
+#And I have a "mock" SMTP/Email server configured
+And I have a SMTP/Email server configured
 
 @sandbox
 Scenario: Developer is on-boarded in a sandbox enviornment
@@ -24,7 +24,7 @@ Then an account entry is made in ldap with "Approved" status
 And an approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PROVISIONING_APPLICATION>"
 And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
-And a "<SUPER_ADMIN>" roles is a added for the user in ldap
+And a "<APPLICATION_DEVELOPER>" roles is a added for the user in ldap
 When the user clicks on "<URL_TO_PROVISIONING_APPLICATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
 And the user is redirected to "<URL_TO_PROVISIONING_APPLICATION>"

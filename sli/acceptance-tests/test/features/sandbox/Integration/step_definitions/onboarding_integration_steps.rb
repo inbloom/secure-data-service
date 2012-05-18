@@ -270,14 +270,15 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "Loraine"                                                      if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler"                                                       if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
+  id = "Application Developer"                                        if human_readable_id == "APPLICATION_DEVELOPER"
   id = "Dashboard"                                                    if human_readable_id == "DASHBOARD_APP"
   id = "Admin Tool"                                                   if human_readable_id == "ADMIN_APP"
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
   id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
   #need to figure out what tenantId is for real user provision instead of sunsetadmin
-  id = "sunsetadmin@SLI"                                              if human_readable_id == "Tenant_ID"
+  id = "devldapuser@slidev.org@SLI"                                   if human_readable_id == "Tenant_ID"
   #need to figure out what landing zone path is for real user provision instead of sunsetadmin
-  id = "target/ingestion/lz/inbound:sunsetadmin@SLI-IL"               if human_readable_id == "Landing_zone_directory"
+  id = "devldapuser@slidev.org@SLI-IL"                                if human_readable_id == "Landing_zone_directory"
   
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
@@ -291,6 +292,18 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #return the translated value
   id
 end
+
+Given /^I have a SMTP\/Email server configured$/ do
+     @mode="live"
+     @email_sender_name= "Administrator"
+     @email_sender_address= "noreply@slidev.org"
+      @email_conf = {
+       :host => 'mon.slidev.org',
+       :port => 3000,
+       :sender_name => @email_sender_name,
+       :sender_email_addr => @email_sender_address
+     }
+ end
 
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
@@ -351,7 +364,7 @@ end
 When /^the developer click link in verification email$/ do
   sleep(1)
   url=getVerificationLink()
-  puts url
+  #puts url
   @driver.get url
 end
 
@@ -370,15 +383,14 @@ end
 
 Then /^the email has a "([^"]*)"$/ do |link|
  #link need to be fixed before uncomment out code
- # found = @email_content.include?(link)
- # assert(found,"the email doesnt have the link for #{link}")
+  found = @email_content.include?(link)
+  assert(found,"the email doesnt have the link for #{link}")
 end
 
 Then /^a "([^"]*)" roles is a added for the user in ldap$/ do |role|
   roles=@ldap.get_user_groups(@email)
   puts roles
-  #roles need to be fixed before uncomment out code
-  #assert(roles.include?(role),"didnt add #{role} role in ldap")
+  assert(roles.include?(role),"didnt add #{role} role in ldap")
 end
 
 When /^the user clicks on "([^"]*)"$/ do |link|
@@ -388,8 +400,8 @@ end
 
 Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/ do |user, pass|
   #temporalily use sunsetadmin to login, need to use real user afer fix the code
-  #step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
-  step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
+  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+  #step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
 end
 
 Then /^the user is redirected to "([^"]*)"$/ do |link|
@@ -447,7 +459,7 @@ Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenan
   landingZones=tenant["body"]["landingZone"]
   found=false
   landingZones.each do |landingZone|
-  if landingZone["path"] == landing_zone_path
+  if landingZone["path"].include?(landing_zone_path)
   found=true
   end
   end
@@ -462,15 +474,17 @@ end
 
 Then /^the landing zone "([^"]*)" is saved in Ldap$/ do |landing_zone_path|
   user = @ldap.read_user(@email)
+  puts user
   #after fix login issue for real user to provision instead of sunsetadmin, need to uncomment out
-  #assert(user["homedir"]==landing_zone_path,"landing zone: #{landing_zone_path} is not saved in Ldap")
+  assert(user[:homedir].include?(landing_zone_path),"landing zone: #{landing_zone_path} is not saved in Ldap")
   
 end
 
 Then /^the tenantId "([^"]*)" is saved in Ldap$/ do |tenantId|
   user = @ldap.read_user(@email)
+  #puts user
   #after fix login issue for real user to provision instead of sunsetadmin, need to uncomment out
-  #assert(user["tenant"]==tenantId,"tenantId: #{tenantId} is not saved in Ldap")
+  assert(user[:tenant]==tenantId,"tenantId: #{tenantId} is not saved in Ldap")
 end
 
 
@@ -527,7 +541,7 @@ def verifyEmail
     imap.examine('INBOX')
     
     ids = imap.search(["FROM", @email_sender_name,"TO",@email])
-    puts ids
+    #puts ids
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
     subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
     found = true if content != nil
