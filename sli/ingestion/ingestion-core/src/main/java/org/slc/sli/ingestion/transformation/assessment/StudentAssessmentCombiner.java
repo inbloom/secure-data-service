@@ -111,7 +111,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             while (itr.hasNext()) {
                 studentObjectiveAssessment = itr.next();
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
-                String objectiveAssessmentRef = (String) assessmentAttributes.get(OBJECTIVE_ASSESSMENT_REFERENCE);
+                String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
                 Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
                         getJob().getId()).getObjectiveAssessment(objectiveAssessmentRef);
@@ -131,7 +131,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         attributes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                LOG.info("added student objective assessment: {}", attributes);
+                LOG.debug("added student objective assessment: {}", attributes);
                 assessments.add(attributes);
             }
         } else {
