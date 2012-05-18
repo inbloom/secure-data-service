@@ -77,6 +77,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.DISCIPLINE_INCIDENT, "disciplineIncidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.REPORT_CARD, "studentId", "")
                         .construct());
 
         // Leaf Nodes are unconnected
@@ -101,6 +102,10 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.DISCIPLINE_INCIDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT)
+                        .construct());
+
+        nodeMap.put(EntityNames.REPORT_CARD,
+                SecurityNodeBuilder.buildNode(EntityNames.REPORT_CARD)
                         .construct());
 
         nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
