@@ -35,7 +35,6 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
-import org.slc.sli.web.entity.PagedSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -871,9 +870,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             studentSearch.put(Constants.ATTR_FIRST_NAME, "");
             studentSearch.put(Constants.ATTR_LAST_SURNAME, "");
             studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
-            studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, PagedSearch.DEFAULT_PAGE_NO);
-            studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, PagedSearch.DEFAULT_PAGE_SIZE);
-            studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, PagedSearch.DEFAULT_PAGE_NO);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, 1);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, 50);
+            studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, 1);
             return studentSearch;
         }
 
