@@ -70,7 +70,7 @@ public class TenantProcessorTest {
     public void shouldAddNewLz() throws Exception {
         
         List<String> testLzPaths = new ArrayList<String>();
-        testLzPaths.add("testLz");
+        testLzPaths.add("."); //this must be a path that exists on all platforms
         
         List<Route> routes = new ArrayList<Route>();
         

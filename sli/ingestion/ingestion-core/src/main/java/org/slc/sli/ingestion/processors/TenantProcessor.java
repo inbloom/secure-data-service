@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class TenantProcessor implements Processor {
         for (String lzPath : newLzPaths) {
             if (oldLzPaths.contains(lzPath)) {
                 oldLzPaths.remove(lzPath);
-            } else {
+            } else if (new File(lzPath).exists()) {
                 routesToAdd.add(lzPath);
             }
         }

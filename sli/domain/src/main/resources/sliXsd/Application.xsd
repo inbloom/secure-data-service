@@ -31,13 +31,7 @@
                             <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
                     </xs:simpleType>
-                </xs:element>
-
-	        <xs:element name="roles" minOccurs="0">
-		    <xs:simpleType>
-	                <xs:list itemType="xs:string" />
-                    </xs:simpleType>
-                </xs:element>                
+                </xs:element>        
 
                 <!-- These two are generated during creation -->
                  <xs:element name="client_id" type="xs:string" minOccurs="1" />

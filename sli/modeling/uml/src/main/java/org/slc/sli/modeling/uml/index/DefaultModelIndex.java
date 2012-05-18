@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
@@ -23,12 +25,12 @@ import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 
 /**
- * A default implementation of {@link Mapper} that uses {@link Model}.
+ * A default implementation of {@link ModelIndex} that uses {@link Model}.
  *
  * Usage: When parsing into a {@link Model} is complete, the model should be set on this class. The
  * object contained in the model will then be available as a graph.
  */
-public final class DefaultMapper implements Mapper {
+public final class DefaultModelIndex implements ModelIndex {
 
     private static final <T> T assertNotNull(final T obj, final Identifier memo) {
         if (obj != null) {
@@ -40,27 +42,37 @@ public final class DefaultMapper implements Mapper {
 
     private final List<Association> associations;
     private final Map<Identifier, ClassType> classTypeIndex;
+
     private final Map<Identifier, DataType> dataTypeIndex;
+    private final Map<QName, DataType> dataTypesByName;
+
     private final Map<Identifier, ModelElement> elementMap;
-    private final Map<String, Set<ModelElement>> nameMap;
+    private final Map<Identifier, String> namespaceMap;
+    private final Map<QName, Set<ModelElement>> nameMap;
     private final Map<Identifier, Set<ModelElement>> whereUsed;
     private final Map<Identifier, EnumType> enumTypeIndex;
     private final List<Generalization> generalizations;
 
     private final Map<Identifier, TagDefinition> tagDefinitionIndex;
+    private final Map<QName, TagDefinition> tagDefinitionsByName;
 
-    public DefaultMapper(final Model model) {
+    public DefaultModelIndex(final Model model) {
         final IndexingVisitor visitor = new IndexingVisitor();
         model.accept(visitor);
-        elementMap = Collections
-                .unmodifiableMap(new HashMap<Identifier, ModelElement>(visitor.getModelElementMap()));
+        elementMap = Collections.unmodifiableMap(new HashMap<Identifier, ModelElement>(visitor.getModelElementMap()));
+        namespaceMap = Collections.unmodifiableMap(new HashMap<Identifier, String>(visitor.getNamespaceMap()));
         whereUsed = Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(visitor.getWhereUsed()));
-        nameMap = Collections.unmodifiableMap(new HashMap<String, Set<ModelElement>>(visitor.getNameMap()));
+        nameMap = Collections.unmodifiableMap(new HashMap<QName, Set<ModelElement>>(visitor.getNameMap()));
+        dataTypesByName = Collections.unmodifiableMap(new HashMap<QName, DataType>(visitor.getDataTypesByName()));
+        tagDefinitionsByName = Collections.unmodifiableMap(new HashMap<QName, TagDefinition>(visitor
+                .getTagDefinitionsByName()));
 
         final Map<Identifier, ClassType> classTypeIndex = new HashMap<Identifier, ClassType>();
         final Map<Identifier, DataType> dataTypeIndex = new HashMap<Identifier, DataType>();
         final Map<Identifier, EnumType> enumTypeIndex = new HashMap<Identifier, EnumType>();
+
         final Map<Identifier, TagDefinition> tagDefinitionIndex = new HashMap<Identifier, TagDefinition>();
+
         final List<Association> associations = new LinkedList<Association>();
         final List<Generalization> generalizations = new LinkedList<Generalization>();
         final List<UmlPackage> pkgs = new LinkedList<UmlPackage>();
@@ -128,8 +140,13 @@ public final class DefaultMapper implements Mapper {
     }
 
     @Override
-    public Iterable<DataType> getDataTypes() {
-        return dataTypeIndex.values();
+    public String getNamespaceURI(final Type type) {
+        return namespaceMap.get(type.getId());
+    }
+
+    @Override
+    public Map<QName, DataType> getDataTypes() {
+        return dataTypesByName;
     }
 
     @Override
@@ -192,7 +209,12 @@ public final class DefaultMapper implements Mapper {
     }
 
     @Override
-    public Set<ModelElement> lookupByName(final String name) {
+    public TagDefinition getTagDefinition(final QName name) {
+        return tagDefinitionsByName.get(name);
+    }
+
+    @Override
+    public Set<ModelElement> lookupByName(final QName name) {
         if (nameMap.containsKey(name)) {
             return Collections.unmodifiableSet(nameMap.get(name));
         } else {

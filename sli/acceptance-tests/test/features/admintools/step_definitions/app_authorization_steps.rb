@@ -13,10 +13,6 @@ Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
 end
 
-Then /^in the upper right corner I see my name$/ do
-  assertWithWait("Failed to find name in upper right corner") {@driver.page_source.index("Sunset Admin") != nil}
-end
-
 Then /^I see a label in the middle "([^"]*)"/ do |arg1|
   #We're changing how the ID is referenced, so the label for the time-being isn't going to be accurate
   #assert(@driver.page_source.index(arg1) != nil)

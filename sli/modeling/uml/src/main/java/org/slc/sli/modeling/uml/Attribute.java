@@ -18,6 +18,16 @@ public final class Attribute extends Feature {
     }
 
     @Override
+    public boolean isAssociationEnd() {
+        return false;
+    }
+
+    @Override
+    public boolean isAttribute() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");

@@ -24,6 +24,7 @@ public final class EnumType extends NamespaceOwnedElement implements SimpleType 
         visitor.visit(this);
     }
 
+    @Override
     public List<EnumLiteral> getLiterals() {
         return literals;
     }
@@ -31,6 +32,21 @@ public final class EnumType extends NamespaceOwnedElement implements SimpleType 
     @Override
     public boolean isAbstract() {
         return false;
+    }
+
+    @Override
+    public boolean isClassType() {
+        return false;
+    }
+
+    @Override
+    public boolean isDataType() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnumType() {
+        return true;
     }
 
     @Override

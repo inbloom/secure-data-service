@@ -28,6 +28,10 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
         this.multiplicity = multiplicity;
     }
 
+    public abstract boolean isAttribute();
+
+    public abstract boolean isAssociationEnd();
+
     @Override
     public final Multiplicity getMultiplicity() {
         return multiplicity;

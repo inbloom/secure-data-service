@@ -15,26 +15,26 @@ import javax.xml.namespace.QName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 /**
  * A hack/program to compare what is in Ed-Fi schema with what is in the SLI
  * model.
  */
-public final class XmiCompare {
-
+public final class XmiCompChecker {
+    
     @SuppressWarnings("unused")
-	private static final Map<String, String> classRenames = classMapping();
-
+    private static final Map<String, String> classRenames = classMapping();
+    
     @SuppressWarnings("unused")
-	private static final Set<String> investigate = investigate().keySet();
+    private static final Set<String> investigate = investigate().keySet();
     @SuppressWarnings("unused")
-	private static final QName NOTHING = new QName("NOTHING");
+    private static final QName NOTHING = new QName("NOTHING");
     @SuppressWarnings("unused")
-	private static final Set<String> planned = planned();
-
+    private static final Set<String> planned = planned();
+    
     private static final Map<QName, QName> applyClassMappings(final Map<QName, QName> map,
             final Map<String, String> renames) {
         final Map<QName, QName> changed = new HashMap<QName, QName>();
@@ -48,7 +48,7 @@ public final class XmiCompare {
         }
         return changed;
     }
-
+    
     private static final Map<String, String> toLower(final Map<String, String> map) {
         final Map<String, String> result = new HashMap<String, String>();
         for (final String key : map.keySet()) {
@@ -56,7 +56,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableMap(result);
     }
-
+    
     private static final Map<QName, QName> toLowerCase(final Map<QName, QName> map) {
         final Map<QName, QName> result = new HashMap<QName, QName>();
         for (final QName key : map.keySet()) {
@@ -64,16 +64,16 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableMap(result);
     }
-
+    
     private static final QName toLowerCase(final QName name) {
         return new QName(name.getNamespaceURI().toLowerCase(), name.getLocalPart().toLowerCase());
     }
-
+    
     private static final Map<QName, QName> applyAttributeMappings(final Map<QName, QName> map,
             final Map<QName, QName> renames) {
-
+        
         final Map<QName, QName> changed = new HashMap<QName, QName>();
-
+        
         for (final QName name : map.keySet()) {
             final QName value = map.get(name);
             if (renames.containsKey(value)) {
@@ -84,7 +84,7 @@ public final class XmiCompare {
         }
         return changed;
     }
-
+    
     private static final Map<QName, QName> attributeMapping() {
         final Map<QName, QName> renames = new HashMap<QName, QName>();
         // renames.put(new QName("AccountabilityRating", "schoolYear"), NOTHING);
@@ -133,11 +133,11 @@ public final class XmiCompare {
                 "staffs"));
         return Collections.unmodifiableMap(renames);
     }
-
+    
     /**
      * Computes a set of class-qualified attribute names and adds to it the association end names.
      */
-    private static final Set<QName> attributeNames(final Iterable<ClassType> classTypes, final Mapper mapper) {
+    private static final Set<QName> attributeNames(final Iterable<ClassType> classTypes, final ModelIndex mapper) {
         final Set<QName> names = new HashSet<QName>();
         for (final ClassType classType : classTypes) {
             for (final Attribute feature : classType.getAttributes()) {
@@ -149,10 +149,10 @@ public final class XmiCompare {
         }
         return names;
     }
-
+    
     /**
      * The mapping from EdFi class name to SLI class name.
-     *
+     * 
      * This excludes names that already map 1:1.
      */
     private static final Map<String, String> classMapping() {
@@ -164,7 +164,7 @@ public final class XmiCompare {
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(renames);
     }
-
+    
     @SuppressWarnings("unused")
     private static final Set<String> classNames(final Iterable<ClassType> classTypes) {
         final Set<String> names = new HashSet<String>();
@@ -173,10 +173,10 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableSet(names);
     }
-
+    
     @SuppressWarnings("unused")
-    private static final void compareAttributes(final Mapper slim, final Mapper edfi) {
-
+    private static final void compareAttributes(final ModelIndex slim, final ModelIndex edfi) {
+        
         // This is the entire list of SLI feature names.
         final Set<QName> slimNames = attributeNames(slim.getClassTypes(), slim);
         // This is the entire list of EdFi feature names.
@@ -188,15 +188,15 @@ public final class XmiCompare {
         final Map<QName, QName> lhsMap01 = trialMapping(keepNames);
         final Map<QName, QName> rhsMap = decodeMapping(slimNames);
         final Set<QName> rhsCI = rhsMap.keySet();
-
+        
         final Map<QName, QName> lhsMap02 = applyClassMappings(lhsMap01, toLower(classMapping()));
         final Map<QName, QName> map03 = normalize(lhsMap02, rhsCI);
         final Map<QName, QName> map04 = applyAttributeMappings(map03, toLowerCase(attributeMapping()));
         final Set<QName> compNames = valueSet(map04);
-
+        
         // final Set<QName> compNames = rename(keepNames, attributeMapping());
         final Set<QName> moreNames = subtract(rhsCI, compNames);
-
+        
         System.out.println("edfiNames.size=" + edfiNames.size());
         System.out.println("slimNames.size=" + slimNames.size());
         int mapped = 0;
@@ -220,7 +220,7 @@ public final class XmiCompare {
         // print(sortNames(rhsCI));
         // print(lhsMap02);
     }
-
+    
     private static final Set<QName> filter(final Set<QName> names, final Set<String> classNames) {
         final Set<QName> filtrate = new HashSet<QName>();
         for (final QName name : names) {
@@ -230,7 +230,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableSet(filtrate);
     }
-
+    
     private static final Set<String> groups() {
         final Set<String> groups = new HashSet<String>();
         groups.add("CourseLevelCharacteristicsType");
@@ -246,7 +246,7 @@ public final class XmiCompare {
         groups.add("SpecialAccommodationsType");
         return Collections.unmodifiableSet(groups);
     }
-
+    
     private static final Set<String> identityTypes() {
         final Set<String> identityTypes = new HashSet<String>();
         identityTypes.add("AccountIdentityType");
@@ -301,7 +301,7 @@ public final class XmiCompare {
         identityTypes.add("StudentSectionAssociationReferenceType");
         return Collections.unmodifiableSet(identityTypes);
     }
-
+    
     private static final Map<String, String> ignorable() {
         final Map<String, String> ignorable = new HashMap<String, String>();
         ignorable.put("ClassPeriod", "This is just a wrapper around ClassPeriodNameType.");
@@ -316,7 +316,7 @@ public final class XmiCompare {
                 "Ed-Fi seems to generally not have consolidated its *Descriptor and *DescriptorType classes?");
         return Collections.unmodifiableMap(ignorable);
     }
-
+    
     @SuppressWarnings("unused")
     private static final Map<String, String> invert(final Map<String, String> mapping) {
         final Map<String, String> inversion = new HashMap<String, String>();
@@ -326,7 +326,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableMap(inversion);
     }
-
+    
     private static final Map<String, String> investigate() {
         final Map<String, String> investigate = new HashMap<String, String>();
         investigate.put("PerformanceLevelDescriptorType",
@@ -341,20 +341,20 @@ public final class XmiCompare {
                 "SLI seems to have over-simplified the academic subject and ed-org references?");
         return Collections.unmodifiableMap(investigate);
     }
-
+    
     /**
      * @param args
      */
     public static void main(final String[] args) {
         try {
-            final Mapper slim = new DefaultMapper(XmiReader.readModel("SLI.xmi"));
-            final Mapper edfi = new DefaultMapper(XmiReader.readModel("ED-Fi-Core.xmi"));
+            final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel("SLI.xmi"));
+            final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel("ED-Fi-Core.xmi"));
             compareAttributes(slim, edfi);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
+    
     private static final Map<QName, QName> normalize(final Map<QName, QName> map, final Set<QName> ciNames) {
         final Map<QName, QName> changed = new HashMap<QName, QName>();
         for (final QName name : map.keySet()) {
@@ -385,7 +385,7 @@ public final class XmiCompare {
         }
         return changed;
     }
-
+    
     private static final Set<String> outsideScope() {
         final Set<String> outsideScope = new HashSet<String>();
         outsideScope.add("Account");
@@ -401,7 +401,7 @@ public final class XmiCompare {
         outsideScope.add("StudentTitleIPartAProgramAssociation");
         return Collections.unmodifiableSet(outsideScope);
     }
-
+    
     @SuppressWarnings("unused")
     private static final Set<String> toLower(final Set<String> strings) {
         final Set<String> lower = new HashSet<String>();
@@ -410,7 +410,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableSet(lower);
     }
-
+    
     private static final Set<String> planned() {
         final Set<String> planned = new HashSet<String>();
         planned.add("CompetencyLevelDescriptor");       // Parallax
@@ -423,27 +423,27 @@ public final class XmiCompare {
         // planned.add("StudentSpecialEdProgramAssociation");
         return Collections.unmodifiableSet(planned);
     }
-
+    
     @SuppressWarnings("unused")
     private static final <T> void print(final List<T> strings) {
         for (final T s : strings) {
             System.out.println("" + s);
         }
     }
-
+    
     @SuppressWarnings("unused")
     private static final <T> void print(final Map<T, T> strings) {
         for (final T key : strings.keySet()) {
             System.out.println(key + " => " + strings.get(key));
         }
     }
-
+    
     @SuppressWarnings("unused")
     private static final void printGMT() {
         Calendar c = Calendar.getInstance();
         System.out.println("" + c.getTime());
     }
-
+    
     @SuppressWarnings("unused")
     private static final <T> Set<T> rename(final Set<T> originals, final Map<T, T> renames) {
         final Set<T> result = new HashSet<T>();
@@ -454,30 +454,30 @@ public final class XmiCompare {
             } else {
                 result.add(original);
             }
-
+            
         }
         return Collections.unmodifiableSet(result);
     }
-
+    
     @SuppressWarnings("unused")
     private static final List<String> sort(final Set<String> strings) {
         final List<String> sortNames = new ArrayList<String>(strings);
         Collections.sort(sortNames);
         return sortNames;
     }
-
+    
     private static final List<QName> sortNames(final Set<QName> strings) {
         final List<QName> sortNames = new ArrayList<QName>(strings);
         Collections.sort(sortNames, QNameComparator.SINGLETON);
         return sortNames;
     }
-
+    
     private static final <T> Set<T> subtract(final Set<T> lhs, final Set<T> rhs) {
         final Set<T> copy = new HashSet<T>(lhs);
         copy.removeAll(rhs);
         return Collections.unmodifiableSet(copy);
     }
-
+    
     @SuppressWarnings("unused")
     private static final Set<String> subtractEndsWith(final Set<String> strings, final String s) {
         final Set<String> result = new HashSet<String>();
@@ -488,7 +488,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableSet(result);
     }
-
+    
     private static final Map<QName, QName> trialMapping(final Set<QName> names) {
         final Map<QName, QName> trial = new HashMap<QName, QName>();
         for (final QName name : names) {
@@ -496,7 +496,7 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableMap(trial);
     }
-
+    
     private static final Map<QName, QName> decodeMapping(final Set<QName> names) {
         final Map<QName, QName> trial = new HashMap<QName, QName>();
         for (final QName name : names) {
@@ -504,7 +504,7 @@ public final class XmiCompare {
         }
         return trial;
     }
-
+    
     private static final Set<QName> valueSet(final Map<QName, QName> map) {
         final Set<QName> values = new HashSet<QName>();
         for (final QName name : map.values()) {
@@ -512,8 +512,8 @@ public final class XmiCompare {
         }
         return Collections.unmodifiableSet(values);
     }
-
-    private XmiCompare() {
+    
+    private XmiCompChecker() {
         // Prevent instantiation, even through reflection.
         throw new RuntimeException();
     }

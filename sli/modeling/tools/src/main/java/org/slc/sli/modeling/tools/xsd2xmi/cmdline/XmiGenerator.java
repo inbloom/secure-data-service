@@ -7,8 +7,8 @@ import org.apache.ws.commons.schema.XmlSchema;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2Uml;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2UmlPlugin;
 import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.writer.XmiWriter;
 import org.slc.sli.modeling.xsd.XsdReader;
 
@@ -19,8 +19,11 @@ public final class XmiGenerator {
 
     public static void main(final String[] args) {
         try {
+            convert("wadl", "../../modeling/discovery/src/main/resources/", new Xsd2UmlPluginForEdFi(
+            /* camelCase */false));
             convert("SLI", "../../domain/src/main/resources/sliXsd/", new Xsd2UmlPluginForSLI());
-            convert("Ed-Fi-Core", "../../domain/src/main/resources/edfiXsd/", new Xsd2UmlPluginForEdFi(/*camelCase*/false));
+            convert("Ed-Fi-Core", "../../domain/src/main/resources/edfiXsd/", new Xsd2UmlPluginForEdFi(
+            /* camelCase */false));
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +42,7 @@ public final class XmiGenerator {
 
         final Model model = Xsd2Uml.transform(name, schema, plugin);
 
-        final Mapper mapper = new DefaultMapper(model);
+        final ModelIndex mapper = new DefaultModelIndex(model);
 
         XmiWriter.writeDocument(model, mapper, name.concat(".xmi"));
     }

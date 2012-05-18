@@ -9,7 +9,7 @@ require_relative '../../../utils/sli_utils.rb'
 ############################################################
 
 MONGO_PERFORMANCE_DB_NAME = "mongo_performance"
-MONGO_PERFORMANCE_DB = "localhost"
+MONGO_PERFORMANCE_DB = PropLoader.getProps['ingestion_db']
 
 ############################################################
 # STEPS: BEFORE

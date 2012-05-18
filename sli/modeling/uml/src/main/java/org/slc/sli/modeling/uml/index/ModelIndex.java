@@ -1,7 +1,10 @@
 package org.slc.sli.modeling.uml.index;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
@@ -19,7 +22,7 @@ import org.slc.sli.modeling.uml.Visitor;
  *
  * The purpose is to enable the parse model to be used directly.
  */
-public interface Mapper {
+public interface ModelIndex {
 
     /**
      * Returns a list of association ends for the type reference.
@@ -32,7 +35,7 @@ public interface Mapper {
 
     Iterable<ClassType> getClassTypes();
 
-    Iterable<DataType> getDataTypes();
+    Map<QName, DataType> getDataTypes();
 
     Iterable<EnumType> getEnumTypes();
 
@@ -55,6 +58,14 @@ public interface Mapper {
     List<Generalization> getGeneralizationDerived(Identifier base);
 
     /**
+     * Returns the scope in which the type exists.
+     *
+     * @param type
+     *            The type for which the scope should be found.
+     */
+    String getNamespaceURI(Type type);
+
+    /**
      * Returns the tag definition for the specified reference.
      *
      * @param reference
@@ -62,6 +73,15 @@ public interface Mapper {
      * @return the tag definition required.
      */
     TagDefinition getTagDefinition(Identifier reference);
+
+    /**
+     * Returns the tag definition for the specified name.
+     *
+     * @param name
+     *            The name of the tag definition.
+     * @return the tag definition required.
+     */
+    TagDefinition getTagDefinition(QName name);
 
     /**
      * Returns the type specified by the reference.
@@ -74,7 +94,8 @@ public interface Mapper {
 
     void lookup(Identifier id, Visitor visitor);
 
-    Set<ModelElement> whereUsed(Identifier id);
+    @Deprecated
+    Set<ModelElement> lookupByName(QName name);
 
-    Set<ModelElement> lookupByName(String name);
+    Set<ModelElement> whereUsed(Identifier id);
 }

@@ -212,7 +212,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests, :simpleIdpSandboxTests] do
+task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -302,6 +302,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
   Rake::Task["importSandboxData"].execute
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
   displayFailureReport()
@@ -393,7 +394,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
                          :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
-                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest] do
+                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -441,6 +442,41 @@ end
 ############################################################
 # SDK Tests end
 ############################################################
+
+############################################################
+# Onboarding Integration Tests start
+############################################################
+
+desc "Run Onboarding Integration Tests"
+task :onboardingIntegrationSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Onboarding Integration Tests"
+task :onboardingIntegrationProdTests do
+  @tags = ["~@wip", "@production"]
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+############################################################
+# Onboarding Integration Tests end
+############################################################
+
 
 
 

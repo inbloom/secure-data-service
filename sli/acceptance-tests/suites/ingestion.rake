@@ -191,6 +191,17 @@ desc "Run CompetencyLevelDescriptor Ingestion Test"
 task :ingestionCompetencyLevelDescriptorTest do
   runTests("test/features/ingestion/features/ingestion_competencyLevelDescriptor.feature")
 end
+
+desc "Run bad control File Test"
+task :ingestionBadControlFileTest do
+  runTests("test/features/ingestion/features/ingestion_badCtlFile.feature")
+end
+
+desc "Run  Empty Ctl file Test"
+task :ingestionEmptyControlFileTest do
+  runTests("test/features/ingestion/features/ingestion_emptyCtlFile.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
