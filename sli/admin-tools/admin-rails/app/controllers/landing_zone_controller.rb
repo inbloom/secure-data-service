@@ -54,7 +54,8 @@ class LandingZoneController < ApplicationController
   def get_tenant
     check = Check.get ""
     if APP_CONFIG["is_sandbox"]
-      return check["user_id"]
+      return check["external_id"]
+      #return check["user_id"]
     else
       return check["tenantId"]
     end
