@@ -67,6 +67,8 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             }
 
             if (last != null && last.element.getName().equals(element.getName())) {
+                reportErrors();
+
                 sequence = last.sequence + 1;
             }
 
@@ -80,9 +82,10 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             ElementState last = getLastElementState();
 
             if (last != null) {
-                if (last.element.equals(element)) {
+                if (!last.element.equals(element)) {
                     PrintStream ps = System.out;
-                    ps.printf("Unexpected element - expected: %s, actiual: %s", last.element, element);
+                    ps.printf("Unexpected element - expected: %s, actiual: %s", last.element.getName().getLocalPart(), element.getName().getLocalPart());
+                    ps.println();
                 }
 
                 String targetAttribute = targetingEvent.getResourceConfig().getTargetAttribute();
@@ -118,14 +121,20 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
 
         if (!last.isTargeted) {
-            errorReport.warning(String.format("[%s]: element was not processed", getXPath(processedElements)), this);
+            String message = String.format("[%s]: element was not processed", getXPath(processedElements));
+            errorReport.warning(message, this);
+            PrintStream ps = System.out;
+            ps.println(message);
         } else {
             Set<String> ignoredAttributes = getIgnoredAttributes(last);
 
             String xPath = getXPath(processedElements);
 
+            PrintStream ps = System.out;
             for (String attribute : ignoredAttributes) {
-                errorReport.warning(String.format("[%s]: [%s] attribute was not processed", xPath, attribute), this);
+                String message = String.format("[%s]: [%s] attribute was not processed", xPath, attribute);
+                errorReport.warning(message, this);
+                ps.println(message);
             }
         }
     }
