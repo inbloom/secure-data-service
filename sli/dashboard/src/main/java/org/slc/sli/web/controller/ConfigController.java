@@ -1,7 +1,5 @@
 package org.slc.sli.web.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -58,38 +56,21 @@ public class ConfigController extends GenericLayoutController {
      * @throws IllegalAccessException
      */
     @RequestMapping(value = CONFIG_URL, method = RequestMethod.GET)
-    public ModelAndView getConfig(HttpServletRequest request)
-            throws IllegalAccessException {
+    public ModelAndView getConfig(HttpServletRequest request) throws IllegalAccessException {
         ModelMap model = new ModelMap();
         
         String token = SecurityUtil.getToken();
         GenericEntity staffEntity = userEdOrgManager.getStaffInfo(token);
         
-        Boolean isAdmin = (Boolean) staffEntity
-                .get(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN);
+        Boolean isAdmin = (Boolean) staffEntity.get(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN);
         if (isAdmin != null && isAdmin.booleanValue()) {
-            boolean localEducationAgency = false;
-            GenericEntity edOrg = (GenericEntity) staffEntity
-                    .get(Constants.ATTR_ED_ORG);
-            if (edOrg != null) {
-                List<String> organizationCategories = (List<String>) edOrg
-                        .get(Constants.ATTR_ORG_CATEGORIES);
-                if (organizationCategories != null
-                        && !organizationCategories.isEmpty()) {
-                    String educationAgency = organizationCategories.get(0);
-                    if (educationAgency != null
-                            && educationAgency
-                                    .equals(Constants.LOCAL_EDUCATION_AGENCY))
-                        localEducationAgency = true;
-                }
-            }
-            if (localEducationAgency) {
-                ConfigMap configMap = configManager.getCustomConfig(token,
-                        userEdOrgManager.getUserEdOrg(token));
+            Boolean localEducationAgency = (Boolean) staffEntity.get(Constants.LOCAL_EDUCATION_AGENCY);
+            
+            if (localEducationAgency != null && localEducationAgency.booleanValue()) {
+                ConfigMap configMap = configManager.getCustomConfig(token, userEdOrgManager.getUserEdOrg(token));
                 
                 if (configMap != null) {
-                    model.addAttribute("configJSON", new GsonBuilder().create()
-                            .toJson(configMap));
+                    model.addAttribute("configJSON", new GsonBuilder().create().toJson(configMap));
                 } else {
                     model.addAttribute("configJSON", "");
                 }
@@ -119,7 +100,6 @@ public class ConfigController extends GenericLayoutController {
     
     public void putCustomConfig(ConfigMap configMap) {
         String token = SecurityUtil.getToken();
-        configManager.putCustomConfig(token,
-                userEdOrgManager.getUserEdOrg(token), configMap);
+        configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), configMap);
     }
 }
