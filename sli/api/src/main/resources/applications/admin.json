@@ -47,14 +47,6 @@
          ]
       },
       {
-         "name":"Role Viewer",
-         "description":"View available roles.",
-         "url":"${bootstrap.app.admin.url}",
-         "roles":[
-           "Realm Administrator"
-         ]
-      },
-      {
          "name":"Provision Landing Zone",
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
@@ -69,6 +61,14 @@
          "roles":[
             "SLC Operator"
             ]
-       }
+       },
+       {
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
+         "roles":[
+           "Realm Administrator"
+         ]
+      }
    ]
 }

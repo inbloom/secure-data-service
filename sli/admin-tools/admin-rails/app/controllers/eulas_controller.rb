@@ -13,7 +13,9 @@ class EulasController < ActionController::Base
   
   def create
     if Eula.accepted?(params)
-      if (ApplicationHelper.send_user_verification_email(request.env['HTTP_HOST'], session[:guuid]))
+      protocol=request.env['SERVER_PROTOCOL']
+       protocol=protocol[0..-1+protocol.rindex('/')].downcase+"://"
+      if (ApplicationHelper.send_user_verification_email(protocol+request.env['HTTP_HOST'], session[:guuid]))
         render :finish
       else
         render :account_error
