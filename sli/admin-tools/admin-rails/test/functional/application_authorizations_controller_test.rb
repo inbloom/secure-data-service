@@ -12,11 +12,6 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:application_authorizations)
   end
   
-  #test "should get new" do
-  #  get :new
-  #  assert_response :success
-  #end
-  #
   test "should create application_authorization" do
     session[:roles] = ["LEA Administrator"]
     post :create, application_authorization: @appauth_fixtures['new_district']  
@@ -25,28 +20,9 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   end
   
 
-  test "should show application_authorization" do
-    session[:roles] = ["LEA Administrator"]
-    get :show, id: "1"
-    assert_response :success
-  end
-  #
-  #test "should get edit" do
-  #  get :edit, id: @application_authorization.to_param
-  #  assert_response :success
-  #end
-  #
   test "should update application_authorization" do
     session[:roles] = ["LEA Administrator"]
     put :update, id: "1", application_authorization: @appauth_fixtures['district1']
-    assert_redirected_to assigns(:application_authorization)
+    assert_redirected_to application_authorizations_path
   end
-  #
-  #test "should destroy application_authorization" do
-  #  assert_difference('ApplicationAuthorization.count', -1) do
-  #    delete :destroy, id: @application_authorization.to_param
-  #  end
-  #
-  #  assert_redirected_to application_authorizations_path
-  #end
 end
