@@ -1,3 +1,10 @@
+When /^"([^"]*)" has no "([^"]*)"$/ do |student, attr|
+  studentCell = getStudentCell(student)
+  td = getAttribute(studentCell, attr).strip
+  assert(td.length == 0, "Non-empty value found" + td)
+end
+
+
 # This will return all the TRs of the a grid, 1 for each student
 def getStudentGrid()
    return getGrid(@driver)
@@ -23,7 +30,9 @@ def getStudentName(studentTr)
 end
 
 def getStudentProgramParticipation(studentTr)
-  return getAttributes(studentTr, getStudentProgramParticipationColumnName())
+  td = getTdBasedOnAttribute(studentTr, getStudentProgramParticipationColumnName())
+  programParticipations = td.find_elements(:tag_name, "span")
+  return programParticipations
 end
 
 #returns an array of grades

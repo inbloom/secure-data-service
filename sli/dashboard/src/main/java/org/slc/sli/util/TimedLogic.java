@@ -13,7 +13,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
  *
@@ -29,9 +28,7 @@ public class TimedLogic {
      *
      */
     public enum TimeSlot {
-        MOST_RECENT_WINDOW,
-        MOST_RECENT_RESULT,
-        HIGHEST_EVER;
+        MOST_RECENT_WINDOW, MOST_RECENT_RESULT, HIGHEST_EVER;
     }
 
     /**
@@ -61,6 +58,7 @@ public class TimedLogic {
 
     /**
      * Returns the student assessment association with the highest score
+     * TODO - Fix so that it handles multiple instances of ATT_SCALE_SCORE. If that can happen.
      */
     public static Map getHighestEverAssessment(List<Map<String, Object>> a) {
 
@@ -70,18 +68,39 @@ public class TimedLogic {
             public int compare(Map o1, Map o2) {
                 List<Map<String, String>> scoreResults1 = (List) o1.get(Constants.ATTR_SCORE_RESULTS);
                 List<Map<String, String>> scoreResults2 = (List) o2.get(Constants.ATTR_SCORE_RESULTS);
-                String score1 = "";
-                String score2 = "";
+                // Integer scoreOne = -1;
+                // Integer scoreTwo = -1;
+                String score1 = null;
+                String score2 = null;
                 for (Map<String, String> scoreResult : scoreResults1) {
                     if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                         score1 = scoreResult.get(Constants.ATTR_RESULT);
+                        // Integer temp = Integer.parseInt(scoreResult.get(Constants.ATTR_RESULT));
+                        // if(temp > scoreOne) {
+                        // scoreOne = temp;
+                        // }
                     }
                 }
 
                 for (Map<String, String> scoreResult : scoreResults2) {
                     if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                         score2 = scoreResult.get(Constants.ATTR_RESULT);
+                        // Integer temp = Integer.parseInt(scoreResult.get(Constants.ATTR_RESULT));
+                        // if(temp > scoreTwo) {
+                        // scoreTwo = temp;
+                        // }
                     }
+                }
+                if (score1 == null && score2 == null) {
+                    return 0;
+                }
+
+                if (score1 == null) {
+                    return 1;
+                }
+
+                if (score2 == null) {
+                    return -1;
                 }
 
                 return Integer.parseInt(score2) - Integer.parseInt(score1);
@@ -107,8 +126,10 @@ public class TimedLogic {
                     return 0;
                 }
                 try {
-                    List<Map<String, Object>> studentObjAssmts1 = (List<Map<String, Object>>) o1.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
-                    List<Map<String, Object>> studentObjAssmts2 = (List<Map<String, Object>>) o2.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map<String, Object>> studentObjAssmts1 = (List<Map<String, Object>>) o1
+                            .get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map<String, Object>> studentObjAssmts2 = (List<Map<String, Object>>) o2
+                            .get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
                     List<Map<String, String>> scoreResults1 = getScoreResults(studentObjAssmts1, objAssmtCode);
                     List<Map<String, String>> scoreResults2 = getScoreResults(studentObjAssmts2, objAssmtCode);
                     String score1 = getScoreFromScoreResults(scoreResults1);
@@ -170,7 +191,8 @@ public class TimedLogic {
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
         for (Map assessment : assessmentMetaData) {
             @SuppressWarnings("unchecked")
-            Map<String, String> periodDescriptor = (Map<String, String>) assessment.get(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
+            Map<String, String> periodDescriptor = (Map<String, String>) assessment
+                    .get(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
             if (periodDescriptor == null) {
                 continue;
             }
@@ -236,7 +258,8 @@ public class TimedLogic {
         }
     }
 
-    protected static List<Map<String, String>> getScoreResults(List<Map<String, Object>> studentObjAssmts, String objAssmtCode) {
+    protected static List<Map<String, String>> getScoreResults(List<Map<String, Object>> studentObjAssmts,
+            String objAssmtCode) {
         List<Map<String, String>> scoreResults = new ArrayList<Map<String, String>>();
         if (studentObjAssmts != null) {
             for (Map studentObjAssmt : studentObjAssmts) {

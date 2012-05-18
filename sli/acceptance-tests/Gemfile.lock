@@ -6,6 +6,9 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
     addressable (2.2.7)
     bson (1.6.1)
     bson_ext (1.6.1)
@@ -42,6 +45,9 @@ GEM
     multi_json (1.2.0)
     multipart-post (1.1.5)
     net-ldap (0.3.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.3.0)
     oauth2 (0.5.2)
       faraday (~> 0.7)
       multi_json (~> 1.0)
@@ -76,6 +82,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  active_support
   approval!
   bson_ext
   builder
@@ -84,6 +91,7 @@ DEPENDENCIES
   json (= 1.6.2)
   mongo
   net-ldap
+  net-sftp
   oauth2
   rake
   rest-client

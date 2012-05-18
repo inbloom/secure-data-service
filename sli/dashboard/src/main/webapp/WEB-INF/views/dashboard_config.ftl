@@ -69,7 +69,7 @@
         <div id="fileDisplay" class="display">
             
             <#if configJSON != "error">
-                <h4> In order to modify the current connfig for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h3>
+                <h4> In order to modify the current config for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h3>
     
                 <textarea id="jsonText" >${configJSON}</textarea>
             </#if>

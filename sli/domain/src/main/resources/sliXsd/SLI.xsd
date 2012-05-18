@@ -15,7 +15,6 @@
 	<xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
 	<xs:element name="course" type="course" />
 	<xs:element name="disciplineIncident" type="disciplineIncident" />
-	<xs:element name="educationOrgAssociation" type="educationOrgAssociation" />
 	<xs:element name="eventBellScheduleAssociation" type="eventBellScheduleAssociation" />
   <xs:element name="grade" type="grade" />
 	<xs:element name="gradebookEntry" type="gradebookEntry" />

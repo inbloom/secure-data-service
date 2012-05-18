@@ -107,6 +107,9 @@
         <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference"
           value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference.ftl" />
 
+    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference"
+           value="idRefResolution/InterchangeStudentGrade/ReportCard/GradeReference.ftl" />
+
     <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference"
           value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.ftl" />
 
@@ -122,15 +125,19 @@
           value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
     <!-- end of Interchange StudentCohort -->
 
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference"
+           value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.ftl" />
+
   </util:map>
 
   <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+    <!--<entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
         <bean class="org.milyn.Smooks">
           <constructor-arg type="java.lang.String"
             value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.xml" />
         </bean>
-    </entry>
+    </entry>-->
+
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
@@ -170,13 +177,14 @@
     <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
+    <!-- <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="smooksExtendedReferenceResolver" /> -->
 
-    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />

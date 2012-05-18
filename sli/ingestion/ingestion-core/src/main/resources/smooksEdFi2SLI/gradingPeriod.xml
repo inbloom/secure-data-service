@@ -15,13 +15,13 @@
 
     <!-- Start GradingPeriod mapping -->
     <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'grade'</jb:expression>
+        <jb:expression property="type">'gradingPeriod'</jb:expression>
         <jb:wiring property="metaData" beanIdRef="gradingPeriodMeta" />
         <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
     </jb:bean>
 
     <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="localId" />
+        <jb:value property="externalId" data="attributes gradingPeriodId" />
     </jb:bean>
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
@@ -30,7 +30,12 @@
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
-        <jb:value property="calendarDateReference" data="attributes calendarDateReference" />
+        <!--<jb:value property="calendarDateReference" data="attributes calendarDateReference" />-->
+        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
+    </jb:bean>
+
+    <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes calendarDateReference element" />
     </jb:bean>
 
 </smooks-resource-list>

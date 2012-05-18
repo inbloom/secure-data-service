@@ -33,7 +33,7 @@ public class SecurityUtil {
      * find if a user is IT Administrator or Leader
      * @return
      */
-    public static boolean isPowerUser() {
+    public static boolean isNotEducator() {
         Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {

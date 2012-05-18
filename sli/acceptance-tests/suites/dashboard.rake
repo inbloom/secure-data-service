@@ -77,6 +77,11 @@ task :dashboardSadPathTests do
   runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
 end
 
+desc "Run dashboard HTML escape tests"
+task :dashboardHTMLEscapeTests do
+  runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
+end
+
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
   Rake::Task["realmInitNoPeople"].invoke
