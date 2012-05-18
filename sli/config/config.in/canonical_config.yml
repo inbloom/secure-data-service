@@ -163,6 +163,8 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+        # Name of the SLI Admin realm
+        sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
         sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
         # LDAP base DN
