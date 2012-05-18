@@ -126,6 +126,8 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
+        
+        dashboard.google_analytics.id: UA-31838086-1
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard

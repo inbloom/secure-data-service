@@ -98,7 +98,7 @@ public class ConfigController extends GenericLayoutController {
                 
             }
             
-            addHeaderFooter(model);
+            addCommonData(model);
             setContextPath(model, request);
             model.addAttribute(Constants.PAGE_TO_INCLUDE, DASHBOARD_CONFIG_FTL);
             return new ModelAndView(Constants.OVERALL_CONTAINER_PAGE, model);

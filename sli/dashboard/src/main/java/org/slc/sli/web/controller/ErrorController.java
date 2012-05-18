@@ -59,7 +59,7 @@ public class ErrorController extends GenericLayoutController {
         model.addAttribute(Constants.ATTR_ERROR_HEADING, error.getHeading());
         model.addAttribute(Constants.ATTR_ERROR_CONTENT, error.getContent());
         
-        addHeaderFooter(model);
+        addCommonData(model);
         setContextPath(model, request);
         
         model.addAttribute(Constants.PAGE_TO_INCLUDE, TEMPLATE_FILE);

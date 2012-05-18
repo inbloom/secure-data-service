@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,9 +31,16 @@ public abstract class GenericLayoutController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final String LAYOUT_DIR = "layout/";
     private static final String FTL_EXTENSION = ".ftl";
-
     private CustomizationAssemblyFactory customizationAssemblyFactory;
-
+    
+    private static final String GOOGLE_ANALYTICS_TRACKER_CONSTANT = "googleAnalyticsTrackerId";
+    
+    @Autowired
+    @Qualifier("googleAnalyticsTrackerId")
+    private String googleAnalyticsTrackerId;
+    
+    
+    
     protected PortalWSManager portalWSManager;
 
 
@@ -60,7 +68,7 @@ public abstract class GenericLayoutController {
 
         model.addAttribute(Constants.MM_KEY_LOGGER, logger);
         setContextPath(model, request);
-        addHeaderFooter(model);
+        addCommonData(model);
         // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
@@ -75,7 +83,12 @@ public abstract class GenericLayoutController {
             model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(isAdmin));
         }
     }
-
+    
+    protected void addCommonData(ModelMap model) {
+        addHeaderFooter(model);
+        model.addAttribute(GOOGLE_ANALYTICS_TRACKER_CONSTANT, googleAnalyticsTrackerId);
+    }
+    
     protected void setContextPath(ModelMap model, HttpServletRequest request) {
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
