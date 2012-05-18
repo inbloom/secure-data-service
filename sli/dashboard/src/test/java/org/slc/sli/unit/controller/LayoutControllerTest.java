@@ -26,7 +26,12 @@ import org.slc.sli.web.controller.LayoutController;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context.xml", "/dashboard-servlet-test.xml" })
 public class LayoutControllerTest extends ControllerTestBase  {
-    LayoutController layoutController = new LayoutController();
+    LayoutController layoutController = new LayoutController() {
+        @Override
+        public boolean isAdmin() {
+            return false;
+        }
+    };;
 
     @Before
     public void setup() throws Exception {

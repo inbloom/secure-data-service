@@ -43,7 +43,9 @@
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
-        <property name="apiClient" ref="apiClient"/>
+        <property name="restClient" ref="restClient"/>
+        <property name="portalHeaderUrl" value="${portal.header.url}" />
+	    <property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
@@ -53,8 +55,6 @@
 	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	    <property name="apiUrl" value="${api.server.url}" />
-	    <property name="portalHeaderUrl" value="${portal.header.url}" />
-	    <property name="portalFooterUrl" value="${portal.footer.url}" />
 	    <property name="gracePeriod" value="${sli.security.gracePeriod}" />
 	</bean>
 	

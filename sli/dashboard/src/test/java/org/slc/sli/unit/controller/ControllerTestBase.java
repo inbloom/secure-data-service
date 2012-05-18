@@ -62,12 +62,12 @@ public class ControllerTestBase {
     PortalWSManager portalWSManager = new PortalWSManager() {
 
         @Override
-        public String getHeader(String token) {
+        public String getHeader(boolean isAdmin) {
             return "";
         }
 
         @Override
-        public String getFooter(String token) {
+        public String getFooter(boolean isAdmin) {
             return "";
         }
     };

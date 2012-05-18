@@ -79,17 +79,6 @@ public class LiveAPIClient implements APIClient {
 
     private String apiUrl;
 
-    private String portalHeaderUrl;
-    private String portalFooterUrl;
-
-    public void setPortalHeaderUrl(String portalHeaderUrl) {
-        this.portalHeaderUrl = portalHeaderUrl;
-    }
-
-    public void setPortalFooterUrl(String portalFooterUrl) {
-        this.portalFooterUrl = portalFooterUrl;
-    }
-
     private RESTClient restClient;
     private Gson gson;
 
@@ -1196,26 +1185,6 @@ public class LiveAPIClient implements APIClient {
 
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
-    }
-
-    /*
-     *
-     * TODO: HARDCODED Token, because lycans server is bad. Change to incoming
-     * token
-     */
-    @Override
-    public String getHeader(String token) {
-        return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + SecurityUtil.isAdmin());
-    }
-
-    /*
-     *
-     * TODO: HARDCODED Token, because lycans server is bad. Change to incoming
-     * token
-     */
-    @Override
-    public String getFooter(String token) {
-        return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + SecurityUtil.isAdmin());
     }
 
     @Override

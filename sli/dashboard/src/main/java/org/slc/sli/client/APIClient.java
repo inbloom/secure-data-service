@@ -46,11 +46,6 @@ public interface APIClient {
 
     public GenericEntity getStudentWithOptionalFields(final String token, final String studentId, List<String> optionalFields);
 
-
-    public String getHeader(String token);
-
-    public String getFooter(String token);
-
     /**
      * Returns a list of courses for a given student and query params
      * i.e students/{studentId}/studentCourseAssociations/courses?subejctArea="math"&includeFields=courseId,name

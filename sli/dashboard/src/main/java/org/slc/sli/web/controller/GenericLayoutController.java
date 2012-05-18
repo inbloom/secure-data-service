@@ -67,12 +67,12 @@ public abstract class GenericLayoutController {
     }
 
     protected void addHeaderFooter(ModelMap model) {
-        String token = getToken();
-        String header = portalWSManager.getHeader(token);
+        boolean isAdmin = isAdmin();
+        String header = portalWSManager.getHeader(isAdmin);
         if (header != null) {
             header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
             model.addAttribute(Constants.ATTR_HEADER_STRING, header);
-            model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(token));
+            model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(isAdmin));
         }
     }
 
@@ -109,5 +109,14 @@ public abstract class GenericLayoutController {
 
     public String getToken() {
         return SecurityUtil.getToken();
+    }
+
+    public boolean isAdmin() {
+        try {
+            return SecurityUtil.isAdmin();
+        } catch (Throwable t) {
+            return false;
+        }
+
     }
 }
