@@ -77,7 +77,7 @@
 			                <classPath>
 			                    <mainClass>${mainClass}</mainClass>
 			                </classPath>
-			                <icon>src/main/resources/icons/sync.ico</icon>
+			                <!--icon>src/main/resources/icons/sync.ico</icon-->
 			                <jre>
 			                    <minVersion>1.5.0</minVersion>
 			                    <maxVersion>1.7.0</maxVersion>
