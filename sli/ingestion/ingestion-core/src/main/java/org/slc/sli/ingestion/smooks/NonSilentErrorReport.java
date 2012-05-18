@@ -1,15 +1,21 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.milyn.delivery.sax.SAXElement;
-import org.milyn.event.ElementProcessingEvent;
 import org.milyn.event.ExecutionEvent;
 import org.milyn.event.ExecutionEventListener;
 import org.milyn.event.types.ElementPresentEvent;
-import org.milyn.event.types.ElementVisitEvent;
 import org.milyn.event.types.ResourceTargetingEvent;
+
+import org.slc.sli.ingestion.validation.ErrorReport;
+
 
 /**
  * Non-silent error report class reports elements/attributes that were ignored while processing data.
@@ -20,68 +26,118 @@ import org.milyn.event.types.ResourceTargetingEvent;
 public class NonSilentErrorReport implements ExecutionEventListener {
 
     private List<String> eventsPresent = new ArrayList<String>();
-    private List<String> eventsVisited = new ArrayList<String>();
-    private List<String> eventsResourceTarget = new ArrayList<String>();
-    private List<String> eventsProcessed = new ArrayList<String>();
-
+    private Set<String> eventsResourceTarget = new HashSet<String>();
+    private Map<String, List<String>> attributesPresent = new HashMap<String, List<String>>();
+    private Map<String, List<String>> attributesProcessed = new HashMap<String, List<String>>();
 
     @Override
     public void onEvent(ExecutionEvent event) {
-        try {
-            if (!ignoreEvent(event)) {
-                event.toString();
+
+            processEvent(event);
+
+    }
+
+    protected void processEvent(ExecutionEvent event) {
+
+        if (event instanceof ElementPresentEvent) {
+
+            ElementPresentEvent newEvent = (ElementPresentEvent) event;
+            SAXElement element = (SAXElement) newEvent.getElement();
+            String elementName = element.getName().toString();
+            eventsPresent.add(elementName);
+            int size = element.getAttributes().getLength();
+
+            List<String> atts = new ArrayList<String>();
+            for (int pos = 0; pos < size; pos++) {
+                atts.add(element.getAttributes().getLocalName(pos));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            if (!atts.isEmpty()) {
+                attributesPresent.put(elementName, atts);
+            }
+
+        } else if (event instanceof ResourceTargetingEvent) {
+
+            ResourceTargetingEvent newEvent = (ResourceTargetingEvent) event;
+            String targetAttribute = newEvent.getResourceConfig().getTargetAttribute();
+            SAXElement element = (SAXElement) newEvent.getElement();
+            SAXElement parent = element.getParent();
+            String elementName = element.getName().toString();
+
+            if (targetAttribute != null) {
+                List<String> currentAtt = attributesProcessed.get(element);
+                if (currentAtt != null) {
+                    currentAtt.add(targetAttribute);
+                } else {
+                    currentAtt = new ArrayList<String>();
+                    currentAtt.add(targetAttribute);
+                }
+                attributesProcessed.put(elementName, currentAtt);
+            }
+            eventsResourceTarget.add(elementName);
+
+            if (parent != null) {
+                eventsResourceTarget.add(parent.getName().toString());
+            }
         }
     }
 
-    protected boolean ignoreEvent(ExecutionEvent event) {
+    public void reportSilentErrors(ErrorReport errorReport) {
 
-        if (event instanceof ElementPresentEvent) {
-            ElementPresentEvent newEvent = (ElementPresentEvent) event;
-            SAXElement element = (SAXElement) newEvent.getElement();
-            eventsPresent.add(newEvent.getDepth() + "-" + element.getName().toString());
-            return true;
+        List<String> unProcessedElements = generateIgnoredElementsCollection();
+
+        for (String element : unProcessedElements) {
+            errorReport.warning("Element " + element + " has not been processed", this);
         }
 
-        if (event instanceof ElementVisitEvent) {
-            ElementVisitEvent newEvent = (ElementVisitEvent) event;
-            SAXElement element = (SAXElement) newEvent.getElement();
-            eventsVisited.add(newEvent.getSequence().name() + "-" + element.getName().toString());
+        Map<String, List<String>> unProcessedAttributes = generateIgnoredAttributesCollection();
+
+        for (Entry<String, List<String>> entry : unProcessedAttributes.entrySet()) {
+
+            errorReport.warning("Attribute(s) " + entry.getValue() + " for element " + entry.getKey()
+                    + " have not been processed", this);
+        }
+    }
+
+    private List<String> generateIgnoredElementsCollection() {
+        List<String> unProcessedElements = eventsPresent;
+
+        for (String element : eventsResourceTarget) {
+            unProcessedElements.remove(element);
         }
 
-        if (event instanceof ResourceTargetingEvent) {
-            ResourceTargetingEvent newEvent = (ResourceTargetingEvent) event;
+        return unProcessedElements;
+    }
 
-            SAXElement element = (SAXElement) newEvent.getElement();
-            eventsResourceTarget.add(newEvent.getSequence().name() + "-" + element.getName().toString());
+    private Map<String, List<String>> generateIgnoredAttributesCollection() {
+        Map<String, List<String>> ignoredAttributes = attributesPresent;
+
+        for (Entry<String, List<String>> entry : attributesProcessed.entrySet()) {
+            List<String> atts = attributesPresent.get(entry.getKey());
+            List<String> attProcessed = entry.getValue();
+
+            for (String attribute : attProcessed) {
+                atts.remove(attribute);
+            }
+            ignoredAttributes.put(entry.getKey().toString(), atts);
         }
 
-        if (event instanceof ElementProcessingEvent) {
-            ElementProcessingEvent newEvent = (ElementProcessingEvent) event;
-            SAXElement element = (SAXElement) newEvent.getElement();
-            eventsProcessed.add(newEvent.getDepth() + "-" + element.getName().toString());
-        }
+        return ignoredAttributes;
+    }
 
-        return true;
+    public Set<String> getEventsResourceTarget() {
+        return eventsResourceTarget;
     }
 
     public List<String> getEventsPresent() {
         return eventsPresent;
     }
 
-    public List<String> getEventsVisited() {
-        return eventsVisited;
+    public Map<String, List<String>> getAttributesPresent() {
+        return attributesPresent;
     }
 
-    public List<String> getEventsResourceTarget() {
-        return eventsResourceTarget;
+    public Map<String, List<String>> getAttributesProcessed() {
+        return attributesProcessed;
     }
-    public List<String> getEventsProcessed() {
-        return eventsProcessed;
-    }
-
-
 
 }
