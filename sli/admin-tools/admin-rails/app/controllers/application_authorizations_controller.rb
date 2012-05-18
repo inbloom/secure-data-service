@@ -19,7 +19,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @application_authorizations = ApplicationAuthorization.all
     existing_authorizations = @application_authorizations.map{|cur| cur.authId}
     if @application_authorizations.length == 0 and is_lea_admin?
-      newAppAuthorization = ApplicationAuthorization.new({"authId" => Check.get("")["edOrg"], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
+      newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrg], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
       @application_authorizations = [newAppAuthorization]
     elsif is_sea_admin?
       my_delegations = AdminDelegation.all
@@ -31,7 +31,7 @@ class ApplicationAuthorizationsController < ApplicationController
       end
       @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
     end
-
+    @apps = @application_authorizations.first.apps_for_auths
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }

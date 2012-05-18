@@ -1,6 +1,6 @@
 {
-   "name": "Admin Tool",
-   "description":"Administrative tool suite",
+   "name": "${bootstrap.app.admin.name}",
+   "description":"${bootstrap.app.admin.description}",
    "version":"1.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.admin.url}/assets/icon.png",

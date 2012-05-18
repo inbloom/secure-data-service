@@ -1,6 +1,6 @@
 {
-   "name": "Databrowser",
-   "description":"SLI Databrowser",
+   "name": "${bootstrap.app.databrowser.name}",
+   "description":"${bootstrap.app.databrowser.description}",
    "version":"1.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.databrowser.url}/assets/icon.png",

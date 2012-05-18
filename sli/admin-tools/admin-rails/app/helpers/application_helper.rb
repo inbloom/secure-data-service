@@ -73,7 +73,7 @@ module ApplicationHelper
     user_email_info = get_email_info guid
     email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
+    userEmailValidationLink = "#{validate_base}/user_account_validation/#{email_token}"
       
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
@@ -101,7 +101,6 @@ module ApplicationHelper
     
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
-    puts("EMAIL INFO*******#{res}")
 
     if (res.code==200)
       jsonDocument = JSON.parse(res.body)
