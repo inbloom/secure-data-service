@@ -720,7 +720,7 @@ public class BasicService implements EntityService {
             //get the authorities
             Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
-            if (!auths.contains(Right.FULL_ACCESS)) {
+            if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     //get the needed right for the field
                     Right neededRight = getNeededRight(criteria.getKey());
