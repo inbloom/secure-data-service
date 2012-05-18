@@ -6,6 +6,7 @@ DbRails::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => redirect('/entities/home')
   match '/entities/*other' => 'entities#show'
+  match '/entities' => 'entities#show', :other => "home"
 
   match '/logout' => 'checks#logout'
   # The priority is based upon order of creation:
