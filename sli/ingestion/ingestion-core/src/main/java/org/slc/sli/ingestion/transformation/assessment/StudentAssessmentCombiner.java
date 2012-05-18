@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -27,9 +28,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
-    private static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
-    private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
-    private static final String STUDENT_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
+    private static final String STUDENT_TEST_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     
     private Map<Object, NeutralRecord> studentAssessments;
@@ -57,8 +56,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
-        studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
+        studentAssessments = getCollectionFromDb(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
                 studentAssessments.size());
     }
     
@@ -83,7 +82,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
                         studentAssessmentAssociationId);
             }
-            // newCollection.put(neutralRecord.getRecordId(), neutralRecord);
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
@@ -102,10 +100,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private List<Map<String, Object>> getStudentObjectiveAssessments(String studentAssessmentAssociationId) {
         List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
+        query.addCriteria(new NeutralCriteria(STUDENT_TEST_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
         
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
-                .findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
+                .findAllForJob(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
         
         if (studentObjectiveAssessments != null) {
             Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();
@@ -129,7 +127,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> attributes = new HashMap<String, Object>();
                 for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
                     if (!entry.getKey().equals(OBJECTIVE_ASSESSMENT_REFERENCE)
-                            && !entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
+                            && !entry.getKey().equals(STUDENT_TEST_ASSESSMENT_REFERENCE)) {
                         attributes.put(entry.getKey(), entry.getValue());
                     }
                 }

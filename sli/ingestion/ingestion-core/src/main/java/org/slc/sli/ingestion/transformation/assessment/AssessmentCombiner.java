@@ -1,11 +1,11 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
@@ -24,29 +24,23 @@ import org.springframework.stereotype.Component;
 public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
-    
-    private static final String ASSESSMENT = "assessment";
-    private static final String ASSESSMENT_FAMILY = "assessmentFamily";
-    private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-    
-    private Map<String, Map<Object, NeutralRecord>> collections;
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
-    
+    private Map<Object, NeutralRecord> assessments;
+
+    /**
+     * Default constructor.
+     */
     public AssessmentCombiner() {
-        collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        assessments = new HashMap<Object, NeutralRecord>();
     }
     
     /**
      * The chaining of transformation steps. This implementation assumes that all data will be
      * processed in "one-go"
-     * 
      */
     @Override
     public void performTransformation() {
         loadData();
         transform();
-        persist();
     }
     
     /**
@@ -55,13 +49,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for assessment transformation.");
-        List<String> collectionsToLoad = Arrays.asList(ASSESSMENT, ASSESSMENT_FAMILY);
-        for (String collectionName : collectionsToLoad) {
-            Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
-            collections.put(collectionName, collection);
-            LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
-        }
-        LOG.info("Finished loading data for assessment transformation.");
+        assessments = getCollectionFromDb(EntityNames.ASSESSMENT);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.ASSESSMENT, assessments.size());
     }
     
     /**
@@ -69,16 +58,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming assessment data");
-        
-        Map<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(ASSESSMENT).entrySet()) {
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyId = (String) attrs.get("parentAssessmentFamilyId");
-            attrs.remove("parentAssessmentFamilyId");
+            String parentFamilyId = (String) attrs.remove("parentAssessmentFamilyId");
             String familyHierarchyName = "";
             familyHierarchyName = getAssocationFamilyMap(parentFamilyId, new HashMap<String, Map<String, Object>>(),
                     familyHierarchyName);
@@ -105,14 +90,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
             
-            String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");
-            attrs.remove("periodDescriptorRef");
+            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+                attrs.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
             }
-            newCollection.put(neutralRecord.getLocalId(), neutralRecord);
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");            
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
-        transformedCollections.put(ASSESSMENT, newCollection);
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
@@ -120,7 +104,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         paths.put("body.codeValue", assessmentPeriodDescriptorRef);
         
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
+                EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
         
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
@@ -175,20 +159,5 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
         
         return familyHierarchyName;
-    }
-    
-    /**
-     * Persists the transformed data into mongo.
-     */
-    public void persist() {
-        LOG.info("Persisting transformed data into assessment_transformed staging collection.");
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
-            }
-        }
-        LOG.info("Finished persisting transformed data into assessment_transformed staging collection.");
     }
 }
