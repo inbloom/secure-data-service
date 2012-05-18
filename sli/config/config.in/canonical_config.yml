@@ -291,8 +291,9 @@ local:
 
         api.perf.log.path: target/apilogs/logs
         
-        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
-        #li.tenant.landingZoneMountPoint: ~/lzs
+        sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
+        #sli.tenant.ingestionServers: localhost
+        #sli.landingZone.server: localhost
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
