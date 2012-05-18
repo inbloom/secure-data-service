@@ -12,6 +12,11 @@ public final class AssociationEnd extends Feature {
     private final boolean isNavigable;
 
     public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
+            final Identifier type) {
+        this(multiplicity, name, isNavigable, Identifier.random(), EMPTY_TAGGED_VALUES, type);
+    }
+
+    public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
             final Identifier id, final List<TaggedValue> taggedValues, final Identifier type) {
         super(id, name, type, multiplicity, taggedValues);
         this.isNavigable = isNavigable;
@@ -22,14 +27,19 @@ public final class AssociationEnd extends Feature {
         this(multiplicity, name, isNavigable, Identifier.random(), taggedValues, type);
     }
 
-    public AssociationEnd(final Multiplicity multiplicity, final String name, final boolean isNavigable,
-            final Identifier type) {
-        this(multiplicity, name, isNavigable, Identifier.random(), EMPTY_TAGGED_VALUES, type);
-    }
-
     @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public boolean isAssociationEnd() {
+        return true;
+    }
+
+    @Override
+    public boolean isAttribute() {
+        return false;
     }
 
     public boolean isNavigable() {

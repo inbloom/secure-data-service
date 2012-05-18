@@ -27,8 +27,29 @@ class LandingZone < Ldap
     @server = result.attributes[:serverName]
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
     
-    user_info[:homedir] = result.attributes[@landingzone]
+    user_info[:homedir] = result.attributes[:landingZone]
+    user_info[:edorg] = edorg_id
+    if APP_CONFIG["is_sandbox"]
+      user_info[:tenant] = tenant
+    end
     @@ldap.update_user_info(user_info)
+
+    # TODO: move this out to a template and not hardcode
+    email = {
+      :email_addr => user_info[:email],
+      :name       => "#{user_info[:first]} #{user_info[:last]}",
+      :subject    => "Landing Zone Provisioned",
+      :content    => "Welcome!\n\n" <<
+        "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
+        "Ed-Org: #{result.attributes[:edOrg]}\n" <<
+        "Server: #{result.attributes[:serverName]}\n" <<
+        "LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
+        "Sftp to the LZ directory using your ldap credentials.\n\n" <<
+        "Thank you,\n" <<
+        "SLC Operator\n"
+    }
+
+    @@emailer.send_approval_email email
     {:landingzone => @landingzone, :server => @server}
   end
 

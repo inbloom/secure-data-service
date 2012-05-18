@@ -3,6 +3,7 @@
 ############################################################
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  setFixture("userAccount", "userAccount_fixture.json")
   runTests("test/features/apiV1/entities/crud")
 end
 

@@ -21,7 +21,7 @@ Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
       :last       => "Admin", 
       :email      => "sunsetadmin",
       :password   => "secret", 
-      :vendor     => "Acme Inc.",
+      :vendor     => vendor,
       :emailtoken => "0102030405060708090A0B0C0D0E0F",
       :status     => "submitted",
       :homedir    => 'test',

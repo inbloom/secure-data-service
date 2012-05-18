@@ -1,9 +1,8 @@
 package org.slc.sli.ingestion.referenceresolution;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.milyn.Smooks;
 import org.milyn.cdr.SmooksResourceConfiguration;
@@ -25,14 +24,12 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
 
     private static final String DOCUMENT = "#document";
 
-    private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-
     private final SmooksExtendedReferenceResolver smooksResolver = new SmooksExtendedReferenceResolver();
 
     private Map<String, String> idRefConfigs;
 
     public FreeMarkerExtendedReferenceResolver() {
-        smooksResolver.setIdRefConfigs(new HashMap<String, Smooks>());
+        smooksResolver.setIdRefConfigs(new ConcurrentHashMap<String, Smooks>());
     }
 
     /**
@@ -60,14 +57,7 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
             return false;
         }
 
-        Smooks smooks = null;
-
-        rwl.readLock().lock();
-        try {
-            smooks = smooksResolver.getIdRefConfigs().get(xPath);
-        } finally {
-            rwl.readLock().unlock();
-        }
+        Smooks smooks = smooksResolver.getIdRefConfigs().get(xPath);
 
         if (smooks == null) {
             smooks = new Smooks();
@@ -78,15 +68,11 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
 
             smooks.addVisitor(visitor, DOCUMENT);
 
-            rwl.writeLock().lock();
-            try {
-                if (!smooksResolver.getIdRefConfigs().containsKey(xPath)) {
-                    smooksResolver.getIdRefConfigs().put(xPath, smooks);
-                }
-            } finally {
-                rwl.writeLock().unlock();
+            //Not using putIfAbsent.
+            //Atomicity is not as beneficial here.
+            if (!smooksResolver.getIdRefConfigs().containsKey(xPath)) {
+                smooksResolver.getIdRefConfigs().put(xPath, smooks);
             }
-
         }
 
         return true;

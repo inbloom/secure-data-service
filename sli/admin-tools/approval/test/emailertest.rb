@@ -40,7 +40,7 @@ class TestEmails < Test::Unit::TestCase
     assert_equal [DefaultReceiverEmailAddr], @message_observer.messages.first.to
     assert_equal [DefaultSenderEmailAddr], @message_observer.messages.first.from
   end
-  
+
   def test_email_replacer
     content = "Landing Zone: __URI__/landing_zone\n\nApp Registration: __URI__/apps"
     assert content.include?('__URI__')

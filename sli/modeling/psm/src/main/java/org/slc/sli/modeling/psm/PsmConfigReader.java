@@ -22,7 +22,7 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 
 public final class PsmConfigReader {
@@ -35,7 +35,7 @@ public final class PsmConfigReader {
         }
     }
 
-    public static final PsmConfig<Type> readConfig(final String fileName, final Mapper mapper)
+    public static final PsmConfig<Type> readConfig(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
@@ -52,7 +52,7 @@ public final class PsmConfigReader {
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
-    public static final PsmConfig<Type> readConfig(final InputStream stream, final Mapper mapper) {
+    public static final PsmConfig<Type> readConfig(final InputStream stream, final ModelIndex mapper) {
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
@@ -71,7 +71,7 @@ public final class PsmConfigReader {
         return name.getLocalPart().equals(reader.getLocalName());
     }
 
-    private static final PsmConfig<Type> readDocument(final Mapper mapper, final XMLStreamReader reader)
+    private static final PsmConfig<Type> readDocument(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartDocument(reader);
         PsmConfig<Type> dm = null;
@@ -97,7 +97,7 @@ public final class PsmConfigReader {
         throw new AssertionError();
     }
 
-    private static final PsmConfig<Type> readConfig(final Mapper mapper, final XMLStreamReader reader)
+    private static final PsmConfig<Type> readConfig(final ModelIndex mapper, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(PsmConfigElements.DOCUMENTS, reader);
@@ -226,7 +226,7 @@ public final class PsmConfigReader {
         }
     }
 
-    private static final PsmDocument<Type> readClassType(final Mapper mapper, final XMLStreamReader reader)
+    private static final PsmDocument<Type> readClassType(final ModelIndex modelIndex, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(PsmConfigElements.DOCUMENT, reader);
@@ -240,7 +240,7 @@ public final class PsmConfigReader {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(PsmConfigElements.CLASS_TYPE, reader)) {
                         final String className = readClassName(PsmConfigElements.CLASS_TYPE, reader);
-                        final Set<ModelElement> elements = mapper.lookupByName(className);
+                        final Set<ModelElement> elements = modelIndex.lookupByName(new QName(className));
                         type = assertNotNull(resolveClass(elements, className));
                     } else if (match(PsmConfigElements.RESOURCE_NAME, reader)) {
                         resource = readResource(reader);
