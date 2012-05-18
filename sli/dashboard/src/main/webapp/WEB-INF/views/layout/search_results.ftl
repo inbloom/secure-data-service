@@ -62,9 +62,6 @@ function gotoURL(id) {
 
 </script>
 
-<script type="text/javascript">
-setup();
-</script>
 <div class="panel-container">
     <div class="panel-left">
     <div class="panel">
@@ -120,6 +117,9 @@ result(s) per page.
 <button id="dbrd_btn_search_next" onclick="gotoURL(this.id)" class="btn" type="button">
 <input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_211_right_arrow.png" height = "13px" alt="Next" />
 </button>
+<script type="text/javascript">
+setup();
+</script>
 </div>
                     </div>
                 </div>
