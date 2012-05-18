@@ -44,7 +44,9 @@ public class FileLander {
 
         String localDataDir = properties.getProperty(PropertyUtils.KEY_LOCAL_DIRECTORY);
         File fileToLand = FileUtils.getLandableDataFile(localDataDir);
-
+/*        if (DataUtils.zipIngestionData(localDataDir))
+            ; //then the zip file is at localDataDir/DataUtils.ZIP_FILE_NAME
+*/
         SftpUtils.landFile(fileToLand, properties);
     }
 }
