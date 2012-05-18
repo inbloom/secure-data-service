@@ -8,6 +8,7 @@ public final class EntityNames {
     public static final String AGGREGATION_DEFINITION = "aggregationDefinition";
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
+    public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     public static final String ATTENDANCE = "attendance";
     public static final String BELL_SCHEDULE = "bellSchedule";
     public static final String COHORT = "cohort";
