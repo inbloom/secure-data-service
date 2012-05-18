@@ -59,6 +59,7 @@ public class LoginTest {
     @Before
     public void initMocks() throws Exception {
         MockitoAnnotations.initMocks(this);
+        loginController.setSliAdminRealmName("SLIAdmin");
     }
 
     @Test
