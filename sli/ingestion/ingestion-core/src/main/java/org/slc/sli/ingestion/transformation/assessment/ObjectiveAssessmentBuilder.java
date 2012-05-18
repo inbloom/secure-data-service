@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -22,8 +23,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
-    
-    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
@@ -67,6 +66,8 @@ public class ObjectiveAssessmentBuilder {
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
                         objectiveAssessmentId);
                 assessment = null;
+            } else {
+                LOG.info("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
             }
         } else {
             LOG.info("Found objective assessment: {} using its id.", objectiveAssessmentId);
@@ -102,8 +103,8 @@ public class ObjectiveAssessmentBuilder {
      * @return Map representing the current objective assessment (containing all children as well).
      */
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
-        LOG.info("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
-        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(OBJECTIVE_ASSESSMENT,
+        LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
+        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(EntityNames.OBJECTIVE_ASSESSMENT,
                 new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)), jobId);
         if (objectiveAssessmentRecord == null) {
             return null;
@@ -137,7 +138,7 @@ public class ObjectiveAssessmentBuilder {
             LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
                     objectiveAssessmentRef);
         } else {
-            LOG.info("Objective assessment: {} has no sub-objectives (field is absent).", objectiveAssessmentRef);
+            LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).", objectiveAssessmentRef);
         }
         objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
         return objectiveAssessment;
