@@ -4,16 +4,16 @@ public class UploadProperties {
     private String user;
     private String password;
     private String sftpServer;
-    private String remoteDir;
     private String localDir;
+    private int port;
     
-    public UploadProperties(String user, String password, String sftpServer, String remoteDir, String localDir) {
+    public UploadProperties(String user, String password, String sftpServer, String localDir, int port) {
         super();
         this.user = user;
         this.password = password;
         this.sftpServer = sftpServer;
-        this.remoteDir = remoteDir;
         this.localDir = localDir;
+        this.port = port;
     }
     
     public String getUser() {
@@ -28,12 +28,12 @@ public class UploadProperties {
         return sftpServer;
     }
     
-    public String getRemoteDir() {
-        return remoteDir;
-    }
-    
     public String getLocalDir() {
         return localDir;
+    }
+    
+    public int getPort() {
+        return port;
     }
     
 }

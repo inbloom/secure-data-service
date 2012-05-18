@@ -10,16 +10,16 @@ import org.slc.sli.lander.exception.MissingConfigException;
 public class PropertyUtils {
     
     private static final String FLAG_USER = "u";
-    private static final String FLAG_PASSWORD = "p";
+    private static final String FLAG_PASSWORD = "pass";
     private static final String FLAG_SFTP_SERVER = "s";
     private static final String FLAG_LOCAL_DIRECTORY = "d";
-    private static final String FLAG_REMOTE_DIRECTORY = "r";
+    private static final String FLAG_PORT = "port";
     
     public static final String KEY_USER = "username";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_SFTP_SERVER = "remote_server";
     public static final String KEY_LOCAL_DIRECTORY = "local_directory";
-    public static final String KEY_REMOTE_DIRECTORY = "remote_directory";
+    public static final String KEY_PORT = "port";
     
     final public static Options OPTIONS = new Options();
     
@@ -28,7 +28,7 @@ public class PropertyUtils {
         OPTIONS.addOption(FLAG_PASSWORD, true, KEY_PASSWORD);
         OPTIONS.addOption(FLAG_SFTP_SERVER, true, KEY_SFTP_SERVER);
         OPTIONS.addOption(FLAG_LOCAL_DIRECTORY, true, KEY_LOCAL_DIRECTORY);
-        OPTIONS.addOption(FLAG_REMOTE_DIRECTORY, true, KEY_REMOTE_DIRECTORY);
+        OPTIONS.addOption(KEY_PORT, true, KEY_PORT);
     }
     
     private final CommandLineParser parser;
@@ -57,11 +57,13 @@ public class PropertyUtils {
         if (localDir == null) {
             throw new MissingConfigException(FLAG_LOCAL_DIRECTORY);
         }
-        String remoteDir = cmd.getOptionValue(FLAG_REMOTE_DIRECTORY);
-        if (remoteDir == null) {
-            throw new MissingConfigException(FLAG_REMOTE_DIRECTORY);
+        int port;
+        try {
+            port = Integer.parseInt(cmd.getOptionValue(FLAG_PORT));
+        } catch (NumberFormatException e) {
+            throw new MissingConfigException(FLAG_PORT);
         }
         
-        return new UploadProperties(user, password, server, remoteDir, localDir);
+        return new UploadProperties(user, password, server, localDir, port);
     }
 }

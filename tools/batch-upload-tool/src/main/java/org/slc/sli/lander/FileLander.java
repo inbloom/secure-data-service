@@ -26,19 +26,22 @@ public class FileLander {
             initialize(args);
             landData();
         } catch (MissingConfigException e) {
-            System.out.println("Missing argument: " + e.getFieldName());
+            System.out.println("Missing argument: -" + e.getFieldName());
             printUsage();
+            System.exit(-1);
         } catch (MissingArgumentException e) {
             System.out.println(e.getMessage());
             printUsage();
+            System.exit(-1);
         } catch (Exception e) {
-            System.err.println("Something happened");
-            e.printStackTrace();
+            System.out.println("Unable to complete: " + e.getMessage());
+            System.exit(-1);
         }
     }
     
     private void printUsage() {
-        System.out.println("Usage: upload -u username -p password -d localDirectory -s sftpServer -r remoteDirectory");
+        System.out
+                .println("Required parameters: -u username -pass password -d localDirectory -s sftpServer -port port");
     }
     
     public void initialize(String[] args) throws Exception {
@@ -50,7 +53,7 @@ public class FileLander {
             return;
         }
         
-        File fileToLand = FileUtils.getLandableDataFile(properties.getLocalDir());
+        File fileToLand = FileUtils.zipIngestionData(properties.getLocalDir());
         SftpUtils.landFile(fileToLand, properties);
     }
 }
