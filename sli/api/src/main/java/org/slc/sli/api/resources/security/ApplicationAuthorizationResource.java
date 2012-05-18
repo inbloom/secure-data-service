@@ -36,6 +36,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -65,6 +66,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+    @Autowired
+    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+
 
     private EntityService service;
     private EntityService applicationService;
@@ -188,9 +192,11 @@ public class ApplicationAuthorizationResource {
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
                 Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
+                if (ent != null) {
                 ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
                 ent.getBody().put("id", ent.getEntityId());
                 results.add(ent.getBody());
+                }
             }
             
         }
@@ -224,21 +230,7 @@ public class ApplicationAuthorizationResource {
     private List<String> myDelegateEdOrgs() {
         String edOrg = getUsersStateUniqueId();
 
-        NeutralQuery stateQuery = new NeutralQuery();
-        stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", edOrg));
-        
-        Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
-        
-        NeutralQuery childrenQuery = new NeutralQuery();
-        childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg.getEntityId()));
-        Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
-
-        List<String> myEdOrgsIds = new ArrayList<String>();
-        for (Entity cur : myEdOrgs) {
-            String stateOrgId = (String) cur.getBody().get("stateOrganizationId");
-            myEdOrgsIds.add(stateOrgId);
-        }
-        
+        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);        
         List<String> delegateEdOrgs = new ArrayList<String>();
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();
