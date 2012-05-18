@@ -8,7 +8,7 @@ class EulasControllerTest < ActionController::TestCase
  
   test "should respond to post for accept/reject" do
     Eula.stubs(:accepted?).returns(true)
-    ApplicationHelper.stubs(:send_user_verification_email)
+    ApplicationHelper.stubs(:send_user_verification_email).returns(true)
     get :create
     assert_template :finish
 
