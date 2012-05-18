@@ -6,11 +6,6 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
   <util:map id="smooksConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-    <entry key="assessment">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
-      </bean>
-    </entry>
     <entry key="studentTranscriptAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
@@ -69,11 +64,6 @@
     <entry key="studentDisciplineIncidentAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentDisciplineIncidentAssociation.xml" />
-      </bean>
-    </entry>
-    <entry key="studentAssessmentAssociation">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAssessmentAssociation.xml" />
       </bean>
     </entry>
   </util:map>
