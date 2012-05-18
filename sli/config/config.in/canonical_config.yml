@@ -37,6 +37,7 @@ default:
         bootstrap.admin.realm.tenantId: SLI	
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
@@ -129,10 +130,20 @@ default:
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
+        bootstrap.app.admin.name: Admin Apps 
+        bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
+        bootstrap.app.admin.version: 0.0 
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
+        bootstrap.app.databrowser.name: SLC Data Browser
+        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
+        bootstrap.app.databrowser.version: 0.0
         bootstrap.app.dashboard.template: applications/dashboard.json
         bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
+        bootstrap.app.dashboard.name: SLC Dashboards
+        bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
+        bootstrap.app.dashboard.version: A.0
+        bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
         # keystore password (used in common, data-access, and dashboard)
@@ -290,6 +301,8 @@ local:
         api.perf.log.path: target/apilogs/logs
         
         sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
+
+        bootstrap.app.conf: ${sli.conf}
         #li.tenant.landingZoneMountPoint: ~/lzs
 
     data-access: &DATA-ACCESS-LOCAL
@@ -472,6 +485,7 @@ team:
         api.perf.log.path: /storage/logs
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.app.conf: ${sli.conf}
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -678,6 +692,7 @@ sandbox:
         sli.sandbox.autoRegisterApps: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:

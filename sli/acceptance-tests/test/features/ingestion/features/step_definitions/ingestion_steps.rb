@@ -31,6 +31,20 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
+   
+  #remove all tenants other than NY and IL
+  @tenantColl.find.each do |row|
+    if row['body'] == nil
+      puts "removing record"
+      @tenantColl.remove(row)
+    else
+      if row['body']['tenantId'] != 'NY' and row['body']['tenantId'] != 'IL'
+        puts "removing record"
+        @tenantColl.remove(row)
+      end
+    end
+  end
+
   @ingestion_lz_identifer_map = {}
   @tenantColl.find.each do |row|
     @body = row['body']
