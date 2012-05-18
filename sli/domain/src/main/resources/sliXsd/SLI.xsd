@@ -15,9 +15,10 @@
 	<xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
 	<xs:element name="course" type="course" />
 	<xs:element name="disciplineIncident" type="disciplineIncident" />
-	<xs:element name="educationOrgAssociation" type="educationOrgAssociation" />
 	<xs:element name="eventBellScheduleAssociation" type="eventBellScheduleAssociation" />
+  <xs:element name="grade" type="grade" />
 	<xs:element name="gradebookEntry" type="gradebookEntry" />
+    <xs:element name="gradingPeriod" type="gradingPeriod" />
 	<xs:element name="learningObjective" type="learningObjective" />
 	<xs:element name="learningStandard" type="learningStandard" />
 	<xs:element name="parent" type="parent" />
@@ -53,6 +54,7 @@
 	<xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
 	<xs:element name="teacher" type="teacher" />
 	<xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
-	<xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
+    <xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
+    <xs:element name="userAccount" type="userAccount" />
 
 </xs:schema>

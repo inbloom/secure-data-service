@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import junitx.util.PrivateAccessor;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -75,7 +78,9 @@ public class CourseEntityTest {
                 + "    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>"
                 + "    <EducationOrganizationReference>"
                 + "        <EducationalOrgIdentity>"
-                + "            <StateOrgId>Gary's Code Generator</StateOrgId>"
+                + "            <EducationOrgIdentificationCode IdentificationSystem=\"School\">"
+                + "                <ID>ID1</ID>"
+                + "            </EducationOrgIdentificationCode>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
                 + "</Course>"
@@ -86,6 +91,10 @@ public class CourseEntityTest {
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("course");
+
+        IngestionDummyEntityRepository repo = mock(IngestionDummyEntityRepository.class);
+        when(repo.exists("educationOrganization", "ID1")).thenReturn(true);
+        PrivateAccessor.setField(validator, "validationRepo", repo);
 
         Assert.assertTrue(validator.validate(e));
     }
@@ -153,7 +162,9 @@ public class CourseEntityTest {
                 + "    <CareerPathway>Science Technology Engineering and Mathematics</CareerPathway>"
                 + "    <EducationOrganizationReference>"
                 + "        <EducationalOrgIdentity>"
-                + "            <StateOrgId>Gary's Code Generator</StateOrgId>"
+                + "            <EducationOrgIdentificationCode IdentificationSystem=\"School\">"
+                + "                <ID>ID1</ID>"
+                + "            </EducationOrgIdentificationCode>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
                 + "</Course>"
@@ -222,7 +233,6 @@ public class CourseEntityTest {
 
         assertEquals("Science Technology Engineering and Mathematics",
                 neutralRecord.getAttributes().get("careerPathway"));
-
     }
 
 }

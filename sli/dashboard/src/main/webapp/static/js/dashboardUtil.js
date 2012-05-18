@@ -92,6 +92,63 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
+	var select =  "";
+	
+	$("#"+name).find("dropdown-menu").html(select);
+	var autoSelectOption = -1;
+	
+	
+	if(options === null || options === undefined || options.length == 0) {
+		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
+                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
+	} else {
+	    	if (options.length == 1 && autoSelect) {
+			autoSelectOption = 0;
+	    	}
+		if (defaultOptions != undefined && defaultOptions != null) {
+			jQuery.each(defaultOptions, function(val, displayText) {
+				select += "    <li class=\"\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" + displayText + "</a>" +
+				"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
+			});
+		}
+		for(var index = 0; index < options.length; index++) {
+			var selected = index == autoSelectOption ? "selected" : "";
+			select += "    <li class=\"" + selected + "\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" +$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
+	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
+		}
+		
+		$("#"+name + "SelectMenu").find(".optionText").html("Choose one");
+	}
+	
+	$("#"+name + "SelectMenu .dropdown-menu").html(select);
+	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
+	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
+		$("#"+name + "SelectMenu .selected").removeClass("selected");
+		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
+		$("#"+name + "Select").val($(this).find("#selectionValue").val());
+		$(this).addClass("selected");
+		callback();
+	});
+  
+	$("#"+name + "SelectMenu .selected").click();
+	
+};
+
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
+	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
+		if (optionValue == $(this).find("#selectionValue").val()) {
+			$(this).addClass("selected");
+			if (doClick) {
+				$(this).click();
+			} else {
+				$("#" + name + "Select").val(optionValue);
+				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
+			}
+		}
+	});
+};
+
 jQuery.fn.sliGrid = function(panelConfig, options) {
 	var colNames = [];
     var colModel = [];
@@ -136,8 +193,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  groupHeaders:groupHeaders
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
-    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th');
-    	$(groupRow[groupRow.length - 1].el).addClass('end');
+    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');
+    	groupRow.addClass('end');
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');
@@ -151,6 +208,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 
 DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 {
+
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
@@ -160,7 +218,12 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        datatype: 'local', 
 	        height: 'auto',
 	        viewrecords: true,
+	        autoencode: true,
 	        rowNum: 10000};
+        if(panelData === null || panelData === undefined || panelData.length < 1) {
+            gridOptions["data"] = [];
+            DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
+        }
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
 	}
@@ -233,113 +296,115 @@ DashboardUtil.Grid.Formatters = {
         },
         
         FuelGaugeWithScore: function(value, options, rowObject) {
-			var perfLevelClass = "";
-			var name = options.colModel.formatoptions.name;
-			var valueField = options.colModel.formatoptions.valueField;
-			
-			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-			
-			if (value == undefined || value == null) {
-				"<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
-			}
-			
-			if (!assessments || assessments == undefined) {
+            var perfLevelClass = "";
+            var name = options.colModel.formatoptions.name;
+            var valueField = options.colModel.formatoptions.valueField;
+            
+            var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+            
+            if (value === undefined || value === null) {
+                //return "<span class='fuelGauge-perfLevel'></span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+                return "<span class='fuelGauge-perfLevel'></span>";
+            }
+            
+            if (!assessments || assessments == undefined) {
 
-				if (value == undefined || value == null) {
-					value = "!";
-				}
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-			}
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
-			
-			if (!score || score == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-			}
-			
-			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
-			var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-			var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-			var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
-			var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
-					
-			var cutPointLevel = cutPointsSettings[perfLevel];
-			if (cutPointLevel != null && cutPointLevel != undefined) {
-				perfLevelClass = cutPointLevel.style;
-			}
-			
-			var width = options.colModel.width;
-			if (width != null &&  width != undefined) {
-				options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
-			}
-			options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
-			options.colModel.formatoptions["perfLevel"] = perfLevel;
-			options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
-			
-			return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
-		},
-		
-		FuelGauge: function(value, options, rowObject) {
-			var name = options.colModel.formatoptions.name;
-			var valueField = options.colModel.formatoptions.valueField;
-			
-			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-			if (!assessments || assessments == undefined) {
-				return "" ;
-			}
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
-			
-			if (!score || score == undefined || value == undefined || value == null) {
-				score = 0;
-			}
-			
-			var fieldName = options.colModel.formatoptions.fieldName;
-			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+                if (value == undefined || value == null) {
+                    value = "!";
+                }
+                return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+            }
+            var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+            
+            if (!score || score == undefined) {
+                return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+            }
+            
+            var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+            var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+            var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+            var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
+            var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
+                    
+            var cutPointLevel = cutPointsSettings[perfLevel];
+            if (cutPointLevel != null && cutPointLevel != undefined) {
+                perfLevelClass = cutPointLevel.style;
+            }
+            
+            var width = options.colModel.width;
+            if (width != null &&  width != undefined) {
+                options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
+            }
+            options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
+            options.colModel.formatoptions["perfLevel"] = perfLevel;
+            options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
+            
+            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + $.jgrid.htmlEncode(value) + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+        },
+        
+        FuelGauge: function(value, options, rowObject) {
+            var name = options.colModel.formatoptions.name;
+            var valueField = options.colModel.formatoptions.valueField;
+            
+            var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+            if (!assessments || assessments == undefined) {
+                return "" ;
+            }
+            var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+            
+            if (!score || score == undefined || value == undefined || value == null) {
+                score = 0;
+            }
+            
+            var fieldName = options.colModel.formatoptions.fieldName;
+            var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
 
-			var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
-			if (cutPointsArray == null || cutPointsArray == undefined) {
-				cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-			}
-			
-			var perfLevel = options.colModel.formatoptions["perfLevel"];
-			if (perfLevel == null || perfLevel == undefined ) {
-				perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-			}
-			
-			var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
-			if (perfLevelClass == null || perfLevelClass == undefined) {
-				var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
-				if (cutPointLevel != null && cutPointLevel != undefined) {
-					perfLevelClass = cutPointLevel.style;
-				} else {
-					perfLevelClass = "";
-				}
-			}
-			
-			var divId = fieldName + counter();
-			var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
-			returnValue += "<script>";
-			returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
-			returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
-			
-			var width = options.colModel.formatoptions["fuelGaugeWidth"];
-			if (width == null || width == undefined) {
-				width = options.colModel.width;
-				if (width != null && width != undefined) {
-					width = Math.round(width * 9 / 100) * 10;
-				} else {
-					width = 0;
-				}
-			}
-			
-			var height = Math.sqrt(width);
-			height -= height % 1;//removing the decimals.
-			
-			returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
-			returnValue += "fuelGauge.create();";
-			returnValue += "</script>";
-			returnValue += "</div>";
-			return  returnValue;
-		},
+            var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
+            if (cutPointsArray == null || cutPointsArray == undefined) {
+                cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+            }
+            
+            var perfLevel = options.colModel.formatoptions["perfLevel"];
+            if (perfLevel == null || perfLevel == undefined ) {
+                perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+            }
+            
+            var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
+            if (perfLevelClass == null || perfLevelClass == undefined) {
+                var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
+                if (cutPointLevel != null && cutPointLevel != undefined) {
+                    perfLevelClass = cutPointLevel.style;
+                } else {
+                    perfLevelClass = "";
+                }
+            }
+            
+            var divId = fieldName + counter();
+            var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
+            returnValue += "<script>";
+            returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+            returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
+            returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
+            
+            var width = options.colModel.formatoptions["fuelGaugeWidth"];
+            if (width == null || width == undefined) {
+                width = options.colModel.width;
+                if (width != null && width != undefined) {
+                    width = Math.round(width * 9 / 100) * 10;
+                } else {
+                    width = 0;
+                }
+            }
+            
+            var height = Math.sqrt(width);
+            height -= height % 1;//removing the decimals.
+            
+            returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
+            returnValue += "fuelGauge.create();";
+            returnValue += "</script>";
+            returnValue += "</div>";
+            return  returnValue;
+        },
 
         Grade: function(value, options, rowobject) {
             var div = "<div class=\"";
@@ -359,7 +424,7 @@ DashboardUtil.Grid.Formatters = {
                     styleClass = "numericGradeColumn"; 
                 }
             } 
-            return div + styleClass + closeDiv + innerHtml + endDiv;
+            return div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
@@ -380,7 +445,7 @@ DashboardUtil.Grid.Formatters = {
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
                     innerHtml = course.letterGrade;
                     styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
-                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
+                    divs = divs + div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
                 }
             }
             return divs;
@@ -391,7 +456,7 @@ DashboardUtil.Grid.Formatters = {
           var link = options.colModel.formatoptions.link;
           if(typeof link == 'string')
           {
-            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
+            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
           }else{
             return value;
           }
@@ -407,7 +472,7 @@ DashboardUtil.Grid.Sorters = {
             }
             return function(value, rowObject) {
                 var i = enumHash[value];
-                return i ? i : -1;
+                return i ? parseInt(i) : -1;
             }
         },
 
@@ -543,7 +608,7 @@ DashboardUtil.renderLozenges = function(student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
+					lozenges += '<span class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
@@ -647,6 +712,10 @@ DashboardUtil.getPageUrl = function(componentId, queryString) {
 	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
 };
 
+DashboardUtil.goToUrl = function(componentId, queryString) {
+	window.location = DashboardUtil.getPageUrl(componentId, queryString);
+};
+
 DashboardUtil.checkCondition = function(data, condition) {
     if(condition == undefined) {
         return false;
@@ -664,6 +733,21 @@ DashboardUtil.checkCondition = function(data, condition) {
     } 
     return false;
 };
+
+DashboardUtil.displayErrorMessage = function (error){
+    var errors = document.getElementById("losError");
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "block";
+        errors.innerHTML = error;
+    }
+}
+
+DashboardUtil.hideErrorMessage = function ( ){
+    var errors = document.getElementById("losError");
+    if(errors !== undefined && errors !== null ) {
+        errors.style.display = "none";
+    }
+}
 
 DashboardUtil.teardrop = {
     GRADE_TREND_CODES: {},

@@ -17,8 +17,7 @@ When I login as "linda.kim" "linda.kim1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"
-Then I am informed that "Page Not Accessible"
-And I am informed that "The page you are requesting is not available"
+Then I am informed that "the page that you were looking for could not be found"
 
 Scenario: Invalid user login
 
@@ -30,6 +29,17 @@ When I select "New York Realm" and click go
 And was redirected to the SLI-IDP login page
 When I login as "InvalidJohnDoe" "demo1234"
 Then I am informed that "Authentication failed"
+
+@wip
+Scenario: Login with cookie
+
+Given I have an open web browser
+Given the server is in "live" mode
+When I navigate to the Dashboard home page
+Then I should be redirected to the Realm page
+Then I add a cookie for linda.kim
+When I navigate to the Dashboard home page
+Then I should be redirected to the Dashboard landing page
 
 @wip
 Scenario: user in IDP but not in mongo

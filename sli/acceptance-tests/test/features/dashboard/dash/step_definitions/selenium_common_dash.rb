@@ -12,7 +12,7 @@ end
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30) 
 end
 
 Then /^I click on the browser back button$/ do
@@ -92,8 +92,25 @@ def selectOption(selectFieldId, optionToSelect)
     if option.attribute("text") == optionToSelect
       optionFound = true
       option.click
+      break
     end
   end  
+  assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
+end
+
+def selectDropdownOption(selectFieldId, optionToSelect)
+  puts "dropDownId = " + selectFieldId
+  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  select.find_element(:tag_name,"a").click
+  all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
+  optionFound = false
+  all_options.each do |option|
+    if (option.find_element(:tag_name, "a").text == optionToSelect)
+      optionFound = true
+      option.find_element(:link_text,optionToSelect).click  
+      break
+    end
+  end
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
 end
 

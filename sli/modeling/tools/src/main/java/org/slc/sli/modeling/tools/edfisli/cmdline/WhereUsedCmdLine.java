@@ -3,13 +3,15 @@ package org.slc.sli.modeling.tools.edfisli.cmdline;
 import java.io.FileNotFoundException;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public final class WhereUsedCmdLine {
@@ -17,10 +19,10 @@ public final class WhereUsedCmdLine {
     public static void main(final String[] args) {
         try {
             final Model model = XmiReader.readModel("SLI.xmi");
-            final Mapper index = new DefaultMapper(model);
+            final ModelIndex index = new DefaultModelIndex(model);
 
             final String name = "percent";
-            final Set<ModelElement> matches = index.lookupByName(name);
+            final Set<ModelElement> matches = index.lookupByName(new QName(name));
             for (final ModelElement match : matches) {
                 System.out.println("name : " + name + " => " + match);
                 showUsage(index, match.getId(), "  ");
@@ -30,7 +32,7 @@ public final class WhereUsedCmdLine {
         }
     }
 
-    private static final void showUsage(final Mapper index, final Identifier id, final String indent) {
+    private static final void showUsage(final ModelIndex index, final Identifier id, final String indent) {
         final Set<ModelElement> usages = index.whereUsed(id);
         for (final ModelElement usage : usages) {
             if (usage instanceof ClassType) {

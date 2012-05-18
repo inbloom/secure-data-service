@@ -40,9 +40,7 @@ When /^I POST a new realm$/ do
 end
 
 Then /^I should receive a new ID for my new realm$/ do
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["id"] != nil, "No ID was returned for created object")
+  assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
 end
 
 When /^I GET a list of realms$/ do
@@ -92,7 +90,7 @@ When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"
         
   dataFormatted = prepareData("application/json", data)
   
-  restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
+  restHttpPut("/realm/" + arg3, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 

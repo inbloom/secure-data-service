@@ -2,6 +2,12 @@ package org.slc.sli.api.resources.config;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
@@ -13,21 +19,32 @@ import java.io.IOException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for EntityWriter
  *
  */
+@RunWith(MockitoJUnitRunner.class)
 public class EntityXMLWriterTest {
-    private EntityXMLWriter writer = null;
+    @InjectMocks
+    private EntityXMLWriter writer = new EntityXMLWriter();
+
+    @Mock
+    private EntityDefinitionStore entityDefinitionStore;
 
     @Before
     public void setup() {
-        writer = new EntityXMLWriter();
     }
 
     @Test
     public void testEntityBody() throws IOException {
+        EntityDefinition def = mock(EntityDefinition.class);
+        when(def.getResourceName()).thenReturn("TestResource");
+        when(entityDefinitionStore.lookupByEntityType(anyString())).thenReturn(def);
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         EntityBody body = new EntityBody();
 
@@ -40,13 +57,17 @@ public class EntityXMLWriterTest {
         assertNotNull("Should not be null", out);
 
         String value = new String(out.toByteArray());
-        assertTrue("Should match", value.indexOf("<TestEntity>") > 0);
+        assertTrue("Should match", value.indexOf("<TestResource>") > 0);
         assertTrue("Should match", value.indexOf("<id>") > 0);
         assertTrue("Should match", value.indexOf("<name>") > 0);
     }
 
     @Test
     public void testEntityNullCollection() throws IOException {
+        EntityDefinition def = mock(EntityDefinition.class);
+        when(def.getResourceName()).thenReturn("EntityResource");
+        when(entityDefinitionStore.lookupByEntityType(anyString())).thenReturn(def);
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         EntityBody body = new EntityBody();
         body.put("id", "1234");
@@ -58,7 +79,7 @@ public class EntityXMLWriterTest {
         assertNotNull("Should not be null", out);
 
         String value = new String(out.toByteArray());
-        assertTrue("Should match", value.indexOf("<Entity>") > 0);
+        assertTrue("Should match", value.indexOf("<EntityResource>") > 0);
     }
 
     @Test

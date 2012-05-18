@@ -1,0 +1,48 @@
+<%= form_for(@realm) do |f| %>
+    <style type="text/css">
+        label{
+        float:left;
+        width: 5000px;
+        }
+    </style>
+
+  <% if @realm.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@realm.errors.count, "error") %> prohibited this realm_editor from being saved:</h2>
+
+      <ul>
+      <% @realm.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+    <div class = "field">
+       	<%= f.label :name, "Display Name" %> <br />
+   	    <%= f.text_field :name, :size => 50 %>
+    </div>
+
+    <%= f.fields_for :idp, @realm.idp do |idp| %>
+        <div class = "field">
+        		<%= idp.label :id, "IDP URL (URL that identifies the federated IDP)" %>  <br />
+        		<%= idp.text_field :id, :size => 50 %>
+        </div>
+
+        <div class = "field">
+          <%= idp.label :redirectEndpoint, "Redirect Endpoint (URL where authentication requests are sent)" %><br />
+          <%= idp.text_field :redirectEndpoint, :size => 50 %>
+        </div>
+    <% end %>
+
+    <div class = "field">
+        <%= f.label :uniqueIdentifier, "Realm Identifier (Used for skipping the realm selection)" %> <br />
+       	<%= f.text_field :uniqueIdentifier, :size => 50 %>
+    </div>
+
+
+  <div class="actions">
+    <%= f.submit :value => "Save" %>
+  </div>
+<% end %>

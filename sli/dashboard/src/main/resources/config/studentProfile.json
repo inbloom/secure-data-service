@@ -12,8 +12,6 @@
     {id: "tab9", name: "High School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade", "Adult Education", "Grade 13", "Postsecondary", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
     {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "attendanceHist", type: "GRID"}]},
     {id: "tab3", name: "Assessments",  type : "TAB", items: [{id : "assessmentHist", type: "GRID"}]},
-    {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [{id : "transcriptHistory", type : "PANEL"}]},
-    {id: "tab5", name: "Advanced Academics",  type : "TAB", items: []},
-    {id: "tab1", name: "ELL", type : "TAB", condition: {field: "limitedEnglishProficiency", value: ["Limited"]}, items: []}
+    {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [{id : "transcriptHistory", type : "PANEL"}]}
   ]
 }

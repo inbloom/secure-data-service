@@ -2,7 +2,6 @@ package org.slc.sli.manager;
 
 import java.util.List;
 
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.Manager.EntityMapping;
@@ -39,7 +38,7 @@ public interface PopulationManager {
      *         - the student summary entity list
      */
     public abstract List<GenericEntity> getStudentSummaries(String token,
-            List<String> studentIds, ViewConfig viewConfig, String sessionId,
+            List<String> studentIds, String sessionId,
             String sectionId);
 
     /**

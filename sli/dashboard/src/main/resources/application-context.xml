@@ -20,15 +20,11 @@
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
     
-    <bean id="configPersistor" class="org.slc.sli.config.ConfigPersistor">
-        <property name="apiClient" ref="apiClientRef"/>
-        <property name="entityManager" ref="entityManager"/>
-    </bean>
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
-        <property name="configPersistor" ref="configPersistor"/>
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
+        <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
@@ -42,14 +38,11 @@
     
     <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
         <property name="entityManager" ref="entityManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
         <property name="apiClient" ref="apiClient"/>
-    </bean>
-
-    <bean id="viewManager" class="org.slc.sli.manager.ViewManager">
-        <property name="entityManager" ref="entityManager"/>
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
@@ -61,7 +54,7 @@
 	    <property name="apiUrl" value="${api.server.url}" />
 	    <property name="portalHeaderUrl" value="${portal.header.url}" />
 	    <property name="portalFooterUrl" value="${portal.footer.url}" />
-	    
+	    <property name="gracePeriod" value="${sli.security.gracePeriod}" />
 	</bean>
 	
 	<alias alias="apiClientRef" name="${api.client}"/>

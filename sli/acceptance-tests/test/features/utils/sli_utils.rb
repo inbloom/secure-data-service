@@ -28,12 +28,15 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "aggregator_SLI" => "4cf7a5d4-37a1-ca44-8b13-b5f95131ac85",
                 "baduser_SLI" => "4cf7a5d4-37a1-ca55-8b13-b5f95131ac85",
                 "nouser_SLI" => "4cf7a5d4-37a1-ca66-8b13-b5f95131ac85",
-                "teacher_SLI" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
-                "prince_SLI" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
-                "root_SLI" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
+                "prince_IL" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
+                "root_IL" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
-                "bigbro_SLI" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
+                "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
+                "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
+                "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
+                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_SLI" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
                 "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
@@ -54,7 +57,16 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "mjohnson_IL" => "29da4ea2-40e1-466a-8f2c-ea357d4f096c",
                 "sbantu_IL" => "79abdc40-dcd8-4412-b5db-32f63befcc90",
                 "jstevenson_IL" => "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd",
-                "jjackson_IL" => "b7cbbc75-23bf-4005-a545-8a110eefa063" }
+                "jjackson_IL" => "b7cbbc75-23bf-4005-a545-8a110eefa063",
+                "kmelendez_NY" => "d93ef071-39ff-4e41-9619-f8f43d22b4bf",
+                "agibbs_NY" => "1dc64dcb-354e-4ab6-be54-e8401caa06a6",
+                "charrison_NY" => "8fbd7332-1af4-4524-ae6d-f28ddf600798",
+                "mgonzales_IL" => "10229764-a6a0-4367-9862-fd18781c9638",
+                "akopel_IL" => "438e472e-a888-46d1-8087-0195f4e37089",
+                "msmith_IL" => "5679153f-f1cc-44bd-9bfa-a21a41cd020c",
+                "racosta_IL" => "3f165e8d-bb42-4b62-8a2d-92f98dcd6ffc",
+                "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
+                "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d" }
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -295,13 +307,14 @@ module DataProvider
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",
+       "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
   
   def self.getValidAppData()
     return {
-      "enabled" => true,
+      "installed" => true,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
@@ -316,6 +329,7 @@ module DataProvider
       "authorized_ed_orgs" => []
     }
   end
+
 end
 
 module CreateEntityHash

@@ -11,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$studentCompetencies$$ entities for which the logged in user has permission to see.
+     * readAll
      *
      * @param offset
      *            starting position in results to return to user
@@ -53,7 +52,7 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$studentCompetencies$$ entities for which the logged in user has permission to see.
      */
     @Override
     @GET
@@ -61,11 +60,11 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$studentCompetencies$$ entity.
+     * create
      *
      * @param newEntityBody
      *            studentCompetency data
@@ -73,19 +72,16 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * @return A 201 response on successfully created entity with the ID of the entity
      */
     @Override
     @POST
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$studentCompetencies$$ entity
+     * read
      *
      * @param studentCompetencyId
      *            The comma separated list of ids of $$studentCompetencies$$
@@ -93,18 +89,18 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single studentCompetency entity
+     * @return A list of $$studentCompetencies$$ matching the list of ids queried for
      */
     @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}")
     public Response read(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
                          @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(studentCompetencyId, headers, uriInfo);
     }
 
     /**
-     * Delete an $$studentCompetencies$$
+     * delete
      *
      * @param studentCompetencyId
      *            The id of the $$studentCompetencies$$
@@ -120,11 +116,11 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.delete(studentCompetencyId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$studentCompetencies$$
+     * update
      *
      * @param studentCompetencyId
      *            The id of the $$studentCompetencies$$
@@ -142,6 +138,25 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}")
     public Response update(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
                            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.update(studentCompetencyId, newEntityBody, headers, uriInfo);
+    }
+
+
+    /**
+     * getReportCards
+     *
+     * @param studentCompetencyId
+     *          The id of the student competency
+     * @param headers
+     *          HTTP request headers
+     * @param uriInfo
+     *          URI information including path and query parameters
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}" + "/" + PathConstants.REPORT_CARDS)
+    public Response getReportCards(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
+                                  @Context HttpHeaders headers,
+                                  @Context final UriInfo uriInfo) {
+       return super.read(ResourceNames.REPORT_CARDS, ParameterConstants.STUDENT_COMPETENCY_ID, studentCompetencyId, headers, uriInfo);
     }
 }

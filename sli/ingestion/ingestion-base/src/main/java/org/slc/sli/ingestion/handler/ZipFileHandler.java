@@ -27,7 +27,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     }
 
     @Override
-    File doHandling(File zipFile, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected File doHandling(File zipFile, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
             File dir = ZipFileUtil.extract(zipFile);
             LOG.info("Extracted zip file to {}", dir.getAbsolutePath());

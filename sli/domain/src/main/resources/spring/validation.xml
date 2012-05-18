@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+  default-autowire="byName">
+
+  <bean id="validationStrategyList" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <ref bean="characterBlacklistStrategy" />
+        <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
+        <ref bean="stringBlacklistStrategy" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="relaxedValidationStrategyList" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <ref bean="relaxedCharacterBlacklistStrategy" />
+        <ref bean="relaxedStringBlacklistStrategy" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="characterBlacklistStrategy" class="org.slc.sli.validation.strategy.CharacterBlacklistStrategy">
+    <property name="inputCollection" ref="characterBlacklist" />
+  </bean>
+  <bean id="characterBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>\u0000</value>   <!-- Control - null                      -->
+        <value>\u0001</value>   <!-- Control - start of heading          -->
+        <value>\u0002</value>   <!-- Control - start of text             -->
+        <value>\u0003</value>   <!-- Control - end of text               -->
+        <value>\u0004</value>   <!-- Control - end of transmission       -->
+        <value>\u0005</value>   <!-- Control - enquiry                   -->
+        <value>\u0006</value>   <!-- Control - acknowledge               -->
+        <value>\u0007</value>   <!-- Control - bell                      -->
+        <value>\u0008</value>   <!-- Control - backspace                 -->
+        <value>\u0009</value>   <!-- Control - horizontal tabulation     -->
+        <value>\u000A</value>   <!-- Control - line feed                 -->
+        <value>\u000B</value>   <!-- Control - vertical tabulation       -->
+        <value>\u000C</value>   <!-- Control - form feed                 -->
+        <value>\u000D</value>   <!-- Control - carriage return           -->
+        <value>\u000E</value>   <!-- Control - shift out                 -->
+        <value>\u000F</value>   <!-- Control - shift in                  -->
+        <value>\u0010</value>   <!-- Control - data link escape          -->
+        <value>\u0011</value>   <!-- Control - device control one        -->
+        <value>\u0012</value>   <!-- Control - device control two        -->
+        <value>\u0013</value>   <!-- Control - device control three      -->
+        <value>\u0014</value>   <!-- Control - device control four       -->
+        <value>\u0015</value>   <!-- Control - negative acknowledge      -->
+        <value>\u0016</value>   <!-- Control - synchronous idle          -->
+        <value>\u0017</value>   <!-- Control - end of transmission block -->
+        <value>\u0018</value>   <!-- Control - cancel                    -->
+        <value>\u0019</value>   <!-- Control - end of medium             -->
+        <value>\u001A</value>   <!-- Control - substitute                -->
+        <value>\u001B</value>   <!-- Control - escape                    -->
+        <value>\u001C</value>   <!-- Control - file separator            -->
+        <value>\u001D</value>   <!-- Control - group separator           -->
+        <value>\u001E</value>   <!-- Control - record separator          -->
+        <value>\u001F</value>   <!-- Control - unit separator            -->
+        <value>\u007F</value>   <!-- Control - delete                    -->
+        <value>\u003C</value>   <!--    <    - less-than sign            -->
+        <value>\u003E</value>   <!--    >    - greater-than sign         -->
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="regexBlacklistStrategy" class="org.slc.sli.validation.strategy.RegexBlacklistStrategy">
+      <property name="inputCollection" ref="regexBlacklist" />
+  </bean>
+  <bean id="regexBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="stringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
+    <property name="inputCollection" ref="stringBlacklist" />
+  </bean>
+  <bean id="stringBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>script</value>
+        <value>img</value>
+        <value>src</value>
+        <value>onload</value>
+        <value>onunload</value>
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="relaxedCharacterBlacklistStrategy" class="org.slc.sli.validation.strategy.CharacterBlacklistStrategy">
+    <property name="inputCollection" ref="relaxedCharacterBlacklist" />
+  </bean>
+  <bean id="relaxedCharacterBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>\u0000</value>   <!-- Control - null                      -->
+        <value>\u0001</value>   <!-- Control - start of heading          -->
+        <value>\u0002</value>   <!-- Control - start of text             -->
+        <value>\u0003</value>   <!-- Control - end of text               -->
+        <value>\u0004</value>   <!-- Control - end of transmission       -->
+        <value>\u0005</value>   <!-- Control - enquiry                   -->
+        <value>\u0006</value>   <!-- Control - acknowledge               -->
+        <value>\u0007</value>   <!-- Control - bell                      -->
+        <value>\u0008</value>   <!-- Control - backspace                 -->
+        <!--  <value>\u0009</value> -->  <!-- Control - horizontal tabulation     -->
+        <!--  <value>\u000A</value> -->  <!-- Control - line feed                 -->
+        <value>\u000B</value>   <!-- Control - vertical tabulation       -->
+        <value>\u000C</value>   <!-- Control - form feed                 -->
+        <!--  <value>\u000D</value> -->  <!-- Control - carriage return           -->
+        <value>\u000E</value>   <!-- Control - shift out                 -->
+        <value>\u000F</value>   <!-- Control - shift in                  -->
+        <value>\u0010</value>   <!-- Control - data link escape          -->
+        <value>\u0011</value>   <!-- Control - device control one        -->
+        <value>\u0012</value>   <!-- Control - device control two        -->
+        <value>\u0013</value>   <!-- Control - device control three      -->
+        <value>\u0014</value>   <!-- Control - device control four       -->
+        <value>\u0015</value>   <!-- Control - negative acknowledge      -->
+        <value>\u0016</value>   <!-- Control - synchronous idle          -->
+        <value>\u0017</value>   <!-- Control - end of transmission block -->
+        <value>\u0018</value>   <!-- Control - cancel                    -->
+        <value>\u0019</value>   <!-- Control - end of medium             -->
+        <value>\u001A</value>   <!-- Control - substitute                -->
+        <value>\u001B</value>   <!-- Control - escape                    -->
+        <value>\u001C</value>   <!-- Control - file separator            -->
+        <value>\u001D</value>   <!-- Control - group separator           -->
+        <value>\u001E</value>   <!-- Control - record separator          -->
+        <value>\u001F</value>   <!-- Control - unit separator            -->
+        <value>\u007F</value>   <!-- Control - delete                    -->
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="relaxedStringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
+    <property name="inputCollection" ref="relaxedStringBlacklist" />
+  </bean>
+  <bean id="relaxedStringBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>&lt;script</value>
+        <value>&lt;iframe</value>
+        <value>&lt;frame</value>
+        <value>&lt;embed</value>
+        <value>&lt;meta</value>
+      </list>
+    </constructor-arg>
+  </bean>
+
+</beans>

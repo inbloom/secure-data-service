@@ -2,37 +2,50 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div{
+div.provision {
+  overflow:hidden;
+  width:550px;
+  float:left;
+}
+
+div.provisionBlock{
   overflow:hidden;
 }
 
-label{
+div.provisionButtons{
+  overflow:hidden;
+}
+
+div.edOrgIdSelect{
+  overflow:hidden;
+}
+
+div.provision label{
   float:left;
   text-align:left;
-  width:300px;
+  width:250px;
 }
 
-input{
+div.provision input{
   display:block;
   float:left;
-  margin-left:10px;
-  border-radius: 7px;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
 }
 
-div.block input{
+input.radioButton {
   width:20px;
-}
-
-div.edOrgIdSelect input{
-  margin-left:30px;
 }
 
 div.edOrgIdSelect label{
   visibility:hidden;
+  height:0px;
 }
 
-div.buttons input{
-  margin-left:30px;
+div.provisionButtons input{
+  margin-top:18px;
+  float:right;
 }
+
+div.sidebar {
+  float:right
+}
+

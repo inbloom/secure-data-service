@@ -3,8 +3,6 @@ class SessionResource < ActiveResource::Base
   self.logger = Rails.logger
   self.site = APP_CONFIG['api_base']
 
-  Rails.logger.debug { "Session ID: #{@access_token}" }
-  
   class << self
 
     def headers

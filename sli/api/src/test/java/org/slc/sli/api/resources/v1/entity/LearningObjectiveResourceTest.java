@@ -53,6 +53,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
         DirtiesContextTestExecutionListener.class })
 public class LearningObjectiveResourceTest {
 
+
     @Autowired
     LearningObjectiveResource learningObjResource; // class under test
     
@@ -60,7 +61,12 @@ public class LearningObjectiveResourceTest {
     LearningStandardResource learningStdResource;
 
     @Autowired
+    private StudentCompetencyResource studentCompetencyResource;
+
+    @Autowired
     private SecurityContextInjector injector;
+
+    public static final String LEARNING_OBJECTIVE_RESOURCE = "LearningObjectiveResource";
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -354,6 +360,22 @@ public class LearningObjectiveResourceTest {
         assertEquals("academicSubject in child learningObjective should be Writing", "Writing",
                 results.get(0).get("academicSubject"));
 
+    }
+
+    @Test
+    public void testGetStudentCompetencies() {
+        Response createResponse = learningObjResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(LEARNING_OBJECTIVE_RESOURCE)), httpHeaders, uriInfo);
+
+        String learningObjId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity("StudentCompetencyResource");
+        map.put(ParameterConstants.LEARNINGOBJECTIVE_ID, learningObjId);
+
+        studentCompetencyResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = learningObjResource.getStudentCompetencies(learningObjId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals(learningObjId, body.get(ParameterConstants.LEARNINGOBJECTIVE_ID));
     }
 
     private String getIDList(String resource) {

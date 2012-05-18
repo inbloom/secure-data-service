@@ -9,7 +9,7 @@ import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 
 public interface Uml2XsdPlugin {
     QName getElementName(final PsmDocument<Type> classType);
@@ -67,8 +67,8 @@ public interface Uml2XsdPlugin {
      * @param xsw
      *            The writer.
      */
-    void writeAssociation(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
+    void writeAssociation(final ClassType complexType, final AssociationEnd element, final ModelIndex lookup,
             final Uml2XsdPluginWriter xsw);
 
-    void writeAppInfo(final TaggedValue taggedValue, final Mapper lookup, final Uml2XsdPluginWriter xsw);
+    void writeAppInfo(final TaggedValue taggedValue, final ModelIndex lookup, final Uml2XsdPluginWriter xsw);
 }

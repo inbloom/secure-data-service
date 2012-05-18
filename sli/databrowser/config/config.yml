@@ -5,21 +5,16 @@ development:
     client_id: 2zhRrEXh8r
     client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
     redirect_uri: http://local.slidev.org:3000/callback
-
-test:
-    api_base: https://devapp1.slidev.org/api/rest/v1
-deployment:
-    api_base: https://nxbuild.slidev.org/api/rest/v1
-    client_id: kW1yIK2cMn
-    client_secret: B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA
-    redirect_uri: https://devdatab1.slidev.org/callback
-integration:
-    api_base: https://testapi1.slidev.org/api/rest/v1
-    client_id: pAKLACLtzV
-    client_secret: WqfVf4mU3oepkED6NXDn1oyWUDOG6fpBL8Or55gSfhNrhq2K
-    redirect_uri: https://testdatab1.slidev.org/callback
 team:
     api_base: https://ci.slidev.org/api/rest/v1
     client_id: G9tjgDx1aL
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     redirect_uri: https://ci.slidev.org:2000/callback
+test:
+    api_base: https://devapp1.slidev.org/api/rest/v1
+local-acceptance-tests:
+    api_base: http://local.slidev.org:8080/api/rest/v1
+    client_id: 2zhRrEXh8r
+    client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+    redirect_uri: http://local.slidev.org:2001/callback
+ 

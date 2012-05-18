@@ -15,14 +15,14 @@ Then /^I receive a JSON object listing all the apps that my SEA\/LEA have approv
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
-  assert(@result.length > 5, "around 6 non-admin apps")
+  assert(@result.length > 3, "around 5 non-admin apps")
 end
 
 Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have approved$/ do
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
-  assert(@result.length < 5, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
+  assert(@result.length < 4, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
 end
 
 Then /^I receive a JSON object listing all the admin apps$/ do
@@ -46,17 +46,17 @@ end
 
 And /^the list contains the admin app$/ do
 	@result.each do |app|
-		if app["name"] == "Admin App"
+		if app["name"] == "Admin Apps"
 			@admin_app = app
 		end
 	end
 	assert(@admin_app != nil, "Admin app found")
 end
 
-And /^the admin app endpoints only contains SLI admin endpoints$/ do
+And /^the admin app endpoints only contains SLI operator endpoints$/ do
 	assert(@admin_app["endpoints"] != nil)
 	@admin_app["endpoints"].each do |endpoint|
-		assert(endpoint["roles"].include? "SLI Administrator")
+		assert(endpoint["roles"].include? "SLC Operator")
 	end
 end
 

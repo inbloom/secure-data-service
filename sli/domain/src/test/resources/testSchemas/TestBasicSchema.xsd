@@ -19,6 +19,31 @@
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
         
+	<xs:simpleType name="TestRelaxedBlacklistString">
+		<xs:annotation>
+			<xs:documentation>A detailed description of the entity.
+			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="1024" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TestNonRelaxedBlacklistString">
+		<xs:annotation>
+			<xs:documentation>A detailed description of the entity.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="1024" />
+		</xs:restriction>
+	</xs:simpleType>
+
         
     <xs:simpleType name="TestPersonallyIdentifiableInfoSimple">
         <xs:annotation>

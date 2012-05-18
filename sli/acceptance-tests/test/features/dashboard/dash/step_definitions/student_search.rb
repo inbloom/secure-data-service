@@ -1,6 +1,13 @@
 When /^I enter "([^"]*)" into the "([^"]*)" search box$/ do |query, textboxName|
   @explicitWait.until{@driver.find_element(:class,"student-search-form")}
-  putTextToField(query, textboxName, "name")
+  if (textboxName == "firstName")
+    textboxName = "dbrd_inp_search_firstName"
+  elsif (textboxName == "lastName")
+    textboxName = "dbrd_inp_search_lastName"
+  else
+    puts "Invalid textbox name " + textboxName
+  end
+  putTextToField(query, textboxName, "id")
 end
 
 When /^I click the search button$/ do
@@ -15,8 +22,8 @@ Then /^"([^"]*)" results are returned$/ do |numResults|
 end
 
 When /^I enter nothing into either field of student search$/ do
-  putTextToField("", "firstName", "name")
-  putTextToField("", "lastName", "name")
+  putTextToField("", "dbrd_inp_search_firstName", "id")
+  putTextToField("", "dbrd_inp_search_lastName", "id")
 end
 
 Then /^the search results include:$/ do |table|
@@ -30,5 +37,5 @@ end
 
 When /^I send the enter key$/ do
   # This only sends the enter key to the last name text box
-  @driver.find_element(:name, "lastName").send_keys(:enter)
+  @driver.find_element(:id, "dbrd_inp_search_lastName").send_keys(:enter)
 end

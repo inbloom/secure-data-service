@@ -14,6 +14,7 @@ import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Factory class for building Entity and Association definition objects.
@@ -68,6 +69,8 @@ public class DefinitionFactory {
         protected String resourceName;
         protected List<Treatment> treatments = new ArrayList<Treatment>();
         protected Repository<Entity> repo;
+        protected Right readRight;
+        protected Right writeRight;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -96,6 +99,19 @@ public class DefinitionFactory {
             this.treatments.add(DefinitionFactory.this.idTreatment);
             this.treatments.add(DefinitionFactory.this.typeTreatment);
             this.treatments.add(DefinitionFactory.this.metaDataTreatment);
+            this.readRight = Right.READ_GENERAL;
+            this.writeRight = Right.WRITE_GENERAL;
+        }
+        
+        public EntityBuilder setRequiredReadRight(Right right) {
+            this.readRight = right;
+            return this;
+        }
+
+        
+        public EntityBuilder setRequiredWriteRight(Right right) {
+            this.writeRight = right;
+            return this;
         }
 
         /**
@@ -155,7 +171,7 @@ public class DefinitionFactory {
         public EntityDefinition build() {
 
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments);
+                    collectionName, treatments, this.readRight, this.writeRight);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService);
             entityService.setDefn(entityDefinition);

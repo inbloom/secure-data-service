@@ -23,14 +23,14 @@ Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199"
-And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1"
-And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205"
-And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32"
-And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "309"
-And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
-And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181"
-And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11"
+And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "309" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11" with cutpoints "6,15,21,28,33"
 And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
@@ -99,7 +99,7 @@ And Tab has a title named "ELL"
 And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
-#And in "Assessments" tab, there are "2" Panels
+And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And in "ELL" tab, there are "0" Panels
@@ -131,8 +131,8 @@ And the Assessment History for "ISAT Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
 |2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I click on the browser back button
+Then I see a list of 28 students
 
 @integration
 Scenario: View Mi-Ha Tran
@@ -218,6 +218,8 @@ And Student Enrollment History has the following entries:
 |<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And I click on the browser back button
+Then I see a list of 25 students
 
 @integration
 Scenario: View Carmen Ortiz
@@ -311,7 +313,7 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
 |<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test       |
@@ -320,3 +322,5 @@ And the Assessment History for "AP English" has the following entries:
 |Date         |Grade  |Assessment Name                     |Perf Level |
 |2011-05-01   |12     |English Literature and Composition  |3          |
 |2011-05-01   |12     |English Language and Composition    |2          |
+And I click on the browser back button
+Then I see a list of 25 students

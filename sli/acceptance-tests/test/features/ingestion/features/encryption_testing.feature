@@ -11,7 +11,7 @@ Scenario: Ingested Student data should be encrypted - Clean database
         | collectionName              |
         | student                     |   
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 10 seconds for ingestion to complete
+	And I am willing to wait upto 30 seconds for ingestion to complete
 	And a batch job log has been created
 	Then I should see "Processed 1 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
@@ -62,7 +62,7 @@ Scenario: Ingested Student data should be encrypted - Clean database
 Scenario: Ingested Student data should be encrypted - Populated database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 10 seconds for ingestion to complete
+	And I am willing to wait upto 30 seconds for ingestion to complete
 	And a batch job log has been created
 	Then I should see "Processed 1 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:

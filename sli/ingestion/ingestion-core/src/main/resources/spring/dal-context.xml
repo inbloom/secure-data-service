@@ -37,14 +37,22 @@
     <property name="stagingEncryptor" ref="stagingEntityEncryption" />
   </bean>
 
+  <bean id="errorWriteConverter" class="org.slc.sli.ingestion.dal.ErrorWriteConverter">
+  	<property name="encryptor" ref="entityEncryption"/>
+  </bean>
+  <bean id="errorReadConverter" class="org.slc.sli.ingestion.dal.ErrorReadConverter">
+    <property name="encryptor" ref="entityEncryption"/>
+  </bean>
+
   <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal"
     db-factory-ref="mongoDbStagingFactory">
     <mongo:custom-converters>
-      <mongo:converter ref="neutralRecordReadConverter" />
+      <mongo:converter ref="neutralRecordReadConverter" /> 
       <mongo:converter ref="neutralRecordWriteConverter" />
     </mongo:custom-converters>
   </mongo:mapping-converter>
-
+ 
+  
   <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
@@ -79,10 +87,21 @@
 
   <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
     host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}" />
+    
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+ 
 
+   <mongo:mapping-converter id="ErrorMappingConverter" base-package="org.slc.sli.ingestion.dal"
+    db-factory-ref="mongoDbBatchJobFactory">
+    <mongo:custom-converters>
+      <mongo:converter ref="errorReadConverter" />
+      <mongo:converter ref="errorWriteConverter" />
+    </mongo:custom-converters>
+  </mongo:mapping-converter>
+									
   <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
+    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="ErrorMappingConverter" />
     <property name="writeConcern">
       <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>
@@ -97,6 +116,10 @@
 
   <bean id="tenantMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbTenantFactory" />
+  </bean>
+
+  <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
+    <property name="template" ref="mongoTemplate" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />

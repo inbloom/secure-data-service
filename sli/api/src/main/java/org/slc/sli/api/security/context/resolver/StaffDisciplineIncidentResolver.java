@@ -48,7 +48,12 @@ public class StaffDisciplineIncidentResolver implements EntityContextResolver {
             disciplineIncidentIds.addAll(ids);
         }
 
+        // add in incidents the staff is directly referenced
+        List<String> directlyReferencedBy = helper.findEntitiesContainingReference(EntityNames.DISCIPLINE_INCIDENT, "staffId", referenceIds);
+        disciplineIncidentIds.addAll(directlyReferencedBy);
+
         disciplineIncidentIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.DISCIPLINE_INCIDENT));
+
         return new ArrayList<String>(disciplineIncidentIds);
     }
 }

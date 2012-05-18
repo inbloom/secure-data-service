@@ -12,27 +12,48 @@
 
   <property file="${sli.conf}" />
 
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/ingestion.log</fileNamePattern>
+    </rollingPolicy>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
       <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
     </encoder>
 
   </appender>
 
-  <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="PERF_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/performance.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/performance.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
     </encoder>
   </appender>
 
-  <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.FileAppender">
+  <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logging.path}/Security.log</File>
+    <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/Security.log</fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <Pattern>%d - %msg%n
+      </Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/performanceStatistics.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/performanceStatistics.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
@@ -58,6 +79,10 @@
 
   <logger name="Job.PerformanceMonitor" level="INFO">
     <appender-ref ref="PERF_FILE" />
+  </logger>
+
+  <logger name="SecurityMonitor" level="INFO">
+    <appender-ref ref="SECURITY_FILE" />
   </logger>
 
   <logger name="PerformanceLogger" level="INFO">

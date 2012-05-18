@@ -30,6 +30,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final String STUDENT_TEST_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
+    private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     
     private Map<Object, NeutralRecord> studentAssessments;
     
@@ -74,9 +75,18 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             
             if (studentAssessmentAssociationId != null) {
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessments(studentAssessmentAssociationId);
-                LOG.info("found {} student objective assessments for student assessment id: {}.",
-                        studentObjectiveAssessments.size(), studentAssessmentAssociationId);
-                attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
+                if (studentObjectiveAssessments.size() > 0) {
+                    LOG.info("found {} student objective assessments for student assessment id: {}.",
+                            studentObjectiveAssessments.size(), studentAssessmentAssociationId);
+                    attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
+                }
+                
+                List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItems(studentAssessmentAssociationId);
+                if (studentAssessmentItems.size() > 0) {
+                    LOG.info("found {} student assessment items for student assessment id: {}.",
+                            studentAssessmentItems.size(), studentAssessmentAssociationId);
+                    attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
+                }
             } else {
                 LOG.warn(
                         "no local id for student assessment association: {}. cannot embed student objective assessment objects.",
@@ -139,5 +149,43 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     studentAssessmentAssociationId);
         }
         return assessments;
+    }
+    
+    private List<Map<String, Object>> getStudentAssessmentItems(String studentAssessmentId) {
+        List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
+        Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
+        studentAssessmentItemSearchPaths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+        
+        Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());
+        
+        if (sassItems != null) {
+            for (NeutralRecord sai : sassItems) {
+                String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
+                if (assessmentId != null) {
+                    Map<String, String> assessmentSearchPath = new HashMap<String, String>();
+                    assessmentSearchPath.put("body.identificationCode", assessmentId);
+                    
+                    Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
+                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+                    
+                    if (assessmentItems.iterator().hasNext()) {
+                        NeutralRecord assessmentItem = assessmentItems.iterator().next();
+                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                    } else {
+                        super.getErrorReport(sai.getSourceFile()).error(
+                                "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
+                                        + assessmentId, this);
+                    }
+                } else {
+                    super.getErrorReport(sai.getSourceFile())
+                            .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
+                                    this);
+                }
+                
+                studentAssessmentItems.add(sai.getAttributes());
+            }
+        }
+        return studentAssessmentItems;
     }
 }

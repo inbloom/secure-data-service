@@ -59,6 +59,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidCourse() throws Exception {
+        addDummyEntity("school", "d7859848-99e6-11e1-8920-68a86d548d3e", "educationOrganization");
         readAndValidateFixtureData("src/test/resources/course_fixture_neutral.json", "course");
     }
 

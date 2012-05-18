@@ -22,10 +22,11 @@
       <jexl.version>1.1</jexl.version>
       <aspectj.maven.version>1.4</aspectj.maven.version>
       <aspectjweaver.version>1.6.12</aspectjweaver.version>
+      <freemarker.version>2.3.14</freemarker.version>
       <sli.home>${project.parent.basedir}/..</sli.home>
       <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
       <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
-   </properties>
+   </properties>   
 
    <dependencies>
       <dependency>
@@ -104,6 +105,12 @@
          <artifactId>mock-dal</artifactId>
       </dependency>
 
+      <dependency>
+          <groupId>org.freemarker</groupId>
+          <artifactId>freemarker</artifactId>
+          <version>${freemarker.version}</version>
+      </dependency>
+
       <!-- Integration (ETL) Framework -->
 
       <!-- Milyn Smooks repository -->
@@ -146,6 +153,13 @@
          <groupId>org.apache.camel</groupId>
          <artifactId>camel-stream</artifactId>
          <version>${camel.version}</version>
+      </dependency>
+      
+      <!-- Apache Camel Quartz repository -->
+      <dependency>
+          <groupId>org.apache.camel</groupId>
+          <artifactId>camel-quartz</artifactId>
+          <version>${camel.version}</version>
       </dependency>
 
       <!-- Apache Hadoop Core -->

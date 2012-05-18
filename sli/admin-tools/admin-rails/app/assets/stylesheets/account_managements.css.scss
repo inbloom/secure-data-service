@@ -1,16 +1,26 @@
 #Account_Management_Table{
   border: 1px solid black;
 }
+.account_management_table_pendingStatus {
+  color: blue; }
+  
+ .account_management_table_approvedStatus {
+  color: green; }
+  
+.account_management_table_rejectedStatus,
+.account_management_table_disabledStatus {
+  color: red; }
+  
+ #error_notice{
+    color:red;
+  }
+  
 #Account_Management_Table td,
 #Account_Management_Table th {
   text-align:center;
   padding-left:10px;
   padding-right:10px;
   border: 1px solid black;
-   }
-#Account_Management_Table #pendingStatus {
-  color: blue; }
-  
-#Account_Management_Table #rejectedStatus,
-#Account_Management_Table #disabledStatus {
-  color: red; }
+ }
+
+

@@ -13,11 +13,15 @@ end
 
 def get_properties(env_config)
 	prop_ids = [] 
-	result = [] 
-	env_config.each do |k,v| 
-		v.each do |prop_k, prop_v| 
-	        result << "#{prop_k} = #{prop_v}"
-	        prop_ids << prop_k.strip 
+	result = []
+	if env_config
+		env_config.each do |k,v|
+			if v
+				v.each do |prop_k, prop_v| 
+			        result << "#{prop_k} = #{prop_v}"
+			        prop_ids << prop_k.strip 
+				end
+			end
 		end
 	end
 

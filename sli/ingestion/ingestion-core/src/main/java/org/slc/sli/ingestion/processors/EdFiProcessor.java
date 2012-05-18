@@ -87,6 +87,12 @@ public class EdFiProcessor implements Processor {
             setupStagingDatabase(batchJobId);
 
             boolean anyErrorsProcessingFiles = false;
+
+            if (fileEntryList.size() > 0) {
+                // prepare staging database
+                setupStagingDatabase(batchJobId);
+            }
+
             for (IngestionFileEntry fe : fileEntryList) {
 
                 Metrics metrics = Metrics.newInstance(fe.getFileName());

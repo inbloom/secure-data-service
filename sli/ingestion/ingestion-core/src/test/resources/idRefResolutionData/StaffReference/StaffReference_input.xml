@@ -1,0 +1,46 @@
+<Staff>
+        <StaffUniqueStateId>jstevenson</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+            <ID>a</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Life insurance policy">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Jack</FirstName>
+            <LastSurname>Jackson</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthDate>1980-02-01</BirthDate>
+        <Address AddressType="Work">
+            <StreetNumberName>123 Wall Street</StreetNumberName>
+            <ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>99999</PostalCode>
+            <NameOfCounty>SI</NameOfCounty>
+            <BeginDate>1995-08-13</BeginDate>
+        </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>a</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>junk@junk.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race>
+            <RacialCategory>Asian</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <Credentials>
+            <CredentialType>Certification</CredentialType>
+            <CredentialField>
+                <CodeValue>IT Admin</CodeValue>
+                <Description>Linux Superstar</Description>
+            </CredentialField>
+            <Level>All Level (Grade Level PK-12)</Level>
+            <TeachingCredentialType>Standard</TeachingCredentialType>
+            <CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+        </Credentials>
+        <LoginId>a</LoginId>
+    </Staff>

@@ -1,21 +1,19 @@
 package org.slc.sli.api.security.resolve.impl;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -27,7 +25,6 @@ public class MongoUserLocator implements UserLocator {
 
     public static final Logger LOG = LoggerFactory.getLogger(MongoUserLocator.class);
 
-    private static final List<String> ENTITY_NAMES = Arrays.asList("teacher", "staff");
 
     @Autowired
     private Repository<Entity> repo;
@@ -46,15 +43,12 @@ public class MongoUserLocator implements UserLocator {
         paths.put("metaData.tenantId", tenantId);
         paths.put("body.staffUniqueStateId", externalUserId);
         
-        for (String entityName : ENTITY_NAMES) {
-            Iterable<Entity> staff = repo.findAllByPaths(entityName, paths, neutralQuery);
+        Iterable<Entity> staff = repo.findAllByPaths(EntityNames.STAFF, paths, neutralQuery);
 
-            if (staff != null && staff.iterator().hasNext()) {
-                Entity entity = staff.iterator().next();
-                LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
-                user.setEntity(entity);
-                break;
-            }
+        if (staff != null && staff.iterator().hasNext()) {
+            Entity entity = staff.iterator().next();
+            LOG.info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
+            user.setEntity(entity);
         }
         
         if (user.getEntity() == null) {

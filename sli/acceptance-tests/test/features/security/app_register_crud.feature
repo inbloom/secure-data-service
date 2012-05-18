@@ -55,7 +55,7 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@sandbox 
+@sandbox
 Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I navigate to POST "/apps"
@@ -84,6 +84,15 @@ Scenario: CRUD operations on Applications In production as an Operator
      Then I should receive a return code of 400
 	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 400
+
+Scenario: Bootstrapping of apps
+	Given I am logged in using "operator" "operator1234" to realm "SLI"
+	When I navigate to GET "/apps/"
+	Then I should receive a return code of 200
+	And the "Admin Apps" bootstrap app should exist
+	And the "SLC Dashboards" bootstrap app should exist
+	And the "SLC Data Browser" bootstrap app should exist
+
 
 @sandbox @wip
 Scenario: CRUD operations on Applications In production as an Operator

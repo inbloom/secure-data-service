@@ -27,7 +27,6 @@
   	<sli.home>${project.parent.basedir}/..</sli.home>
   </properties>
 
-
   <build>
     <finalName>ingestion-service</finalName>
 

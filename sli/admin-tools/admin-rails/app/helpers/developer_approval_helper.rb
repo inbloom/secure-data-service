@@ -1,0 +1,2 @@
+module DeveloperApprovalHelper
+end

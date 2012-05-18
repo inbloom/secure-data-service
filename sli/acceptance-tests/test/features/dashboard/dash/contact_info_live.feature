@@ -27,8 +27,7 @@ And the list of address includes
 1558 4th Street, APT 7776
 Chicago, IL 60139-2152
 """
-#Display/Hide tab based on ELL
-And there are "6" Tabs
+And there are "4" Tabs
 And the lozenges count is "0"
 
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses

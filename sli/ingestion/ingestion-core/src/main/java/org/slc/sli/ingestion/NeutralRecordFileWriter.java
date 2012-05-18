@@ -154,7 +154,8 @@ public class NeutralRecordFileWriter {
 
     private String maptoJson(Map<String, Object> attributes) throws IOException {
         String jsonVal = jsonObjectMapper.writeValueAsString(attributes);
-        LOG.debug("encoded attributes map to json: {}", jsonVal);
+//        DE260 - commenting out possibly sensitive data
+//        LOG.debug("encoded attributes map to json: {}", jsonVal);
         return jsonVal;
     }
 

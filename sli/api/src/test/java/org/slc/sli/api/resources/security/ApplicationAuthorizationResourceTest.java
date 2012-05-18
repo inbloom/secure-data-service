@@ -20,15 +20,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -41,6 +32,18 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  *
@@ -58,10 +61,14 @@ public class ApplicationAuthorizationResourceTest {
     @Autowired
     @InjectMocks private ApplicationAuthorizationResource resource;
 
+    @Autowired
+    SecurityContextInjector securityContextInjector;
 
     @Mock EntityService service;
 
     @Mock Repository<Entity> repo;
+    
+    @Mock EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
 
     UriInfo uriInfo = null;
 
@@ -90,36 +97,39 @@ public class ApplicationAuthorizationResourceTest {
     public void testBadCreate() {   //authId doesn't match principal
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("OTHER-DISTRICT");
+        Mockito.when(edOrgNodeFilter.getChildEducationOrganizations((String) Mockito.any())).thenReturn(new ArrayList<String>());
         Response resp = resource.createAuthorization(auth, uriInfo);
     }
-    
+
     @Test
     public void testGoodUpdate() {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         EntityBody oldAuth = (EntityBody) auth.clone();
-        
+
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
 
         assertEquals(STATUS_NO_CONTENT, resp.getStatus());
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testBadUpdate1() {  //edorg mismatch
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT1");
         EntityBody oldAuth = (EntityBody) auth.clone();
-        
+
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
 
     }
-    
+
     @Test
     public void testBadUpdate2() {  //read-only authtype change
         setupAuth("MY-DISTRICT");
@@ -128,10 +138,11 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authType", "blah");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
-    
+
     @Test
     public void testBadUpdate3() {  //read-only authid change
         setupAuth("MY-DISTRICT");
@@ -140,25 +151,28 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authId", "somethingDifferent");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
-    
+
     @Test
     public void testList1() {   //no matching data
         setupAuth("MY-DISTRICT");
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(null);
         List<Map<String, Object>> data;
+        Response response;
         try {
-            data = resource.getAuthorizations(buildMockUriInfo(""));
+            response = resource.getAuthorizations(buildMockUriInfo(""));
+            data = (List<Map<String, Object>>) response.getEntity();
             assertEquals(0, data.size());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
-    
+
     @Test
     public void testList2() {
         setupAuth("MY-DISTRICT");
@@ -166,53 +180,55 @@ public class ApplicationAuthorizationResourceTest {
         MongoEntity ent = new MongoEntity("blah", auth);
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(ent);
         List<Map<String, Object>> data;
+        Response response;
         try {
-            data = resource.getAuthorizations(buildMockUriInfo(""));
+            response = resource.getAuthorizations(buildMockUriInfo(""));
+            data = (List<Map<String, Object>>) response.getEntity();
             assertEquals(1, data.size());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
     }
-    
+
     @Test
     public void testGoodGet() {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
-    
+
     @Test(expected = AccessDeniedException.class)
     public void testBadGet() {  //edorg mismatch
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("SOME-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
-    
+
     @Test(expected = InsufficientAuthenticationException.class)
     public void testBadGet2() {  //not authenticated
         setupAuth(null);
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
     }
-    
+
     @Test(expected = InsufficientAuthenticationException.class)
     public void testBadGet3() {  //not authenticated
         setupAuth(null);
-        
+
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 
-    
+
     private EntityBody getNewAppAuth(String edOrg) {
         EntityBody auth = new EntityBody();
         auth.put("authType", "EDUCATION_ORGANIZATION");
@@ -221,11 +237,12 @@ public class ApplicationAuthorizationResourceTest {
         return auth;
     }
 
-  
+
     private static void setupAuth(String edorg) {
         Authentication mockAuth = Mockito.mock(Authentication.class);
         ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
         rights.add(Right.ADMIN_ACCESS);
+        rights.add(Right.EDORG_APP_AUTHZ);
         Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEdOrg(edorg);

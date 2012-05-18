@@ -8,20 +8,20 @@ import org.springframework.stereotype.Component;
 
 /**
  * Utility class for dealing with files
- * 
+ *
  * @author nbrown
  *
  */
 @Component
 public class FileUtils {
-    
+
     @Value("${landingzone.inbounddir}")
     private String lzDirectory;
-    
+
     /**
      * Create a temporary file
-     * 
-     * @return a 
+     *
+     * @return a
      * @throws IOException
      */
     public File createTempFile() throws IOException {
@@ -30,5 +30,15 @@ public class FileUtils {
                 .createTempFile("ingestion_", ".tmp");
         return outputFile;
     }
-    
+
+    /**
+     * Renames a file
+     * @param source
+     * @param dest
+     * @return boolean value whether the renaming was successful or not.
+     */
+    public static boolean renameFile(File source, File dest) {
+        dest.delete();
+        return source.renameTo(dest);
+    }
 }

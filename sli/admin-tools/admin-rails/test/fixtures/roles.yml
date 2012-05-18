@@ -2,6 +2,7 @@
 admin:
   id: "0"
   name: IT Administrator
+  admin: false
   rights:
     - Admin Right 1
     - Admin Right 2
@@ -11,6 +12,7 @@ admin:
 educator:
   id: "1"
   name: Educator
+  admin: false
   rights:
       - Educator Right 1
       - Educator Right 2

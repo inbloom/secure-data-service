@@ -30,9 +30,9 @@ import org.slc.sli.util.DashboardException;
  * Adapted from Sravan Vankina's API artifacts in org.slc.sli.client, as well as David Wu's
  * GenericEntity kickoff.
  *
- * @author Sravan Vankina svankina@wgen.net
- * @author David Wu dwu@wgen.net
- * @author Robert Bloh rbloh@wgen.net
+ * @author Sravan Vankina
+ * @author David Wu
+ * @author Robert Bloh
  *
  */
 @Component

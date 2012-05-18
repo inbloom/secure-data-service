@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.core.util.Base64;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.config.EntityDefinition;
@@ -39,8 +41,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.sun.jersey.core.util.Base64;
 
 /**
  * Controller for Discovery Service
@@ -87,7 +87,7 @@ public class AuthController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri,
-            @RequestParam(value = "RealmName", required = false) final String realmName,
+            @RequestParam(value = "Realm", required = false) final String realmUniqueId,
             @RequestParam(value = "client_id", required = true) final String clientId, 
             @RequestParam(value = "state", required = false) final String state, 
             @CookieValue(value = "_tla", required = false) final String sessionId,
@@ -114,8 +114,8 @@ public class AuthController {
                 for (String realmId : realmList) {
                     EntityBody node = getRealmEntityService().get(realmId);
                     map.put(node.get("id").toString(), node.get("name").toString());
-                    if (realmName != null && realmName.length() > 0) {
-                        if (realmName.equals(node.get("name"))) {
+                    if (realmUniqueId != null && realmUniqueId.length() > 0) {
+                        if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
                             try {
                                 return ssoInit(node.get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
                             } catch (IOException e) {
@@ -228,6 +228,7 @@ public class AuthController {
         @SuppressWarnings("unchecked")
         Map<String, String> idpData = (Map<String, String>) realmEnt.get("idp");
         String endpoint = idpData.get("redirectEndpoint");
+        String idpTypeString = idpData.get("idpType");
 
         if (endpoint == null) {
             throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
@@ -235,8 +236,14 @@ public class AuthController {
 
         LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
 
+        int idpType = 1;
+
+        if (idpTypeString != null && idpTypeString.equalsIgnoreCase("Siteminder")) {
+            idpType = 4; 
+        }
+        
         // {messageId,encodedSAML}
-        Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn);
+        Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
         this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
 

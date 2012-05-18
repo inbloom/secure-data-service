@@ -1,41 +1,46 @@
+<p id="error_notice"><%= @error_notice %></p>
 <p id="notice"><%= @notice %></p>
 
 <h1>User Account Managements</h1>
 <p>&nbsp;</p>
 <table id="Account_Management_Table">
 	<tr>
-		<th>Vendor</th>
-		<th>Name</th>
-		<th>Approval Date</th>
-		<th>Status</th>
-		<th>Action</th>
+		<th id="vendor">Vendor</th>
+		<th id="user_name">User Name</th>
+		<th id="last_update">Last Update</th>
+		<th id="status">Status</th>
+		<th id="action">Action</th>
 	</tr>
+	<% if @account_managements!=nil and @account_managements.length>0%>
 	<% @account_managements.each do |account_management| %>
 	<tr>
-		<td><%= account_management.vendor%></td>
-		<td><%= account_management.name%></td>
-		<td><%= account_management.approvalDate%></td>
-		<% if account_management.status == "Approved"%>
-		<td id="approvedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Pending"%>
-		<td id="pendingStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Rejected"%>
-		<td id="rejectedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Disabled"%>
-		<td id="disabledStatus"><%= account_management.status%></td>
+		<td class="vendor"><%= account_management.vendor%></td>
+		<td class="user_name" id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
+		<td class="last_update"><%= account_management.lastUpdate%></td>
+		<% if account_management.status.downcase == "approved"%>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_approvedStatus"><%= account_management.status%></td>
+		<% elsif account_management.status.downcase == "pending"%>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_pendingStatus"><%= account_management.status%></td>
+		<% elsif account_management.status.downcase == "rejected"%>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_rejectedStatus"><%= account_management.status%></td>
+		<% elsif account_management.status.downcase == "disabled"%>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_disabledStatus"><%= account_management.status%></td>
 		<% end%>
 		<td><%=
 		form_for "" do |f|
 		%>
-		<%= f.hidden_field "email", :value => account_management.email %>
-		<%= f.submit "Approve",:disabled => (account_management.status=="Approved"),
-      :confirm => "Do you really want to approve this user account?'" %>
-		<%= f.submit "Reject",:disabled => (account_management.status=="Rejected"),
+		<%= f.hidden_field "email", :name=>"email", :value => account_management.email %>
+		<%= f.submit "Approve",:id=> "approve_button_"+account_management.name,:disabled => (account_management.transitions.index("approve")==nil),
+      :confirm => "Do you really want to approve this user account?" %>
+		<%= f.submit "Reject",:id=> "reject_button_"+account_management.name,:disabled => (account_management.transitions.index("reject")==nil),
       :confirm => "Do you really want to reject this user account?"%>
-      <%= f.submit "Disable",:disabled => (account_management.status=="Disabled"),
+      <%= f.submit "Disable",:id=> "disable_button_"+account_management.name,:disabled => (account_management.transitions.index("disable")==nil),
       :confirm => "Do you really want to disable this user account?"%>
+      <%= f.submit "Enable",:id=> "enable_button_"+account_management.name,:disabled => (account_management.transitions.index("enable")==nil),
+      :confirm => "Do you really want to enable this user account?"%>
 		<% end %>
 	</tr>
+	<% end %>
 	<% end %>
 </table>
 <br />

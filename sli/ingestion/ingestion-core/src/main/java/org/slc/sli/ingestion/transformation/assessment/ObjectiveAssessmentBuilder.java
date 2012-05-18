@@ -27,6 +27,7 @@ public class ObjectiveAssessmentBuilder {
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
+    public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
     
     private final NeutralRecordMongoAccess mongoAccess;
     private final String jobId;
@@ -104,7 +105,8 @@ public class ObjectiveAssessmentBuilder {
      */
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
         LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
-        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(EntityNames.OBJECTIVE_ASSESSMENT,
+        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(
+                EntityNames.OBJECTIVE_ASSESSMENT,
                 new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)), jobId);
         if (objectiveAssessmentRecord == null) {
             return null;
@@ -141,6 +143,7 @@ public class ObjectiveAssessmentBuilder {
             LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).", objectiveAssessmentRef);
         }
         objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
+        objectiveAssessment.remove(ASSESSMENT_ITEM_REFS);
         return objectiveAssessment;
     }
 }

@@ -1,9 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 import org.mockito.Mockito;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -19,6 +15,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -56,13 +56,55 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setExternalId("developer");
         setSecurityContext(principal);
-        
 
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT };
+        //TODO why do developers have admin access?
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
+
+    public void setLeaAdminContext() {
+        String user = "LeaAdmin";
+        String fullName = "LEA Admin";
+        List<String> roles = Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setExternalId("lea_admin");
+        setSecurityContext(principal);
+
+
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
+
+    public void setSeaAdminContext() {
+        String user = "LeaAdmin";
+        String fullName = "LEA Admin";
+        List<String> roles = Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setExternalId("lea_admin");
+        setSecurityContext(principal);
+
+
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+
         LOG.debug("elevating rights to {}", rights.toString());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
@@ -77,7 +119,7 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);
         
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT };
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
@@ -85,6 +127,26 @@ public class SecurityContextInjector {
         LOG.debug("elevating rights to {}", rights.toString());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
+    
+    public void setRealmAdminContext() {
+        String user = "realmadmin";
+        String fullName = "Realm Administrator";
+        List<String> roles = Arrays.asList(RoleInitializer.REALM_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg("fake-ed-org");
+        setSecurityContext(principal);
+        
+        Right[] rights = new Right[] { Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.ADMIN_ACCESS};
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+        SecurityContextHolder.getContext().setAuthentication(token);
+
+    }
+
 
     public void setAdminContextWithElevatedRights() {
         setAdminContext();

@@ -9,7 +9,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.XMLSignatureException;
@@ -67,7 +69,12 @@ public class SamlResponseComposerTest {
             }
         });
         
-        String encodedXml = composer.componseResponse("dest", "issuer", "requestId", "userId", "userName",
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("userName", "User Name");
+        attributes.put("tenant", "tenantId");
+        attributes.put("edorg", "NC-edorg");
+        attributes.put("adminRealm", "myrealm");
+        String encodedXml = composer.componseResponse("dest", "issuer", "requestId", "userId", attributes,
                 Arrays.asList("role1", "role2"));
         
         String xml = new String(Base64.decodeBase64(encodedXml), "UTF8");
@@ -80,10 +87,13 @@ public class SamlResponseComposerTest {
         
         assertEquals("dest", doc.getDocumentElement().getAttribute("Destination"));
         assertEquals("requestId", doc.getDocumentElement().getAttribute("InResponseTo"));
-        assertTrue(hasAttributeValue(doc, "userName", "userName"));
+        assertTrue(hasAttributeValue(doc, "userName", "User Name"));
         assertTrue(hasAttributeValue(doc, "userId", "userId"));
         assertTrue(hasAttributeValue(doc, "roles", "role1"));
         assertTrue(hasAttributeValue(doc, "roles", "role2"));
+        assertTrue(hasAttributeValue(doc, "tenant", "tenantId"));
+        assertTrue(hasAttributeValue(doc, "edorg", "NC-edorg"));
+        assertTrue(hasAttributeValue(doc, "adminRealm", "myrealm"));
         assertEquals("issuer", xpathOne(doc, "/samlp:Response/saml:Issuer").getTextContent());
         assertTrue(xpathOne(doc, "/samlp:Response/@IssueInstant").getTextContent().matches(
                 "\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\dZ"));

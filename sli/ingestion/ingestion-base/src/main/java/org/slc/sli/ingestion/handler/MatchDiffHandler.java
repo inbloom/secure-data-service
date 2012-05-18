@@ -30,7 +30,7 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     }
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
             // load new and current state files to HDFS
             loadFiles(fileEntry, errorReport);

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 
 /**
@@ -17,11 +17,11 @@ import org.slc.sli.entity.GenericEntity;
 public interface APIClient {
 
     public GenericEntity getStaffInfo(String token);
-    
-    public CustomConfig getEdOrgCustomData(String token, String id);
-    
-    public void putEdOrgCustomData(String token, String id, String customJson);
-    
+
+    public ConfigMap getEdOrgCustomData(String token, String id);
+
+    public void putEdOrgCustomData(String token, String id, ConfigMap configMap);
+
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
 
     public List<GenericEntity> getStudents(final String token, Collection<String> studentIds);
@@ -39,15 +39,15 @@ public interface APIClient {
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end);
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
-    
+
     public List<GenericEntity> getParentEducationalOrganizations(final String token, List<GenericEntity> educationalOrganizations);
 
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId);
-    
+
     public List<GenericEntity> getStudentsWithSearch(final String token, String firstName, String lastName);
-    
+
     public GenericEntity getStudentWithOptionalFields(final String token, final String studentId, List<String> optionalFields);
 
 
@@ -96,7 +96,7 @@ public interface APIClient {
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params);
-    
+
     /**
      * Returns entity for the given type, id and params
      * @param token Security token
@@ -131,7 +131,26 @@ public interface APIClient {
 
     public GenericEntity getSession(String token, String sessionId);
 
+    public List<GenericEntity> getSessions(String token);
+    
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear);
+
+    /**
+     * Return a url with the sortBy parameter
+     * @param url
+     * @param sortBy
+     * @return
+     */
+    public String sortBy(String url, String sortBy);
+
+    /**
+     * Return a url with the sortBy and sortOrder parameter
+     * @param url
+     * @param sortBy
+     * @param sortOrder
+     * @return
+     */
+    public String sortBy(String url, String sortBy, String sortOrder);
 
     public GenericEntity getAcademicRecord(String token, Map<String, String> params);
 }

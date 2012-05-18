@@ -7,6 +7,7 @@ import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -41,18 +42,20 @@ public class SamlResponseComposer {
     @Autowired
     XmlSignatureHelper signer;
     
-    private static final String ROLE_TEMPLATE = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__ROLE__</saml:AttributeValue>";
+    private static final String ATTRIBUTE_NAME_BEGIN_TEMPLATE = "<saml:Attribute Name=\"__NAME__\">";
+    private static final String ATTRIBUTE_VALUE_TEMPLATE = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__VALUE__</saml:AttributeValue>";
+    private static final String ATTRIBUTE_NAME_END_TEMPLATE = "</saml:Attribute>";
     
-    public String componseResponse(String destination, String issuer, String requestId, String userId, String userName,
-            List<String> roles) {
+    public String componseResponse(String destination, String issuer, String requestId, String userId,
+            Map<String, String> attributes, List<String> roles) {
         
-        String unsignedResponse = createUnsignedResponse(destination, issuer, requestId, userId, userName, roles);
+        String unsignedResponse = createUnsignedResponse(destination, issuer, requestId, userId, attributes, roles);
         byte[] signedResponse = signResponse(unsignedResponse);
         return Base64.encodeBase64String(signedResponse);
     }
     
     private String createUnsignedResponse(String destination, String issuer, String requestId, String userId,
-            String userName, List<String> roles) {
+            Map<String, String> attributes, List<String> roles) {
         String template;
         try {
             template = IOUtils.toString(this.getClass().getResourceAsStream("/samlResponseTemplate.xml"));
@@ -66,15 +69,31 @@ public class SamlResponseComposer {
         template = template.replace("__ISSUE_INSTANT__", currentTimeUTC());
         template = template.replace("__DESTINATION__", destination);
         template = template.replace("__ISSUER__", issuer);
-        template = template.replace("__USER_ID__", userId);
-        template = template.replace("__USER_NAME__", userName);
         
         StringBuilder buf = new StringBuilder();
-        for (String role : roles) {
-            buf.append(ROLE_TEMPLATE.replace("__ROLE__", role));
+        addAttribute(buf, "userId", userId);
+        if (attributes != null) {
+            for (Map.Entry<String, String> attr : attributes.entrySet()) {
+                addAttribute(buf, attr.getKey(), attr.getValue());
+            }
         }
-        template = template.replace("__ROLE_ELEMENTS__", buf.toString());
+        
+        if (roles != null && !roles.isEmpty()) {
+            buf.append(ATTRIBUTE_NAME_BEGIN_TEMPLATE.replace("__NAME__", "roles"));
+            for (String role : roles) {
+                buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", role));
+            }
+            buf.append(ATTRIBUTE_NAME_END_TEMPLATE);
+        }
+        
+        template = template.replace("__ATTRIBUTES__", buf.toString());
         return template;
+    }
+    
+    private void addAttribute(StringBuilder buf, String key, String value) {
+        buf.append(ATTRIBUTE_NAME_BEGIN_TEMPLATE.replace("__NAME__", key));
+        buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", value));
+        buf.append(ATTRIBUTE_NAME_END_TEMPLATE);
     }
     
     private byte[] signResponse(String template) {

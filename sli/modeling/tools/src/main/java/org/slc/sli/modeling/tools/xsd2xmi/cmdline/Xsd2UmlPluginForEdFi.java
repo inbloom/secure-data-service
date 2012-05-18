@@ -23,14 +23,14 @@ import org.slc.sli.modeling.uml.TaggedValue;
  */
 public final class Xsd2UmlPluginForEdFi implements Xsd2UmlPlugin {
 
+    private static final String camelCase(final String text) {
+        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
+    }
+
     private final boolean camelCase;
 
     public Xsd2UmlPluginForEdFi(final boolean camelCase) {
         this.camelCase = camelCase;
-    }
-
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
 
     @Override

@@ -11,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,8 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource handler for ReportCard entity.
- * Stubbed out for documentation
+ * This educational entity represents the collection of student grades for
+ * courses taken during a grading period.
  *
  * @author chung
  *
@@ -43,8 +42,7 @@ public class ReportCardResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$reportCards$$ entities for which the logged in user has permission to see.
-     *
+     * readAll
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -53,7 +51,7 @@ public class ReportCardResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return all $$reportCards$$ entities for which the logged in user has permission to see.
      */
     @Override
     @GET
@@ -61,11 +59,11 @@ public class ReportCardResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$reportCards$$ entity.
+     * create
      *
      * @param newEntityBody
      *            reportCard data
@@ -73,19 +71,16 @@ public class ReportCardResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * @return A 201 response on successfully created entity with the ID of the entity
      */
     @Override
     @POST
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$reportCards$$ entity
+     * read
      *
      * @param reportCardId
      *            The comma separated list of ids of $$reportCards$$
@@ -94,17 +89,18 @@ public class ReportCardResource extends DefaultCrudEndpoint {
      * @param uriInfo
      *            URI information including path and query parameters
      * @return A single reportCard entity
+     * @response.representation.200.mediaType
      */
     @Override
     @GET
     @Path("{" + ParameterConstants.REPORT_CARD_ID + "}")
     public Response read(@PathParam(ParameterConstants.REPORT_CARD_ID) final String reportCardId,
                          @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(reportCardId, headers, uriInfo);
     }
 
     /**
-     * Delete an $$reportCards$$
+     * delete
      *
      * @param reportCardId
      *            The id of the $$reportCards$$
@@ -120,11 +116,11 @@ public class ReportCardResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.REPORT_CARD_ID + "}")
     public Response delete(@PathParam(ParameterConstants.REPORT_CARD_ID) final String reportCardId,
                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.delete(reportCardId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$reportCards$$
+     * update
      *
      * @param reportCardId
      *            The id of the $$reportCards$$
@@ -142,6 +138,6 @@ public class ReportCardResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.REPORT_CARD_ID + "}")
     public Response update(@PathParam(ParameterConstants.REPORT_CARD_ID) final String reportCardId,
                            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.update(reportCardId, newEntityBody, headers, uriInfo);
     }
 }

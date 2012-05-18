@@ -11,6 +11,14 @@ gem 'therubyracer'
 
 gem 'oauth2'
 
+gem "net-ldap"
+
+gem 'approval', :path => '../approval'
+
+gem 'json'
+
+gem 'rest-client'
+
 group :deployment, :integration do
   # Deploy with Capistrano
   gem 'capistrano'
@@ -33,7 +41,7 @@ gem 'jquery-rails'
 group :test do
 	gem 'simplecov'
 	gem 'simplecov-rcov'
-	gem "mocha"
+	gem "mocha" ,:require => false
 end
 
 

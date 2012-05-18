@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -19,7 +20,8 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 public class ItemBuilder {
 
     @Autowired
-   private UUIDGeneratorStrategy uuidGeneratorStrategy;
+    @Qualifier("type4UUIDGeneratorStrategy")
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public Map<String, Object> buildNewItem() {
         Map<String, Object> map = new HashMap<String, Object>();

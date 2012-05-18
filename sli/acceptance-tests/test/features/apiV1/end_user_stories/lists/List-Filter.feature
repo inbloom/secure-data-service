@@ -18,9 +18,10 @@ Scenario: As a teacher I want to see all my students in 3rd period Algebra II cl
         And I should receive a link named "self" with URI "/teachers/<'Linda Kim' ID>"
     
     When I navigate to "getSections" with URI "/v1/teachers/<'Linda Kim' ID>/teacherSectionAssociations/sections"
-    Then I should have a list of 2 "section" entities
+    Then I should have a list of 4 "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 5' ID>"
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
+        And I should have an entity with ID "<'Science 7A - Sec 5f10' ID>"
 
     When I navigate to "getSections" with URI "/v1/teachers/<'Linda Kim' ID>/teacherSectionAssociations/sections" and filter by uniqueSectionCode is "8th Grade English - Sec 6"
     Then I should have a list of 1 "section" entities

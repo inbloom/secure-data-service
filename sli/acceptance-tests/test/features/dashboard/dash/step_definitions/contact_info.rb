@@ -6,7 +6,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   # contact info is in the first panel
   panel = getPanel("Overview", panelName)
   #the first table is the student's contact info
-  contactSections = panel.find_element(:xpath, "//div[@class='tabular']/table/tbody")
+  contactSections = panel.find_element(:xpath, ".//div[@class='tabular']/table/tbody")
   
   all_trs = contactSections.find_elements(:tag_name, "tr")
 

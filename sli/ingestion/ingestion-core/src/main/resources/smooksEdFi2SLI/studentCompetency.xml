@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="studentCompetencys" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="studentCompetency" />
+  </jb:bean>
+
+  <!-- Start StudentCompetency mapping -->
+  <jb:bean beanId="studentCompetency" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'studentCompetency'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="studentCompetencyMeta" />
+    <jb:wiring property="body" beanIdRef="studentCompetencyBody" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCompetencyMeta" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="externalId" data="attributes studentCompetencyId" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCompetencyBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevelsArray" />
+    <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
+    <jb:value property="learningObjectiveId" data="attributes learningObjectiveId" />
+    <jb:value property="studentCompetencyObjectiveId" data="attributes studentCompetencyObjectiveId" />
+    <jb:value property="studentSectionAssociationId" data="attributes studentSectionAssociationId" />
+  </jb:bean>
+
+  <jb:bean beanId="CompetencyLevelsArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:wiring beanIdRef="CompetencyLevel" />
+  </jb:bean>
+
+  <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="competencyLevel element">
+    <jb:value property="codeValue" data="competencyLevel element codeValue" />
+    <jb:value property="description" data="competencyLevel element description" />
+  </jb:bean>
+
+</smooks-resource-list>
+
+

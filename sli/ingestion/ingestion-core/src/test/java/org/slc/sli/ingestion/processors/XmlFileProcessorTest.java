@@ -14,9 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  * A unit test for XMlFileProcessor
@@ -38,14 +38,14 @@ public class XmlFileProcessorTest {
         Job job = BatchJob.createDefault();
         ((BatchJob) job).addFile(entry);
         preObject.getIn().setBody(job);
-        ReferenceResolutionHandler handler = Mockito.mock(ReferenceResolutionHandler.class);
+        IdRefResolutionHandler handler = Mockito.mock(IdRefResolutionHandler.class);
         FaultsReport faults = Mockito.mock(FaultsReport.class);
 
         Mockito.when(handler.handle(Mockito.any(IngestionFileEntry.class), Mockito.any(ErrorReport.class))).thenReturn(
                 entry);
         Mockito.when(entry.getFaultsReport()).thenReturn(faults);
         Mockito.when(faults.hasErrors()).thenReturn(true);
-        xmlFileProcessor.setReferenceResolutionHandler(handler);
+        xmlFileProcessor.setIdRefResolutionHandler(handler);
 
         xmlFileProcessor.process(preObject);
         Assert.assertEquals(job, preObject.getIn().getBody(BatchJob.class));

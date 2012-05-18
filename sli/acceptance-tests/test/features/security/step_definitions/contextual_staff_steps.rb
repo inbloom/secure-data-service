@@ -4,32 +4,47 @@ require_relative '../../utils/common_stepdefs.rb'
 
 Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if path == "South Daybreak Elementary"
+  id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552" if path == "Dawn Elementary"
+  id = "/v1/staff" if path == "Staff"
+  id = "/v1/teachers" if path == "My Teachers"
   id = "/v1/teachers/67ed9078-431a-465e-adf7-c720d08ef512" if path == "Linda Kim"
+  id = "/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d" if path == "Rebecca Braverman"
   id = "/v1/teachers/edce823c-ee28-4840-ae3d-74d9e9976dc5" if path == "Mark Anthony"
   id = "/v1/teachers/a060273b-3e65-4e5f-b5d1-45226f584c5d" if path == "Dale Reiss"
   id = "/v1/students/92d1a002-2695-4fb8-a0d6-4ef655d29e48" if path == "Malcolm Haehn NY"
   id = "/v1/students/5738d251-dd0b-4734-9ea6-417ac9320a15" if path == "Matt Sollars"
+  id = "/v1/students/0cff1537-95e6-440b-ba2f-3003a2ecd7ed" if path == "Brandon Suzuki"
   id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/studentSchoolAssociations/students" if path == "Students in Parker Elementary"
+  id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552/studentSchoolAssociations/students" if path == "Students in Dawn Elementary"
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/studentSchoolAssociations/students" if path == "Students in South Daybreak Elementary"
   id = "/v1/sections/7295e51e-cd51-4901-ae67-fa33966478c7/studentSectionAssociations/students" if path == "Students in AP Calculus Sec 201"
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb/teacherSchoolAssociations/teachers" if path == "Teachers in South Daybreak Elementary"
   id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552/teacherSchoolAssociations/teachers" if path == "Teachers in Dawn Elementary"
+  id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/teacherSchoolAssociations/teachers" if path == "Teachers in Parker Elementary"
   id = "/v1/schools?parentEducationAgencyReference=bd086bae-ee82-4cf2-baf9-221a9407ea07" if path == "Schools in Daybreak District"
   id = "/v1/schools?parentEducationAgencyReference=29b95c04-3d70-4b3a-8341-27d544a39974" if path == "Schools in Parker District"
+  id = "/v1/schools?parentEducationAgencyReference=c72ea8f9-ec17-4db7-9958-65002f45da62" if path == "Schools in Dusk District"
   id
 end
 
 Transform /^data containing "([^"]*)"$/ do |path|
   id = ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"] if path == "South Daybreak Elementary"
+  id = ["9d970849-0116-499d-b8f3-2255aeb69552"] if path == "Dawn Elementary"
   id = ["67ed9078-431a-465e-adf7-c720d08ef512"] if path == "Linda Kim"
+  id = ["bcfcc33f-f4a6-488f-baee-b92fbd062e8d"] if path == "Rebecca Braverman"
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5"] if path == "Mark Anthony"
   id = ["a060273b-3e65-4e5f-b5d1-45226f584c5d"] if path == "Dale Reiss"
   id = ["92d1a002-2695-4fb8-a0d6-4ef655d29e48"] if path == "Malcolm Haehn NY"
   id = ["5738d251-dd0b-4734-9ea6-417ac9320a15"] if path == "Matt Sollars"
+  id = ["0cff1537-95e6-440b-ba2f-3003a2ecd7ed"] if path == "Brandon Suzuki"
   id = ["1894b083-5e6e-470f-bc5e-01435a899d44",
         "439b5c9d-3ebf-49a3-a483-f10943e148ba",
         "6944f8d8-1fda-41c3-a2b7-d9d416d07ebc",
         "85ff53e3-2779-4dc7-bc31-59c405f3a49e"] if path == "Students in Parker Elementary"
+  id = ["b14ff449-56c9-4d10-942b-70c9eb721919",
+        "92d1a002-2695-4fb8-a0d6-4ef655d29e48",
+        "f098e289-5678-4df0-9447-ca568e45061d",
+        "c79fb3a9-a0ec-4ffd-a128-124a0d9a7069"] if path == "Students in Dawn Elementary"
   id = ["1563ec1d-924d-4c02-8099-3a0e314ef1d4",
         "274f4c71-1984-4607-8c6f-0a91db2d240a",
         "0cff1537-95e6-440b-ba2f-3003a2ecd7ed",
@@ -63,11 +78,74 @@ Transform /^data containing "([^"]*)"$/ do |path|
         "8ecbbd5e-5d5b-48ba-ab01-cdc0eefc02f7",
         "1406ed76-f6d8-4ce4-a61b-f118d453e373",
         "a312b789-8a4c-41fd-a43d-368240926545"] if path == "Teachers in Dawn Elementary"
+  id = ["a060273b-3e65-4e5f-b5d1-45226f584c5d",
+        "3c911a1c-ffa8-4a60-b9b3-fdb06570ecd7",
+        "dc3adbe0-61c7-4ebd-be54-2d22dd9fd5ce",
+        "50f7c43a-25cc-4ddb-bd6e-18e5e7915223"] if path == "Teachers in Parker Elementary"
+
+  id = ["c4491c07-ec3e-440d-bef9-e349763b0fd4",
+        "03184a95-eb8f-4038-9d19-17fab835a016",
+        "35ac640e-8f6e-427f-bbab-abbdca50df5b",
+        "dba058a9-4f0c-4785-bbc1-910a0f356366",
+        "78f03de4-3db6-48a9-8bdc-ecec4b5a6022",
+        "8ecbbd5e-5d5b-48ba-ab01-cdc0eefc02f7",
+        "1406ed76-f6d8-4ce4-a61b-f118d453e373",
+        "a312b789-8a4c-41fd-a43d-368240926545"] if path == "Teachers in Dusk District"
+
+  id = ["67ed9078-431a-465e-adf7-c720d08ef512",
+        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Daybreak District"
+
+  id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Sunset District"
+
+  id = ["0fa7482f-f123-4b41-934a-05af6692159e",
+        "d1126e04-2ebd-4644-b0c9-927d1d30a379",
+        "a060273b-3e65-4e5f-b5d1-45226f584c5d",
+        "3c911a1c-ffa8-4a60-b9b3-fdb06570ecd7",
+        "ba5ae1a8-1ca0-459d-add1-eb99847cfba0",
+        "dc3adbe0-61c7-4ebd-be54-2d22dd9fd5ce",
+        "50f7c43a-25cc-4ddb-bd6e-18e5e7915223",
+        "953d0426-cb77-42f7-8471-e01ed896726c"] if path == "Teachers in Parker District"
+
+  id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
+        "67ed9078-431a-465e-adf7-c720d08ef512",
+        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Illinois State"
+
+  id = ["c4491c07-ec3e-440d-bef9-e349763b0fd4",
+        "03184a95-eb8f-4038-9d19-17fab835a016",
+        "0fa7482f-f123-4b41-934a-05af6692159e",
+        "d1126e04-2ebd-4644-b0c9-927d1d30a379",
+        "a060273b-3e65-4e5f-b5d1-45226f584c5d",
+        "3c911a1c-ffa8-4a60-b9b3-fdb06570ecd7",
+        "35ac640e-8f6e-427f-bbab-abbdca50df5b",
+        "dba058a9-4f0c-4785-bbc1-910a0f356366",
+        "ba5ae1a8-1ca0-459d-add1-eb99847cfba0",
+        "78f03de4-3db6-48a9-8bdc-ecec4b5a6022",
+        "8ecbbd5e-5d5b-48ba-ab01-cdc0eefc02f7",
+        "dc3adbe0-61c7-4ebd-be54-2d22dd9fd5ce",
+        "50f7c43a-25cc-4ddb-bd6e-18e5e7915223",
+        "1406ed76-f6d8-4ce4-a61b-f118d453e373",
+        "953d0426-cb77-42f7-8471-e01ed896726c",
+        "a312b789-8a4c-41fd-a43d-368240926545"] if path == "Teachers in New York State"
+
   id = ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
         "ec2e4218-6483-4e9c-8954-0aecccfd4731",
         "92d6d5a0-852c-45f4-907a-912752831772"] if path == "Schools in Daybreak District"
   id = ["5b03de1f-9cf0-409b-ae35-edeed11161ab",
         "46c2e439-f800-4aaf-901c-8cf3299658cc"] if path == "Schools in Parker District"
+  id = ["c9929e15-f907-4473-a948-6f9aa302647d",
+        "9d970849-0116-499d-b8f3-2255aeb69552"] if path == "Schools in Dusk District"
+  id = ["84d87dd4-174b-4c02-af95-9f11d45031b6",
+        "b7842226-0a86-4306-ab31-f76645b62625",
+        "c5b29c29-62e6-4210-8712-d49581a27bf2",
+        "05baccbe-5f35-491f-ae9e-0758943c0343",
+        "d2d35368-114d-4120-b0bf-616219787677",
+        "381da5d9-cb00-4158-a10d-c6438d760e67",
+        "4acc9259-a6c4-4a63-9e63-969e39c99a73",
+        "56012673-eda3-4d95-bf78-7524b91d8a93",
+        "f8e8c093-721d-44c9-8edb-a26fdaaec91f"] if path == "Staff"
   id
 end
 
@@ -94,6 +172,23 @@ Then /^I get the (data containing "[^"]*") returned in json format$/ do |idArray
     assert(idArray[0] == result["id"], "ID returned in json was not expected: ID="+result["id"])
   end
 
+end
+
+Then /^I should get a response which includes the (data containing "[^"]*") returned in json format$/ do |idArray|
+  assert(@res != nil, "Did not receive a response from the API")
+  assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil)
+  
+  if result.class == Array 
+    numMatches = 0
+    result.each {|jsonObj| 
+      numMatches += 1 if idArray.include?(jsonObj["id"])
+    }
+    assert(numMatches == idArray.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+idArray.length.to_s+" maches")
+  else
+    assert(idArray[0] == result["id"], "ID returned in json was not expected: ID="+result["id"])
+  end
 end
 
 When /^I try to access the (data for "[^"]*") in another "[^"]*" from the API$/ do |dataPath|

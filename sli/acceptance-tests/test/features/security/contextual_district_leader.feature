@@ -31,6 +31,20 @@ Examples:
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"|
 
+Scenario Outline: Staff listing teachers they have context to
+
+Given I am logged in using <Username> <Password> to realm <Realm>
+And I have a Role attribute that equals <Role>
+And my "district" is <District>
+When I try to access the data for "My Teachers" in my "district" from the API
+Then I get the data containing <Data> returned in json format
+Examples:
+  |Username    |Password        |Realm|Role      |District     |Data|
+  |"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Teachers in Dusk District"|
+  |"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Teachers in Daybreak District"|
+  |"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Teachers in Sunset District"|
+  |"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Parker District"|
+
 Scenario Outline: IT Administrator trying to edit data for own district
 
 Given I am logged in using <Username> <Password> to realm <Realm>
@@ -55,14 +69,14 @@ Examples:
 	|Username  |Password      |Realm|District   |Data|
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|
 	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Matt Sollars"|
-@wip
+
 Scenario Outline: Aggregate Viewer getting their available district data
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Aggregate Viewer"
 And my "district" is <District>
 When I try to access the data for <Data> in my "district" from the API
-Then I get the data containing <Data> returned in json format
+Then I should get a response which includes the data containing <Data> returned in json format
 Examples:
 	|Username  |Password      |Realm|District     |Data|
 	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"Schools in Daybreak District"|

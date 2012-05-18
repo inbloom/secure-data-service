@@ -1,82 +1,49 @@
 SLIAdmin::Application.routes.draw do
+
+  resources :admin_delegations
+
+  resources :realm_management
   post "landing_zone/provision", :to => 'landing_zone#provision'
   get "landing_zone/provision", :to => 'landing_zone#success'
   get "landing_zone", :to => 'landing_zone#index'
+
 
   resources :account_managements
   resources :application_authorizations
 
   get "sessions/new"
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-  
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
+  resources :roles
+  resources :sessions
+  resources :apps
+  resources :realms
+  match '/apps/approve', :to => 'apps#approve'
+  match '/apps/unregister', :to => 'apps#unregister'
 
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-    # match 'mappings/:id/add' => 'mappings#add'
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-
-    resources :roles
-    resources :sessions
-    resources :apps
-    match '/apps/approve', :to => 'apps#approve'
-    match '/apps/unregister', :to => 'apps#unregister'
-
-    resources :realms do
-      member do
-        put :update
-      end
+  resources :realms do
+    member do
+      put :update
     end
-    
-    
-    match '/logout', :to => 'sessions#destroy'
-    match '/callback', :to => 'application#callback'
-	
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  end
 
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
+  post 'developer_approval/submit_user', :to => 'developer_approval#submit_user'
+  post 'developer_approval/update_user', :to => 'developer_approval#update_user'
+  post 'developer_approval/update_eula_status', :to => 'developer_approval#update_eula_status'
+  post 'developer_approval/verify_email', :to => 'developer_approval#verify_email'
 
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
 
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  match '/logout', :to => 'sessions#destroy'
+  match '/callback', :to => 'application#callback'
 
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
+  resources :user_account_registrations
+  resources :user_account_validation
+  resources :user_account_registration
+
+  match "/eula" => "eulas#show", :via => :get
+  match "/eula" => "eulas#create", :via => :post 
+  match "/registration" => "user_account_registrations#new", :via => :get
+
   root :to => 'roles#index'
 
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
 end

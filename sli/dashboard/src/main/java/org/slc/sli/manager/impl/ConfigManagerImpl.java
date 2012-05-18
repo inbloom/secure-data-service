@@ -3,30 +3,24 @@ package org.slc.sli.manager.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.config.ConfigPersistor;
-import org.slc.sli.config.LozengeConfig;
-import org.slc.sli.config.StudentFilter;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Type;
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
+import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.JsonConverter;
 
 /**
  *
@@ -39,10 +33,9 @@ import org.slc.sli.util.DashboardException;
  *
  * @author dwu
  */
-public class ConfigManagerImpl implements ConfigManager {
-
+public class ConfigManagerImpl extends ApiClientManager implements ConfigManager {
+    private static final String USER_CONFIG_CACHE = "user.panel.config";
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private ConfigPersistor persistor;
 
     private String driverConfigLocation;
     private String userConfigLocation;
@@ -50,123 +43,6 @@ public class ConfigManagerImpl implements ConfigManager {
     public ConfigManagerImpl() {
     }
 
-    /**
-     * Get the view configuration set for a user
-     *
-     * @param userId
-     * @return ViewConfigSet
-     */
-    @Override
-    public ViewConfigSet getConfigSet(String userId) {
-
-        // get view configs for user's hierarchy (state, district, etc)
-        // TODO: call ConfigPersistor with entity ids, not user id
-        ViewConfigSet userViewConfigSet = null;
-        try {
-            userViewConfigSet = persistor.getConfigSet(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // TODO: merge into one view config set for the user
-
-        return userViewConfigSet;
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return ViewConfig
-     */
-    @Override
-    public ViewConfig getConfig(String userId, String viewName) {
-
-        ViewConfigSet config = getConfigSet(userId);
-
-        if (config == null) {
-            return null;
-        }
-
-        // loop through, find right config
-        for (ViewConfig view : config.getViewConfig()) {
-            if (view.getName().equals(viewName)) {
-                return view;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return ViewConfig
-     */
-    @Override
-    public List<LozengeConfig> getLozengeConfig(String userId) {
-
-        // get lozenge configs for user's hierarchy (state, district, etc)
-        // TODO: call ConfigPersistor with entity ids, not user id
-        LozengeConfig[] userLozengeConfig = null;
-        try {
-            userLozengeConfig = persistor.getLozengeConfig(userId);
-        } catch (Exception e) {
-            return null;
-        }
-        return Arrays.asList(userLozengeConfig);
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return StudentFilter list
-     */
-    @Override
-    public List<StudentFilter> getStudentFilterConfig(String userId) {
-
-        // get student filter configs for user's hierarchy (state, district,
-        // etc)
-        StudentFilter[] userStudentFilterConfig = null;
-        try {
-            userStudentFilterConfig = persistor.getStudentFilterConfig(userId);
-        } catch (Exception e) {
-            return null;
-        }
-        return Arrays.asList(userStudentFilterConfig);
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param type
-     *            - e.g. studentList, studentProfile, etc.
-     * @return List<ViewConfig>
-     */
-    @Override
-    public List<ViewConfig> getConfigsWithType(String userId, String type) {
-
-        ViewConfigSet config = getConfigSet(userId);
-        List<ViewConfig> viewConfigs = null;
-
-        if (config != null && config.getViewConfig() != null) {
-            viewConfigs = new ArrayList<ViewConfig>();
-
-            // loop through, find right type configs
-            for (ViewConfig view : config.getViewConfig()) {
-                if (view.getType().equals(type)) {
-                    viewConfigs.add(view);
-                }
-            }
-        }
-        return viewConfigs;
-    }
 
     /**
      * this method should be called by Spring Framework
@@ -255,41 +131,37 @@ public class ConfigManagerImpl implements ConfigManager {
      *            name of the profile
      * @return proper Config to be used for the dashboard
      */
-    private Config getConfigByPath(CustomConfig apiCustomConfig, String customPath, String componentId) {
+    private Config getConfigByPath(Config customConfig, String componentId) {
         Config driverConfig = null;
         try {
-            // read custom Config
-            File f = new File(getComponentConfigLocation(customPath,
-                    componentId));
             String driverId = componentId;
-            Config customConfig = null;
             // if custom config exist, read the config file
-            if (f.exists()) {
-                customConfig = loadConfig(f);
+            if (customConfig != null) {
                 driverId = customConfig.getParentId();
             }
             // read Driver (default) config.
-            f = new File(getDriverConfigLocation(driverId));
+            File f = new File(getDriverConfigLocation(driverId));
             driverConfig = loadConfig(f);
             if (customConfig != null) {
-                if ((apiCustomConfig == null) || (apiCustomConfig.size() <= 0)) {
-                    // get overwritten Config file with customConfig based on Driver
-                    // config.
-                    return driverConfig.overWrite(customConfig);
-                }
+                return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
         } catch (Throwable t) {
-            logger.error("Unable to read config for " + componentId
-                    + ", for path " + customPath, t);
-            throw new DashboardException("Unable to read config for "
-                    + componentId + ", for path " + customPath);
+            logger.error("Unable to read config for " + componentId, t);
+            throw new DashboardException("Unable to read config for " + componentId);
         }
     }
 
     private Config loadConfig(File f) throws Exception {
-        return new GsonBuilder().create().fromJson(new FileReader(f),
-                Config.class);
+        if (f.exists()) {
+            FileReader fr = new FileReader(f);
+            try {
+                return JsonConverter.fromJson(fr, Config.class);
+            } finally {
+                IOUtils.closeQuietly(fr);
+            }
+        }
+        return null;
     }
 
     protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {
@@ -298,26 +170,27 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
-    public Config getComponentConfig(CustomConfig customConfig,
-            EdOrgKey edOrgKey, String componentId) {
-        if (customConfig != null) {
-            Config customComponentConfig = customConfig.get(componentId);
-            if (customComponentConfig != null) {
-                return customComponentConfig;
+    public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
+        ConfigMap configMap = getCustomConfig(token, edOrgKey);
+        Config customComponentConfig = null;
+        // if api has config, use it, otherwise, try local config
+        if (configMap != null && !configMap.isEmpty()) {
+            customComponentConfig = configMap.getComponentConfig(componentId);
+        } else {
+            try {
+                customComponentConfig = loadConfig(new File(getComponentConfigLocation(getCustomConfigPathForUserDomain(edOrgKey), componentId)));
+            } catch (Exception e) {
+                logger.error("Unable to read config for " + componentId + ", for " + getCustomConfigPathForUserDomain(edOrgKey), e);
+                throw new DashboardException("Unable to read local custom config for " + componentId);
             }
         }
-        return getConfigByPath(customConfig, getCustomConfigPathForUserDomain(edOrgKey),
-                componentId);
+        return getConfigByPath(customComponentConfig, componentId);
     }
 
-    public void setConfigPersistor(ConfigPersistor configPersistor) {
-        this.persistor = configPersistor;
-    }
 
     @Override
     @Cacheable(cacheName = "user.config.widget")
-    public Collection<Config> getWidgetConfigs(CustomConfig customConfig,
-            EdOrgKey edOrgKey) {
+    public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
         // id to config map
         Map<String, Config> widgets = new HashMap<String, Config>();
         Config config;
@@ -343,8 +216,43 @@ public class ConfigManagerImpl implements ConfigManager {
             }
         }
         for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(customConfig, edOrgKey, id));
+            widgets.put(id, getComponentConfig(token, edOrgKey, id));
         }
         return widgets.values();
+    }
+
+    /**
+     * Get the user's educational organization's custom configuration.
+     *
+     * @param token
+     *            The user's authentication token.
+     * @return The education organization's custom configuration
+     */
+    @Override
+    public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
+
+        CacheValue<ConfigMap> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
+        ConfigMap config = null;
+        if (value == null) {
+            config = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
+            putToCache(USER_CONFIG_CACHE, token, config);
+        } else {
+            config = value.get();
+        }
+        return config;
+    }
+
+    /**
+     * Put or save the user's educational organization's custom configuration.
+     *
+     * @param token
+     *            The user's authentication token.
+     * @param customConfigJson
+     *            The education organization's custom configuration JSON.
+     */
+    @Override
+    public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
+        getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), configMap);
+        removeFromCache(USER_CONFIG_CACHE, token);
     }
 }

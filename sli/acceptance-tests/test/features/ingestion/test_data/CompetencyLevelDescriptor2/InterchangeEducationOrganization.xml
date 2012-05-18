@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+  <CompetencyLevelDescriptor id="ID082">
+      <CodeValue>CodeValue2</CodeValue>
+      <Description>Description2</Description>
+      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor id="ID083">
+      <CodeValue>CodeValue1</CodeValue>
+      <Description>Description3</Description>
+      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  
+</InterchangeEducationOrganization>

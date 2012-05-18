@@ -11,8 +11,8 @@ import org.slc.sli.util.Constants;
 /**
  * Simple application entity
  *
- * @author David Wu dwu@wgen.net
- * @author Robert Bloh rbloh@wgen.net
+ * @author David Wu
+ * @author Robert Bloh
  *
  */
 public class GenericEntity extends LinkedHashMap<String, Object> {

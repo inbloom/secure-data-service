@@ -5,32 +5,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context" 
     xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:aop="http://www.springframework.org/schema/aop"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 >
-    <mvc:annotation-driven />
-    <context:component-scan base-package="org.slc.sli.controller"/>
-
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="webBindingInitializer">
-        <!-- Configures Spring MVC DataBinder instances -->
-            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-                <property name="validator" ref="validator" />
-            </bean>
-        </property>
-    </bean>
- 
-    <!-- Creates the JSR-303 Validator -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <mvc:annotation-driven validator="validator" />
+    <context:component-scan base-package="org.slc.sli.web"/>
+    <context:annotation-config />
     
-    <!-- freemarker config -->
-    <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean  id="freemarkerConfig" class="org.slc.sli.web.util.HtmlEscapingFreeMarkerTemplateLoader$HtmlEscapingFreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/"/>
-         <property name="freemarkerSettings">
+        <property name="freemarkerSettings">
     	 	<props>
-                <prop key="template_exception_handler">html_debug</prop>
+                <prop key="template_exception_handler">rethrow</prop>
 			</props>
 		</property>
     </bean>
@@ -45,11 +35,41 @@
     <bean class="org.slc.sli.util.DashboardExceptionResolver">
         <property name="exceptionMappings">
 		    <props>
-			    <prop key="java.lang.RuntimeException">exceptionPage</prop>
+			    <prop key="java.lang.RuntimeException">error</prop>
 			    
 			    <!-- Example usage of Exception Page -->
-			    <prop key="java.lang.IllegalArgumentException">exceptionPage</prop>
+			    <prop key="java.lang.IllegalArgumentException">error</prop>
+			    <prop key="org.springframework.validation.BindException">error</prop>
 		    </props>
 	    </property>
 	</bean>
+	<!-- Creates the JSR-303 Validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <mvc:interceptors>
+        <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+        </bean>
+        <bean id="sessionCheckInterceptor" class = "org.slc.sli.web.interceptor.SessionCheckInterceptor">
+            <property name="restClient" ref="restClient" />
+        </bean>
+    </mvc:interceptors>
+
+    <bean class="org.slc.sli.web.util.CustomMessageConverterRegister">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                    <property name="objectMapper">
+                        <bean id="jacksonObjectMapper" class="org.slc.sli.web.util.JacksonObjectMapperWithOptions"/>          
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
+        <property name="validator" ref="validator" />
+    </bean>
 </beans>

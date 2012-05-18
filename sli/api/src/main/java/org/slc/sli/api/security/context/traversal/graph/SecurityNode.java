@@ -1,29 +1,29 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Node representation
  */
 public class SecurityNode {
-    Set<SecurityNodeConnection> connections;
+    List<SecurityNodeConnection> connections;
     private String name;
     private String type;
 
     public SecurityNode(String name) {
         this.name = name;
         this.type = name;
-        this.connections = new HashSet<SecurityNodeConnection>();
+        this.connections = new ArrayList<SecurityNodeConnection>();
     }
 
     public SecurityNode(String name, String type) {
         this.name = name;
         this.type = type;
-        this.connections = new HashSet<SecurityNodeConnection>();
+        this.connections = new ArrayList<SecurityNodeConnection>();
     }
 
-    public Set<SecurityNodeConnection> getConnections() {
+    public List<SecurityNodeConnection> getConnections() {
         return this.connections;
     }
 
@@ -53,7 +53,7 @@ public class SecurityNode {
         return name;
     }
 
-    public void setConnections(Set<SecurityNodeConnection> connections) {
+    public void setConnections(List<SecurityNodeConnection> connections) {
         this.connections = connections;
     }
 

@@ -114,7 +114,6 @@ end
 
 Then /^it should be "([^"]*)"$/ do |arg1|
   app = JSON.parse(@res.body)
-  puts app["registration"]
   assert(app["registration"]["status"] === arg1, "Registration field should be #{arg1}, not #{app["registration"]["status"]}")
 end
 
@@ -123,6 +122,19 @@ Then /^I should only see "([^"]*)" applications$/ do |arg1|
   apps.each do |app|
     assert(app["registration"]["status"] === arg1, "App #{app["name"]} should be #{arg1}")
   end
+end
+
+Then /^the "([^"]*)" bootstrap app should exist$/ do |appName|
+  apps = JSON.parse(@res.body)
+  foundApp = false
+  apps.each do |app|
+    puts app["name"]
+    if app["name"] == appName
+        foundApp = true
+        assert(app["bootstrap"] == true, "App #{appName} was not marked bootstrap")
+    end
+  end
+  assert(foundApp, "Did not find #{appName}")
 end
 
 When /^I navigate to PUT "([^"]*)" to update an application's name$/ do |arg1|
@@ -157,9 +169,6 @@ When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |a
   app = JSON.parse(@res.body)
   app["registration"]["status"] = arg2
   data = prepareData("application/json", app)
-  puts arg1
   restHttpPut(arg1, data)
-
   assert(@res != nil, "Response from PUT operation was null")
 end
-

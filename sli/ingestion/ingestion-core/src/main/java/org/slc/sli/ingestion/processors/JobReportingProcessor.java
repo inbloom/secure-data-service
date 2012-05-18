@@ -5,9 +5,13 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,12 +20,8 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -38,6 +38,11 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -158,7 +163,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
         if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
@@ -310,7 +315,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
+    private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
             PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
@@ -343,24 +348,25 @@ public class JobReportingProcessor implements Processor {
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    private static void writeInfoLine(PrintWriter jobReportWriter, String string) {
+    private void writeInfoLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "INFO", string);
+        writeSecurityLog(LogLevelType.TYPE_INFO, string);
     }
 
-    private static void writeErrorLine(PrintWriter jobReportWriter, String string) {
+    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "ERROR", string);
     }
 
-    private static void writeWarningLine(PrintWriter jobReportWriter, String string) {
+    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "WARN", string);
     }
 
-    private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
+    private void writeLine(PrintWriter jobReportWriter, String type, String text) {
         jobReportWriter.write(type + "  " + text);
         jobReportWriter.println();
     }
 
-    private static void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
+    private void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
         if (jobReportWriter != null) {
             jobReportWriter.close();
         }
@@ -378,5 +384,34 @@ public class JobReportingProcessor implements Processor {
                 LOG.error("unable to close FileChannel.", e);
             }
         }
+    }
+
+    private void writeSecurityLog(LogLevelType messageType, String message) {
+        byte[] ipAddr = null;
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            ipAddr = addr.getAddress();
+
+        } catch (UnknownHostException e) {
+            LOG.error("Error getting local host", e);
+        }
+        SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
+                "", // user
+                "", // targetEdOrg
+                "writeLine", // Alpha MH
+                "Ingestion", // Alpha MH (appId)
+                "", // origin
+                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
+                "", // Alpha MH (credential- N/A for ingestion)
+                "", // userOrigin
+                new Date(), // Alpha MH (timeStamp)
+                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
+                this.getClass().getName(), // className
+                messageType, // Alpha MH (logLevel)
+                message); // Alpha MH (logMessage)
+
+        audit(event);
     }
 }

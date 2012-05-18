@@ -1,9 +1,10 @@
 account1:
     vendor: "test vendor"
     name: "test name"
-    approvalDate: "2012-01-01"
-    status: "Approved"
+    lastUpdate: "2012-01-01"
+    status: "approved"
     email: "test@test.com"
+    transitions: ["disable"]
   
 new_account:
     vendor: "test vendor"

@@ -1,0 +1,115 @@
+package org.slc.sli.ingestion.referenceresolution;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import junit.framework.Assert;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.IngestionTest;
+
+/**
+ *
+ * @author tke
+ *
+ */
+public class FreeMarkerExtendedReferenceResolverTest {
+    FreeMarkerExtendedReferenceResolver referenceFactory = new FreeMarkerExtendedReferenceResolver();
+
+    private void test(File content, File expected, String xpath) throws IOException {
+        File result = null;
+        try {
+            result = referenceFactory.resolve(xpath, content);
+
+            String expectedXML = readFromFile(expected);
+            String actualXML = readFromFile(result);
+
+            expectedXML = expectedXML.replaceAll("\\n|\\r", "");
+            expectedXML = expectedXML.replaceAll("\\s+", "");
+            actualXML = actualXML.replaceAll("\\n|\\r", "");
+            actualXML = actualXML.replaceAll("\\s+", "");
+
+            Assert.assertEquals(expectedXML, actualXML);
+        } finally {
+            if (result != null) {
+                result.delete();
+            }
+        }
+    }
+
+    private String readFromFile(File file) throws IOException {
+        FileReader reader = null;
+
+        try {
+            reader = new FileReader(file);
+
+            List<String> lines = IOUtils.readLines(reader);
+
+            return StringUtils.join(lines, '\n');
+        } finally {
+            IOUtils.closeQuietly(reader);
+        }
+    }
+
+    @Test
+    public void testResolution() throws IOException, SAXException {
+        final File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
+        final File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+
+        Map<String, String> config = new HashMap<String, String>();
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
+
+        referenceFactory.setIdRefConfigs(config);
+
+        test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
+
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
+                } catch (IOException e) {
+                    new RuntimeException(e);
+                }
+            }
+        };
+
+        Thread th1 = new Thread(run);
+
+        Thread th2 = new Thread(run);
+
+        th1.start();
+        th2.start();
+
+        try {
+            th1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            th2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testBadConfiguration() {
+        Map<String, String> config = new HashMap<String, String>();
+        referenceFactory.setIdRefConfigs(config);
+
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
+
+        Assert.assertNull(referenceFactory.resolve("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference2", null));
+    }
+
+}

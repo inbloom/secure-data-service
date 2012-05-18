@@ -63,9 +63,10 @@
   <import resource="persistence-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="classpath:/spring/base-applicationContext.xml" />
-
+  <import resource="idRefResolution-context.xml" />
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
+  <import resource="classpath:/spring/validation.xml" />
   <import resource="dal-context.xml" />
 
   <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
@@ -82,6 +83,8 @@
   <aop:aspectj-autoproxy />
   <bean id="ingestionPerformaceTrackingAspect" class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect" />
 
+  <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
+
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
@@ -89,7 +92,9 @@
     <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
   </bean>
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" />
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
+    <property name="entityRepository" ref="mongoEntityRepository"/>
+  </bean>
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
@@ -101,22 +106,16 @@
     </property>
   </bean>
 
-  <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
-    <property name="preValidators">
-      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-        <ref bean="xmlFileValidator" />
-        <ref bean="xsdValidator" />
-      </util:list>
-    </property>
-  </bean>
-
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
 <!--
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="entityPersistHandler" ref="entityPersistHandler" />
+    <property name="transformers" ref="transformers"/>
+    <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
+    <property name="entityPersistHandlers" ref="entityPersistHandlers" />
+    <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>

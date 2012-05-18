@@ -48,8 +48,8 @@
 	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
 </div>
 <div class = "field">
-	<%= f.label :enabled, "Enabled" %>
-	<%= f.check_box :enabled %>
+	<%= f.label :installed, "Installed" %>
+	<%= f.check_box :installed %>
 </div>
 
 
@@ -68,9 +68,9 @@
   <% @district_hierarchy.keys.each do |district| %>
       <%=
           if app.authorized_ed_orgs != nil
-              check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"]))
+              check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"]))
           else
-              check_box_tag(check_box_name, district["id"])
+              check_box_tag(check_box_name, district["stateOrganizationId"])
           end
       %>
 
@@ -79,9 +79,9 @@
             &#160;&#160;
             <%=
                 if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
+                    check_box_tag(check_box_name, child_district["stateOrganizationId"], app.authorized_ed_orgs.include?(child_district["stateOrganizationId"]))
                 else
-                    check_box_tag(check_box_name, child_district["id"])
+                    check_box_tag(check_box_name, child_district["stateOrganizationId"])
                 end
             %>
             <%= child_district["name"] %> <br />

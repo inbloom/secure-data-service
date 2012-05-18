@@ -34,6 +34,8 @@ public class ResourceConstants {
     public static final String ENTITY_BODY_SCHOOL_ID = "schoolId";
     public static final String ENTITY_BODY_DISTRICT_ID = "districtId";
     public static final String ENTITY_BODY_GROUPBY = "groupBy";
+    
+    public static final String ENTITY_METADATA_TENANT_ID = "tenantId";
 
     public static final String RESOURCE_PATH_AGG = "aggregation";
 

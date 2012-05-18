@@ -14,6 +14,16 @@
         maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
         timeToIdleSeconds="600" timeToLiveSeconds="600"
         memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="user.schools" eternal="false"
+        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU" />
+        
+    <cache name="user.student" eternal="false"
+        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU" />
         
     <cache name="user.config.widget" eternal="false"
         maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"

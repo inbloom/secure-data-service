@@ -1,0 +1,10 @@
+<CalendarDateReference>
+    <CalendarDateIdentity>
+        <CalendarDate>
+        ${CalendarDate.Date}
+        </CalendarDate>
+        <CalendarEvent>
+        ${CalendarDate.CalendarEvent}
+        </CalendarEvent>
+    </CalendarDateIdentity>
+</CalendarDateReference>

@@ -19,12 +19,13 @@ public class AssessmentMetaRelations {
 
     // knobs to control number of entities to create
     public static final int ASSESSMENTS = 2;
-    public static final int OBJ_ASSESS_PER_DEPENDANT = 0;
-    public static final int LEARN_OBJ_PER_OBJ_ASSES = 0;
-    public static final int ASSESS_ITEM_PER_DEPENDANT = 0;
-    public static final int LEARN_STANDARD_PER_DEPENDANT = 0;
+    public static final int OBJ_ASSESS_PER_DEPENDANT = 1;
+    public static final int LEARN_OBJ_PER_OBJ_ASSES = 1;
+    public static final int ASSESS_ITEM_PER_DEPENDANT = 1;
+    public static final int LEARN_STANDARD_PER_DEPENDANT = 1;
     public static final int PERF_LEVEL_DESC_PER_DEPENDANT = 1;
     public static final int ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY = 1;
+    public static final double INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT = 2;
 
     // publicly accessible structures for the "meta-skeleton" entities
     public static final Map<String, AssessmentMeta> ASSESSMENT_MAP = new TreeMap<String, AssessmentMeta>();
@@ -44,7 +45,7 @@ public class AssessmentMetaRelations {
     private static final String ASSESSMENT_ITEM_PREFIX = "asit";
     private static final String LEARN_STD_PREFIX = "lstd";
     private static final String PERF_LEVEL_DESC_PREFIX = "pld";
-    private static final String ASSESS_FAMILY_PREFIX = "ISAT Reading";
+    private static final String ASSESS_FAMILY_PREFIX = "asf";
     private static final String ASSESS_PERIOD_DESC_PREFIX = "apd";
 
     public static void buildStandaloneAssessments() {

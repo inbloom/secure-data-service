@@ -6,8 +6,6 @@ import com.google.gson.JsonParser;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.Token;
 import org.scribe.utils.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class to get the token from the authorize response.
@@ -15,15 +13,16 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class SliTokenExtractor  implements AccessTokenExtractor {
-    private static final Logger LOG = LoggerFactory.getLogger(SliTokenExtractor.class);
+//    private static final Logger LOG = LoggerFactory.getLogger(SliTokenExtractor.class);
 
     @Override
     public Token extract(String response) {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(response).getAsJsonObject();
-        LOG.debug("Response to extract token from - {}", json);
+//        DE260 - commenting out possibly sensitive data
+//        LOG.debug("Response to extract token from - {}", json);
         return new Token(json.get("access_token").getAsString(), "", response);
     }
-    
+
 }

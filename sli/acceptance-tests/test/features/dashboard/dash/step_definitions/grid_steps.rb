@@ -1,3 +1,11 @@
+Then /^I click on "([^"]*)" header to sort a string column in "([^"]*)" order$/ do |columnName, order|
+  sortColumn(columnName, false, isAscendingOrder(order))
+end
+
+Then /^I click on "([^"]*)" header to sort an integer column in "([^"]*)" order$/ do |columnName, order|
+  sortColumn(columnName, true, isAscendingOrder(order))
+end
+
 # returns all trs of a grid in a particular panel
 # excludes the header of the grid
 def getGrid(panel)
@@ -63,9 +71,9 @@ def checkGridEntries(panel, table, mapping)
            td = getTdBasedOnAttribute(tr,mapping[header][0])
            value = row[header]
            verifier = mapping[header][1].downcase
-           
+
            if (verifier == "fuelgauge")
-            testFuelGauge(td, value)
+            testFuelGauge(td, value, @cutPoints)
            end
         else
           value = getAttribute(tr, mapping[header])
@@ -97,4 +105,43 @@ def outputRow(row)
     output += key + ": " + row[key] + ", "
   end
   puts output
+end
+
+def isAscendingOrder(order)
+  return (order.downcase == "ascending")
+end
+
+def sortColumn(columnName, isInt, isAscending)
+  hTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-htable")}
+  returnedName = getColumnLookupName(columnName)
+  searchText = ".//div[contains(@id,'" + returnedName + "')]"
+  column = hTable.find_element(:xpath, searchText)
+
+  all_trs = getStudentGrid()
+  
+  unsorted = []
+  all_trs.each do |tr|
+    value = getAttribute(tr, returnedName)
+    if (isInt)
+      value = value.to_i
+    end
+    unsorted = unsorted + [value]
+  end
+
+  #caveat:  there's a Bug on Student Column, it only happens on first load, and if Student is the first column to be sorted
+  column.click
+  if (!isAscending)
+    column.click
+    unsorted = unsorted.sort.reverse
+  else
+    unsorted = unsorted.sort   
+  end
+
+  all_trs = getStudentGrid()
+  i  = 0
+  all_trs.each do |tr|
+    value = getAttribute(tr, returnedName)
+    assert(value == unsorted[i].to_s, "sort order is wrong")
+    i +=1
+  end     
 end

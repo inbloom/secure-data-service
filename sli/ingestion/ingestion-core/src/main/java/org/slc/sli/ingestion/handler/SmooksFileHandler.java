@@ -41,7 +41,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
         try {
 

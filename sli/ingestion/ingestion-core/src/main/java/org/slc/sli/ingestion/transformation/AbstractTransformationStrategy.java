@@ -4,22 +4,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Base TransformationStrategy.
- * 
+ *
  * @author dduran
- * 
+ * @author shalka
  */
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
-    
+
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     protected static final String TYPE_KEY = "type";
     
@@ -29,7 +33,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     @Override
     public void perform(Job job) {
         this.setJob(job);
@@ -46,14 +52,14 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
     
     protected abstract void performTransformation();
-    
+
     /**
      * @return the neutralRecordMongoAccess
      */
     public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
         return neutralRecordMongoAccess;
     }
-    
+
     /**
      * @param neutralRecordMongoAccess
      *            the neutralRecordMongoAccess to set
@@ -61,11 +67,16 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
-    
+
     public String getBatchJobId() {
         return batchJobId;
     }
-    
+
+    public ErrorReport getErrorReport(String fileName) {
+        return new DatabaseLoggingErrorReport(this.batchJobId, BatchJobStageType.TRANSFORMATION_PROCESSOR, fileName,
+                this.batchJobDAO);
+    }
+
     public void setBatchJobId(String batchJobId) {
         this.batchJobId = batchJobId;
     }

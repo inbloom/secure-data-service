@@ -3,7 +3,7 @@
  *
  * Exception Details is the template markup for an Exception Panel component which leverages jQuery UI
  * 
- * @author Robert Bloh rbloh@wgen.net
+ * @author Robert Bloh
  *
 -->
 

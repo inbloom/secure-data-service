@@ -1,7 +1,14 @@
 package org.slc.sli.api.security.oauth;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
@@ -10,10 +17,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -53,12 +56,12 @@ public class ApplicationAuthorizationValidator {
             return null;
         }
         List<String> apps = null;
-        List<String> results = null;
+        Set<String> results = null;
         for (Entity district : districts) {
             debug("User is in district " + district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
+            query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
             query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
@@ -67,11 +70,11 @@ public class ApplicationAuthorizationValidator {
                     apps = new ArrayList<String>();
                 }
                 if (results == null) {
-                    results = new ArrayList<String>();
+                    results = new HashSet<String>();
                 }
 
                 NeutralQuery districtQuery = new NeutralQuery();
-                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get("stateOrganizationId")));
                 Iterable<Entity> districtAuthorizedApps = repo.findAll("application", districtQuery);
 
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
@@ -80,11 +83,22 @@ public class ApplicationAuthorizationValidator {
                         results.add(currentApp.getEntityId());
                     }
                 }
+
+                NeutralQuery bootstrapQuery = new NeutralQuery();
+                bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
+                Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
+                for (Entity currentApp : bootstrapApps) {
+                    if (apps.contains(currentApp.getEntityId())) {
+                        results.add(currentApp.getEntityId());
+                    }
+                }
             }
 
         }
-
-        return results;
+        if (results != null) {
+            return new ArrayList<String>(results);
+        }
+        return null;
     }
 
     /**
@@ -103,8 +117,10 @@ public class ApplicationAuthorizationValidator {
             try {
                 edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             } catch (IllegalArgumentException ex) {
+//                DE260 - Logging of possibly sensitive data
                 // this is what the resolver throws if it doesn't find any edorg data
-                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
+//                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
+                LOGGER.warn("Could not find an associated ed-org for the given principal.");
             }
             if (edOrgs == null || edOrgs.size() == 0) {   //maybe user is a staff?
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
@@ -125,16 +141,19 @@ public class ApplicationAuthorizationValidator {
                             toReturn.add(entity);
                         }
                     }
-                    
+
                 }
             }
 
         } else {
-            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
+//            DE260 - Logging of possibly sensitive data
+//            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
             return null;
         }
         if (toReturn.size() == 0) {
-            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
+//            DE260 - Logging of possibly sensitive data
+//            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
+            LOGGER.warn("Could not find an associated LEA for the given principal");
         }
         return toReturn;
     }

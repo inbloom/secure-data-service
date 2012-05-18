@@ -1,21 +1,16 @@
 package org.slc.sli.unit.manager;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import org.slc.sli.client.MockAPIClient;
-import org.slc.sli.config.ConfigPersistor;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.impl.ConfigManagerImpl;
@@ -23,13 +18,13 @@ import org.slc.sli.security.SLIPrincipal;
 
 /**
  * Unit tests for the StudentManager class.
- * 
+ *
  */
 public class ConfigManagerTest {
-    
+
     ConfigManagerImpl configManager;
     MockAPIClient mockClient;
-    
+
     @Before
     public void setup() {
         mockClient = new MockAPIClient();
@@ -38,63 +33,32 @@ public class ConfigManagerTest {
             protected String getCustomConfigPathForUserDomain(EdOrgKey key) {
                 return "aa";
             }
+            @Override
+            public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
+                return null;
+            }
         };
         configManager.setDriverConfigLocation("config");
-        ConfigPersistor persistor = new ConfigPersistor();
-        persistor.setApiClient(mockClient);
-        
+
         EntityManager entityManager = new EntityManager();
         entityManager.setApiClient(mockClient);
-        persistor.setEntityManager(entityManager);
-        configManager.setConfigPersistor(persistor);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setDistrict("test_district");
         SecurityContextHolder.getContext().setAuthentication(new PreAuthenticatedAuthenticationToken(principal, null));
     }
-    
+
     @After
     public void tearDown() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
-    
-    @Test
-    public void testGetConfigSet() {
-        
-        ViewConfigSet configSet = configManager.getConfigSet("lkim");
-        assertEquals("IL_3-8_ELA", configSet.getViewConfig().get(0).getName());
-    }
-    
-    @Test
-    public void testGetConfigSetMissing() {
-        
-        // look for a config set that doesn't exist
-        ViewConfigSet configSet = configManager.getConfigSet("not_there");
-        assertNull(configSet);
-    }
-    
-    @Test
-    public void testGetConfig() {
-        
-        ViewConfig config = configManager.getConfig("lkim", "IL_3-8_ELA");
-        assertEquals(3, config.getDisplaySet().size());
-    }
-    
-    @Test
-    public void testGetConfigMissing() {
-        
-        ViewConfig config = configManager.getConfig("not_there", "IL_3-8_ELA");
-        assertNull(config);
-        
-        ViewConfig config2 = configManager.getConfig("lkim", "not_there");
-        assertNull(config2);
-    }
-    
+
+
     /**
      * Test get config to return expected
      */
     @Test
     public void testConfigFields() {
-        Config config = configManager.getComponentConfig(null, new EdOrgKey("1"), "gridSample");
+        Config config = configManager.getComponentConfig("1", new EdOrgKey("1"), "gridSample");
         Assert.assertEquals("gridSample", config.getId());
         Assert.assertEquals("attendance", config.getRoot());
         Assert.assertEquals(config.getName(), "Grid");
@@ -123,16 +87,16 @@ public class ConfigManagerTest {
         Assert.assertEquals("ViewItem [width=90, type=string, color=null, style=null, formatter=null, params=null]",
                 items[0].toString());
     }
-    
+
     @Test
     public void testNonexistentConfig() {
         try {
             configManager.getComponentConfig(null, new EdOrgKey("1"), "fakeConfigId");
         } catch (Throwable t) {
-            Assert.assertEquals("Unable to read config for fakeConfigId, for path aa", t.getMessage());
+            Assert.assertEquals("Unable to read local custom config for fakeConfigId", t.getMessage());
         }
     }
-    
+
     @Test
     public void testConfigLocation() {
         String location = "config";

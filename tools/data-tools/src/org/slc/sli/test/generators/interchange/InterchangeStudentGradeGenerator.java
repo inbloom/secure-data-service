@@ -51,6 +51,7 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.ReportCardMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
@@ -135,6 +136,7 @@ public final class InterchangeStudentGradeGenerator {
     private static List<ComplexObjectType> addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects){
         
     	int studentCount = MetaRelations.STUDENT_MAP.size();
+    	long count = 0;
     	
         generateStudentAcademicRecord(interchangeObjects,       MetaRelations.STUDENT_MAP,      MetaRelations.SESSION_MAP,              MetaRelations.SECTION_MAP, StudentGradeRelations.REPORT_CARD_META);
         System.out.println("Finished StudentAcademicRecord [" + studentCount + "] Records Generated");
@@ -150,8 +152,8 @@ public final class InterchangeStudentGradeGenerator {
         System.out.println("Finished Diploma [O] Records Generated ");
         generateGradebookEntry(interchangeObjects,              StudentGradeRelations.GRADE_BOOK_ENTRY_METAS,                           MetaRelations.SECTION_MAP);
         System.out.println("Finished GradebookEntry [" + StudentGradeRelations.GRADEBOOK_ENTRIES + "] Records Generated");
-        generateStudentGradebookEntry(interchangeObjects,       MetaRelations.STUDENT_MAP,      StudentGradeRelations.GRADE_BOOK_ENTRY_METAS, MetaRelations.SECTION_MAP);
-        System.out.println("Finished StudentGradebookEntry [" + studentCount * StudentGradeRelations.GRADEBOOK_ENTRIES + "] Records Generated");
+        count = generateStudentGradebookEntry(interchangeObjects,       MetaRelations.STUDENT_MAP,      StudentGradeRelations.GRADE_BOOK_ENTRY_METAS, MetaRelations.SECTION_MAP);
+        System.out.println("Finished StudentGradebookEntry [" + count + "] Records Generated");
         generateCompentencyLevelDescriptor(interchangeObjects,  StudentGradeRelations.competencyLevelDescriptors);
         System.out.println("Finished CompentencyLevelDescriptor [" + StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR + "] Records Generated");
         generateLearningObjective(interchangeObjects,           StudentGradeRelations.REPORT_CARD_META);
@@ -423,32 +425,41 @@ public final class InterchangeStudentGradeGenerator {
         }
     }
     
-    private static void generateStudentGradebookEntry(
-            List<ComplexObjectType> interchangeObjects, 
-            Map<String, StudentMeta> studentMetaMap,
-            List<GradeBookEntryMeta> gradeBookEntryMetaList,
+    private static long generateStudentGradebookEntry(List<ComplexObjectType> interchangeObjects,
+            Map<String, StudentMeta> studentMetaMap, List<GradeBookEntryMeta> gradeBookEntryMetaList,
             Map<String, SectionMeta> sectionMetaMap) {
-                
-        for(StudentMeta studentMeta: studentMetaMap.values()){
+        long count = 0;
+        
+        for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
             StudentReferenceType studentRef = StudentGenerator.getStudentReferenceType(studentId);
-            for(int i = 0; i < gradeBookEntryMetaList.size(); i++){
+            
+            for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
                 
-                GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
-                SectionMeta section = gradeBookEntryMeta.getSection();
-                String sectionId = section.id;
-                String sectionSchool = section.schoolId;
-                SectionReferenceType sectionRef = getSectionRef(sectionId,  sectionSchool);//Reference to Section
-                
-                StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(sectionRef, studentRef);                
-                ReferenceType ref = new ReferenceType();
-                ref.setRef(new Ref(gradeBookEntryMeta.getId()));                
-                studentGradeBookEntry.setGradebookEntryReference(ref);
-                interchangeObjects.add(studentGradeBookEntry);
+                // create a studentgradebookentry for just a fraction of gradebooks
+                if ((int) (Math.random() * StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY) == 1) {
+                    
+                    GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
+                    SectionMeta section = gradeBookEntryMeta.getSection();
+                    String sectionId = section.id;
+                    String sectionSchool = section.schoolId;
+                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                                                                                              // to
+                                                                                              // Section
+                    
+                    StudentGradebookEntry studentGradeBookEntry = StudentGradeGenerator.getStudentGradebookEntry(
+                            sectionRef, studentRef);
+                    ReferenceType ref = new ReferenceType();
+                    ref.setRef(new Ref(gradeBookEntryMeta.getId()));
+                    studentGradeBookEntry.setGradebookEntryReference(ref);
+                    interchangeObjects.add(studentGradeBookEntry);
+                    count++;
+                }
             }
         }
+        return count;
     }
-    
+
     private static void generateCompentencyLevelDescriptor(List<ComplexObjectType> interchangeObjects, List<String> competencyLevelDescriptorIds) {
         
         int i = 0;

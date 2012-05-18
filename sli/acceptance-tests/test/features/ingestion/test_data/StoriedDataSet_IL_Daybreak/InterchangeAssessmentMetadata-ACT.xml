@@ -13,6 +13,10 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
+		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
 		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ActMath"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ActReading"></ObjectiveAssessmentReference>
@@ -98,6 +102,35 @@
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
+	
+	<!-- Assessment Item Section -->
+	<AssessmentItem id="AssessmentItem-1">
+		<IdentificationCode>AssessmentItem-1</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-2">
+		<IdentificationCode>AssessmentItem-2</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-3">
+		<IdentificationCode>AssessmentItem-3</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-4">
+		<IdentificationCode>AssessmentItem-4</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+	</AssessmentItem>
 	
 	<!-- Assessment Family Section -->
 	<AssessmentFamily id="ACT-Family">

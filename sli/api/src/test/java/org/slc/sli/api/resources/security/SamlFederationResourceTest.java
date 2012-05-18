@@ -1,9 +1,17 @@
 package org.slc.sli.api.resources.security;
 
+import java.io.IOException;
+import java.io.StringReader;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -13,14 +21,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.ws.rs.core.Response;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
-
-import static javax.ws.rs.core.Response.Status;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Unit tests for the Saml Federation Resource class.
@@ -67,6 +68,20 @@ public class SamlFederationResourceTest {
     @Test
     public void logoutOfIdpTest() {
         //TODO
+    }
+
+    @Test
+    public void consumeBadSAMLDataTest() {
+        String postData = "badSAMLData";
+
+        Exception exception = null;
+        try {
+            resource.consume(postData);
+        } catch (Exception e) {
+            exception = e;
+        }
+        Assert.assertTrue(exception instanceof IllegalArgumentException);
+
     }
 
 }

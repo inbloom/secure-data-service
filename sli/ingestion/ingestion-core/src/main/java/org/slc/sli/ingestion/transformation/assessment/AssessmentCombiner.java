@@ -25,7 +25,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     private Map<Object, NeutralRecord> assessments;
-
+    
     /**
      * Default constructor.
      */
@@ -76,11 +76,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(), getJob().getId()).
-                            getObjectiveAssessment(objectiveAssessmentRef);
+                    Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(
+                            getNeutralRecordMongoAccess(), getJob().getId())
+                            .getObjectiveAssessment(objectiveAssessmentRef);
                     
                     if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
-                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef, familyHierarchyName);
+                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
+                                familyHierarchyName);
                         familyObjectiveAssessments.add(objectiveAssessment);
                     } else {
                         LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
@@ -92,11 +94,45 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+                attrs.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR,
+                        getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
             }
-            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");            
+            
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> assessmentItemsRefs = (List<Map<String, Object>>) attrs.get("assessmentItemRefs");
+            if (assessmentItemsRefs != null && assessmentItemsRefs.size() > 0) {
+                List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+                attrs.put("assessmentItem", items);
+                for (Map<String, Object> assessmentItem : assessmentItemsRefs) {
+                    String itemRef = (String) assessmentItem.get("ref");
+                    Map<String, Object> item = getAssessmentItem(itemRef);
+                    if (item != null) {
+                        items.add(item);
+                    } else {
+                        super.getErrorReport(neutralRecord.getSourceFile()).error(
+                                "Could not resolve AssessmentItemReference.  AssessmentItem with id " + itemRef
+                                        + " not found.", this);
+                    }
+                }
+            }
+            attrs.remove("assessmentItemRefs");
+            
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
+    }
+    
+    private Map<String, Object> getAssessmentItem(String itemRef) {
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("localId", itemRef);
+        
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "assessmentItem", paths, getJob().getId());
+        
+        if (data.iterator().hasNext()) {
+            return data.iterator().next().getAttributes();
+        }
+        return null;
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {

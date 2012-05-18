@@ -62,8 +62,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
-                    // TODO get this error back to the job's error log
-                    LOG.warn("Record has duplicate ObjectiveId, ContentStandardName combination.");
+                    super.getErrorReport(lo.getSourceFile()).error(
+                            "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
+                                    + objectiveId + ", ContentStandardName" + contentStandard, this);
                     continue;
                 }
                 learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
@@ -88,11 +89,19 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     if (childLo.getLocalParentIds() == null) {
                         childLo.setLocalParentIds(new HashMap<String, Object>());
                     }
-                    childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
-                    childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
-                    childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+                    if (!childLo.getLocalParentIds().containsKey(LOCAL_ID_OBJECTIVE_ID)) {
+                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
+                        childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
+                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+                    } else {
+                        super.getErrorReport(childLo.getSourceFile())
+                                .error("LearningObjective cannot have multiple parents. IdentificationCode: "
+                                        + loId.objectiveId, this);
+                    }
                 } else {
-                    LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
+                    super.getErrorReport(parentLO.getSourceFile()).error(
+                            "Could not resolve LearningObjectiveReference with IdentificationCode " + loId
+                                    + ", ContentStandardName " + contentStandard, this);
                 }
             }
 

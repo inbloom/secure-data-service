@@ -13,8 +13,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -40,12 +38,13 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StudentDisciplineIncidentAssociationResource.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(StudentDisciplineIncidentAssociationResource.class);
 
     @Autowired
     public StudentDisciplineIncidentAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
-        LOGGER.debug("New resource handler created {}", this);
+//        DE260 - Logging of possibly sensitive data
+//        LOGGER.debug("New resource handler created {}", this);
     }
 
     /**

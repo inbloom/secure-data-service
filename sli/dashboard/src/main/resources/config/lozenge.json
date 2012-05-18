@@ -4,11 +4,12 @@
   items : [
     {name: "ELL", description: "English Language Learner", condition :{field: "limitedEnglishProficiency", value: ["Limited"]}, style: "lozenge-widget-ell"},
     {name: "ELL", description: "English Language Learner (former)", condition :{field: "limitedEnglishProficiency_former", value: ["Limited"]}, style: "lozenge-widget-ell"},
-    {name: "504", description: "Section 504", condition :{field: "504", value: [""]}, style: "lozenge-widget-504"},
+    {name: "504", description: "Section 504", condition :{field: "section504Disabilities", value: ["Attention Deficit Hyperactivity Disorder (ADHD)","Medical Condition","Motor Impairment","Sensory Impairment","Other"]}, style: "lozenge-widget-504"},
     {name: "504", description: "Section 504 (former)", condition :{field: "504_former", value: [""]}, style: "lozenge-widget-504"},
     {name: "IEP", description: "IEP", condition :{field: "IEP", value: [""]}, style: "lozenge-widget-IEP"},
     {name: "IEP", description: "IEP (former)", condition :{field: "IEP_former", value: [""]}, style: "lozenge-widget-IEP"},
     {name: "LEA", description: "Custom Program", condition :{field: "LEA", value: [""]}, style: "lozenge-widget-LEA"},
-    {name: "RPT", description: "Repeating Grade", condition :{field: "RPT", value: [""]}, style: "lozenge-widget-RPT"}
+    {name: "RPT", description: "Repeating Grade", condition :{field: "RPT", value: [""]}, style: "lozenge-widget-RPT"},
+    {name: "FRE", description: "Food Services Eligibility", condition :{field: "schoolFoodServicesEligibility", value: ["Free"]}, style: "lozenge-widget-fre"}
   ] 
 }

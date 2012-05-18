@@ -71,4 +71,34 @@
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
         <Section504Disabilities/>
     </Student>
+    <Student>
+        <StudentUniqueStateId>1000000002</StudentUniqueStateId>
+        <Name>
+            <FirstName>Matt</FirstName>
+            <LastSurname>Forker</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>1999-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>2 Water Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60053-1532</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-234-2352</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities>
+            <Section504Disability>Medical Condition</Section504Disability>
+        </Section504Disabilities>
+    </Student>
 </InterchangeStudentParent>

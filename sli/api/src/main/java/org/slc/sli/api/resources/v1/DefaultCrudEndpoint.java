@@ -19,6 +19,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -27,6 +33,7 @@ import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
@@ -34,15 +41,11 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Prototype new api end points and versioning base class
@@ -60,7 +63,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
     protected String includeCustomEntityStr;
-    
+
     /* Critera you can override in sublcass */
     protected NeutralCriteria extraCriteria;
 
@@ -77,9 +80,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
-    
+
     @Autowired
     private Repository<Entity> repo;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -122,7 +128,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response create(final String resourceName, final EntityBody newEntityBody, final HttpHeaders headers,
             final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -152,11 +158,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String key, final String value, final HttpHeaders headers,
             final UriInfo uriInfo) {
         // /v1/entity/{id}/associations
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                LOGGER.debug("Attempting to read from {} where {} = {}",
-                        new Object[] { entityDef.getStoredCollectionName(), key, value });
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("Attempting to read from {} where {} = {}",
+//                        new Object[] { entityDef.getStoredCollectionName(), key, value });
 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 List<String> valueList = Arrays.asList(value.split(","));
@@ -217,19 +224,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String key, final String value, final String idKey,
             final String resolutionResourceName, final HttpHeaders headers, final UriInfo uriInfo) {
         // /v1/entity/{id}/associations/entity
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 // look up information on association
                 EntityDefinition endpointEntity = entityDefs.lookupByResourceName(resolutionResourceName);
                 String resource1 = entityDef.getStoredCollectionName();
-                String resource2 = endpointEntity.getStoredCollectionName();
+//                String resource2 = endpointEntity.getStoredCollectionName();
 
-                // write some information to debug
-                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
-                LOGGER.debug("Then for each result, ");
-                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
-                        new Object[] { resource2, resource1, idKey });
+//                 DE260 - Logging of possibly sensitive data
+//                 write some information to debug
+//                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
+//                LOGGER.debug("Then for each result, ");
+//                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
+//                        new Object[] { resource2, resource1, idKey });
 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
                 NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(key, value, idKey);
@@ -314,7 +322,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String idList, final HttpHeaders headers,
             final UriInfo uriInfo) {
         // /v1/entity/{id}
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 int idLength = idList.split(",").length;
@@ -396,7 +404,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     @Override
     public Response delete(final String resourceName, final String id, final HttpHeaders headers, final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 entityDef.getService().delete(id);
@@ -423,14 +431,18 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response update(final String resourceName, final String id, final EntityBody newEntityBody,
             final HttpHeaders headers, final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
-                LOGGER.debug("updating entity {}", copy);
+
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
-                LOGGER.debug("updating entity {}", copy);
+
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -448,7 +460,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return requested information or error status
      */
     public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo, final boolean returnAll) {
-        return handle(collectionName, entityDefs, new ResourceLogic() {
+        return handle(collectionName, entityDefs, uriInfo, new ResourceLogic() {
             // v1/entity
             @Override
             public Response run(final EntityDefinition entityDef) {
@@ -494,6 +506,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
+    @Override
     public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
         return this.readAll(collectionName, headers, uriInfo, false);
     }
@@ -552,8 +565,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Handle preconditions and exceptions.
      */
-    private static Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
-            final ResourceLogic logic) {
+    private Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
+            final UriInfo uriInfo, final ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         if (entityDef == null) {
             return Response
@@ -561,6 +574,18 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                             "Invalid resource path: " + resourceName)).build();
         }
+
+        // log if entity is restricted.
+        if (entityDef.isRestrictedForLogging()) {
+            if (securityEventBuilder != null) {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+                audit(event);
+            } else {
+                LOGGER.warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+            }
+        }
+
         return logic.run(entityDef);
     }
 

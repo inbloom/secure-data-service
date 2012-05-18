@@ -19,8 +19,8 @@ And the object includes an app URL, admin URL, image URL, description, title, ve
 
 Scenario: SLI administrator has admin app endpoints filtered based on role
 
-Given I am logged in using "demo" "demo1234" to realm "SLI"
+Given I am logged in using "operator" "operator1234" to realm "SLI"
 When I make an API call to get my available apps filtered by admin
 Then I receive a JSON object listing all the admin apps
 And the list contains the admin app
-And the admin app endpoints only contains SLI admin endpoints
+And the admin app endpoints only contains SLI operator endpoints

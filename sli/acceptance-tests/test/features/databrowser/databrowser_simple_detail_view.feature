@@ -102,7 +102,7 @@ Then I am redirected to a page that page lists all of the <Entity> entity's fiel
 | Page                      | Text                                  | Link         | Entity        |
 | "My Sections"             | "FHS-Math101"                         | "Me"         | "FHS-Math101" |
 | "Teacher to Section List" | "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"| "GetSection" | "FHS-Math101" |
-| "Teacher to Section List" | "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"| "GetTeacher" | "jdoe"        |
+| "Teacher to Section List" | "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"| "GetTeacher" | "Doe"        |
 	
 Scenario: Click on Available Links associations
 

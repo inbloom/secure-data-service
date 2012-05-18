@@ -1,3 +1,0 @@
-edfi-xml,StudentParent,InterchangeStudent.xml,639d3bd8bedadfd333dcb7bd21dad42d
-edfi-xml,AssessmentMetaData,InterchangeAssessmentMetadata-ISAT.xml,4fa388e2a9840759d30fc8a8b2c28e1c
-edfi-xml,StudentAssessment,InterchangeStudentAssessmentWoIDRef.xml,e038875d5ee8a80534c0eb6e45f3fc2a

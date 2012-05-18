@@ -15,15 +15,17 @@ sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" simple-idp/s
 #Take care of fixture data for applications
 echo "Altering fixture data for applications to match..."
 # sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/team_application_fixtures.json
-sed -i  "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_fixture.json
+sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_fixture.json
 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/realm_fixture.json
-sed -i  "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_denial_fixture.json
+sed -i "s/http:\/\/local.slidev.org:8082/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/realm_fixture.json
+sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_denial_fixture.json
 
 #Take care of rails projects
 echo "Altering rails applications to match..."
 grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
 grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/team.rb
+sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/team_sb.rb
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/team.rb
 
 echo "Done.. ready to build and deploy!"

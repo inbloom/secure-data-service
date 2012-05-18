@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:util="http://www.springframework.org/schema/util"
   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
   <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-
-  <beans:bean id="idpProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <beans:property name="ignoreUnresolvablePlaceholders" value="true" />
-    <beans:property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-    <beans:property name="locations">
-      <beans:list>
-        <beans:value>file:${sli.conf}</beans:value>
-      </beans:list>
-    </beans:property>
-  </beans:bean>
 
   <!-- Enables the Spring MVC @Controller programming model -->
   <annotation-driven />
@@ -30,9 +22,23 @@
     <beans:property name="suffix" value=".jsp" />
   </beans:bean>
 
-  <context:component-scan base-package="org.slc.sli" />
-  <!-- This import must be below the propertyPlaceholderConfigurer because it's not marked ignoreUnresolvablePlaceholders. 
-    It will see our ${sli.simple-idp.*} placeholders and not be able to find them. -->
+  <!-- Include resources from DAL -->
   <beans:import resource="classpath:/spring/db.xml" />
+  <beans:import resource="classpath:/spring/validation.xml" />
+
+  <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect"
+    factory-method="aspectOf">
+	<beans:property name="template" ref="mongoTemplate" />
+  </beans:bean>
+
+<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<beans:property name="exceptionMappings">
+	<beans:props>
+		<beans:prop key="java.lang.Exception">error</beans:prop>
+	</beans:props>
+	</beans:property>
+</beans:bean>
+
+  <context:component-scan base-package="org.slc.sli" />
 
 </beans:beans>

@@ -44,7 +44,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     }
 
     @Override
-    Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         matchEntity(entity, errorReport);
 
@@ -78,7 +78,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             collectionName = (String) entity.getBody().get("collectionName");
             entity.getBody().remove("collectionName");
         }
-        
+
         if (entity.getEntityId() != null) {
 
             if (!entityRepository.update(collectionName, entity)) {
@@ -117,7 +117,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      *            Reference to error report to log error message in.
      */
     private void reportErrors(String errorMessage, NeutralRecordEntity entity, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + entity.getType() + ") reports failure: " + errorMessage;
+        String assembledMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG1", entity.getType(), errorMessage);
         errorReport.error(assembledMessage, this);
     }
 
@@ -144,7 +144,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                     collection = keys[0];
                     fieldName = keys[1];
                 } catch (Exception e) {
-                    errorReport.error("Invalid localParentId key [" + externalIdEntry.getKey() + "]", this);
+                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG2", externalIdEntry.getKey()), this);
                     break;
                 }
             } else {
@@ -219,9 +219,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         if (matchFilter.isEmpty()) {
             return;
         }
-        
+
         String collectionName = entity.getType();
-        
+
         if (collectionName.equals("teacher")) {
             collectionName = "staff";
         } else if (collectionName.equals("school")) {
@@ -260,11 +260,11 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
                 String referencedCollection = WordUtils.uncapitalize(externalReference.getKey());
                 String referencedId = referencedCollection + "Id";
-                
+
                 if (referencedCollection.contains("#")) {
                     referencedId = referencedCollection.substring(referencedCollection.indexOf("#") + 1);
                 }
-                
+
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
         } else {
@@ -315,7 +315,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                 filter.put(field, (String) fieldValue);
             }
         } catch (Exception e) {
-            errorReport.error("Invalid key fields", this);
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG3"), this);
         }
 
         return filter;

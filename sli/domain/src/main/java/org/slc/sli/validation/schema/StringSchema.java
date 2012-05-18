@@ -1,16 +1,18 @@
 package org.slc.sli.validation.schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
 
 /**
  *
@@ -23,13 +25,41 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class StringSchema extends NeutralSchema {
 
+    private List<AbstractBlacklistStrategy> validationRuleList;
+    private List<AbstractBlacklistStrategy> relaxedValidationRuleList;
+
     // Constructors
     public StringSchema() {
-        this(NeutralSchemaType.STRING.getName());
+        this(NeutralSchemaType.STRING.getName(), new ArrayList<AbstractBlacklistStrategy>(), new ArrayList<AbstractBlacklistStrategy>());
     }
 
     public StringSchema(String xsdType) {
+        this(xsdType, new ArrayList<AbstractBlacklistStrategy>(), new ArrayList<AbstractBlacklistStrategy>());
+    }
+
+    /**
+     * Constructor with parameters for the lists of AbstractBlacklistStrategy instances which will be applied,
+     * depending on AppInfo
+     *
+     * @param validationRuleList
+     * @param relaxedValidationRuleList
+     */
+    public StringSchema(List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
+        this(NeutralSchemaType.STRING.getName(), validationRuleList, relaxedValidationRuleList);
+    }
+
+    /**
+     * Constructor with parameters the xsdType and the lists of AbstractBlacklistStrategy instances which will be
+     * applied, depending on AppInfo
+     *
+     * @param xsdType
+     * @param validationRuleList
+     * @param relaxedValidationRuleList
+     */
+    public StringSchema(String xsdType, List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
         super(xsdType);
+        this.validationRuleList = validationRuleList;
+        this.relaxedValidationRuleList = relaxedValidationRuleList;
     }
 
     // Methods
@@ -38,16 +68,16 @@ public class StringSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.STRING;
     }
-    
 
-    
+
+
 
     @Override
     public Object convert(Object value) {
         return value;
     }
-    
-    
+
+
 
     /**
      * Validates the given entity
@@ -64,11 +94,13 @@ public class StringSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
         String data = (String) entity;
+
         if (this.getProperties() != null) {
             for (Entry<String, Object> entry : this.getProperties().entrySet()) {
                 if (Restriction.isRestriction(entry.getKey())) {
@@ -102,6 +134,24 @@ public class StringSchema extends NeutralSchema {
                 }
             }
         }
+        if (isRelaxedBlacklisted()) {
+            for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by relaxed blacklisting strategy: "
+                        + validationRule.getIdentifier(), ErrorType.INVALID_VALUE, errors)) {
+                    return false;
+                }
+            }
+        } else {
+            for (AbstractBlacklistStrategy validationRule : validationRuleList) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by strict blacklisting strategy: "
+                        + validationRule.getIdentifier(), ErrorType.INVALID_VALUE, errors)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

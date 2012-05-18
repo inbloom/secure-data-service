@@ -22,7 +22,7 @@ import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
@@ -36,7 +36,7 @@ public final class PsmConfigWriter {
         }
     }
 
-    private static final void writeAttribute(final Attribute attribute, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writeAttribute(final Attribute attribute, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PsmConfigElements.ATTRIBUTE.getLocalPart());
         try {
@@ -97,7 +97,7 @@ public final class PsmConfigWriter {
     }
 
     @SuppressWarnings("unused")
-    private static final void writePimClassType(final ClassType classType, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writePimClassType(final ClassType classType, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PsmConfigElements.CLASS_TYPE.getLocalPart());
         try {
@@ -117,7 +117,7 @@ public final class PsmConfigWriter {
     }
 
     @SuppressWarnings("unused")
-    private static final void writePimDataType(final DataType dataType, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writePimDataType(final DataType dataType, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PsmConfigElements.DATA_TYPE.getLocalPart());
         try {
@@ -135,7 +135,7 @@ public final class PsmConfigWriter {
     }
 
     @SuppressWarnings("unused")
-    private static final void writePimEnumType(final EnumType enumType, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writePimEnumType(final EnumType enumType, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PsmConfigElements.ENUM_TYPE.getLocalPart());
         try {
@@ -160,7 +160,7 @@ public final class PsmConfigWriter {
         }
     }
 
-    private static final void writeDescription(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writeDescription(final Taggable type, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
             final String name = model.getTagDefinition(taggedValue.getTagDefinition()).getName();
@@ -195,7 +195,7 @@ public final class PsmConfigWriter {
         }
     }
 
-    private static final void writeFacets(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
+    private static final void writeFacets(final Taggable type, final ModelIndex model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
             final String localName = model.getTagDefinition(taggedValue.getTagDefinition()).getName();

@@ -6,6 +6,17 @@
 
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
+    <xs:simpleType name="environmentType">
+        <xs:annotation>
+            <xs:documentation>Type of environment a user account could access
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Production" />
+            <xs:enumeration value="Sandbox" />
+        </xs:restriction>
+    </xs:simpleType>
+
 	<xs:simpleType name="ideaEligibilityType">
 		<xs:annotation>
 			<xs:documentation>Indicator of the eligibility of the student to receive special education services according to the Individuals with Disabilities Education Act (IDEA).</xs:documentation>
@@ -880,6 +891,9 @@
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
@@ -1493,6 +1507,9 @@
 			<xs:documentation>A description of the type of academic distinctions
 				earned by or awarded to the individual.
 			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
@@ -1626,6 +1643,9 @@
 				for accomplishments in a co-curricular, or extra-curricular
 				activity..
 			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />

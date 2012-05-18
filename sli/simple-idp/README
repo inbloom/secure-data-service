@@ -1,4 +1,6 @@
 load the local host realm json into mongo realm collection
+  $ mongoimport -d sli -c realm --jsonArray --file local-il-mock-realm.json
+  $ mongoimport -d sli -c realm --jsonArray --file local-sli-mock-realm.json
 run API on locahost:8080
 run simple-idp on localhost:8082
 hit api with clientId and redirect_uri from application collection:

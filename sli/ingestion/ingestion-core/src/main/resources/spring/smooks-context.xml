@@ -23,6 +23,7 @@
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
                 <value>${smooks.targetselector.xml.program}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptor}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -33,6 +34,8 @@
             <constructor-arg>
               <list>
                 <value>${smooks.targetselector.xml.session}</value>
+                <value>${smooks.targetselector.xml.gradingPeriod}</value>
+                <value>${smooks.targetselector.xml.calendarDate}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -90,8 +93,10 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment.item}</value>
                 <value>${smooks.targetselector.xml.assessmentFamily}</value>
                 <value>${smooks.targetselector.xml.learningObjective}</value>
                 <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor</value>
@@ -107,6 +112,7 @@
               <list>
                 <value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.student.assessment.item}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -121,6 +127,8 @@
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecordTemp}</value>
+                <value>${smooks.targetselector.xml.grade}</value>
+                <value>${smooks.targetselector.xml.reportCard}</value>
               </list>
             </constructor-arg>
           </bean>

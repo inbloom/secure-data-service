@@ -11,3 +11,4 @@ TEST-*.xml
 acceptance-tests/test/features/ingestion/test_data/*.zip
 acceptance-tests/test/features/ingestion/test_data/temp-*
 ingestion/ingestion-base/src/test/resources/zip/unzip/*
+acceptance-tests/vendor/cache/*

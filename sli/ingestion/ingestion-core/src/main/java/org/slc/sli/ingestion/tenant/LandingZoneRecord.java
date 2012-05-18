@@ -1,32 +1,26 @@
 package org.slc.sli.ingestion.tenant;
 
+import java.util.List;
+
+
 /**
  * Container class for landing zone data inside tenants
  * 
  * @author jtully
  */
 public class LandingZoneRecord {
-    private String district;
-    private String server;
+    private String educationOrganization;
     private String ingestionServer;
     private String path;
-    private String userName;
+    private List<String> userNames;
     private String desc;
 
-    public String getDistrict() {
-        return district;
+    public String getEducationOrganization() {
+        return educationOrganization;
     }
         
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-    
-    public String getServer() {
-        return server;
-    }
-        
-    public void setServer(String server) {
-        this.server = server;
+    public void setEducationOrganization(String educationOrganization) {
+        this.educationOrganization = educationOrganization;
     }
     
     public String getIngestionServer() {
@@ -45,12 +39,12 @@ public class LandingZoneRecord {
         this.path = path;
     }
     
-    public String getUserName() {
-        return userName;
+    public List<String> getUserNames() {
+        return userNames;
     }
         
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(List<String> userNames) {
+        this.userNames = userNames;
     }
     
     public String getDesc() {

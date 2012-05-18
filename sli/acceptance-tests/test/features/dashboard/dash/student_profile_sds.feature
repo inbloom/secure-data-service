@@ -19,8 +19,8 @@ When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;Felipe Cianciolo"
 # Lozenges check on LOS
 Then there is no lozenges for student "Tomasa Cleaveland"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+#And I see a footer on the page that has the text "Proprietary Information"
 And I click on student "Alton Maultsby"
 And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
@@ -29,8 +29,8 @@ And their grade is "8"
 And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+#And I see a footer on the page that has the text "Proprietary Information"
 #Display hide tabs based on grades
 And there are "7" Tabs
 And Tab has a title named "Middle School Overview"
@@ -57,13 +57,12 @@ When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
 And I click on student "Roberta Jones"
 And I view its student profile
-And their name shown in profile is "Roberta Jones"
-And their nickname shown in profile is "( Robbie Jones )"
+And their name shown in profile is "Roberta Jones (Robbie Jones)"
 And their id shown in proflie is "1000000000"
 And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
-And there are "6" Tabs
+And there are "4" Tabs
 
 @integration 
 Scenario: Student with no grade level

@@ -20,7 +20,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     List<? extends Validator<T>> postValidators;
 
-    abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
+    protected abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
 
     void pre(T item, ErrorReport errorReport) {
         if (preValidators != null) {

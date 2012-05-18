@@ -18,6 +18,18 @@
     </encoder>
   </appender>
   
+  <appender name="SECURITY_FILE" class="ch.qos.logback.core.FileAppender">
+    <File>${log.path}/security.log</File>
+    <Append>true</Append>
+    <encoder>
+      <Pattern>%msg%n</Pattern>
+    </encoder>
+  </appender>
+   
+  <logger name="SecurityMonitor" level="INFO" additivity="false">
+    <appender-ref ref="SECURITY_FILE" />
+  </logger>
+  
   <logger name="APICallLogger" level="INFO">
     <appender-ref ref="API_CALL_LOGGER" />
   </logger>

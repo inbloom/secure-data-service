@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -187,6 +189,12 @@ public class AssessmentEntityTest {
         assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
         assertEquals(Arrays.asList("TAKSReading2-1", "TAKSReading2-2"), assessmentNeutralRecord.getAttributes().get("objectiveAssessmentRefs"));
 
+        List<Map<String, Object>> assItems = (List<Map<String, Object>>) assessmentNeutralRecord.getAttributes().get(
+                "assessmentItemRefs");
+        Assert.assertNotNull(assItems);
+        assertEquals(2, assItems.size());
+        assertEquals("TAKSReading3-1", assItems.get(0).get("ref"));
+        assertEquals("TAKSReading3-2", assItems.get(1).get("ref"));
 
         /*
         List assessmentItemReferenceList = (List) assessmentNeutralRecord.getAttributes().get(
@@ -236,7 +244,7 @@ public class AssessmentEntityTest {
                     "assigningOrganizationCode", "orgcode2");
             EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "ID", "1235");
         }
-        
+
         List sectionReferenceTypeList = (List) assessmentNeutralRecord.getAttributes().get("sectionReferences");
         Map sectionReferenceTypeMap = (Map) sectionReferenceTypeList.get(0);
         EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "id", "myid");

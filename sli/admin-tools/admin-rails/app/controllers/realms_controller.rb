@@ -1,4 +1,5 @@
 include ActiveSupport::Rescuable
+include GeneralRealmHelper
 
 class RealmsController < ApplicationController
 
@@ -8,14 +9,9 @@ class RealmsController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    #figure out the realm this user has access to
     userRealm = get_user_realm
-    realmToRedirectTo = nil
-    realms = Realm.all
-    logger.debug {"User Realm: #{userRealm}"}
-    realms.each do |realm|
-        realmToRedirectTo = realm if realm.id.eql? userRealm
-    end
+    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
+    logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil?
       render_404
     else
@@ -42,20 +38,22 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
    def update
      @realm = Realm.find(params[:id])
-
-     @realm.mappings = params[:mappings];
+     params[:realm] = {} if params[:realm] == nil
+     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
      respond_to do |format|
        success = false
        errorMsg = ""
 
        begin
-         success =  @realm.save()
+         success =  @realm.update_attributes(params[:realm])
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body
+         logger.debug("Error: #{errorMsg}")
        end
 
-       if success && params[:mappings] != nil
-         format.json { render json: @realm }
+       if success
+         format.html { redirect_to edit_realm_management_path, notice: 'Realm was successfully updated.' }
+         format.json { render json: @realm, status: :created, location: @realm }
        else
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
@@ -63,23 +61,55 @@ class RealmsController < ApplicationController
      end
    end
 
+   # POST /roles
+  # POST /roles.json
+  def create
+     logger.debug("Creating a new realm")
+     @realm = Realm.new(params[:realm])
+     @realm.saml = {} if @realm.saml == nil
+     @realm.mappings = {} if @realm.mappings == nil
+     @realm.admin = false
+     @realm.edOrg = session[:edOrg]
+     logger.debug{"Creating realm #{@realm}"}
+
+     respond_to do |format|
+       if @realm.save
+         format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully created.' }
+         format.json { render json: @realm, status: :created, location: @realm }
+       else
+         format.html { render action: "new" }
+         format.json { render json: @realm.errors, status: :unprocessable_entity }
+       end
+     end
+  end
+
+  # DELETE /realms/1
+  # DELETE /realms/1.json
+  def destroy
+    @realm = Realm.find(params[:id])
+    @realm.destroy
+
+    respond_to do |format|
+      format.html { redirect_to new_realm_management_path, notice: "Realm was successfully deleted." }
+      format.json { head :ok }
+    end
+  end
+
 private
 
   # Uses the /role api to get the list of roles
   def get_roles()
     roles = Role.all
+
     toReturn = []
     roles.each do |role|
-      toReturn.push role.name unless role.name == "SLI Administrator"
+      toReturn.push role.name unless role.admin
     end
     toReturn
   end
 
-  #TODO:  current we're just checking the realm the user authenticated to,
-  # but ultimately we need to get that somewhere else since the user will
-  # always be authenticated to the SLI realm
   def get_user_realm
-    return session[:adminRealm]
+    return session[:edOrg]
   end
 
 end

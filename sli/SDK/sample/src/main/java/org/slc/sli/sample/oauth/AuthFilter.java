@@ -1,5 +1,7 @@
     package org.slc.sli.sample.oauth;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -65,11 +67,14 @@ public class AuthFilter implements Filter {
     private void handleCallback(ServletRequest request, ServletResponse response) {
         BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
         String code = ((HttpServletRequest) request).getParameter("code");
-        LOG.debug("Got authoriation code: {}", code);
+//        DE260 - commenting out possibly sensitive data
+//        LOG.debug("Got authoriation code: {}", code);
 
         if (client != null) {
-            String accessToken = client.connect(code);
-            LOG.debug("Got access token: {}", accessToken);
+//            String accessToken =
+                    client.connect(code);
+//            DE260 - commenting out possibly sensitive data
+//            LOG.debug("Got access token: {}", accessToken);
         }
     }
 
@@ -101,13 +106,24 @@ public class AuthFilter implements Filter {
     public void init(FilterConfig conf) throws ServletException {
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
 
-        String env = System.getProperty("sli.env");
-        if (env == null) {
-            throw new RuntimeException("sli.env system property is not set!");
-        }
-        InputStream propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
-        if (propStream == null) {
-            throw new RuntimeException("no properties file found for sli.env: " + env);
+        InputStream propStream;
+
+        String externalProps = System.getProperty("sample.conf");
+        if (externalProps != null) {
+            try {
+                propStream = new FileInputStream(externalProps);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Unable to load properties file: " + externalProps);
+            }
+        } else {
+            String env = System.getProperty("sli.env");
+            if (env == null) {
+                throw new RuntimeException("sli.env system property is not set!");
+            }
+            propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
+            if (propStream == null) {
+                throw new RuntimeException("no properties file found for sli.env: " + env);
+            }
         }
         Properties props = new Properties();
         try {
@@ -115,11 +131,18 @@ public class AuthFilter implements Filter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         clientId = props.getProperty("clientId");
         clientSecret = props.getProperty("clientSecret");
+        String apiUrlString = props.getProperty("apiUrl");
+        String callbackUrlString = props.getProperty("callbackUrl");
+        if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
+            throw new RuntimeException(
+                    "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
+        }
         try {
-            apiUrl = new URL(props.getProperty("apiUrl"));
-            callbackUrl = new URL(props.getProperty("callbackUrl"));
+            apiUrl = new URL(apiUrlString);
+            callbackUrl = new URL(callbackUrlString);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
