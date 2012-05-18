@@ -1,12 +1,34 @@
-<p id="notice"><%= notice %></p>
+<p id="notice"><%= "Application authorization was successfully updated" if notice != nil %></p>
 
-<h3>Please approve SLI applications to access the district's data</h3>
+
+<% if @application_authorizations.length == 0 %>
+    <h3>You are not authorized to make application authorizations</h3>
+<% else %>
+    <h3>Please approve SLI applications to access the district's data</h3>
+<% end %>
+<% if @application_authorizations.length > 1 %>
+    <% names = @application_authorizations.map{|auth| auth.authId} %>
+    <select name="districtSelection">
+        <% names.each do |cur| %>
+            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= cur %></option>
+        <% end %>
+    </select>
+<% end %>
 
 
 <% @application_authorizations.each do |application_authorization| %>
     <% @application_authorization = application_authorization %>
     <%= render 'form' %>
 <% end %>
+<script type="text/javascript" charset="utf-8">
+    $("select").change(function(){
+        $("select option:selected").each(function(){
+            $("table").hide();
+            $("#AuthorizedAppsTable_" + $(this).text()).show();
 
+       })  ;
+     }).change();
+
+</script>
 <br />
 

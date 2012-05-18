@@ -29,6 +29,7 @@ class ApplicationAuthorizationsController < ApplicationController
         newAppAuthorization = ApplicationAuthorization.new({"authId" => edOrg, "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
         @application_authorizations.push(newAppAuthorization)
       end
+      @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
     end
 
     respond_to do |format|
@@ -73,7 +74,7 @@ class ApplicationAuthorizationsController < ApplicationController
 
     respond_to do |format|
       if @application_authorization.save
-        format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully created.' }
+        format.html { redirect_to application_authorizations_path, notice: 'Application authorization was successfully created.' }
         format.json { render json: @application_authorization, status: :created, location: @application_authorization }
       else
         format.html { render action: "new" }
@@ -97,7 +98,7 @@ class ApplicationAuthorizationsController < ApplicationController
     updates = {"appIds" =>  idArray}
     respond_to do |format|
       if @application_authorization.update_attributes(updates)
-        format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully updated.' }
+        format.html { redirect_to application_authorizations_path, notice: @application_authorization.authId}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else
