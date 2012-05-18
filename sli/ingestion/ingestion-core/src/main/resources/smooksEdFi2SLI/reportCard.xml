@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="reportCards" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="reportCard" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCard" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'reportCard'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="reportCardMeta" />
+    <jb:wiring property="body" beanIdRef="reportCardBody" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCardMeta" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="externalId" data="attributes reportCardId" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCardBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="studentId" data="attributes studentId" />
+    <!--
+    <jb:value property="studentCompetencyId" data="attributes studentCompetencyId" />
+    <jb:value property="gradingPeriodId" data="attributes gradingPeriodId" />
+    -->
+    <jb:wiring property="grades" beanIdRef="reportCard_gradeIdArray" />
+    <jb:value property="gpaGivenGradingPeriod" data="attributes gpaGivenGradingPeriod" decoder="Double" />
+    <jb:value property="gpaCumulative" data="attributes gpaCumulative" decoder="Double" />
+    <jb:value property="numberOfDaysAbsent" data="attributes numberOfDaysAbsent" decoder="Integer" />
+    <jb:value property="numberOfDaysInAttendance" data="attributes numberOfDaysInAttendance" decoder="Integer" />
+    <jb:value property="numberOfDaysTardy" data="attributes numberOfDaysTardy" decoder="Integer" />
+  </jb:bean>
+
+  <jb:bean beanId="reportCard_gradeIdArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:value data="attributes grades element" />
+  </jb:bean>
+</smooks-resource-list>

@@ -269,19 +269,3 @@ Then I should see following map of entry counts in the corresponding collections
 Then I should see "File Students.xml: unknown or empty file format specified" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
-Scenario: Post a Zip File containing a control file with extra file item entry
-  Given I want to ingest locally provided data "MissingXmlFile.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-        | collectionName                          |
-        | student                                 |
-  When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
-        | collectionName                          | count     |
-        | student                                 | 0         |
-
-Then I should see "File StudentParentData.xml: Specified file is missing" in the resulting error log file
-  And I should see "Processed 0 records." in the resulting batch job file
-
-
