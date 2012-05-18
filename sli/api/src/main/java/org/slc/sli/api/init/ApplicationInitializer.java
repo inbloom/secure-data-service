@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.domain.Entity;
@@ -17,7 +16,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PropertyPlaceholderHelper;
 
@@ -44,37 +46,50 @@ public class ApplicationInitializer {
 
     @Autowired
     private Repository<Entity> repository;
+    
+    @Value("file:${bootstrap.app.conf}")
+    protected Resource bootstrapProperties;
 
-    @Resource(name = "sliProperties")
-    protected Properties sliProps;
 
     private static final String APP_RESOURCE = "application";
 
     @PostConstruct
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
+        if (bootstrapProperties.isReadable()) {
+            Properties sliProp;
+            try {
+                sliProp = PropertiesLoaderUtils.loadProperties(bootstrapProperties);
+                processTemplates(sliProp);
+            } catch (IOException e) {
+                error("Could not load boostrap properties.", e);
+            }
+        } else {
+            warn("Could not find bootstrap properties at {}.", bootstrapProperties);
+        }
+    }
 
-        try {
-
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private void processTemplates(Properties sliProps) {
+        if (sliProps.containsKey("bootstrap.app.keys")) {
             String[] appKeys = sliProps.getProperty("bootstrap.app.keys").split(",");
             for (String key : appKeys) {
                 String templateKey = "bootstrap.app." + key + ".template";
                 if (sliProps.containsKey(templateKey)) {
-                    
-                    InputStream is = null;
-                    
                     try {
-                        is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
-                        Map appData = loadJsonFile(is);
-                        writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
-                    } finally {
-                        is.close();
+                        InputStream is = null;
+
+                        try {
+                            is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
+                            Map appData = loadJsonFile(is, sliProps);
+                            writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
+                        } finally {
+                            is.close();
+                        }
+                    } catch (IOException e) {
+                        error("Problem loading JSON template.", e);
                     }
                 }
             }
-
-        } catch (IOException e) {
-            error("Error loading JSON template", e);
         }
     }
 
@@ -85,15 +100,15 @@ public class ApplicationInitializer {
      */
     private void writeApplicationToMongo(Map<String, Object> appData, String guid) {
         Entity app = findExistingApp(appData);
-        
+
         if (guid != null && app != null && !app.getEntityId().equals(guid)) {
             repository.delete(APP_RESOURCE, guid);
             app = null;
         }
-        
+
         if (app == null) {
             info("Creating boostrap application data for {}", appData.get("name"));
-            
+
             if (guid != null) {
                 Entity entity = new MongoEntity(APP_RESOURCE, guid, appData, new HashMap<String, Object>());
                 repository.update(APP_RESOURCE, entity);
@@ -138,7 +153,7 @@ public class ApplicationInitializer {
      * @throws IOException
      */
     @SuppressWarnings("unchecked")
-    Map<String, Object> loadJsonFile(InputStream is) throws IOException {
+    Map<String, Object> loadJsonFile(InputStream is, Properties sliProps) throws IOException {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
         String template = writer.toString();

@@ -3,7 +3,7 @@ require_relative '../../utils/sli_utils.rb'
 Before do
   @gracePeriod = 2000
   time = Time.new
-  @currentDate = time.month.to_s + "/" + time.day.to_s + "/" + time.year.to_s
+  @currentDate = time.day.to_s + "/" + time.month.to_s + "/" + time.year.to_s
 end
 
 ###############################################################################
@@ -68,20 +68,14 @@ end
 Given /^"([^\"]*)" is within the grace period$/ do |sessionEndDate|
   endDateArr = sessionEndDate.split("-")
   endDate = endDateArr[2].to_s + "/" + endDateArr[1].to_s + "/" + endDateArr[0].to_s
-  currDate = @currentDate
-  currDateArr = currDate.split("/")
-  currDateStr = currDateArr[1].to_s + "/" + currDateArr[0].to_s + "/" + currDateArr[2].to_s
-  daysPassed = Date.parse(currDateStr).mjd - Date.parse(endDate).mjd
+  daysPassed = Date.parse(@currentDate).mjd - Date.parse(endDate).mjd
   assert(daysPassed <= 2000, "Session is not within grace period (2000 days)")
 end
 
 Given /^"([^\"]*)" is outside of the grace period$/ do |sessionEndDate|
   endDateArr = sessionEndDate.split("-")
   endDate = endDateArr[2].to_s + "/" + endDateArr[1].to_s + "/" + endDateArr[0].to_s
-  currDate = @currentDate
-  currDateArr = currDate.split("/")
-  currDateStr = currDateArr[1].to_s + "/" + currDateArr[0].to_s + "/" + currDateArr[2].to_s
-  daysPassed = Date.parse(currDateStr).mjd - Date.parse(endDate).mjd
+  daysPassed = Date.parse(@currentDate).mjd - Date.parse(endDate).mjd
   assert(daysPassed >= 2000, "Session is not outside grace period (2000 days)")
 end
 

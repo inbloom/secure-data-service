@@ -16,7 +16,7 @@ Background: Nothing yet
     | assessments                 | assessment                 | dd916592-7d7e-5d27-a87d-dfc7fcb757f6    |
     | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
     | students                    | student                    | 3a8860f9-ffb1-40f2-89b4-84f3ba369204    |
-    | studentSectionAssociations  | studentSectionAssociation  | 4efb4b14-bc49-f388-0000-0000c9355702    |
+    | studentSectionAssociations  | studentSectionAssociation  | 4ae72560-3518-4576-a35e-a9607668c9ad    |
     | courseOfferings             | sessionCourseAssociation   | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
 
   Scenario Outline: Getting response from GET - Read all
@@ -32,7 +32,7 @@ Background: Nothing yet
     | assessments                 | assessment                 | 3               |
     | schools                     | school                     | 5               |
     | students                    | student                    | 82              |
-    | studentSectionAssociations  | studentSectionAssociation  | 311             |
+    | studentSectionAssociations  | studentSectionAssociation  | 263             |
     | courseOfferings             | sessionCourseAssociation   | 6               |
 
 

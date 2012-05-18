@@ -1,7 +1,7 @@
 {
-   "name": "Databrowser",
-   "description":"SLI Databrowser",
-   "version":"1.0",
+   "name": "${bootstrap.app.databrowser.name}",
+   "description":"${bootstrap.app.databrowser.description}",
+   "version":"${bootstrap.app.databrowser.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.databrowser.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.databrowser.url}",
@@ -17,8 +17,8 @@
    "redirect_uri":"${bootstrap.app.databrowser.url}/callback",
    "is_admin":true,
    "installed":false,
-   "behavior":"Iframe App",
+   "behavior":"Full Window App",
    "developer_info":{
-      "organization":"SLI"
+      "organization":"${bootstrap.app.vendor}"
    }
 }
