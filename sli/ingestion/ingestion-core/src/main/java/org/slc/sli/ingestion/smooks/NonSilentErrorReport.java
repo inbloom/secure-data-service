@@ -61,15 +61,15 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             while (last != null && !last.element.equals(element.getParent())) {
                 reportErrors();
 
-                processedElements.pop();
+                ElementState oldLast = processedElements.pop();
+
+                if (oldLast.element.getName().equals(element.getName())) {
+                    reportErrors();
+
+                    sequence = oldLast.sequence + 1;
+                }
 
                 last = getLastElementState();
-            }
-
-            if (last != null && last.element.getName().equals(element.getName())) {
-                reportErrors();
-
-                sequence = last.sequence + 1;
             }
 
             processedElements.add(new ElementState(element, sequence));
@@ -93,7 +93,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
                     last.targetedAttributes.add(targetAttribute);
                 }
 
-                last.isTargeted = true;
+                markAsProcessed(last);
             }
         } else if (event instanceof FilterLifecycleEvent) {
 
@@ -102,6 +102,20 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             if (lifecycleEvent.getEventType() == EventType.FINISHED) {
                 reportErrors();
             }
+        }
+    }
+
+    private void markAsProcessed(ElementState element) {
+        if (element.isTargeted) {
+            return;
+        }
+
+        element.isTargeted = true;
+
+        int elementPos = processedElements.lastIndexOf(element);
+
+        if (elementPos > 0) {
+            markAsProcessed(processedElements.elementAt(elementPos - 1));
         }
     }
 
@@ -121,7 +135,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
 
         if (!last.isTargeted) {
-            String message = String.format("[%s]: element was not processed", getXPath(processedElements));
+            String message = String.format("%s: Element was not processed", getXPath(processedElements));
             errorReport.warning(message, this);
             PrintStream ps = System.out;
             ps.println(message);
@@ -132,7 +146,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
             PrintStream ps = System.out;
             for (String attribute : ignoredAttributes) {
-                String message = String.format("[%s]: [%s] attribute was not processed", xPath, attribute);
+                String message = String.format("%s: The '%s' attribute was not processed", xPath, attribute);
                 errorReport.warning(message, this);
                 ps.println(message);
             }
@@ -147,11 +161,10 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         for (int i = 0; i < attributes.getLength(); i++) {
             String attribute = attributes.getLocalName(i);
 
-            if (!element.targetedAttributes.contains(attribute)) {
-                ignoredAttributes.add(attribute);
+            if (!attribute.isEmpty() && !element.targetedAttributes.contains(attribute)) {
+                ignoredAttributes.add(attributes.getQName(i));
             }
         }
-
 
         return ignoredAttributes;
     }
