@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.QueryParseException;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +37,6 @@ import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -81,7 +82,7 @@ public class BasicService implements EntityService {
 
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
-    
+
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
         this.treatments = treatments;
@@ -96,6 +97,7 @@ public class BasicService implements EntityService {
     @Override
     public long count(NeutralQuery neutralQuery) {
         checkRights(this.readRight);
+        checkFieldAccess(neutralQuery);
 
         List<String> allowed = findAccessible();
 
@@ -131,13 +133,14 @@ public class BasicService implements EntityService {
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      *
-     * @param queryParameters
+     * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
      */
     @Override
     public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(this.readRight);
+        checkFieldAccess(neutralQuery);
 
         List<String> allowed = findAccessible();
 
@@ -232,6 +235,7 @@ public class BasicService implements EntityService {
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
         checkAccess(this.readRight, id);
+        checkFieldAccess(neutralQuery);
 
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
@@ -282,6 +286,7 @@ public class BasicService implements EntityService {
         }
 
         checkRights(this.readRight);
+        checkFieldAccess(neutralQuery);
 
         List<String> allowed = findAccessible();
         List<String> idList = new ArrayList<String>();
@@ -319,6 +324,7 @@ public class BasicService implements EntityService {
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
         checkRights(this.readRight);
+        checkFieldAccess(neutralQuery);
 
         List<String> allowed = findAccessible();
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
@@ -665,18 +671,8 @@ public class BasicService implements EntityService {
                 Object value = entry.getValue();
 
                 String fieldPath = prefix + fieldName;
-                Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
-                
-                if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-                    neededRight = Right.ADMIN_ACCESS;
-                }
-                
-                if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-                    if (Right.READ_GENERAL.equals(neededRight)) {
-                        neededRight = Right.READ_PUBLIC;
-                    }
-                }
-                
+                Right neededRight = getNeededRight(fieldPath);
+
                 LOG.debug("Field {} requires {}", fieldPath, neededRight);
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
@@ -689,6 +685,50 @@ public class BasicService implements EntityService {
 
             for (String fieldName : toRemove) {
                 eb.remove(fieldName);
+            }
+        }
+    }
+
+    /**
+     * Returns the needed right for a field by examining the schema
+     * @param fieldPath The field name
+     * @return
+     */
+    protected Right getNeededRight(String fieldPath) {
+        Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+
+        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            neededRight = Right.ADMIN_ACCESS;
+        }
+
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            if (Right.READ_GENERAL.equals(neededRight)) {
+                neededRight = Right.READ_PUBLIC;
+            }
+        }
+
+        return neededRight;
+    }
+
+    /**
+     * Checks query params for access restrictions
+     * @param query The query to check
+     */
+    protected void checkFieldAccess(NeutralQuery query) {
+
+        if (query != null) {
+            //get the authorities
+            Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+            if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
+                for (NeutralCriteria criteria : query.getCriteria()) {
+                    //get the needed right for the field
+                    Right neededRight = getNeededRight(criteria.getKey());
+
+                    if (!auths.contains(neededRight)) {
+                        throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
+                    }
+                }
             }
         }
     }
