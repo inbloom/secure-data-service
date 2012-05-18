@@ -73,9 +73,4 @@
         <property name="validator" ref="validator" />
     </bean>
     
-    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
-    <qualifier value="googleAnalyticsTrackerId" />
-    <constructor-arg value="${dashboard.google_analytics.id}" />
-    </bean>
-    
 </beans>
