@@ -18,10 +18,10 @@ class ApplicationAuthorizationsController < ApplicationController
   def index
     @application_authorizations = ApplicationAuthorization.all
     if @application_authorizations.length == 0
-      newAppAuthorization = ApplicationAuthorization.new({"authId" => Check.get("")["edOrg"], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
+      newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrg], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
       @application_authorizations = [newAppAuthorization]
     end
-
+    @apps = @application_authorizations.first.apps_for_auths
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }
