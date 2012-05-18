@@ -1,28 +1,16 @@
-<% tableFields = get_table_fields(entities) %>
-
 <table id="simple-table">
   <thead>
     <tr>
-      <% tableFields.each do |field| %>
+      <% @tableFields.each do |field| %>
       <th><%= t(field.split('/').last) %></th>
       <% end %>
       <th style="display:none;"></th>
     </tr>
   </thead>
   <tbody>
-    <% entities.each do |entity| %>
-    <tr>
-      <% tableFields.each do |field| %>
-      <td><%= value_for_table_view(field, entity) %></td>
-      <% end %>
-      <td style="display:none;" class="hidden">
-        <div class="details">
-          <%= render :partial => "single_record_details", :locals => {:entity => entity}%>
-        </div>
-      </td>
-    </tr>
-    <% end %>
+    <%= render 'entities' %>
   </tbody>
 </table>
+
 
 

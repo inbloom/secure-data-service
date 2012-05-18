@@ -1,1 +1,7 @@
-$('#entities').html("<%= escape_javascript(render 'entities') %>");
+<% @tableFields = get_table_fields(@entities) %>
+$('#simple-table tbody').append("<%= j(render 'entities') %>");
+<% if @page.next? || @page.prev? %>
+  $('div.pagination').replaceWith('<%= j (render "paginate")%>');
+<%else %>
+  $('div.pagination').remove();
+<% end %>
