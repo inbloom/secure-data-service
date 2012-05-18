@@ -266,6 +266,7 @@ Then I should see following map of entry counts in the corresponding collections
 Then I should see "File Students.xml: unknown or empty file format specified" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
+@wip
 Scenario: Post a Zip File containing a control file with extra file item entry
   Given I post "MissingXmlFile.zip" zip file with folder as the payload of the ingestion job
   And the following collections are empty in datastore:
