@@ -1,7 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<#attempt>
-<html>
-<head>
+
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
@@ -64,10 +61,10 @@ function gotoURL(id) {
 }
 
 </script>
-</head>
-<body  onLoad="setup()">
 
-
+<script type="text/javascript">
+setup();
+</script>
 <div class="panel-container">
     <div class="panel-left">
     <div class="panel">
@@ -131,10 +128,3 @@ result(s) per page.
     </div>
 
 </div>
-</body>
-</html>
-<#include "layout_footer.ftl">
-<#recover>
-${logger.error(.error)}
-<#include "../error.ftl">
-</#attempt>

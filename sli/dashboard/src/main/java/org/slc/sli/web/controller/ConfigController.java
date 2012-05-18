@@ -32,7 +32,7 @@ import org.slc.sli.util.SecurityUtil;
  */
 @Controller
 public class ConfigController extends GenericLayoutController {
-    private static final String DASHBOARD_CONFIG_FTL = "dashboard_config";
+    private static final String DASHBOARD_CONFIG_FTL = "dashboard_config.ftl";
     private static final String CONFIG_URL = "/service/config";
     private static final String CONFIG_SAVE_URL = "/service/config/ajaxSave";
     
@@ -100,7 +100,8 @@ public class ConfigController extends GenericLayoutController {
             
             addHeaderFooter(model);
             setContextPath(model, request);
-            return new ModelAndView(DASHBOARD_CONFIG_FTL, model);
+            model.addAttribute(Constants.PAGE_TO_INCLUDE, DASHBOARD_CONFIG_FTL);
+            return new ModelAndView(Constants.OVERALL_CONTAINER_PAGE, model);
         }
         throw new IllegalAccessException("Access Denied");
     }

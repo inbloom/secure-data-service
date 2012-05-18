@@ -41,6 +41,8 @@ public final class Constants {
     public static final String FIELD_TYPE_UNIT_GRADE = "unitTestGrade";
     public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
     public static final String CONFIG_ASSESSMENT_FILTER = "assessmentFilter";
+    public static final String OVERALL_CONTAINER_PAGE = "overall_container";
+    public static final String PAGE_TO_INCLUDE = "page_to_include"; 
     
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";

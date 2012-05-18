@@ -54,5 +54,4 @@
   DashboardProxy.loadAll(${viewDataConfig});
 </script>
 </#noescape>
-<#include "layout_header.ftl">
 <#include "../panel/studentSearch.ftl">

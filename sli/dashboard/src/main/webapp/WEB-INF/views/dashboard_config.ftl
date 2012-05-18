@@ -1,9 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-    <head>
-        <#include "layout/layout_header.ftl">
-        
-
         <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-1.7.1.js"></script>
         <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
         <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/js/jquery.jqGrid.min.js"></script>
@@ -61,8 +55,6 @@
             });
         </script>
 
-    </head>
-    <body>
             
             <#if configJSON == "nonLocalEducationAgency" >
                 <div id="fileDisplay" class="display">
@@ -79,9 +71,3 @@
                 </div>
             </#if>
         <br>
-        
-        
-    </body>
-</html>
-
-<#include "layout/layout_footer.ftl">

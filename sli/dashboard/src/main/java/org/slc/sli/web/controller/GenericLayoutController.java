@@ -29,6 +29,7 @@ import org.slc.sli.util.SecurityUtil;
 public abstract class GenericLayoutController {
     protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final String LAYOUT_DIR = "layout/";
+    private static final String FTL_EXTENSION = ".ftl";
 
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
@@ -87,11 +88,13 @@ public abstract class GenericLayoutController {
 
 
     protected String getLayoutView(String layoutName) {
-        return LAYOUT_DIR + layoutName;
+        return LAYOUT_DIR + layoutName +  FTL_EXTENSION;
     }
 
     protected ModelAndView getModelView(String layoutName, ModelMap model) {
-        return new ModelAndView(getLayoutView(layoutName), model);
+        // Includes the page we want to display in the overall_container page
+        model.addAttribute(Constants.PAGE_TO_INCLUDE, getLayoutView(layoutName));
+        return new ModelAndView(Constants.OVERALL_CONTAINER_PAGE, model);
     }
 
     @Autowired

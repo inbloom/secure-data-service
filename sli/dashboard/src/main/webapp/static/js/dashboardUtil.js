@@ -586,14 +586,6 @@ DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
     }
 };
 
-/*
- * Display generic dashboard error page
- */
-DashboardUtil.displayErrorPage = function()
-{
-    window.location = "/dashboard/static/html/error.html";
-};
-
 // --- static helper function --- 
 // Gets the style object for the element where we're drawing the fuel gauge.
 // Returns a CSSStyleDeclaration object 
