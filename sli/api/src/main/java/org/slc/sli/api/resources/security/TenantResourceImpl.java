@@ -140,7 +140,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         
         String ingestionServer = randomIngestionServer();
         File inboundDirFile = new File(landingZoneMountPoint);
-        File fullPath = new File(inboundDirFile, tenantId + "-" + edOrgId);
+        File fullPath = new File(inboundDirFile, tenantId + "/" + edOrgId);
         String path = fullPath.getAbsolutePath();
         
         // look up ids of existing tenant entries

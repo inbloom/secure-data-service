@@ -382,6 +382,31 @@ local:
 
         log.path: target/logs
 
+#
+# Configuration to support running sandbox locally
+#
+local-sandbox:
+    api:
+        <<: *API-LOCAL
+        sli.sandbox.autoRegisterApps: true
+
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: false
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+
+    apps:
+        <<: *APPS-LOCAL
+
+    misc:
+        <<: *MISC-LOCAL
+        sli.simple-idp.sandboxImpersonationEnabled: true
+
 
 #
 # Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
