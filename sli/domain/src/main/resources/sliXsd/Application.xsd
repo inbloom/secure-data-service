@@ -26,12 +26,12 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element name="redirect_uri" minOccurs="1">
-                    <xs:annotation>
-                        <xs:appinfo>
-                          <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-                        </xs:appinfo>
-                    </xs:annotation>
                     <xs:simpleType>
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+                            </xs:appinfo>
+                        </xs:annotation>
                         <xs:restriction base="xs:string">
                             <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
@@ -56,6 +56,11 @@
 
                 <xs:element name="administration_url" minOccurs="1">
                     <xs:simpleType>
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+                            </xs:appinfo>
+                        </xs:annotation>
                         <xs:restriction base="xs:string">
                             <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
@@ -66,6 +71,11 @@
 
                 <xs:element name="image_url" minOccurs="1">
                     <xs:simpleType>
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+                            </xs:appinfo>
+                        </xs:annotation>
                         <xs:restriction base="xs:string">
                             <xs:pattern value="http(s)*://.*" />
                         </xs:restriction>
