@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  <Student>
+    <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rhonda</FirstName>
+      <MiddleName>Shannon</MiddleName>
+      <LastSurname>Delgado</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities />
+    <DisplacementStatus />
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>351</BuildingSiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60908-1028</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Work">
+      <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+      <City>Toronto</City>
+      <StateAbbreviation>WA</StateAbbreviation>
+      <PostalCode>A1B 2C3</PostalCode>
+      <CountryCode>CA</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>814202099</StudentUniqueStateId>
+    <Name>
+      <FirstName>Yolanda</FirstName>
+      <MiddleName />
+      <LastSurname>Campos</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities />
+    <DisplacementStatus />
+    <BirthData>
+      <BirthDate>2002-03-25</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>2038 Pearson Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 8121</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60057-5477</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Physical">
+      <StreetNumberName>8523 Lester Court</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10062-3727</PostalCode>
+      <NameOfCounty>Queens</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>331-703-1951</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Yolanda.Campos@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>Yolanda_Campos@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Yolanda_Campos@yahoo.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>178875887</StudentUniqueStateId>
+    <Name>
+      <FirstName>Matt</FirstName>
+      <MiddleName>D</MiddleName>
+      <LastSurname>Sollars</LastSurname>
+      <GenerationCodeSuffix></GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>True</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>True</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities>Motor Impairment</Section504Disabilities>
+    <DisplacementStatus />
+    <BirthData>
+      <BirthDate>2000-10-14</BirthDate>
+    </BirthData>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>309-555-XXXX</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>m.sollars@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>555685177</StudentUniqueStateId>
+    <Name>
+      <FirstName>Charde</FirstName>
+      <MiddleName />
+      <LastSurname>Lowery</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities />
+    <DisplacementStatus />
+    <BirthData>
+      <BirthDate>2006-02-13</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>8455 Ferris Street</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 9365</ApartmentRoomSuiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60863-4143</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-977-0907</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>224-509-7276</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>847-547-2424</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>847-724-9091</TelephoneNumber>
+    </Telephone>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>336344132</StudentUniqueStateId>
+    <Name>
+      <FirstName>Odysseus</FirstName>
+      <MiddleName />
+      <LastSurname>Merrill</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Male</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+    <Section504Disabilities />
+    <DisplacementStatus />
+    <BirthData>
+      <BirthDate>2003-03-25</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>498 Dorchester Road</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60447-1536</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Mailing">
+      <StreetNumberName>7472 Ross Street</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10180-7445</PostalCode>
+      <NameOfCounty>Queens</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>262-298-8577</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>219-608-1144</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>O.Merrill@yahoo.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Odysseus.Merrill@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+</InterchangeStudentParent>
