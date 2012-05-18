@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 /**
  * Validatable student search form
+ *
  * @author agrebneva
  *
  */
@@ -45,32 +46,32 @@ public class StudentSearch implements PagedSearch {
     }
 
     public String[] get() {
-        return new String[]{firstName, lastName, String.valueOf(pageNo), String.valueOf(pageSize)};
+        return new String[] { firstName, lastName, String.valueOf(pageNo), String.valueOf(pageSize) };
     }
 
     @Override
     public void setPageNumber(int pageNo) {
-    	// invalid inputs will not change current settings
-       	if (pageNo > 0) {
-        	this.pageNo = pageNo;
-       	}
+        // invalid inputs will not change current settings
+        if (pageNo > 0) {
+            this.pageNo = pageNo;
+        }
     }
 
     @Override
     public int getPageNumber() {
-    	return pageNo;
+        return pageNo;
     }
 
     @Override
     public void setPageSize(int pageSize) {
-    	// invalid inputs will not change current settings
-    	if (pageSize > 0) {
-    		this.pageSize = pageSize;
-    	}
+        // invalid inputs will not change current settings
+        if (pageSize > 0) {
+            this.pageSize = pageSize;
+        }
     }
 
     @Override
     public int getPageSize() {
-    	return pageSize;
+        return pageSize;
     }
 }
