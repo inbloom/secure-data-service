@@ -134,7 +134,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
-
+        excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
