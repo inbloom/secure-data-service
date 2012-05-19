@@ -13,7 +13,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 /**
@@ -26,13 +25,14 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     protected static final String TYPE_KEY = "type";
-    
+
     private String batchJobId;
     private Job job;
     private WorkNote workNote;
-    
+
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    
     @Autowired
     private BatchJobDAO batchJobDAO;
 
@@ -42,7 +42,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         this.setBatchJobId(job.getId());
         this.performTransformation();
     }
-    
+
     @Override
     public void perform(Job job, WorkNote workNote) {
         this.setJob(job);
@@ -50,7 +50,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         this.setWorkNote(workNote);
         this.performTransformation();
     }
-    
+
     protected abstract void performTransformation();
 
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setJob(Job job) {
         this.job = job;
     }
-    
+
     /**
      * Gets the Work Note corresponding to this job.
      * @return Work Note containing information about collection and range to operate on.
@@ -96,7 +96,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public WorkNote getWorkNote() {
         return workNote;
     }
-    
+
     /**
      * Sets the Work Note for this job.
      * @param workNote Work Note containing information about collection and range to operate on.
@@ -104,29 +104,28 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setWorkNote(WorkNote workNote) {
         this.workNote = workNote;
     }
-    
+
     /**
-     * Returns collection entities found in staging ingestion database. If a work note was not provided for 
+     * Returns collection entities found in staging ingestion database. If a work note was not provided for
      * the job, then all entities in the collection will be returned.
      *
      * @param collectionName name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-        Query query = new Query(jobIdCriteria);
-        
+        Query query = new Query();
+
         Iterable<NeutralRecord> data;
         int max = 0;
         int skip = 0;
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
-            max = (int) (note.getRangeMaximum() - note.getRangeMinimum() + 1);
-            skip = (int) note.getRangeMinimum();
-        }         
-        
+            max = (note.getRangeMaximum() - note.getRangeMinimum() + 1);
+            skip = note.getRangeMinimum();
+        }
+
         data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
                 collectionName, query, getJob().getId(), skip, max);
-        
+
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
