@@ -1,4 +1,3 @@
-
 Feature: Admin delegation CRUD
 
 	Scenario: District administrator creating admin delegation
@@ -23,9 +22,13 @@ Feature: Admin delegation CRUD
 	Scenario: State administrator with access updating application authorizations
      Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
      When I have access to app authorizations for district "IL-SUNSET"
+     And I should save the old app authorizations for "IL-SUNSET"
      Then I should update app authorizations for district "IL-SUNSET" 
      And I should receive a return code of 204
 
+  Scenario: Put back application authorizations
+    Then I put back app authorizations
+	
 Scenario: State administrator seeing delegations they have access to
      Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
      When I have access to app authorizations for district "IL-SUNSET"

@@ -1,4 +1,5 @@
 require 'json'
+require 'mongo'
 
 Transform /^district "([^"]*)"$/ do |district|
   id = "4726e42f-b265-372a-3c17-dc8d5d5fb263" if district == "IL-SUNSET"
@@ -55,7 +56,6 @@ Then /^I should get my delegations$/ do
 end
 
 Then /^I should see that "([^"]*)" is "([^"]*)" for "([^"]*)"$/ do |field, value, district|
-  puts("We got #{@res.body}")
   list = JSON.parse(@res.body)
   foundIt = false
   list.each do |cur|
@@ -65,4 +65,23 @@ Then /^I should see that "([^"]*)" is "([^"]*)" for "([^"]*)"$/ do |field, value
     end
   end
   assert(foundIt, "Never found district #{district}")
+end
+
+When /^I should save the old app authorizations for "([^"]*)"/ do |district|
+  appAuthColl()
+  $appAuths = @coll.find_one({"body.authId" => district})
+end
+
+Then /^I put back app authorizations/ do
+  if $appAuths != nil
+    appAuthColl()
+    @coll.remove({"body.authId" => $appAuths["body"]["authId"]})
+    @coll.insert($appAuths)
+  end
+end
+
+def appAuthColl
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @coll ||= @db.collection('applicationAuthorization')
+  return @coll
 end
