@@ -20,11 +20,9 @@
         }
     },
     { 
-        "fieldPath" : "body.studentId",
-        "ref" :
+        "fieldPath" : "body.studentId","ref" :
         {
 	        "collectionName" : "student",
-            "refObjectPath" :  "body.studentAcademicRecordReference",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -32,7 +30,7 @@
 		           	    "path" : "metaData.externalId",
 		                "values" : 
 		                [{
-			                "valueSource" : "body.studentAcademicRecordReference.studentUniqueStateId"
+			                "valueSource" : "body.studentId"
 		                }]
 		            }
 	            ]
