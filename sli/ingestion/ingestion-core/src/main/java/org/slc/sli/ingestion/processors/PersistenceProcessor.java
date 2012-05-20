@@ -293,11 +293,19 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
 
-        stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
+        if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
+            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
+            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
 
-        encounteredStgCollections.add(neutralRecord.getRecordType());
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
+        } else {
 
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
+
+            encounteredStgCollections.add(neutralRecord.getRecordType());
+        }
         return stagedNeutralRecords;
     }
 
