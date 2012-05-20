@@ -20,9 +20,5 @@ jQuery ->
       url = $('div.pagination #paginate-next').attr('href')
       if url && $(window).scrollTop() > $(document).height() - $(window).height() - 50
         $('div.pagination').text("Fetching more products...")
-        $.getScript(url, (data, textStatus, jqXHR) ->
-          table.fnDestroy()
-          table = $('#simple-table').dataTable(
-            "bLengthChange": false,
-            "bPaginate": false))
+        $.getScript(url)
     $(window).scroll()
