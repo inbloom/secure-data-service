@@ -14,14 +14,14 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student parent association data
-  when "ASSOCIATION COUNT" then 134
+  when "ASSOCIATION COUNT" then 3
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
   when "ASSOCIATION ID" then "dd69083f-a053-4819-a3cd-a162cdc627d7"
-  when "ASSOCIATION ID FOR UPDATE" then "65fc0e76-e8ac-46fc-b7a7-04df5fbd08b4"
-  when "ASSOCIATION ID FOR DELETE" then "678db2c8-25dc-4ee2-89aa-e1d1bdfdbcb2"
+  when "ASSOCIATION ID FOR UPDATE" then "c5aa1969-492a-5150-8479-71bfc4d57f1e"
+  when "ASSOCIATION ID FOR DELETE" then $createdId
   when "ASSOCIATION LINK NAME" then "getStudentParentAssociations"
   when "ASSOCIATION TYPE" then "studentParentAssociation"
   when "ASSOCIATION URI" then "studentParentAssociations"
@@ -44,13 +44,13 @@ Transform /^<([^"]*)>$/ do |val|
 
     #update related field data
   when "UPDATE FIELD" then "primaryContactStatus"
-  when "UPDATE FIELD EXPECTED VALUE" then "true"
-  when "UPDATE FIELD NEW VALID VALUE" then "false"
+  when "UPDATE FIELD EXPECTED VALUE" then "false"
+  when "UPDATE FIELD NEW VALID VALUE" then "true"
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
   when "SELF LINK NAME" then "self"
-  when "NEWLY CREATED ASSOCIATION ID" then @newId
+  when "NEWLY CREATED ASSOCIATION ID" then $createdId = @newId
   when "VALIDATION" then "Validation failed"
   end
 end
