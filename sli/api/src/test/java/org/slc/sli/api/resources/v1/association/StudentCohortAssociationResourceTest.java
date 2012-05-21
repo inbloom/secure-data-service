@@ -51,14 +51,14 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentCohortAssociationTest {
+public class StudentCohortAssociationResourceTest {
 
     @Autowired
     StudentResource studentResource;
     @Autowired
     CohortResource cohortResource;
     @Autowired
-    StudentCohortAssociation studentCohortAssn; //class under test
+    StudentCohortAssociationResource studentCohortAssn; //class under test
 
     @Autowired
     private SecurityContextInjector injector;
@@ -110,7 +110,7 @@ public class StudentCohortAssociationTest {
     private Map<String, Object> createTestAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, assnId);
-        entity.put(StudentCohortAssociation.BEGIN_DATE, firstBeginDate);
+        entity.put(StudentCohortAssociationResource.BEGIN_DATE, firstBeginDate);
         entity.put(ParameterConstants.STUDENT_ID, studentId);
         entity.put(ParameterConstants.COHORT_ID, cohortId);
         return entity;
@@ -119,7 +119,7 @@ public class StudentCohortAssociationTest {
     private Map<String, Object> createTestUpdateAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, assnId);
-        entity.put(StudentCohortAssociation.BEGIN_DATE, updatedBeginDate);
+        entity.put(StudentCohortAssociationResource.BEGIN_DATE, updatedBeginDate);
         entity.put(ParameterConstants.STUDENT_ID, studentId);
         entity.put(ParameterConstants.COHORT_ID, cohortId);
         return entity;
@@ -128,7 +128,7 @@ public class StudentCohortAssociationTest {
     private Map<String, Object> createTestSecondaryAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, "4567");
-        entity.put(StudentCohortAssociation.BEGIN_DATE, secondBeginDate);
+        entity.put(StudentCohortAssociationResource.BEGIN_DATE, secondBeginDate);
         entity.put(ParameterConstants.STUDENT_ID, "5678");
         entity.put(ParameterConstants.COHORT_ID, "6789");
         return entity;
@@ -207,7 +207,7 @@ public class StudentCohortAssociationTest {
         EntityResponse entityResponse  = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + updatedBeginDate, updatedBeginDate, body.get(StudentCohortAssociation.BEGIN_DATE));
+        assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + updatedBeginDate, updatedBeginDate, body.get(StudentCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -240,12 +240,12 @@ public class StudentCohortAssociationTest {
 
         EntityBody body1 = results.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + firstBeginDate, firstBeginDate, body1.get(StudentCohortAssociation.BEGIN_DATE));
+        assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + firstBeginDate, firstBeginDate, body1.get(StudentCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
 
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
-        assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StudentCohortAssociation.BEGIN_DATE));
+        assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StudentCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
 

@@ -624,7 +624,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             return entities;
         }
 
-        List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+        List<String> optionalFields = getOptionalFields(info);
 
         if (optionalFields != null) {
             for (String type : optionalFields) {
@@ -644,6 +644,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         return entities;
+    }
+
+    protected List<String> getOptionalFields(UriInfo info) {
+        return info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
     }
 
     /**

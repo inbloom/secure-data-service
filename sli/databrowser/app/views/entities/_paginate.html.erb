@@ -1,0 +1,5 @@
+<div class="hidden pagination">
+  <% if @page.next? %>
+    <%= link_to "Next", params.merge(:offset => @page.next), :class => "paginate", :id => "paginate-next" %>
+  <%end%>
+</div>
