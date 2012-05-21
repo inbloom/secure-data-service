@@ -82,7 +82,7 @@ public class CCSMathCSV2XMLTransformer {
     }
     
     /**
-     * Iterate through Student, Parent, and studentParentAssociation records in the CSV files,
+     * Iterate through common core standard csv records in the CSV files,
      * converts them into JAXB java objects, and then marshals them into SLI-EdFi xml file.
      * 
      * @param ps
