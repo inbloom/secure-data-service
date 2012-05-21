@@ -57,15 +57,9 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
 
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "securityEvent";
-    public static final String[] allowedRoles = {RoleInitializer.SLC_OPERATOR,
-                                                 RoleInitializer.SEA_ADMINISTRATOR,
-                                                 RoleInitializer.LEA_ADMINISTRATOR};
 
     /* Access to entity definitions */
     private final EntityDefinitionStore entityDefs;
-
-//    @Autowired
-//    private ClientRoleResolver roleResolver;
 
     @Autowired
     public SecurityEventResource(EntityDefinitionStore entityDefs) {
@@ -76,24 +70,25 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
     @POST
     public Response createSecurityEvent(EntityBody newSecurityEvent, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null) {
-                System.out.println("tenant: " + principal.getTenantId());
-                System.out.println("realm: " + principal.getRealm());
-                System.out.println("AdminRealm: " + principal.getAdminRealm());
-                for (String role : principal.getRoles()) {
-                    System.out.println("role: " + role);
-                }
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null) {
+//            SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
+//            if (principal != null) {
+//                System.out.println("tenant: " + principal.getTenantId());
+//                System.out.println("realm: " + principal.getRealm());
+//                System.out.println("AdminRealm: " + principal.getAdminRealm());
+//                for (String role : principal.getRoles()) {
+//                    System.out.println("role: " + role);
+//                }
+//
+//                Set<String> sliRoles = new HashSet<String>(principal.getSliRoles());
+//
+//                for (String role : sliRoles) {
+//                    System.out.println("sliRole: " + role);
+//                }
+//            }
+//        }
 
-                Set<String> sliRoles = new HashSet<String>(principal.getSliRoles());
-
-                for (String role : sliRoles) {
-                    System.out.println("sliRole: " + role);
-                }
-            }
-        }
         return super.create(newSecurityEvent, headers, uriInfo);
     }
 
@@ -137,12 +132,12 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
                             "Invalid resource path: " + RESOURCE_NAME)).build();
         }
 
-        List<String> targetEdOrgs = Arrays.asList(principal.getEdOrg().split(","));
         NeutralQuery neutralQuery = new ApiQuery(uriInfo);
         neutralQuery = addTypeCriteria(entityDef, neutralQuery);
         neutralQuery.setLimit(limit);
         neutralQuery.setOffset(offset);
         if (!isSLCOperator) {
+            List<String> targetEdOrgs = Arrays.asList(principal.getEdOrg().split(","));
             neutralQuery.addCriteria(new NeutralCriteria("targetEdOrg", "in", targetEdOrgs));
         }
 
@@ -191,6 +186,4 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return Response.status(Status.FORBIDDEN).build();
     }
-
-
 }
