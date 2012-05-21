@@ -35,7 +35,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
-import org.slc.sli.api.resources.v1.association.StudentCohortAssociation;
+import org.slc.sli.api.resources.v1.association.StudentCohortAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.ResourceConstants;
@@ -66,7 +66,7 @@ public class CohortResourceTest {
     StudentResource studentResource; //class under test
 
     @Autowired
-    StudentCohortAssociation studentCohortAssn;
+    StudentCohortAssociationResource studentCohortAssn;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -156,7 +156,7 @@ public class CohortResourceTest {
     private Map<String, Object> createTestStudentAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, studentAssociationId);
-        entity.put(StudentCohortAssociation.BEGIN_DATE, studentAssnBeginDate);
+        entity.put(StudentCohortAssociationResource.BEGIN_DATE, studentAssnBeginDate);
         return entity;
     }
 
@@ -415,7 +415,7 @@ public class CohortResourceTest {
         }
 
         assertNotNull("Should return an entity", body);
-        assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + studentAssnBeginDate, studentAssnBeginDate, body.get(StudentCohortAssociation.BEGIN_DATE));
+        assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + studentAssnBeginDate, studentAssnBeginDate, body.get(StudentCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
