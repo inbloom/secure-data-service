@@ -47,62 +47,83 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                                 sectionGracePeriodNodeFilter)
+                        .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "teacherId")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
                                 edorgFilter)
-
+                        .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId")
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
                 SecurityNodeBuilder.buildNode(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
+                        .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId")
                         .addConnection(EntityNames.STAFF, "staffReference",
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
                         .construct());
 
         nodeMap.put(EntityNames.SECTION,
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "sectionId")
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_SECTION_ASSOCIATION, "sectionId")
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
-                        .addConnection(EntityNames.PROGRAM, "programReference", "")
+                        .addConnection(EntityNames.PROGRAM, "programReference")
                         .construct());
 
         nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
-                        .addConnection(EntityNames.ATTENDANCE, "studentId", "")
-                        .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
+                        .addConnection(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.ATTENDANCE, "studentId")
+                        .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId")
                         .addConnection(EntityNames.DISCIPLINE_INCIDENT, "disciplineIncidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
+                        .construct());
+
+        nodeMap.put(EntityNames.STAFF,
+                SecurityNodeBuilder.buildNode(EntityNames.STAFF)
+                        .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
+                        .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
+                        .construct());
+
+        nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
+                SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
+                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
+                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
+                        .addConnection(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId")
+                        .addConnection(EntityNames.SCHOOL, "", "")
+                        .addConnection(EntityNames.PROGRAM, "programReference") //TODO: fix XSD
+                        .addConnection(EntityNames.SECTION, "schoolId")
                         .construct());
 
         // Leaf Nodes are unconnected
-        nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
-
-        nodeMap.put(EntityNames.PROGRAM,
-                SecurityNodeBuilder.buildNode(EntityNames.PROGRAM)
-                        .construct());
-
-        nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct());
-        nodeMap.put(EntityNames.SESSION, SecurityNodeBuilder.buildNode(EntityNames.SESSION).construct());
-
-        nodeMap.put(EntityNames.COHORT,
-                SecurityNodeBuilder.buildNode(EntityNames.COHORT)
-                        .construct());
+        nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_PARENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PARENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SCHOOL_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_ED_ORG_ASSOCIATION).construct());
 
         nodeMap.put(EntityNames.ASSESSMENT, SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT).construct());
-
-        nodeMap.put(EntityNames.DISCIPLINE_ACTION,
-                SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_ACTION)
-                        .construct());
-
-        nodeMap.put(EntityNames.DISCIPLINE_INCIDENT,
-                SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT)
-                        .construct());
-
+        nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
+        nodeMap.put(EntityNames.COHORT, SecurityNodeBuilder.buildNode(EntityNames.COHORT).construct());
+        nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct());
+        nodeMap.put(EntityNames.DISCIPLINE_ACTION, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_ACTION).construct());
+        nodeMap.put(EntityNames.DISCIPLINE_INCIDENT, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT).construct());
+        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct());
+        nodeMap.put(EntityNames.SESSION, SecurityNodeBuilder.buildNode(EntityNames.SESSION).construct());
         nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
 
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
@@ -113,21 +134,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
-
-        nodeMap.put(EntityNames.STAFF,
-                SecurityNodeBuilder.buildNode(EntityNames.STAFF)
-                        .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
-                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
-                        .construct());
-
-        nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
-                SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
-                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
-                        .addConnection(EntityNames.SCHOOL, "", "")
-                        .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
-                        .addConnection(EntityNames.SECTION, "schoolId", "")
-                        .construct());
+        excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
@@ -184,7 +191,7 @@ public class BrutePathFinder implements SecurityPathFinder {
     @Override
     public List<SecurityNode> find(String from, String to) {
         return find(from, to, new ArrayList<SecurityNode>());
-            }
+    }
 
     public List<SecurityNode> find(String from, String to, List<SecurityNode> path) {
         SecurityNode current = nodeMap.get(from);
@@ -192,7 +199,7 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         if (from.equals(to)) {
             return path;
-                }
+        }
 
         for (SecurityNodeConnection connection : current.getConnections()) {
             SecurityNode next = nodeMap.get(connection.getConnectionTo());
@@ -204,7 +211,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return newPath;
             }
         }
-        debug("NO PATH FOUND FROM {} to {}", new String[] {from, to});
+        debug("NO PATH FOUND FROM {} to {}", new String[]{ from, to });
         path.remove(current);
         return null;
     }

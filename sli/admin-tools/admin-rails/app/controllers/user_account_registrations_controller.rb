@@ -22,17 +22,27 @@ class UserAccountRegistrationsController < ActionController::Base
     @user_account_registration.errors.clear
     if @user_account_registration.valid? ==false
      redirectPage=false
+     render500=false
     else
-      response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
-      redirectPage=response["redirect"]
-      @user_account_registration.errors.add(:email,response["error"])
-      session[:guuid]=response["guuid"]
+      begin
+        response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
+        redirectPage=response["redirect"]
+        @user_account_registration.errors.add(:email,response["error"])
+        session[:guuid]=response["guuid"]
+      rescue Exception => e
+        logger.info { e.message }
+        render500=true
+      end
+      
     end
     respond_to do |format|
         if redirectPage==true
-            
             format.html  { redirect_to("/eula")}
             format.json  { render :json => @user_account_registration,action: "/eulas"}
+        elsif render500==true
+          format.html { render :file => "#{Rails.root}/public/500.html", :status => 500 }
+           #format.json { :status => :not_found}
+           format.any  { head :not_found }
         else
             format.html { render action: "new" }
             format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
