@@ -39,7 +39,7 @@ public class DenyAllContextResolverTest {
 
     @Test
     public void testCanResolve() throws Exception {
-        Assert.assertTrue(denyAllContextResolver.canResolve(fromEntity, toEntity));
+        Assert.assertFalse(denyAllContextResolver.canResolve(fromEntity, toEntity));
     }
 
     @Test

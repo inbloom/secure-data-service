@@ -13,7 +13,7 @@ import java.util.List;
 public class DenyAllContextResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return true;
+        return false;
     }
 
     @Override
