@@ -28,18 +28,17 @@ class EntitiesController < ApplicationController
   # GET /entities/1.json
   def show
     @@LIMIT = 50
+    @page = Page.new
     if params[:search_id] && @search_field
       @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
       flash[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
       return
     else
       if params[:offset]
-        logger.debug {"OFFSET:#{params[:offset]}"}
         @entities = Entity.get("", {:offset => params[:offset], :limit => @@LIMIT})
       else
         @entities = Entity.get("")
       end
-      
       @page = Page.new(@entities.http_response)
     end
     if @entities.is_a?(Hash)

@@ -5,7 +5,7 @@ class Page
   def initialize(headers = {})
     @prev = nil
     @next = nil
-    if(headers['Link'])
+    if(!headers.nil? && headers['Link'])
       @headers = headers['Link'];
       values = @headers.split(';')
       logger.debug {values.inspect}

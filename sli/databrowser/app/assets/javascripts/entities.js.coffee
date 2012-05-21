@@ -19,6 +19,6 @@ jQuery ->
     $(window).scroll ->
       url = $('div.pagination #paginate-next').attr('href')
       if url && $(window).scrollTop() > $(document).height() - $(window).height() - 50
-        $('div.pagination').text("Fetching more products...")
+        $('div.pagination').text("Fetching more results...")
         $.getScript(url)
     $(window).scroll()
