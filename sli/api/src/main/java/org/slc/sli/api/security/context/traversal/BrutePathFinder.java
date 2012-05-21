@@ -70,6 +70,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.STUDENT_SECTION_ASSOCIATION, "sectionId")
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
+                        .addConnection(EntityNames.PROGRAM, "programReference", "")
+                        .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.PROGRAM, "programReference")
                         .construct());
 
@@ -85,6 +87,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "studentId", "")
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
                         .construct());
 
@@ -131,6 +134,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct());
         nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
 
+        nodeMap.put(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY).construct());
+
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.EDUCATION_ORGANIZATION);
         excludePath.add(EntityNames.TEACHER + EntityNames.COHORT);
@@ -170,6 +175,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.STAFF + EntityNames.SCHOOL,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.SCHOOL)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,

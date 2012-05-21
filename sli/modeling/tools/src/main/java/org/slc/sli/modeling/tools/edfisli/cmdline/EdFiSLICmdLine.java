@@ -50,7 +50,7 @@ public final class EdFiSLICmdLine {
 
     private static final Map<String, String> classRenames() {
         final Map<String, String> renames = new HashMap<String, String>();
-        renames.put("CourseOffering", "SessionCourseAssociation");
+        renames.put("CourseOffering", "CourseOffering");
         renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
         renames.put("StudentGradebookEntry", "StudentSectionGradebookEntry");
