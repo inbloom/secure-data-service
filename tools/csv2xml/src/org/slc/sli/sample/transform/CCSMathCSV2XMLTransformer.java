@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
+import org.slc.sli.sample.entities.AcademicSubjectType;
 import org.slc.sli.sample.entities.ComplexObjectType;
 import org.slc.sli.sample.entities.ContentStandardType;
 import org.slc.sli.sample.entities.GradeLevelType;
@@ -23,7 +24,7 @@ public class CCSMathCSV2XMLTransformer {
     private CSVReader ccsReader;
     
     // input csv files
-    private static final String ccsCSVFile = "data/CC_Standards_6.25.10.csv";
+    private static final String ccsCSVFile = "data/CC_Standards_6.25.10-Math.csv";
 
     // output Ed-Fi xml file
     private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
@@ -101,8 +102,13 @@ public class CCSMathCSV2XMLTransformer {
         learningStandardId.setIdentificationCode(getLSIdentificationCode(dotNotation));
         learningStandard.setLearningStandardId(learningStandardId);
         learningStandard.setContentStandard(ContentStandardType.STATE_STANDARD);
+        String description = learningStandardRecord.get("State Standard");
+        if (description == null || description.equals("")) {
+            System.out.println("no description for" + dotNotation);
+        }
         learningStandard.setDescription(learningStandardRecord.get("State Standard"));
         learningStandard.setGradeLevel(getLSGradeLevel(dotNotation));
+        learningStandard.setSubjectArea(AcademicSubjectType.MATHEMATICS);
         return learningStandard;
     }
     
@@ -114,43 +120,62 @@ public class CCSMathCSV2XMLTransformer {
     }
     
     private GradeLevelType getLSGradeLevel(String dotNotation) {
-        String[] gradeLevels = dotNotation.split("//.");
+        String[] gradeLevels = dotNotation.split("\\.");
         GradeLevelType gradeLevel;
-        int intGradeLevel=0;
-        try{
-        intGradeLevel = Integer.parseInt(gradeLevels[0]);
+        int intGradeLevel = 0;
+        try {
+            intGradeLevel = Integer.parseInt(gradeLevels[0]);
         } catch (NumberFormatException e) {
-            // return twelfth grade for now if first character of dotNotation is not number
-            // TODO need to map grade level to first character of dotNotation which is not a number
-            intGradeLevel = 12;
+            if (gradeLevels[0].toLowerCase().equals("k")) {
+                intGradeLevel = 0;
+            } else {
+            
+            // return Ninth grade for high school for now
+            // TODO map the grade level for each high school math
+                intGradeLevel = 9;
+            }
         }
 
         switch (intGradeLevel) {
+            case 0:
+                gradeLevel = GradeLevelType.KINDERGARTEN;
+                break;
             case 1:
                 gradeLevel = GradeLevelType.FIRST_GRADE;
+                break;
             case 2:
                 gradeLevel = GradeLevelType.SECOND_GRADE;
+                break;
             case 3:
                 gradeLevel = GradeLevelType.THIRD_GRADE;
+                break;
             case 4:
                 gradeLevel = GradeLevelType.FOURTH_GRADE;
-                
+                break;
             case 5:
                 gradeLevel = GradeLevelType.FIFTH_GRADE;
+                break;
             case 6:
                 gradeLevel = GradeLevelType.SIXTH_GRADE;
+                break;
             case 7:
                 gradeLevel = GradeLevelType.SEVENTH_GRADE;
+                break;
             case 8:
                 gradeLevel = GradeLevelType.EIGHTH_GRADE;
+                break;
             case 9:
                 gradeLevel = GradeLevelType.NINTH_GRADE;
+                break;
             case 10:
                 gradeLevel = GradeLevelType.TENTH_GRADE;
+                break;
             case 11:
                 gradeLevel = GradeLevelType.ELEVENTH_GRADE;
+                break;
             case 12:
                 gradeLevel = GradeLevelType.TWELFTH_GRADE;
+                break;
             default:
                 gradeLevel = GradeLevelType.TWELFTH_GRADE;
 
