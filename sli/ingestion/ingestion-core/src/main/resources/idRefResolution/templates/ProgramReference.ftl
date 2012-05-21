@@ -9,15 +9,15 @@
     <#if (Program.StateOrganizationId[0])??>
     <StateOrganizationId>${Program.StateOrganizationId}</StateOrganizationId>
     </#if>
-    <#if (Program.EducationOrgIdentificationCode[0])??>
+    <#list Program.EducationOrgIdentificationCode as edorgId>
     <EducationOrgIdentificationCode
-        <#if (Program.EducationOrgIdentificationCode.@IdentificationSystem[0])??>
-         IdentificationSystem="${Program.EducationOrgIdentificationCode.@IdentificationSystem}"
+        <#if (edorgId.@IdentificationSystem[0])??>
+         IdentificationSystem="${edorgId.@IdentificationSystem}"
          </#if>
          >
-         <#if (Program.EducationOrgIdentificationCode.ID[0])??>
-        <ID>${Program.EducationOrgIdentificationCode.ID}</ID>
+         <#if (edorgId.ID[0])??>
+        <ID>${edorgId.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
-    </#if>
+    </#list>
 </ProgramIdentity>
