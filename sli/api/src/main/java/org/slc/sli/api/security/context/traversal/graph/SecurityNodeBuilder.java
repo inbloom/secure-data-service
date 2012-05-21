@@ -21,7 +21,13 @@ public final class SecurityNodeBuilder {
         node = new SecurityNode(name, type);
     }
 
-
+    /**
+     * Looks for field in toEntity unless associationNode is not empty
+     * @param toEntity
+     * @param withField
+     * @param associationNode
+     * @return
+     */
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode) {
         return addConnection(toEntity, withField, associationNode, null);
     }
@@ -31,7 +37,7 @@ public final class SecurityNodeBuilder {
         node.addConnection(connection);
         return this;
     }
-    
+
     public SecurityNodeBuilder addConnection(String toEntity, String withField) {
         SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField);
         node.addConnection(connection);
@@ -44,5 +50,8 @@ public final class SecurityNodeBuilder {
     }
 
 
-
+    public SecurityNodeBuilder addLocalReference(String toEntity, String withField) {
+        node.addConnection( new SecurityNodeConnection(toEntity, withField, true) );
+        return this;
+    }
 }
