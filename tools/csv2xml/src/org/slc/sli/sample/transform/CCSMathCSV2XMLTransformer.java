@@ -26,6 +26,7 @@ import org.slc.sli.sample.entities.LearningStandardId;
  * 
  *         Transform the Common Core Standard Math csv to edfi xml
  */
+@SuppressWarnings("restriction")
 public class CCSMathCSV2XMLTransformer {
     // read CCS csv file
     private CcsCsvReader ccsReader;
@@ -102,12 +103,12 @@ public class CCSMathCSV2XMLTransformer {
         Marshaller marshaller = getMarshaller();
         InterchangeAssessmentMetadata interchangeCCS = new InterchangeAssessmentMetadata();
         
-        List<ComplexObjectType> learningStandards = interchangeCCS
+        List<ComplexObjectType> ccsCollection = interchangeCCS
                 .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
 
-        // process student
+        // process learningStandard
         while (ccsReader.getCurrentRecord() != null) {
-            learningStandards.add(this.getLearningStandard());
+            ccsCollection.add(this.getLearningStandard());
             ccsReader.getNextRecord();
             learningStandardCounter++;
         }
