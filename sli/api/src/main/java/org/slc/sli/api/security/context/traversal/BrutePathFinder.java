@@ -89,7 +89,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
-                        .addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STUDENT_COHORT_ASSOCIATIONS)
+                        //.addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STUDENT_COHORT_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId")
                         .construct());
 
@@ -99,7 +99,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
                         .addConnection(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId")
-                        .addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STAFF_COHORT_ASSOCIATIONS)
+                        //.addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STAFF_COHORT_ASSOCIATIONS)
                         .addConnection(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId")
                         .construct());
 
@@ -147,9 +147,9 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.EDUCATION_ORGANIZATION);
-        //excludePath.add(EntityNames.TEACHER + EntityNames.COHORT);
+        excludePath.add(EntityNames.TEACHER + EntityNames.COHORT);
         excludePath.add(EntityNames.TEACHER + EntityNames.PROGRAM);
-        //excludePath.add(EntityNames.STAFF + EntityNames.COHORT);
+        excludePath.add(EntityNames.STAFF + EntityNames.COHORT);
         excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
