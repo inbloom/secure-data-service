@@ -12,7 +12,7 @@ totals={}
 cursor.each do |doc|
   arr<<doc["ns"] unless arr.include?(doc["ns"])
   
-  totals[doc["ns"]].nil? ? totals[doc["ns"]]=0 : totals[doc["ns"]]+=doc["millis"]   
+  totals[doc["ns"]].nil? ? totals[doc["ns"]]=doc["millis"] : totals[doc["ns"]]+=doc["millis"]   
       
 end
 
