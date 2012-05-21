@@ -33,14 +33,14 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * @author srupasinghe
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.COURSE_OFFERINGS)
 @Component
 @Scope("request")
-public class SessionCourseAssociationResource extends DefaultCrudEndpoint {
+public class CourseOfferingResource extends DefaultCrudEndpoint {
 
     @Autowired
-    public SessionCourseAssociationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.SESSION_COURSE_ASSOCIATIONS);
+    public CourseOfferingResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.COURSE_OFFERINGS);
     }
 
     /**
@@ -173,7 +173,7 @@ public class SessionCourseAssociationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "_id", courseOfferingId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
     /**
@@ -200,6 +200,6 @@ public class SessionCourseAssociationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "_id", courseOfferingId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
 }

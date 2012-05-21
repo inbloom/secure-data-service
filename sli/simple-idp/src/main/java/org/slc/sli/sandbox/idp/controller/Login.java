@@ -138,6 +138,16 @@ public class Login {
             user.setRoles(roles);
             // only send the tenant - no other values since this is impersonatation
             String tenant = user.getAttributes().get("tenant");
+            if (tenant == null || tenant.length() == 0) {
+                ModelAndView mav = new ModelAndView("login");
+                mav.addObject("msg", "User account not properly configured for impersonation.");
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                mav.addObject("realm", incomingRealm);
+                mav.addObject("is_sandbox", true);
+                mav.addObject("impersonate_user", impersonateUser);
+                mav.addObject("roles", roleService.getAvailableRoles());
+                return mav;
+            }
             user.getAttributes().clear();
             user.getAttributes().put("tenant", tenant);
         }
@@ -163,6 +173,7 @@ public class Login {
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
+            LOG.debug("Unable to set canonical host name on security event");
         }
         
         if (request != null) {
