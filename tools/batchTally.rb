@@ -1,11 +1,11 @@
 require 'mongo'
 require 'json'
 
-connection = Mongo::Connection.new("localhost", 27018)
+connection = Mongo::Connection.new("nxmongo.slidev.org", 27017)
 db = connection.db("ingestion_batch_job")
 coll = db.collection("newBatchJob")
 
-rec=coll.find("_id"=>"MainControlFile.ctl-15745594-ce18-4a90-9cb9-7cc147e6337d")
+rec=coll.find("_id"=>"1x1_run1-4b37b599-9e5c-4619-b9df-4dfb2a9f9c24")
 
 job = rec.to_a[0]
 
@@ -31,7 +31,9 @@ end
 
 sum=0
 out.each do |key,value|
-  puts "[#{rc[key]}] #{key} => #{value}ms"
+  rps = "N/A"
+  rps = rc[key] / (value / 1000.0) unless value == 0
+  puts "[#{rc[key]}] #{key} => #{value}ms (#{rps} rps)"
   sum+=value
 end
 
