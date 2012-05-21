@@ -258,8 +258,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 auth = new OAuth2Authentication(token, userToken);
 
                                 // Extend the session
-                                long expire = (Long) sessionEntity.getBody().get("expiration");
-                                sessionEntity.getBody().put("expiration", expire + this.sessionLength);
+                                long expire = System.currentTimeMillis() + this.sessionLength;
+                                sessionEntity.getBody().put("expiration", expire);
                                 repo.update(SESSION_COLLECTION, sessionEntity);
 
                                 break;
