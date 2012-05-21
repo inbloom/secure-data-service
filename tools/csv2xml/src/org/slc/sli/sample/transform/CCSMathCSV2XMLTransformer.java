@@ -3,6 +3,8 @@ package org.slc.sli.sample.transform;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +21,24 @@ import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
 
+/**
+ * @author dliu
+ * 
+ *         Transform the Common Core Standard Math csv to edfi xml
+ */
 public class CCSMathCSV2XMLTransformer {
     // read CCS csv file
     private CSVReader ccsReader;
     
+    // read identifier csv file
+    private CSVReader identifiersReader;
+    
+    // map between dotNotation and Guids
+    private Map<String, String> identifiersMap = new HashMap<String, String>();
+
     // input csv files
     private static final String ccsCSVFile = "data/CC_Standards_6.25.10-Math.csv";
+    private static final String identifiersCSVFile = "data/E0330_ccss_identifiers.csv";
 
     // output Ed-Fi xml file
     private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
@@ -56,6 +70,15 @@ public class CCSMathCSV2XMLTransformer {
         // load CCS data
         ccsReader = new CCSMathCSVReader(ccsCSVFile);
         
+        // load identifier data for mapping between dotNotation and Guid
+        identifiersReader = new CSVReader(identifiersCSVFile);
+        while (identifiersReader.getCurrentRecord() != null) {
+            Map<String, String> currentRecord = identifiersReader.getCurrentRecord();
+            identifiersMap.put(currentRecord.get("Dot notation").replaceAll("\\.", "").replaceAll("-", ""),
+                    currentRecord.get("GUID"));
+            identifiersReader.getNextRecord();
+        }
+
     }
     
     /**
@@ -98,25 +121,36 @@ public class CCSMathCSV2XMLTransformer {
         Map<String, String> learningStandardRecord = ccsReader.getCurrentRecord();
         LearningStandard learningStandard = new LearningStandard();
         LearningStandardId learningStandardId = new LearningStandardId();
-        String dotNotation = learningStandardRecord.get("ID");
-        learningStandardId.setIdentificationCode(getLSIdentificationCode(dotNotation));
+        String id = learningStandardRecord.get("ID");
+        learningStandardId.setIdentificationCode(getLSIdentificationCode(id));
         learningStandard.setLearningStandardId(learningStandardId);
         learningStandard.setContentStandard(ContentStandardType.STATE_STANDARD);
         String description = learningStandardRecord.get("State Standard");
         if (description == null || description.equals("")) {
-            System.out.println("no description for" + dotNotation);
+            System.out.println("no description for" + id);
         }
         learningStandard.setDescription(learningStandardRecord.get("State Standard"));
-        learningStandard.setGradeLevel(getLSGradeLevel(dotNotation));
+        learningStandard.setGradeLevel(getLSGradeLevel(id));
         learningStandard.setSubjectArea(AcademicSubjectType.MATHEMATICS);
         return learningStandard;
     }
     
-    private String getLSIdentificationCode(String dotNotation) {
-        // return dotNotation right now
-        // TODO use mapping between learning standard dot notation and identification code to return
-        // correct identification code
-        return dotNotation;
+    private String getLSIdentificationCode(String id) {
+        String dotNotation = id.replaceAll(" ", "");
+        List<String> gradeLevels = Arrays.asList("K", "1", "2", "3", "4", "5", "6", "7", "8");
+        
+        // add Math. to id if the id start with k-8,otherwise add Math.HS to id
+        if (gradeLevels.contains(dotNotation.substring(0, 1))) {
+            dotNotation = "Math." + dotNotation;
+        } else {
+            dotNotation = "Math.HS" + dotNotation;
+        }
+        String guid = identifiersMap.get(dotNotation.replaceAll("\\.", ""));
+        if (guid == null || guid.equals("")) {
+            System.out.println("cant find guid for: " + id);
+            guid = "";
+        }
+        return guid;
     }
     
     private GradeLevelType getLSGradeLevel(String dotNotation) {
@@ -129,9 +163,9 @@ public class CCSMathCSV2XMLTransformer {
             if (gradeLevels[0].toLowerCase().equals("k")) {
                 intGradeLevel = 0;
             } else {
-            
-            // return Ninth grade for high school for now
-            // TODO map the grade level for each high school math
+                
+                // return Ninth grade for high school for now
+                // TODO map the grade level for each high school math
                 intGradeLevel = 9;
             }
         }
