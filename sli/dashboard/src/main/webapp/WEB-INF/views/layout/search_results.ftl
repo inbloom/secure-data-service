@@ -104,20 +104,30 @@ function gotoURL(id) {
 <button id="dbrd_btn_search_prev" onclick="gotoURL(this.id)" class="btn" type="button">
 <input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_210_left_arrow.png" height = "13px" alt="Prev" />
 </button>
-Display:
-<select id="pageSizeSelect" onChange="gotoURL(this.id)">
-  <option value="1">1</option>
-  <option value="5">5</option>
-  <option value="10">10</option>
-  <option value="20">20</option>
-  <option value="50">50</option>
-  <option value="100">100</option>
-</select>
-result(s) per page.
+Page
+<script type="text/javascript">
+document.write(dataModel.searchPageNum);
+</script>
+of
+<script type="text/javascript">
+document.write(dataModel.searchMaxPageNum);
+</script>
 <button id="dbrd_btn_search_next" onclick="gotoURL(this.id)" class="btn" type="button">
 <input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_211_right_arrow.png" height = "13px" alt="Next" />
 </button>
+<select id="pageSizeSelect" onChange="gotoURL(this.id)">
+  <option value="10">10</option>
+  <option value="20">20</option>
+  <option value="30">30</option>
+  <option value="50">50</option>
+</select>
 <script type="text/javascript">
+var offset = (dataModel.searchPageNum - 1) * dataModel.searchPageSize;
+var max = offset + dataModel.searchPageSize;
+if (max > dataModel.numResults) {
+	max = dataModel.numResults;
+}
+document.write('     Viewing ' +  (offset + 1) + '-' + max + ' of ' + dataModel.numResults);
 setup();
 </script>
 </div>
