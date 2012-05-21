@@ -1,0 +1,24 @@
+{
+   "name": "Portal",
+   "description":"Portal application",
+   "version":"0.0",
+   "bootstrap": true,
+   "image_url":"${bootstrap.app.portal.url}/assets/icon.png",
+   "administration_url":"${bootstrap.app.portal.url}",
+   "application_url":"${bootstrap.app.portal.url}",
+   "client_secret":"${bootstrap.app.portal.client_secret}",
+   "client_id":"${bootstrap.app.portal.client_id}",
+   "created_by":"SLIDeveloper",
+   "registration":{
+      "status":"APPROVED",
+      "request_date": 1330521193111,
+      "approval_date": 1330521193111
+   },
+   "redirect_uri":"${bootstrap.app.portal.url}",
+   "is_admin":true,
+   "installed":false,
+   "behavior":"Full Window App",
+   "developer_info":{
+      "organization":"SLI"
+   }
+}
