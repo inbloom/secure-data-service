@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$staff$$ resource and a $$programs$$ resource.
+ * Represents the association between a $$staff$$ member and a $$programs$$.
  *
  * @author jtully
  *
@@ -40,6 +40,19 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         super(entityDefs, ResourceNames.STAFF_PROGRAM_ASSOCIATIONS);
     }
 
+    /**
+     * Returns the requested collection of resource representations. 
+     *
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
     @Override
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -48,6 +61,20 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
+    /**
+     * Creates a new resource using the given resource data.
+     *
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessable.}
+     */
     @Override
     @POST
     public Response create(final EntityBody newEntityBody,
@@ -55,7 +82,17 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
-
+    /**
+     * Returns the specified resource representation.
+     *
+     * @param staffProgramAssociationId
+     *            The Id of the staffProgramAssociations.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single staffProgramAssociation entity
+     */
     @Override
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
@@ -63,7 +100,19 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(staffProgramAssociationId, headers, uriInfo);
     }
-	
+
+    /**
+     * Deletes the specified resource.
+     *
+     * @param staffProgramAssociationId
+     *            The Id of the staffProgramAssociations.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
     @Override
     @DELETE
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
@@ -72,6 +121,20 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.delete(staffProgramAssociationId, headers, uriInfo);
     }
 
+    /**
+     * Updates the specified resource using the given resource data.
+     *
+     * @param staffProgramAssociationId
+     *            The id of the staffProgramAssociations.
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
     @Override
     @PUT
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
