@@ -12,8 +12,8 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource handler for CompetencyLevelDescriptor entity.
- * Stubbed out for documentation
+ * Defines various levels for assessed competencies.
+ * For more information, see the schema for $$compentencyLevelDescriptors$$.
  *
  * @author chung
  *

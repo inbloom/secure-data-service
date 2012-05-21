@@ -12,7 +12,10 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource handler for LearningStandard entries.
+ * Represents a subelement of a learning objective consisting of a precise statement of the
+ * expectation of a student's proficiency.
+ *
+ * For more information, see the schema for the $$learningStandardResources$$ entity.
  *
  *
  */
