@@ -83,7 +83,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the specified resource representation.
+     * Returns the specified resource representation(s).
      *
      * @param staffProgramAssociationId
      *            The Id of the staffProgramAssociations.
