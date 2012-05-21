@@ -1,24 +1,46 @@
 {
-"keyFields" : ["body.term", "body.schoolYear", "body.schoolId", "body.sessionName"],
-"references" :
- [
-{
-    "fieldPath" : "body.schoolId",
-    "ref" : {
-            "collectionName" : "school",
-            "choiceOfFields" :
+    "keyFields" : ["body.term", "body.schoolYear", "body.schoolId", "body.sessionName"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.gradingPeriods",
+            "ref" :
+            {
+                "collectionName" : "gradingPeriods",
+                "isRefList" : true,
+                "refObjectPath" : "body.gradingPeriods",
+                "choiceOfFields" :
                 [
-                  [
-                       {
-                       "path" : "metaData.externalId",
-                       "values" :
-                         [
-                            { "valueSource" : "body.schoolId" }
-                          ]
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriods.gradingPeriodRef"
+                            }]
                         }
                     ]
                 ]
             }
-    }
-  ]
+        },
+        {
+            "fieldPath" : "body.schoolId",
+            "ref" :
+            {
+                "collectionName" : "school",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.schoolId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
 }
