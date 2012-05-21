@@ -52,7 +52,7 @@ public class EntityTestUtils {
 
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
-
+        
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
         return entityList;
@@ -108,13 +108,13 @@ public class EntityTestUtils {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
+        
         List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
                 targetSelector);
-
         if (records != null && records.size() > 0) {
             neutralRecord = records.get(0);
         }
-        return neutralRecord;
+        return neutralRecord;        
     }
 
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");

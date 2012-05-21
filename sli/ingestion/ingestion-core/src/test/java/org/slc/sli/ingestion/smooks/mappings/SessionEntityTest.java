@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.domain.Entity;
@@ -40,7 +39,14 @@ public class SessionEntityTest {
             + "<Term>Spring Semester</Term>"
             + "<BeginDate>2012-01-02</BeginDate>"
             + "<EndDate>2012-06-22</EndDate>"
-            + "<TotalInstructionalDays>118</TotalInstructionalDays>" + "</Session>" + "</InterchangeEducationOrgCalendar>";
+            + "<TotalInstructionalDays>118</TotalInstructionalDays>" 
+            + "<EducationOrganizationReference>"
+            + "<EducationalOrgIdentity>"
+            + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+            + "</EducationalOrgIdentity>"
+            + "</EducationOrganizationReference>"
+            + "</Session>" 
+            + "</InterchangeEducationOrgCalendar>";
 
     @Test
     public void testValidSession() throws Exception {
@@ -70,6 +76,11 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "</Session>"
                 + "</InterchangeEducationOrgCalendar>";
 
@@ -97,6 +108,11 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "</Session>"
                 + "</InterchangeEducationOrgCalendar>";
 
@@ -124,6 +140,11 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "</Session>"
                 + "</InterchangeEducationOrgCalendar>";
 
@@ -151,6 +172,11 @@ public class SessionEntityTest {
                 + "<Term>Spring Semester</Term>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "</Session>"
                 + "</InterchangeEducationOrgCalendar>";
 
@@ -178,6 +204,11 @@ public class SessionEntityTest {
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "</Session>"
                 + "</InterchangeEducationOrgCalendar>";
 
@@ -204,6 +235,11 @@ public class SessionEntityTest {
                 + "<SchoolYear>2011-2012</SchoolYear>"
                 + "<Term>Spring Semester</Term>"
                 + "<BeginDate>2012-01-02</BeginDate>"
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
                 + "<EndDate>2012-06-22</EndDate>" + "</Session>" + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
@@ -231,7 +267,13 @@ public class SessionEntityTest {
                 + "<BeginDate>2012-01-02</BeginDate>"
                 + "<EndDate>2012-06-22</EndDate>"
                 + "<TotalInstructionalDays>118</TotalInstructionalDays>"
-                + "</Session>" + "</InterchangeEducationOrgCalendar>";
+                + "<EducationOrganizationReference>"
+                + "<EducationalOrgIdentity>"
+                + "<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>"
+                + "</EducationalOrgIdentity>"
+                + "</EducationOrganizationReference>"
+                + "</Session>" 
+                + "</InterchangeEducationOrgCalendar>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlIncorrectEnum);
@@ -241,47 +283,6 @@ public class SessionEntityTest {
         when(e.getType()).thenReturn("session");
 
         assertFalse(validator.validate(e));
-
-    }
-
-    @Ignore
-    @Test
-    public void testValidSessionCSV() throws Exception {
-
-        String smooksConfig = "smooks_conf/smooks-session-csv.xml";
-        String targetSelector = "csv-record";
-
-        String csvTestData = "2012 Spring,2011-2012,Spring Semester,2012-01-02,2012-06-22,118";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                csvTestData);
-
-        checkValidSessionNeutralRecord(neutralRecord);
-
-    }
-
-    @Ignore
-    @Test
-    public void testInvalidSessionCSV() throws Exception {
-
-        String smooksConfig = "smooks_conf/smooks-session-csv.xml";
-        String targetSelector = "csv-record";
-
-        String csvTestData = "2012 Spring,2011-2012,Winter Semester,2012-01-02,2012-06-22,118";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                csvTestData);
-
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        try {
-        validator.validate(e);
-        } catch (EntityValidationException ex) {
-            assertEquals(ex.getEntityType(), "session");
-            assertFalse(ex.getValidationErrors().isEmpty());
-        }
 
     }
 
