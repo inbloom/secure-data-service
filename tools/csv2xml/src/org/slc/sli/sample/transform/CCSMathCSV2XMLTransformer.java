@@ -44,6 +44,13 @@ public class CCSMathCSV2XMLTransformer {
     private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
     private static final String outputPath = "data/";
     
+    private String getCopyright() {
+        if (ccsReader != null) {
+            return ccsReader.getCopyright();
+        }
+        return null;
+    }
+
     /**
      * main method
      * 
@@ -58,6 +65,7 @@ public class CCSMathCSV2XMLTransformer {
         transformer.printInterchangeCCS(ps);
         
         SchemaValidator.check(outputPath);
+        System.out.println(transformer.getCopyright());
     }
     
     /**
