@@ -55,12 +55,12 @@ public class Login {
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String sliAdminRealmName;
     
-    void setSliAdminRealmName(String name) {
-        this.sliAdminRealmName = name;
-    }
-    
     void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
+    }
+    
+    void setSliAdminRealmName(String name) {
+        this.sliAdminRealmName = name;
     }
     
     /**

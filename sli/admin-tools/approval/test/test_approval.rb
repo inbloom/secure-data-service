@@ -36,7 +36,8 @@ class TestApprovalEngine < Test::Unit::TestCase
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Sandbox,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
 
 		ApprovalEngine.init(@ldap, @mock_emailer, is_sandbox)
@@ -91,6 +92,9 @@ class TestApprovalEngine < Test::Unit::TestCase
 			roles = ApprovalEngine.get_roles(@td_email) 
 			assert(roles == [], "Expected empty roles but got #{roles}")
 		end 
+
+		ApprovalEngine.remove_user(@td_email)
+		ApprovalEngine.remove_user(@jd_email)
 
 		#ApprovalEngine.remove_user(@jd_email)
 		#assert(!ApprovalEngine.user_exists?(@jd_email))

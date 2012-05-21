@@ -33,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Unit tests
  */
-//@RunWith(MockitoJUnitRunner.class)
+// @RunWith(MockitoJUnitRunner.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LoginTest {
@@ -61,7 +61,7 @@ public class LoginTest {
         MockitoAnnotations.initMocks(this);
         loginController.setSliAdminRealmName("SLIAdmin");
     }
-
+    
     @Test
     public void testLoginSetup() {
         loginController.setSandboxImpersonationEnabled(false);
@@ -164,7 +164,8 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, httpSession, null);
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, httpSession,
+                null);
         
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
@@ -196,7 +197,7 @@ public class LoginTest {
                 httpSession, null);
         Mockito.verify(attributes, Mockito.times(1)).clear();
         Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
-
+        
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
     }
