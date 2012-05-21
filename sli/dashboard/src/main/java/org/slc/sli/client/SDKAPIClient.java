@@ -4,32 +4,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.entity.ConfigMap;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.api.client.SLIClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.entity.ConfigMap;
+import org.slc.sli.entity.GenericEntity;
+
 /**
  * This client will use the SDK client to communicate with the SLI API.
- * 
+ *
  * @author dwalker
  *
  */
 public class SDKAPIClient implements APIClient{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
-    
+
     /**
      * Dashboard client to API
      */
     APIClient liveApiClient;
-    
+
     /**
      * SDK Client to API
      */
     SLIClient sdkClient;
-    
+
     public APIClient getLiveApiClient() {
         return liveApiClient;
     }
@@ -138,17 +139,17 @@ public class SDKAPIClient implements APIClient{
         return liveApiClient.getStudentWithOptionalFields(token, studentId, optionalFields);
     }
 
-    @Override
-    public String getHeader(String token) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getHeader(token);
-    }
-
-    @Override
-    public String getFooter(String token) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getFooter(token);
-    }
+//    @Override
+//    public String getHeader(String token) {
+//        // TODO Auto-generated method stub
+//        return liveApiClient.getHeader(token);
+//    }
+//
+//    @Override
+//    public String getFooter(String token) {
+//        // TODO Auto-generated method stub
+//        return liveApiClient.getFooter(token);
+//    }
 
     @Override
     public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
@@ -241,5 +242,5 @@ public class SDKAPIClient implements APIClient{
         // TODO Auto-generated method stub
         return liveApiClient.getAcademicRecord(token, params);
     }
-    
+
 }

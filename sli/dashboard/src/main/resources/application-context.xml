@@ -52,43 +52,43 @@
 	    <property name="securityUrl" value="${security.server.url}" />	
     </bean>
 
-    <!-- API Clients 
+    <!-- API Clients -->
     <bean id= "liveAPIClient" class="org.slc.sli.client.LiveAPIClient">
         <property name="restClient" ref="restClient" />
         <property name="apiUrl" value="${api.server.url}" />
-        <property name="portalHeaderUrl" value="${portal.header.url}" />
-        <property name="portalFooterUrl" value="${portal.footer.url}" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-    </bean>-->
-
-<!--
-    <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
-         <constructor-arg index="0"> 
-             <bean class="java.net.URL">
-                 <constructor-arg index="0" type="java.lang.String" value="${api.server.url}"/>
-             </bean>
-         </constructor-arg>
-         <constructor-arg index="1" type="java.lang.String" value="SLI_Dashboard"/>
-         <constructor-arg index="2" type="java.lang.String" value="SLI_Dashboard_Secret"/>
-         <constructor-arg index="3">
-             <bean class="java.net.URL">
-                 <constructor-arg index="0" type="java.lang.String" value="http://DashboardCallbackURL"/>
-             </bean>
-         </constructor-arg>
     </bean>
--->
 
-    <!--<bean id= "testApiClient" class="org.slc.sli.client.SDKAPIClient">
-        <property name="liveApiClient" ref="apiClient" />
+   <!-- Temporary until Dashboard Spring contexts are refactored --> 
+    <bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
+        <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+        <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
+        <constructor-arg name="clientId" value="${oauth.client.id}" />
+        <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
+        <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+        <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
+    </bean>
+
+   <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
+        <constructor-arg index="0"> 
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String" value="${api.server.url}"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientId()}"/>
+        <constructor-arg index="2" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientSecret()}"/>
+        <constructor-arg index="3">
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String" value="${oauth.redirect}"/>
+            </bean>
+        </constructor-arg>
+   </bean>
+
+    <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
-    </bean>-->
-    
-    <bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
-        <property name="restClient" ref="restClient" />
-        <property name="apiUrl" value="${api.server.url}" />
-        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
+        <property name="liveAPIClient" ref="liveAPIClient" />
     </bean>
-	
+
     <alias alias="apiClientRef" name="${api.client}"/>
 
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
