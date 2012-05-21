@@ -67,7 +67,7 @@ public class TransformationProcessor implements Processor {
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
 
         // FIXME: transformation needs to actually count processed records and errors
-        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum());
+        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum() + 1);
         stage.getMetrics().add(metrics);
 
         String batchJobId = workNote.getBatchJobId();
