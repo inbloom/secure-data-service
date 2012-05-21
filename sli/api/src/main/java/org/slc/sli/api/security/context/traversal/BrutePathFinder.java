@@ -71,6 +71,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
                         .addConnection(EntityNames.PROGRAM, "programReference")
+                        .addConnection(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, "sectionId")
                         .construct());
 
         nodeMap.put(EntityNames.STUDENT,
@@ -86,6 +87,9 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId")
                         .construct());
 
         nodeMap.put(EntityNames.STAFF,
@@ -93,6 +97,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
+                        .addConnection(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId")
+                        .addConnection(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId")
                         .construct());
 
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
@@ -107,14 +113,25 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .construct());
 
         // Leaf Nodes are unconnected
-        nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.STUDENT_PARENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PARENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PROGRAM_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_COHORT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_COHORT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PROGRAM_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SCHOOL_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_PARENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PARENT_ASSOCIATION).construct());
+
         nodeMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_ED_ORG_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_PROGRAM_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_COHORT_ASSOCIATION).construct());
+
+        nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
+
+        nodeMap.put(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SECTION_ASSESSMENT_ASSOCIATION).construct());
+
 
         nodeMap.put(EntityNames.ASSESSMENT, SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT).construct());
         nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
