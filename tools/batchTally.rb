@@ -5,7 +5,20 @@ connection = Mongo::Connection.new("nxmongo.slidev.org", 27017)
 db = connection.db("ingestion_batch_job")
 coll = db.collection("newBatchJob")
 
-rec=coll.find("_id"=>"1x1_run1-4b37b599-9e5c-4619-b9df-4dfb2a9f9c24")
+if ARGV.count<1
+  puts "\e[31mNeed to specify id of the job!\e[0m"
+  all=coll.find()
+  all.to_a.each do |rec|
+    puts rec["_id"]
+  end
+  exit
+end  
+  
+  
+
+id=ARGV[0]
+
+rec=coll.find("_id"=>id)
 
 job = rec.to_a[0]
 
