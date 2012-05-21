@@ -20,7 +20,7 @@ public class CCSMathCSV2XMLTransformer {
     // output Ed-Fi xml file
     private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
     private static final String outputPath = "data/";
-    
+
     private static String GRADE_LEVELS = "K12345678";
     private static Pattern PATTERN = Pattern.compile("^([^.]+).([^.]+).(.+)");
     public static void main(String[] args) throws Exception {
