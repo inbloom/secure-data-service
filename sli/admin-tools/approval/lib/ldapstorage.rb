@@ -114,23 +114,9 @@ class LDAPStorage
      		@ldap_conf[:encryption] = {	:method => :simple_tls	}
      	end
 
-     	@@ldap_conf = { 
-		    :host => "rcldap01.slidev.org",
-		    :port => 636,
-		    :base => "ou=people,dc=slidev,dc=org",
-		    :auth => {
-		      :method => :simple,
-		      :username => "cn=admin,dc=slidev,dc=org",
-		      :password => "Y;Gtf@w{"
-		    },
-		    :encryption => {
-		      :method => :simple_tls
-		    }
-		}
-
     	# test whether it can bind 
-     	test_ldap = Net::LDAP.new @ldap_conf
-     	raise ldap_ex(test_ldap, "Could not bind to ldap server.") if !test_ldap.bind 
+     	#test_ldap = Net::LDAP.new @ldap_conf
+     	#raise ldap_ex(test_ldap, "Could not bind to ldap server.") if !test_ldap.bind 
 	end
 
 	# user_info = {
