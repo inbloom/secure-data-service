@@ -95,12 +95,12 @@ public final class XmiCompChecker {
         renames.put(new QName("AttendanceEvent", "EventDate"), new QName("AttendanceEvent", "date"));
         renames.put(new QName("BehaviorDescriptor", "EducationOrganizationReference"), new QName("BehaviorDescriptor",
                 "educationOrganizations"));
-        renames.put(new QName("CourseOffering", "localCourseCode"), new QName("SessionCourseAssociation",
+        renames.put(new QName("CourseOffering", "localCourseCode"), new QName("CourseOffering",
                 "localCourseCode"));
-        renames.put(new QName("CourseOffering", "localCourseTitle"), new QName("SessionCourseAssociation",
+        renames.put(new QName("CourseOffering", "localCourseTitle"), new QName("CourseOffering",
                 "localCourseTitle"));
-        renames.put(new QName("CourseOffering", "courseReference"), new QName("SessionCourseAssociation", "course"));
-        renames.put(new QName("CourseOffering", "sessionReference"), new QName("SessionCourseAssociation", "session"));
+        renames.put(new QName("CourseOffering", "courseReference"), new QName("CourseOffering", "course"));
+        renames.put(new QName("CourseOffering", "sessionReference"), new QName("CourseOffering", "session"));
         renames.put(new QName("Staff", "staffUniqueStateId"), new QName("AbstractStaff", "staffUniqueStateId"));
         renames.put(new QName("Staff", "staffIdentificationCode"),
                 new QName("AbstractStaff", "staffIdentificationCode"));
@@ -157,7 +157,7 @@ public final class XmiCompChecker {
      */
     private static final Map<String, String> classMapping() {
         final Map<String, String> renames = new HashMap<String, String>();
-        renames.put("CourseOffering", "SessionCourseAssociation");
+        renames.put("CourseOffering", "CourseOffering");
         renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
         renames.put("StudentGradebookEntry", "StudentSectionGradebookEntry");

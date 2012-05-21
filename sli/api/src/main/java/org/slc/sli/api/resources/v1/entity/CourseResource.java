@@ -143,7 +143,7 @@ public class CourseResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getSessionCourseAssociations
+     * getCourseOfferings
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -151,20 +151,20 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$sessionCourseAssociations$$ that references the given $$courses$$
+     * @return Returns each $$courseOfferings$$ that references the given $$courses$$
      *
      */
     @GET
-    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
-    public Response getSessionCourseAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
+    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS)
+    public Response getCourseOfferings(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "courseId", courseId, headers, uriInfo);
     }
 
 
     /**
-     * getSessionCourseAssociationCourses
+     * getCourseOfferingCourses
      *
      * @param courseId
      *            The id of the $$courses$$.
@@ -172,14 +172,14 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$sessions$$ associated to the given course through a $$sessionCourseAssociations$$
+     * @return Returns each $$sessions$$ associated to the given course through a $$courseOfferings$$
      */
     @GET
-    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.SESSIONS)
-    public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
+    @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS + "/" + PathConstants.SESSIONS)
+    public Response getCourseOfferingCourses(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
 

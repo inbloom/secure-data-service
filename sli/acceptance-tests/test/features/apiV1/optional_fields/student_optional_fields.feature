@@ -40,7 +40,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     When I look at the first one
     Then I should see "letterGradeEarned" is "A" in it
     And inside "gradebookEntries"
-    And I should see "dateAssigned" is "2012-01-31" in it
+    And I should see "dateAssigned" is "2012-02-07" in it
     And I should see "gradebookEntryType" is "Quiz" in it
     And I should see "entityType" is "gradebookEntry" in it
 
