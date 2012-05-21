@@ -23,12 +23,24 @@ public class CcsCsvReader {
     private Map<String, String> currentRecord;
     private String[] firstLine;
     private String copyright;
-
-    CcsCsvReader(String filename) throws Exception {
-        File file = new File(filename);
+    private boolean containsCopyright;
+    private String fileLocation;
+    
+    void setFileLocation(String fileLocation) throws IOException {
+        this.fileLocation = fileLocation;
+    }
+    
+    void setContainsCopyright(boolean containsCopyright) {
+        this.containsCopyright = containsCopyright;
+    }
+    
+    void load() throws IOException {
+        File file = new File(fileLocation);
         file = removeEmptyLinesFromCsv(file);
-        copyright = removeTrailingCharacters(tail(file), ',');
-        file = removeLastLine(file);
+        if(containsCopyright) {
+            copyright = removeTrailingCharacters(tail(file), ',');
+            file = removeLastLine(file);
+        }
         csvParser = new CSVParser(new FileReader(file), CSVStrategy.EXCEL_STRATEGY);
 
         firstLine = csvParser.getLine();
@@ -109,7 +121,7 @@ public class CcsCsvReader {
         return "";
     }
 
-    private File removeLastLine(File fileIn) throws Exception {
+    private File removeLastLine(File fileIn) throws IOException {
         File tempFile = File.createTempFile("temp", "txt");
         tempFile.deleteOnExit();
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -134,7 +146,7 @@ public class CcsCsvReader {
         return tempFile;
     }
 
-    private File removeEmptyLinesFromCsv(File csvFileIn) throws Exception {
+    private File removeEmptyLinesFromCsv(File csvFileIn) throws IOException {
         File tempFile = File.createTempFile("temp", "txt");
         tempFile.deleteOnExit();
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
