@@ -45,6 +45,11 @@
     </dependency>
   </dependencies>
   
+  <properties>
+     <sli.home>${project.parent.basedir}/..</sli.home>
+     <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+  </properties>
+  
   <build>
     <finalName>sample</finalName>
     <plugins>
@@ -59,6 +64,10 @@
               <name>sli.env</name>
               <value>${sli.env}</value>
             </systemProperty>
+            <systemProperty>
+             <name>sli.conf</name>
+             <value>${sli.conf}</value>
+           </systemProperty>
           </systemProperties>
 
           <connectors>
