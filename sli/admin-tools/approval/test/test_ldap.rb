@@ -44,8 +44,8 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    @ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 
     @ldap.delete_user(Jd_email)
     @ldap.delete_user(Td_email)
@@ -106,6 +106,15 @@ class TestLdap < Test::Unit::TestCase
     jd_user_groups = @ldap.get_user_groups(Jd_email)
     assert jd_user_groups.include?("testgroup")
     assert jd_user_groups.include?("abcgroup")
+
+    @ldap.get_user_groups(Jd_email).each do |group_id|
+      @ldap.remove_user_group(Jd_email, group_id)
+    end 
+
+    @ldap.get_user_groups(Td_email).each do |group_id|
+      @ldap.remove_user_group(Td_email, group_id)
+    end
+
     @ldap.delete_user(Td_user_info[:email])
     @ldap.delete_user(User_info[:email])
   end
