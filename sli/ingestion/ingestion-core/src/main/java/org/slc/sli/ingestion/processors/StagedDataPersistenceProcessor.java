@@ -100,7 +100,7 @@ public class StagedDataPersistenceProcessor implements Processor {
     }
 
     private void processPersistence(WorkNote workNote, Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = initializeStage(workNote);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
@@ -118,6 +118,15 @@ public class StagedDataPersistenceProcessor implements Processor {
                 batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
             }
         }
+    }
+
+    private Stage initializeStage(WorkNote workNote) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        stage.setProcessingInformation("stagedEntity="
+                + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
+                + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="
+                + workNote.getBatchSize());
+        return stage;
     }
 
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
@@ -146,14 +155,14 @@ public class StagedDataPersistenceProcessor implements Processor {
                 DBObject record = dbObjectIterator.next();
 
                 numFailed = 0;
-                
+
                 recordNumber++;
                 persistedFlag = false;
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
-                
+
                 Metrics currentMetric = getOrCreateMetricForSourceFile(perFileMetrics, neutralRecord);
 
                 // process NeutralRecord with old or new pipeline
@@ -217,7 +226,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             } else {
 
                 LOG.debug("persisting simple entity: {}", xformedEntity);
-                
+
                 entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
             }
