@@ -93,7 +93,7 @@ Then /^I paste Valid json config into the text box$/ do
     params: {
       assessmentFilter: {\"StateTest Reading\": \"HIGHEST_EVER\", 
                          \"StateTest Writing\": \"MOST_RECENT_WINDOW\", 
-                         \"READ2 Nex\": \"MOST_RECENT_WINDOW\",
+                         \"READ 2.0\": \"MOST_RECENT_WINDOW\",
                          \"TRC\": \"MOST_RECENT_WINDOW\",
                          \"SAT Reading\": \"HIGHEST_EVER\",
                          \"SAT Writing\": \"HIGHEST_EVER\",
