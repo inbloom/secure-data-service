@@ -22,39 +22,41 @@ end
 
 When /^I go to the students page$/ do
   url = @driver.current_url.gsub /home/, 'students'
-  puts url
   @driver.get(url)
 end
 
 When /^I click on the First Name column$/ do
-  @first_element = @driver.find_element(:xpath, "//tbody/tr[0]/td[2]")
-  @driver.find_element(:xpath, "//tr/th[2]").click
+  @first_element = @driver.find_element(:xpath, "//tbody/tr/td[2]")
+  @driver.find_element(:xpath, "//thead/tr/th[2]").click
 end
 
 Then /^the order of the contents should change$/ do
-  assert(@first_element != element, "The elements should have been sorted")
+  assert(@first_element != @driver.find_element(:xpath, "//tbody/tr/td[2]"), "The elements should have been sorted")
 end
 
 When /^I click again$/ do
-  step "When I click on the First Name column"
+  step "I click on the First Name column"
 end
 
 Then /^the contents should reverse$/ do
-  step "Then the order of the contents should change"
+  step "the order of the contents should change"
 end
 
 Then /^I should see (\d+) students$/ do |arg1|
-  assert(@driver.find_elements(:xpath, "//tbody/tr") == arg1, "There should be #{arg1} students")
+  @count = @driver.find_elements(:xpath, "//tbody/tr").size
+  assert(@count == arg1.to_i, "There should be #{arg1} students")
 end
 
 When /^I scroll to the bottom$/ do
-  pending # express the regexp above with the code you wish you had
+  
+  @driver.find_element(:css, 'div#simple-table_info.dataTables_info')
 end
 
 When /^wait for (\d+) seconds$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  sleep arg1.to_i
 end
 
 Then /^I should see more students$/ do
-  pending # express the regexp above with the code you wish you had
+  new_count = @driver.find_elements(:xpath, "//tbody/tr").size
+  assert(@count < new_count, "We should have more students than before")
 end

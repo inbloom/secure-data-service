@@ -26,7 +26,6 @@ Scenario: Searching for a entities
 |staff                 |wgoodman  | Pass   |
 |staff                 |waffles   | Fail   |
 
-@wip
 Scenario: Sorting in ascending/descending
   When I go to the students page
     And I click on the First Name column
@@ -34,7 +33,6 @@ Scenario: Sorting in ascending/descending
   When I click again
   Then the contents should reverse
 
-@wip
 Scenario: Paging data
   When I go to the students page
   Then I should see 50 students

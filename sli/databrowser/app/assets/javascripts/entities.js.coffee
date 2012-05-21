@@ -3,10 +3,11 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 table = null
 jQuery ->
-  table = $('#simple-table').dataTable(
-    "bLengthChange": false,
-    "bDestroy": true,
-    "bPaginate": false)
+  if (!$.fn.dataTable().fnTables(true))
+    table = $('#simple-table').dataTable(
+      "bLengthChange": false,
+      "bRetrieve": true,
+      "bPaginate": false)
   $('#simple-table tbody tr').click ->
     details = $(@)
     console.log details
