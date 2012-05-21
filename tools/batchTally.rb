@@ -9,14 +9,25 @@ rec=coll.find("_id"=>"1x1_run1-4b37b599-9e5c-4619-b9df-4dfb2a9f9c24")
 
 job = rec.to_a[0]
 
+# earliest time on a chunk
+earliest=9999999999
+
+# Time the job ended
+endTime=0
+
 #times elapsed
 out = {}
 
 # Record Counts
 rc = {}
+
+# Record Counts for stage
+rcStage={"TransformationProcessor" => 0,  "PersistenceProcessor"=>0 }
+  
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
     stage["chunks"].each do |chunk|
+      earliest=chunk["startTimestamp"].to_i unless chunk["startTimestamp"].to_i>earliest
       chunk["metrics"].each do |metric|
 
         out[metric["resourceId"]]=0 unless out[metric["resourceId"]]
@@ -24,8 +35,13 @@ job["stages"].each do |stage|
 
         rc[metric["resourceId"]]=0 unless rc[metric["resourceId"]]
         rc[metric["resourceId"]]+=metric["recordCount"] unless metric.nil? or metric["recordCount"].nil?
+
+        rcStage[stage["stageName"]]+=metric["recordCount"]
+
       end
     end
+  elsif stage["stageName"]=="JobReportingProcessor"
+    endTime = stage["chunks"][0]["stopTimestamp"].to_i
   end
 end
 
@@ -37,5 +53,9 @@ out.each do |key,value|
   sum+=value
 end
 
-puts "Tolal time: #{sum} ms"
+puts "---------------------------"
+puts "Total records for Transformation: #{rcStage["TransformationProcessor"]}"
+puts "Total records for Persistence: #{rcStage["PersistenceProcessor"]}"
+puts "Total wall-clock time: "+(endTime-earliest).to_s+" sec"
+puts "Tolal time spent (on all nodes): #{sum/1000} sec"
 puts "ALL DONE"
