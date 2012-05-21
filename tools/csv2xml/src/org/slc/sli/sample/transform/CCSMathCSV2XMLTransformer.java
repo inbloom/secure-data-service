@@ -18,7 +18,7 @@ import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
 
-public class CCSCSV2XMLTransformer {
+public class CCSMathCSV2XMLTransformer {
     // read CCS csv file
     private CSVReader ccsReader;
     
@@ -36,7 +36,7 @@ public class CCSCSV2XMLTransformer {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        CCSCSV2XMLTransformer transformer = new CCSCSV2XMLTransformer();
+        CCSMathCSV2XMLTransformer transformer = new CCSMathCSV2XMLTransformer();
         transformer.loadData();
         
         PrintStream ps = new PrintStream(new File(interchangeCCSFile));
@@ -53,7 +53,7 @@ public class CCSCSV2XMLTransformer {
      */
     private void loadData() throws IOException {
         // load CCS data
-        ccsReader = new CSVReader(ccsCSVFile);
+        ccsReader = new CCSMathCSVReader(ccsCSVFile);
         
     }
     
