@@ -1,5 +1,9 @@
 package org.slc.sli.client;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -7,9 +11,14 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -24,12 +33,23 @@ public class SDKAPIClient implements APIClient{
     /**
      * Dashboard client to API
      */
-    APIClient liveApiClient;
+    private APIClient liveApiClient;
 
     /**
      * SDK Client to API
      */
-    SLIClient sdkClient;
+    private SLIClient sdkClient;
+
+    /**
+     * The API URL
+     */
+    private String apiUrl;
+
+
+    /**
+     * The Grace Period
+     */
+    private String gracePeriod;
 
     public APIClient getLiveApiClient() {
         return liveApiClient;
@@ -45,6 +65,22 @@ public class SDKAPIClient implements APIClient{
 
     public void setSdkClient(SLIClient sdkClient) {
         this.sdkClient = sdkClient;
+    }
+
+    public String getApiUrl() {
+        return apiUrl + Constants.API_PREFIX;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    public void setGracePeriod(String gracePeriod) {
+        this.gracePeriod = gracePeriod;
+    }
+
+    public String getGracePeriod() {
+        return this.gracePeriod;
     }
 
     @Override
@@ -80,6 +116,8 @@ public class SDKAPIClient implements APIClient{
     @Override
     public GenericEntity getStudent(String token, String id) {
         // TODO Auto-generated method stub
+        ((BasicClient) sdkClient).setToken(token);
+
         return liveApiClient.getStudent(token, id);
     }
 
@@ -139,18 +177,6 @@ public class SDKAPIClient implements APIClient{
         return liveApiClient.getStudentWithOptionalFields(token, studentId, optionalFields);
     }
 
-//    @Override
-//    public String getHeader(String token) {
-//        // TODO Auto-generated method stub
-//        return liveApiClient.getHeader(token);
-//    }
-//
-//    @Override
-//    public String getFooter(String token) {
-//        // TODO Auto-generated method stub
-//        return liveApiClient.getFooter(token);
-//    }
-
     @Override
     public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
         // TODO Auto-generated method stub
@@ -191,8 +217,33 @@ public class SDKAPIClient implements APIClient{
 
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getStudents(token, sectionId, studentIds);
+        ((BasicClient) sdkClient).setToken(token);
+        EntityCollection collection = new EntityCollection();
+        try {
+            String url = getApiUrl() + ClientConstants.SECTIONS_URL + sectionId + ClientConstants.STUDENT_SECTION_ASSOC + ClientConstants.STUDENTS
+                    + "?optionalFields=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook";
+            sdkClient.getResource(collection,
+                    new URL(url),
+//                    new URL("http://local.slidev.org:8080/api/rest/v1/sections/" + sectionId + "/studentSectionAssociations/students?optionalFields=assessments,attendances.1,transcript,gradebook"),
+                    BasicQuery.EMPTY_QUERY);
+        } catch (URISyntaxException e) {
+           LOGGER.error("Exception occurred", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred", e);
+        }
+
+//        return liveApiClient.getStudents(token, sectionId, studentIds);
+        return convertEntity(collection);
+    }
+
+    public List<GenericEntity> convertEntity(EntityCollection collection) {
+        List<GenericEntity> entities = new ArrayList<GenericEntity>();
+        for(Entity col : collection) {
+            Map<String, Object> map = col.getData();
+            GenericEntity entity = new GenericEntity(map);
+            entities.add(entity);
+        }
+        return entities;
     }
 
     @Override

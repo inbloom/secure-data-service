@@ -86,6 +86,8 @@
 
     <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
+        <property name="apiUrl" value="${api.server.url}" />
+        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
         <property name="liveApiClient" ref="liveAPIClient" />
     </bean>
 
