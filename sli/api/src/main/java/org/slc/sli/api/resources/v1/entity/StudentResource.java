@@ -6,8 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.representation.EntityResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +27,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.v1.DefaultCrudResource;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
@@ -44,7 +48,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
-public class StudentResource extends DefaultCrudResource {
+public class StudentResource extends DefaultCrudEndpoint {
 
     public static final String UNIQUE_STATE_ID = "studentUniqueStateId";
     public static final String NAME = "name";
@@ -72,14 +76,38 @@ public class StudentResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.STUDENTS);
     }
 
+    /**
+     * Returns all $$students$$ entities for which the logged in User has permission and context.
+     *
+     * @param offset
+     *            starting position in results to return to user
+     * @param limit
+     *            maximum number of results to return to user (starting from offset)
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @Override
+    @GET
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        
+        // add optional field to the query params. always include the student's grade level.
+        uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
+        
+        return super.readAll(offset, limit, headers, uriInfo);
+    }
 
-
+    
     @Path(PathConstants.STUDENT_WITH_GRADE)
     @GET
     public Response readAllWithGrade(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response response = super.readAll(offset, limit, headers, uriInfo);
+        Response response = super.readAll(offset, limit, headers, uriInfo); 
         try {
         ArrayList<Map> studentList = (ArrayList<Map>) response.getEntity();
         for (Map<String, String> student : studentList) {
@@ -90,7 +118,51 @@ public class StudentResource extends DefaultCrudResource {
         }
         return response;
     }
+    
+    
+    /**
+     * Create a new $$students$$ entity.
+     *
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *              URI information including path and query parameters
+     * @return result of CRUD operation
+     * @response.param {@name Location} {@style header} {@type
+     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
+     *                 item is accessible.}
+     */
+    @Override
+    @POST
+    public Response create(final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.create(newEntityBody, headers, uriInfo);
+    }
 
+    /**
+     * Get a single $$students$$ entity
+     *
+     * @param studentId
+     *            The Id of the $$students$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return A single student entity
+     */
+    @Override
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String id,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        
+        // add optional field to the query params. always include the student's grade level.
+        uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
+        
+        return super.read(id, headers, uriInfo);
+    }
 
 
     /**
@@ -124,14 +196,17 @@ public class StudentResource extends DefaultCrudResource {
         Map<String, String> student = (Map<String, String>) studentEntityResponse.getEntity();
         addGradeLevelToStudent(student, studentId, headers, uriInfo);
         return studentResponse;
-
+       
     }
 
+
+    
+    
     private void addGradeLevelToStudent(Map<String, String> student, String studentId, HttpHeaders headers, UriInfo uriInfo) {
         // Most recent grade level, not available till found
         String mostRecentGradeLevel = "Not Available";
         String mostRecentSchool = "";
-
+        
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
 
@@ -193,7 +268,50 @@ public class StudentResource extends DefaultCrudResource {
         student.put(GRADE_LEVEL, mostRecentGradeLevel);
         student.put("schoolId", mostRecentSchool);
     }
+    
 
+    /**
+     * Delete a $$students$$ entity
+     *
+     * @param studentId
+     *            The Id of the $$students$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    @Override
+    @DELETE
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.delete(studentId, headers, uriInfo);
+    }
+
+    /**
+     * Update an existing $$students$$ entity.
+     *
+     * @param studentId
+     *            The id of the $$students$$.
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    @Override
+    @PUT
+    @Path("{" + ParameterConstants.STUDENT_ID + "}")
+    public Response update(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+            final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.update(studentId, newEntityBody, headers, uriInfo);
+    }
 
     /**
      * Returns each $$studentSectionAssociations$$ that
