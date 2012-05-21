@@ -28,6 +28,7 @@ public class Stage {
     private long elapsedTime;
     private String sourceIp;
     private String hostname;
+    private String processingInformation;
 
     private List<Metrics> metrics;
 
@@ -60,7 +61,7 @@ public class Stage {
     public void setJobId(String jobId) {
         this.jobId = jobId;
     }
-    
+
     public String getStageName() {
         return stageName;
     }
@@ -123,6 +124,14 @@ public class Stage {
         return hostname;
     }
 
+    public String getProcessingInformation() {
+        return processingInformation;
+    }
+
+    public void setProcessingInformation(String processingInformation) {
+        this.processingInformation = processingInformation;
+    }
+
     public void update(String stageName, String status, Date startTimestamp, Date stopTimestamp) {
         if (stageName != null) {
             this.stageName = stageName;
@@ -144,22 +153,22 @@ public class Stage {
         this.sourceIp = BatchJobUtils.getHostAddress();
         this.hostname = BatchJobUtils.getHostName();
     }
-    
+
     public void stopStage() {
         this.setStatus("finished");
         this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
         this.elapsedTime = calcElapsedTime();
     }
-    
+
     public void addCompletedMetrics(Metrics metrics) {
         this.metrics.add(metrics);
     }
-    
+
     private long calcElapsedTime() {
         if (stopTimestamp != null && startTimestamp != null) {
             return stopTimestamp.getTime() - startTimestamp.getTime();
         }
         return -1L;
     }
-    
+
 }
