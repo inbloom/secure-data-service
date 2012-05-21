@@ -9,7 +9,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource;
-import org.slc.sli.api.resources.v1.association.SessionCourseAssociationResource;
+import org.slc.sli.api.resources.v1.association.CourseOfferingResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -44,7 +44,7 @@ public class SessionResourceTest {
     private final String schoolResourceName = "SchoolResource";
     private final String courseResourceName = "CourseResource";
     private final String schoolSessionAssociationResourceName = "SchoolSessionAssociationResource";
-    private final String sessionCourseAssociationResourceName = "sessionCourseAssociationResource";
+    private final String courseOfferingResourceName = "courseOfferingResource";
 
     @Autowired
     private SecurityContextInjector injector;
@@ -57,7 +57,7 @@ public class SessionResourceTest {
     @Autowired
     private SchoolSessionAssociationResource schoolSessionAssociationResource;
     @Autowired
-    private SessionCourseAssociationResource sessionCourseAssociationResource;
+    private CourseOfferingResource courseOfferingResource;
 
     HttpHeaders httpHeaders;
     UriInfo uriInfo;
@@ -112,7 +112,7 @@ public class SessionResourceTest {
     }
 
     @Test
-    public void testGetSessionCourseAssociations() {
+    public void testGetCourseOfferings() {
         Response createResponse = sessionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -121,15 +121,15 @@ public class SessionResourceTest {
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
+        courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = sessionResource.getSessionCourseAssociations(sessionId, httpHeaders, uriInfo);
+        Response response = sessionResource.getCourseOfferings(sessionId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
     }
 
     @Test
-    public void testGetSessionCourseAssociationCourses() {
+    public void testGetCourseOfferingCourses() {
         Response createResponse = sessionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -138,10 +138,10 @@ public class SessionResourceTest {
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
+        courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = sessionResource.getSessionCourseAssociationCourses(sessionId, httpHeaders, uriInfo);
+        Response response = sessionResource.getCourseOfferingCourses(sessionId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
     }
 }
