@@ -27,7 +27,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -61,7 +61,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -95,7 +95,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -129,10 +129,10 @@
 	</AssessmentFamily>
 
 	<AssessmentFamily id="READ2Next">
-		<AssessmentFamilyTitle>READ2 Next</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Read2 Next</ID>
+			<ID>READ 2.0</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
@@ -145,33 +145,33 @@
 	</AssessmentFamily>
 
 	<AssessmentFamily id="READ2NextK">
-		<AssessmentFamilyTitle>READ2 Next Kindergarten</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Read2 Next Kindergarten</ID>
+			<ID>READ 2.0 Kindergarten</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
 	<AssessmentFamily id="READ2Next1">
-		<AssessmentFamilyTitle>READ2 Next Grade 1</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Read2 Next Grade 1</ID>
+			<ID>READ 2.0 Grade 1</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode>
 					<AssessmentFamilyIdentificationCode
 						IdentificationSystem="Test Contractor">
-						<ID>Read2 Next</ID>
+						<ID>READ 2.0</ID>
 					</AssessmentFamilyIdentificationCode>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
@@ -179,32 +179,32 @@
 	</AssessmentFamily>
 
 	<AssessmentFamily id="READ2Next2">
-		<AssessmentFamilyTitle>READ2 Next Grade 2</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ 2.0 Grade 2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Read2 Next Grade 2</ID>
+			<ID>READ 2.0 Grade 2</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
 	<AssessmentFamily id="READ2Next3">
-		<AssessmentFamilyTitle>READ2 Next Grade 3</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ 2.0 Grade 3</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Read2 Next Grade 3</ID>
+			<ID>READ 2.0 Grade 3</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Read2 Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>

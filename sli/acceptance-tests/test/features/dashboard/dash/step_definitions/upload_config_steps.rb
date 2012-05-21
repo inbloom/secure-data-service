@@ -135,8 +135,8 @@ Then /^I paste Valid json config into the text box$/ do
      items: [
       {name: \"Student\", field: \"name.fullName\", width:150, formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
-      {name: \"READ2 Next\", items:[
-        {name: \"Perf. Lvl.\", field: \"assessments.READ2 Next.perfLevel\", width:100}]},
+      {name: \"READ 2.0\", items:[
+        {name: \"Perf. Lvl.\", field: \"assessments.READ 2.0.perfLevel\", width:100}]},
       {name: \"Reading\", items:[          
         {name: \"RL\", field: \"assessments.TRC.readingLevel\", width:100},
         {name: \"Prof. Level\", field: \"assessments.TRC.profLevel\", width:100}]},
@@ -211,10 +211,10 @@ Then /^I paste Valid json config into the text box$/ do
     id : \"assessmentHistREAD2\",
     parentId: \"assessmentHist\",
     type : \"GRID\",
-    name : \"Test History : READ2 Next\",
+    name : \"Test History : READ 2.0\",
     data : {
         cacheKey: 'assessmentHistREAD2',
-        params: { assessmentFamily: \"READ2 Next.READ2 Next Grade 1\"}
+        params: { assessmentFamily: \"READ 2.0.READ 2.0 Grade 1\"}
     }
 }
 ,

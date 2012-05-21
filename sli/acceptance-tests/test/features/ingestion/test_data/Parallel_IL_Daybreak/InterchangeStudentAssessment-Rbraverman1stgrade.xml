@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
   
 
-<!-- READ2 Next -->
+<!-- READ 2.0 -->
   <StudentAssessment id="saa_id_101">
     <AdministrationDate>2011-08-10</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -24,7 +24,7 @@
     <AssessmentReference>
       <AssessmentIdentity>
         <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1 BOY</ID>
+          <ID>READ 2.0 Grade 1 BOY</ID>
         </AssessmentIdentificationCode>
       </AssessmentIdentity>
     </AssessmentReference>
@@ -50,7 +50,7 @@
     <AssessmentReference>
       <AssessmentIdentity>
         <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1 MOY</ID>
+          <ID>READ 2.0 Grade 1 MOY</ID>
         </AssessmentIdentificationCode>
       </AssessmentIdentity>
     </AssessmentReference>
@@ -76,7 +76,7 @@
     <AssessmentReference>
       <AssessmentIdentity>
         <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1 BOY</ID>
+          <ID>READ 2.0 Grade 1 BOY</ID>
         </AssessmentIdentificationCode>
       </AssessmentIdentity>
     </AssessmentReference>
@@ -102,7 +102,7 @@
     <AssessmentReference>
       <AssessmentIdentity>
         <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1 MOY</ID>
+          <ID>READ 2.0 Grade 1 MOY</ID>
         </AssessmentIdentificationCode>
       </AssessmentIdentity>
     </AssessmentReference>
