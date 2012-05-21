@@ -1,3 +1,5 @@
+<!-- application_authorizations -->
+
 <% names = @application_authorizations.map{|auth| auth.authId} %>
 <p id="notice"><%=
     if notice != nil and names.member?(notice)
