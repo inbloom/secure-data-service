@@ -28,7 +28,7 @@ import org.slc.sli.sample.entities.LearningStandardId;
  */
 public class CCSMathCSV2XMLTransformer {
     // read CCS csv file
-    private CSVReader ccsReader;
+    private CcsCsvReader ccsReader;
     
     // read identifier csv file
     private CSVReader identifiersReader;
@@ -44,6 +44,13 @@ public class CCSMathCSV2XMLTransformer {
     private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
     private static final String outputPath = "data/";
     
+    private String getCopyright() {
+        if (ccsReader != null) {
+            return ccsReader.getCopyright();
+        }
+        return null;
+    }
+
     /**
      * main method
      * 
@@ -58,6 +65,7 @@ public class CCSMathCSV2XMLTransformer {
         transformer.printInterchangeCCS(ps);
         
         SchemaValidator.check(outputPath);
+        System.out.println(transformer.getCopyright());
     }
     
     /**
@@ -66,9 +74,9 @@ public class CCSMathCSV2XMLTransformer {
      * 
      * @throws IOException
      */
-    private void loadData() throws IOException {
+    private void loadData() throws Exception {
         // load CCS data
-        ccsReader = new CCSMathCSVReader(ccsCSVFile);
+        ccsReader = new CcsCsvReader(ccsCSVFile);
         
         // load identifier data for mapping between dotNotation and Guid
         identifiersReader = new CSVReader(identifiersCSVFile);
@@ -82,13 +90,13 @@ public class CCSMathCSV2XMLTransformer {
     }
     
     /**
-     * Iterate through Student, Parent, and studentParentAssociation records in the CSV files,
+     * Iterate through common core standard csv records in the CSV files,
      * converts them into JAXB java objects, and then marshals them into SLI-EdFi xml file.
      * 
      * @param ps
      * @throws JAXBException
      */
-    private void printInterchangeCCS(PrintStream ps) throws JAXBException {
+    private void printInterchangeCCS(PrintStream ps) throws JAXBException, IOException {
         int learningStandardCounter = 0;
         
         Marshaller marshaller = getMarshaller();
