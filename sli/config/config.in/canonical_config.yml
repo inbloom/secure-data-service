@@ -303,6 +303,7 @@ local:
         api.perf.log.path: target/apilogs/logs
         
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
+        bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
