@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class Login {
     private static final Logger LOG = LoggerFactory.getLogger(Login.class);
     
-    private static final String SLI_ADMIN_REALM = "SLIAdmin";
     private static final String USER_SESSION_KEY = "user_session_key";
     
     @Autowired
@@ -53,8 +52,15 @@ public class Login {
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled;
     
+    @Value("${sli.simple-idp.sliAdminRealmName}")
+    private String sliAdminRealmName;
+    
     void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
+    }
+    
+    void setSliAdminRealmName(String name) {
+        this.sliAdminRealmName = name;
     }
     
     /**
@@ -68,7 +74,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-
+        
         if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -103,7 +109,7 @@ public class Login {
         boolean doImpersonation = false;
         if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
             doImpersonation = true;
-            realm = SLI_ADMIN_REALM;
+            realm = sliAdminRealmName;
         }
         
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
@@ -141,7 +147,7 @@ public class Login {
         writeLoginSecurityEvent(true, userId, realm, request);
         
         httpSession.setAttribute(USER_SESSION_KEY, user);
-
+        
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         return mav;

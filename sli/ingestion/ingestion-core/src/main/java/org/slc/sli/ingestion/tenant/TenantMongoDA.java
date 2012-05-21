@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.stereotype.Component;
 
 /**
  * Mongo implementation for access to tenant data.
- * 
+ *
  * @author jtully
  */
 @Component
@@ -27,10 +28,10 @@ public class TenantMongoDA implements TenantDA {
     public static final String TENANT_TYPE = "tenant";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String DESC = "desc";
-    
+
     private Repository<Entity> entityRepository;
-    
-    
+
+
     @Override
     public List<String> getLzPaths(String ingestionServer) {
         List<String> lzPaths = findTenantPathsByIngestionServer(ingestionServer);
@@ -41,17 +42,14 @@ public class TenantMongoDA implements TenantDA {
     public String getTenantId(String lzPath) {
         return findTenantIdByLzPath(lzPath);
     }
-    
-    @Override
-    public void dropTenants() {
-        entityRepository.deleteAll(TENANT_COLLECTION);
-    }
-    
+
     @Override
     public void insertTenant(TenantRecord tenant) {
-        entityRepository.create(TENANT_TYPE, getTenantBody(tenant));
+        if (entityRepository.findOne(TENANT_COLLECTION, new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenant.getTenantId()))) == null) {
+            entityRepository.create(TENANT_COLLECTION, getTenantBody(tenant));
+        }
     }
-    
+
     private Map<String, Object> getTenantBody(TenantRecord tenant) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenant.getTenantId());
@@ -69,13 +67,13 @@ public class TenantMongoDA implements TenantDA {
         body.put(LANDING_ZONE, landingZones);
         return body;
     }
-    
+
     private List<String> findTenantPathsByIngestionServer(String targetIngestionServer) {
         List<String> tenantPaths = new ArrayList<String>();
-    
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("landingZone.ingestionServer", "=", targetIngestionServer));
         Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION , query);
-        
+
         for (Entity entity : entities) {
             List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
             if (landingZones != null) {
@@ -92,7 +90,7 @@ public class TenantMongoDA implements TenantDA {
         }
         return tenantPaths;
     }
-    
+
     private String findTenantIdByLzPath(String lzPath) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("landingZone.path", "=", lzPath));
         Entity entity = entityRepository.findOne(TENANT_COLLECTION, query);
