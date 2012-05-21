@@ -1,14 +1,22 @@
-<p id="notice"><%= "Application authorization was successfully updated" if notice != nil %></p>
+<!-- application_authorizations -->
+
+<% names = @application_authorizations.map{|auth| auth.authId} %>
+<p id="notice"><%=
+    if notice != nil and names.member?(notice)
+        "Application was successfully updated"
+    elsif notice != nil
+      notice
+    end
+%></p>
 
 
 <% if @application_authorizations.length == 0 %>
-    <h3><font color='red'>You are not authorized to make application authorizations</font></h3>
+    <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% else %>
     <h3>Please approve SLI applications to access the district's data</h3>
 <% end %>
 <% if @application_authorizations.length > 1 %>
-    <% names = @application_authorizations.map{|auth| auth.authId} %>
-    <select name="districtSelection">
+    <select id="districtSelection">
         <% names.each do |cur| %>
             <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= cur %></option>
         <% end %>
