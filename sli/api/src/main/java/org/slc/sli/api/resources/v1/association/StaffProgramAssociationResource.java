@@ -23,8 +23,9 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+
 /**
- * This association indicates the staff associated with a program.
+ * Represents the association between a $$staff$$ resource and a $$programs$$ resource.
  *
  * @author jtully
  *
@@ -39,19 +40,6 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         super(entityDefs, ResourceNames.STAFF_PROGRAM_ASSOCIATIONS);
     }
 
-    /**
-     * Returns all $$staffProgramAssociations$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
     @Override
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -60,20 +48,6 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
-    /**
-     * Create a new $$staffProgramAssociations$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
-     */
     @Override
     @POST
     public Response create(final EntityBody newEntityBody,
@@ -81,17 +55,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
-    /**
-     * Get a single $$programs$$ entity.
-     *
-     * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single staffProgramAssociation entity
-     */
+
     @Override
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
@@ -99,19 +63,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(staffProgramAssociationId, headers, uriInfo);
     }
-
-    /**
-     * Delete a $$staffProgramAssociations$$ entity.
-     *
-     * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
+	
     @Override
     @DELETE
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
@@ -120,20 +72,6 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
         return super.delete(staffProgramAssociationId, headers, uriInfo);
     }
 
-    /**
-     * Update an existing $$staffProgramAssociations$$ entity.
-     *
-     * @param staffProgramAssociationId
-     *            The id of the $$staffProgramAssociations$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
     @Override
     @PUT
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
@@ -144,11 +82,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$staff$$ that are referenced from the
-     * given $$staffProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociation.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -171,11 +108,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$programs$$ that are referenced from
-     * the given $$staffProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociation.
      * @param offset
      *            Index of the first result to return
      * @param limit
