@@ -191,6 +191,13 @@ desc "Run CompetencyLevelDescriptor Ingestion Test"
 task :ingestionCompetencyLevelDescriptorTest do
   runTests("test/features/ingestion/features/ingestion_competencyLevelDescriptor.feature")
 end
+
+desc "Run Smooks Non Silent Error Reporting Test"
+task :ingestionSmooksNonSilentErrorReportingTest do
+  runTests("test/features/ingestion/features/ingestion_SmooksNonSilentErrorReporting.feature")
+end
+
+
 ############################################################
 # Ingestion tests end
 ############################################################
