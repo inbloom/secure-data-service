@@ -22,7 +22,6 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -31,10 +30,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
+import org.slc.sli.api.resources.v1.association.StaffCohortAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentCohortAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -60,7 +60,7 @@ public class CohortResourceTest {
     StaffResource staffResource; //class under test
 
     @Autowired
-    StaffCohortAssociation staffCohortAssn;
+    StaffCohortAssociationResource staffCohortAssn;
 
     @Autowired
     StudentResource studentResource; //class under test
@@ -138,7 +138,7 @@ public class CohortResourceTest {
     private Map<String, Object> createTestStaffAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, staffAssociationId);
-        entity.put(StaffCohortAssociation.BEGIN_DATE, staffAssnBeginDate);
+        entity.put(StaffCohortAssociationResource.BEGIN_DATE, staffAssnBeginDate);
         return entity;
     }
 
@@ -320,7 +320,7 @@ public class CohortResourceTest {
         }
 
         assertNotNull("Should return an entity", body);
-        assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + staffAssnBeginDate, staffAssnBeginDate, body.get(StaffCohortAssociation.BEGIN_DATE));
+        assertEquals(StaffCohortAssociationResource.BEGIN_DATE + " should be " + staffAssnBeginDate, staffAssnBeginDate, body.get(StaffCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
