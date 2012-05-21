@@ -1497,6 +1497,16 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="gradingPeriodReference" type="reference" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The grading periods that take place during
+                    the session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1638,13 +1648,6 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriod">
-				<xs:annotation>
-					<xs:documentation>Grading period dates and durations for the
-						session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the school associated with the

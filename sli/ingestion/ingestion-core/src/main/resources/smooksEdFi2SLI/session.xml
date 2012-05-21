@@ -20,18 +20,9 @@
 
     <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:wiring property="session" beanIdRef="sessionType" />
-        <jb:wiring property="gradingPeriod" beanIdRef="gradingPeriodType" />
         <jb:value property="schoolId" data="attributes schoolId" />
         <jb:value property="sessionId" data="attributes sessionId" />
     </jb:bean>
-
-     <jb:bean beanId="gradingPeriodType" class="java.util.HashMap" createOnElement="attributes gradingPeriod">
-        <jb:value property="gradingPeriod" data="attributes gradingPeriod gradingPeriod"></jb:value>
-        <jb:value property="beginDate" data="attributes gradingPeriod beginDate"></jb:value>
-        <jb:value property="endDate" data="attributes gradingPeriod endDate"></jb:value>
-        <jb:value property="totalInstructionalDays" data="attributes gradingPeriod totalInstructionalDays"></jb:value>
-    </jb:bean>
-
 
     <jb:bean beanId="sessionType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'session'</jb:expression>
@@ -46,7 +37,11 @@
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
     </jb:bean>
 
+    <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+      <jb:value data="attributes gradingPeriodReference element" />
+    </jb:bean>
 
 </smooks-resource-list>

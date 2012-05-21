@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
+    <CalendarDate id="CLND_20120223Instructionalday">
+		<Date>2012-02-23</Date>
+		<CalendarEvent>Instructional day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CLND_20120224Instructionalday">
+		<Date>2012-02-24</Date>
+		<CalendarEvent>Instructional day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CLND_20120225Holiday">
+		<Date>2012-02-25</Date>
+		<CalendarEvent>Holiday</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CLND_20120226Holiday">
+		<Date>2012-02-26</Date>
+		<CalendarEvent>Holiday</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CLND_20120227Instructionalday">
+		<Date>2012-02-27</Date>
+		<CalendarEvent>Instructional day</CalendarEvent>
+	</CalendarDate>
+    
+    <GradingPeriod id="GRDP_20101004">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120223Instructionalday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110104">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120224Instructionalday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110222">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120225Holiday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110411">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120226Holiday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20101108">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120227Instructionalday"/>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20100823">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+        <CalendarDateReference ref="CLND_20120227Instructionalday"/>
+    </GradingPeriod>
+
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
         <SchoolYear>1999-2000</SchoolYear>
@@ -164,62 +228,5 @@
         <GradingPeriodReference ref="GRDP_20101108"/>
     </Session>
     
-    <CalendarDate id="CLND_20120223Instructionalday">
-		<Date>2012-02-23</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120224Instructionalday">
-		<Date>2012-02-24</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120225Holiday">
-		<Date>2012-02-25</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120226Holiday">
-		<Date>2012-02-26</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CLND_20120227Instructionalday">
-		<Date>2012-02-27</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-    
-    <GradingPeriod id="GRDP_20101004">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120223Instructionalday"/>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110104">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120224Instructionalday"/>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110222">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120225Holiday"/>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110411">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120226Holiday"/>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20101108">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-        <CalendarDateReference ref="CLND_20120227Instructionalday"/>
-    </GradingPeriod>
-
 
 </InterchangeEducationOrgCalendar>
