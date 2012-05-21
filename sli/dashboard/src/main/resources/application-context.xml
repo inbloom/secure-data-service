@@ -61,14 +61,6 @@
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
     </bean>-->
 
-    <bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
-        <property name="restClient" ref="restClient" />
-        <property name="apiUrl" value="${api.server.url}" />
-        <property name="portalHeaderUrl" value="${portal.header.url}" />
-        <property name="portalFooterUrl" value="${portal.footer.url}" />
-        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-    </bean>
-
 <!--
     <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
          <constructor-arg index="0"> 
