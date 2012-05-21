@@ -1,4 +1,3 @@
-@wip
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
