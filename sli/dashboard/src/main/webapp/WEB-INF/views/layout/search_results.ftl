@@ -116,10 +116,8 @@ document.write(dataModel.searchMaxPageNum);
 <input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_211_right_arrow.png" height = "13px" alt="Next" />
 </button>
 <select id="pageSizeSelect" onChange="gotoURL(this.id)">
-  <option value="10">10</option>
-  <option value="20">20</option>
-  <option value="30">30</option>
   <option value="50">50</option>
+  <option value="100">100</option>
 </select>
 <script type="text/javascript">
 var offset = (dataModel.searchPageNum - 1) * dataModel.searchPageSize;
