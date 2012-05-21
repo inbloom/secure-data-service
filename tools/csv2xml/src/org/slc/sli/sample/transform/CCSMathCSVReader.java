@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author dliu
+ * 
+ *         read Common core standard Math csv file, which may contains double quotes, and comma
+ *         between double quotes
+ */
 public class CCSMathCSVReader extends CSVReader {
     
     public CCSMathCSVReader(String filename) throws IOException {

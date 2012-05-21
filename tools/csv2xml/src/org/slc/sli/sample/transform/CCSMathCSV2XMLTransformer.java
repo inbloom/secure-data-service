@@ -21,6 +21,11 @@ import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
 
+/**
+ * @author dliu
+ * 
+ *         Transform the Common Core Standard Math csv to edfi xml
+ */
 public class CCSMathCSV2XMLTransformer {
     // read CCS csv file
     private CSVReader ccsReader;
@@ -68,7 +73,7 @@ public class CCSMathCSV2XMLTransformer {
         // load identifier data for mapping between dotNotation and Guid
         identifiersReader = new CSVReader(identifiersCSVFile);
         while (identifiersReader.getCurrentRecord() != null) {
-            Map<String,String> currentRecord=identifiersReader.getCurrentRecord();
+            Map<String, String> currentRecord = identifiersReader.getCurrentRecord();
             identifiersMap.put(currentRecord.get("Dot notation").replaceAll("\\.", "").replaceAll("-", ""),
                     currentRecord.get("GUID"));
             identifiersReader.getNextRecord();
@@ -141,10 +146,10 @@ public class CCSMathCSV2XMLTransformer {
             dotNotation = "Math.HS" + dotNotation;
         }
         String guid = identifiersMap.get(dotNotation.replaceAll("\\.", ""));
-       if(guid==null||guid.equals("")){
-           System.out.println("cant find guid for: "+id);
-           guid="";
-       }
+        if (guid == null || guid.equals("")) {
+            System.out.println("cant find guid for: " + id);
+            guid = "";
+        }
         return guid;
     }
     
@@ -158,9 +163,9 @@ public class CCSMathCSV2XMLTransformer {
             if (gradeLevels[0].toLowerCase().equals("k")) {
                 intGradeLevel = 0;
             } else {
-            
-            // return Ninth grade for high school for now
-            // TODO map the grade level for each high school math
+                
+                // return Ninth grade for high school for now
+                // TODO map the grade level for each high school math
                 intGradeLevel = 9;
             }
         }
