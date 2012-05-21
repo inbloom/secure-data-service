@@ -163,7 +163,7 @@ public class StagedDataPersistenceProcessor implements Processor {
 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
 
-                Metrics currentMetric = getOrCreateMetricForSourceFile(perFileMetrics, neutralRecord);
+                Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
                 // process NeutralRecord with old or new pipeline
                 if (noTransformationWasPerformed) {
@@ -293,14 +293,18 @@ public class StagedDataPersistenceProcessor implements Processor {
         return collectionName;
     }
 
-    private Metrics getOrCreateMetricForSourceFile(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord) {
-        Metrics currentMetric;
-        if (perFileMetrics.containsKey(neutralRecord.getSourceFile())) {
-            // metrics for this file is established
-            currentMetric = perFileMetrics.get(neutralRecord.getSourceFile());
-        } else {
+    private Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
+            WorkNote workNote) {
+
+        String sourceFile = neutralRecord.getSourceFile();
+        if (sourceFile == null) {
+            sourceFile = "unknown_" + workNote.getIngestionStagedEntity().getEdfiEntity() + "_file";
+        }
+
+        Metrics currentMetric = perFileMetrics.get(sourceFile);
+        if (currentMetric == null) {
             // establish new metrics
-            currentMetric = Metrics.newInstance(neutralRecord.getSourceFile());
+            currentMetric = Metrics.newInstance(sourceFile);
         }
         return currentMetric;
     }
