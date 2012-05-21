@@ -8,14 +8,14 @@
    "application_url":"${bootstrap.app.portal.url}",
    "client_secret":"${bootstrap.app.portal.client_secret}",
    "client_id":"${bootstrap.app.portal.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
       "approval_date": 1330521193111
    },
    "redirect_uri":"${bootstrap.app.portal.url}/c/portal/login",
-   "is_admin":false,
+   "is_admin":true,
    "installed":false,
    "behavior":"Full Window App",
    "developer_info":{
