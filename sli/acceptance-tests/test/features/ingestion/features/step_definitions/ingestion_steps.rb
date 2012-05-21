@@ -413,6 +413,11 @@ def processZipWithFolder(file_name)
       next
       end
       payload_file = entries[2]
+      if payload_file == "MissingXmlFile.xml"
+	puts "DEBUG: An xml file in control file is missing .."
+        new_ctl_file.puts entries.join ","
+	next
+      end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
         puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"

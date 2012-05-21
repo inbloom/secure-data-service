@@ -11,7 +11,7 @@ Given a production account request for vendor "Macro Corp"
 And first name "Loraine" and last name "Plyler" 
 And login name "Lplyer@macrocorp.com" pending in the account request queue
 When I approve the account request
-Then a new account is created in production LDAP with login name "Lplyer@macrocorp.com" and the roles are "Vendor_Admin"
+Then a new account is created in production LDAP with login name "Lplyer@macrocorp.com" and the roles are "Application Developer"
 And an email is sent to the requestor with a link to the application registration tool
 
 @production
