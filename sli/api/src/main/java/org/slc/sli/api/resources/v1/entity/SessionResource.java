@@ -149,8 +149,7 @@ public class SessionResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$schoolSessionAssociations$$ that
-     * references the given $$schools$$
+     * Returns each $$session$$ that references the given $$schools$$
      *
      * @param sessionId
      *            The id of the $$sessions$$.
@@ -167,17 +166,16 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
-    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS)
+    public Response getSchoolSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
+        return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
 
     /**
-     * Returns each $$schools$$ associated to the given session through
-     * a $$schoolSessionAssociations$$
+     * Returns each $$schools$$ associated to the given session through $$session$$ direct references.
      *
      * @param sessionId
      *            The id of the $$sessions$$.
@@ -188,11 +186,11 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
-    public Response getSchoolSessionAssociationSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS + "/" + PathConstants.SCHOOLS)
+    public Response getSchoolSessionSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
+        return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
     }
 
     /**

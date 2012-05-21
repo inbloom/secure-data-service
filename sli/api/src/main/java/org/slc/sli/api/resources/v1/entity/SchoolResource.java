@@ -251,8 +251,7 @@ public class SchoolResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$schoolSessionAssociations$$ that
-     * references the given $$schools$$
+     * Returns each $$session$$ that references the given $$schools$$
      *
      * @param schoolId
      *            The Id of the School.
@@ -269,17 +268,16 @@ public class SchoolResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS)
     public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
+        return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
 
     /**
-     * Returns each $$sessions$$ associated to the given school through
-     * a $$schoolSessionAssociations$$
+     * Returns each $$sessions$$ associated to the given school.
      *
      * @param schoolId
      *            The Id of the School.
@@ -290,11 +288,12 @@ public class SchoolResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SESSIONS)
-    public Response getSchoolSessionAssociationSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS)
+    public Response getSessionsForSchool(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        //return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+        return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
 }

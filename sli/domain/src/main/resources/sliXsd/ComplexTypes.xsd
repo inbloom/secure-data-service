@@ -1497,6 +1497,24 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="gradingPeriods" type="reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>References to grading periods associated with the session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="schoolId" type="reference">
+                <xs:annotation>
+                    <xs:documentation>Reference to the school associated with the session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1629,42 +1647,6 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
-
-	<xs:complexType name="schoolSessionAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a school
-				with all its sessions.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriod">
-				<xs:annotation>
-					<xs:documentation>Grading period dates and durations for the
-						session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the school associated with the
-						session.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the session offered at the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="scoreResult">
