@@ -17,7 +17,7 @@ Background: Nothing yet
     | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
     | students                    | student                    | 3a8860f9-ffb1-40f2-89b4-84f3ba369204    |
     | studentSectionAssociations  | studentSectionAssociation  | 4efb4b14-bc49-f388-0000-0000c9355702    |
-    | courseOfferings             | sessionCourseAssociation   | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
+    | courseOfferings             | courseOffering             | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
 
   Scenario Outline: Getting response from GET - Read all
     Given parameter "limit" is "0"
@@ -33,7 +33,7 @@ Background: Nothing yet
     | schools                     | school                     | 5               |
     | students                    | student                    | 82              |
     | studentSectionAssociations  | studentSectionAssociation  | 311             |
-    | courseOfferings             | sessionCourseAssociation   | 6               |
+    | courseOfferings             | courseOffering             | 6               |
 
 
 Scenario: Getting response from POST - Create (school)
