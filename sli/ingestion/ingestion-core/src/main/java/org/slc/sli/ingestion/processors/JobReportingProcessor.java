@@ -98,6 +98,11 @@ public class JobReportingProcessor implements Processor {
             if ("true".equals(clearOnCompletion)) {
                 neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
                 LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
+            } else if ("transformed".equals(clearOnCompletion)) {
+                neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(
+                        workNote.getBatchJobId());
+                LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+                        workNote.getBatchJobId());
             }
             if (job != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, job);
@@ -259,10 +264,10 @@ public class JobReportingProcessor implements Processor {
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
         Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
 
-        for (Metrics m: metrics) {
+        for (Metrics m : metrics) {
 
             if (combinedMetricsMap.containsKey(m.getResourceId())) {
-                //metrics exists, we should aggregate
+                // metrics exists, we should aggregate
                 Metrics temp = combinedMetricsMap.get(m.getResourceId());
 
                 temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
@@ -271,7 +276,7 @@ public class JobReportingProcessor implements Processor {
                 combinedMetricsMap.put(m.getResourceId(), temp);
 
             } else {
-                //adding metrics to the map
+                // adding metrics to the map
                 combinedMetricsMap.put(m.getResourceId(), m);
             }
 

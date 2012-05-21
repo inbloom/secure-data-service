@@ -4,39 +4,39 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Base TransformationStrategy.
- * 
+ *
  * @author dduran
- * 
+ *
  */
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
-    
+
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     protected static final String TYPE_KEY = "type";
-    
+
     private String batchJobId;
     private Job job;
     private WorkNote workNote;
-    
+
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Override
     public void perform(Job job) {
         this.setJob(job);
         this.setBatchJobId(job.getId());
         this.performTransformation();
     }
-    
+
     @Override
     public void perform(Job job, WorkNote workNote) {
         this.setJob(job);
@@ -44,16 +44,16 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         this.setWorkNote(workNote);
         this.performTransformation();
     }
-    
+
     protected abstract void performTransformation();
-    
+
     /**
      * @return the neutralRecordMongoAccess
      */
     public NeutralRecordMongoAccess getNeutralRecordMongoAccess() {
         return neutralRecordMongoAccess;
     }
-    
+
     /**
      * @param neutralRecordMongoAccess
      *            the neutralRecordMongoAccess to set
@@ -61,11 +61,11 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setNeutralRecordMongoAccess(NeutralRecordMongoAccess neutralRecordMongoAccess) {
         this.neutralRecordMongoAccess = neutralRecordMongoAccess;
     }
-    
+
     public String getBatchJobId() {
         return batchJobId;
     }
-    
+
     public void setBatchJobId(String batchJobId) {
         this.batchJobId = batchJobId;
     }
@@ -77,7 +77,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setJob(Job job) {
         this.job = job;
     }
-    
+
     /**
      * Gets the Work Note corresponding to this job.
      * @return Work Note containing information about collection and range to operate on.
@@ -85,7 +85,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public WorkNote getWorkNote() {
         return workNote;
     }
-    
+
     /**
      * Sets the Work Note for this job.
      * @param workNote Work Note containing information about collection and range to operate on.
@@ -93,29 +93,28 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     public void setWorkNote(WorkNote workNote) {
         this.workNote = workNote;
     }
-    
+
     /**
-     * Returns collection entities found in staging ingestion database. If a work note was not provided for 
+     * Returns collection entities found in staging ingestion database. If a work note was not provided for
      * the job, then all entities in the collection will be returned.
      *
      * @param collectionName name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-        Query query = new Query(jobIdCriteria);
-        
+        Query query = new Query();
+
         Iterable<NeutralRecord> data;
         int max = 0;
         int skip = 0;
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
-            max = (int) (note.getRangeMaximum() - note.getRangeMinimum() + 1);
-            skip = (int) note.getRangeMinimum();
-        }         
-        
+            max = (note.getRangeMaximum() - note.getRangeMinimum() + 1);
+            skip = note.getRangeMinimum();
+        }
+
         data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
                 collectionName, query, getJob().getId(), skip, max);
-        
+
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 

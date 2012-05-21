@@ -5,16 +5,17 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBCollection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
 
-import com.mongodb.DBCollection;
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
@@ -134,14 +135,24 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void deleteCollectionsForJob(String batchJobId) {
         if (batchJobId != null) {
             String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
+        }
+    }
 
-            Set<String> allCollectionNames = getTemplate().getCollectionNames();
-            for (String currentCollection : allCollectionNames) {
+    public void deleteTransformedCollectionsForJob(String batchJobId) {
+        if (batchJobId != null) {
+            String jobIdPattern = "_transformed_" + toMongoCleanId(batchJobId);
+            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
+        }
+    }
 
-                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
-                if (jobPatternIndex != -1) {
-                    getTemplate().dropCollection(currentCollection);
-                }
+    private void deleteTypedCollectionForJob(String batchJobId, String jobIdPattern) {
+        Set<String> allCollectionNames = getTemplate().getCollectionNames();
+        for (String currentCollection : allCollectionNames) {
+
+            int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
+            if (jobPatternIndex != -1) {
+                getTemplate().dropCollection(currentCollection);
             }
         }
     }
@@ -172,7 +183,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             }
         }
     }
-    
+
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
         update(query, update, toStagingCollectionName(collectionName, jobId));
     }

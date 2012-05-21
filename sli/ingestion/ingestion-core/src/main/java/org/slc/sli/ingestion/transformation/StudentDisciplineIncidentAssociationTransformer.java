@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -83,10 +84,8 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
 
     private NeutralRecord findDisciplineIncidentNRFromIdRef(String idRef) {
         NeutralRecord result = null;
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
         Criteria idCriteria = Criteria.where("body.id").is(idRef);
-        Query query = new Query(jobIdCriteria);
-        query.addCriteria(idCriteria);
+        Query query = new Query(idCriteria);
         List<NeutralRecord> data = (List<NeutralRecord>) getNeutralRecordMongoAccess().getRecordRepository()
                 .findByQueryForJob("disciplineIncident", query, getBatchJobId(), 0, 0);
         if (data.size() == 1) {

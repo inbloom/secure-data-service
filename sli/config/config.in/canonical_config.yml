@@ -772,7 +772,7 @@ team:
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
         # team/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host: nxing.slidev.org
+        sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
@@ -782,7 +782,7 @@ team:
 
         # TODO - need maestroPit queue config
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.host: localhost
+        sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
@@ -791,7 +791,7 @@ team:
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
         # Pit (worker) nodes
-        sli.ingestion.queue.pit.host: localhost
+        sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
@@ -1085,6 +1085,8 @@ test-team:
         logging.path: /home/ingestion/logs
 
         # team/ingestion/test.properties
+        
+        ## TODO - these should be the embedded ActiveMQ broker
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 

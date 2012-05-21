@@ -17,6 +17,7 @@ import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
+import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
@@ -71,6 +72,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     JobReportingProcessor jobReportingProcessor;
+
+    @Autowired
+    NoExtractProcessor noExtractProcessor;
 
     @Autowired
     LandingZoneManager landingZoneManager;
@@ -260,6 +264,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .otherwise()
                     .process(controlFilePreProcessor)
                     .to(workItemQueueUri);
+
+        from("file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move="
+                + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed="
+                + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed")
+            .routeId("noextract-" + inboundDir)
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
+            .process(noExtractProcessor)
+            .to("direct:postExtract");
     }
 
     /**
