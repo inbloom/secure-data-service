@@ -1,25 +1,26 @@
 package org.slc.sli.sample.transform;
 
-import java.util.HashMap;
-
-import org.slc.sli.sample.entities.GradeLevelType;
-
 import java.io.File;
-
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import org.slc.sli.sample.entities.ComplexObjectType;
-import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
-
-import java.io.IOException;
-import java.util.Map;
 import org.slc.sli.sample.entities.AcademicSubjectType;
+import org.slc.sli.sample.entities.ComplexObjectType;
 import org.slc.sli.sample.entities.ContentStandardType;
+import org.slc.sli.sample.entities.GradeLevelType;
+import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
+import org.slc.sli.sample.entities.LearningObjective;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
+import org.slc.sli.sample.entities.LearningStandardIdentityType;
+import org.slc.sli.sample.entities.LearningStandardReferenceType;
 
 public class CcsCsv2XmlTransformer {
     private CcsCsvReader ccsCsvReader;
@@ -61,6 +62,31 @@ public class CcsCsv2XmlTransformer {
         return null;
     }
     
+    private Collection<LearningObjective> generateLearningObjectives(Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults) {
+        Collection<LearningObjective> learningObjectives = new ArrayList<LearningObjective>();
+        for(String key : learningObjectiveIdToLearningStandardResults.keySet()) {
+            Collection<LearningStandardResult> learningStandardResults = learningObjectiveIdToLearningStandardResults.get(key);
+            LearningObjective learningObjective = new LearningObjective();
+            LearningStandardId learningStandardId = new LearningStandardId();
+            learningStandardId.setIdentificationCode(key);
+            learningObjective.setLearningObjectiveId(learningStandardId);
+
+            LearningStandardResult firstLearningStandardResult = learningStandardResults.iterator().next();
+            for(LearningStandardResult learningStandardResult : learningStandardResults) {
+                LearningStandardReferenceType learningStandardReferenceType = new LearningStandardReferenceType();
+                LearningStandardIdentityType learningStandardIdentityType = new LearningStandardIdentityType();
+                learningStandardIdentityType.setLearningStandardId(learningStandardResult.getLearningStandard().getLearningStandardId());
+                learningStandardReferenceType.setLearningStandardIdentity(learningStandardIdentityType);
+                learningObjective.getLearningStandardReference().add(learningStandardReferenceType);
+            }
+            learningObjective.setObjective(firstLearningStandardResult.getCategory());
+            learningObjective.setAcademicSubject(firstLearningStandardResult.getLearningStandard().getSubjectArea());
+            learningObjective.setObjectiveGradeLevel(firstLearningStandardResult.getLearningStandard().getGradeLevel());
+            learningObjectives.add(learningObjective);
+        }
+        return learningObjectives;
+    }
+    
     /**
      * Iterate through common core standard csv records in the CSV files,
      * converts them into JAXB java objects, and then marshals them into SLI-EdFi xml file.
@@ -68,30 +94,78 @@ public class CcsCsv2XmlTransformer {
      * @throws JAXBException
      */
     void printLearningStandards() throws JAXBException, IOException {
+        Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults = new HashMap<String, Collection<LearningStandardResult>>();
         InterchangeAssessmentMetadata interchangeAssessmentMetadata = new InterchangeAssessmentMetadata();
         List<ComplexObjectType> learningStandards = interchangeAssessmentMetadata.getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
         int learningStandardCounter = 0;
         while(ccsCsvReader.getCurrentRecord() != null) {
-            LearningStandard learningStandard = this.getLearningStandard();
+            LearningStandardResult learningStandardResult = getLearningStandard();
+            if(learningStandardResult == null) {
+                ccsCsvReader.getNextRecord();
+                continue;
+            }
+            LearningStandard learningStandard = learningStandardResult.getLearningStandard();
             if(learningStandard != null) {
                 learningStandards.add(learningStandard);
+                
+                String learningObjectiveId = learningStandardResult.getId();
+                learningObjectiveId = learningObjectiveId.substring(0, learningObjectiveId.lastIndexOf('.'));
+                if(learningObjectiveIdToLearningStandardResults.get(learningObjectiveId) == null) {
+                    learningObjectiveIdToLearningStandardResults.put(learningObjectiveId, new ArrayList<LearningStandardResult>());
+                }
+                learningObjectiveIdToLearningStandardResults.get(learningObjectiveId).add(learningStandardResult);
+                
                 ccsCsvReader.getNextRecord();
                 learningStandardCounter++;
+                
             }
             else {
                 ccsCsvReader.getNextRecord();
                 continue;
             }
-            
         }
+        learningStandards.addAll(generateLearningObjectives(learningObjectiveIdToLearningStandardResults));
         JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
         marshaller.marshal(interchangeAssessmentMetadata, new PrintStream(new File(outputLocation)));
         System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
+        System.out.println("Total " + learningObjectiveIdToLearningStandardResults.keySet().size() + " LearningObjectives are exported");
     }
     
-    private LearningStandard getLearningStandard() throws IOException {
+    private static class LearningStandardResult {
+        private LearningStandard learningStandard;
+        private String id;
+        private String category;
+        private String subCategory;
+        
+        private LearningStandard getLearningStandard() {
+            return learningStandard;
+        }
+        private void setLearningStandard(LearningStandard learningStandard) {
+            this.learningStandard = learningStandard;
+        }
+        private String getId() {
+            return id;
+        }
+        private void setId(String id) {
+            this.id = id;
+        }
+        private String getCategory() {
+            return category;
+        }
+        private void setCategory(String category) {
+            this.category = category;
+        }
+        private String getSubCategory() {
+            return subCategory;
+        }
+        private void setSubCategory(String subCategory) {
+            this.subCategory = subCategory;
+        }
+    }
+    
+    private LearningStandardResult getLearningStandard() throws IOException {
         Map<String, String> learningStandardRecord = ccsCsvReader.getCurrentRecord();
         String dotNotation = learningStandardRecord.get("ID");
         
@@ -116,7 +190,13 @@ public class CcsCsv2XmlTransformer {
         learningStandard.setDescription(description);
         learningStandard.setGradeLevel(getGradeLevel(dotNotation));
         learningStandard.setSubjectArea(academicSubjectType);
-        return learningStandard;
+        
+        LearningStandardResult learningStandardResult = new LearningStandardResult();
+        learningStandardResult.setId(id);
+        learningStandardResult.setLearningStandard(learningStandard);
+        learningStandardResult.setCategory(learningStandardRecord.get("Category"));
+        learningStandardResult.setSubCategory(learningStandardRecord.get("Sub Category"));
+        return learningStandardResult;
     }
     
     private GradeLevelType getGradeLevel(String dotNotation) {
