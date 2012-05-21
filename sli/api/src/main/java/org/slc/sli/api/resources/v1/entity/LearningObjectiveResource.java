@@ -21,7 +21,9 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Represents identified learning objectives for courses in specific grades.
+ *
+ * For more information, see the schema for the $$learningObjectives$$ entity.
  *
  * @author dliu
  *
@@ -38,9 +40,7 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
 
     /**
-     * Get a collection of $$learningStandards$$ entities for which the logged in user has
-     * permission and context and directly referenced by learningObjective entity that specified by
-     * learningObjective Id
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -66,7 +66,7 @@ public class LearningObjectiveResource extends DefaultCrudResource {
     }
 
     /**
-     * Get a single $$learningObjectives$$ entity is the parent of this resource
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -86,7 +86,7 @@ public class LearningObjectiveResource extends DefaultCrudResource {
     }
 
     /**
-     * Get all the $$learningObjectives$$ entities that are children of this resource
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
@@ -107,7 +107,7 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
 
     /**
-     * getStudentCompetencies
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param learningObjectiveId
      *            The Id of the learningObjective.

@@ -20,8 +20,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents a tool, instrument, process, or exhibit that is used
- * to assess student performance.
+ * Represents a tool, instrument, process, or exhibition composed of a systematic sampling of
+ * behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can
+ * be used to measure differences in individuals or groups and changes in performance from one
+ * occasion to the next.
+ *
+ * For more information, see the schema for $$assessments$$ resources.
  *
  * @author jstokes
  *
@@ -36,9 +40,9 @@ public class AssessmentResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.ASSESSMENTS);
     }
 
-
     /**
-     * Returns all the $$studentAssessmentAssociations$$ for the given $$assessments$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$ entities
@@ -58,8 +62,8 @@ public class AssessmentResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$students$$ entities associated to the given assessment through
-     * a $$studentAssessmentAssociations$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
@@ -80,8 +84,8 @@ public class AssessmentResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$sectionAssessmentAssociations$$ entities that
-     * references the given $$assessments$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
@@ -107,8 +111,8 @@ public class AssessmentResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$sections$$ entity associated to the given $$assessments$$ through
-     * a $$sectionAssessmentAssociations$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
@@ -129,7 +133,8 @@ public class AssessmentResource extends DefaultCrudResource {
     }
 
     /**
-     * Get a map of the objective assessment ids to $$learningStandards$$ entities for the given $$assessments$$.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param id
      *            the id of the assessment
@@ -142,7 +147,8 @@ public class AssessmentResource extends DefaultCrudResource {
     }
 
     /**
-     * Get a map of the objective assessment ids and assessmentItem ids to $$learningObjectives$$ entities for the given $$assessments$$.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param id
      *            the id of the assessment
@@ -153,7 +159,5 @@ public class AssessmentResource extends DefaultCrudResource {
     public Response getLearningObjectives(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
         return Response.status(Status.NOT_FOUND).build();
     }
-
-
 
 }

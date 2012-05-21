@@ -21,7 +21,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Represents the analysis or scoring of a student's response on an assessment. The analysis results
+ * in a value that represents a student's performance on a set of items on a test.
+ *
+ * For more information, see the schema for $$studentAssessmentAssociations$$.
  *
  * @author wscott
  *
@@ -36,10 +39,9 @@ public class StudentAssessmentAssociationResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS);
     }
 
-
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentAssessments$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param studentAssessmentId
      *            The Id of the studentAssessmentId.
@@ -57,16 +59,18 @@ public class StudentAssessmentAssociationResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
-                                              @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-                                              @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-                                              @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+    public Response getStudentsForAssociation(
+            @PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "studentId",
+                ResourceNames.STUDENTS, headers, uriInfo);
     }
 
     /**
-     * Returns each $$assessments$$ that
-     * references the given $$studentAssessments$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param studentAssessmentId
      *            The Id of the studentAssessmentId.
@@ -84,11 +88,13 @@ public class StudentAssessmentAssociationResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.ASSESSMENTS)
-    public Response getAssessmentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
-                                                 @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-                                                 @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-                                                 @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "assessmentId", ResourceNames.ASSESSMENTS, headers, uriInfo);
+    public Response getAssessmentsForAssociation(
+            @PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
+            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "assessmentId",
+                ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
 
 }
