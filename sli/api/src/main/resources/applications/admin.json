@@ -77,6 +77,14 @@
          "roles":[
             "SLC Operator"
             ]
-       }
+       },
+       {
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
+         "roles":[
+           "Realm Administrator"
+         ]
+      }
    ]
 }
