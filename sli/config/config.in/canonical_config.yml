@@ -31,7 +31,7 @@ default:
         
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
-        bootstrap.sandbox.createSandboxRealm: true
+        bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
