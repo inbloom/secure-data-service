@@ -33,19 +33,19 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     private Repository<Entity> repository;
 
     @Autowired
     private Repository<Entity> repo;
-    
+
     private String fromEntity;
     private String toEntity;
 
@@ -85,7 +85,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNode next = path.get(i);
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
-            String repoName = getResourceName(next, connection);
+            String repoName = getResourceName(current, next, connection);
             debug("Getting Ids From {}", repoName);
             if (isAssociative(next, connection)) {
                 AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
@@ -97,7 +97,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
                 }
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.getFieldName(), new ArrayList<String>(ids));
-            } else if (!isAssociative(next, connection) && connection.getAssociationNode().length() != 0) {
+            } else if (connection.getAssociationNode().length() != 0) {
                 idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
                         new ArrayList<String>(ids));
 
@@ -110,12 +110,12 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.getFilter() != null) {
                 idSet = connection.getFilter().filterIds(idSet);
             }
-           // ids.clear();
+            // ids.clear();
             ids.addAll(idSet);
             current = path.get(i);
         }
         debug("We found {} ids", ids);
-        
+
         //  Allow creator access
         ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
         return new ArrayList<String>(ids);
@@ -125,26 +125,34 @@ public class PathFindingContextResolver implements EntityContextResolver {
         return connection.getAssociationNode().length() != 0 && connection.getAssociationNode().endsWith("ssociations");
     }
 
-    private String getResourceName(SecurityNode next, SecurityNodeConnection connection) {
-        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getType();
+    private String getResourceName(SecurityNode current, SecurityNode next, SecurityNodeConnection connection) {
+
+        String resourceName;
+
+        if (!connection.getAssociationNode().isEmpty())
+            resourceName = connection.getAssociationNode();
+        else if (connection.isReferenceInSelf())
+            resourceName = current.getType();
+        else
+            resourceName = next.getType();
+
+        return resourceName;
     }
 
     /**
-     * @param pathFinder
-     *            the pathFinder to set
+     * @param pathFinder the pathFinder to set
      */
     public void setPathFinder(BrutePathFinder pathFinder) {
         this.pathFinder = pathFinder;
     }
 
     /**
-     * @param helper
-     *            the helper to set
+     * @param helper the helper to set
      */
     public void setHelper(AssociativeContextHelper helper) {
         this.helper = helper;
     }
-    
+
     public void setRepository(Repository<Entity> repo) {
         this.repository = repo;
     }
