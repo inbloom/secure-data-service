@@ -70,10 +70,6 @@ class LDAPStorage
 		:homedir   => "/dev/null"
 	}
 
-	# List of fields to fetch from LDAP for user 
-	# description field to contain mapping between LDAP and applicaton fields
-	LDAP_DESCRIPTION_FIELD = :description
-
 	# List of fields to fetch from LDAP for user
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
@@ -112,8 +108,29 @@ class LDAPStorage
            		:password => password
      		}
      	}
-     	@ldap = Net::LDAP.new @ldap_conf
-     	raise ldap_ex("Could not bind to ldap server.") if !@ldap.bind 
+
+     	# make it secure connection if the port is 636 
+     	if port == 636
+     		@ldap_conf[:encryption] = {	:method => :simple_tls	}
+     	end
+
+     	@@ldap_conf = { 
+		    :host => "rcldap01.slidev.org",
+		    :port => 636,
+		    :base => "ou=people,dc=slidev,dc=org",
+		    :auth => {
+		      :method => :simple,
+		      :username => "cn=admin,dc=slidev,dc=org",
+		      :password => "Y;Gtf@w{"
+		    },
+		    :encryption => {
+		      :method => :simple_tls
+		    }
+		}
+
+    	# test whether it can bind 
+     	test_ldap = Net::LDAP.new @ldap_conf
+     	raise ldap_ex(test_ldap, "Could not bind to ldap server.") if !test_ldap.bind 
 	end
 
 	# user_info = {
@@ -151,9 +168,16 @@ class LDAPStorage
 		end
 
 		# pack additional fields into the description field 
-		attributes[LDAP_DESCRIPTION_FIELD] = pack_fields(e_user_info)
-		if !(@ldap.add(:dn => dn, :attributes => attributes))
-			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
+		packed_fields = pack_fields(e_user_info)
+		if packed_fields.strip != ""
+			attributes[LDAP_DESCRIPTION_FIELD] = packed_fields
+		end
+
+		# make the ldap call 
+		Net::LDAP.open(@ldap_conf) do |ldap|
+			if !(ldap.add(:dn => dn, :attributes => attributes))
+				raise ldap_ex(ldap, "Unable to create user in LDAP: #{attributes}.")
+			end			
 		end
 	end
 
@@ -183,12 +207,19 @@ class LDAPStorage
 		return search_map_user_fields(filter)
 	end	
 
+	def search_users_raw(wildcard_email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
+		return search_map_user_fields(filter, nil, true)
+	end 
+
 	# updates the user status from an extended user_info 
 	def update_status(user)
 		if user_exists?(user[:email])
 			dn = get_DN(user[:email])
-			if !@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
-				raise ldap_ex("Could not update user status for user #{user[:email]}")
+			Net::LDAP.open(@ldap_conf) do |ldap|
+				if !ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+					raise ldap_ex(ldap, "Could not update user status for user #{user[:email]}")
+				end
 			end
 		end
 	end
@@ -201,25 +232,28 @@ class LDAPStorage
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
-		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
-		if !group_found
-			group_attrib = DEFAULT_GROUP_ATTRIBUTES.clone 
-  			group_attrib.update({
-    			:cn => group_id,
-    			:objectclass => GROUP_OBJECT_CLASSES,
-    			GROUP_MEMBER_ATTRIBUTE => user_dn
-  			})
 
-  			if !@ldap.add(:dn => group_dn, :attributes => group_attrib)
-  				raise ldap_ex("Could not add #{email_address} to new group #{group_id} using attributes: #{group_attrib}")
-	  		end
-	  	else
-	  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
-		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
-	  				raise ldap_ex("Could not add #{email_address} to existing  group #{group_id} using attributed '#{GROUP_MEMBER_ATTRIBUTE}' with LDAP base '#{@group_base}'")
+		Net::LDAP.open(@ldap_conf) do |ldap|
+			group_found = ldap.search(:base => @group_base, :filter => filter).to_a()[0]
+			if !group_found
+				group_attrib = DEFAULT_GROUP_ATTRIBUTES.clone 
+	  			group_attrib.update({
+	    			:cn => group_id,
+	    			:objectclass => GROUP_OBJECT_CLASSES,
+	    			GROUP_MEMBER_ATTRIBUTE => user_dn
+	  			})
+
+	  			if !ldap.add(:dn => group_dn, :attributes => group_attrib)
+	  				raise ldap_ex(ldap, "Could not add #{email_address} to new group #{group_id} using attributes: #{group_attrib}")
 		  		end
+		  	else
+		  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
+			  		if !ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
+		  				raise ldap_ex(ldap, "Could not add #{email_address} to existing  group #{group_id} using attributed '#{GROUP_MEMBER_ATTRIBUTE}' with LDAP base '#{@group_base}'")
+			  		end
+			  	end
 		  	end
-	  	end
+		end
 	end
 
 	# disable login and update the status 
@@ -229,16 +263,18 @@ class LDAPStorage
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
-		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
+		Net::LDAP.open(@ldap_conf) do |ldap|		
+			group_found = ldap.search(:base => @group_base, :filter => filter).to_a()[0]
 
-		if group_found
-			removed = group_found[GROUP_MEMBER_ATTRIBUTE].delete(user_dn)
-			if removed
-				if group_found[GROUP_MEMBER_ATTRIBUTE].empty? 
-					@ldap.delete(:dn => group_dn)
-				else 
-					@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[GROUP_MEMBER_ATTRIBUTE])
-				end 
+			if group_found
+				removed = group_found[GROUP_MEMBER_ATTRIBUTE].delete(user_dn)
+				if removed
+					if group_found[GROUP_MEMBER_ATTRIBUTE].empty? 
+						ldap.delete(:dn => group_dn)
+					else 
+						ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[GROUP_MEMBER_ATTRIBUTE])
+					end 
+				end
 			end
 		end
 	end
@@ -247,8 +283,11 @@ class LDAPStorage
 		#user_dn = get_DN(email_address)
 		user_dn = email_address
 		filter = Net::LDAP::Filter.eq( GROUP_MEMBER_ATTRIBUTE, user_dn)
-		@ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
-			group[:cn][0]
+
+		Net::LDAP.open(@ldap_conf) do |ldap|		
+			ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
+				group[:cn][0]
+			end
 		end
 	end
 
@@ -267,30 +306,34 @@ class LDAPStorage
 		if curr_user_info
 			dn = get_DN(user_info[:email])
 
-			#update the ldap attributes 
-			desc_attributes = {}
-			ALLOW_UPDATING.each do |attribute|
-				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
-						desc_attributes[attribute] = user_info[attribute]
-					else
-						@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+			Net::LDAP.open(@ldap_conf) do |ldap|
+				#update the ldap attributes 
+				desc_attributes = {}
+				ALLOW_UPDATING.each do |attribute|
+					if user_info && (curr_user_info[attribute] != user_info[attribute])
+						if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
+							desc_attributes[attribute] = user_info[attribute]
+						else
+							ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+						end
 					end
 				end
-			end
 
-			# updat the attributes that are encoded in description 
-			if !desc_attributes.empty? 
-				temp = (curr_user_info.clone).merge(desc_attributes)
-				packed = pack_fields(temp)
-				@ldap.replace_attribute(dn, LDAP_DESCRIPTION_FIELD, packed)
-			end			
+				# updat the attributes that are encoded in description 
+				if !desc_attributes.empty? 
+					temp = (curr_user_info.clone).merge(desc_attributes)
+					packed = pack_fields(temp)
+					ldap.replace_attribute(dn, LDAP_DESCRIPTION_FIELD, packed)
+				end			
+			end
 		end
 	end 
 
 	# deletes the user entirely 
 	def delete_user(email_address)
-		@ldap.delete(:dn => get_DN(email_address))
+		Net::LDAP.open(@ldap_conf) do |ldap|
+			ldap.delete(:dn => get_DN(email_address))
+		end
 	end 
 
 	#############################################################################
@@ -308,49 +351,55 @@ class LDAPStorage
 	end
 
 	# extract the user from the ldap record
-	def search_map_user_fields(filter, max_recs=nil)
+	def search_map_user_fields(filter, max_recs=nil, raw=false)
 		# search for all fields plus the description field 
-		attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD]
-		arr = @ldap.search(:filter => filter, :attributes => attributes).to_a()
-		if !max_recs
-			max_recs = arr.length
-		end
-
-		return arr[0..(max_recs-1)].map do |entry|
-			user_rec = {}
-			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-				attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
-				user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
+		Net::LDAP.open(@ldap_conf) do |ldap|
+			attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD]
+			arr = ldap.search(:filter => filter, :attributes => attributes).to_a()
+			if !max_recs
+				max_recs = arr.length
 			end
 
-			# unpack the fields that are stored in the description field
-			desc = (entry[LDAP_DESCRIPTION_FIELD] ? entry[LDAP_DESCRIPTION_FIELD] : [])[0]
-			unpacked_fields = if desc && (desc.strip != "")
-								mapping = desc.strip().split("\n").map {|x| x.strip}
-								mapping = mapping.map do |x| 
-									x.split("=").map {|y| y.strip }
-								end
-								mapping = Hash[mapping]
-				              else
-				              	{}
-				              end
-			PACKED_ENTITY_FIELD_MAPPING.each do |rec_k, packed_k| 
-				if unpacked_fields.include?(packed_k)
-					user_rec[rec_k] = unpacked_fields[packed_k]
-				end
-			end 
+			# if the raw ldap records were requested then return them 
+			return arr if raw 
 
-			user_rec
-		end
+			# process them into records 
+			return arr[0..(max_recs-1)].map do |entry|
+				user_rec = {}
+				COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+					attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+					user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
+				end
+
+				# unpack the fields that are stored in the description field
+				desc = (entry[LDAP_DESCRIPTION_FIELD] ? entry[LDAP_DESCRIPTION_FIELD] : [])[0]
+				unpacked_fields = if desc && (desc.strip != "")
+									mapping = desc.strip().split("\n").map {|x| x.strip}
+									mapping = mapping.map do |x| 
+										x.split("=").map {|y| y.strip }
+									end
+									mapping = Hash[mapping]
+					              else
+					              	{}
+					              end
+				PACKED_ENTITY_FIELD_MAPPING.each do |rec_k, packed_k| 
+					if unpacked_fields.include?(packed_k)
+						user_rec[rec_k] = unpacked_fields[packed_k]
+					end
+				end 
+
+				user_rec
+			end
+		end			
 	end
 
 	def pack_fields(user_info)
 		packed_fields = Hash[ PACKED_ENTITY_FIELD_MAPPING.map { |k,v| [v, user_info[k]] } ]
-		(packed_fields.map { |k,v|  "#{k}=#{v}" }).join("\n")
+		((packed_fields.select {|k,v| !!v}).map { |k,v|  "#{k}=#{v}" }).join("\n")
 	end
 
-	def ldap_ex(msg)
-		op = @ldap.get_operation_result
+	def ldap_ex(ldap, msg)
+		op = ldap.get_operation_result
 		"#{msg} (#{op.code}) #{op.message}"
 	end
 
