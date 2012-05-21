@@ -86,7 +86,7 @@
 
     <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
-        <property name="liveAPIClient" ref="liveAPIClient" />
+        <property name="liveApiClient" ref="liveAPIClient" />
     </bean>
 
     <alias alias="apiClientRef" name="${api.client}"/>
