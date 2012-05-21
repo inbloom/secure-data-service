@@ -37,6 +37,7 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -303,6 +304,8 @@ public class ApplicationAuthorizationResource {
                 app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
                 LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
+            } catch (EntityNotFoundException e) {
+                LOG.info("Could not find application [" + appId + "]. Omitting in Security Log.");
             }
             String stateOrganizationId  = "";
             String nameOfInstitution    = "";
