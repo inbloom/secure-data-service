@@ -56,7 +56,7 @@ Scenario: State Administrator gets access to app approval for one district
   And I select "IL-DAYBREAK" in the district dropdown  
   And I see the table for "IL-DAYBREAK"
   And I do not see the table for "IL-SUNSET"
-  And I see an application "SDK Sample" in the table
+  And I see an application "Testing App" in the table
   And in Status it says "Not Approved"
   And I click on the "Approve" button next to it
   And I am asked 'Do you really want this application to access the district's data'
