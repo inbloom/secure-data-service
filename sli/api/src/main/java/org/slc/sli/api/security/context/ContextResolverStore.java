@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.context;
 
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slf4j.Logger;
@@ -47,7 +48,9 @@ public class ContextResolverStore implements ApplicationContextAware {
         }
         
         if (found == null) {
-            found = denyAllContextResolver;
+            //TODO enable
+            // found = denyAllContextResolver;
+            found = new AllowAllEntityContextResolver();
             LOG.warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
         
