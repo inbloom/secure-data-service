@@ -1500,7 +1500,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="sessionCourseAssociation">
+	<xs:complexType name="courseOffering">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
 				with a session during which the course is offered.
