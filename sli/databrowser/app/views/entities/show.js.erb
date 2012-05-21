@@ -2,7 +2,6 @@
 var table = $.fn.dataTable.fnTables(true);
 var body = "<%= j(render 'entities') %>"
 $('div#footer').addClass('hidden').html(body);
-
 $('div#footer').find('tr').each(function(index, value) {
   $(table).dataTable().fnAddTr(value, true);
 });
