@@ -55,7 +55,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
-            LOG.error("IOException", e);
+            LOG.error("IOException", e.getLocalizedMessage());
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
@@ -99,7 +99,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             smooks.filterSource(ctx, new StreamSource(inputStream));
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n", se);
+                    + neutralRecordOutFile.getName() + "\n", se.getLocalizedMessage());
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

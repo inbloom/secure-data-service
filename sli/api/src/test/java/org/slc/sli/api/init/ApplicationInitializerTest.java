@@ -2,6 +2,8 @@ package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import org.mockito.stubbing.Answer;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.core.io.ByteArrayResource;
 
 /**
  * 
@@ -47,8 +50,15 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.admin.url", "https://admin");
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
-        appInit.sliProps = props;
-        
+        saveProps();
+
+
+    }
+
+    private void saveProps() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        props.store(baos, "");
+        appInit.bootstrapProperties = new ByteArrayResource(baos.toByteArray());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -76,6 +86,7 @@ public class ApplicationInitializerTest {
         final List<Entity> apps = new ArrayList<Entity>();
         props.put("bootstrap.app.admin.guid", "111");
         props.put("bootstrap.app.dashboard.guid", "222");
+        saveProps();
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
 
             @Override
@@ -93,6 +104,7 @@ public class ApplicationInitializerTest {
     public void testExistingApps() throws Exception {
         final List<Entity> apps = new ArrayList<Entity>();
         props.put("bootstrap.app.keys", "admin");
+        saveProps();
         Entity mockEntity = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
         

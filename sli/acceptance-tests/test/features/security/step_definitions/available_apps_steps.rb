@@ -46,7 +46,7 @@ end
 
 And /^the list contains the admin app$/ do
 	@result.each do |app|
-		if app["name"] == "Admin Tool"
+		if app["name"] == "Admin Apps"
 			@admin_app = app
 		end
 	end

@@ -1,14 +1,14 @@
 {
-   "name": "Databrowser",
-   "description":"SLI Databrowser",
-   "version":"1.0",
+   "name": "${bootstrap.app.databrowser.name}",
+   "description":"${bootstrap.app.databrowser.description}",
+   "version":"${bootstrap.app.databrowser.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.databrowser.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.databrowser.url}",
    "application_url":"${bootstrap.app.databrowser.url}",
    "client_secret":"${bootstrap.app.databrowser.client_secret}",
    "client_id":"${bootstrap.app.databrowser.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
@@ -17,8 +17,8 @@
    "redirect_uri":"${bootstrap.app.databrowser.url}/callback",
    "is_admin":true,
    "installed":false,
-   "behavior":"Iframe App",
+   "behavior":"Full Window App",
    "developer_info":{
-      "organization":"SLI"
+      "organization":"${bootstrap.app.vendor}"
    }
 }

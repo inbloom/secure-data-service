@@ -192,11 +192,20 @@ task :ingestionCompetencyLevelDescriptorTest do
   runTests("test/features/ingestion/features/ingestion_competencyLevelDescriptor.feature")
 end
 
+desc "Run bad control File Test"
+task :ingestionBadControlFileTest do
+  runTests("test/features/ingestion/features/ingestion_badCtlFile.feature")
+end
+
+desc "Run  Empty Ctl file Test"
+task :ingestionEmptyControlFileTest do
+  runTests("test/features/ingestion/features/ingestion_emptyCtlFile.feature")
+end
+
 desc "Run Smooks Non Silent Error Reporting Test"
 task :ingestionSmooksNonSilentErrorReportingTest do
   runTests("test/features/ingestion/features/ingestion_SmooksNonSilentErrorReporting.feature")
 end
-
 
 ############################################################
 # Ingestion tests end

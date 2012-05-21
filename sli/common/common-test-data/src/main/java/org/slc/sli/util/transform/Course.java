@@ -166,12 +166,12 @@ public class Course implements MongoDataEmitter {
         }
         
         public String emit() {
-            // {"_id":{"$binary":"iEWL77Fb9p9ov8E5j9Wvgw==","$type":"03"},"type":"sessionCourseAssociation","body":{"localCourseCode":"LCCGR1",
+            // {"_id":{"$binary":"iEWL77Fb9p9ov8E5j9Wvgw==","$type":"03"},"type":"courseOffering","body":{"localCourseCode":"LCCGR1",
             // "sessionId":"389b0caa-dcd2-4e84-93b7-daa4a6e9b18e","localCourseTitle":"German 1 - Intro to German","courseId":"93d33f0b-0f2e-43a2-b944-7d182253a79a"},"tenantId":"Zork"}
             StringBuffer answer = new StringBuffer();
             answer.append("{\"_id\":{\"$binary\":\"")
                     .append(Base64.toBase64(generatedUuid))
-                    .append("\",\"$type\":\"03\"},\"type\":\"sessionCourseAssociation\",\"body\":{\"localCourseCode\":\"")
+                    .append("\",\"$type\":\"03\"},\"type\":\"courseOffering\",\"body\":{\"localCourseCode\":\"")
                     .append(localCourseCode).append("\",\"sessionId\":\"").append(session.getUuid())
                     .append("\",\"localCourseTitle\":\"").append(localCourseTitle).append("\",\"courseId\":\"")
                     .append(Course.this.generatedUuid).append("\"},\"tenantId\":\"Zork\"}\n");
