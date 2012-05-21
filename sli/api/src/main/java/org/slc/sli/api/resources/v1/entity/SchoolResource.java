@@ -1,13 +1,8 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -18,8 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
@@ -33,116 +27,13 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOLS)
 @Component
 @Scope("request")
-public class SchoolResource extends DefaultCrudEndpoint {
+public class SchoolResource extends DefaultCrudResource {
 
     @Autowired
     public SchoolResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.SCHOOLS);
     }
 
-    /**
-     * Returns all $$schools$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @Override
-    @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
-    }
-
-    /**
-     * Create a new $$schools$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
-     */
-    @Override
-    @POST
-    public Response create(final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * Get a single $$schools$$ entity
-     *
-     * @param schoolId
-     *            The Id of the $$schools$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single school entity
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
-    public Response read(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(schoolId, headers, uriInfo);
-    }
-
-    /**
-     * Delete a $$schools$$ entity
-     *
-     * @param schoolId
-     *            The Id of the $$schools$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(schoolId, headers, uriInfo);
-    }
-
-    /**
-     * Update an existing $$schools$$ entity.
-     *
-     * @param schoolId
-     *            The id of the $$schools$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}")
-    public Response update(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(schoolId, newEntityBody, headers, uriInfo);
-    }
 
     /**
      * Returns each $$teacherSchoolAssociations$$ that
