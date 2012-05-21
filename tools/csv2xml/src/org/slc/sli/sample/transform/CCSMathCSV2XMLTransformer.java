@@ -1,11 +1,8 @@
 package org.slc.sli.sample.transform;
 
 import java.util.regex.Matcher;
-
 import java.util.regex.Pattern;
 
-import java.util.Arrays;
-import java.util.List;
 import org.slc.sli.sample.entities.AcademicSubjectType;
 
 /**
