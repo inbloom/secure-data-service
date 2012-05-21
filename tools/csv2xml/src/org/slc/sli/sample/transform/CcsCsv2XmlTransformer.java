@@ -62,13 +62,13 @@ public class CcsCsv2XmlTransformer {
         return null;
     }
     
-    private Collection<LearningObjective> generateLearningObjectives(Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults) {
+    private Collection<LearningObjective> generateLearningObjectives(Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults) throws IOException {
         Collection<LearningObjective> learningObjectives = new ArrayList<LearningObjective>();
         for(String key : learningObjectiveIdToLearningStandardResults.keySet()) {
             Collection<LearningStandardResult> learningStandardResults = learningObjectiveIdToLearningStandardResults.get(key);
             LearningObjective learningObjective = new LearningObjective();
             LearningStandardId learningStandardId = new LearningStandardId();
-            learningStandardId.setIdentificationCode(key);
+            learningStandardId.setIdentificationCode(IdToGuidMapper.getInstance().getGuid(key));
             learningObjective.setLearningObjectiveId(learningStandardId);
 
             LearningStandardResult firstLearningStandardResult = learningStandardResults.iterator().next();
