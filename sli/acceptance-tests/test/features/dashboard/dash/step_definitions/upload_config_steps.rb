@@ -91,9 +91,9 @@ Then /^I paste Valid json config into the text box$/ do
     entity: \"listOfStudents\",
     cacheKey: \"listOfStudents\",
     params: {
-      assessmentFilter: {\"ISAT Reading\": \"HIGHEST_EVER\", 
-                         \"ISAT Writing\": \"MOST_RECENT_WINDOW\", 
-                         \"DIBELS Nex\": \"MOST_RECENT_WINDOW\",
+      assessmentFilter: {\"StateTest Reading\": \"HIGHEST_EVER\", 
+                         \"StateTest Writing\": \"MOST_RECENT_WINDOW\", 
+                         \"READ2 Nex\": \"MOST_RECENT_WINDOW\",
                          \"TRC\": \"MOST_RECENT_WINDOW\",
                          \"SAT Reading\": \"HIGHEST_EVER\",
                          \"SAT Writing\": \"HIGHEST_EVER\",
@@ -108,13 +108,13 @@ Then /^I paste Valid json config into the text box$/ do
      items: [
       {name: \"Student\", width: 150, field: \"name.fullName\", formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
-      {name: \"ISAT Reading (highest ever)\", items:[
-        {name: \"Perf. Lvl.\", field: \"assessments.ISAT Reading.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'ISAT Reading', valueField:'Scale score', fieldName: \"ISATReading\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
-        {name: \"SS\", field: \"assessments.ISAT Reading.Scale score\", width:100, sorter: 'int'},
-        {name: \"Lexile Score\", field: \"assessments.ISAT Reading.Other\", width:100}]},
-      {name: \"ISAT Writing (most recent)\", items:[   
-        {name: \"Perf. Lvl.\", field: \"assessments.ISAT Writing.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'ISAT Writing', valueField:'Scale score', fieldName: \"ISATWriting\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
-        {name: \"SS\", field: \"assessments.ISAT Writing.Scale score\", width:100, sorter: 'int'}]},
+      {name: \"StateTest Reading (highest ever)\", items:[
+        {name: \"Perf. Lvl.\", field: \"assessments.StateTest Reading.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Reading', valueField:'Scale score', fieldName: \"StateTestReading\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: \"SS\", field: \"assessments.StateTest Reading.Scale score\", width:100, sorter: 'int'},
+        {name: \"Lexile Score\", field: \"assessments.StateTest Reading.Other\", width:100}]},
+      {name: \"StateTest Writing (most recent)\", items:[   
+        {name: \"Perf. Lvl.\", field: \"assessments.StateTest Writing.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Writing', valueField:'Scale score', fieldName: \"StateTestWriting\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: \"SS\", field: \"assessments.StateTest Writing.Scale score\", width:100, sorter: 'int'}]},
       {name: \"Current Grades\", items:[
                {name: \"Unit Test 1\", field: \"FallSemester2011-2012-0\", width:100, sorter: 'LettersAndNumbers', formatter: 'Grade'}
             ]
@@ -135,8 +135,8 @@ Then /^I paste Valid json config into the text box$/ do
      items: [
       {name: \"Student\", field: \"name.fullName\", width:150, formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
-      {name: \"DIBELS Next\", items:[
-        {name: \"Perf. Lvl.\", field: \"assessments.DIBELS Next.perfLevel\", width:100}]},
+      {name: \"READ2 Next\", items:[
+        {name: \"Perf. Lvl.\", field: \"assessments.READ2 Next.perfLevel\", width:100}]},
       {name: \"Reading\", items:[          
         {name: \"RL\", field: \"assessments.TRC.readingLevel\", width:100},
         {name: \"Prof. Level\", field: \"assessments.TRC.profLevel\", width:100}]},
@@ -184,8 +184,8 @@ Then /^I paste Valid json config into the text box$/ do
     {id: \"tab8\", name: \"Middle School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
     {id: \"tab9\", name: \"High School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
     {id: \"tab2\", name: \"Attendance and Discipline\", type : \"TAB\", items: [{id : \"attendanceHist\", type: \"GRID\"}]},
-    {id: \"tabE\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistDIBELS\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
-    {id: \"tabM\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistISATR\", type: \"GRID\"}, {id : \"assessmentHistISATW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
+    {id: \"tabE\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistREAD2\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
+    {id: \"tabM\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistStateTestR\", type: \"GRID\"}, {id : \"assessmentHistStateTestW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tabH\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistAPE\", type: \"GRID\"}, {id : \"assessmentHistSATR\", type: \"GRID\"}, {id : \"assessmentHistSATW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tab4\", name: \"Grades and Credits\",  type : \"TAB\", items: [ {id : \"transcriptHistory\", type : \"PANEL\"} ]},
     {id: \"tab5\", name: \"Advanced Academics\",  type : \"TAB\", items: []},
@@ -206,39 +206,39 @@ Then /^I paste Valid json config into the text box$/ do
     }
 }
 ,
-\"assessmentHistDIBELS\" :
+\"assessmentHistREAD2\" :
 {
-    id : \"assessmentHistDIBELS\",
+    id : \"assessmentHistREAD2\",
     parentId: \"assessmentHist\",
     type : \"GRID\",
-    name : \"Test History : DIBELS Next\",
+    name : \"Test History : READ2 Next\",
     data : {
-        cacheKey: 'assessmentHistDIBELS',
-        params: { assessmentFamily: \"DIBELS Next.DIBELS Next Grade 1\"}
+        cacheKey: 'assessmentHistREAD2',
+        params: { assessmentFamily: \"READ2 Next.READ2 Next Grade 1\"}
     }
 }
 ,
-\"assessmentHistISATR\" :
+\"assessmentHistStateTestR\" :
 {
-    id : \"assessmentHistISATR\",
+    id : \"assessmentHistStateTestR\",
     parentId: \"assessmentHist\",
     type : \"GRID\",
-    name : \"Test History : ISAT Reading\",
+    name : \"Test History : StateTest Reading\",
     data : {
-        cacheKey: 'assessmentHistISATR',
-        params: { assessmentFamily: \"ISAT Reading\"}
+        cacheKey: 'assessmentHistStateTestR',
+        params: { assessmentFamily: \"StateTest Reading\"}
     }
 }
 ,
-\"assessmentHistISATW\" :
+\"assessmentHistStateTestW\" :
 {
-    id : \"assessmentHistISATW\",
+    id : \"assessmentHistStateTestW\",
     parentId: \"assessmentHist\",
     type : \"GRID\",
-    name : \"Test History : ISAT Writing\",
+    name : \"Test History : StateTest Writing\",
     data : {
-        cacheKey: 'assessmentHistISATW',
-        params: { assessmentFamily: \"ISAT Writing\"}
+        cacheKey: 'assessmentHistStateTestW',
+        params: { assessmentFamily: \"StateTest Writing\"}
     }
 }
 ,

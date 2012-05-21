@@ -69,7 +69,7 @@ And "Carmen Ortiz" has no "SAT Reading.percentile"
 And "Carmen Ortiz" has no "SAT Writing.x"
 And "Carmen Ortiz" has no "SAT Writing.percentile"
 
-Scenario: Check empty ISAT assessments
+Scenario: Check empty StateTest assessments
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I select course "8th Grade English"
@@ -78,11 +78,11 @@ Then I am informed that "There is no data available for your request. Please con
 When I select course "8th Grade Math"
 When I select section "8th Grade Math - Sec 1"
 And I see a list of 5 students
-And "Alton Ausiello" has no "ISAT Reading.perfLevel"
-And "Alton Ausiello" has no "ISAT Reading.Scale score"
-And "Alton Ausiello" has no "ISAT Reading.Other"
-And "Alton Ausiello" has no "ISAT Writing.perfLevel"
-And "Alton Ausiello" has no "ISAT Writing.Scale score"
+And "Alton Ausiello" has no "StateTest Reading.perfLevel"
+And "Alton Ausiello" has no "StateTest Reading.Scale score"
+And "Alton Ausiello" has no "StateTest Reading.Other"
+And "Alton Ausiello" has no "StateTest Writing.perfLevel"
+And "Alton Ausiello" has no "StateTest Writing.Scale score"
 And "Alton Ausiello" has no "FallSemester2011-2012-0"
 And "Alton Ausiello" has no "SpringSemester2010-2011"
 And "Alton Ausiello" has no "FallSemester2010-2011"

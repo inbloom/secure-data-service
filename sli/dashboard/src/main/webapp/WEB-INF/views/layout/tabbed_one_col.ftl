@@ -1,7 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<#attempt>
-<html>
-<head>
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <script>
@@ -9,9 +5,6 @@
         DashboardUtil.makeTabs("#tabs");
     });
 </script>
-</head>
-<body>
-
 
 <div id="container">
 
@@ -58,11 +51,3 @@
      
   </div>
 </div>
-
-</body>
-</html>
-<#include "layout_footer.ftl">
-<#recover>
-${logger.error(.error)}
-<#include "../error.ftl">
-</#attempt>

@@ -157,7 +157,7 @@ function populateSectionMenu(){
 
 function populateFilter() {
     var defaultOptions = {"-1": "No Filter"};
-	DashboardUtil.setDropDownOptions("filter", defaultOptions, DashboardProxy.widgetConfig.lozenge.items, "description", "", true, function() {
+	DashboardUtil.setDropDownOptions("filter", defaultOptions, DashboardProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
 		clearStudentList();
 		filterStudents();
 	});

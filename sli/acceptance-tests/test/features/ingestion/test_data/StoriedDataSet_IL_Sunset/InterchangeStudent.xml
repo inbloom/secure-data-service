@@ -1530,4 +1530,1432 @@
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
         <Section504Disabilities/>
     </Student>
+    <Student>
+        <StudentUniqueStateId>2000000000</StudentUniqueStateId>
+        <Name>
+            <FirstName>Lemmy</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000001</StudentUniqueStateId>
+        <Name>
+            <FirstName>Tish</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000002</StudentUniqueStateId>
+        <Name>
+            <FirstName>Francine</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000003</StudentUniqueStateId>
+        <Name>
+            <FirstName>Abraham</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000004</StudentUniqueStateId>
+        <Name>
+            <FirstName>Matt</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000005</StudentUniqueStateId>
+        <Name>
+            <FirstName>Melody</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000006</StudentUniqueStateId>
+        <Name>
+            <FirstName>Matthew</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000007</StudentUniqueStateId>
+        <Name>
+            <FirstName>Matts</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000008</StudentUniqueStateId>
+        <Name>
+            <FirstName>Wendy</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000009</StudentUniqueStateId>
+        <Name>
+            <FirstName>Zack</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000010</StudentUniqueStateId>
+        <Name>
+            <FirstName>Joe</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000011</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jeremy</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000012</StudentUniqueStateId>
+        <Name>
+            <FirstName>Brenda</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000013</StudentUniqueStateId>
+        <Name>
+            <FirstName>Steve</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000014</StudentUniqueStateId>
+        <Name>
+            <FirstName>Cindy</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000015</StudentUniqueStateId>
+        <Name>
+            <FirstName>Doug</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000016</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jess</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000017</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jennifer</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000018</StudentUniqueStateId>
+        <Name>
+            <FirstName>Rob</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000019</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jacob</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000020</StudentUniqueStateId>
+        <Name>
+            <FirstName>Hoi</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000021</StudentUniqueStateId>
+        <Name>
+            <FirstName>Kim</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000022</StudentUniqueStateId>
+        <Name>
+            <FirstName>Anna</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000023</StudentUniqueStateId>
+        <Name>
+            <FirstName>Takashi</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000024</StudentUniqueStateId>
+        <Name>
+            <FirstName>Doris</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000025</StudentUniqueStateId>
+        <Name>
+            <FirstName>Sivan</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000026</StudentUniqueStateId>
+        <Name>
+            <FirstName>David</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000027</StudentUniqueStateId>
+        <Name>
+            <FirstName>Dave</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000028</StudentUniqueStateId>
+        <Name>
+            <FirstName>Sravan</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000029</StudentUniqueStateId>
+        <Name>
+            <FirstName>Chen</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000030</StudentUniqueStateId>
+        <Name>
+            <FirstName>Dewayne</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000031</StudentUniqueStateId>
+        <Name>
+            <FirstName>Robert</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000032</StudentUniqueStateId>
+        <Name>
+            <FirstName>Igor</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000033</StudentUniqueStateId>
+        <Name>
+            <FirstName>Vijay</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000034</StudentUniqueStateId>
+        <Name>
+            <FirstName>Mohammed</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000035</StudentUniqueStateId>
+        <Name>
+            <FirstName>Akhil</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000036</StudentUniqueStateId>
+        <Name>
+            <FirstName>Marcus</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000037</StudentUniqueStateId>
+        <Name>
+            <FirstName>Greg</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000038</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jeff</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000039</StudentUniqueStateId>
+        <Name>
+            <FirstName>Kenny</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000040</StudentUniqueStateId>
+        <Name>
+            <FirstName>Tim</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000041</StudentUniqueStateId>
+        <Name>
+            <FirstName>Nat</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000042</StudentUniqueStateId>
+        <Name>
+            <FirstName>MC</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000043</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jojo</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000044</StudentUniqueStateId>
+        <Name>
+            <FirstName>Jimmy</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000045</StudentUniqueStateId>
+        <Name>
+            <FirstName>Pat</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000046</StudentUniqueStateId>
+        <Name>
+            <FirstName>Denise</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000047</StudentUniqueStateId>
+        <Name>
+            <FirstName>Thomas</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000048</StudentUniqueStateId>
+        <Name>
+            <FirstName>Phoebe</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000049</StudentUniqueStateId>
+        <Name>
+            <FirstName>Chloe</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    <Student>
+        <StudentUniqueStateId>2000000050</StudentUniqueStateId>
+        <Name>
+            <FirstName>Apple</FirstName>
+            <LastSurname>Lin</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2001-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60057-1857</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>708-471-5210</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
 </InterchangeStudentParent>

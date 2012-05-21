@@ -19,8 +19,8 @@ Then /^the Assessment History for "([^"]*)" has the following entries:$/ do |tes
     "Perf Level" => "perfLevel"
   }   
   
-  #For ISAT tests, we need to test fuel gauge visualization
-  if (test.include? ("ISAT"))
+  #For StateTest tests, we need to test fuel gauge visualization
+  if (test.include? ("StateTest"))
     mapping["Perf Level"] = ["perfLevel", "fuelGauge"]
     if (test.include? "Reading")
       @cutPoints = "120,180,231,278,364"

@@ -27,10 +27,6 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -39,6 +35,9 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -862,12 +861,19 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         String[] nameList = (String[]) nameQuery;
         String firstName = nameList[0];
         String lastName = nameList[1];
+        String pageNumStr = nameList[2];
+        String pageSizeStr = nameList[3];
         GenericEntity studentSearch = new GenericEntity();
 
         if (((firstName == null) || (firstName.equals(""))) && ((lastName == null) || (lastName.equals("")))) {
             studentSearch.put(Constants.ATTR_STUDENTS, new LinkedList<GenericEntity>());
             studentSearch.put(Constants.ATTR_SEARCH_STRING, "");
+            studentSearch.put(Constants.ATTR_FIRST_NAME, "");
+            studentSearch.put(Constants.ATTR_LAST_SURNAME, "");
             studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, 1);
+            studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, 50);
+            studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, 1);
             return studentSearch;
         }
 
@@ -906,10 +912,42 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
+        // this is a temporary solution until we decide how to integrate the search with the API pagination calls
+        // currently, when API is used, the total number of search results is stored in the header which is not accessible
+        // also, code above performs two searches and combines results - this is a problem if API pagination is used
+        int numResults = enhancedStudents.size();
+        int pageNum = Integer.parseInt(pageNumStr);
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        int pageSize = Integer.parseInt(pageSizeStr);
+        if  (pageSize < 1) {
+            pageSize = 1;
+        }
+        int maxPageNum = enhancedStudents.size() / pageSize;
+        if (numResults % pageSize != 0) {
+            maxPageNum++;
+        }
+        if (pageNum > maxPageNum) {
+            pageNum = maxPageNum;
+        }
+        if (numResults > pageSize) {
+            int beginIndex = (pageNum - 1) * pageSize;
+            int endIndex = beginIndex + pageSize;
+            if (endIndex > numResults) {
+                endIndex = numResults;
+            }
+            enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
+        }
 
         studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
         studentSearch.put(Constants.ATTR_SEARCH_STRING, searchString);
-        studentSearch.put(Constants.ATTR_NUM_RESULTS, enhancedStudents.size());
+        studentSearch.put(Constants.ATTR_FIRST_NAME, firstName);
+        studentSearch.put(Constants.ATTR_LAST_SURNAME, lastName);
+        studentSearch.put(Constants.ATTR_NUM_RESULTS, numResults);
+        studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, pageNum);
+        studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, pageSize);
+        studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, maxPageNum);
         return studentSearch;
     }
 

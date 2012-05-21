@@ -24,8 +24,8 @@ And Tab has a title named "Elementary School Overview"
  When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test         |
-|DIBELS Next  |
-And the Assessment History for "DIBELS Next" has the following entries:
+|READ2 Next  |
+And the Assessment History for "READ2 Next" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level |
-|2011-08-10   |1      |DIBELS Next Grade 1 BOY    |Level 2    |
-|2012-03-01   |1      |DIBELS Next Grade 1 MOY    |Level 1    |  
+|2011-08-10   |1      |READ2 Next Grade 1 BOY    |Level 2    |
+|2012-03-01   |1      |READ2 Next Grade 1 MOY    |Level 1    |  

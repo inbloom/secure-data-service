@@ -9,10 +9,10 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,14 +42,14 @@ public class ZipFileUtil {
         }
 
         FileInputStream fis = null;
-        ZipInputStream zis = null;
+        ZipArchiveInputStream zis = null;
 
         try {
             // Create input stream
             fis = new FileInputStream(zipFile);
-            zis = new ZipInputStream(new BufferedInputStream(fis));
+            zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
 
-            ZipEntry entry;
+            ArchiveEntry entry;
 
             // Extract files
             while ((entry = zis.getNextEntry()) != null) {
@@ -78,7 +78,7 @@ public class ZipFileUtil {
      * @throws IOException
      *             in case of error
      */
-    protected static void extractTo(ZipInputStream zis, ZipEntry entry, File dir) throws IOException {
+    protected static void extractTo(ZipArchiveInputStream zis, ArchiveEntry entry, File dir) throws IOException {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
         try {

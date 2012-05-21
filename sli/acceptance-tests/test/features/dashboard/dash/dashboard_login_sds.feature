@@ -74,8 +74,8 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
-And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
 And the "current" grade for "Matt Sollars" is "B+"
 And the "last semester" grade for "Matt Sollars" is "B+"
 And the "2 semesters ago" grade for "Matt Sollars" is "A-"
@@ -98,16 +98,16 @@ And Student Enrollment History has the following entries:
 And I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test         |
-|ISAT Reading |
-|ISAT Writing |
-And the Assessment History for "ISAT Reading" has the following entries:
+|StateTest Reading |
+|StateTest Writing |
+And the Assessment History for "StateTest Reading" has the following entries:
 |Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level |
-|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195        |
-|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |199        |
-And the Assessment History for "ISAT Writing" has the following entries:
+|2011-10-01   |8      |Grade 8 2011 StateTest Reading  |195          |642    |53         |195        |
+|2011-09-01   |8      |Grade 8 2011 StateTest Reading  |199          |655    |55         |199        |
+And the Assessment History for "StateTest Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
-|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
-|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
+|2011-10-01   |8      |Grade 8 2011 StateTest Writing  |1         |1          |
+|2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
 And I click on the browser back button
 Then I see a list of 28 students
 When I select school "Daybreak Central High"
@@ -184,8 +184,8 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
-And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
 And the "current" grade for "Matt Sollars" is "B+"
 And the "last semester" grade for "Matt Sollars" is "B+"
 And the "2 semesters ago" grade for "Matt Sollars" is "A-"

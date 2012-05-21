@@ -56,8 +56,8 @@ When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 Then I should have a dropdown selector named "viewSelect"
 And I should have a selectable view named "Middle School ELA View"
-Then I should see a table heading "ISAT Reading (highest ever)"
-Then I should see a table heading "ISAT Writing (most recent)"
+Then I should see a table heading "StateTest Reading (highest ever)"
+Then I should see a table heading "StateTest Writing (most recent)"
 Then I should see a table heading "Final Grades"
 And I click on student "Matt Sollars"
 And there are "7" Tabs

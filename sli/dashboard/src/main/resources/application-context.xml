@@ -43,7 +43,9 @@
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
-        <property name="apiClient" ref="apiClient"/>
+        <property name="restClient" ref="restClient"/>
+        <property name="portalHeaderUrl" value="${portal.header.url}" />
+	    <property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
@@ -89,6 +91,12 @@
         <property name="sdkClient" ref="basicClient" />
     </bean>-->
     
+    <bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
+        <property name="restClient" ref="restClient" />
+        <property name="apiUrl" value="${api.server.url}" />
+        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
+    </bean>
+	
     <alias alias="apiClientRef" name="${api.client}"/>
 
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
@@ -101,4 +109,10 @@
         <property name="cacheManager" ref="cacheManager"/>
         <property name="useCache" value="${panel.data.use.cache:true}"/>
     </bean>
+    
+    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
+    <qualifier value="googleAnalyticsTrackerId" />
+    <constructor-arg value="${dashboard.google_analytics.id}" />
+    </bean>    
+    
 </beans>

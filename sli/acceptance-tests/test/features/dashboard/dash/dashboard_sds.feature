@@ -23,14 +23,14 @@ Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "309" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Reading.perfLevel" is "205" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Writing.perfLevel" is "32" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Gerardo Saltazor" in "StateTest Reading.perfLevel" is "309" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Gerardo Saltazor" in "StateTest Writing.perfLevel" is "15" with cutpoints "6,15,21,28,33"
+And the fuel gauge for "Karrie Rudesill" in "StateTest Reading.perfLevel" is "181" with cutpoints "120,180,231,278,364"
+And the fuel gauge for "Karrie Rudesill" in "StateTest Writing.perfLevel" is "11" with cutpoints "6,15,21,28,33"
 And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
@@ -121,16 +121,16 @@ And Student Enrollment History has the following entries:
  When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test         |
-|ISAT Reading |
-|ISAT Writing |
-And the Assessment History for "ISAT Reading" has the following entries:
+|StateTest Reading |
+|StateTest Writing |
+And the Assessment History for "StateTest Reading" has the following entries:
 |Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level |
-|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195        |
-|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |199        |
-And the Assessment History for "ISAT Writing" has the following entries:
+|2011-10-01   |8      |Grade 8 2011 StateTest Reading  |195          |642    |53         |195        |
+|2011-09-01   |8      |Grade 8 2011 StateTest Reading  |199          |655    |55         |199        |
+And the Assessment History for "StateTest Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
-|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
-|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
+|2011-10-01   |8      |Grade 8 2011 StateTest Writing  |1         |1          |
+|2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
 And I click on the browser back button
 Then I see a list of 28 students
 
