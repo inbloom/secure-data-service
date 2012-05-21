@@ -17,6 +17,8 @@ import org.milyn.container.ExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -36,13 +38,14 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @Component
-public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements MessageSourceAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
     private Set<String> filteredAttributes;
+    private MessageSource messageSource;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
@@ -91,7 +94,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
 
             ExecutionContext ctx = smooks.createExecutionContext();
-            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, errorReport));
+            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, messageSource, errorReport));
 
             smooks.filterSource(ctx, new StreamSource(inputStream));
         } catch (SmooksException se) {
@@ -122,6 +125,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     public void setFilteredAttributes(Set<String> filteredAttributes) {
         this.filteredAttributes = filteredAttributes;
+    }
+
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
 }
