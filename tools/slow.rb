@@ -5,7 +5,7 @@ connection = Mongo::Connection.new("nxmongo.slidev.org", 27017)
 db = connection.db("sli")
 coll = db.collection("system.profile")
 
-cursor = coll.find()
+cursor = coll.find({"ns" => { "$nin" => ["sli.system.profile", "sli.system.namespaces", "sli.system.js"]}})
 
 arr=[]
 totals={}
