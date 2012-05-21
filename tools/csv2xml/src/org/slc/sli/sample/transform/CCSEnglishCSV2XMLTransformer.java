@@ -1,124 +1,89 @@
 package org.slc.sli.sample.transform;
 
+import org.slc.sli.sample.entities.GradeLevelType;
+
+import org.slc.sli.sample.entities.ContentStandardType;
+
+import org.slc.sli.sample.entities.AcademicSubjectType;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
-
-import org.slc.sli.sample.entities.AcademicSubjectType;
 import org.slc.sli.sample.entities.ComplexObjectType;
-import org.slc.sli.sample.entities.ContentStandardType;
-import org.slc.sli.sample.entities.GradeLevelType;
 import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
 
-public class CCSMathCSV2XMLTransformer {
-    // read CCS csv file
-    private CcsCsvReader ccsReader;
-    
-    // input csv files
-    private static final String ccsCSVFile = "data/CC_Standards_6.25.10-Math.csv";
+public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
 
-    // output Ed-Fi xml file
-    private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
+    private static final String englishLearningStandardFile = "data/CC_Standards_6.25.10-English.csv";
+    private static final String interchangeAssessmentMetadataFile = "data/Interchange-AssessmentMetadata.xml";
     private static final String outputPath = "data/";
-    
-    /**
-     * main method
-     * 
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception {
-        CCSMathCSV2XMLTransformer transformer = new CCSMathCSV2XMLTransformer();
-        transformer.loadData();
-        
-        PrintStream ps = new PrintStream(new File(interchangeCCSFile));
-        transformer.printInterchangeCCS(ps);
-        
-        SchemaValidator.check(outputPath);
-    }
-    
-    /**
-     * open csv files and create CSV reader for each file
-     * and load the first record for each reader
-     * 
-     * @throws IOException
-     */
-    private void loadData() throws Exception {
-        // load CCS data
-        ccsReader = new CcsCsvReader(ccsCSVFile);
-        
-    }
-    
-    /**
-     * Iterate through Student, Parent, and studentParentAssociation records in the CSV files,
-     * converts them into JAXB java objects, and then marshals them into SLI-EdFi xml file.
-     * 
-     * @param ps
-     * @throws JAXBException
-     */
-    private void printInterchangeCCS(PrintStream ps) throws JAXBException, IOException {
-        int learningStandardCounter = 0;
-        
-        Marshaller marshaller = getMarshaller();
-        InterchangeAssessmentMetadata interchangeCCS = new InterchangeAssessmentMetadata();
-        
-        List<ComplexObjectType> learningStandards = interchangeCCS
-                .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
 
-        // process student
-        while (ccsReader.getCurrentRecord() != null) {
-            learningStandards.add(this.getLearningStandard());
-            ccsReader.getNextRecord();
+    private CcsCsvReader englishLearningStandardReader;
+
+    private void loadData() throws Exception {
+        englishLearningStandardReader = new CcsCsvReader(englishLearningStandardFile);
+    }
+    
+    private String getCopyright() {
+        if(englishLearningStandardReader != null) {
+            return englishLearningStandardReader.getCopyright();
+        }
+        return null;
+    }
+
+    private void printLearningStandards(PrintStream ps) throws JAXBException, IOException {
+        InterchangeAssessmentMetadata interchangeAssessmentMetadata = new InterchangeAssessmentMetadata();
+        List<ComplexObjectType> list = interchangeAssessmentMetadata.getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
+        int learningStandardCounter = 0;
+        while(englishLearningStandardReader.getCurrentRecord() != null) {
+            LearningStandard learningStandard = this.getLearningStandard();
+            if(learningStandard != null) {
+                list.add(this.getLearningStandard());
+            }
+            else {
+                break;
+            }
+            englishLearningStandardReader.getNextRecord();
             learningStandardCounter++;
         }
-        
-        marshaller.marshal(interchangeCCS, ps);
-        
-        System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
-    }
-    
-    private Marshaller getMarshaller() throws JAXBException, PropertyException {
         JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-        return marshaller;
+        marshaller.marshal(interchangeAssessmentMetadata, ps);
+        System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
     }
-    
+
     private LearningStandard getLearningStandard() {
-        
-        Map<String, String> learningStandardRecord = ccsReader.getCurrentRecord();
+        Map<String, String> learningStandardRecord = englishLearningStandardReader.getCurrentRecord();
+        String dotNotation = learningStandardRecord.get("ID");
+        if(dotNotation == null) {
+            return null;
+        }
+        String id = convert("Literacy", dotNotation);
+        if(id == null) {
+            return null;
+        }
         LearningStandard learningStandard = new LearningStandard();
         LearningStandardId learningStandardId = new LearningStandardId();
-        String dotNotation = learningStandardRecord.get("ID");
-        learningStandardId.setIdentificationCode(getLSIdentificationCode(dotNotation));
+        learningStandardId.setIdentificationCode(id);
         learningStandard.setLearningStandardId(learningStandardId);
         learningStandard.setContentStandard(ContentStandardType.STATE_STANDARD);
-        String description = learningStandardRecord.get("State Standard");
-        if (description == null || description.equals("")) {
-            System.out.println("no description for" + dotNotation);
-        }
         learningStandard.setDescription(learningStandardRecord.get("State Standard"));
         learningStandard.setGradeLevel(getLSGradeLevel(dotNotation));
-        learningStandard.setSubjectArea(AcademicSubjectType.MATHEMATICS);
+        learningStandard.setSubjectArea(AcademicSubjectType.ENGLISH);
         return learningStandard;
     }
-    
-    private String getLSIdentificationCode(String dotNotation) {
-        // return dotNotation right now
-        // TODO use mapping between learning standard dot notation and identification code to return
-        // correct identification code
-        return dotNotation;
-    }
-    
+
     private GradeLevelType getLSGradeLevel(String dotNotation) {
         String[] gradeLevels = dotNotation.split("\\.");
         GradeLevelType gradeLevel;
@@ -183,5 +148,24 @@ public class CCSMathCSV2XMLTransformer {
         return gradeLevel;
 
     }
+    private static Pattern PATTERN = Pattern.compile("^([^.]+).([^.]+).(.+)");
+    private String convert(String prefix, String s) {
+        Matcher matcher = PATTERN.matcher(s.trim());
+        if(matcher.matches()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(prefix).append(".").append(matcher.group(2)).append(".").append(matcher.group(1)).append(".").append(matcher.group(3));
+            return sb.toString();
+        }
+        return null;
+    }
 
+    public static void main(String args[]) throws Exception {
+        CCSEnglishCSV2XMLTransformer transformer = new CCSEnglishCSV2XMLTransformer();
+        transformer.loadData();
+        File file = new File(interchangeAssessmentMetadataFile);
+        PrintStream ps = new PrintStream(file);
+        transformer.printLearningStandards(ps);
+        SchemaValidator.check(outputPath);
+        System.out.println(transformer.getCopyright());
+    }
 }
