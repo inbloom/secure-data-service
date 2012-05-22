@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+    
+    <jb:bean beanId="courses" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="course" />
+    </jb:bean>
+    
+    
+    <jb:bean beanId="course" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'course'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="courseMeta" />
+        <jb:wiring property="body" beanIdRef="courseBody" />
+    </jb:bean>
+    
+    
+    <jb:bean beanId="courseMeta" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="attributes courseTitle" />
+    </jb:bean>
+    
+    <jb:bean beanId="courseBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="courseTitle" data="attributes courseTitle" />
+        <jb:value property="numberOfParts" data="attributes numberOfParts" />
+        <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
+        <jb:value property="courseLevel" data="attributes courseLevel" />
+        <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
+        <jb:value property="gradesOffered" data="attributes gradesOffered" />
+        <jb:value property="subjectArea" data="attributes subjectArea" />
+        <jb:value property="courseDescription" data="attributes courseDescription" />
+        <jb:value property="dateCourseAdopted" data="attributes dateCourseAdopted" />
+        <jb:value property="highSchoolCourseRequirement" data="attributes highSchoolCourseRequirement" />
+        <jb:value property="courseGPAApplicability" data="attributes courseGPAApplicability" />
+        <jb:value property="courseDefinedBy" data="attributes courseDefinedBy" />
+        <jb:wiring property="minimumAvailableCredit" beanIdRef="MinimumAvailableCreditType" />
+        <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
+        <jb:value property="careerPathway" data="attributes careerPathway" />
+        <!-- this schoolId field is added to pass validation unit test: CourseEntityTest
+        the parent id is resolved correctly during ingestion -->
+        <jb:value property="schoolId" data="attributes schoolId" />
+    </jb:bean>
+    
+    
+    <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="courseCodeType" />
+    </jb:bean>
+    
+    <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="attributes courseCode element">
+        <jb:value property="ID" data="attributes courseCode element ID" />
+        <jb:value property="identificationSystem" data="attributes courseCode element identificationSystem" />
+        <jb:value property="assigningOrganizationCode" data="attributes courseCode element assigningOrganizationCode" />
+    </jb:bean>
+    
+    
+       <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="attributes">
+            <jb:value data="attributes courseLevelCharacteristics element" />
+        </jb:bean>
+        
+        
+        <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes minimumAvailableCredit">
+            <jb:value property="credit" data="attributes minimumAvailableCredit credit" />
+            <jb:value property="creditType" data="attributes minimumAvailableCredit creditType" />
+            <jb:value property="creditConversion" data="attributes minimumAvailableCredit creditConversion" />
+        </jb:bean>
+        
+        
+        <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="attributes maximumAvailableCredit">
+            <jb:value property="credit" data="attributes maximumAvailableCredit credit" />
+            <jb:value property="creditType" data="attributes maximumAvailableCredit creditType" />
+            <jb:value property="creditConversion" data="attributes maximumAvailableCredit creditConversion" />
+        </jb:bean>
+
+</smooks-resource-list>
