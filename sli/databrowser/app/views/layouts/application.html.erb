@@ -4,37 +4,38 @@
     <title>SLI Data Browser</title>
 	<%= stylesheet_link_tag    "application" %>
  	<%= javascript_include_tag "application" %>
-  	<%= csrf_meta_tags %>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+	<%= csrf_meta_tags %>
   </head>
   <body>
-    <div class="header">
-		<p>
-			<span style="float:left; color:#f00;">
-				<h1 style="display:inline">SLI Data Browser</h1>
-				<h4 style="display:inline;"><i>version: PI 3, Sprint 4</i></h4>
-			</span>
-			<span style="float:right; ">
-				<h1 style="display:inline"></h1>
-				<h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
-			</span> 
-		</p>
-	</div>
-	<hr>
-	<div id="content">
-		<%- flash.each do |key, msg| -%>
-		  <div id="<%= key %>">
-		    <p style="float:right;"><%= link_to_function 'X', "jQuery('##{key}').fadeToggle()" %></p>
-		    <p><%= msg %></p>
-		    <div class="clear"></div>
-		  </div>
-		<%- end -%>
-		<%= yield %>
-	</div>
-	<div id="left-bar">
-	</div>
-	<div id="footer">
-	</div>
+    <div class="container">
+      <div id="header">
+  			<div class="left">
+  				<h1>SLI Data Browser</h1>
+          <!-- <h4 style="display:inline;"><i>version: PI 3, Sprint 4</i></h4> -->
+  			</div>
+  			<div class="right">
+  				<h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
+  				<div class="search">
+            <%= render 'search'%>
+    			</div>
+  			</div>
+  	  </div>
+    	<div id="content">
+    		<%- flash.each do |key, msg| -%>
+    		  <div id="flash" class="flash-<%= key %>">
+    		    <p style="float:right;"><%= link_to_function 'X', "jQuery('#flash').fadeToggle()" %></p>
+    		    <p><%= msg %></p>
+    		    <div class="clear"></div>
+    		  </div>
+    		<%- end -%>
+		
+    		<%= yield %>
+    	</div>
+    	<div id="left-bar">
+    	</div>
+    	<div id="footer">
+    	</div>
+	  </div>
 
   </body>
 </html>

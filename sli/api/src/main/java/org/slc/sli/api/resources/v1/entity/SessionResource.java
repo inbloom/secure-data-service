@@ -196,7 +196,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$sessionCourseAssociations$$ that
+     * Returns each $$courseOfferings$$ that
      * references the given $$sessions$$
      *
      * @param sessionId
@@ -214,17 +214,17 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
-    public Response getSessionCourseAssociations(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS)
+    public Response getCourseOfferings(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "sessionId", sessionId, headers, uriInfo);
     }
 
 
     /**
      * Returns each $$courses$$ associated to the given session through
-     * a $$sessionCourseAssociations$$
+     * a $$courseOfferings$$
      *
      * @param sessionId
      *            The id of the $$sessions$$.
@@ -235,11 +235,11 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.COURSES)
-    public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS + "/" + PathConstants.COURSES)
+    public Response getCourseOfferingCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
 
 }

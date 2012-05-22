@@ -3,7 +3,7 @@ As an administrator for SLI, I want to create a tenant entity so that it listen 
 
 Scenario: CRUD operations on Tenants
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -18,7 +18,7 @@ Scenario: CRUD operations on Tenants
 
 Scenario: Deny creation when specifying invalid fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -40,7 +40,7 @@ Scenario Outline: Deny access when logging in as invalid user
 
 Scenario: Deny creation when specifying wrong size fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I POST a provision request with "tenantId" set to "123456789012345678901234567890123456789012345678A"
     Then I should receive a return code of 400
     When I POST a provision request with "tenantId" set to ""
@@ -53,13 +53,13 @@ Scenario: Deny creation when specifying wrong size fields
 
 @wip
 Scenario: Deny creation when missing userName
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I POST a basic tenant with no userName
     Then I should receive a return code of 400
 
 Scenario Outline: Deny creation when missing individual fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I POST a provision request with missing <Property>
     Then I should receive a return code of 400
     Examples:
@@ -74,7 +74,7 @@ Scenario Outline: Deny creation when missing individual fields
 
 Scenario Outline: Deny update when missing individual fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -89,7 +89,7 @@ Scenario Outline: Deny update when missing individual fields
 
 Scenario Outline: Deny creation when missing individual landingZone fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -106,7 +106,7 @@ Scenario Outline: Deny creation when missing individual landingZone fields
 
 Scenario Outline: Deny creation when specifying individual wrong size fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -121,7 +121,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
 
 Scenario Outline: Deny creation when specifying individual wrong size fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"
@@ -136,7 +136,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     
 Scenario Outline: Deny creation when specifying individual landingZone wrong size fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
     Then I should receive a return code of 201
     When I navigate to GET "/tenants?tenantId=<New Tenant ID>"

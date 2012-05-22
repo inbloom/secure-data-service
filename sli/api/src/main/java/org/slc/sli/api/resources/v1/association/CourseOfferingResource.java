@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.v1.association;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -7,14 +8,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,38 +23,28 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates the staff associated
- * with a cohort of students.
- *
- * @author kmyers
- * @author srichards
+ * Prototype new api end points and versioning
+ * @author srupasinghe
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.COURSE_OFFERINGS)
 @Component
 @Scope("request")
-public class StudentCohortAssociation extends DefaultCrudEndpoint {
-
-    public static final String BEGIN_DATE = "beginDate";
-
-    /**
-     * Logging utility.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StudentCohortAssociation.class);
+public class CourseOfferingResource extends DefaultCrudEndpoint {
 
     @Autowired
-    public StudentCohortAssociation(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.STUDENT_COHORT_ASSOCIATIONS);
-        LOGGER.debug("New resource handler created: {}", this);
+    public CourseOfferingResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.COURSE_OFFERINGS);
     }
 
     /**
-     * Returns all $$studentCohortAssociations$$ entities for which the logged in User has permission and context.
+     * Returns all $$courseOfferings$$ entities for which the logged in User has permission and context.
      *
      * @param offset
      *            starting position in results to return to user
@@ -74,7 +65,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$studentCohortAssociations$$ entity.
+     * Create a new $$courseOfferings$$ entity.
      *
      * @param newEntityBody
      *            entity data
@@ -85,39 +76,41 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     *                 item is accessable.}
      */
     @Override
     @POST
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$studentCohortAssociations$$ entity
+     * Get a single $$courseOfferings$$ entity
      *
-     * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociations$$.
+     * @param courseOfferingId
+     *            The Id of the $$courseOfferings$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$schools$$ entity
+     * @return A single school entity
      */
     @Override
     @GET
-    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
-    public Response read(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
+    public Response read(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(studentCohortAssociationId, headers, uriInfo);
+        return super.read(courseOfferingId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$studentCohortAssociations$$ entity
+     * Delete a $$courseOfferings$$ entity
      *
-     * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociations$$.
+     * @param courseOfferingId
+     *            The Id of the $$courseOfferings$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -127,17 +120,17 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      */
     @Override
     @DELETE
-    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(studentCohortAssociationId, headers, uriInfo);
+        return super.delete(courseOfferingId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$studentCohortAssociations$$ entity.
+     * Update an existing $$courseOfferings$$ entity.
      *
-     * @param studentCohortAssociationId
-     *            The id of the $$studentCohortAssociations$$.
+     * @param courseOfferingId
+     *            The id of the $$courseOfferings$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -149,19 +142,19 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      */
     @Override
     @PUT
-    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
+    public Response update(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(studentCohortAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(courseOfferingId, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentCohortAssociations$$
+     * Returns each $$sessions$$ that
+     * references the given $$courseOfferings$$
      *
-     * @param studentCohortAssociationId
-     *            The Id of the studentCohortAssociation.
+     * @param courseOfferingId
+     *            The Id of the courseOffering.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -175,21 +168,20 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudentCohortAssocationStudents(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}" + "/" + PathConstants.SESSIONS)
+    public Response getSessions(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId,
-               ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
     /**
-     * Returns each $$cohorts$$ that
-     * references the given $$studentCohortAssociations$$
+     * Returns each $$courses$$ that
+     * references the given $$courseOfferings$$
      *
-     * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociation$$.
+     * @param courseOfferingId
+     *            The Id of the courseOffering.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -203,12 +195,11 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)
-    public Response getStudentCohortAssocationCohorts(@PathParam(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID) final String studentCohortAssociationId,
+    @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}" + "/" + PathConstants.COURSES)
+    public Response getCourses(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId,
-                ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
 }

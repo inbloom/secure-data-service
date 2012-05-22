@@ -6652,7 +6652,7 @@
 			<name>CourseReference</name>
 		</lhs>
 		<rhs>
-			<type>SessionCourseAssociation</type>
+			<type>CourseOffering</type>
 			<name>courseId</name>
 		</rhs>
 		<status>match</status>
@@ -6664,7 +6664,7 @@
 			<name>LocalCourseCode</name>
 		</lhs>
 		<rhs>
-			<type>SessionCourseAssociation</type>
+			<type>CourseOffering</type>
 			<name>localCourseCode</name>
 		</rhs>
 		<status>match</status>
@@ -6676,7 +6676,7 @@
 			<name>LocalCourseTitle</name>
 		</lhs>
 		<rhs>
-			<type>SessionCourseAssociation</type>
+			<type>CourseOffering</type>
 			<name>localCourseTitle</name>
 		</rhs>
 		<status>match</status>
@@ -6697,7 +6697,7 @@
 			<name>SessionReference</name>
 		</lhs>
 		<rhs>
-			<type>SessionCourseAssociation</type>
+			<type>CourseOffering</type>
 			<name>sessionId</name>
 		</rhs>
 		<status>match</status>

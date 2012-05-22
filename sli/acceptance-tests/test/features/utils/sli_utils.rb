@@ -37,8 +37,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
                 "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
+                "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
-                "sampleUser_SLI" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
+                "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
                 "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
                 "eengland_NY" => "ebbec99c-c8cf-4982-b853-3513374d0073",
                 "gcanning_NY" => "0a50a4ec-e00f-4944-abac-2abbdb99f7d9",
@@ -66,7 +67,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "msmith_IL" => "5679153f-f1cc-44bd-9bfa-a21a41cd020c",
                 "racosta_IL" => "3f165e8d-bb42-4b62-8a2d-92f98dcd6ffc",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
-                "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d" }
+                "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
+                "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
+                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342"}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -321,7 +324,7 @@ module DataProvider
       "is_admin" => true,
       "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
-      "image_url" => "https://slidev.org/image",
+      "image_url" => "https://slidev.org/img",
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
@@ -329,6 +332,15 @@ module DataProvider
       "authorized_ed_orgs" => []
     }
   end
+  
+  def self.getValidAdminDelegationData()
+    return {
+      "viewSecurityEventsEnabled" => false,
+      "appApprovalEnabled" => false,
+      "localEdOrgId" => "IL-SUNSET"
+      }
+  end
+
 
 end
 

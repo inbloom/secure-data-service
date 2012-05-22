@@ -30,7 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * JUnit tests for SessionCourseAssociationResource
+ * JUnit tests for CourseOfferingResource
  * @author chung
  *
  */
@@ -38,11 +38,11 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class SessionCourseAssociationResourceTest {
+public class CourseOfferingResourceTest {
 
     private final String sessionResourceName = "SessionResource";
     private final String courseResourceName = "CourseResource";
-    private final String sessionCourseAssociationResourceName = "SessionCourseAssociationResource";
+    private final String courseOfferingResourceName = "CourseOfferingResource";
 
     @Autowired
     private SecurityContextInjector injector;
@@ -51,7 +51,7 @@ public class SessionCourseAssociationResourceTest {
     @Autowired
     private CourseResource courseResource;
     @Autowired
-    private SessionCourseAssociationResource sessionCourseAssociationResource;
+    private CourseOfferingResource courseOfferingResource;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -81,11 +81,11 @@ public class SessionCourseAssociationResourceTest {
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        createResponse = sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
+        createResponse = courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        Response response = sessionCourseAssociationResource.getCourses(id, 0, 100, httpHeaders, uriInfo);
+        Response response = courseOfferingResource.getCourses(id, 0, 100, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);
         assertEquals("Entity type should match", "course", body.get("entityType"));
         assertEquals("ID should match", courseId, body.get("id"));
@@ -101,11 +101,11 @@ public class SessionCourseAssociationResourceTest {
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        createResponse = sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
+        createResponse = courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        Response response = sessionCourseAssociationResource.getSessions(id, 0, 100, httpHeaders, uriInfo);
+        Response response = courseOfferingResource.getSessions(id, 0, 100, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);
         assertEquals("Entity type should match", "session", body.get("entityType"));
         assertEquals("ID should match", sessionId, body.get("id"));
