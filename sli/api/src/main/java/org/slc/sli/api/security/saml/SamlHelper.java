@@ -162,7 +162,7 @@ public class SamlHelper {
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
 
             // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
-            if (!validator.isDocumentValid(doc)) {
+            if (!validator.isDocumentTrustedAndValid(doc)) {
                 throw new IllegalArgumentException("Invalid SAML message");
             }
 
