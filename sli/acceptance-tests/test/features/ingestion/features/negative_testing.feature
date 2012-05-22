@@ -267,7 +267,7 @@ Then I should see "File Students.xml: unknown or empty file format specified" in
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a Zip File containing a control file with extra file item entry
-  Given I post "MissingXmlFile.zip" zip file with folder as the payload of the ingestion job
+  Given I post "ExtraCtlFileEntry.zip" zip file with folder as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName                          |
         | student                                 |

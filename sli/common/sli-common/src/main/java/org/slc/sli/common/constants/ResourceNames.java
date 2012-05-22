@@ -49,7 +49,7 @@ public final class ResourceNames {
 
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
     public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "section-assessment-associations";
-    public static final String SESSION_COURSE_ASSOCIATIONS = "session-course-associations";
+    public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "student-assessment-associations";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "student-section-associations";
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "student-school-associations";
@@ -89,7 +89,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "getTeacherSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "getSchoolSessionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "getSectionAssessmentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "getCourseOffering");
+        SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_OFFERINGS, "getCourseOffering");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "getStudentAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "getStudentSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "getStaffEducationOrgAssignmentAssociation");

@@ -3,11 +3,16 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
+ *= jquery.ui.core
+ *= jquery.ui.theme
+ *= require dataTables/jquery.dataTables
  *= require_tree . 
 */
 #header { margin-bottom: 10px;padding-bottom:10px; border-bottom: 1px solid #999; height:50px;}
 div.left {float: left;}
 div.right {float: right;}
+/*div.details {display:none;}*/
+/*dt, dd { margin: 0; padding: 0; } dt { float: left; margin-right: 0.3em; }*/
 #content { clear:both; margin-top: 20px;}
 .flash-notice { background-color: #A4E7A0; border: 1px solid #26722D; }
 .flash-error { background-color: #F0A8A8; border: 1px solid #900; }

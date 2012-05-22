@@ -44,7 +44,8 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    #@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    @ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 
     @ldap.delete_user(Jd_email)
     @ldap.delete_user(Td_email)
@@ -82,6 +83,7 @@ class TestLdap < Test::Unit::TestCase
     keys = [].concat(All_keys).concat(Ldap_generated_keys)
     unaccounted = found_user.keys.reject{|x| keys.include? x}
     assert unaccounted.empty?
+    @ldap.delete_user(User_info[:email])
   end
 
   def test_create_read_delete
@@ -104,6 +106,8 @@ class TestLdap < Test::Unit::TestCase
     jd_user_groups = @ldap.get_user_groups(Jd_email)
     assert jd_user_groups.include?("testgroup")
     assert jd_user_groups.include?("abcgroup")
+    @ldap.delete_user(Td_user_info[:email])
+    @ldap.delete_user(User_info[:email])
   end
   
   def test_update_user_info
@@ -146,6 +150,7 @@ class TestLdap < Test::Unit::TestCase
         assert_equal found_user[key], updated_found_user[key]
       end
     end
+    @ldap.delete_user(User_info[:email])
   end
 
   def build_user_info(email)
@@ -176,10 +181,11 @@ class TestLdap < Test::Unit::TestCase
   end
 
   def test_minimal_arguments
+    @ldap.delete_user(Jd_email)    
     test_user_info = {
       :first      => "John",
       :last       => "Doe", 
-      :email      => "#{Jd_email}_#{Socket.gethostname}",
+      :email      => Jd_email,
       :password   => "secret",
       :emailtoken => "abc",
       :homedir    => "-", 
@@ -187,6 +193,42 @@ class TestLdap < Test::Unit::TestCase
     }
     @ldap.create_user(test_user_info)
     @ldap.delete_user(test_user_info[:email])
+  end
+
+  def test_packed_fields 
+    @ldap.delete_user(Jd_email)    
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => Jd_email,
+      :password   => "secret",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted"
+    }
+
+    @ldap.create_user(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    desc = ldap_raw[0]
+    assert !!desc 
+    desc = desc[:description][0]
+    assert !desc || (desc.strip == "")
+
+    test_user_info[:tenant] = "testtenant"
+    @ldap.update_user_info(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
+    desc = ldap_raw[0][:description][0]
+    assert desc.strip == "tenant=testtenant"
+
+    test_user_info[:edorg] = "testedorg"
+    @ldap.update_user_info(test_user_info)
+    ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
+    assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
+    desc = ldap_raw[0][:description][0]
+    assert desc.strip == "tenant=testtenant\nedOrg=testedorg"
+
+    @ldap.delete_user(test_user_info[:email])    
   end 
 end
 

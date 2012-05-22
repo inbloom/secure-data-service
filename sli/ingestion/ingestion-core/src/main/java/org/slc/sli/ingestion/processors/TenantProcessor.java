@@ -72,6 +72,7 @@ public class TenantProcessor implements Processor {
      */
     private void updateLzRoutes() throws Exception {
         //get the new list of lz paths from the tenant DB collection
+        LOG.debug("Localhost is {}", getHostname());
         List<String> newLzPaths = tenantDA.getLzPaths(getHostname());
         Set<String> oldLzPaths = getLzRoutePaths();
 

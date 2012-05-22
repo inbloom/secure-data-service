@@ -200,8 +200,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .build();
         addDefinition(schoolSessionAssociation);
 
-        AssociationDefinition courseOffering = factory.makeAssoc("sessionCourseAssociation", "courseOfferings")
-                .exposeAs(ResourceNames.SESSION_COURSE_ASSOCIATIONS).storeAs("sessionCourseAssociation")
+        AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
+                .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")
                 .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
                 .calledFromSource("getCourseOfferings").calledFromTarget("getCourseOfferings")
                 .build();

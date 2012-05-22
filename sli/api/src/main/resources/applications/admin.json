@@ -8,7 +8,7 @@
    "application_url":"${bootstrap.app.admin.url}",
    "client_secret":"${bootstrap.app.admin.client_secret}",
    "client_id":"${bootstrap.app.admin.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
@@ -32,7 +32,7 @@
       },
       {
          "name":"Admin Delegation",
-         "description":"Delegate the ability to approve applications to SEA admins.",
+         "description":"Delegate District Privileges to a State Super Administrator",
          "url":"${bootstrap.app.admin.url}/admin_delegations",
          "roles":[
             "LEA Administrator"
@@ -77,6 +77,14 @@
          "roles":[
             "SLC Operator"
             ]
-       }
+       },
+       {
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
+         "roles":[
+           "Realm Administrator"
+         ]
+      }
    ]
 }
