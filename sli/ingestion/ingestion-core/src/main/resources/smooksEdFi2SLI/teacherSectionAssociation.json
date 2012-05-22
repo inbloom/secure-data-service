@@ -1,0 +1,40 @@
+{
+    "keyFields" : ["body.sectionId", "body.teacherId"],
+	"references" :
+	[{
+        "fieldPath" : "body.sectionId","ref" :
+        {
+	        "collectionName" : "section",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.sectionId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.teacherId","ref" :
+        {
+	        "collectionName" : "staff",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.teacherId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}
