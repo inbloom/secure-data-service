@@ -66,11 +66,10 @@ end
 
 mongoCalls=0
 mongoTime=0
-if !job["executionStats"].nil?
-  puts job["executionStats"].inspect 
+if !job["executionStats"].nil? 
   job["executionStats"].each do |key,value|
     mongoCalls+=value["left"]
-    mongoTime+=value["right"] 
+    mongoTime+=value["right"]
   end
 end
 

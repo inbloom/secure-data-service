@@ -43,9 +43,7 @@
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 <!--    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />  -->
-   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher" scope="prototype">
-    <property name="keyStore" value="${sli.encryption.keyStore}" />
-    <property name="propertiesFile" value="${sli.conf}" />
+   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
   </bean>
 
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
@@ -65,22 +63,4 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.dal" />
-
-<!--   <bean id="validationStrategyList" class="java.util.ArrayList">
-    <constructor-arg>
-      <list>
-        <ref bean="blacklistByCharsetStrategy" />
-      </list>
-    </constructor-arg>
-  </bean>
-
-  <bean id="blacklistByCharsetStrategy" class="org.slc.sli.validation.strategy.BlacklistByCharsetStrategy" />
-  <bean id="charsetBlacklist" class="java.util.ArrayList">
-    <constructor-arg>
-      <list>
-      </list>
-    </constructor-arg>
-  </bean> -->
-  <import resource="classpath:/spring/validation.xml" />
-
 </beans>
