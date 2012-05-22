@@ -112,7 +112,7 @@
     <property name="passThroughCollectionName" value="program" />
   </bean>
 
-    <bean id="sessionTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+  <bean id="sessionTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="session" />
@@ -159,12 +159,6 @@
     <property name="passThroughCollectionName" value="disciplineAction" />
   </bean>
 
-  <bean id="studentSectionGradebookEntryTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
-    scope="prototype">
-    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    <property name="passThroughCollectionName" value="studentSectionGradebookEntry" />
-  </bean>
-
   <bean id="gradeTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
         scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
@@ -187,6 +181,24 @@
         scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="reportCard" />
+  </bean>
+  
+  <bean id="teacherSchoolAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="teacherSchoolAssociation" />
+  </bean>
+  
+  <bean id="teacherSectionAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="teacherSectionAssociation" />
+  </bean>
+  
+  <bean id="studentSectionGradebookEntryTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentSectionGradebookEntry" />
   </bean>
 </beans>
 
