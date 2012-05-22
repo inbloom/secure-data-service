@@ -25,8 +25,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This entity represents any $$programs$$ designed to work in conjunction with or to supplement the main
- * academic program.
+ * Represents the definition of a program.  A program is designed to work in 
+ * conjunction with or to supplement the main academic program.  
+ * 
+ * For detailed information, see the schema for the $$programs$$ entity.
  *
  * @author jstokes
  * @author jtully
@@ -93,7 +95,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single program entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
