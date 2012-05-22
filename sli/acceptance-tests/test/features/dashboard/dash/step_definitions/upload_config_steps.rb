@@ -7,6 +7,10 @@ Then /^I am authorized to the Configuration Area$/ do
   assert(@driver.current_url.include?("/service/config"), "User is not on the service/config page")
 end
 
+Then /^I am unauthorized to the Configuration Area$/ do
+  assertText("This page is only available for district level IT Administrator.")
+end
+
 When /^click Save$/ do
   clickButton("saveButton","id")
   begin
