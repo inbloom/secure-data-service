@@ -29,16 +29,18 @@ import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
 
 /**
- * HomeResource
  *
- * Provides initial information for a user.
+ * Provides initial information for a user.This includes providing different links to self and associated
+ * entities.
+ *
+ * @author pghosh
  *
  */
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-public class HomeResource {
+public class HomeResource extends DefaultCrudEndpoint{
 
     final EntityDefinitionStore entityDefs;
 
@@ -52,7 +54,8 @@ public class HomeResource {
      * includes a self link and links to entities with which the user
      * is associated.
      *
-     * @param uriInfo URI information including path and query parameters
+     * @param uriInfo
+     *              URI information including path and query parameters
      * @return A list of links applicable to the user currently logged in.
      */
     @GET
