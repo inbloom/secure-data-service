@@ -138,6 +138,8 @@ default:
         # (only used in data-access)
         sli.encryption.dalKeyPass: changeit
 
+        # (only used in data-access)
+        sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
@@ -1133,6 +1135,7 @@ sandbox:
         <<: *MISC-TEAM
 
 # Properties for systems being used by Team Hermod for ingestion performance
+# These are Amazon west instances
 nxteam:
     api: &API-NXTEAM
         <<: *API-TEAM
@@ -1140,15 +1143,15 @@ nxteam:
         <<: *DASHBOARD-TEAM
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
-        sli.ingestion.queue.workItem.host: nxing.slidev.org
-        sli.ingestion.queue.maestro.host: nxing.slidev.org
-        sli.ingestion.queue.pit.host: nxing.slidev.org
+        sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
+        sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
+        sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: nxmongo.slidev.org
-        sli.ingestion.staging.mongodb.host: nxmongo.slidev.org
-        sli.ingestion.batchjob.mongodb.host: nxmongo.slidev.org
+        sli.mongodb.host: nxmongo3.slidev.org
+        sli.ingestion.staging.mongodb.host: nxmongo3.slidev.org
+        sli.ingestion.batchjob.mongodb.host: nxmongo3.slidev.org
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
