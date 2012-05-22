@@ -32,7 +32,12 @@ class LandingZone < Ldap
     if APP_CONFIG["is_sandbox"]
       user_info[:tenant] = tenant
     end
-    @@ldap.update_user_info(user_info)
+
+    begin
+      @@ldap.update_user_info(user_info)
+    rescue => e
+      Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
+    end 
 
     # TODO: move this out to a template and not hardcode
     email = {
