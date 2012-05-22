@@ -52,41 +52,41 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
     ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    private EdFiProcessor edFiProcessor;
+    EdFiProcessor edFiProcessor;
 
     @Autowired
-    private PurgeProcessor purgeProcessor;
+    PurgeProcessor purgeProcessor;
     
     @Autowired(required = true)
-    private StagedDataPersistenceProcessor persistenceProcessor;
+    StagedDataPersistenceProcessor persistenceProcessor;
     
     @Autowired
-    private TransformationProcessor transformationProcessor;
+    TransformationProcessor transformationProcessor;
 
     @Autowired
-    private XmlFileProcessor xmlFileProcessor;
+    XmlFileProcessor xmlFileProcessor;
     
     @Autowired
-    private OrchestraPreProcessor orchestraPreProcessor;
+    OrchestraPreProcessor orchestraPreProcessor;
 
     @Autowired
-    private AggregationPostProcessor aggregationPostProcessor;
+    AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
-    private JobReportingProcessor jobReportingProcessor;
+    JobReportingProcessor jobReportingProcessor;
+    
+    @Autowired
+    NoExtractProcessor noExtractProcessor;
+
+    @Autowired
+    LandingZoneManager landingZoneManager;
+
+    @Autowired
+    CamelContext camelContext;
 
     @Autowired
     private final TenantProcessor tenantProcessor;
     
-    @Autowired
-    private NoExtractProcessor noExtractProcessor;
-
-    @Autowired
-    private LandingZoneManager landingZoneManager;
-
-    @Autowired
-    private CamelContext camelContext;
-
     @Autowired
     private final TenantPopulator tenantPopulator;
 
@@ -98,14 +98,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private String workItemConsumers;
-
-    private final int concurrentConsumers;
-
-    @Value("${sli.ingestion.tenant.loadDefaultTenants}")
-    private final boolean loadDefaultTenants;
-
-    @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
-    private final String tenantPollingRepeatInterval;
 
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
@@ -124,6 +116,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
 
     @Value("${sli.ingestion.queue.pit.uriOptions}")
     private String pitUriOptions;
+    
+    private final int concurrentConsumers;
+    private final boolean loadDefaultTenants;
+    private final String tenantPollingRepeatInterval;
     
     @Autowired
     public IngestionRouteBuilder(TenantProcessor tenantProcessor, TenantPopulator tenantPopulator,
