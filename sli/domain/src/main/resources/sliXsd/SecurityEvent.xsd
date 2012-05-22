@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
-    attributeFormDefault="qualified">
+	xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+	attributeFormDefault="qualified">
 
-    <xs:element name="securityEvent">
-        <xs:complexType>
-            <xs:annotation>
-                <xs:appinfo>
-                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
-                </xs:appinfo>
-            </xs:annotation>
-            <xs:sequence>
-                <xs:element name="user" type="xs:string"></xs:element>
-                <xs:element name="targetEdOrg" type="xs:string"></xs:element>
-                <xs:element name="actionUri" type="xs:string"></xs:element>
-                <xs:element name="appId" type="xs:string"></xs:element>
-                <xs:element name="executedOn" type="xs:string"></xs:element>
-                <xs:element name="userOrigin" type="xs:string"></xs:element>
-                <xs:element name="timeStamp" type="xs:string"></xs:element>
-                <xs:element name="processNameOrId" type="xs:string"></xs:element>
-                <xs:element name="className" type="xs:string"></xs:element>
-                <xs:element name="logLevel" type="xs:string"></xs:element>
-                <xs:element name="logMessage" type="xs:string"></xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+	<xs:element name="securityEvent">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:appinfo>
+					<sli:SecuritySphere>Admin</sli:SecuritySphere>
+				</xs:appinfo>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="user" type="xs:string"></xs:element>
+				<xs:element name="roles" type="roleList" minOccurs="0"
+					maxOccurs="1"></xs:element>
+				<xs:element name="targetEdOrg" type="xs:string"></xs:element>
+				<xs:element name="actionUri" type="xs:string"></xs:element>
+				<xs:element name="appId" type="xs:string"></xs:element>
+				<xs:element name="executedOn" type="xs:string"></xs:element>
+				<xs:element name="userOrigin" type="xs:string"></xs:element>
+				<xs:element name="timeStamp" type="xs:string"></xs:element>
+				<xs:element name="processNameOrId" type="xs:string"></xs:element>
+				<xs:element name="className" type="xs:string"></xs:element>
+				<xs:element name="logLevel" type="xs:string"></xs:element>
+				<xs:element name="logMessage" type="xs:string"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="roleList">
+		<xs:list>
+			<xs:simpleType>
+				<xs:restriction base="xs:string"></xs:restriction>
+			</xs:simpleType>
+		</xs:list>
+	</xs:simpleType>
 </xs:schema>
