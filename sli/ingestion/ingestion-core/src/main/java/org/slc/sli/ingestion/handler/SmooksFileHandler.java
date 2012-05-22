@@ -84,10 +84,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted, ingestionFileEntry.getFileName());
             } catch (Exception e) {
                 LOG.error("Error accessing visitor list in smooks", e);
-
-                // not sure why danil introduced this line --> removal fixes error in
-                // SmooksFileHandlerTest
-                // throw new RuntimeException("Error accessing visitor list in smooks", e);
             }
         } catch (SmooksException se) {
             LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
