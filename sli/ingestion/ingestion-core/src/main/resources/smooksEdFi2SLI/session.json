@@ -6,7 +6,7 @@
             "fieldPath" : "body.gradingPeriods",
             "ref" :
             {
-                "collectionName" : "gradingPeriods",
+                "collectionName" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.gradingPeriods",
                 "choiceOfFields" :
@@ -16,7 +16,7 @@
                             "path" : "metaData.externalId",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriods.gradingPeriodRef"
+                                "valueSource" : "body.gradingPeriods.gradingPeriodId"
                             }]
                         }
                     ]

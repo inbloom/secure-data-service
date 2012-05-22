@@ -1578,7 +1578,7 @@
 
   <jb:bean beanId="sessionGradingPeriodRef" class="java.util.HashMap" 
     createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-    <jb:value data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/@ref"></jb:value>
+    <jb:value property="gradingPeriodId" data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/@ref"></jb:value>
   </jb:bean>
   
   <!-- Assessment family mapping -->
