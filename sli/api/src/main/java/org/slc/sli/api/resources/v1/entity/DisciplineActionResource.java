@@ -25,9 +25,14 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This $$disciplineActions$$ entity represents actions taken by an
+ * 
+ * Represents the definition of a discipline action.  
+ * 
+ * A discipline action is defined as an action taken by an
  * education organization after a disruptive event that
  * is recorded as a discipline incident.
+ * 
+ * For detailed information, see the schema for the $$disciplineActions$$ entity.
  *
  * @author slee
  *
@@ -93,7 +98,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
