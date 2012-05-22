@@ -981,6 +981,10 @@
 				<xs:annotation>
 					<xs:documentation>Full legal name of the person.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName"
@@ -990,6 +994,10 @@
 						Other names (e.g., alias, nickname, previous
 						legal name) associated with a person.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="sex" type="sexType">
@@ -1003,6 +1011,10 @@
 					<xs:documentation>Parent's address, if different from student
 						address.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone"
@@ -2332,6 +2344,10 @@
 						record-keeping purposes by schools, social services, or other
 						agencies to refer to a student.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
