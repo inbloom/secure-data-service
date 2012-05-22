@@ -37,7 +37,7 @@ And /^the object includes an app URL, admin URL, image URL, description, title, 
 	assert(@result[0]["image_url"] != nil, "Contains is image URL")
 	assert(@result[0]["description"] != nil, "Contains description")
 	assert(@result[0]["name"] != nil, "Contains title")
-	assert(@result[0]["vendor"] != nil, "Contains vendor")
+	assert(@result[0]["developer_info"]["organization"] != nil, "Contains vendor")
 	assert(@result[0]["version"] != nil, "Contains version")
 	assert(@result[0]["behavior"] != nil, "Contains display method")
 	assert(@result[0]["is_admin"] != nil, "Contains is admin app")

@@ -1,7 +1,10 @@
+<table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable">
+  <tr><th colspan=5>
+    <h1>District - <%= @application_authorization.authId %></h1>
+  </th>
 
-<h1>District - <%= @application_authorization.authId %></h1>
-<table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable table">
-  <thead>
+
+  </tr>
   <tr>
     <th>Name</th>
     <th>Version</th>
@@ -9,7 +12,6 @@
     <th>Status</th>
     <th> </th>
   </tr>
-  </thead>
 <%
     apps = App.all
 
@@ -19,7 +21,6 @@
     apps = authorizedApps + unauthorizedApps
     apps.each do |app|
 %>
-    <tbody>
     <tr>
       <% if app == nil
             next
@@ -50,5 +51,4 @@
       </td>
     </tr>
     <%end %>
-    </tbody>
   </table>
