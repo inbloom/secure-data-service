@@ -19,6 +19,7 @@ import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
+import org.slc.sli.client.APIClient;
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.client.SDKAPIClient;
 import org.slc.sli.util.Constants;
@@ -68,14 +69,14 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         this.restClient = restClient;
     }
 
-    private SDKAPIClient sdkApiClient;
+    private APIClient apiClient;
 
-    public SDKAPIClient getSdkApiClient() {
-        return sdkApiClient;
+    public APIClient getApiClient() {
+        return apiClient;
     }
 
-    public void setSdkApiClient(SDKAPIClient sdkApiClient) {
-        this.sdkApiClient = sdkApiClient;
+    public void setApiClient(APIClient apiClient) {
+        this.apiClient = apiClient;
     }
 
     private PropertiesDecryptor propDecryptor;
@@ -93,7 +94,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         LOG.debug(json.toString());
 
         // Setup SDK client OAuth token
-        sdkApiClient.getSdkClient().setToken(token);
+        apiClient.getSdkClient().setToken(token);
         
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {

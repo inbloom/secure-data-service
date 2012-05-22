@@ -12,13 +12,13 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,6 +45,10 @@ public class MockAPIClient implements APIClient {
 
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
+    }
+
+    public SLIClient getSdkClient() {
+        return null;
     }
 
     /**

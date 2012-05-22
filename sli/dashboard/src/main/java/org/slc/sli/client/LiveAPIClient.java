@@ -19,9 +19,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -29,6 +27,8 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -94,6 +94,10 @@ public class LiveAPIClient implements APIClient {
 
     public LiveAPIClient() {
         gson = new Gson();
+    }
+
+    public SLIClient getSdkClient() {
+        return null;
     }
 
     /**

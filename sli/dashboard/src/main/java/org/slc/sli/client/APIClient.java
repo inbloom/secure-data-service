@@ -3,6 +3,7 @@ package org.slc.sli.client;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 
@@ -15,6 +16,8 @@ import org.slc.sli.entity.GenericEntity;
  */
 public interface APIClient {
 
+    public SLIClient getSdkClient();
+    
     public GenericEntity getStaffInfo(String token);
 
     public ConfigMap getEdOrgCustomData(String token, String id);

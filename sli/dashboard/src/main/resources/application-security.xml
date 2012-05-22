@@ -11,7 +11,7 @@
 <beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
     <beans:property name="propDecryptor" ref="propertiesDecryptor" />
     <beans:property name="restClient" ref="restClient" />
-    <beans:property name="sdkApiClient" ref="sdkApiClient" />
+	<beans:property name="apiClient" ref="apiClientRef"/>
     <beans:property name="callbackUrl" value="${oauth.redirect}" />
     <beans:property name="apiUrl" value="${api.server.url}" />
     
