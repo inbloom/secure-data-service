@@ -40,7 +40,7 @@ import org.slc.sli.domain.Entity;
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-public class HomeResource extends DefaultCrudEndpoint{
+public class HomeResource {
 
     final EntityDefinitionStore entityDefs;
 
