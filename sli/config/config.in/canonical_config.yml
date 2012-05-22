@@ -856,7 +856,7 @@ team:
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
         # team/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host: devmq1.slidev.org
+        sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
@@ -864,8 +864,8 @@ team:
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.host: devmq1.slidev.org
-        sli.ingestion.queue.maestro.port: 5445
+        sli.ingestion.queue.maestro.host: localhost
+        sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
@@ -873,15 +873,15 @@ team:
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
         # Pit (worker) nodes
-        sli.ingestion.queue.pit.host: devmq1.slidev.org
-        sli.ingestion.queue.pit.port: 5445
+        sli.ingestion.queue.pit.host: localhost
+        sli.ingestion.queue.pit.port: 61616
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
-        sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.loadDefaultTenants: true
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT

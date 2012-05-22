@@ -22,6 +22,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -129,6 +130,7 @@ public class JobReportingProcessor implements Processor {
             job.addStage(tempStage);
         }
 
+        job.setExecutionStats(MongoTrackingAspect.aspectOf().getStats());
         batchJobDAO.saveBatchJob(job);
     }
 
