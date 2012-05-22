@@ -39,6 +39,10 @@ public class CCSMathCSV2XMLTransformer {
         transformer.setCcsCsvReader(learningStandardReader);
         transformer.setOutputLocation(interchangeCCSFile);
         transformer.setAcademicSubjectType(AcademicSubjectType.MATHEMATICS);
+        
+        // TODO set the learningObjectiveGenerator to handle difference between math and english to
+        // build common core standard hierarchy, the code is the same as in english csv to xml
+        // transformer and no learningObjective hierarchy is created for now
         transformer.setLearningObjectiveGenerator(new CcsCsv2XmlTransformer.LearningObjectiveGenerator() {
             @Override
             Collection<LearningObjective> generateLearningObjectives(

@@ -31,6 +31,7 @@ public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
         transformer.setCcsCsvReader(englishLearningStandardReader);
         transformer.setOutputLocation("data/Interchange-AssessmentMetadata.xml");
         transformer.setAcademicSubjectType(AcademicSubjectType.ENGLISH);
+        
         transformer.setLearningObjectiveGenerator(new CcsCsv2XmlTransformer.LearningObjectiveGenerator() {
             
             @Override
