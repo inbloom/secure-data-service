@@ -33,7 +33,7 @@ Background: Nothing yet
     | schools                     | school                     | 5               |
     | students                    | student                    | 82              |
     | studentSectionAssociations  | studentSectionAssociation  | 263             |
-    | courseOfferings             | courseOffering             | 6               |
+    | courseOfferings             | courseOffering             | 5               |
 
 
 Scenario: Getting response from POST - Create (school)

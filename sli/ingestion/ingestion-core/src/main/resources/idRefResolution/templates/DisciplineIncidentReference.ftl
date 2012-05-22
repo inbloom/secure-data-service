@@ -10,13 +10,15 @@
     <StateOrganizationId>${DisciplineIncident.SchoolReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
 </#if>
 
-<#if (DisciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode[0])??>
+<#list isciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode as edorgId>
     <EducationOrgIdentificationCode
 
-    <#if (DisciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode.@IdentificationSystem[0])??>
-    IdentificationSystem="${DisciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode.@IdentificationSystem}"
+    <#if (edorgId.@IdentificationSystem[0])??>
+    IdentificationSystem="${edorgId.@IdentificationSystem}"
     </#if>
-    >${DisciplineIncident.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode}</EducationOrgIdentificationCode>
-</#if>
+    >
+    <ID>${edorgId.ID}</ID>
+    </EducationOrgIdentificationCode>
+</#list>
 
 </DisciplineIncidentIdentity>

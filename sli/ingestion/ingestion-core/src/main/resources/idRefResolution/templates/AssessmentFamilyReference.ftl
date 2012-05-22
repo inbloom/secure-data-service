@@ -1,23 +1,22 @@
 
 <AssessmentFamilyIdentity>
 
- <#if (AssessmentFamily.AssessmentFamilyIdentificationCode[0])??>
+ <#list AssessmentFamily.AssessmentFamilyIdentificationCode as afid>
     <AssessmentFamilyIdentificationCode
 
-
-        <#if (AssessmentFamily.AssessmentFamilyIdentificationCode.@IdentificationSystem[0])??>
-        IdentificationSystem="${AssessmentFamily.AssessmentFamilyIdentificationCode.@IdentificationSystem}"
+        <#if (afid.@IdentificationSystem[0])??>
+        IdentificationSystem="${afid.@IdentificationSystem}"
         </#if>
 
-        <#if (AssessmentFamily.AssessmentFamilyIdentificationCode.@AssigningOrganizationCode[0])??>
-        AssigningOrganizationCode="${AssessmentFamily.AssessmentFamilyIdentificationCode.@AssigningOrganizationCode}"
+        <#if (afid.@AssigningOrganizationCode[0])??>
+        AssigningOrganizationCode="${afid.@AssigningOrganizationCode}"
         </#if>
         >
-        <#if (AssessmentFamily.AssessmentFamilyIdentificationCode.ID[0])??>
-        <ID>${AssessmentFamily.AssessmentFamilyIdentificationCode.ID}</ID>
+        <#if (afid.ID[0])??>
+        <ID>${afid.ID}</ID>
         </#if>
     </AssessmentFamilyIdentificationCode>
-   </#if>
+   </#list>
     <#if (AssessmentFamily.AssessmentFamilyTitle[0])??>
     <AssessmentFamilyTitle>${AssessmentFamily.AssessmentFamilyTitle}</AssessmentFamilyTitle>
     </#if>
