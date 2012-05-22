@@ -24,7 +24,7 @@
     <aspectj.maven.version>1.4</aspectj.maven.version>
     <aspectjweaver.version>1.6.12</aspectjweaver.version>
     <freemarker.version>2.3.14</freemarker.version>
-  	<sli.home>${project.parent.basedir}/..</sli.home>
+    <sli.home>${project.parent.basedir}/..</sli.home>
     <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
     <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
   </properties>
@@ -147,7 +147,7 @@
       <artifactId>camel-quartz</artifactId>
       <version>${camel.version}</version>
     </dependency>
-    
+
     <!-- Apache Hadoop Core -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -208,6 +208,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-instrument</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>${aspectjweaver.version}</version>
@@ -248,6 +255,13 @@
       <artifactId>junit-addons</artifactId>
       <version>1.4</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.12.1.GA</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
@@ -305,7 +319,7 @@
         </property>
       </activation>
       <dependencies>
-        <!-- 
+        <!--
         <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
