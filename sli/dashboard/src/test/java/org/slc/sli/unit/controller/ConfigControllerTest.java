@@ -100,7 +100,6 @@ public class ConfigControllerTest extends ControllerTestBase {
             @Override
             public GenericEntity getStaffInfo(String token) {
                 GenericEntity entity = new GenericEntity();
-                entity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
                 GenericEntity edOrg = new GenericEntity();
                 List<String> list = new ArrayList<String>();
                 list.add(Constants.LOCAL_EDUCATION_AGENCY);
@@ -115,7 +114,13 @@ public class ConfigControllerTest extends ControllerTestBase {
             }
         });
         MockHttpServletRequest request = new MockHttpServletRequest();
-        ModelAndView model = configController.getConfig(request);
-        Assert.assertEquals("nonLocalEducationAgency", model.getModel().get("configJSON"));
+        ModelAndView model = null;
+        try {
+            model = configController.getConfig(request);
+        } catch (IllegalAccessException e) {
+            //this exception is thrown because not admin
+            model = null;
+        }
+        Assert.assertNull(model);
     }
 }

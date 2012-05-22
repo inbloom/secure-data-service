@@ -62,7 +62,7 @@ public class ConfigController extends GenericLayoutController {
         String token = SecurityUtil.getToken();
         GenericEntity staffEntity = userEdOrgManager.getStaffInfo(token);
         
-        Boolean isAdmin = (Boolean) staffEntity.get(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN);
+        Boolean isAdmin = SecurityUtil.isAdmin();
         if (isAdmin != null && isAdmin.booleanValue()) {
             Boolean localEducationAgency = (Boolean) staffEntity.get(Constants.LOCAL_EDUCATION_AGENCY);
             

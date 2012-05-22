@@ -22,9 +22,9 @@ import org.slc.sli.util.SecurityUtil;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
- *
+ * 
  * @author syau
- *
+ * 
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
     
@@ -39,14 +39,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     private List<GenericEntity> getParentEducationalOrganizations(String token, List<GenericEntity> edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganizations(token, edOrgOrSchool);
     }
-
+    
     protected boolean isEducator() {
         return !SecurityUtil.isNotEducator();
     }
-
+    
     /**
      * read token. Then, find district name associated with school.
-     *
+     * 
      * @param token
      *            token-id, it is also using token as key value for cache.
      * @return District name
@@ -57,23 +57,23 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrgKey != null) {
             return edOrgKey;
         }
-
+        
         GenericEntity edOrg = null;
-
+        
         // For state-level ed-org - need to take default config, so keep state
         // ed org
         if (!isEducator()) {
-
+            
             GenericEntity staff = getApiClient().getStaffInfo(token);
             if (staff != null) {
                 
                 GenericEntity staffEdOrg = (GenericEntity) staff.get(Constants.ATTR_ED_ORG);
                 if (staffEdOrg != null) {
-
+                    
                     @SuppressWarnings("unchecked")
                     List<String> edOrgCategories = (List<String>) staffEdOrg.get(Constants.ATTR_ORG_CATEGORIES);
-                    if (edOrgCategories != null && edOrgCategories.size() > 0) {
-
+                    if (edOrgCategories != null && !edOrgCategories.isEmpty()) {
+                        
                         for (String edOrgCategory : edOrgCategories) {
                             if (edOrgCategory.equals(Constants.STATE_EDUCATION_AGENCY)) {
                                 edOrg = staffEdOrg;
@@ -84,18 +84,18 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 }
             }
         }
-
+        
         // otherwise get school's parent ed-org
         if (edOrg == null) {
-
+            
             // get list of school
             List<GenericEntity> schools = getSchools(token);
-
+            
             if (schools != null && !schools.isEmpty()) {
-
+                
                 // read first school
                 GenericEntity school = schools.get(0);
-
+                
                 // read parent organization
                 edOrg = getParentEducationalOrganization(getToken(), school);
                 if (edOrg == null) {
@@ -104,7 +104,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 }
             }
         }
-
+        
         // create ed-org key and save to cache
         if (edOrg != null) {
             @SuppressWarnings("unchecked")
@@ -119,34 +119,34 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         return null;
     }
-
+    
     /**
      * Get user's schools. Cache the results so we don't have to make the call
      * twice.
-     *
+     * 
      * @return
      */
     private List<GenericEntity> getSchools(String token) {
-
+        
         List<GenericEntity> schools = getFromCache(USER_SCHOOLS_CACHE, token);
-
+        
         // otherwise, call the api
         if (schools == null) {
             schools = getApiClient().getSchools(token, null);
-
+            
             // cache it
             putToCache(USER_SCHOOLS_CACHE, token, schools);
         }
-
+        
         return schools;
     }
-
+    
     /**
      * Returns the institutional hierarchy visible to the user with the given
      * auth token as a list of generic entities, with the ed-org level flattened
      * This assumes there are no cycles in the education organization hierarchy
      * tree.
-     *
+     * 
      * @return
      */
     @Override
@@ -160,14 +160,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (schools == null) {
             return Collections.emptyList();
         }
-
+        
         // This maps ids from educational organisations to schools reachable
         // from it via the "child" relationship
         Map<String, Set<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, Set<GenericEntity>>();
-
+        
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
-
+        
         for (GenericEntity school : schools) {
             String parentEdOrgId = (String) school.get(Constants.ATTR_PARENT_EDORG);
             if (parentEdOrgId != null) {
@@ -177,7 +177,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 schoolReachableFromEdOrg.get(parentEdOrgId).add(school);
             }
         }
-
+        
         // traverse the ancestor chain from each school and find ed orgs that
         // the school is reachable from
         List<GenericEntity> edOrgs = getParentEducationalOrganizations(token, schools);
@@ -185,13 +185,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             for (GenericEntity edOrg : edOrgs) {
                 String parentEdOrgId = (String) edOrg.get(Constants.ATTR_PARENT_EDORG);
                 String edOrgId = edOrg.getId();
-
+                
                 // if parentEdOrgId exists, you are not the top organization
                 if (parentEdOrgId != null) {
-
+                    
                     // insert ed-org id to - edOrg mapping
                     edOrgIdMap.put(edOrgId, edOrg);
-
+                    
                     // insert ed-org - school mapping into the reverse map
                     if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
                         schoolReachableFromEdOrg.put(parentEdOrgId, new HashSet<GenericEntity>());
@@ -205,7 +205,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             // next in the ancestor chain
             edOrgs = getParentEducationalOrganizations(token, edOrgs);
         }
-
+        
         // build result list
         List<GenericEntity> retVal = new ArrayList<GenericEntity>();
         for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
@@ -229,13 +229,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         
         Collection<GenericEntity> orphanSchools = findOrphanSchools(schools, schoolReachableFromEdOrg);
         // Temporary: insert a dummy edorg for all orphan schools.
-        if (orphanSchools.size() > 0) {
+        if (!orphanSchools.isEmpty()) {
             insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
         }
         putToCache(USER_HIERARCHY_CACHE, token, retVal);
         return retVal;
     }
-
+    
     // ------------- helper functions ----------------
     
     private static Collection<GenericEntity> findOrphanSchools(List<GenericEntity> schools,
@@ -256,7 +256,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         return orphanSchools;
     }
-
+    
     // Insert schools into the list under a "dummy" ed-org
     private static List<GenericEntity> insertSchoolsUnderDummyEdOrg(List<GenericEntity> retVal,
             Collection<GenericEntity> schools) {
@@ -270,7 +270,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         return retVal;
     }
-
+    
     /**
      * Override from UserEdOrgManager.
      * Signature is pre-defined by the architect.
@@ -303,34 +303,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         return entity;
     }
-
+    
     @Override
     @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
         if (staffEntity == null) {
             staffEntity = new GenericEntity();
-        }
-        staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, false);
-        // TODO: refactored out of ConfigController. is this complex code the
-        // only way to determine admin flag?
-        List<Object> credentialsList = (List<Object>) staffEntity.get(Constants.ATTR_CREDENTIALS_LIST_ATTRIBUTE);
-        if ((credentialsList != null) && (credentialsList.size() > 0)) {
-            Map<String, Object> credentials = (Map<String, Object>) credentialsList.get(0);
-            if (credentials != null) {
-                List<Map<String, Object>> credentialFieldsList = (List<Map<String, Object>>) credentials
-                        .get(Constants.ATTR_CREDENTIAL_FIELD_ATTRIBUTE);
-                if ((credentialFieldsList != null) && (credentialFieldsList.size() > 0)) {
-                    for (Map<String, Object> credentialField : credentialFieldsList) {
-                        String credentialCode = (String) credentialField.get(Constants.ATTR_CREDENTIAL_CODE_ATTRIBUTE);
-                        if ((credentialCode != null)
-                                && (credentialCode.equalsIgnoreCase(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN))) {
-                            staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
-                            break;
-                        }
-                    }
-                }
-            }
         }
         
         // temporary Generic Entity Element to indicate he/she is district level user or not
@@ -339,9 +318,12 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrg != null) {
             List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
             if (organizationCategories != null && !organizationCategories.isEmpty()) {
-                String educationAgency = organizationCategories.get(0);
-                if (educationAgency != null && educationAgency.equals(Constants.LOCAL_EDUCATION_AGENCY))
-                    staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, true);
+                for (String educationAgency : organizationCategories) {
+                    if (educationAgency != null && educationAgency.equals(Constants.LOCAL_EDUCATION_AGENCY)) {
+                        staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, true);
+                        break;
+                    }
+                }
             }
         }
         return staffEntity;
