@@ -67,6 +67,7 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENTS = "/students";
     private static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
     private static final String CUSTOM_DATA = "/custom";
+    private static final String MAX_PAGE_SIZE = "limit=" + Integer.MAX_VALUE;
 
     // link names
     private static final String ED_ORG_LINK = "getEducationOrganization";
@@ -442,7 +443,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSectionsForNonEducator(String token) {
 
         // call https://<IP address>/api/rest/<version>/sections
-        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
+        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + "?" + MAX_PAGE_SIZE, token);
 
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, sections);
@@ -604,14 +605,14 @@ public class LiveAPIClient implements APIClient {
 
         // now create the generic entity
         for (String schoolId : schoolIDToCourseIDMap.keySet()) {
+            GenericEntity s = schoolMap.get(schoolId);
             for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
-                GenericEntity s = schoolMap.get(schoolId);
                 GenericEntity c = courseMap.get(courseId);
                 s.appendToList(Constants.ATTR_COURSES, c);
             }
         }
+        
         return new ArrayList<GenericEntity>(schoolMap.values());
-
     }
 
     /**

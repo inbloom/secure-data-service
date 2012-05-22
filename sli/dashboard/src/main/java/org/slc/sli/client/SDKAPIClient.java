@@ -4,12 +4,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
@@ -20,6 +18,8 @@ import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -92,14 +92,33 @@ public class SDKAPIClient implements APIClient {
 
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getEdOrgCustomData(token, id);
+        ConfigMap configMap = null;
+        try {
+            List entityList = new ArrayList();
+            sdkClient.read(entityList, ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, ConfigMap.class);
+            if (entityList.size() > 0) {
+                configMap = (ConfigMap) entityList.get(0);
+            }
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred", e);
+        }
+        return configMap;
     }
-
+    
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-        // TODO Auto-generated method stub
-        liveApiClient.putEdOrgCustomData(token, id, configMap);
+        try {
+            Map<String, Object> entityMap = new HashMap<String, Object>();
+            entityMap.put("config", configMap.getConfig());
+            Entity configMapEntity = new GenericEntity(entityMap);
+            sdkClient.create(ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, configMapEntity);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred", e);
+        }
     }
 
     @Override
