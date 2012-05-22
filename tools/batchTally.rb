@@ -73,5 +73,5 @@ puts "Total records for Persistence: #{rcStage["PersistenceProcessor"]}"
 wallClock = (endTime-earliest)
 puts "Total wall-clock time: "+wallClock.to_s+" sec"
 puts "Total time spent (on all nodes): #{sum/1000} sec"
-puts "Extrapolated RPS (transformed per total time )  #{(transformed / wallClock )}"
+puts "Extrapolated RPS (transformed per total time)  #{(transformed / wallClock )}"
 puts "ALL DONE"
