@@ -124,12 +124,9 @@ public class RoleInitializer {
         if (!hasSEAAdmin) {
             createdRoles.add(buildSEAAdmin());
         }
-<<<<<<< HEAD
         if (!hasIngestionUser) {
             createdRoles.add(buildIngestionUser());
         }
-=======
->>>>>>> master
 
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
