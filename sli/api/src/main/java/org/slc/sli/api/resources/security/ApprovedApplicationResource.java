@@ -165,6 +165,7 @@ public class ApprovedApplicationResource {
                 || userRoles.contains(RoleInitializer.LEA_ADMINISTRATOR)
                 || userRoles.contains(RoleInitializer.SEA_ADMINISTRATOR)
                 || userRoles.contains(RoleInitializer.SLC_OPERATOR)
+                || userRoles.contains(RoleInitializer.INGESTION_USER)
                 || userRoles.contains(RoleInitializer.REALM_ADMINISTRATOR);
         
     }

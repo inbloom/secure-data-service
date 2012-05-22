@@ -1,6 +1,6 @@
 {
    "name": "Portal",
-   "description":"SLC Portal",
+   "description":"Portal application",
    "version":"0.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.portal.url}/assets/icon.png",
