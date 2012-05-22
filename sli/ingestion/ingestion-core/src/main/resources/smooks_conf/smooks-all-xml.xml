@@ -27,14 +27,14 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <jb:expression property="recordType">'school'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/School/StateOrganizationId" />
-<!--     <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" /> -->
+    <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" />
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
   </jb:bean>
 
-<!--   <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School"> -->
-<!--     <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" /> -->
+  <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
+    <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
 <!--     <jb:wiring property="program#programReference" beanIdRef="school_programReferenceArray" /> -->
-<!--   </jb:bean> -->
+  </jb:bean>
 
 <!--   <jb:bean beanId="school_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School"> -->
 <!--     <jb:wiring beanIdRef="school_programReference" /> -->
