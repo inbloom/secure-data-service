@@ -217,7 +217,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
             
-            LOG.info("persisting simple entity: {}", xformedEntity);
+            LOG.debug("persisting simple entity: {}", xformedEntity);
             entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
             
             if (errorReportForNrEntity.hasErrors()) {
@@ -232,7 +232,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
         
-        LOG.info("persisting neutral record: {}", neutralRecord);
+        LOG.debug("persisting neutral record: {}", neutralRecord);
         
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
