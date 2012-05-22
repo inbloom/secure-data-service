@@ -8,7 +8,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.SessionCourseAssociationResource;
+import org.slc.sli.api.resources.v1.association.CourseOfferingResource;
 import org.slc.sli.api.resources.v1.association.StudentParentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentTranscriptAssociationResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -44,7 +44,7 @@ public class CourseResourceTest {
     private final String courseResourceName = "CourseResource";
     private final String studentResourceName = "StudentResource";
     private final String sessionResourceName = "SessionResource";
-    private final String sessionCourseAssociationResourceName = "SessionCourseAssociationResource";
+    private final String courseOfferingResourceName = "CourseOfferingResource";
     private final String studentTranscriptAssociationResourceName = "StudentTranscriptAssociationResource";
     private final String studentParentAssociationResourceName = "StudentParentAssociationResource";
 
@@ -59,7 +59,7 @@ public class CourseResourceTest {
     @Autowired
     private StudentTranscriptAssociationResource studentTranscriptAssociationResource;
     @Autowired
-    private SessionCourseAssociationResource sessionCourseAssociationResource;
+    private CourseOfferingResource courseOfferingResource;
     @Autowired
     private StudentParentAssociationResource studentParentAssociationResource;
 
@@ -82,7 +82,7 @@ public class CourseResourceTest {
     }
 
     @Test
-    public void testGetSessionCourseAssociations() {
+    public void testGetCourseOffering() {
         Response createResponse = courseResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(courseResourceName)), httpHeaders, uriInfo);
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -91,15 +91,15 @@ public class CourseResourceTest {
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, courseResourceName, courseId, sessionResourceName, sessionId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, courseResourceName, courseId, sessionResourceName, sessionId);
+        courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = courseResource.getSessionCourseAssociations(courseId, httpHeaders, uriInfo);
+        Response response = courseResource.getCourseOfferings(courseId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
     }
 
     @Test
-    public void testGetSessionCourseAssociationsCourses() {
+    public void testGetCourseOfferingsCourses() {
         Response createResponse = courseResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(courseResourceName)), httpHeaders, uriInfo);
         String courseId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -108,10 +108,10 @@ public class CourseResourceTest {
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                sessionCourseAssociationResourceName, courseResourceName, courseId, sessionResourceName, sessionId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+                courseOfferingResourceName, courseResourceName, courseId, sessionResourceName, sessionId);
+        courseOfferingResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = courseResource.getSessionCourseAssociationCourses(courseId, httpHeaders, uriInfo);
+        Response response = courseResource.getCourseOfferingCourses(courseId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
     }
 

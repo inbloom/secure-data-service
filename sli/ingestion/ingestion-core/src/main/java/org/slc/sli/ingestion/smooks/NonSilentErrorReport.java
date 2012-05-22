@@ -11,8 +11,10 @@ import org.milyn.event.types.ElementPresentEvent;
 import org.milyn.event.types.FilterLifecycleEvent;
 import org.milyn.event.types.FilterLifecycleEvent.EventType;
 import org.milyn.event.types.ResourceTargetingEvent;
+import org.springframework.context.MessageSource;
 import org.xml.sax.Attributes;
 
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 
@@ -27,6 +29,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
     private ErrorReport errorReport;
     private Stack<ElementState> processedElements = new Stack<ElementState>();
     private Set<String> filteredAttributes;
+    private MessageSource messageSource;
 
     private final class ElementState {
         SAXElement element;
@@ -42,8 +45,9 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
     }
 
-    public NonSilentErrorReport(Set<String> filteredAttributes, ErrorReport errorReport) {
+    public NonSilentErrorReport(Set<String> filteredAttributes, MessageSource messageSource, ErrorReport errorReport) {
         this.filteredAttributes = filteredAttributes;
+        this.messageSource = messageSource;
         this.errorReport = errorReport;
     }
 
@@ -133,7 +137,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         }
 
         if (!last.isTargeted) {
-            String message = String.format("%s: The element was not processed", getXPath(processedElements));
+            String message = MessageSourceHelper.getMessage(messageSource, "NON_SLI_ELEMENT", getXPath(processedElements), this);
             errorReport.warning(message, this);
         }
     }
@@ -150,7 +154,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         String xPath = getXPath(processedElements);
 
         for (String attribute : ignoredAttributes) {
-            String message = String.format("%s: The '%s' attribute was not processed", xPath, attribute);
+            String message = MessageSourceHelper.getMessage(messageSource, "NON_SLI_ATTRIBUTE", xPath, attribute, this);
             errorReport.warning(message, this);
         }
     }
@@ -182,5 +186,4 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
         return sb.toString();
     }
-
 }

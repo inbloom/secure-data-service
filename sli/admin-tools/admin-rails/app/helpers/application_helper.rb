@@ -21,12 +21,14 @@ module ApplicationHelper
   EMAIL_PORT=APP_CONFIG["email_port"]
   EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name_user_reg_app"]
   EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address_user_reg_app"]
+  REPLACER={"__URI__" => APP_CONFIG["email_replace_uri"]}
 
   EMAIL_CONF = {
     :host=>EMAIL_HOST,
     :port=>EMAIL_PORT,
     :sender_name => EMAIL_SENDER_NAME,
-    :sender_email_addr => EMAIL_SENDER_ADDR
+    :sender_email_addr => EMAIL_SENDER_ADDR,
+    :replacer => REPLACER
   }
   
   UNKNOWN_EMAIL = {
@@ -73,14 +75,14 @@ module ApplicationHelper
     user_email_info = get_email_info guid
     email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
+    userEmailValidationLink = "#{validate_base}/user_account_validation/#{email_token}"
       
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
       "\n\n#{userEmailValidationLink}\n\n"
       
     if (email_token.nil?)
-      email_message = "There was a problem creating your account. Please try again."
+      return false
     end
     @@emailer.send_approval_email({
       :email_addr => user_email_info["email_address"],
@@ -88,6 +90,7 @@ module ApplicationHelper
       :subject    => EMAIL_SUBJECT,
       :content    => email_message
     })
+    true
   end
   
   # Returns a map containing values for email_address, first_name, and last_name.
@@ -101,7 +104,6 @@ module ApplicationHelper
     
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
-    puts("EMAIL INFO*******#{res}")
 
     if (res.code==200)
       jsonDocument = JSON.parse(res.body)
