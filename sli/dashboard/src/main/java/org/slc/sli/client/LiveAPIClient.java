@@ -67,7 +67,7 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENTS = "/students";
     private static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
     private static final String CUSTOM_DATA = "/custom";
-    private static final String MAX_PAGE_SIZE = "limit=" + Integer.MAX_VALUE;
+    private static final String MAX_PAGE_SIZE = "limit=0";
 
     // link names
     private static final String ED_ORG_LINK = "getEducationOrganization";
