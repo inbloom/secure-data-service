@@ -25,8 +25,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This entity represents any type of list of
+ * Represents the definition of a cohort.  
+ * 
+ * A cohort is defined as a list of
  * designated students for tracking, analysis, or intervention.
+ * 
+ * For detailed information, see the schema for the $$cohorts$$ entity.
  *
  * @author jstokes
  * @author srichards
@@ -50,7 +54,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$cohorts$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -71,7 +75,7 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$cohorts$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -92,15 +96,15 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$cohorts$$ entity
+     * Returns the specified resource representation(s).
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$cohorts$$ entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -111,10 +115,10 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$cohorts$$ entity
+     * Deletes the specified resource.
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -131,10 +135,10 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$cohorts$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param cohortId
-     *            The id of the $$cohorts$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -154,11 +158,10 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$staffCohortAssociations$$ that
-     * references the given $$cohorts$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The Id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -181,11 +184,10 @@ public class CohortResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$staff$$ associated to the given $$cohorts$$ through
-     * a $$staffCohortAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -202,11 +204,10 @@ public class CohortResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$studentCohortAssociations$$ that
-     * references the given $$cohorts$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -229,11 +230,10 @@ public class CohortResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$students$$ associated to the given $$cohorts$$ through
-     * a $$studentCohortAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param cohortId
-     *            The Id of the $$cohorts$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo

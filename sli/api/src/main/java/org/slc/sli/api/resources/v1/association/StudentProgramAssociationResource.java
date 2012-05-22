@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates the $$students$$ associated with a $$programs$$.
+ * Represents the association between a $$students$$ and a $$programs$$.
  *
  * @author jtully
  *
@@ -91,7 +91,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single studentProgramAssociation entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -148,7 +148,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -159,7 +159,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -174,7 +174,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -185,7 +185,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)

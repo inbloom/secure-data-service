@@ -25,15 +25,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This event entity represents an occurrence of an
- * infraction ranging from a minor problem behavior
- * that disrupts the orderly functioning of a school or
- * classroom (such as tardiness) to a criminal act that
- * results in the involvement of a law enforcement
- * official (such as robbery). A single event (e.g., a fight) is one
- * incident regardless of how many perpetrators or victims are
- * involved. Discipline incidents are events classified as warranting
- * discipline action.
+ * Represents the definition of a discipline incident.  A discipline incident 
+ * is defined as a single occurrence of an infraction.  
+ *
+ * Discipline incidents are events classified as warranting discipline action.
+ * 
+ * For detailed information, see the schema for the $$disciplineIncidents$$ entity.
  *
  * @author jstokes
  * @author slee
@@ -50,7 +47,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$disciplineIncidents$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -71,7 +68,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$disciplineIncidents$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -92,15 +89,15 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$disciplineIncidents$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param disciplineIncidentId
-     *            The Id of the $$disciplineIncidents$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single disciplineIncident entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -111,10 +108,10 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$disciplineIncidents$$ entity.
+     * Deletes the specified resource.
      *
      * @param disciplineIncidentId
-     *            The Id of the $$disciplineIncidents$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -131,10 +128,10 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$disciplineIncidents$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param disciplineIncidentId
-     *            The id of the $$disciplineIncidents$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -155,11 +152,10 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$studentDisciplineIncidentAssociations$$ that
-     * reference the given $$disciplineIncidents$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param disciplineIncidentId
-     *            The id of the $$disciplineIncidents$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -176,11 +172,10 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$students$$ that are referenced from the $$studentDisciplineIncidentAssociations$$
-     * that references the given $$disciplineIncidents$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param disciplineIncidentId
-     *            The id of the $$disciplineIncidents$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo

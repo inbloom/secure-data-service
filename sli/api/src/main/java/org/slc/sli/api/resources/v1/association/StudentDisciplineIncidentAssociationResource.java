@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates the $$students$$ associated with a $$disciplineIncidents$$.
+ * Represents the association between a $$students$$ and a $$disciplineIncidents$$.
  *
  * @author slee
  */
@@ -96,7 +96,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -153,7 +153,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -162,7 +162,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -177,7 +177,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -186,7 +186,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.DISCIPLINE_INCIDENTS)
