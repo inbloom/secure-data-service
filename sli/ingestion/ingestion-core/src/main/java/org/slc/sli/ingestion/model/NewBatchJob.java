@@ -8,10 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
@@ -19,6 +18,8 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for ingestion jobs.
@@ -45,6 +46,8 @@ public class NewBatchJob implements Job {
     private List<StageSet> stages;
 
     private List<ResourceEntry> resourceEntries;
+
+    private Map<String, Pair<AtomicLong, AtomicLong>> executionStats;
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
@@ -364,4 +367,11 @@ public class NewBatchJob implements Job {
         return null;
     }
 
+    public Map<String, Pair<AtomicLong, AtomicLong>> getExecutionStats() {
+        return executionStats;
+    }
+    
+    public void setExecutionStats(Map<String, Pair<AtomicLong, AtomicLong>> stats) {
+        this.executionStats = stats;
+    }
 }
