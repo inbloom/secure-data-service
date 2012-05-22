@@ -75,6 +75,9 @@ public class CcsCsv2XmlTransformer {
     }
     
 
+    private String getCopyrightXmlComment() {
+        return "\n<!--\n\t"+ getCopyright().replace(">", "") + "\n-->";
+    }
     
     /**
      * Iterate through common core standard csv records in the CSV files,
@@ -118,6 +121,7 @@ public class CcsCsv2XmlTransformer {
                 learningObjectiveIdToLearningStandardResults, IdToGuidMapper.getInstance().getIdToGuidMap()));
         JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
         Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", getCopyrightXmlComment());
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
         marshaller.marshal(interchangeAssessmentMetadata, new PrintStream(new File(outputLocation)));
         System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
