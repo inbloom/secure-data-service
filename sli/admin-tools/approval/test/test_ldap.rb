@@ -35,7 +35,7 @@ class TestLdap < Test::Unit::TestCase
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
-    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg]
+    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn]
 
   Email1 = "dog_cat_hamster_platypus_elephant"
   Email2 = "mouse_snake_lion_cat_horse"
@@ -67,10 +67,10 @@ class TestLdap < Test::Unit::TestCase
 
   def assert_equal_user_info(expected, actual)
     All_keys.each do |x| 
-      if x.to_s.downcase != "password"
-        assert_equal expected[x], actual[x]
-      else
+      if x.to_s.downcase == "password"
         assert_equal "{MD5}#{Digest::MD5.base64digest(expected[x])}", actual[x]
+      elsif x.to_s.downcase != "cn"
+        assert_equal expected[x], actual[x]
       end
     end
   end
@@ -239,45 +239,53 @@ class TestLdap < Test::Unit::TestCase
 
     @ldap.delete_user(test_user_info[:email])    
   end 
+
+
+  def test_abitrary_uid
+    # simulate to create a user by hand in ldap 
+    uid = "jdoeadmin"
+    @ldap.delete_user(uid)    
+
+    cn = "Jon Doo"
+    ldap_conf = @ldap.get_ldap_config
+    dn = "cn=#{cn},#{ldap_conf[:base]}"
+    attributes =  {
+      :cn                   => cn,
+      :objectclass          => ["inetOrgPerson", "posixAccount", "top"],
+      :givenname            => "Jon",
+      :sn                   => "Doo",
+      :uid                  => uid,
+      :userPassword         => "secret",
+      :o                    => "none",
+      :displayName          => "abc",
+      :destinationIndicator => "submitted",
+      :homeDirectory        => "-",
+      :uidNumber            => "500", 
+      :gidNumber            => "500"
+    }
+
+
+    Net::LDAP.open(ldap_conf) do |ldap|
+      if !(ldap.add(:dn => dn, :attributes => attributes))
+        raise "Unable to create user in LDAP: #{attributes}."
+      end
+    end
+
+    found = @ldap.read_user(uid)
+    assert !!found
+    assert found[:homedir] == "-"
+
+    test_user_info = {
+      :email      => uid,
+      :homedir    => "/home/example"
+    }
+
+    @ldap.update_user_info(test_user_info)
+    found = @ldap.read_user(uid)
+    assert !!found
+    assert found[:homedir] == test_user_info[:homedir]
+
+    @ldap.delete_user(uid)    
+  end 
 end
-
-
-# any_email = "anything@example.com" 
-# puts "User #{jd_email} exists: #{ldap.user_exists?(jd_email)}"
-# puts "User #{any_email} exists: #{ldap.user_exists?(any_email)}"
-
-# new_user = user_info.clone 
-# new_user[:status] = "pending"
-# ldap.update_status(new_user)
-# found_user = ldap.read_user(jd_email)
-# puts "Changed status: #{found_user[:status]}"
-
-# found_user = ldap.read_user_emailtoken(jd_emailtoken)
-# puts "#{found_user}"
-
-# found_user = ldap.read_user_emailtoken("nothing")
-# if !found_user
-# 	puts "Did not find arbitrary emailtoken."
-# end
-
-
-# puts "Fetching all users:"
-# all_users = ldap.read_users
-# all_users.each do |e|
-# 	puts e[:email]
-# end 
-
-# puts "-----------------------------\nFetching pending users:"
-# pending_users = ldap.read_users("pending")
-# pending_users.each do |e|
-# 	puts e[:email]
-# end
-
-# found_user = true 
-# ldap.delete_user(jd_email)
-# found_user = ldap.read_user_emailtoken("nothing")
-# if !found_user
-# 	puts "Did not find delete user."
-# end
-# ldap.delete_user(td_email)
 
