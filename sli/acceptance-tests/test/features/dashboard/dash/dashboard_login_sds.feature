@@ -125,7 +125,7 @@ And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "colo
 And I click on student "Carmen Ortiz"
 When I enter "rudolph" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "2" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
@@ -153,7 +153,7 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "2" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
@@ -204,7 +204,7 @@ And I select section "Sec 145"
 And I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "1" results are returned
+Then "1" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
@@ -261,7 +261,7 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "2" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
@@ -290,7 +290,7 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 When I enter "Alton" into the "firstName" search box
 And I click the search button
-Then "0" results are returned
+Then "0" results are returned in the page
 And I click on the browser back button
 Then I see a list of 25 students
 
