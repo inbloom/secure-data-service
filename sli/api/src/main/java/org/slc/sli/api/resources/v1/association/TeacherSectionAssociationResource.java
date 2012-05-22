@@ -21,7 +21,9 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Represents the class sections (see the $$sections$$ schema) to which a teacher (see the
+ * $$teachers$$ schema) is assigned to. For detailed information, see the schema for the
+ * $$teacherSectionAssociations$$ entity
  *
  * @author srupasinghe
  *
@@ -37,8 +39,8 @@ public class TeacherSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$teachers$$ that
-     * references the given $$teacherSectionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      *
      * @param teacherSectionAssociationId
      *            The Id of the $$teacherSectionAssociations$$.
@@ -56,16 +58,17 @@ public class TeacherSectionAssociationResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.TEACHERS)
-    public Response getTeachersForAssociation(@PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
+    public Response getTeachersForAssociation(
+            @PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "_id", teacherSectionAssociationId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
+        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "_id", teacherSectionAssociationId, "teacherId",
+                ResourceNames.TEACHERS, headers, uriInfo);
     }
 
     /**
-     * Returns each $$sections$$ that
-     * references the given $$teacherSectionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherSectionAssociationId
      *            The Id of the $$teacherSectionAssociations$$.
@@ -83,10 +86,12 @@ public class TeacherSectionAssociationResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
-    public Response getSectionsForAssociation(@PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
+    public Response getSectionsForAssociation(
+            @PathParam(ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID) final String teacherSectionAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "_id", teacherSectionAssociationId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
+        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "_id", teacherSectionAssociationId, "sectionId",
+                ResourceNames.SECTIONS, headers, uriInfo);
     }
 }

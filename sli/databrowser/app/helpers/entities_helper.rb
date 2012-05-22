@@ -56,8 +56,7 @@ module EntitiesHelper
   end
 
   def display_entity (entity)
-    html = "<dl>"
-
+    html ||= ""
     if entity.is_a?(Hash)
       entity.each do |key, value|
         html << "<dt><b>#{t(key)}:</b></dt>"
@@ -73,9 +72,6 @@ module EntitiesHelper
     else
       html << entity.to_s
     end
-
-    html << "</dl>"
-
     html
   end
 

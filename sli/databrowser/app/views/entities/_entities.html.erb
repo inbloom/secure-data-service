@@ -1,5 +1,12 @@
-<% if @entities.size == 1 %>
-	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
-<%else%>
-	<%= render :partial => "multi_record_table", :locals => {:entities => @entities} %>
+<% @entities.each do |entity| %>
+<tr>
+  <% @tableFields.each do |field| %>
+  <td><%= value_for_table_view(field, entity) %></td>
+  <% end %>
+  <td style="display:none;" class="hidden">
+    <div class="details">
+      <%= render :partial => "single_record_details", :locals => {:entity => entity}%>
+    </div>
+  </td>
+</tr>
 <% end %>

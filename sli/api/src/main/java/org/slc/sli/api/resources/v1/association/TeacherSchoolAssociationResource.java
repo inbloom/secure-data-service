@@ -21,7 +21,9 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates the school(s) to which a teacher provides instructional services to.
+ *
+ * For more information, see the schema for $$teacherSchoolAssociations$$.
  *
  * @author srupasinghe
  *
@@ -37,8 +39,7 @@ public class TeacherSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$teachers$$ that
-     * references the given $$teacherSchoolAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherSchoolAssociationId
      *            The Id of the teacherSchoolAssociation.
@@ -64,8 +65,7 @@ public class TeacherSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$schools$$ that
-     * references the given $$teacherSchoolAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherSchoolAssociationId
      *            The Id of the teacherSchoolAssociation.

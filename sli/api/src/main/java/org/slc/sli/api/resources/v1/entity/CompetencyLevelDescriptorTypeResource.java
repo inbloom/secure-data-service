@@ -12,8 +12,11 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource handler for CompetencyLevelDescriptorType entity.
- * Stubbed out for documentation
+ * Provides references for competency level descriptors during interchange. Use XML IDREF to
+ * reference a course record that is included in the interchange. To lookup where already loaded
+ * specify either CodeValue OR Description.
+ *
+ * For more information, see the schema for $$competencyLevelDescriptors$$ entities.
  *
  * @author chung
  *
