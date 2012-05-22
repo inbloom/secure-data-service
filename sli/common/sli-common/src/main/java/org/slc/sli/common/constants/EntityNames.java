@@ -52,6 +52,6 @@ public final class EntityNames {
     public static final String COURSE_OFFERING = "courseOffering";
     public static final String USER_ACCOUNT = "userAccount";
     public static final String GRADE = "grade";
-    public static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentassessmentassociation";
+    public static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
     public static final String ADMIN_DELEGATION = "adminDelegation";
 }
