@@ -507,7 +507,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    protected boolean shouldReadAll(){
+    protected boolean shouldReadAll() {
         return false;
     }
 
