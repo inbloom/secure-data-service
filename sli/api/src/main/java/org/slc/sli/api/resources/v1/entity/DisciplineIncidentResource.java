@@ -25,15 +25,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This $$disciplineIncidents$$ entity represents an occurrence of an
- * infraction ranging from a minor problem behavior
- * that disrupts the orderly functioning of a school or
- * classroom (such as tardiness) to a criminal act that
- * results in the involvement of a law enforcement
- * official (such as robbery). A single event (e.g., a fight) is one
- * incident regardless of how many perpetrators or victims are
- * involved. Discipline incidents are events classified as warranting
- * discipline action.
+ * Represents the definition of a discipline incident.  A discipline incident 
+ * is defined as a single occurrence of an infraction.  
+ *
+ * Discipline incidents are events classified as warranting discipline action.
+ * 
+ * For detailed information, see the schema for the $$disciplineIncidents$$ entity.
  *
  * @author jstokes
  * @author slee
@@ -100,7 +97,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
