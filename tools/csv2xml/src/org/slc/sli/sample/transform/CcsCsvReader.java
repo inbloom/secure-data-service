@@ -1,17 +1,18 @@
 package org.slc.sli.sample.transform;
 
-import java.util.regex.Pattern;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVStrategy;
 
@@ -41,7 +42,8 @@ public class CcsCsvReader {
             copyright = removeTrailingCharacters(tail(file), ',');
             file = removeLastLine(file);
         }
-        csvParser = new CSVParser(new FileReader(file), CSVStrategy.EXCEL_STRATEGY);
+        InputStreamReader isReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+        csvParser = new CSVParser(isReader, CSVStrategy.EXCEL_STRATEGY);
 
         firstLine = csvParser.getLine();
         getNextRecord();

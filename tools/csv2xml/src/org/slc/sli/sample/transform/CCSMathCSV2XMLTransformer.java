@@ -24,7 +24,7 @@ public class CCSMathCSV2XMLTransformer {
     private static final String ccsCSVFile = "data/CC_Standards_6.25.10-Math.csv";
     
     // output Ed-Fi xml file
-    private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
+    private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata-CCS-Math.xml";
     private static final String outputPath = "data/";
 
     private static String GRADE_LEVELS = "K12345678";

@@ -123,7 +123,7 @@ public class CcsCsv2XmlTransformer {
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", getCopyrightXmlComment());
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-        marshaller.marshal(interchangeAssessmentMetadata, new PrintStream(new File(outputLocation)));
+        marshaller.marshal(interchangeAssessmentMetadata, new PrintStream(new File(outputLocation), "utf-8"));
         System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
         System.out.println("Total " + learningObjectiveIdToLearningStandardResults.keySet().size() + " LearningObjectives are exported");
     }
