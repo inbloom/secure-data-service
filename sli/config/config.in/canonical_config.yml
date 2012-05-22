@@ -15,7 +15,7 @@ default:
         sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
         sli.support.email: sli@example.com
