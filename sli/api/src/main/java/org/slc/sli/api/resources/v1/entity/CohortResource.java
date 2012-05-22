@@ -25,8 +25,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This $$cohorts$$ entity represents any type of list of
+ * Represents the definition of a cohort.  
+ * 
+ * A cohort is defined as a list of
  * designated students for tracking, analysis, or intervention.
+ * 
+ * For detailed information, see the schema for the $$cohorts$$ entity.
  *
  * @author jstokes
  * @author srichards
@@ -100,7 +104,7 @@ public class CohortResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
