@@ -22,8 +22,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents the definition of a section resource. A section is an educational entity that
  * represents a setting in which organized instruction of course content is provided to one
  * or more students for a given period of time. See $$courses$$ resource for details.
- * A section is associated with a student, teacher, course and assessment through $$studentSectionAssociations$$,
- * $$teacherSectionAssociations$$, and $$sectionAssessments$$.
+ * A section is associated with a student, teacher, and assessment through $$studentSectionAssociations$$,
+ * $$teacherSectionAssociations$$, and $$sectionAssessmentAssociations$$.
  * For more details about the resources, see $$students$$, $$teachers$$ and $$assessments$$ resources.
  *
  * @author jstokes
