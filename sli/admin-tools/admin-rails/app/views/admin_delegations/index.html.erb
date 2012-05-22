@@ -1,21 +1,22 @@
-  <h1>District <%= @admin_delegation.localEdOrgId  %> - Delegate District Privileges to a State Super Administrator</h1>
-
+  <h2>District <%= @admin_delegation.localEdOrgId  %> - Delegate District Privileges to a State Super Administrator</h2>
+  <p />
   <%= form_for(@admin_delegation) do |f| %>
     <%= f.hidden_field :localEdOrgId %>
       <table>
 
       <tr>
           <td><%= f.check_box :appApprovalEnabled %>    </td>
-          <td>Approve Applications</td>
+          <td class="delegationCheckbox">Approve Applications</td>
       </tr>
 
       <tr>
           <td><%= f.check_box :viewSecurityEventsEnabled %></td>
-          <td>View Security Events</td>
+          <td class="delegationCheckbox">View Security Events</td>
       </tr>
       </table>
+      <p />
 
-      <div class="field">
+      <div class="delegationSubmit">
         <%= f.submit "Save" %>
       </div>
 
