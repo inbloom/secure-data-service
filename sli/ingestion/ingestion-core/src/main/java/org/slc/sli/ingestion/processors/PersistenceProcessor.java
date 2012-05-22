@@ -222,10 +222,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
-
+                    ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForTransformer);
 
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
