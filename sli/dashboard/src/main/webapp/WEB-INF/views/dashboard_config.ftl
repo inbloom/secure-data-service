@@ -58,7 +58,7 @@
             
             <#if configJSON == "nonLocalEducationAgency" >
                 <div id="fileDisplay" class="display">
-                    <h4> This page is currently available for the district level IT Administrator only.</h4>
+                    <h4> This page is only available for district level IT Administrator.</h4>
                 </div>
             <#elseif configJSON != "error">
                 <div id="fileSelector" class="selector">

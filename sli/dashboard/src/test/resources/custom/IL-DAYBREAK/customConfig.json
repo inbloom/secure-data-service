@@ -1,4 +1,4 @@
-{
+{config: {
 "listOfStudents" :
 {
   id : "listOfStudents",
@@ -181,5 +181,6 @@
         cacheKey: 'assessmentHistSATW',
         params: { assessmentFamily: "SAT Writing"}
     }
+}
 }
 }

@@ -72,3 +72,14 @@ When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
 Then I should only see one view named "Default View"
 
+@integration
+Scenario:  Non-District IT admin upload
+When I login as "rrogers" "rrogers1234"
+When I enter the Configuration Area
+Then I am unauthorized to the Configuration Area
+And I logout
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "akopel" "akopel1234"
+When I enter the Configuration Area
+Then I am unauthorized to the Configuration Area
