@@ -95,8 +95,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(9999);
                 Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
                 for (Entity entity : entities) {
                     Object fieldData = entity.getBody().get(connection.getFieldName());
@@ -150,7 +148,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
         return connection.getAssociationNode().length() != 0 && connection.getAssociationNode().endsWith("ssociations");
     }
 
-    private String getResourceName(SecurityNode current, SecurityNode next, SecurityNodeConnection connection) {
+    protected String getResourceName(SecurityNode current, SecurityNode next, SecurityNodeConnection connection) {
 
         String resourceName;
 
