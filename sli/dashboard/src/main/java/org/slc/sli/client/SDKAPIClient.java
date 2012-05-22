@@ -94,7 +94,7 @@ public class SDKAPIClient implements APIClient{
         ConfigMap configMap = null;
         try {
             List entityList = new ArrayList();
-            sdkClient.read(entityList, SDK_EDORGS_URL + id + CUSTOM_DATA, ConfigMap.class);
+            sdkClient.read(entityList, ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, ConfigMap.class);
             if (entityList.size() > 0) {
                 configMap = (ConfigMap) entityList.get(0);
             }
@@ -112,7 +112,7 @@ public class SDKAPIClient implements APIClient{
             Map<String, Object> entityMap = new HashMap<String, Object>();
             entityMap.put("config", configMap.getConfig());
             Entity configMapEntity = new GenericEntity(entityMap);
-            sdkClient.create(SDK_EDORGS_URL + id + CUSTOM_DATA, configMapEntity);
+            sdkClient.create(ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, configMapEntity);
         } catch (URISyntaxException e) {
             LOGGER.error("Exception occurred", e);
         } catch (MalformedURLException e) {

@@ -1,6 +1,7 @@
 package org.slc.sli.client;
 
 public class ClientConstants {
+
     // base urls
     static final String STAFF_URL = "/v1/staff/";
     static final String EDORGS_URL = "/v1/educationOrganizations/";
@@ -16,6 +17,7 @@ public class ClientConstants {
     static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
     // resources to append to base urls
+    static final String SDK_EDORGS_URL = "/educationOrganizations/";    
     static final String STAFF_EDORG_ASSOC = "/staffEducationOrgAssignmentAssociations/educationOrganizations";
     static final String ATTENDANCES = "/attendances";
     static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations";
