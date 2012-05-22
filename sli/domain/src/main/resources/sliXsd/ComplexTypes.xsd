@@ -1517,6 +1517,28 @@
             </xs:element>
 		</xs:sequence>
 	</xs:complexType>
+  
+<!--     <xs:complexType name="gradingPeriodReferences"> -->
+<!--         <xs:annotation> -->
+<!--             <xs:documentation>This entity represents the prescribed span of time -->
+<!--               when an education institution is open, instruction is provided, and -->
+<!--               students are under the direction and guidance of teachers and/or -->
+<!--               education institution administration. A session may be interrupted -->
+<!--               by one or more vacations. -->
+<!--             </xs:documentation> -->
+<!--         </xs:annotation> -->
+<!--         <xs:sequence> -->
+<!--             <xs:element name="gradingPeriodId" type="reference" maxOccurs="unbounded"> -->
+<!--                 <xs:annotation> -->
+<!--                     <xs:documentation>References to a set of grading periods (between 1 and infinity). -->
+<!--                     </xs:documentation> -->
+<!--                     <xs:appinfo> -->
+<!--                         <sli:ReferenceType>gradingPeriod</sli:ReferenceType> -->
+<!--                     </xs:appinfo> -->
+<!--                 </xs:annotation> -->
+<!--             </xs:element> -->
+<!--         </xs:sequence> -->
+<!--     </xs:complexType> -->
 
 	<xs:complexType name="sessionCourseAssociation">
 		<xs:annotation>
