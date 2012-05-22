@@ -36,7 +36,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * educational program under the jurisdiction of a school,
  * education agency, or other institution
  * or program. A student is a person who has been enrolled in a
- * school or other educational institution. For more information, see the schema for the $$student$$
+ * school or other educational institution. For more information, see the schema for the $$students$$
  * entity.
  *
  * @author jstokes
