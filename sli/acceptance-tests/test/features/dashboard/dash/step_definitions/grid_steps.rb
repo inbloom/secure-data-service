@@ -75,7 +75,7 @@ def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
            verifier = mapping[header][1].downcase
 
            if (verifier == "fuelgauge")
-            testFuelGauge(td, value, @cutPoints)
+            testFuelGauge(td, value)
            end
         else
           value = getAttribute(tr, mapping[header])
