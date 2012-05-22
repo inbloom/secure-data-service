@@ -8,9 +8,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
 import org.slc.sli.sample.entities.AcademicSubjectType;
 import org.slc.sli.sample.entities.ComplexObjectType;
 import org.slc.sli.sample.entities.ContentStandardType;
@@ -19,12 +21,11 @@ import org.slc.sli.sample.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.sample.entities.LearningObjective;
 import org.slc.sli.sample.entities.LearningStandard;
 import org.slc.sli.sample.entities.LearningStandardId;
-import org.slc.sli.sample.entities.LearningStandardIdentityType;
-import org.slc.sli.sample.entities.LearningStandardReferenceType;
 
 public class CcsCsv2XmlTransformer {
     private CcsCsvReader ccsCsvReader;
     private DotNotationToId dotNotationToId;
+    private LearningObjectiveGenerator learningObjectiveGenerator;
     private String outputLocation;
     private AcademicSubjectType academicSubjectType;
     private boolean ignoreNonExistentGuid;
@@ -51,10 +52,21 @@ public class CcsCsv2XmlTransformer {
         this.ignoreNonExistentGuid = ignoreNonExistentGuid;
     }
     
+    void setLearningObjectiveGenerator(LearningObjectiveGenerator learningObjectiveGenerator) {
+        this.learningObjectiveGenerator = learningObjectiveGenerator;
+    }
+
     static abstract class DotNotationToId {
         abstract String getId(String dotNotation);
     }
     
+    static abstract class LearningObjectiveGenerator {
+        abstract Collection<LearningObjective> generateLearningObjectives(
+                Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults,
+                Map<String, String> idToGuidMap)
+                throws IOException;
+    }
+
     String getCopyright() {
         if(ccsCsvReader != null) {
             return ccsCsvReader.getCopyright();
@@ -62,30 +74,7 @@ public class CcsCsv2XmlTransformer {
         return null;
     }
     
-    private Collection<LearningObjective> generateLearningObjectives(Map<String, Collection<LearningStandardResult>> learningObjectiveIdToLearningStandardResults) throws IOException {
-        Collection<LearningObjective> learningObjectives = new ArrayList<LearningObjective>();
-        for(String key : learningObjectiveIdToLearningStandardResults.keySet()) {
-            Collection<LearningStandardResult> learningStandardResults = learningObjectiveIdToLearningStandardResults.get(key);
-            LearningObjective learningObjective = new LearningObjective();
-            LearningStandardId learningStandardId = new LearningStandardId();
-            learningStandardId.setIdentificationCode(IdToGuidMapper.getInstance().getGuid(key));
-            learningObjective.setLearningObjectiveId(learningStandardId);
 
-            LearningStandardResult firstLearningStandardResult = learningStandardResults.iterator().next();
-            for(LearningStandardResult learningStandardResult : learningStandardResults) {
-                LearningStandardReferenceType learningStandardReferenceType = new LearningStandardReferenceType();
-                LearningStandardIdentityType learningStandardIdentityType = new LearningStandardIdentityType();
-                learningStandardIdentityType.setLearningStandardId(learningStandardResult.getLearningStandard().getLearningStandardId());
-                learningStandardReferenceType.setLearningStandardIdentity(learningStandardIdentityType);
-                learningObjective.getLearningStandardReference().add(learningStandardReferenceType);
-            }
-            learningObjective.setObjective(firstLearningStandardResult.getCategory());
-            learningObjective.setAcademicSubject(firstLearningStandardResult.getLearningStandard().getSubjectArea());
-            learningObjective.setObjectiveGradeLevel(firstLearningStandardResult.getLearningStandard().getGradeLevel());
-            learningObjectives.add(learningObjective);
-        }
-        return learningObjectives;
-    }
     
     /**
      * Iterate through common core standard csv records in the CSV files,
@@ -124,7 +113,9 @@ public class CcsCsv2XmlTransformer {
                 continue;
             }
         }
-        learningStandards.addAll(generateLearningObjectives(learningObjectiveIdToLearningStandardResults));
+        learningStandards.addAll(learningObjectiveGenerator
+.generateLearningObjectives(
+                learningObjectiveIdToLearningStandardResults, IdToGuidMapper.getInstance().getIdToGuidMap()));
         JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
@@ -133,34 +124,40 @@ public class CcsCsv2XmlTransformer {
         System.out.println("Total " + learningObjectiveIdToLearningStandardResults.keySet().size() + " LearningObjectives are exported");
     }
     
-    private static class LearningStandardResult {
+    static class LearningStandardResult {
         private LearningStandard learningStandard;
         private String id;
         private String category;
         private String subCategory;
         
-        private LearningStandard getLearningStandard() {
+        public LearningStandard getLearningStandard() {
             return learningStandard;
         }
-        private void setLearningStandard(LearningStandard learningStandard) {
+        
+        public void setLearningStandard(LearningStandard learningStandard) {
             this.learningStandard = learningStandard;
         }
-        private String getId() {
+        
+        public String getId() {
             return id;
         }
-        private void setId(String id) {
+        
+        public void setId(String id) {
             this.id = id;
         }
-        private String getCategory() {
+        
+        public String getCategory() {
             return category;
         }
-        private void setCategory(String category) {
+        
+        public void setCategory(String category) {
             this.category = category;
         }
         private String getSubCategory() {
             return subCategory;
         }
-        private void setSubCategory(String subCategory) {
+        
+        public void setSubCategory(String subCategory) {
             this.subCategory = subCategory;
         }
     }
@@ -263,7 +260,7 @@ public class CcsCsv2XmlTransformer {
         return gradeLevel;
     }
     
-    private static class IdToGuidMapper {
+    static class IdToGuidMapper {
         private final String identifiersCSVFile = "data/E0330_ccss_identifiers.csv";
         private Map<String, String> idToGuid = null;
         private static IdToGuidMapper instance = new IdToGuidMapper();
@@ -279,6 +276,20 @@ public class CcsCsv2XmlTransformer {
         
         String getGuid(String id) throws IOException {
             if(idToGuid == null) {
+                loadData();
+            }
+            return idToGuid.get(id);
+        }
+        
+        Map<String, String> getIdToGuidMap() throws IOException {
+            if (idToGuid == null) {
+                loadData();
+            }
+            return idToGuid;
+        }
+        
+        private void loadData() throws IOException {
+
                 idToGuid = new HashMap<String, String>();
                 CcsCsvReader reader = new CcsCsvReader();
                 reader.setFileLocation(identifiersCSVFile);
@@ -286,12 +297,9 @@ public class CcsCsv2XmlTransformer {
                 
                 while (reader.getCurrentRecord() != null) {
                     Map<String, String> currentRecord = reader.getCurrentRecord();
-                    idToGuid.put(currentRecord.get("Dot notation"),
-                            currentRecord.get("GUID"));
+                    idToGuid.put(currentRecord.get("Dot notation"), currentRecord.get("GUID"));
                     reader.getNextRecord();
                 }
-            }
-            return idToGuid.get(id);
         }
     }
 }
