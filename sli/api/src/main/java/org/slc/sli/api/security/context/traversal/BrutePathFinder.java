@@ -73,6 +73,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.PROGRAM, "programReference", "")
                         .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.PROGRAM, "programReference")
+                        .addConnection(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, "sectionId")
                         .construct());
 
         nodeMap.put(EntityNames.STUDENT,
@@ -89,6 +90,10 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "studentId", "")
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
+                        //.addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STUDENT_COHORT_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId")
                         .construct());
 
         nodeMap.put(EntityNames.STAFF,
@@ -96,6 +101,9 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
+                        .addConnection(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId")
+                        //.addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STAFF_COHORT_ASSOCIATIONS)
+                        .addConnection(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId")
                         .construct());
 
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
@@ -116,14 +124,24 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         // Leaf Nodes are unconnected
         nodeMap.put(EntityNames.SCHOOL_SESSION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SCHOOL_SESSION_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.STUDENT_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_ASSOCIATION).construct());
+
+        nodeMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_COHORT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_ED_ORG_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_PROGRAM_ASSOCIATION).construct());
+
         nodeMap.put(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_COHORT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_COHORT_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_PARENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PARENT_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_PROGRAM_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_ASSOCIATION).construct());
         nodeMap.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SCHOOL_ASSOCIATION).construct());
-        nodeMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STAFF_ED_ORG_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION).construct());
+
+        nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
+        nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
+
+        nodeMap.put(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SECTION_ASSESSMENT_ASSOCIATION).construct());
 
         nodeMap.put(EntityNames.ASSESSMENT, SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT).construct());
         nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
@@ -131,9 +149,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct());
         nodeMap.put(EntityNames.DISCIPLINE_ACTION, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_ACTION).construct());
         nodeMap.put(EntityNames.DISCIPLINE_INCIDENT, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT).construct());
-        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct());
         nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
-
+        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct());
         nodeMap.put(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY).construct());
 
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
