@@ -12,7 +12,7 @@
 		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
 		    <td><%= app.version %></td>
-			<td><%= app.vendor %></td>
+			<td><%= app.developer_info.organization %></td>
 		        <td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
 		        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
                         <td><%= app.registration.status %></td>

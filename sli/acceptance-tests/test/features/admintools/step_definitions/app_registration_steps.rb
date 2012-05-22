@@ -60,7 +60,7 @@ Then /^the pending apps are on top$/ do
   tableHeadings.each do |arg|
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
-  trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']/../../../..")
+  trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']/../../../..")
   assert(trs.length > 10, "Should see many applications")
 
   last_status = nil
@@ -78,16 +78,16 @@ Then /^the pending apps are on top$/ do
 end
 
 
-When /^I click on 'Approve' next to application "([^"]*)"$/ do |app|
+When /^I click on 'Y' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Approve']")[0]
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']")[0]
   assert(y_button != nil, "Found Y button")
   y_button.click
 end
 
-When /^I click on 'Deny' next to application "([^"]*)"$/ do |app|
+When /^I click on 'X' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Deny']")[0]
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='X']")[0]
   assert(y_button != nil, "Found X button")
   y_button.click
 end
@@ -112,9 +112,9 @@ Then /^application "([^"]*)" is removed from the list$/ do |app|
   assert(tds.length == 0, "#{app} isn't in list")
 end
 
-Then /^the 'Approve' button is disabled for application "([^"]*)"$/ do |app|
+Then /^the 'Y' button is disabled for application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Approve']")[0]
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Y']")[0]
   assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
 end
 
@@ -179,7 +179,7 @@ end
 Then /^the application "([^"]*)" is listed in the table on the top$/ do |app|
   value = @driver.find_element(:id, 'notice').text
   assert(value =~ /successfully created/, "Should have valid flash message")
-  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tbody/tr[1]/td[text()='#{app}']")}
+  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tr[2]/td[text()='#{app}']")}
 end
 
 Then /^a client ID is created for the new application that can be used to access SLI$/ do
@@ -187,18 +187,18 @@ Then /^a client ID is created for the new application that can be used to access
 end
 
 Then /^the client ID and shared secret fields are Pending$/ do
-  client_id = @driver.find_element(:xpath, '//tbody/tr[2]').find_element(:name, 'app[client_id]').attribute("value")
+  client_id = @driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]').attribute("value")
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
 end
 
 Then /^the Registration Status field is Pending$/ do
   appsTable = @driver.find_element(:id, "applications")
-  tableHeadings = appsTable.find_elements(:xpath, ".//thead/tr/th")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
   index = 0
   tableHeadings.each do |arg|
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"
   end
-  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[#{index}]")
+  td = @driver.find_element(:xpath, "//tr[2]/td[#{index}]")
   assert(td.text == 'PENDING', "Expected 'PENDING', got #{td.text}")
 end
 
@@ -270,7 +270,7 @@ Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
 end
 
-Then /^I have clicked on the button 'Deny' for the application named "([^"]*)"$/ do |arg1|
+Then /^I have clicked on the button 'X' for the application named "([^"]*)"$/ do |arg1|
   list = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']")
   assert(list)
   @id = list.attribute('id')

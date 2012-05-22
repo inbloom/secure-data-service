@@ -28,7 +28,7 @@
       %>
       <td><%= app.name %></td>
       <td><%= app.version  %></td>
-      <td><%= app.vendor %></td>
+      <td><%= app.developer_info.organization %></td>
       <%=
           isApproved = false
           if @application_authorization.appIds.find_index(app.id) != nil

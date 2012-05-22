@@ -15,7 +15,7 @@
 		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
 		<td><%= app.version %></td>
-		<td><%= app.vendor %></td>
+		<td><%= app.developer_info.organization %></td>
 		<td><%= I18n.localize(Time.at(app.registration.request_date / 1000)) unless !app.registration.attributes.has_key? :request_date %></td>
 		<td><%= I18n.localize(Time.at(app.registration.approval_date / 1000)) unless !app.registration.attributes.has_key? :approval_date %></td>
                 <td><%= app.registration.status %></td>
