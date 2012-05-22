@@ -66,9 +66,12 @@ out.each do |key,value|
   sum+=value
 end
 
+transformed = rcStage["TransformationProcessor"]
+wallClock = (endTime-earliest)
 puts "---------------------------"
 puts "Total records for Transformation: #{rcStage["TransformationProcessor"]}"
 puts "Total records for Persistence: #{rcStage["PersistenceProcessor"]}"
-puts "Total wall-clock time: "+(endTime-earliest).to_s+" sec"
-puts "Tolal time spent (on all nodes): #{sum/1000} sec"
+puts "Total wall-clock time: #{wallClock}sec"
+puts "Total time spent (on all nodes): #{sum/1000} sec"
+puts "Extrapolated RPS (transformed per total time)  #{(transformed / wallClock )}"
 puts "ALL DONE"

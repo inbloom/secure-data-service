@@ -32,6 +32,8 @@ db["learningObjective"].ensureIndex({"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"body.parentLearningObjective":1});
 db["parent"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["parent"].ensureIndex({"body.parentUniqueStateId":1});
+db["program"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
+db["program"].ensureIndex({"metaData.tenantId":1, "body.programId":1});
 db["realm"].ensureIndex({"body.idp.id":1});
 db["school"].ensureIndex({"body.parentEducationAgencyReference":1});
 db["school"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
