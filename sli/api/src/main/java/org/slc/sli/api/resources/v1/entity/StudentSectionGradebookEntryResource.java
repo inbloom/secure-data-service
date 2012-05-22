@@ -12,7 +12,7 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents a student's grade or competency level for a $$gradebookEntrys$$.
+ * Represents a student's grade or competency level for a $$GradebookEntry$$.
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)

@@ -19,7 +19,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the student competency evaluations associated for this grading period.
+ * Represents the competency assessed or evaluated for the student against a specific Learning Objective.
  *
  * @author chung
  *
@@ -35,15 +35,15 @@ public class StudentCompetencyResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$reportCards$$ that is associated with the given $$studentCompetencys$$.
+     * Returns each $$ReportCard$$ that is associated with the given $$StudentCompetency$$.
      *
      * @param studentCompetencyId
-     *          The Id of the $$studentCompetencys$$
+     *          The Id of the $$StudentCompetency$$
      * @param headers
      *          HTTP request headers
      * @param uriInfo
      *          URI information including path and query parameters
-     * @return $$reportCards$$ associated with the given $$studentCompetencys$$
+     * @return each $$ReportCard$$ that is associated with the given $$StudentCompetency$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}" + "/" + PathConstants.REPORT_CARDS)

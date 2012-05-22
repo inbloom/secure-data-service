@@ -37,10 +37,10 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$students$$ that references the given $$studentSchoolAssociations$$.
+     * Returns each $$Student$$ that references the given $$StudentSchoolAssociation$$.
      *
      * @param studentSchoolAssociationId
-     *            The Id of the $$studentSchoolAssociations$$
+     *            The Id of the $$StudentSchoolAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -51,7 +51,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$students$$ that reference the given $$studentSchoolAssociations$$
+     * @return each $$Student$$ that references the given $$StudentSchoolAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -63,10 +63,10 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$schools$$ that references the given $$studentSchoolAssociations$$.
+     * Returns each $$School$$ that references the given $$StudentSchoolAssociation$$.
      *
      * @param studentSchoolAssociationId
-     *            The Id of the $$studentSchoolAssociations$$
+     *            The Id of the $$StudentSchoolAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -77,7 +77,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$schools$$ that reference the given $$studentSchoolAssociations$$
+     * @return each $$School$$ that references the given $$StudentSchoolAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.SCHOOLS)

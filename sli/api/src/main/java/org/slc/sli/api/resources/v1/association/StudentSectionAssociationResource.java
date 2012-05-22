@@ -43,10 +43,10 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$students$$ that references the given $$studentSectionAssociations$$.
+     * Returns each $$Student$$ that references the given $$StudentSectionAssociation$$.
      *
      * @param studentSectionAssociationId
-     *            The Id of the $$studentSectionAssociations$$
+     *            The Id of the $$StudentSectionAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -57,7 +57,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$students$$ that reference the given $$studentSectionAssociations$$
+     * @return each $$Student$$ that references the given $$StudentSectionAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -69,10 +69,10 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$sections$$ that references the given $$studentSectionAssociations$$.
+     * Returns each $$Section$$ that references the given $$StudentSectionAssociation$$.
      *
      * @param studentSectionAssociationId
-     *            The Id of the $$studentSectionAssociations$$
+     *            The Id of the $$StudentSectionAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -83,7 +83,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$sections$$ that reference the given $$studentSectionAssociations$$
+     * @return each $$Section$$ that references the given $$StudentSectionAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -95,10 +95,10 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$studentCompetencies$$ that references the given $$studentSectionAssociations$$.
+     * Returns each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$.
      *
      * @param studentSectionAssociationId
-     *            The Id of the $$studentSectionAssociations$$
+     *            The Id of the $$StudentSectionAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -107,7 +107,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$studentCompetencies$$ that reference the given $$studentSectionAssociations$$
+     * @return each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)

@@ -37,10 +37,10 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$students$$ that references the given $$courseTranscripts$$.
+     * Returns each $$Student$$ that references the given $$StudentTranscriptAssociation$$.
      *
      * @param courseTranscriptId
-     *            The Id of the $$courseTranscripts$$
+     *            The Id of the $$StudentTranscriptAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -51,7 +51,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$students$$ that reference the given $$courseTranscripts$$
+     * @return each $$Student$$ that references the given $$StudentTranscriptAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_TRANSCRIPT_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -63,10 +63,10 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$courses$$ that references the given $$courseTranscripts$$.
+     * Returns each $$Course$$ that references the given $$StudentTranscriptAssociation$$.
      *
      * @param courseTranscriptId
-     *            The id of the $$courseTranscripts$$
+     *            The id of the $$StudentTranscriptAssociation$$
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -77,7 +77,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return $$courses$$ that reference the given $$courseTranscripts$$
+     * @return each $$Course$$ that references the given $$StudentTranscriptAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_TRANSCRIPT_ID + "}" + "/" + PathConstants.COURSES)

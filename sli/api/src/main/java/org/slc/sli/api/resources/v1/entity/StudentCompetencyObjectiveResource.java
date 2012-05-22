@@ -12,7 +12,8 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the student competency objective evaluated for the student.
+ * Represents additional competencies for student achievement that are not associated with specific learning objectives
+ * (e.g., paying attention in class).
  *
  * @author chung
  *
