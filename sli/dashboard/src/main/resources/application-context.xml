@@ -48,9 +48,23 @@
 	    <property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
     
-    <bean id="restClient" class="org.slc.sli.client.RESTClient" >
-	    <property name="securityUrl" value="${security.server.url}" />	
+    <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
+    <bean id="restTemplateWTimeout" class = "org.springframework.web.client.RestTemplate">
+    <constructor-arg>
+    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
     </bean>
+    </constructor-arg>
+    </bean>
+    
+    <bean id="restClient" class="org.slc.sli.client.RESTClient" >
+	    <property name="securityUrl" value="${security.server.url}" />
+	    <property name="template" ref = "restTemplate" />
+	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
+	    	
+    </bean>
+    
+    
     
 	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />

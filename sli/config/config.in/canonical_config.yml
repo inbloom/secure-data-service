@@ -128,6 +128,10 @@ default:
         panel.data.use.cache: true
         
         dashboard.google_analytics.id: UA-31838086-1
+        
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+        
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
