@@ -52,6 +52,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                                 edorgFilter)
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId")
                         .construct());
+
         nodeMap.put(
                 EntityNames.SCHOOL,
                 SecurityNodeBuilder.buildNode(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION)
@@ -169,11 +170,6 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
 
         prePath.put(
-                EntityNames.STAFF + EntityNames.STAFF,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.STAFF)));
-
-        prePath.put(
                 EntityNames.STAFF + EntityNames.SECTION,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.SECTION)));
@@ -189,19 +185,32 @@ public class BrutePathFinder implements SecurityPathFinder {
                         nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION)));
 
         prePath.put(
-                EntityNames.STAFF + EntityNames.TEACHER,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER)));
-
-        prePath.put(
                 EntityNames.STAFF + EntityNames.SCHOOL,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.SCHOOL)));
 
         prePath.put(
-                EntityNames.STAFF + EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+                EntityNames.STAFF + EntityNames.SCHOOL_SESSION_ASSOCIATION,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY)));
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION),
+                        nodeMap.get(EntityNames.SCHOOL_SESSION_ASSOCIATION)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.STAFF,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.STAFF)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.TEACHER,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER)));
+
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.GRADE,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_ASSOCIATION),
+                        nodeMap.get(EntityNames.GRADE)));
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.GRADEBOOK_ENTRY,
@@ -215,10 +224,10 @@ public class BrutePathFinder implements SecurityPathFinder {
                         nodeMap.get(EntityNames.STUDENT_COMPETENCY)));
 
         prePath.put(
-                EntityNames.STAFF + EntityNames.GRADE,
+                EntityNames.STAFF + EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        nodeMap.get(EntityNames.GRADE)));
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY)));
+
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -229,6 +238,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.TEACHER + EntityNames.SECTION,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION)));
+
         prePath.put(
                 EntityNames.TEACHER + EntityNames.COURSE,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
@@ -239,17 +249,17 @@ public class BrutePathFinder implements SecurityPathFinder {
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION)));
+
+        prePath.put(
+                EntityNames.TEACHER + EntityNames.SCHOOL,
+                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SCHOOL)));
+
         prePath.put(
                 EntityNames.TEACHER + EntityNames.SCHOOL_SESSION_ASSOCIATION,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION), nodeMap.get(EntityNames.SCHOOL_SESSION_ASSOCIATION)));
 
-        prePath.put(
-                EntityNames.STAFF + EntityNames.SCHOOL_SESSION_ASSOCIATION,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION),
-                        nodeMap.get(EntityNames.SCHOOL_SESSION_ASSOCIATION)));
 
     }
 
