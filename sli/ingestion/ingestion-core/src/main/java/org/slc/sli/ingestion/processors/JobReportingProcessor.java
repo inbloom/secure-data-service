@@ -268,7 +268,11 @@ public class JobReportingProcessor implements Processor {
 
             if (combinedMetricsMap.containsKey(m.getResourceId())) {
                 // metrics exists, we should aggregate
-                Metrics temp = combinedMetricsMap.get(m.getResourceId());
+                Metrics temp = new Metrics(m.getResourceId());
+                
+                temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
 
                 temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                 temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
@@ -277,7 +281,7 @@ public class JobReportingProcessor implements Processor {
 
             } else {
                 // adding metrics to the map
-                combinedMetricsMap.put(m.getResourceId(), m);
+                combinedMetricsMap.put(m.getResourceId(), new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
             }
 
         }
