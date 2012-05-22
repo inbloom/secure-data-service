@@ -2,6 +2,84 @@
 <InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
     <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch2-da1</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <DisciplineDate>2011-05-04</DisciplineDate>
+        <DisciplineActionLength>44</DisciplineActionLength>
+        <ActualDisciplineActionLength>34</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>131758477</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>di-10001</IncidentIdentifier>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch2-da2</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 003</CodeValue>
+            <ShortDescription>Discipline 003 description</ShortDescription>
+            <Description>Suspension from school for a day</Description>
+        </Disciplines>
+        <DisciplineDate>2011-05-04</DisciplineDate>
+        <DisciplineActionLength>44</DisciplineActionLength>
+        <ActualDisciplineActionLength>34</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>992193581</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>di-10003</IncidentIdentifier>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+
+    <DisciplineAction>
         <DisciplineActionIdentifier>cap0-lea0-sch1-da2</DisciplineActionIdentifier>
         <Disciplines>
             <CodeValue>DISCIPLINE 001</CodeValue>
