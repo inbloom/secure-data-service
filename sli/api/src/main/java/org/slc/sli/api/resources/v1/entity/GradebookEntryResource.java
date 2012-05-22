@@ -14,10 +14,7 @@ import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Responds to create, read, update, and delete operations for gradebook entries.
- *
- * If you're looking for grades on a specific gradebook entry,
- * use StudentSectionGradebookEntryResource instead.
+ * Represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
  *
  * @author kmyers
  *
