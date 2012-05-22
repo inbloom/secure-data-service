@@ -16,7 +16,7 @@ Scenario: Non silent errors are reported for the ingested zip file- Clean databa
        | collectionName              | count |
        | student                     | 1     |
     And I should see "Processed 1 records." in the resulting batch job file
-    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0): The dummyAttribute attribute was not processed" in the resulting warning log file for "InterchangeStudent.xml"
-    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0) : The element was not processed" in the resulting warning log file for "InterchangeStudent.xml"
-    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0)/EmailAddress(0) : The element was not processed" in the resulting warning log file for "InterchangeStudent.xml"
+    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0)/@dummyAttribute: The attribute was not processed" in the resulting warning log file for "InterchangeStudent.xml"
+    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0): The element was not processed" in the resulting warning log file for "InterchangeStudent.xml"
+    And I should see "/InterchangeStudentParent(0)/Student(0)/DummyElement(0)/EmailAddress(0): The element was not processed" in the resulting warning log file for "InterchangeStudent.xml"
 

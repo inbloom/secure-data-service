@@ -73,7 +73,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |
- 
+
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
@@ -116,7 +116,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |
-        | error                       | 3     |
+        | error                       | 4     |
 
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                             | searchType |
@@ -147,11 +147,12 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.3.resourceFormat | neutralrecord                        | string     |
   | newBatchJob    | 1                   | resourceEntries.3.resourceType   | EducationOrganization                | string     |
  #errors
-  | error          | 1                   | severity                         | WARNING                                 |string      |
+  | error          | 2                   | severity                         | WARNING                                 |string      |
   | error          | 2                   | severity                         | ERROR                                   |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "ERROR  Error resolving references in XML file InterchangeEducationOrganization.xml" in the resulting error log file
+
 
 Scenario: Post two zip files then see the batch jobs in the database: Clean Database
 Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two ingestion jobs
