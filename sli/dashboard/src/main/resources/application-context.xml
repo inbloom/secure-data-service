@@ -83,11 +83,5 @@
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
         <property name="cacheManager" ref="cacheManager"/>
         <property name="useCache" value="${panel.data.use.cache:true}"/>
-    </bean>
-    
-    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
-    <qualifier value="googleAnalyticsTrackerId" />
-    <constructor-arg value="${dashboard.google_analytics.id}" />
-    </bean>    
-    
+    </bean> 
 </beans>
