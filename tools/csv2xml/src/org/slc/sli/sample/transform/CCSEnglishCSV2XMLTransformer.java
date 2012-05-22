@@ -1,9 +1,18 @@
 package org.slc.sli.sample.transform;
 
-import org.slc.sli.sample.entities.AcademicSubjectType;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slc.sli.sample.entities.AcademicSubjectType;
+import org.slc.sli.sample.entities.LearningObjective;
+import org.slc.sli.sample.entities.LearningStandardId;
+import org.slc.sli.sample.entities.LearningStandardIdentityType;
+import org.slc.sli.sample.entities.LearningStandardReferenceType;
+import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.LearningStandardResult;
 
 public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
 
@@ -22,6 +31,43 @@ public class CCSEnglishCSV2XMLTransformer extends CSV2XMLTransformer {
         transformer.setCcsCsvReader(englishLearningStandardReader);
         transformer.setOutputLocation("data/Interchange-AssessmentMetadata.xml");
         transformer.setAcademicSubjectType(AcademicSubjectType.ENGLISH);
+        transformer.setLearningObjectiveGenerator(new CcsCsv2XmlTransformer.LearningObjectiveGenerator() {
+            
+            @Override
+            Collection<LearningObjective> generateLearningObjectives(
+                    Map<String, Collection<CcsCsv2XmlTransformer.LearningStandardResult>> learningObjectiveIdToLearningStandardResults,
+                    Map<String, String> idToGuidMap)
+                    throws IOException {
+                Collection<LearningObjective> learningObjectives = new ArrayList<LearningObjective>();
+                for (String key : learningObjectiveIdToLearningStandardResults.keySet()) {
+                    Collection<LearningStandardResult> learningStandardResults = learningObjectiveIdToLearningStandardResults
+                            .get(key);
+                    LearningObjective learningObjective = new LearningObjective();
+                    LearningStandardId learningStandardId = new LearningStandardId();
+                    learningStandardId.setIdentificationCode(CcsCsv2XmlTransformer.IdToGuidMapper.getInstance()
+                            .getGuid(key));
+                    learningObjective.setLearningObjectiveId(learningStandardId);
+                    
+                    LearningStandardResult firstLearningStandardResult = learningStandardResults.iterator().next();
+                    for (LearningStandardResult learningStandardResult : learningStandardResults) {
+                        LearningStandardReferenceType learningStandardReferenceType = new LearningStandardReferenceType();
+                        LearningStandardIdentityType learningStandardIdentityType = new LearningStandardIdentityType();
+                        learningStandardIdentityType.setLearningStandardId(learningStandardResult.getLearningStandard()
+                                .getLearningStandardId());
+                        learningStandardReferenceType.setLearningStandardIdentity(learningStandardIdentityType);
+                        learningObjective.getLearningStandardReference().add(learningStandardReferenceType);
+                    }
+                    learningObjective.setObjective(firstLearningStandardResult.getCategory());
+                    learningObjective.setAcademicSubject(firstLearningStandardResult.getLearningStandard()
+                            .getSubjectArea());
+                    learningObjective.setObjectiveGradeLevel(firstLearningStandardResult.getLearningStandard()
+                            .getGradeLevel());
+                    learningObjectives.add(learningObjective);
+                }
+                return learningObjectives;
+            }
+        });
+
         transformer.setDotNotationToId(new CcsCsv2XmlTransformer.DotNotationToId() {
             private String convert(String prefix, String s) {
                 Matcher matcher = PATTERN.matcher(s.trim());
