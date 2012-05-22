@@ -169,7 +169,8 @@ public class CcsCsv2XmlTransformer {
         String id = dotNotationToId.getId(dotNotation);
         String guid = IdToGuidMapper.getInstance().getGuid(id);
         if(guid == null) {
-            System.out.println("Dot Notation = <" + dotNotation + ">" + " ID = <" + id + "> does not have guid");
+            System.out.println("Dot Notation = <" + dotNotation + ">" + " ID = <" + id +
+                    "> does not have guid. State Standard = <" + learningStandardRecord.get("State Standard") + ">");
             if(ignoreNonExistentGuid) {
                 return null;
             }
