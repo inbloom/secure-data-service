@@ -91,7 +91,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single staffProgramAssociation entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -159,7 +159,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -185,7 +185,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)
