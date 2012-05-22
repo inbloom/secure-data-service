@@ -21,7 +21,6 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slc.sli.client.APIClient;
 import org.slc.sli.client.RESTClient;
-import org.slc.sli.client.SDKAPIClient;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -27,7 +27,7 @@ import org.slc.sli.util.Constants;
  * @author dwalker
  *
  */
-public class SDKAPIClient implements APIClient{
+public class SDKAPIClient implements APIClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
 
@@ -245,7 +245,7 @@ public class SDKAPIClient implements APIClient{
      */
     public List<GenericEntity> convertEntity(EntityCollection collection) {
         List<GenericEntity> entities = new ArrayList<GenericEntity>();
-        for(Entity col : collection) {
+        for (Entity col : collection) {
             entities.add(convertEntity(col));
         }
         return entities;

@@ -1,5 +1,9 @@
 package org.slc.sli.client;
 
+/**
+ * Dashboard API url constants.
+ *
+ */
 public class ClientConstants {
 
     // base urls

@@ -69,7 +69,7 @@ public class PropertiesDecryptor {
         byte[] encodedBytes = new byte[items.size()];
         int i = 0;
         
-        for (String item: items) {
+        for (String item : items) {
             encodedBytes[i++] = Byte.parseByte(item);
         }        
         byte[] decodedBytes = decryptCipher.doFinal(encodedBytes);
