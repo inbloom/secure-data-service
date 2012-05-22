@@ -116,16 +116,40 @@ public class UserService {
             throw new AuthenticationException(error);
         }
         
+        User user = (User) getUser(realm, userId);        
+        user.roles = getUserGroups(realm, userId);
+        return user;
+    }
+    
+    /**
+     * 
+     * @param realm The realm under which the user exists
+     * @param userId The id of the user
+     * @return 
+     */
+    public User getUser(String realm, String userId){
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
+        DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
         user.userId = userId;
-        
-        filter = new AndFilter();
+        return user;
+    }
+    
+    /**
+     * 
+     * @param realm The realm under which the user exists
+     * @param userId The id of the user
+     * @return List of roles assigned to this user
+     */
+    public List<String> getUserGroups(String realm, String userId) {
+        DistinguishedName dn = new DistinguishedName("ou=" + realm);
+        AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(
                 new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
         List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
-        user.roles = groups;
-        return user;
+        return groups;
     }
     
     /**
@@ -147,10 +171,8 @@ public class UserService {
             if (raw != null && raw.length() > 0) {
                 String[] rows = raw.split("\n");
                 for (String row : rows) {
-                    String[] pair = row.split("=", 2);
-                    if (pair.length == 2) {
-                        attributes.put(pair[0].trim(), pair[1].trim());
-                    }
+                    String[] pair = row.split("=");
+                    attributes.put(pair[0].trim(), pair[1].trim());
                 }
             }
             user.attributes = attributes;

@@ -1,6 +1,8 @@
 package org.slc.sli.sandbox.idp.controller;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class Login {
     private static final Logger LOG = LoggerFactory.getLogger(Login.class);
     
+    private static final String SLI_ADMIN_REALM = "SLIAdmin";
     private static final String USER_SESSION_KEY = "user_session_key";
     
     @Autowired
@@ -52,15 +56,8 @@ public class Login {
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled;
     
-    @Value("${sli.simple-idp.sliAdminRealmName}")
-    private String sliAdminRealmName;
-    
     void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
-    }
-    
-    void setSliAdminRealmName(String name) {
-        this.sliAdminRealmName = name;
     }
     
     /**
@@ -74,7 +71,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        
+
         if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -109,7 +106,7 @@ public class Login {
         boolean doImpersonation = false;
         if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
             doImpersonation = true;
-            realm = sliAdminRealmName;
+            realm = SLI_ADMIN_REALM;
         }
         
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
@@ -129,7 +126,28 @@ public class Login {
             } else {
                 mav.addObject("is_sandbox", false);
             }
-            writeLoginSecurityEvent(false, userId, realm, request);
+            
+            //if a user with this userId exists, get his info and roles/groups and 
+            //log that information as a failed login attempt.
+            String edOrg = "UnknownEdOrg";
+            List<String> userRoles = Collections.emptyList();
+            try {
+                User unauthenticatedUser = userService.getUser(realm, userId);
+                if( unauthenticatedUser != null) {
+                    Map<String, String> attributes = unauthenticatedUser.getAttributes();
+                    if(attributes != null) {
+                        edOrg = attributes.get("edOrg");
+                    }
+                }
+                userRoles = userService.getUserGroups(realm, userId);
+            }
+            catch(EmptyResultDataAccessException noMatchesException) {
+                LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
+            }
+            catch(Exception exception) {
+                LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
+            }
+            writeLoginSecurityEvent(false, userId, userRoles, edOrg, request);
             return mav;
         }
         
@@ -138,55 +156,45 @@ public class Login {
             user.setRoles(roles);
             // only send the tenant - no other values since this is impersonatation
             String tenant = user.getAttributes().get("tenant");
-            if (tenant == null || tenant.length() == 0) {
-                ModelAndView mav = new ModelAndView("login");
-                mav.addObject("msg", "User account not properly configured for impersonation.");
-                mav.addObject("SAMLRequest", encodedSamlRequest);
-                mav.addObject("realm", incomingRealm);
-                mav.addObject("is_sandbox", true);
-                mav.addObject("impersonate_user", impersonateUser);
-                mav.addObject("roles", roleService.getAvailableRoles());
-                return mav;
-            }
             user.getAttributes().clear();
             user.getAttributes().put("tenant", tenant);
         }
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
         
-        writeLoginSecurityEvent(true, userId, realm, request);
+        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
         
         httpSession.setAttribute(USER_SESSION_KEY, user);
-        
+
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
         
     }
     
-    private void writeLoginSecurityEvent(boolean successful, String userId, String realm, HttpServletRequest request) {
+    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg, HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
         
         event.setUser(userId);
-        event.setTargetEdOrg(realm);
+        event.setTargetEdOrg(edOrg);
+        event.setRoles(roles);
         
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
-            LOG.debug("Unable to set canonical host name on security event");
         }
         
         if (request != null) {
-            event.setActionUri(request.getRequestURI());
+            event.setActionUri(request.getRequestURL().toString());
             event.setUserOrigin(request.getRemoteHost());
         }
         
         if (successful) {
             event.setLogLevel(LogLevelType.TYPE_INFO);
-            event.setLogMessage("Successful login to " + realm + " by " + userId + ".");
+            event.setLogMessage("Successful login to " + edOrg + " by " + userId + ".");
         } else {
             event.setLogLevel(LogLevelType.TYPE_ERROR);
-            event.setLogMessage("Failed login to " + realm + " by " + userId + ".");
+            event.setLogMessage("Failed login to " + edOrg + " by " + userId + ".");
         }
         
         audit(event);

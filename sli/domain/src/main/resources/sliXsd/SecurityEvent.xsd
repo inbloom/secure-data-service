@@ -11,19 +11,21 @@
 				</xs:appinfo>
 			</xs:annotation>
 			<xs:sequence>
-				<xs:element name="user" type="xs:string"></xs:element>
-				<xs:element name="roles" type="roleList" minOccurs="0"
-					maxOccurs="1"></xs:element>
-				<xs:element name="targetEdOrg" type="xs:string"></xs:element>
-				<xs:element name="actionUri" type="xs:string"></xs:element>
-				<xs:element name="appId" type="xs:string"></xs:element>
-				<xs:element name="executedOn" type="xs:string"></xs:element>
-				<xs:element name="userOrigin" type="xs:string"></xs:element>
-				<xs:element name="timeStamp" type="xs:string"></xs:element>
-				<xs:element name="processNameOrId" type="xs:string"></xs:element>
-				<xs:element name="className" type="xs:string"></xs:element>
-				<xs:element name="logLevel" type="xs:string"></xs:element>
-				<xs:element name="logMessage" type="xs:string"></xs:element>
+			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>				
+				<xs:element name="roles"           type="roleList"      minOccurs="0"></xs:element>
+				<xs:element name="targetEdOrg"     type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="actionUri"       type="xs:string"     minOccurs="0" ></xs:element>
+				<xs:element name="appId"           type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="executedOn"      type="xs:string"     minOccurs="0" ></xs:element>
+				<xs:element name="origin"          type="xs:string"     minOccurs="0" ></xs:element>
+				<xs:element name="credential"      type="xs:string"     minOccurs="0" ></xs:element>
+				<xs:element name="userOrigin"      type="xs:string"     minOccurs="0" ></xs:element>
+				<xs:element name="timeStamp"       type="xs:dateTime"   minOccurs="0"></xs:element>
+				<xs:element name="processNameOrId" type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="className"       type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="logLevel"        type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="logMessage"      type="xs:string"     minOccurs="0"></xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
