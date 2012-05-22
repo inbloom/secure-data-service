@@ -1,6 +1,7 @@
 <h1>Default SLI Roles</h1>
 
-<table>
+<table class="table table-striped">
+  <thead>
   <tr>
     <th>SLI Role</th>
     <th>Examples</th>
@@ -10,7 +11,9 @@
 	<th>Restricted Student Data</th>
 	<th>Actions</th>
   </tr>
+  </thead>
 
+  <tbody>
 <% @roles.each do |role| %>
   <tr>
     <td><%= role.name %></td>
@@ -21,6 +24,7 @@
 	<td><%= role.restricted %></td>
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />
