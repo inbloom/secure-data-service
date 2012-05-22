@@ -163,13 +163,11 @@ public class PathFindingContextResolverTest {
         when(mockCurrentNode.getType()).thenReturn(currentNodeType);
         when(mockNextNode.getType()).thenReturn(nextNodeType);
         when(mockConnection.getAssociationNode()).thenReturn(connectionNodeType);
-        
-        when(mockConnection.getAssociationNode()).thenReturn("<connection>");
-        assert(this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(connectionNodeType));
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(connectionNodeType));
         when(mockConnection.getAssociationNode()).thenReturn("");
         when(mockConnection.isReferenceInSelf()).thenReturn(true);
-        assert(this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(currentNodeType));
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(currentNodeType));
         when(mockConnection.isReferenceInSelf()).thenReturn(false);
-        assert(this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(nextNodeType));
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(nextNodeType));
     }
 }
