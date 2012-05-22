@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -29,6 +28,7 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public class IdNormalizationTest {
 
+    @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testRefResolution() {
         Ref myCollectionId = new Ref();
@@ -77,6 +77,7 @@ public class IdNormalizationTest {
         Assert.assertEquals(null, internalId);
     }
 
+    @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testRefResolution2() {
         Ref myCollectionId = new Ref();
@@ -99,12 +100,10 @@ public class IdNormalizationTest {
         columnField.setValues(Arrays.asList(columnValue));
 
         List<Field> fields = Arrays.asList(columnField);
-        @SuppressWarnings("unchecked")
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -128,6 +127,7 @@ public class IdNormalizationTest {
         Assert.assertEquals("123", entity.getBody().get("field"));
     }
 
+    @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testCollectionRefResolution() {
         Ref myCollectionId = new Ref();
@@ -140,12 +140,10 @@ public class IdNormalizationTest {
         columnField.setValues(Arrays.asList(columnValue));
 
         List<Field> fields = Arrays.asList(columnField);
-        @SuppressWarnings("unchecked")
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -183,7 +181,7 @@ public class IdNormalizationTest {
         Assert.assertEquals("123", internalId);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testMultiRefResolution() {
 
@@ -206,14 +204,10 @@ public class IdNormalizationTest {
         columnField.setValues(Arrays.asList(columnValue));
 
         List<Field> fields = Arrays.asList(columnField);
-        @SuppressWarnings("unchecked")
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
 
-
-
         IdNormalizer idNorm = new IdNormalizer();
-        @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -239,39 +233,6 @@ public class IdNormalizationTest {
         String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath", new DummyErrorReport(), "");
 
         Assert.assertEquals("456", secinternalId);
-    }
-
-    @Test
-    public void testSuccessfulComplexIdResolution() throws IdResolutionException {
-        
-        //create and add dummy complex ID normalizer
-        IdNormalizer.complexIdNormalizers.put("dummyCollection:dummyField", new ComplexIdNormalizer() {
-            public List<String> resolveInternalId(Entity entity, NeutralQuery neutralQuery, Repository<Entity> entityRepository) {
-                return null;
-            }
-        });
-        
-        IdNormalizer idNormalizer = new IdNormalizer();
-        Entity entity = new MongoEntity("dummyCollection", new HashMap<String, Object>());
-        NeutralQuery neutralQuery = new NeutralQuery();
-        
-        idNormalizer.resolveComplexInternalId(entity, "dummyField", neutralQuery);
-    }
-    
-    @Test(expected = IdResolutionException.class)
-    public void testFailedComplexIdResolution() throws IdResolutionException {
-        IdNormalizer idNormalizer = new IdNormalizer();
-        
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.put("studentAcademicRecordId", "SAR-ID-123");
-
-        Entity entity = new MongoEntity("studentTranscriptAssociation", body);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        
-        Repository<Entity> repo = Mockito.mock(Repository.class);
-        Mockito.when(repo.findOne(Mockito.eq("studentAcademicRecord"), Mockito.any(NeutralQuery.class))).thenReturn(null);
-        
-        idNormalizer.resolveComplexInternalId(entity, "undefinedField", neutralQuery);
     }
     
     @SuppressWarnings({ "unchecked", "deprecation" })
