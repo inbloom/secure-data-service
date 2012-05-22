@@ -49,8 +49,10 @@ public final class EntityNames {
     public static final String STAFF_PROGRAM_ASSOCIATION = "staffProgramAssociation";
     public static final String STUDENT_COHORT_ASSOCIATION = "studentCohortAssociation";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";
+    public static final String COURSE_OFFERING = "courseOffering";
     public static final String USER_ACCOUNT = "userAccount";
     public static final String GRADE = "grade";
     public static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentassessmentassociation";
     public static final String ADMIN_DELEGATION = "adminDelegation";
+    public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
 }

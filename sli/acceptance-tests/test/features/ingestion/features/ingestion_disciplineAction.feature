@@ -17,7 +17,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | educationOrganization       | 3     |
+     | educationOrganization       | 4     |
      | staff                       | 3     |
      | student                     | 72    |
      | disciplineIncident          | 2     |
@@ -27,7 +27,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineAction            | 1                   | body.disciplineDate         | 2011-03-04              | string               |
      | disciplineAction            | 1                   | body.disciplineDate         | 2011-04-04              | string               |
      | disciplineAction            | 2                   | body.disciplineActionLength | 74                      | integer              |
-  And I should see "Processed 82 records." in the resulting batch job file
+  And I should see "Processed 83 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "DisciplineIncident1.xml records considered: 2" in the resulting batch job file
   And I should see "DisciplineIncident1.xml records ingested successfully: 2" in the resulting batch job file
@@ -42,19 +42,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | disciplineIncident          | 3     |
-     | disciplineAction            | 3     |
+     | disciplineIncident          | 5     |
+     | disciplineAction            | 5     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | disciplineAction            | 1                   | body.disciplineDate         | 2011-03-04              | string               |
      | disciplineAction            | 1                   | body.disciplineDate         | 2011-04-04              | string               |
-     | disciplineAction            | 1                   | body.disciplineDate         | 2011-05-04              | string               |
+     | disciplineAction            | 3                   | body.disciplineDate         | 2011-05-04              | string               |
      | disciplineAction            | 3                   | body.disciplineActionLength | 74                      | integer              |
-  And I should see "Processed 2 records." in the resulting batch job file
+  And I should see "Processed 6 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "DisciplineIncident2.xml records considered: 1" in the resulting batch job file
-  And I should see "DisciplineIncident2.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "DisciplineIncident2.xml records considered: 3" in the resulting batch job file
+  And I should see "DisciplineIncident2.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "DisciplineIncident2.xml records failed: 0" in the resulting batch job file
-  And I should see "DisciplineAction2.xml records considered: 1" in the resulting batch job file
-  And I should see "DisciplineAction2.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "DisciplineAction2.xml records considered: 3" in the resulting batch job file
+  And I should see "DisciplineAction2.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "DisciplineAction2.xml records failed: 0" in the resulting batch job file

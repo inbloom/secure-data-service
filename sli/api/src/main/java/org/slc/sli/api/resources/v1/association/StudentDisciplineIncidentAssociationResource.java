@@ -25,9 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates those students who were
- * victims, perpetrators, witnesses, and/or reporters for a discipline
- * incident.
+ * This association indicates the $$students$$ associated with a $$disciplineIncidents$$.
  *
  * @author slee
  */
@@ -48,7 +46,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns all $$studentDisciplineIncidentAssociations$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -69,7 +67,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Create a new $$studentDisciplineIncidentAssociations$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -90,15 +88,15 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Get a single $$studentDisciplineIncidentAssociations$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The Id of the $$studentDisciplineIncidentAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$studentDisciplineIncidentAssociations$$ entity
+     * @return A single entity
      */
     @Override
     @GET
@@ -109,10 +107,10 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Delete a $$studentDisciplineIncidentAssociations$$ entity.
+     * Deletes the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The Id of the $$studentDisciplineIncidentAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -129,10 +127,10 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Update an existing $$studentDisciplineIncidentAssociations$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The id of the $$studentDisciplineIncidentAssociations$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -152,15 +150,14 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$students$$ that is referenced by
-     * the given $$studentDisciplineIncidentAssociations$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The Id of the studentDisciplineIncidentAssociationId.
+     *            The id of the referencing entity
      * @param offset
      *            Index of the first result to return
      * @param limit
-     *            Maximum number of results to return.
+     *            Maximum number of results to return
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -177,15 +174,14 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$disciplineIncidents$$ that is referenced by
-     * the given $$studentDisciplineIncidentAssociations$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The Id of the studentDisciplineIncidentAssociationId.
+     *            The id of the referencing entity
      * @param offset
      *            Index of the first result to return
      * @param limit
-     *            Maximum number of results to return.
+     *            Maximum number of results to return
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
