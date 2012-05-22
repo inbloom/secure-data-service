@@ -2,6 +2,48 @@
 <InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
 
+  <DisciplineIncident id="DI-10001">
+      <IncidentIdentifier>di-10001</IncidentIdentifier>
+      <IncidentDate>2011-03-22</IncidentDate>
+      <IncidentTime>15:23:02</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Staff</ReporterDescription>
+      <ReporterName>Charles Gray</ReporterName>
+      <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
+      <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+  <DisciplineIncident id="DI-10003">
+      <IncidentIdentifier>di-10003</IncidentIdentifier>
+      <IncidentDate>2011-03-22</IncidentDate>
+      <IncidentTime>15:23:59</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Staff</ReporterDescription>
+      <ReporterName>Charles Gray</ReporterName>
+      <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
   <DisciplineIncident id="DI-10003">
       <IncidentIdentifier>di-10003</IncidentIdentifier>
       <IncidentDate>2011-04-01</IncidentDate>

@@ -61,15 +61,15 @@ public class FreeMarkerExtendedReferenceResolverTest {
 
     @Test
     public void testResolution() throws IOException, SAXException {
-        final File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
-        final File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+        final File input = IngestionTest.getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_input.xml");
+        final File expected = IngestionTest.getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_output.xml");
 
         Map<String, String> config = new HashMap<String, String>();
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
+        config.put("/InterchangeStudentParent/StudentParentAssociation/StudentReference", "idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.ftl");
 
         referenceFactory.setIdRefConfigs(config);
 
-        test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
+        test(input, expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
 
         Runnable run = new Runnable() {
             @Override

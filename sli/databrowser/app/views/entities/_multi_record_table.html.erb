@@ -1,35 +1,16 @@
-<%= javascript_include_tag :jExpand %>
-<% tableFields = get_table_fields(entities) %>
-
-<table id="simple">
+<table id="simple-table">
+  <thead>
     <tr>
-        <% tableFields.each do |field| %>
-          <th><%= t(field.split('/').last) %></th>
-        <% end %>
+      <% @tableFields.each do |field| %>
+      <th><%= t(field.split('/').last) %></th>
+      <% end %>
+      <th style="display:none;"></th>
     </tr>
-    <% entities.each do |entity| %>
-      <tr>
-          <% tableFields.each do |field| %>
-            <td><%= value_for_table_view(field, entity) %></td>
-          <% end %>
-      </tr>
-      <tr>
-          <td colspan="100%">
-              <%= render :partial => "single_record_details", :locals => {:entity => entity} %>
-          </td>
-      </tr>
-    <% end %>
+  </thead>
+  <tbody>
+    <%= render 'entities' %>
+  </tbody>
 </table>
 
-<script type="text/javascript" charset="utf-8">
-  jQuery(document).ready(function () {
-    jQuery.noConflict();
-    jQuery("#simple tr:odd").addClass("odd");
-    jQuery("#simple tr:not(.odd)").hide();
-    jQuery("#simple tr:first-child").show();
 
-    jQuery("#simple tr.odd").click(function () {
-      jQuery(this).next("tr").slideToggle();
-    });
-  });
-</script>
+

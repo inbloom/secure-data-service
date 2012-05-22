@@ -19,7 +19,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Represents a person that is employed by an LEA or other educational unit engaged in student
+ * instruction. These persons are instructional-type staff members. In the data model, a teacher
+ * entity is a staff member with additional properties. For more information, see the schema for the
+ * $$teacher$$ entity.
  *
  * @author jstokes
  *
@@ -35,8 +38,7 @@ public class TeacherResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$teacherSectionAssociations$$ that
-     * references the given $$teachers$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherId
      *            The id of the $$teachers$$.
@@ -60,8 +62,7 @@ public class TeacherResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$sections$$ associated to the given teacher through
-     * a $$teacherSectionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherId
      *            The id of the $$teachers$$.
@@ -72,15 +73,17 @@ public class TeacherResource extends DefaultCrudResource {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS)
-    public Response getTeacherSectionAssociationsSections(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "teacherId", teacherId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
+    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/"
+            + PathConstants.SECTIONS)
+    public Response getTeacherSectionAssociationsSections(
+            @PathParam(ParameterConstants.TEACHER_ID) final String teacherId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "teacherId", teacherId, "sectionId",
+                ResourceNames.SECTIONS, headers, uriInfo);
     }
 
     /**
-     * Returns each $$teacherSchoolAssociations$$ that
-     * references the given $$teachers$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherId
      *            The id of the $$teachers$$.
@@ -104,8 +107,7 @@ public class TeacherResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$schools$$ associated to the given teacher through
-     * a $$teacherSchoolAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param teacherId
      *            The id of the $$teachers$$.
@@ -116,9 +118,12 @@ public class TeacherResource extends DefaultCrudResource {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
-    public Response getTeacherSchoolAssociationsSchools(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "teacherId", teacherId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
+    @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/"
+            + PathConstants.SCHOOLS)
+    public Response getTeacherSchoolAssociationsSchools(
+            @PathParam(ParameterConstants.TEACHER_ID) final String teacherId, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "teacherId", teacherId, "schoolId",
+                ResourceNames.SCHOOLS, headers, uriInfo);
     }
 }

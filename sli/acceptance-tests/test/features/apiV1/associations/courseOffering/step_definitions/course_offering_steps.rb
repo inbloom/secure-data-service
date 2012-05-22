@@ -13,9 +13,9 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #course offering data
-  id = 7                                        if human_readable_id == "ASSOCIATION COUNT"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 6                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "67bfb073-bd36-0771-8d5a-bba7ba03f8fb"   if human_readable_id == "ASSOCIATION ID"
@@ -67,8 +67,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-     "sessionId" => "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-     "courseId" => "93d33f0b-0f2e-43a2-b944-7d182253a79a",
+     "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
+     "courseId" => "ddf01d82-9293-49ba-b16e-0fe5b4f4804d",
      "localCourseCode" => "LCCGR1",
      "localCourseTitle" => "German 1 - Intro to German"
   }

@@ -17,8 +17,13 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+
 /**
- * Responds to requests for school-related information.
+ * Represents an individual for whom instruction, services and/or care are provided in an early
+ * childhood, elementary or secondary educational program under the jurisdiction of a school,
+ * education agency, or other institution or program. A student is a person who has been enrolled in
+ * a school or other educational institution.
+ * For more information, see the schema for the $$schools$$ entity.
  *
  * @author srupasinghe
  * @author kmyers
@@ -34,10 +39,8 @@ public class SchoolResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.SCHOOLS);
     }
 
-
     /**
-     * Returns each $$teacherSchoolAssociations$$ that
-     * references the given $$schools$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -56,14 +59,12 @@ public class SchoolResource extends DefaultCrudResource {
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS)
     public Response getTeacherSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
-
     /**
-     * $$teacherSchoolAssociations$$ - teacher lookup
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -74,16 +75,16 @@ public class SchoolResource extends DefaultCrudResource {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/" + PathConstants.TEACHERS)
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/"
+            + PathConstants.TEACHERS)
     public Response getTeacherSchoolAssociationTeachers(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "teacherId", ResourceNames.TEACHERS, headers, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "teacherId",
+                ResourceNames.TEACHERS, headers, uriInfo);
     }
 
-
     /**
-     * $$studentSchoolAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -96,13 +97,12 @@ public class SchoolResource extends DefaultCrudResource {
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
     /**
-     * $$studentSchoolAssociations$$ - student lookup
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -113,16 +113,16 @@ public class SchoolResource extends DefaultCrudResource {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
+            + PathConstants.STUDENTS)
     public Response getStudentSchoolAssociationStudents(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "schoolId", schoolId, "studentId",
+                ResourceNames.STUDENTS, headers, uriInfo);
     }
 
     /**
-     * Returns each $$sections$$ at the school. Section's reference does not use an association,
-     * so this method returns sections and not section/school associations.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -135,15 +135,12 @@ public class SchoolResource extends DefaultCrudResource {
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SECTIONS)
     public Response getSectionsForSchool(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SECTIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
-
     /**
-     * Returns each $$schoolSessionAssociations$$ that
-     * references the given $$schools$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -162,15 +159,12 @@ public class SchoolResource extends DefaultCrudResource {
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
     public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
-
     /**
-     * Returns each $$sessions$$ associated to the given school through
-     * a $$schoolSessionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param schoolId
      *            The Id of the School.
@@ -181,11 +175,12 @@ public class SchoolResource extends DefaultCrudResource {
      * @return result of CRUD operation
      */
     @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SESSIONS)
+    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/"
+            + PathConstants.SESSIONS)
     public Response getSchoolSessionAssociationSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId",
+                ResourceNames.SESSIONS, headers, uriInfo);
     }
 
 }

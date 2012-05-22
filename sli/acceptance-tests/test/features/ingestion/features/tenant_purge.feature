@@ -44,5 +44,5 @@ And I should not see an error log file created
       | student                     | 72    |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 0                   | metaData.tanantId           | NY                      | string               |
+     | student          | 0                   | metaData.tenantId           | NY                      | string               |
  And I should not see an error log file created
