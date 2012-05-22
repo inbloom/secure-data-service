@@ -25,8 +25,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This entity represents a $$parents$$.
- *
+ * Represents a parent or guardian of a student.  
+ * 
+ * For detailed information, see the schema for the $$parents$$ entity.
+ * 
  * @author jstokes
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
@@ -80,7 +82,7 @@ public class ParentResource extends DefaultCrudEndpoint {
      * @param parentId The id of the entity
      * @param headers  HTTP Request Headers
      * @param uriInfo  URI information including path and query parameters
-     * @return A single parent entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
