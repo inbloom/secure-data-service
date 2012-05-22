@@ -37,7 +37,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$students$$ that references the given $$studentSchoolAssociations$$.
      *
      * @param studentSchoolAssociationId
      *            The Id of the $$studentSchoolAssociations$$
@@ -63,7 +63,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$schools$$ that references the given $$studentSchoolAssociations$$.
      *
      * @param studentSchoolAssociationId
      *            The Id of the $$studentSchoolAssociations$$

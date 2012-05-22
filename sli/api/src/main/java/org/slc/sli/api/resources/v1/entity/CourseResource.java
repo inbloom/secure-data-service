@@ -36,7 +36,7 @@ public class CourseResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$courseOfferings$$ that references the given $$courses$$.
      *
      * @param courseId
      *            The id of the $$courses$$
@@ -44,7 +44,7 @@ public class CourseResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return course offerings that reference the given $$courses$$
+     * @return $$courseOfferings$$ that reference the given $$courses$$
      *
      */
     @GET
@@ -57,7 +57,7 @@ public class CourseResource extends DefaultCrudResource {
 
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$sessions$$ that is associated with the given $$courses$$.
      *
      * @param courseId
      *            The id of the $$courses$$
@@ -77,7 +77,7 @@ public class CourseResource extends DefaultCrudResource {
 
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$studentTranscriptAssociations$$ that references the given $$courses$$.
      *
      * @param courseId
      *            The id of the $$courses$$
@@ -96,7 +96,7 @@ public class CourseResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$students$$ that is associated with the given $$courses$$ through $$studentTranscriptAssociations$$.
      *
      * @param courseId
      *            The id of the $$courses$$
@@ -116,7 +116,7 @@ public class CourseResource extends DefaultCrudResource {
 
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$studentParentAssociations$$ that references the given $$courses$$.
      *
      * @param courseId
      *            The id of the $$courses$$
@@ -135,7 +135,7 @@ public class CourseResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns each $$students$$ that is associated with the given $$courses$$ through $$studentParentAssociations$$.
      *
      * @param courseId
      *            The id of the $$courses$$
