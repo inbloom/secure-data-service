@@ -1,6 +1,5 @@
 package org.slc.sli.client;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public interface APIClient {
 
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
 
-    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds);
+//    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds);
 
     public GenericEntity getStudent(String token, String id);
 

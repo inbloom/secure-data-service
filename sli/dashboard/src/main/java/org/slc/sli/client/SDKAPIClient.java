@@ -4,21 +4,22 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
+import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -91,33 +92,14 @@ public class SDKAPIClient implements APIClient{
 
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        ConfigMap configMap = null;
-        try {
-            List entityList = new ArrayList();
-            sdkClient.read(entityList, ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, ConfigMap.class);
-            if (entityList.size() > 0) {
-                configMap = (ConfigMap) entityList.get(0);
-            }
-        } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred", e);
-        } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred", e);
-        }
-        return configMap;
+        // TODO Auto-generated method stub
+        return liveApiClient.getEdOrgCustomData(token, id);
     }
-    
+
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-        try {
-            Map<String, Object> entityMap = new HashMap<String, Object>();
-            entityMap.put("config", configMap.getConfig());
-            Entity configMapEntity = new GenericEntity(entityMap);
-            sdkClient.create(ClientConstants.SDK_EDORGS_URL + id + ClientConstants.CUSTOM_DATA, configMapEntity);
-        } catch (URISyntaxException e) {
-            LOGGER.error("Exception occurred", e);
-        } catch (MalformedURLException e) {
-            LOGGER.error("Exception occurred", e);
-        }
+        // TODO Auto-generated method stub
+        liveApiClient.putEdOrgCustomData(token, id, configMap);
     }
 
     @Override
@@ -127,17 +109,21 @@ public class SDKAPIClient implements APIClient{
     }
 
     @Override
-    public List<GenericEntity> getStudents(String token, Collection<String> studentIds) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getStudents(token, studentIds);
-    }
-
-    @Override
     public GenericEntity getStudent(String token, String id) {
         // TODO Auto-generated method stub
         ((BasicClient) sdkClient).setToken(token);
+        EntityCollection collection = new EntityCollection();
+        try {
+            String url = getApiUrl() + ClientConstants.STUDENTS_URL + id;
+            sdkClient.getResource(collection, new URL(url), BasicQuery.EMPTY_QUERY);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred", e);
+        }
 
-        return liveApiClient.getStudent(token, id);
+        return convertEntity(collection).get(0);
+//        return liveApiClient.getStudent(token, id);
     }
 
     @Override
@@ -236,33 +222,59 @@ public class SDKAPIClient implements APIClient{
 
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        ((BasicClient) sdkClient).setToken(token);
+        ((BasicClient) sdkClient).setToken(token); // TODO - Remove, once Robert checks his code in.
         EntityCollection collection = new EntityCollection();
         try {
-            String url = getApiUrl() + ClientConstants.SECTIONS_URL + sectionId + ClientConstants.STUDENT_SECTION_ASSOC + ClientConstants.STUDENTS
-                    + "?optionalFields=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook";
-            sdkClient.getResource(collection,
-                    new URL(url),
-//                    new URL("http://local.slidev.org:8080/api/rest/v1/sections/" + sectionId + "/studentSectionAssociations/students?optionalFields=assessments,attendances.1,transcript,gradebook"),
-                    BasicQuery.EMPTY_QUERY);
+            String url = getApiUrl() + ClientConstants.SECTIONS_URL + sectionId + ClientConstants.STUDENT_SECTION_ASSOC
+                    + ClientConstants.STUDENTS + "?optionalFields=assessments,attendances.1,"
+                    + Constants.ATTR_TRANSCRIPT + ",gradebook";
+            sdkClient.getResource(collection, new URL(url), BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
-           LOGGER.error("Exception occurred", e);
+            LOGGER.error("Exception occurred", e);
         } catch (MalformedURLException e) {
             LOGGER.error("Exception occurred", e);
         }
 
-//        return liveApiClient.getStudents(token, sectionId, studentIds);
         return convertEntity(collection);
     }
 
+    /**
+     * Converts a collection of SDK entities to a Collection of Dashboard entities.
+     * @param collection
+     * @return
+     */
     public List<GenericEntity> convertEntity(EntityCollection collection) {
         List<GenericEntity> entities = new ArrayList<GenericEntity>();
         for(Entity col : collection) {
-            Map<String, Object> map = col.getData();
-            GenericEntity entity = new GenericEntity(map);
-            entities.add(entity);
+            entities.add(convertEntity(col));
         }
         return entities;
+    }
+
+    /**
+     * Converts a single SDK Entity to a Dashboard Generic Entity.
+     * @param entity
+     * @return
+     */
+    public GenericEntity convertEntity(Entity entity) {
+        Map<String, Object> data = entity.getData();
+        GenericEntity ge = new GenericEntity(data);
+        ge.put(Constants.ATTR_LINKS, convertLinks(entity));
+        return ge;
+    }
+
+    /**
+     * Extract the link with the given relationship from an entity
+     */
+    private static List<Map<String, Object>> convertLinks(Entity entity) {
+        List<Link> links = entity.getLinks();
+        List<Map<String, Object>> retVal = new ArrayList<Map<String, Object>>();
+        for (Link link : links) {
+            Map<String, Object> map = new LinkedHashMap<String, Object>();
+            map.put(Constants.ATTR_REL, link.getLinkName());
+            map.put(Constants.ATTR_HREF, link.getResourceURL().getPath());
+        }
+        return retVal;
     }
 
     @Override
