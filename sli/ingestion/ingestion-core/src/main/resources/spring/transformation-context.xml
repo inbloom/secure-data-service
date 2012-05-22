@@ -91,6 +91,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSectionGradebookEntry.xml" />
       </bean>
     </entry>
+    <entry key="course">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/course.xml" />
+      </bean>
+    </entry>
   </util:map>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -220,5 +225,12 @@
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="reportCard" />
   </bean>
+
+  <bean id="courseTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="course" />
+  </bean>
+
 </beans>
 
