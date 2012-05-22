@@ -438,7 +438,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSectionsForNonEducator(String token) {
 
         // call https://<IP address>/api/rest/<version>/sections
-        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
+        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + "?limit=" + Constants.MAX_RESULTS, token);
 
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, sections);
@@ -644,6 +644,7 @@ public class LiveAPIClient implements APIClient {
                     }
                     sectionLookup.get(courseId).add(section);
                 }
+
             }
         }
 
@@ -668,6 +669,7 @@ public class LiveAPIClient implements APIClient {
                     }
                 }
             }
+
         }
     }
 
@@ -682,8 +684,10 @@ public class LiveAPIClient implements APIClient {
 
         // iterate each section
         if (sections != null) {
+
             for (GenericEntity section : sections) {
                 String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
+
                 // search school which doesn't exist already
                 if (!schoolMap.containsKey(schoolId)) {
 
@@ -976,6 +980,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return createEntitiesFromAPI(url.toString(), token);
@@ -1010,6 +1017,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return createEntityFromAPI(url.toString(), token);
@@ -1027,7 +1037,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
         // get the entities
         List<GenericEntity> entities = createEntitiesFromAPI(
-                buildStudentURI(studentId, STUDENT_SECTION_ASSOC + SECTIONS, params), token);
+                buildStudentURI(studentId, STUDENT_SECTION_ASSOC + SECTIONS , params), token);
 
         return entities;
     }
@@ -1090,6 +1100,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         // get the entities
@@ -1117,10 +1130,14 @@ public class LiveAPIClient implements APIClient {
         url.append(STUDENTS_URL);
         url.append(studentId);
         url.append(path);
+
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return url.toString();
@@ -1207,8 +1224,8 @@ public class LiveAPIClient implements APIClient {
         String url = getApiUrl() + STUDENTS_URL;
 
         if (queryExists) {
-            url += queryString;
-            url += "&limit=0"; //added since otherwise only first 50 results are returned
+            // &limit=0 is the API syntax to return all results, not just the first 50 as per default
+            url += queryString + "&limit=" + Constants.MAX_RESULTS;
         }
 
         return createEntitiesFromAPI(url, token);
