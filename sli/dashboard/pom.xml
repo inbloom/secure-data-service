@@ -15,6 +15,7 @@
 
 	<properties>
 		<freemarker.version>2.3.18</freemarker.version>
+		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
 
         <sli.home>${project.parent.basedir}</sli.home>
@@ -120,17 +121,17 @@
 	<dependencies>
 		<!-- Servlet dependencies -->
 
-       <dependency>
-            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-            <artifactId>ehcache-spring-annotations</artifactId>
-            <version>1.2.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-        </dependency>
+	<dependency>
+		<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+		<artifactId>ehcache-spring-annotations</artifactId>
+		<version>1.2.0</version>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+            </exclusion>
+        </exclusions>
+	</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -212,24 +213,28 @@
         </dependency>
 
 		<!-- Google GSON dependency -->
+		<!-- 
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>${gson.version}</version>
 		</dependency>
 
-		<!-- Selenium dependency -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>2.14.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-  		</dependency>
+		-->
+
+	<!-- Selenium dependency -->
+	<dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-java</artifactId>
+		<version>2.14.0</version>
+		<exclusions>
+			<exclusion>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>
