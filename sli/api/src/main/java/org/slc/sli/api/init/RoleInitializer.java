@@ -90,6 +90,8 @@ public class RoleInitializer {
                 hasSLCOperator = true;
             } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
                 hasRealmAdmin = true;
+            } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
+                hasSEAAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -122,9 +124,12 @@ public class RoleInitializer {
         if (!hasSEAAdmin) {
             createdRoles.add(buildSEAAdmin());
         }
+<<<<<<< HEAD
         if (!hasIngestionUser) {
             createdRoles.add(buildIngestionUser());
         }
+=======
+>>>>>>> master
 
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());

@@ -1,9 +1,23 @@
 <Student>
         <StudentUniqueStateId>100000000</StudentUniqueStateId>
+        <StudentIdentificationCode IdentificationSystem="Local">
+            <IdentificationCode>372</IdentificationCode>
+        </StudentIdentificationCode>
+        <StudentIdentificationCode IdentificationSystem="SSN">
+            <IdentificationCode>1122336502</IdentificationCode>
+        </StudentIdentificationCode>
         <Name>
             <FirstName>Bennie</FirstName>
             <LastSurname>Cimmino</LastSurname>
         </Name>
+                <OtherName>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </OtherName>
+                <OtherName>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </OtherName>
         <Sex>Male</Sex>
         <BirthData>
             <BirthDate>2005-07-02</BirthDate>
@@ -35,7 +49,10 @@
             <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>

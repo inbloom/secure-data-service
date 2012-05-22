@@ -100,12 +100,7 @@ public class OnboardingResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        String edOrgId = "";
-        Response r = createEdOrg(orgId, tenantId, edOrgId);
-
-        if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
-            return r;
-        }
+        Response r = createEdOrg(orgId, tenantId);
 
         return r;
     }
@@ -119,7 +114,7 @@ public class OnboardingResource {
      *            The EdOrg tenant identifier.
      * @return Response of the request as an HTTP Response.
      */
-    public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
+    public Response createEdOrg(final String orgId, final String tenantId) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
@@ -156,7 +151,7 @@ public class OnboardingResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        uuid = e.getEntityId();
+        String uuid = e.getEntityId();
 
         // retrieve the application ids for common applications that already exist in mongod
         List<String> appIds = getAppIds();

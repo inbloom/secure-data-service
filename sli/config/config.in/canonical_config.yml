@@ -44,6 +44,7 @@ default:
         bootstrap.sandbox.realm.name: Sandbox Environment
         bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
+        bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
@@ -136,10 +137,20 @@ default:
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
+        bootstrap.app.admin.name: Admin Apps 
+        bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
+        bootstrap.app.admin.version: 0.0 
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
+        bootstrap.app.databrowser.name: SLC Data Browser
+        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
+        bootstrap.app.databrowser.version: 0.0
         bootstrap.app.dashboard.template: applications/dashboard.json
         bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
+        bootstrap.app.dashboard.name: SLC Dashboards
+        bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
+        bootstrap.app.dashboard.version: A.0
+        bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
         # keystore password (used in common, data-access, and dashboard)
@@ -170,7 +181,7 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
-        # Name of the SLI Admin realm
+        # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
         sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
@@ -188,6 +199,12 @@ default:
 
         # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
+        
+        # sample app externalized properties:
+        sli.sample.apiUrl: http://local.slidev.org:8080/
+        sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
+        sli.sample.clientId: fm67sH6vZZ
+        sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
 
 
 devjuggernauts:
@@ -299,6 +316,7 @@ local:
         api.perf.log.path: target/apilogs/logs
         
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
+        bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
@@ -511,6 +529,7 @@ team:
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.app.conf: ${sli.conf}
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -595,6 +614,11 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
+        
+        sli.sample.apiUrl: https://${sample.swap}.slidev.org/
+        sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
+        sli.sample.clientId: AT1k3PdHzX
+        sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
 
 
@@ -720,6 +744,7 @@ sandbox:
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:

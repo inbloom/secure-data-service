@@ -19,7 +19,7 @@ task :v1XMLTests => [:realmInit] do
   setFixture("gradebookEntry", "gradebookEntry_fixture.json")
   setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
+  setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
   setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
   setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
   runTests("test/features/apiV1/xml/xml.feature")
@@ -215,14 +215,14 @@ task :v1StudentSchoolAssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/studentSchoolAssociation")
 end
 
-desc "Run V1 Session Course Association Tests"
-task :v1SessionCourseAssociationTests => [:realmInit] do
+desc "Run V1 Course Offering Tests"
+task :v1CourseOfferingTests => [:realmInit] do
   #drop data, re add fixture data
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
-  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
+  setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/sessionCourseAssociation")
+  runTests("test/features/apiV1/associations/courseOffering")
 end
 
 desc "Run V1 Staff Cohort Association Tests"

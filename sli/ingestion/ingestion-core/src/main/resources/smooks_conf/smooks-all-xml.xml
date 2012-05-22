@@ -3833,4 +3833,46 @@
   </jb:bean>
   <!-- End StudentCompetency mapping -->
 
+  <!-- Start ReportCard mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+           createOnElement="InterchangeStudentGrade/ReportCard">
+    <jb:expression property="recordType">'reportCard'</jb:expression>
+    <jb:value property="localId" data="ReportCard/@id" />
+    <jb:wiring property="attributes" beanIdRef="ReportCardAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="ReportCardAttributes" class="java.util.HashMap"
+           createOnElement="InterchangeStudentGrade/ReportCard">
+  <!--  <jb:wiring property="studentCompetencyId" beanIdRef="ReportCard_StudentCompetencyReferenceArray" /> -->
+    <jb:value property="studentId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="gradingPeriodId" beanIdRef="ReportCard_GradingPeriodReference" />
+    <jb:wiring property="grades" beanIdRef="ReportCard_GradesReferenceArray" />
+    <jb:value property="reportCardId" data="ReportCard/@id" />
+    <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
+    <jb:value property="gpaCumulative" data="ReportCard/GPACumulative" decoder="Double" />
+    <jb:value property="numberOfDaysAbsent" data="ReportCard/NumberOfDaysAbsent" decoder="Integer" />
+    <jb:value property="numberOfDaysInAttendance" data="ReportCard/NumberOfDaysInAttendance" decoder="Integer"/>
+    <jb:value property="numberOfDaysTardy" data="ReportCard/NumberOfDaysTardy" decoder="Integer" />
+  </jb:bean>
+<!--
+  <jb:bean beanId="ReportCard_StudentCompetencyReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
+    <jb:wiring beanIdRef="ReportCard_StudentCompetencyReference" />
+  </jb:bean>
+
+  <jb:bean beanId="ReportCard_StudentCompetencyReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
+
+  </jb:bean>
+-->
+  <jb:bean beanId="ReportCard_GradesReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
+    <jb:wiring beanIdRef="ReportCard_GradeReference" />
+  </jb:bean>
+
+  <jb:bean beanId="ReportCard_GradeReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/GradeReference">
+    <jb:value property="gradeId" data="GradeReference/GradeIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="ReportCard_GradingPeriodReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard">
+  </jb:bean>
+  <!-- End ReportCard mapping -->
+
 </smooks-resource-list>

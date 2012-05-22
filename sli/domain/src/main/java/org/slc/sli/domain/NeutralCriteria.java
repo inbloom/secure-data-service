@@ -16,8 +16,9 @@ public class NeutralCriteria {
     private boolean canBePrefixed;
     
     public static final String CRITERIA_IN = "in";
+    public static final String CRITERIA_REGEX = "=~";
     
-    static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
+    static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=", "<", ">" };
     public static final String OPERATOR_EQUAL = "=";
 
     public NeutralCriteria(String criteria) {

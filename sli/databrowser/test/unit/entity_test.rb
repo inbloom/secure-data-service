@@ -63,14 +63,14 @@ class EntityTest < ActiveSupport::TestCase
    end
   
   test "get students" do
-    Entity.url_type = "students"
+    Entity.url_type = "students/"
     Entity._format = ActiveResource::Formats::JsonLinkFormat
     students = Entity.all
     assert_equal(students.size, @student_fixtures.size)
   end
   
   test "get teachers" do
-    Entity.url_type = "teachers"
+    Entity.url_type = "teachers/"
     Entity._format = ActiveResource::Formats::JsonLinkFormat
     students = Entity.all
     assert_equal(students.size, @teacher_fixtures.size)

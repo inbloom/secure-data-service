@@ -139,7 +139,7 @@ public class ApprovedApplicationResource {
         if (isHostedUser()) {
             String name = (String) result.get("name");
             String dev = (String) result.get("created_by");
-            if (dev != null && dev.equals("SLIDeveloper")) {
+            if (dev != null && dev.equals("slcdeveloper")) {
                 if (!name.startsWith("Admin") && !name.startsWith("Portal")) {
                     //somewhat quick and dirty way of checking for admin/portal
                     //maybe we should add special flag to the app instead

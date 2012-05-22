@@ -615,10 +615,9 @@
 			<title xml:lang="en">Course</title>
 			<class name="Course"></class>
 		</entity>
-		<!-- CourseOffering is renamed for SLI -->
 		<entity>
 			<title xml:lang="en">Course Offering</title>
-			<class name="SessionCourseAssociation"></class>
+			<class name="CourseOffering"></class>
 		</entity>
 		<!-- CourseTranscript is renamed for SLI -->
 		<entity>
@@ -814,7 +813,7 @@
 		</entity>
 		<entity>
 			<title xml:lang="en">Course Offering</title>
-			<class name="SessionCourseAssociation"></class>
+			<class name="CourseOffering"></class>
 		</entity>
 		<entity>
 			<title xml:lang="en">Education Organization</title>

@@ -17,15 +17,12 @@ import javax.ws.rs.core.Response.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -77,7 +74,7 @@ public class AdminDelegationResource {
 
         if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
 
-            String edOrg = getPrincipleEdOrg();
+            String edOrg = SecurityUtil.getEdOrg();
             if (edOrg == null) {
                 throw new InsufficientAuthenticationException("No edorg exists on principal.");
             }
@@ -121,7 +118,7 @@ public class AdminDelegationResource {
         }
 
         //verifyBodyEdOrgMatchesPrincipalEdOrg
-        if (!body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(getPrincipleEdOrg())) {
+        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrg())) {
             EntityBody response = new EntityBody();
             response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
             return Response.status(Status.BAD_REQUEST).entity(response).build();
@@ -132,6 +129,8 @@ public class AdminDelegationResource {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
+            } else {
+                return Response.status(Status.CREATED).build();
             }
 
         } else {
@@ -144,14 +143,14 @@ public class AdminDelegationResource {
 
         return Response.status(Status.NO_CONTENT).build();
     }
-    
+
     @POST
     public Response create(EntityBody body) {
         return setLocalDelegation(body);
     }
-    
+
     @GET
-    @Path("myEdOrg") 
+    @Path("myEdOrg")
     public Response getSingleDelegation() {
         Entity entity = getEntity();
         if (entity == null) {
@@ -159,10 +158,10 @@ public class AdminDelegationResource {
         }
         return Response.status(Status.OK).entity(entity).build();
     }
-    
+
 
     private Entity getDelegationRecordForPrincipal() {
-        String edOrg = getPrincipleEdOrg();
+        String edOrg = SecurityUtil.getEdOrg();
         if (edOrg == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
@@ -172,14 +171,6 @@ public class AdminDelegationResource {
         return repo.findOne(RESOURCE_NAME, query);
     }
 
-    private String getPrincipleEdOrg() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context.getAuthentication() != null) {
-            SLIPrincipal principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-            return principal.getEdOrg();
-        }
-        return null;
-    }
 
     private Entity getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {

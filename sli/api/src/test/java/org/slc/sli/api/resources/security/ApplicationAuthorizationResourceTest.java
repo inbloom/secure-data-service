@@ -36,6 +36,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -66,6 +67,8 @@ public class ApplicationAuthorizationResourceTest {
     @Mock EntityService service;
 
     @Mock Repository<Entity> repo;
+    
+    @Mock EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
 
     UriInfo uriInfo = null;
 
@@ -94,6 +97,7 @@ public class ApplicationAuthorizationResourceTest {
     public void testBadCreate() {   //authId doesn't match principal
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("OTHER-DISTRICT");
+        Mockito.when(edOrgNodeFilter.getChildEducationOrganizations((String) Mockito.any())).thenReturn(new ArrayList<String>());
         Response resp = resource.createAuthorization(auth, uriInfo);
     }
 
@@ -157,8 +161,10 @@ public class ApplicationAuthorizationResourceTest {
         setupAuth("MY-DISTRICT");
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(null);
         List<Map<String, Object>> data;
+        Response response;
         try {
-            data = resource.getAuthorizations(buildMockUriInfo(""));
+            response = resource.getAuthorizations(buildMockUriInfo(""));
+            data = (List<Map<String, Object>>) response.getEntity();
             assertEquals(0, data.size());
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -174,8 +180,10 @@ public class ApplicationAuthorizationResourceTest {
         MongoEntity ent = new MongoEntity("blah", auth);
         Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(ent);
         List<Map<String, Object>> data;
+        Response response;
         try {
-            data = resource.getAuthorizations(buildMockUriInfo(""));
+            response = resource.getAuthorizations(buildMockUriInfo(""));
+            data = (List<Map<String, Object>>) response.getEntity();
             assertEquals(1, data.size());
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -189,7 +197,7 @@ public class ApplicationAuthorizationResourceTest {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
 
@@ -198,7 +206,7 @@ public class ApplicationAuthorizationResourceTest {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("SOME-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
 
@@ -207,7 +215,7 @@ public class ApplicationAuthorizationResourceTest {
         setupAuth(null);
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
     }
 
     @Test(expected = InsufficientAuthenticationException.class)
@@ -216,7 +224,7 @@ public class ApplicationAuthorizationResourceTest {
 
         EntityBody auth = getNewAppAuth("MY-DISTRICT");
         Mockito.when(service.get("some-uuid")).thenReturn(auth);
-        Response resp = resource.getAuthorizations("some-uuid");
+        Response resp = resource.getAuthorization("some-uuid");
         assertEquals(STATUS_NOT_FOUND, resp.getStatus());
     }
 

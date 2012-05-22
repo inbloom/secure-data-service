@@ -24,6 +24,7 @@ INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 ############################################################
 
 Before do
+
   @conn = Mongo::Connection.new(INGESTION_DB)
   @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
 
@@ -108,9 +109,11 @@ def initializeTenants()
   elsif defaultLz.rindex('/') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
+    
   elsif defaultLz.rindex('\\') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
+    
   end
 
   puts "Top level LZ is -> " + @topLevelLandingZone
@@ -410,6 +413,11 @@ def processZipWithFolder(file_name)
       next
       end
       payload_file = entries[2]
+      if payload_file == "MissingXmlFile.xml"
+	puts "DEBUG: An xml file in control file is missing .."
+        new_ctl_file.puts entries.join ","
+	next
+      end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
         puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
@@ -458,6 +466,8 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
+  @conn = Mongo::Connection.new(INGESTION_DB)
+  
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -744,6 +754,7 @@ end
 # STEPS: WHEN
 ############################################################
 
+
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
 end
@@ -850,18 +861,19 @@ When /^two batch job logs have been created$/ do
 end
 
 When /^a batch job log has been created for "([^"]*)"$/ do |lz_key|
+  puts "batch job log has been created for"
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForBatchJobLog(lz)
 end
 
 def checkForBatchJobLog(landing_zone)
+  puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 420
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
- 
     iters.times do |i|
       if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -981,7 +993,6 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
 

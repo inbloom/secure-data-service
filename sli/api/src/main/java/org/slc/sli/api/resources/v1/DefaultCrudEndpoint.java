@@ -459,7 +459,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            URI information including path and query parameters
      * @return requested information or error status
      */
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo, final boolean returnAll) {
+    @Override
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(collectionName, entityDefs, uriInfo, new ResourceLogic() {
             // v1/entity
             @Override
@@ -473,7 +474,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (extraCriteria != null) {
                     query.addCriteria(extraCriteria);
                 }
-                if (returnAll) {
+                if (shouldReadAll()) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
 
                         @Override
@@ -506,9 +507,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    @Override
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
-        return this.readAll(collectionName, headers, uriInfo, false);
+    protected boolean shouldReadAll(){
+        return false;
     }
 
     /**
@@ -624,7 +624,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             return entities;
         }
 
-        List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+        List<String> optionalFields = getOptionalFields(info);
 
         if (optionalFields != null) {
             for (String type : optionalFields) {
@@ -644,6 +644,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         return entities;
+    }
+
+    protected List<String> getOptionalFields(UriInfo info) {
+        return info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
     }
 
     /**

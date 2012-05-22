@@ -1,0 +1,12 @@
+<% @entities.each do |entity| %>
+<tr>
+  <% @tableFields.each do |field| %>
+  <td><%= value_for_table_view(field, entity) %></td>
+  <% end %>
+  <td style="display:none;" class="hidden">
+    <div class="details">
+      <%= render :partial => "single_record_details", :locals => {:entity => entity}%>
+    </div>
+  </td>
+</tr>
+<% end %>
