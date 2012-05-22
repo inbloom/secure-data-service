@@ -2,14 +2,13 @@ package org.slc.sli.entity.util;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 /**
  * sorting for elements in GenericEntity by given Map<String,Integer> Priority.
  */
-public class GenericSorter implements Comparator<LinkedHashMap<String, Object>> {
+public class GenericSorter implements Comparator<Map<String, Object>> {
     private String fieldName = "";
     private Map<String, Integer> priorityList = null;
 
@@ -24,14 +23,15 @@ public class GenericSorter implements Comparator<LinkedHashMap<String, Object>> 
     public GenericSorter(String fieldName, Map<String, Integer> priorityList) {
         this.fieldName = fieldName;
 
-        if (priorityList == null)
+        if (priorityList == null) {
             this.priorityList = new HashMap<String, Integer>();
-        else
+        } else {
             this.priorityList = priorityList;
+        }
     }
 
     @Override
-    public int compare(LinkedHashMap<String, Object> o1, LinkedHashMap<String, Object> o2) {
+    public int compare(Map<String, Object> o1, Map<String, Object> o2) {
 
         // temporary assigning priority. Make it lowest possible.
         int o1Priority = Integer.MAX_VALUE;

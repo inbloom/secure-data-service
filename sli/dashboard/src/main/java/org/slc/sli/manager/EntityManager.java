@@ -1,6 +1,5 @@
 package org.slc.sli.manager;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -58,21 +57,6 @@ public class EntityManager extends ApiClientManager {
      */
     public GenericEntity getStudentWithOptionalFields(final String token, String studentId, List<String> optionalFields) {
         return getApiClient().getStudentWithOptionalFields(token, studentId, optionalFields);
-    }
-
-    /**
-     * Get the list of student entities identified by the student id list and authorized for the
-     * security token
-     *
-     * @param token
-     *            - the principle authentication token
-     * @param studentIds
-     *            - the student id list
-     * @return studentList
-     *         - the student entity list
-     */
-    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds) {
-        return getApiClient().getStudents(token, studentIds);
     }
 
     /**

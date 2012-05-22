@@ -27,6 +27,10 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -35,9 +39,6 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -961,6 +962,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             log.error("Requested data for non-existing ID" + id);
             return entity;
         }
+//        Map params = config.getParams();
+//        if (null == params) {
+//            return null;
+//        }
         List<Map<String, Object>> assessements = filterAssessmentByFamily(
                 student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
                 (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
