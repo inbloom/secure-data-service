@@ -25,26 +25,24 @@
 
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
-    <!-- jb:value property="sourceId" data="" / -->
-    <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'school'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/School/StateOrganizationId" />
-    <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" />
+<!--     <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" /> -->
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
-    <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:wiring property="program#programReference" beanIdRef="school_programReferenceArray" />
-  </jb:bean>
+<!--   <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School"> -->
+<!--     <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" /> -->
+<!--     <jb:wiring property="program#programReference" beanIdRef="school_programReferenceArray" /> -->
+<!--   </jb:bean> -->
 
-  <jb:bean beanId="school_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
-    <jb:wiring beanIdRef="school_programReference" />
-  </jb:bean>
+<!--   <jb:bean beanId="school_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School"> -->
+<!--     <jb:wiring beanIdRef="school_programReference" /> -->
+<!--   </jb:bean> -->
 
-  <jb:bean beanId="school_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/ProgramReference/ProgramIdentity">
-    <jb:value property="program#metaData.externalId" data="School/ProgramReference/ProgramIdentity/ProgramId" />
-  </jb:bean>
+<!--   <jb:bean beanId="school_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/ProgramReference/ProgramIdentity"> -->
+<!--     <jb:value property="program#metaData.externalId" data="School/ProgramReference/ProgramIdentity/ProgramId" /> -->
+<!--   </jb:bean> -->
 
   <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="stateOrganizationId" data="School/StateOrganizationId" />
@@ -3810,8 +3808,7 @@
   <!-- End StudentCompetency mapping -->
 
   <!-- Start ReportCard mapping -->
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
-           createOnElement="InterchangeStudentGrade/ReportCard">
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/ReportCard">
     <jb:expression property="recordType">'reportCard'</jb:expression>
     <jb:value property="localId" data="ReportCard/@id" />
     <jb:wiring property="attributes" beanIdRef="ReportCardAttributes" />
