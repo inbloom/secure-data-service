@@ -38,7 +38,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private Map<String, Map<Object, NeutralRecord>> collections;
 
     @Autowired
-    private UUIDGeneratorStrategy uuidGenerator;
+    private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
 
     /**
      * Default constructor.
@@ -220,7 +220,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private NeutralRecord createAttendanceRecordPlaceholder(String studentId, String schoolId,
             Map<Object, NeutralRecord> sessions) {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(uuidGenerator.randomUUID().toString());
+        record.setRecordId(type1UUIDGeneratorStrategy.randomUUID().toString());
         record.setRecordType(ATTENDANCE_TRANSFORMED);
 
         Map<String, List<Map<String, Object>>> placeholders = createAttendancePlaceholdersFromSessions(sessions);
