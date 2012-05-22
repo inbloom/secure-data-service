@@ -89,20 +89,15 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-And in "ELL" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "1" email addresses
 And the list of email address includes "m.sollars@gmail.com"
@@ -176,18 +171,14 @@ And their grade is "1"
 And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
-And there are "6" Tabs
+And there are "4" Tabs
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "Daybreak District"
 And in "Elementary School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
-#And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "3" email addresses
 And the list of email address includes "ti.troung@gmail.com"
@@ -282,18 +273,15 @@ And their grade is "11"
 And the teacher is "!"
 #And the class is "American Literature"
 And the lozenges count is "0"
-#And there are "6" Tabs
+And there are "4" Tabs
 And Tab has a title named "High School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
 And in "High School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 #And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-#And Tab has a title named "Daybreak District"
 And I look at the panel "Contact Information"
 And there are "1" email addresses
 And the list of email address includes "c.ortiz@gmail.com"

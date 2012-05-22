@@ -60,7 +60,7 @@ Then I should see a table heading "StateTest Reading (highest ever)"
 Then I should see a table heading "StateTest Writing (most recent)"
 Then I should see a table heading "Final Grades"
 And I click on student "Matt Sollars"
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And I logout
 When I navigate to the Dashboard home page

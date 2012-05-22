@@ -28,21 +28,15 @@ And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
 #Display hide tabs based on grades
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-And in "ELL" tab, there are "0" Panels
 
 @integration
 Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
