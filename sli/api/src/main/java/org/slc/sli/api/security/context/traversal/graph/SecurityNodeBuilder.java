@@ -51,7 +51,7 @@ public final class SecurityNodeBuilder {
 
 
     public SecurityNodeBuilder addLocalReference(String toEntity, String withField) {
-        node.addConnection( new SecurityNodeConnection(toEntity, withField, true) );
+        node.addConnection(new SecurityNodeConnection(toEntity, withField, true));
         return this;
     }
 }
