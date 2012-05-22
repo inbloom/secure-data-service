@@ -28,7 +28,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents the definition of a program.  A program is designed to work in 
  * conjunction with or to supplement the main academic program.  
  * 
- * For detailed information, see the schema for the $$programs$$ entity.
+ * For detailed information, see the schema for the $$Program$$ entity.
  *
  * @author jstokes
  * @author jtully

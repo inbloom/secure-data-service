@@ -30,7 +30,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * A cohort is defined as a list of
  * designated students for tracking, analysis, or intervention.
  * 
- * For detailed information, see the schema for the $$cohorts$$ entity.
+ * For detailed information, see the schema for the $$Cohort$$ entity.
  *
  * @author jstokes
  * @author srichards

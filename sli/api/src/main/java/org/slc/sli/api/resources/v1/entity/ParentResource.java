@@ -27,7 +27,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents a parent or guardian of a student.  
  * 
- * For detailed information, see the schema for the $$parents$$ entity.
+ * For detailed information, see the schema for the $$Parent$$ entity.
  * 
  * @author jstokes
  */

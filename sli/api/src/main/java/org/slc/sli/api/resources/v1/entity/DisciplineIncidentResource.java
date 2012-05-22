@@ -30,7 +30,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  *
  * Discipline incidents are events classified as warranting discipline action.
  * 
- * For detailed information, see the schema for the $$disciplineIncidents$$ entity.
+ * For detailed information, see the schema for the $$DisciplineIncident$$ entity.
  *
  * @author jstokes
  * @author slee

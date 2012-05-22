@@ -32,7 +32,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * education organization after a disruptive event that
  * is recorded as a discipline incident.
  * 
- * For detailed information, see the schema for the $$disciplineActions$$ entity.
+ * For detailed information, see the schema for the $$DisciplineAction$$ entity.
  *
  * @author slee
  *

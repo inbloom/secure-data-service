@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$students$$ and a $$disciplineIncidents$$.
+ * Represents the association between a $$Student$$ and a $$DisciplineIncident$$.
  *
  * @author slee
  */
