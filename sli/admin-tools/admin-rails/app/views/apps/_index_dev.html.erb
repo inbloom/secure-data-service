@@ -1,13 +1,17 @@
-<table id="applications">
+<h1>Application Registration</h1>
+<table id="applications" class="table">
+  <thead>
 	<tr>
 		<th>Name</th>
 		<th>Version</th>
 		<th>Vendor</th>
 		<th>Creation Date</th>
 		<th>Last Update</th>
-                <th>Status</th>
+    <th>Status</th>
 		<th>Actions</th>
 	</tr>
+	</thead>
+	<tbody>
 	<% @apps.each do |app| %>
 		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
@@ -20,9 +24,10 @@
                         <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
 		</tr>
 		<tr>
-			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>
+			<td colspan="7"><%= render :partial => 'form', :locals => {:app => app} %></td>
 		</tr>
 	<% end %>
+	</tbody>
 </table>
 <%= link_to 'New Application', new_app_path %>
 
