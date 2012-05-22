@@ -8,7 +8,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # enable/disable apps for their LEA.
   # SEA admin authorization not implemented yet.
   def check_rights
-    unless is_lea_admin?
+    unless is_lea_admin? or is_sea_admin?
       render_403
     end
   end
@@ -17,54 +17,36 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations.json
   def index
     @application_authorizations = ApplicationAuthorization.all
-    if @application_authorizations.length == 0
+    existing_authorizations = @application_authorizations.map{|cur| cur.authId}
+    if @application_authorizations.length == 0 and is_lea_admin?
       newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrg], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
       @application_authorizations = [newAppAuthorization]
+    elsif is_sea_admin?
+      my_delegations = AdminDelegation.all
+      my_authorizations = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
+      missing_authorizations = my_authorizations - existing_authorizations
+      missing_authorizations.each do |edOrg|
+        newAppAuthorization = ApplicationAuthorization.new({"authId" => edOrg, "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
+        @application_authorizations.push(newAppAuthorization)
+      end
+      @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
     end
-    @apps = @application_authorizations.first.apps_for_auths
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }
     end
   end
 
-  # GET /application_authorizations/1
-  # GET /application_authorizations/1.json
-  def show
-    @application_authorization = ApplicationAuthorization.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @application_authorization }
-    end
-  end
-
-  ## GET /application_authorizations/new
-  ## GET /application_authorizations/new.json
-  #def new
-  #  @application_authorization = ApplicationAuthorization.new
-  #
-  #  respond_to do |format|
-  #    format.html # new.html.erb
-  #    format.json { render json: @application_authorization }
-  #  end
-  #end
-  #
-  ## GET /application_authorizations/1/edit
-  #def edit
-  #  @application_authorization = ApplicationAuthorization.find(params[:id])
-  #end
-  #
   # POST /application_authorizations
   # POST /application_authorizations.json
   def create
     appId = params[:application_authorization][:appId]
 
-    @application_authorization = ApplicationAuthorization.new({"authId" => Check.get("")["edOrg"], "authType" => "EDUCATION_ORGANIZATION", "appIds" => [appId]})
+    @application_authorization = ApplicationAuthorization.new({"authId" => params[:application_authorization][:authId], "authType" => "EDUCATION_ORGANIZATION", "appIds" => [appId]})
 
     respond_to do |format|
       if @application_authorization.save
-        format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully created.' }
+        format.html { redirect_to application_authorizations_path, notice: 'Application authorization was successfully created.' }
         format.json { render json: @application_authorization, status: :created, location: @application_authorization }
       else
         format.html { render action: "new" }
@@ -88,7 +70,7 @@ class ApplicationAuthorizationsController < ApplicationController
     updates = {"appIds" =>  idArray}
     respond_to do |format|
       if @application_authorization.update_attributes(updates)
-        format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully updated.' }
+        format.html { redirect_to application_authorizations_path, notice: @application_authorization.authId}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else
@@ -97,16 +79,4 @@ class ApplicationAuthorizationsController < ApplicationController
       end
     end
   end
-
-  ## DELETE /application_authorizations/1
-  ## DELETE /application_authorizations/1.json
-  #def destroy
-  #  @application_authorization = ApplicationAuthorization.find(params[:id])
-  #  @application_authorization.destroy
-  #
-  #  respond_to do |format|
-  #    format.html { redirect_to application_authorizations_url }
-  #    format.json { head :ok }
-  #  end
-  #end
 end

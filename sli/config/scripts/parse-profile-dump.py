@@ -1,7 +1,11 @@
-# set profiling level to 2 in mongo (log everything)
+# use sli
+# db.system.profile.drop()
+# db.createCollection("system.profile", {capped:true, size:1024000000});
+# db.setProfilingLevel(2)
+#
 # mongodump --db sli --collection system.profile
-# bsondump dump/sli/system.profile.bson > dump/sli/system.profile.json
-# python parse-profile-dump.py dump/sli/system.profile.json [current_sli_indexes]
+# bsondump dump/sli/system.profile.bson > system.profile.json
+# python parse-profile-dump.py system.profile.json [current_sli_indexes]
 
 import sys
 import json
@@ -14,13 +18,37 @@ index_strings = []
 queries = []
 crnt_indexes = []
 
-if len(sys.argv) == 3:
+if len(sys.argv) > 1:
     jsonfile = open(sys.argv[1])
     queries = jsonfile.read().splitlines()
-    indexfile = open(sys.argv[2])
-    crnt_indexes = indexfile.read().splitlines()
+    if len(sys.argv) > 2:
+        indexfile = open(sys.argv[2])
+        crnt_indexes = indexfile.read().splitlines()
 else:
+    print "python parse-profile-dump.py system.profile.json [current_sli_indexes]"
     exit(0)
+
+def handle_new_index(ns, keys, query):
+    if keys not in ignore:
+        new_index = (ns, keys, query)
+        indexes.append(new_index)
+
+def handle_query(json_object, query):
+    ns = json_object['ns']
+    query_keys = json_object['query'].keys()
+    # if it's an $or query, handle each disjunct
+    # TODO - ordering in $or disjuncts? (currently uses the first disjunct during output below)
+    if '$or' in query_keys:
+        for or_query_key in json_object['query']['$or']:
+            handle_new_index(ns, or_query_key.keys(), query)
+    else:
+        handle_new_index(ns, query_keys, query)
+
+def handle_count(json_object, query):
+    ns = json_object['command']['count']
+    count_query = json_object['command']['query']
+    if len(count_query.keys()) > 0:
+        handle_new_index(ns, count_query.keys(), query)
 
 # iterate through lines of json, looking for query operations, ignoring
 # sli.system and sli.custom
@@ -33,14 +61,11 @@ for query in queries:
 
     json_object = json.loads(query)
 
-    if 'op' not in json_object or json_object['op'] != 'query':
-        continue
-
-    if 'query' in json_object:
-        query_keys = json_object['query'].keys()
-        if query_keys not in ignore:
-            new_index = (json_object['ns'], json_object['query'].keys(), query)
-            indexes.append(new_index)
+    if 'op' in json_object:
+        if json_object['op'] == 'query':
+            handle_query(json_object, query)
+        elif json_object['op'] == 'command' and 'count' in json_object['command'] and 'query' in json_object['command']:
+            handle_count(json_object, query)
 
 # order the indexes based on their order in the query, and generate a javascript
 # command to create the index

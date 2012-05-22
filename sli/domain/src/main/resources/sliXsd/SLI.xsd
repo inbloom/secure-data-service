@@ -30,7 +30,7 @@
 	<xs:element name="sectionAssessmentAssociation" type="sectionAssessmentAssociation" />
 	<xs:element name="sectionBellScheduleAssociation" type="sectionBellScheduleAssociation" />
 	<xs:element name="session" type="session" />
-	<xs:element name="sessionCourseAssociation" type="sessionCourseAssociation" />
+	<xs:element name="courseOffering" type="courseOffering" />
 	<xs:element name="staff" type="staff" />
 	<xs:element name="staffCohortAssociation" type="staffCohortAssociation" />
 	<xs:element name="staffEducationOrganizationAssociation"

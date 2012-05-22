@@ -15,6 +15,8 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
@@ -44,6 +46,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -56,7 +59,7 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
  *
  */
 @Component
-public class PersistenceProcessor implements Processor {
+public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
 
@@ -82,6 +85,8 @@ public class PersistenceProcessor implements Processor {
 
     /** The names of Mongo collections of documents that have been transformed. */
     private Collection<String> transformedCollections;
+
+    private MessageSource messageSource;
 
     /**
      * Camel Exchange process callback method
@@ -116,6 +121,8 @@ public class PersistenceProcessor implements Processor {
                 if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
                     processAndMeasureResource(resource, newJob, stage);
+                } else {
+                    LOG.warn(String.format("The resource %s is not a neutral record format.", resource.getResourceName()));
                 }
             }
 
@@ -159,7 +166,7 @@ public class PersistenceProcessor implements Processor {
         ErrorReport errorReportForNrFile = createDbErrorReport(job.getId(), neutralRecordsFile.getName());
 
         NeutralRecordFileReader nrFileReader = null;
-        String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
+        String fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1");
         try {
             Set<String> encounteredStgCollections = new HashSet<String>();
 
@@ -170,7 +177,7 @@ public class PersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
-                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
+                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1") + "\tEntity\t"
                         + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
                         + "\n";
 
@@ -215,10 +222,15 @@ public class PersistenceProcessor implements Processor {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
-
+                    ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForTransformer);
 
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
@@ -397,4 +409,8 @@ public class PersistenceProcessor implements Processor {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }

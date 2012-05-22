@@ -60,7 +60,32 @@
                         [
                             {"valueSource" : "body.disciplineIncidentReference.disciplineIncidentIdentity.incidentIdentifier"}
                         ]
-                    }
+                    },
+                    {
+                        "path" : "body.schoolId", 
+                        "values" : 
+                        [
+                {"ref" :
+                    {
+                                    "collectionName" : "educationOrganization",
+                                    "isRefList" : true,
+                                    "refObjectPath" : "body.disciplineIncidentReference",
+                                    "choiceOfFields" :
+                        [
+                        [
+                            {
+                                "path" : "body.stateOrganizationId",
+                                "values": 
+                                [
+                                {"valueSource": "body.disciplineIncidentReference.disciplineIncidentIdentity.stateOrganizationId"}
+                                ]
+                            }
+                        ]
+                        ]
+                }
+                }
+                        ]
+            }
                 ]
             ]
         }
