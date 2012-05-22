@@ -82,6 +82,7 @@ public class OnboardingResourceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         injector.setDeveloperContext();
+        resource.isSandboxImpersonationEnabled = true;
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
         headers = mock(HttpHeaders.class);
