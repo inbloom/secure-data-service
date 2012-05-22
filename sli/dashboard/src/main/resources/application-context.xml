@@ -52,14 +52,13 @@
 	    <property name="securityUrl" value="${security.server.url}" />	
     </bean>
 
-    <!-- API Clients -->
+    <!-- API Clients -->
     <bean id= "liveAPIClient" class="org.slc.sli.client.LiveAPIClient">
         <property name="restClient" ref="restClient" />
         <property name="apiUrl" value="${api.server.url}" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
     </bean>
 
-   <!-- Temporary until Dashboard Spring contexts are refactored --> 
     <bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
         <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
         <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
