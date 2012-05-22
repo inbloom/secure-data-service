@@ -23,6 +23,7 @@ public enum Right implements GrantedAuthority {
     EDORG_APP_AUTHZ,
     EDORG_DELEGATE,
     DEV_APP_CRUD,
+    INGEST_DATA,
     READ_PUBLIC;
 
     @Override
