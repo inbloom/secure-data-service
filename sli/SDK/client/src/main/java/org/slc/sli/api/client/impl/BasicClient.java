@@ -3,6 +3,7 @@ package org.slc.sli.api.client.impl;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +34,7 @@ import org.slc.sli.common.util.URLBuilder;
  * basic CRUD operations once the client connection is established.
  *
  * @author asaarela
+ * @author rbloh
  */
 public final class BasicClient implements SLIClient {
 
@@ -74,6 +76,11 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
+    public Response create(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException {
+        return restClient.postRequest(new URL(restClient.getBaseURL() + resourceUrl), gson.toJson(e.getData()));
+    }
+
+    @Override
     public Response read(EntityCollection entities, final String type, final Query query)
             throws MalformedURLException,
             URISyntaxException {
@@ -95,6 +102,15 @@ public final class BasicClient implements SLIClient {
         return getResource(entities, builder.build(), query);
     }
 
+    @Override
+    public Response read(List entities, final String resourceUrl, Class entityClass)
+            throws MalformedURLException, URISyntaxException {
+
+        entities.clear();
+
+        return getResource(entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
+    }
+
 
     @Override
     public Response update(final Entity e) throws MalformedURLException, URISyntaxException {
@@ -103,9 +119,19 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
+    public Response update(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException {
+        return restClient.putRequest(new URL(restClient.getBaseURL() + resourceUrl), gson.toJson(e.getData()));
+    }
+
+    @Override
     public Response delete(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.deleteRequest(url);
+    }
+
+    @Override
+    public Response delete(final String resourceUrl) throws MalformedURLException, URISyntaxException {
+        return restClient.deleteRequest(new URL(restClient.getBaseURL() + resourceUrl));
     }
 
     @Override
@@ -145,6 +171,38 @@ public final class BasicClient implements SLIClient {
         return response;
     }
 
+    @Override
+    public Response getResource(List entities, URL restURL, Class entityClass)
+            throws MalformedURLException, URISyntaxException {
+        entities.clear();
+
+        Response response = restClient.getRequest(restURL);
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+
+            try {
+                JsonElement element = gson.fromJson(response.readEntity(String.class), JsonElement.class);
+
+                if (element instanceof JsonArray) {
+                    JsonArray array = (JsonArray) element;
+                    for (int i = 0; i < array.size(); ++i) {
+                        JsonObject jsonObject = array.get(i).getAsJsonObject();
+                        Object entity = gson.fromJson(jsonObject, entityClass);
+                        entities.add(entity);
+                    }
+                } else {
+                    Object entity = gson.fromJson(element, entityClass);
+                    entities.add(entity);
+                }
+            } catch (JsonSyntaxException e) {
+                // invalid Json, or non-Json response?
+                ResponseBuilder builder = Response.fromResponse(response);
+                builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                return builder.build();
+            }
+        }
+        return response;
+    }
+
     /**
      * Construct a new BasicClient instance, using the JSON message converter.
      *
@@ -169,6 +227,7 @@ public final class BasicClient implements SLIClient {
      *
      * @param sessionToken
      */
+    @Override
     public void setToken(String sessionToken) {
         restClient.setSessionToken(sessionToken);
     }

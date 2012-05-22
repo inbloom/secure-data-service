@@ -3,6 +3,7 @@ package org.slc.sli.api.client;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
@@ -15,6 +16,7 @@ import org.slc.sli.common.util.Query;
  * basic CRUD operations available once the client connection is established.
  *
  * @author asaarela
+ * @author rbloh
  */
 public interface SLIClient {
 
@@ -53,6 +55,14 @@ public interface SLIClient {
     public abstract String connect(final String authorizationCode) throws OAuthException;
 
     /**
+     * Set access token
+     *
+     * @param sessionToken
+     *            Session token
+     */
+    public abstract void setToken(String sessionToken);
+
+    /**
      * Logout and invalidate the session.
      */
     public abstract void logout();
@@ -62,11 +72,24 @@ public interface SLIClient {
      *
      * @param e
      *            Entity to create
-     * @return Response to the update request.
+     * @return Response to the create request.
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
     public abstract Response create(final Entity e) throws MalformedURLException, URISyntaxException;
+
+    /**
+     * Create operation
+     *
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @param e
+     *            Entity to create
+     * @return Response to the create request.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract Response create(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException;
 
     /**
      * Read operation by ID.
@@ -105,6 +128,23 @@ public interface SLIClient {
             URISyntaxException;
 
     /**
+     * Read operation
+     *
+     * @param entities
+     *            Entities returned by the API.
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @param entityClass
+     *            Entity class.
+     * @return ClientResponse from the ReST call.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract Response read(List entities, final String resourceUrl, Class entityClass)
+            throws MalformedURLException,
+            URISyntaxException;
+
+    /**
      * Update operation
      *
      * @param e
@@ -116,6 +156,19 @@ public interface SLIClient {
     public abstract Response update(final Entity e) throws MalformedURLException, URISyntaxException;
 
     /**
+     * Update operation
+     *
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @param e
+     *            Entity to update.
+     * @return Response to the update request.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract Response update(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException;
+
+    /**
      * Delete operation
      *
      * @param e
@@ -125,6 +178,17 @@ public interface SLIClient {
      * @throws URISyntaxException
      */
     public abstract Response delete(final Entity e) throws MalformedURLException, URISyntaxException;
+
+    /**
+     * Delete operation
+     *
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @return Response to the delete request.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract Response delete(final String resourceUrl) throws MalformedURLException, URISyntaxException;
 
     /**
      * Perform a get operation against a generic resource. This is useful when following links
@@ -141,6 +205,23 @@ public interface SLIClient {
      * @throws URISyntaxException
      */
     public abstract Response getResource(EntityCollection entities, final URL resourceURL, final Query query)
+            throws MalformedURLException, URISyntaxException;
+
+    /**
+     * Perform a get operation against a generic resource. This is useful when following links
+     * returned by other resources, for example.
+     *
+     * @param entities
+     *            Entities returned by the API in response to this request.
+     * @param restURL
+     *            ReST URL to get
+     * @param entityClass
+     *            Entity class.
+     * @return ClientResponse from the ReST call.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract Response getResource(List entities, final URL restURL, Class entityClass)
             throws MalformedURLException, URISyntaxException;
 
 }

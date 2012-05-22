@@ -15,7 +15,6 @@
 
 	<properties>
 		<freemarker.version>2.3.18</freemarker.version>
-		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
 
         <sli.home>${project.parent.basedir}</sli.home>
@@ -125,6 +124,12 @@
             <groupId>com.googlecode.ehcache-spring-annotations</groupId>
             <artifactId>ehcache-spring-annotations</artifactId>
             <version>1.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
         </dependency>
 
 		<dependency>
@@ -218,7 +223,13 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.14.0</version>
-		</dependency>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+  		</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>

@@ -20,6 +20,7 @@ import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slc.sli.client.RESTClient;
+import org.slc.sli.client.SDKAPIClient;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,31 +60,41 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private RESTClient restClient;
 
+    public RESTClient getRestClient() {
+        return restClient;
+    }
+
+    public void setRestClient(RESTClient restClient) {
+        this.restClient = restClient;
+    }
+
+    private SDKAPIClient sdkApiClient;
+
+    public SDKAPIClient getSdkApiClient() {
+        return sdkApiClient;
+    }
+
+    public void setSdkApiClient(SDKAPIClient sdkApiClient) {
+        this.sdkApiClient = sdkApiClient;
+    }
+
     private PropertiesDecryptor propDecryptor;
     
     public PropertiesDecryptor getPropDecryptor() {
         return propDecryptor;
     }
 
-
     public void setPropDecryptor(PropertiesDecryptor propDecryptor) {
         this.propDecryptor = propDecryptor;
-    }
-
-
-    public RESTClient getRestClient() {
-        return restClient;
-    }
-
-    
-    public void setRestClient(RESTClient restClient) {
-        this.restClient = restClient;
     }
 
     private void addAuthentication(String token) {
         JsonObject json = restClient.sessionCheck(token);
         LOG.debug(json.toString());
 
+        // Setup SDK client OAuth token
+        sdkApiClient.getSdkClient().setToken(token);
+        
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
