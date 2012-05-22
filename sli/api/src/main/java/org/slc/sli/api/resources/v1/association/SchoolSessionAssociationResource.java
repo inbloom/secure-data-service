@@ -71,7 +71,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Creates a new $$schoolSessionAssociations$$ entity.
+     * Creates a new $$schoolSessionAssociations$$.
      *
      * @param newEntityBody
      *            entity data
@@ -92,7 +92,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Gets a specified $$schoolSessionAssociations$$ entity.
+     * Gets a specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
@@ -111,7 +111,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Deletes a specified $$schoolSessionAssociations$$ entity.
+     * Deletes a specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
@@ -131,7 +131,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Updates an existing, specified $$schoolSessionAssociations$$ entity.
+     * Updates the specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The id of the $$schoolSessionAssociations$$.
