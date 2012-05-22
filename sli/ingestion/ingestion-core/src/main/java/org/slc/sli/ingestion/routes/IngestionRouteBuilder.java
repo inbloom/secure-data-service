@@ -8,6 +8,7 @@ import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
+import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
@@ -42,7 +43,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
-    private ControlFileProcessor ctlFileProcessor;
+    ZipFileProcessor zipFileProcessor;
+
+    @Autowired
+    ControlFilePreProcessor controlFilePreProcessor;
+
+    @Autowired
+    ControlFileProcessor ctlFileProcessor;
 
     @Autowired
     private EdFiProcessor edFiProcessor;
@@ -58,9 +65,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
 
     @Autowired
     private XmlFileProcessor xmlFileProcessor;
-
-    @Autowired
-    private ZipFileProcessor zipFileProcessor;
     
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
@@ -97,24 +101,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
 
     private final int concurrentConsumers;
 
+    @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private final boolean loadDefaultTenants;
 
+    @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
     private final String tenantPollingRepeatInterval;
-
-    @Autowired
-    public IngestionRouteBuilder(TenantProcessor tenantProcessor, TenantPopulator tenantPopulator,
-            @Value("${sli.ingestion.queue.workItem.queueURI}") String workItemQueue,
-            @Value("${sli.ingestion.queue.workItem.concurrentConsumers}") int concurrentConsumers,
-            @Value("${sli.ingestion.tenant.loadDefaultTenants}") boolean loadDefaultTenants,
-            @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}") String tenantPollingRepeatInterval) {
-        super();
-        this.tenantProcessor = tenantProcessor;
-        this.tenantPopulator = tenantPopulator;
-        this.workItemQueue = workItemQueue;
-        this.concurrentConsumers = concurrentConsumers;
-        this.loadDefaultTenants = loadDefaultTenants;
-        this.tenantPollingRepeatInterval = tenantPollingRepeatInterval;
-    }
 
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
@@ -133,6 +124,21 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
 
     @Value("${sli.ingestion.queue.pit.uriOptions}")
     private String pitUriOptions;
+    
+    @Autowired
+    public IngestionRouteBuilder(TenantProcessor tenantProcessor, TenantPopulator tenantPopulator,
+            @Value("${sli.ingestion.queue.workItem.queueURI}") String workItemQueue,
+            @Value("${sli.ingestion.queue.workItem.concurrentConsumers}") int concurrentConsumers,
+            @Value("${sli.ingestion.tenant.loadDefaultTenants}") boolean loadDefaultTenants,
+            @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}") String tenantPollingRepeatInterval) {
+        super();
+        this.tenantProcessor = tenantProcessor;
+        this.tenantPopulator = tenantPopulator;
+        this.workItemQueue = workItemQueue;
+        this.concurrentConsumers = concurrentConsumers;
+        this.loadDefaultTenants = loadDefaultTenants;
+        this.tenantPollingRepeatInterval = tenantPollingRepeatInterval;
+    }
 
     @Override
     public void configure() throws Exception {
@@ -262,7 +268,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
      * @param lz
      */
     private void configureLandingZonePollers(String workItemQueueUri, LocalFileSystemLandingZone lz) {
-
         String inboundDir = lz.getDirectory().getAbsolutePath();
         log.info("Configuring route for landing zone: {} ", inboundDir);
         // routeId: ctlFilePoller
@@ -271,7 +276,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
                         + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed")
             .routeId("ctlFilePoller-" + inboundDir)
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
-            .process(ctlFileProcessor)
+            .process(controlFilePreProcessor)
             .to(workItemQueueUri);
 
         // routeId: zipFilePoller
@@ -284,7 +289,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
                 .when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .process(ctlFileProcessor)
+                    .process(controlFilePreProcessor)
                     .to(workItemQueueUri);
 
         from("file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move="
