@@ -40,6 +40,6 @@ ldap_base: "ou=SLIAdmin,dc=slidev,dc=org"
 
 user_registration_app_production_url: "http://local.slidev.org:3000"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"
-user_registration_app_host_url: "http://www.slcedu.org"
+user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
 validation_base_suffix: "/user_account_validation"
