@@ -91,7 +91,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single studentProgramAssociation entity
+     * @return A single entity
      */
     @Override
     @GET
@@ -148,7 +148,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -174,7 +174,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit

@@ -153,7 +153,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -177,7 +177,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentDisciplineIncidentAssociationId
-     *            The id of the referencing entity
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit

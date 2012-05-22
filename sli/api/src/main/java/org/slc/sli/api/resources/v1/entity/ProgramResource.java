@@ -25,8 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This entity represents any program designed to work
- * in conjunction with or to supplement the main
+ * This entity represents any $$programs$$ designed to work in conjunction with or to supplement the main
  * academic program.
  *
  * @author jstokes
@@ -44,7 +43,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$programs$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -65,7 +64,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$programs$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -86,10 +85,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$programs$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param programId
-     *            The Id of the $$programs$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -105,10 +104,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$programs$$ entity.
+     * Deletes the specified resource.
      *
      * @param programId
-     *            The Id of the $$programs$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -125,10 +124,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$programs$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param programId
-     *            The id of the $$programs$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -148,11 +147,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the $$studentProgramAssociations$$ that
-     * reference the given $$programs$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param programId
-     *            The Id of the Program.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -175,11 +173,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$students$$ that are referenced from the $$studentProgramAssociations$$
-     * that references the given $$programs$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param programId
-     *            The Id of the program.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -196,11 +193,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the $$staffProgramAssociations$$ that
-     * reference the given $$programs$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param programId
-     *            The Id of the program.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -223,11 +219,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$staff$$ that are referenced from the $$staffProgramAssociations$$
-     * that references the given $$programs$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param programId
-     *            The Id of the program.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
