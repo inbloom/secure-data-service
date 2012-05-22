@@ -22,8 +22,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents the definition of a staff resource. A staff is a person that is employed by
  * an LEA or other educational unit engaged in student instruction.
  * These persons are instructional-type staff members.
- * A teacher entity is a staff member with additional properties.
- * For more details about a teacher, see the $$teachers$$ resource.
+ * A teacher entity is a staff member with additional properties. See the $$teachers$$ resource for details.
+ * A staff is associated with a school, cohort and program through staff education organization association,
+ * $$staffCohortAssociations$$, and $$staffProgramAssociations$$.
+ * For more details about the resources, see $$schools$$, $$cohorts$$ and $$programs$$ resources.
  *
  * @author jstokes
  *
@@ -45,7 +47,7 @@ public class StaffResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of staff education organization association resources that reference the given staff
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the School.
@@ -65,8 +67,7 @@ public class StaffResource extends DefaultCrudResource {
 
 
     /**
-     * Returns a collection of school resources associated to the given staff
-     * through a staff education organization association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the School.
@@ -87,7 +88,7 @@ public class StaffResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of staff cohort association resources that reference the given staff
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the Staff.
@@ -107,7 +108,7 @@ public class StaffResource extends DefaultCrudResource {
 
 
     /**
-     * Returns a collection of cohort resources associated to the given staff through a staff cohort association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the Staff.
@@ -126,7 +127,7 @@ public class StaffResource extends DefaultCrudResource {
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
     /**
-     * Returns a collection of staff program association resources that reference the given staff
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the $$staff$$.
@@ -146,7 +147,7 @@ public class StaffResource extends DefaultCrudResource {
 
 
     /**
-     * Returns a collection of program resources associated to the given staff through a staff program association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
      *            The Id of the $$staff$$.

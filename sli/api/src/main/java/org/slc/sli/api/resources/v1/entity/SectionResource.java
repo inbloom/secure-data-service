@@ -21,7 +21,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the definition of a section resource. A section is an educational entity that
  * represents a setting in which organized instruction of course content is provided to one
- * or more students for a given period of time. For more details about course, see the $$courses$$ resource.
+ * or more students for a given period of time. See $$courses$$ resource for details.
+ * A section is associated with a student, teacher, course and assessment through $$studentSectionAssociations$$,
+ * $$teacherSectionAssociations$$, and $$sectionAssessments$$.
+ * For more details about the resources, see $$students$$, $$teachers$$ and $$assessments$$ resources.
  *
  * @author jstokes
  *
@@ -37,7 +40,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of student section associations resources that reference the given section
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$students$$.
@@ -62,7 +65,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of student resources associated to the given section through a student section association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$sections$$.
@@ -87,7 +90,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of teacher section association resources that reference the given section
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$students$$.
@@ -112,7 +115,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of teacher resources associated to the given section through a teacher section association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$sections$$.
@@ -133,7 +136,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of section assessment association resources that reference the given section
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$students$$.
@@ -158,8 +161,7 @@ public class SectionResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns a collection of assessment resources associated to the given section
-     * through a section assessment association
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
      *            The id of the $$sections$$.
