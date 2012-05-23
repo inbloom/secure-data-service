@@ -1,9 +1,0 @@
-<div style="text-align: right">
-	<% unless session[:full_name] == nil %>
-	<span>Welcome <%= session[:full_name] %></span>
-	<% unless defined?(@account_managements) %>
-	<span>| </span>
-	<span><%= link_to "Sign out", "/logout", :method => :delete %></span>
-	<% end %>
-	<% end %>
-</div>

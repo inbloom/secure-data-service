@@ -197,6 +197,7 @@
 		<module>domain</module>
 		<module>data-access</module>
 		<module>api</module>
+		<module>scaffold</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
         <module>SDK</module>

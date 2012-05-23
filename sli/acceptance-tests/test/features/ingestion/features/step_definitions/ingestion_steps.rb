@@ -2,6 +2,7 @@ require 'rubygems'
 require 'mongo'
 require 'fileutils'
 require 'socket'
+require 'net/sftp'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -15,17 +16,34 @@ INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_na
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
+INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
+INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 
 ############################################################
 # STEPS: BEFORE
 ############################################################
 
 Before do
+
   @conn = Mongo::Connection.new(INGESTION_DB)
   @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
+
+   
+  #remove all tenants other than NY and IL
+  @tenantColl.find.each do |row|
+    if row['body'] == nil
+      puts "removing record"
+      @tenantColl.remove(row)
+    else
+      if row['body']['tenantId'] != 'NY' and row['body']['tenantId'] != 'IL'
+        puts "removing record"
+        @tenantColl.remove(row)
+      end
+    end
+  end
 
   @ingestion_lz_identifer_map = {}
   @tenantColl.find.each do |row|
@@ -49,9 +67,19 @@ Before do
         path = path+ '/'
       end
 
+      #in remote trim the path to a relative user path rather than absolute path
+      if INGESTION_MODE == 'remote'
+        path = path.gsub(INGESTION_REMOTE_LZ_PATH, "")
+      end
+
       identifier = @tenantId + '-' + educationOrganization
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
+      
+      if !File.directory?(path)
+        FileUtils.mkdir_p(path)
+      end
+      
     end
   end
 
@@ -70,12 +98,22 @@ def initializeTenants()
   end
 
   # remove last directory
-  if defaultLz.rindex('/') != nil
+  if INGESTION_MODE == 'remote'
+    if defaultLz.rindex('/') != nil
+      @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
+    else
+      @topLevelLandingZone = ""
+    end
+    @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
+    
+  elsif defaultLz.rindex('/') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
+    
   elsif defaultLz.rindex('\\') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
+    
   end
 
   puts "Top level LZ is -> " + @topLevelLandingZone
@@ -83,7 +121,11 @@ def initializeTenants()
   cleanTenants()
 
   if !File.directory?(@tenantTopLevelLandingZone)
-    Dir.mkdir(@tenantTopLevelLandingZone)
+    if INGESTION_MODE != 'remote'
+      FileUtils.mkdir_p(@tenantTopLevelLandingZone)
+    else
+      createRemoteDirectory(@tenantTopLevelLandingZone)
+    end
   end
 end
 
@@ -113,6 +155,94 @@ def cleanTenants()
       @tenantColl.save(row)
     end
   end
+end
+
+############################################################
+# REMOTE INGESTION FUNCTIONS
+############################################################
+
+def remoteLzCopy(srcPath, destPath)
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		puts "attempting to remote copy " + srcPath + " to " + destPath
+		sftp.upload(srcPath, destPath)
+    end
+end
+
+def clearRemoteLz(landingZone)
+	
+	puts "clear landing zone " + landingZone
+	
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		sftp.dir.foreach(landingZone) do |entry|
+			next if entry.name == '.' or entry.name == '..'
+			
+			entryPath = File.join(landingZone, entry.name)
+			
+			if !sftp.stat!(entryPath).directory?
+				sftp.remove!(entryPath)
+			end
+		end
+	end
+end
+
+def remoteLzContainsFile(pattern, landingZone)
+	puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
+
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		sftp.dir.glob(landingZone, pattern) do |entry|
+			return true
+		end
+	end
+	return false
+end
+
+def remoteLzContainsFiles(pattern, targetNum , landingZone)
+	puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
+
+	count = 0
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		sftp.dir.glob(landingZone, pattern) do |entry|
+			count += 1
+			if count >= targetNum
+				return true
+			end
+		end
+	end
+	return false
+end
+
+def remoteFileContainsMessage(prefix, message, landingZone)
+
+	puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		sftp.dir.glob(landingZone, prefix + "*") do |entry|
+			entryPath = File.join(landingZone, entry.name)
+			puts "found file " + entryPath
+			
+			#download file contents to a string
+			file_contents = sftp.download!(entryPath)
+			
+			#check file contents for message
+			if (file_contents.rindex(message) != nil)
+				puts "Found message " + message
+				return true
+			end
+		end
+	end
+	return false
+end
+
+def createRemoteDirectory(dirPath)
+	puts "attempting to create dir: " + dirPath
+
+	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+		begin
+			sftp.mkdir!(dirPath)
+		rescue
+			puts "directory exists"
+		end
+	end
+	
 end
 
 ############################################################
@@ -169,9 +299,7 @@ def initializeLandingZone(lz)
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/clearLZ.sh");
-    @resultClearingLZ = runShellCommand(File.dirname(__FILE__) + "/../../util/clearLZ.sh")
-    puts @resultClearingLZ
+    clearRemoteLz(@landing_zone_path)
   else
     Dir.foreach(@landing_zone_path) do |file|
       if /.*.log$/.match file
@@ -285,6 +413,11 @@ def processZipWithFolder(file_name)
       next
       end
       payload_file = entries[2]
+      if payload_file == "MissingXmlFile.xml"
+	puts "DEBUG: An xml file in control file is missing .."
+        new_ctl_file.puts entries.join ","
+	next
+      end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
         puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
@@ -333,6 +466,8 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
+  @conn = Mongo::Connection.new(INGESTION_DB)
+  
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -494,13 +629,29 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
 
-  FileUtils.mkdir_p(path)
-  FileUtils.chmod(0777, path)
+  absolutePath = path
+  if INGESTION_MODE == 'remote'
+    absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
+  end
+  
+  if INGESTION_MODE != 'remote'
+    FileUtils.mkdir_p(path)
+    FileUtils.chmod(0777, path)
+  else
+    createRemoteDirectory(path)
+  end
 
   puts lz_key + " -> " + path
 
   ingestionServer = Socket.gethostname
-
+  if INGESTION_MODE == 'remote'
+    ingestionServer = INGESTION_SERVER_URL
+    if ingestionServer.index('.') != nil
+      ingestionServer = ingestionServer[0, ingestionServer.index('.')]
+    end
+  end
+  
+  
   tenant = lz_key
   edOrg = lz_key
 
@@ -516,7 +667,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
       {
         "educationOrganization" => edOrg,
         "ingestionServer" => ingestionServer,
-        "path" => path
+        "path" => absolutePath
       }
     ]
   }
@@ -565,16 +716,32 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
 
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
 
-  FileUtils.mkdir_p(path)
-  FileUtils.chmod(0777, path)
+  absolutePath = path
+  if INGESTION_MODE == 'remote'
+    absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
+  end
+  
+  if INGESTION_MODE != 'remote'
+    FileUtils.mkdir_p(path)
+    FileUtils.chmod(0777, path)
+  else
+    createRemoteDirectory(path)
+  end
+
   puts lz_key + " -> " + path
 
   ingestionServer = Socket.gethostname
-
-  @newLandingZone = {
+  if INGESTION_MODE == 'remote'
+    ingestionServer = INGESTION_SERVER_URL
+    if ingestionServer.index('.') != nil
+      ingestionServer = ingestionServer[0, ingestionServer.index('.')]
+    end
+  end
+  
+  @newLandingZone = { 
         "educationOrganization" => edOrg,
         "ingestionServer" => ingestionServer,
-        "path" => path
+        "path" => absolutePath
       }
 
   @landingZones.push(@newLandingZone)
@@ -586,6 +753,7 @@ end
 ############################################################
 # STEPS: WHEN
 ############################################################
+
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
   sleep(Integer(secs))
@@ -624,12 +792,9 @@ When /^a batch job log has been created$/ do
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
-
     iters.times do |i|
-      @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /job-#{@source_file_name}.*.log/.match @findJobLog
-        puts "Result of find job log: " + @findJobLog
+      
+      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
@@ -665,11 +830,8 @@ When /^two batch job logs have been created$/ do
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote') # TODO this needs testing for remote
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/getJobLogCount.sh");
-
     iters.times do |i|
-      jobLogCount = runShellCommand(File.dirname(__FILE__) + "/../../util/getJobLogCount.sh")
-      if jobLogCount >= 2
+      if remoteLzContainsFiles("job-*.log", 2, @landing_zone_path)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
@@ -699,23 +861,21 @@ When /^two batch job logs have been created$/ do
 end
 
 When /^a batch job log has been created for "([^"]*)"$/ do |lz_key|
+  puts "batch job log has been created for"
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForBatchJobLog(lz)
 end
 
 def checkForBatchJobLog(landing_zone)
+  puts "checkForBatchJobLog"
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 420
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
-
     iters.times do |i|
-      @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /job-#{@source_file_name}.*.log/.match @findJobLog
-        puts "Result of find job log: " + @findJobLog
+      if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
@@ -755,12 +915,7 @@ def scpFileToLandingZone(filename)
   assert(@source_path != nil, "Source path was nil")
 
   if (INGESTION_MODE == 'remote')
-    # copy file from external path to landing zone
-    ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + @landing_zone_path).to_s  + "\""
-    local_source_path = "\"" + @source_path.to_s + "\""
-
-    puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
+    remoteLzCopy(@source_path, @destination_path)
   else
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
@@ -780,12 +935,7 @@ def scpFileToParallelLandingZone(lz, filename)
   assert(@source_path != nil, "Source path was nil")
 
   if (INGESTION_MODE == 'remote')
-    # copy file from external path to landing zone
-    ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + lz).to_s  + "\""
-    local_source_path = "\"" + @source_path.to_s + "\""
-
-    puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
-    runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
+    remoteLzCopy(@source_path, @destination_path)
   else
     # copy file from local filesystem to landing zone
     FileUtils.cp @source_path, @destination_path
@@ -811,18 +961,8 @@ end
 
 
 When /^local zip file is moved to ingestion landing zone$/ do
-  @source_path = @local_file_store_path + @source_file_name
-  @destination_path = @landing_zone_path + @source_file_name
-
-  puts "Source = " + @source_path
-  puts "Destination = " + @destination_path
-
-  assert(@destination_path != nil, "Destination path was nil")
-  assert(@source_path != nil, "Source path was nil")
-
-  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh");
-  @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
-
+  scpFileToLandingZone @source_file_name
+  
   assert(true, "File Not Uploaded")
 end
 
@@ -853,7 +993,6 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
 
@@ -1002,17 +1141,9 @@ end
 def checkForContentInFileGivenPrefix(message, prefix)
 
   if (INGESTION_MODE == 'remote')
-
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    #puts "Showing : <" + @resultOfIngestion + ">"
-
-    @messageString = message.to_s
-
-    if @resultOfIngestion.include? @messageString
+    if remoteFileContainsMessage(prefix, message, @landing_zone_path)
       assert(true, "Processed all the records.")
     else
-      puts "Actual message was " + @resultOfIngestion
       assert(false, "Didn't process all the records.")
     end
 
@@ -1090,17 +1221,9 @@ end
 def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
 
   if (INGESTION_MODE == 'remote')
-
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
-    #puts "Showing : <" + @resultOfIngestion + ">"
-
-    @messageString = message.to_s
-
-    if @resultOfIngestion.include? @messageString
+     if remoteFileContainsMessage(prefix, message, landing_zone)
       assert(true, "Processed all the records.")
     else
-      puts "Actual message was " + @resultOfIngestion
       assert(false, "Didn't process all the records.")
     end
 
@@ -1174,13 +1297,12 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
-  if (INGESTION_MODE == 'remote')
-    #remote check of file
-    @error_filename_component = "error."
-
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
-    puts "Showing : <" + @resultOfIngestion + ">"
+  if (INGESTION_MODE == 'remote') 
+    if remoteLzContainsFile("error.*", @landing_zone_path)
+      assert(false, "Error files created.")
+    else
+      assert(true, "No error files created.")
+    end
 
   else
     @error_filename_component = "error."
@@ -1205,12 +1327,11 @@ end
 
 def checkForErrorLogFile(landing_zone)
   if (INGESTION_MODE == 'remote')
-    #remote check of file
-    @error_filename_component = "error."
-
-    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
-    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
-    puts "Showing : <" + @resultOfIngestion + ">"
+    if remoteLzContainsFile("error.*", landing_zone)
+      assert(true, "No error files created.")
+    else
+      assert(false, "Error files created.")
+    end
 
   else
     @error_filename_component = "error."

@@ -1,4 +1,4 @@
-Feature: As an SLI application, I want to be able to manage session course associations.
+Feature: As an SLI application, I want to be able to manage course offerings.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
   

@@ -310,21 +310,19 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         File contentToAdd = refContent.get(ref.getValue());
 
         if (contentToAdd != null) {
-            if (!(contentToAdd instanceof IdRefFile)) {
-                File resolvedContent = null;
-
-                ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
-
-                if (rrs != null) {
-                    resolvedContent = rrs.resolve(currentXPath, contentToAdd);
-                    if (resolvedContent == null) {
-                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
-                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()), IdRefResolutionHandler.class);
-                    }
-                } else {
-                    resolvedContent = null;
-                    LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                    errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath), IdRefResolutionHandler.class);
+            ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+            if (rrs == null) {
+                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath), IdRefResolutionHandler.class);
+                return null;
+            } else if (!(contentToAdd instanceof IdRefFile)) {
+                //Resolved content is not cached yet, so lets resolve it and cache it.
+                File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
+                if (resolvedContent == null) {
+                    LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
+                    errorReport.warning(
+                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()),
+                            IdRefResolutionHandler.class);
                 }
 
                 File oldContentToAdd = contentToAdd;

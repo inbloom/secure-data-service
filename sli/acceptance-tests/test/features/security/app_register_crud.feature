@@ -89,9 +89,9 @@ Scenario: Bootstrapping of apps
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
 	When I navigate to GET "/apps/"
 	Then I should receive a return code of 200
-	And the "Admin Tool" bootstrap app should exist
-	And the "Dashboard" bootstrap app should exist
-	And the "Databrowser" bootstrap app should exist
+	And the "Admin Apps" bootstrap app should exist
+	And the "SLC Dashboards" bootstrap app should exist
+	And the "SLC Data Browser" bootstrap app should exist
 
 
 @sandbox @wip

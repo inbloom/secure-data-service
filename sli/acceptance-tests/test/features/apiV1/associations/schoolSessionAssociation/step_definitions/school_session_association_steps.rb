@@ -13,9 +13,9 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 15                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "7a1f5ae5-ee79-f9e5-eca8-10c32f390a8c"   if human_readable_id == "ASSOCIATION ID"
@@ -44,7 +44,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #update related field data
   id = "sessionId"                              if human_readable_id == "UPDATE FIELD"
   id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "67ce204b-9999-4a11-aacb-000000000001"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "c549e272-9a7b-4c02-aff7-b105ed76c904"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
@@ -63,8 +63,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "sessionId" => "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-    "schoolId" => "41baa245-ceea-4336-a9dd-0ba868526b9b",
+    "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
     "gradingPeriod" =>  {
       "gradingPeriod" => "Second Semester",
       "beginDate" => "2011-09-01",

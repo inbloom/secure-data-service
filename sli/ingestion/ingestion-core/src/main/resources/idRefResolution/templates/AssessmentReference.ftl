@@ -1,7 +1,7 @@
 <AssessmentIdentity>
-<#if (AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID[0])??>
+<#list AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID as aid>
     <AssessmentIdentificationCode>
-        <ID>${AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID}</ID>
+        <ID>${aid}</ID>
     </AssessmentIdentificationCode>
-</#if>
+</#list>
 </AssessmentIdentity>

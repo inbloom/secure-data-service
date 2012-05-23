@@ -26,16 +26,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RoleInitializer {
-    public static final String  EDUCATOR          = "Educator";
-    public static final String  AGGREGATE_VIEWER  = "Aggregate Viewer";
-    public static final String  IT_ADMINISTRATOR  = "IT Administrator";
-    public static final String  LEADER            = "Leader";
-    public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
-    public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
-    public static final String  SEA_ADMINISTRATOR = "SEA Administrator";
+    public static final String EDUCATOR = "Educator";
+    public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
+    public static final String IT_ADMINISTRATOR = "IT Administrator";
+    public static final String LEADER = "Leader";
+    public static final String SLI_ADMINISTRATOR = "SLI Administrator";
+    public static final String LEA_ADMINISTRATOR = "LEA Administrator";
+    public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
     public static final String SLC_OPERATOR = "SLC Operator";
     public static final String REALM_ADMINISTRATOR = "Realm Administrator";
+    public static final String INGESTION_USER = "Ingestion User";
 
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
@@ -66,6 +67,8 @@ public class RoleInitializer {
         boolean hasAppDeveloper = false;
         boolean hasSLCOperator = false;
         boolean hasRealmAdmin = false;
+        boolean hasSEAAdmin = false;
+        boolean hasIngestionUser = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -87,6 +90,8 @@ public class RoleInitializer {
                 hasSLCOperator = true;
             } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
                 hasRealmAdmin = true;
+            } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
+                hasSEAAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -116,6 +121,12 @@ public class RoleInitializer {
         if (!hasRealmAdmin) {
             createdRoles.add(buildRealmAdmin());
         }
+        if (!hasSEAAdmin) {
+            createdRoles.add(buildSEAAdmin());
+        }
+        if (!hasIngestionUser) {
+            createdRoles.add(buildIngestionUser());
+        }
 
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
@@ -124,13 +135,18 @@ public class RoleInitializer {
 
     }
 
+    private Role buildIngestionUser() {
+        LOG.info("Building Ingestion User default role.");
+        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).build();
+    }
+
     private Role buildRealmAdmin() {
         LOG.info("Building Realm Administrator default role.");
         return RoleBuilder
                 .makeRole(REALM_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     private Role buildAggregate() {
@@ -143,7 +159,7 @@ public class RoleInitializer {
         return RoleBuilder.makeRole(SLC_OPERATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     //TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
@@ -152,7 +168,7 @@ public class RoleInitializer {
         return RoleBuilder.makeRole(APP_DEVELOPER)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     private Role buildEducator() {

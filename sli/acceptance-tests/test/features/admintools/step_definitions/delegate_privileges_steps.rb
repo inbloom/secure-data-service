@@ -24,6 +24,29 @@ Then /^"([^"]*)" is checked$/ do |feature|
   assert(checkbox.attribute("checked"), "Expected #{feature} checkbox to be checked")
 end
 
+Then /^I get the message "([^"]*)"$/ do |errorMessage|
+  assert(@driver.page_source.index(errorMessage) != nil, "Expected error message: '#{errorMessage}'")
+end
+
+Then /^I see a dropdown box listing both districts$/ do
+  assert(@driver.find_element(:id, "districtSelection") != nil, "Could not find district dropdown")
+end
+
+Then /^I select "([^"]*)" in the district dropdown$/ do |district|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  select.select_by(:text, district)
+end
+
+Then /^I see the table for "([^"]*)"$/ do |district|
+  table = @driver.find_element(:id, "AuthorizedAppsTable_" + district)
+  assert(table.displayed?)
+end
+
+Then /^I do not see the table for "([^"]*)"$/ do |district|
+  table = @driver.find_element(:id, "AuthorizedAppsTable_" + district)
+  assert(!table.displayed?)
+end
+
 
 def getCheckbox(feature)
     if feature == "Application Authorization"

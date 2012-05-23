@@ -13,17 +13,13 @@ Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
 end
 
-Then /^in the upper right corner I see my name$/ do
-  assertWithWait("Failed to find name in upper right corner") {@driver.page_source.index("Sunset Admin") != nil}
-end
-
 Then /^I see a label in the middle "([^"]*)"/ do |arg1|
   #We're changing how the ID is referenced, so the label for the time-being isn't going to be accurate
   #assert(@driver.page_source.index(arg1) != nil)
 end
 
 Then /^I see the list of all available apps on SLI$/ do
-  @appsTable = @driver.find_element(:id, "Authorized Apps Table")
+  @appsTable = @driver.find_element(:class, "AuthorizedAppsTable")
   assert(@appsTable != nil  )
 end
 
@@ -63,7 +59,10 @@ Then /^I see the Name, Version, Vendor and Status of the apps$/ do
   tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
   actualHeadings = []
   tableHeadings.each do |heading|
-    actualHeadings.push(heading.text)
+    if (heading.text.index("District") != 0)
+      #The first th will contain the district's name
+      actualHeadings.push(heading.text)
+    end
   end    
   assert(expectedHeadings.sort == actualHeadings.sort, "Headings are different, found #{actualHeadings.inspect} but expected #{expectedHeadings.inspect}")
 end
@@ -115,16 +114,10 @@ Given /^I see an application "([^"]*)" in the table$/ do |arg1|
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
-  headings = @driver.find_elements(:xpath, ".//tr/th")
-  index = 0
-  headings.each do |heading|
-    if heading.text == "Status"
-      index = headings.index(heading) + 1
-    end
-  end
-  
+  statusIndex = 4
+    
   @appRow = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
-  actualStatus = @appRow.find_element(:xpath, ".//td[#{index}]").text
+  actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus}")
 end
 
