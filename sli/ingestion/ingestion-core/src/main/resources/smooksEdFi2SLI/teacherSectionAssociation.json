@@ -15,6 +15,74 @@
 			                "valueSource" : "body.sectionId"
 		                }]
 		            }
+	            ],
+	            [
+	                { 
+		           	    "path" : "body.schoolId",
+		                "values" : 
+		                [{
+			                "ref":
+                             {
+                                 "collectionName" : "school",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "localParentIds.schoolId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+		                }]
+		            },
+		            { 
+		           	    "path" : "body.sessionId",
+		                "values" : 
+		                [{
+			                "ref":
+                             {
+                                 "collectionName" : "session",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "localParentIds.sessionId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+		                }]
+		            },
+		            { 
+		           	    "path" : "body.courseId",
+		                "values" : 
+		                [{
+			                "ref":
+                             {
+                                 "collectionName" : "course",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "localParentIds.courseId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+		                }]
+		            }
 	            ]
 	        ]
         }
