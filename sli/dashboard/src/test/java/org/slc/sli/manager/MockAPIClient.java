@@ -466,5 +466,11 @@ public class MockAPIClient implements APIClient {
     @Override
     public String sortBy(String url, String sortBy, String sortOrder) {
         return url + "?sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+    }
+
+    @Override
+    public List<GenericEntity> getParentsForStudent(String token, String studentId) {
+        // TODO Auto-generated method stub
+        return null;
     };
 }

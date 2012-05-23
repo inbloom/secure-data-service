@@ -10,7 +10,7 @@ Then /^I should see his\/her most recent StateTest Writing Perf\. level is "([^"
   level.text.should == perfLevel
 end
 
-Then /^I should see his\/her Perf\.level for READ2 Next for most recent window is "([^"]*)"$/ do |perfLevel|
+Then /^I should see his\/her Perf\.level for READ 2.0 for most recent window is "([^"]*)"$/ do |perfLevel|
   level = @driver.find_element(:id, @studentName+".READ2_NEXT.Mastery level")
   level.should_not be nil
   level.text.should == perfLevel

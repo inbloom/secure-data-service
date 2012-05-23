@@ -52,7 +52,7 @@ end
 
 #Checks against entries in a grid
 #use <empty> for empty cells
-def checkGridEntries(panel, table, mapping)
+def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
   table.headers.each do |current|
     if (mapping[current] == nil)
       puts "Warning: No mapping found for header: " + current
@@ -61,7 +61,9 @@ def checkGridEntries(panel, table, mapping)
   end
   
   grid = getGrid(panel)
-  assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
+  if (isExactRowsMatch)
+    assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
+  end
   table.hashes.each do |row|
     found = false
     grid.each do |tr|  
@@ -73,7 +75,7 @@ def checkGridEntries(panel, table, mapping)
            verifier = mapping[header][1].downcase
 
            if (verifier == "fuelgauge")
-            testFuelGauge(td, value, @cutPoints)
+            testFuelGauge(td, value)
            end
         else
           value = getAttribute(tr, mapping[header])

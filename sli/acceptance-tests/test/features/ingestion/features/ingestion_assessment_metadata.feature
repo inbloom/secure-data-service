@@ -20,7 +20,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard            | 6     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ2 Next.READ2 Next Kindergarten      | string |
+     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten      | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |

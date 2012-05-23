@@ -7,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration 
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198 @RALLY_US2253 @RALLY_US196 @RALLY_US2254
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
@@ -23,14 +23,16 @@ Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Oralia Merryweather" in "StateTest Reading.perfLevel" is "205" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Oralia Merryweather" in "StateTest Writing.perfLevel" is "32" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Gerardo Saltazor" in "StateTest Reading.perfLevel" is "309" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Gerardo Saltazor" in "StateTest Writing.perfLevel" is "15" with cutpoints "6,15,21,28,33"
-And the fuel gauge for "Karrie Rudesill" in "StateTest Reading.perfLevel" is "181" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Karrie Rudesill" in "StateTest Writing.perfLevel" is "11" with cutpoints "6,15,21,28,33"
+And the cutpoints for "StateTest Reading" is "120,180,231,278,364"
+And the cutpoints for "StateTest Writing" is "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading" column "perfLevel" is "199"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing" column "perfLevel" is "1"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Reading" column "perfLevel" is "205"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Writing" column "perfLevel" is "32"
+And the fuel gauge for "Gerardo Saltazor" in "StateTest Reading" column "perfLevel" is "309"
+And the fuel gauge for "Gerardo Saltazor" in "StateTest Writing" column "perfLevel" is "15"
+And the fuel gauge for "Karrie Rudesill" in "StateTest Reading" column "perfLevel" is "181"
+And the fuel gauge for "Karrie Rudesill" in "StateTest Writing" column "perfLevel" is "11"
 And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
@@ -89,20 +91,15 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-And in "ELL" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "1" email addresses
 And the list of email address includes "m.sollars@gmail.com"
@@ -134,7 +131,7 @@ And the Assessment History for "StateTest Writing" has the following entries:
 And I click on the browser back button
 Then I see a list of 28 students
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -176,18 +173,14 @@ And their grade is "1"
 And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
-And there are "6" Tabs
+And there are "4" Tabs
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "Daybreak District"
 And in "Elementary School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
-#And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "3" email addresses
 And the list of email address includes "ti.troung@gmail.com"
@@ -221,7 +214,7 @@ And I see a footer on the page that has the text "Proprietary Information"
 And I click on the browser back button
 Then I see a list of 25 students
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Carmen Ortiz
 When I login as "cgray" "cgray1234"
 When I select ed org "Daybreak School District 4529"
@@ -282,18 +275,15 @@ And their grade is "11"
 And the teacher is "!"
 #And the class is "American Literature"
 And the lozenges count is "0"
-#And there are "6" Tabs
+And there are "4" Tabs
 And Tab has a title named "High School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
 And in "High School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 #And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-#And Tab has a title named "Daybreak District"
 And I look at the panel "Contact Information"
 And there are "1" email addresses
 And the list of email address includes "c.ortiz@gmail.com"

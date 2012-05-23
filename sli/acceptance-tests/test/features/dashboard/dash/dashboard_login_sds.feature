@@ -41,7 +41,7 @@ Then I add a cookie for linda.kim
 When I navigate to the Dashboard home page
 Then I should be redirected to the Dashboard landing page
 
-@integration @wip
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -74,8 +74,10 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
-And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the cutpoints for "StateTest Reading" is "120,180,231,278,364"
+And the cutpoints for "StateTest Writing" is "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading" column "perfLevel" is "199"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing" column "perfLevel" is "1"
 And the "current" grade for "Matt Sollars" is "B+"
 And the "last semester" grade for "Matt Sollars" is "B+"
 And the "2 semesters ago" grade for "Matt Sollars" is "A-"
@@ -125,13 +127,13 @@ And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "colo
 And I click on student "Carmen Ortiz"
 When I enter "rudolph" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "2" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
   
- @integration @wip
+ @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -141,11 +143,11 @@ Then I see these values in the drop-down: "Daybreak School District 4529;Sunset 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
-#When I select ed org "Sunset School District 4526"
-#And I select school "Sunset Central High School"
-#And I select course "A.P. Calculus"
-#And I select section "A.P. Calculus Sec 201"
-#And I see a list of 3 students
+When I select ed org "Sunset School District 4526"
+And I select school "Sunset Central High School"
+And I select course "A.P. Calculus"
+And I select section "A.P. Calculus Sec 201"
+And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -153,7 +155,9 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "50" results are returned in the page
+And I select page size of "100"
+And "54" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
@@ -169,7 +173,7 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
 
-@integration @wip
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -184,8 +188,10 @@ When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
-And the fuel gauge for "Matt Sollars" in "StateTest Reading.perfLevel" is "199" with cutpoints "120,180,231,278,364"
-And the fuel gauge for "Matt Sollars" in "StateTest Writing.perfLevel" is "1" with cutpoints "6,15,21,28,33"
+And the cutpoints for "StateTest Reading" is "120,180,231,278,364"
+And the cutpoints for "StateTest Writing" is "6,15,21,28,33"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading" column "perfLevel" is "199"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing" column "perfLevel" is "1"
 And the "current" grade for "Matt Sollars" is "B+"
 And the "last semester" grade for "Matt Sollars" is "B+"
 And the "2 semesters ago" grade for "Matt Sollars" is "A-"
@@ -204,12 +210,12 @@ And I select section "Sec 145"
 And I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "1" results are returned
+Then "1" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
   
- @integration
+ @integration @RALLY_US200
  Scenario: Login with District level Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -222,7 +228,7 @@ Then I see these values in the drop-down: "South Daybreak Elementary;East Daybre
 When I select school "East Daybreak Junior High"
 Then I don't see a course selection
 
-@integration
+@integration @RALLY_US200
 Scenario: Login with State Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -239,7 +245,7 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "Sunset Central High School"
 Then I don't see a course selection
 
-@integration @wip
+@integration @RALLY_US200  @RALLY_US147 @RALLY_US198
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -251,9 +257,9 @@ When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
 When I select ed org "Sunset School District 4526"
 And I select school "Sunset Central High School"
-#And I select course "A.P. Calculus"
-#And I select section "A.P. Calculus Sec 201"
-#And I see a list of 3 students
+And I select course "A.P. Calculus"
+And I select section "A.P. Calculus Sec 201"
+And I see a list of 3 students
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -261,7 +267,9 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then "2" results are returned
+Then "50" results are returned in the page
+And I select page size of "100"
+And "54" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
@@ -274,7 +282,7 @@ And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
-@integration
+@integration @RALLY_US197 @RALLY_US200
 Scenario: Login with School Level Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -290,11 +298,11 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 When I enter "Alton" into the "firstName" search box
 And I click the search button
-Then "0" results are returned
+Then "0" results are returned in the page
 And I click on the browser back button
 Then I see a list of 25 students
 
-@integration
+@integration  @RALLY_US147 @RALLY_US198
 Scenario: Login with School Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -317,7 +325,7 @@ And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 
-@integration
+@integration @RALLY_US200
 Scenario: Login with School Level aggr viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go

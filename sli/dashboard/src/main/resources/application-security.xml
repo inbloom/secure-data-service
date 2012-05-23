@@ -9,15 +9,7 @@
                     http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 
-<beans:bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
-    <beans:constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
-    <beans:constructor-arg name="clientSecret" value="${oauth.client.secret}" />
-    <beans:constructor-arg name="clientId" value="${oauth.client.id}" />
-    <beans:constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
-    <beans:constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-    <beans:constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
-</beans:bean>
-                    
+                   
 <beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
     <beans:property name="propDecryptor" ref="propertiesDecryptor" />
     <beans:property name="restClient" ref="restClient" />
