@@ -874,6 +874,7 @@ def checkForBatchJobLog(landing_zone)
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
+ 
     iters.times do |i|
       if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"

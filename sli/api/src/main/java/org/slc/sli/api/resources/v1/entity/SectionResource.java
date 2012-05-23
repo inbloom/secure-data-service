@@ -21,10 +21,10 @@ import org.slc.sli.client.constants.v1.PathConstants;
 /**
  * Represents the definition of a section resource. A section is an educational entity that
  * represents a setting in which organized instruction of course content is provided to one
- * or more students for a given period of time. See $$courses$$ resource for details.
- * A section is associated with a student, teacher, and assessment through $$studentSectionAssociations$$,
- * $$teacherSectionAssociations$$, and $$sectionAssessmentAssociations$$.
- * For more details about the resources, see $$students$$, $$teachers$$ and $$assessments$$ resources.
+ * or more students for a given period of time. See $$Course$$ resource for details.
+ * A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$,
+ * $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$.
+ * For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
  *
  * @author jstokes
  *
@@ -43,7 +43,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -68,7 +68,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -93,7 +93,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -118,7 +118,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -139,7 +139,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -164,7 +164,7 @@ public class SectionResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
