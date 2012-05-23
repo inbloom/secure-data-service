@@ -185,6 +185,7 @@ public class NeutralSchemaValidationTest {
         addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
         addDummyEntity("course", "93d33f0b-0f2e-43a2-b944-7d182253a79a");
         addDummyEntity("course", "a7444741-8ba1-424e-b83f-df88c57f8b8c");
+        addDummyEntity("educationOrganization", "eb3b8c35-f582-df23-e406-6947249a19f2");
 
         readAndValidateFixtureData("src/test/resources/session_course_association_fixture_neutral.json", "courseOffering");
     }
@@ -194,6 +195,7 @@ public class NeutralSchemaValidationTest {
     public void testInvalidCourseOffering() throws Exception {
         addDummyCollection("session");
         addDummyCollection("course");
+        addDummyCollection("educationOrganization");
 
         readAndValidateFixtureData("src/test/resources/session_course_association_fixture_neutral.json", "courseOffering");
     }
