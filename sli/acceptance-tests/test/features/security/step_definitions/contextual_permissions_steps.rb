@@ -139,7 +139,7 @@ Then /^I receive a JSON response that includes the teacher "([^"]*)" and its att
 end
 
 When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
-  restHttpGet("/teacher-school-associations/"+arg1+"/targets")
+  restHttpGet("/v1/schools/#{arg1}/teacherSchoolAssociations/teachers")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
