@@ -1,4 +1,5 @@
 @sandbox
+@RALLY_US2212
 Feature: User authenticates against the Simple Sandbox IDP
  
  Background: Realm selector is set up to reflect one sandbox tenancies and database has redirect links
