@@ -22,10 +22,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents the definition of a staff resource. A staff is a person that is employed by
  * an LEA or other educational unit engaged in student instruction.
  * These persons are instructional-type staff members.
- * A teacher entity is a staff member with additional properties. See the $$teachers$$ resource for details.
- * A staff is associated with a school, cohort and program through staff education organization association,
- * $$staffCohortAssociations$$, and $$staffProgramAssociations$$.
- * For more details about the resources, see $$schools$$, $$cohorts$$ and $$programs$$ resources.
+ * A teacher is a staff member with additional properties. See the $$teachers$$ resource for details.
+ * A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$,
+ * $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$.
+ * For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources.
  *
  * @author jstokes
  *
@@ -50,12 +50,12 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the School.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$staffEducationOrganizationAssociations$$ that references the given $$staff$$
+     * @return Returns each $$StaffEducationOrganizationAssociation$$ that references the given $$Staff$$
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
@@ -70,13 +70,13 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the School.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$staff$$ associated to the given school
-     * through a $$staffEducationOrganizationAssociations$$
+     * @return Returns each $$Staff$$ associated to the given school
+     * through a $$StaffEducationOrganizationAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
@@ -91,12 +91,12 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the Staff.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$staffCohortAssociations$$ that references the given $$staff$$
+     * @return Returns each $$StaffCohortAssociation$$ that references the given $$Staff$$
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
@@ -111,12 +111,12 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the Staff.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$cohorts$$ associated to the given staff through a $$staffCohortAssociations$$
+     * @return Returns each $$Cohort$$ associated to the given staff through a $$StaffCohortAssociation$$
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
@@ -130,12 +130,12 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the $$staff$$.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns each $$staffProgramAssociations$$ that references the given $$staff$$
+     * @return Returns each $$StaffProgramAssociation$$ that references the given $$Staff$$
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
@@ -150,13 +150,13 @@ public class StaffResource extends DefaultCrudResource {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffId
-     *            The Id of the $$staff$$.
+     *            The Id of the $$Staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$
-     * that references the given $$staff$$.
+     * @return Returns the $$Program$$ that are referenced from the $$StaffProgramAssociation$$
+     * that references the given $$Staff$$.
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)

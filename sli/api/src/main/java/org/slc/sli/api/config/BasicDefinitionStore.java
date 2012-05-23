@@ -9,17 +9,15 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.resources.security.AdminDelegationResource;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of the entity definition store
