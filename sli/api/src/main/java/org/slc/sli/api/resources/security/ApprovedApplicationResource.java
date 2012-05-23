@@ -50,7 +50,7 @@ public class ApprovedApplicationResource {
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description", 
- "name", "vendor", "version", "is_admin", "behavior", "endpoints"
+        "name", "developer_info", "version", "is_admin", "behavior", "endpoints"
     };
 
     @Autowired
