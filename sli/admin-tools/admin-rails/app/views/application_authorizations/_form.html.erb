@@ -1,10 +1,7 @@
-<table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable">
-  <tr><th colspan=5>
-    <h1>District - <%= @application_authorization.authId %></h1>
-  </th>
 
-
-  </tr>
+<h1>District - <%= @application_authorization.authId %></h1>
+<table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable table">
+  <thead>
   <tr>
     <th>Name</th>
     <th>Version</th>
@@ -12,6 +9,7 @@
     <th>Status</th>
     <th> </th>
   </tr>
+  </thead>
 <%
     apps = App.all
 
@@ -21,6 +19,7 @@
     apps = authorizedApps + unauthorizedApps
     apps.each do |app|
 %>
+    <tbody>
     <tr>
       <% if app == nil
             next
@@ -28,7 +27,7 @@
       %>
       <td><%= app.name %></td>
       <td><%= app.version  %></td>
-      <td><%= app.developer_info.organization %></td>
+      <td><%= app.vendor %></td>
       <%=
           isApproved = false
           if @application_authorization.appIds.find_index(app.id) != nil
@@ -51,4 +50,5 @@
       </td>
     </tr>
     <%end %>
+    </tbody>
   </table>

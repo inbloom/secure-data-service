@@ -50,7 +50,7 @@ public class ApprovedApplicationResource {
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description", 
-        "name", "developer_info", "version", "is_admin", "behavior", "endpoints"
+ "name", "vendor", "version", "is_admin", "behavior", "endpoints"
     };
 
     @Autowired
@@ -165,6 +165,7 @@ public class ApprovedApplicationResource {
                 || userRoles.contains(RoleInitializer.LEA_ADMINISTRATOR)
                 || userRoles.contains(RoleInitializer.SEA_ADMINISTRATOR)
                 || userRoles.contains(RoleInitializer.SLC_OPERATOR)
+                || userRoles.contains(RoleInitializer.INGESTION_USER)
                 || userRoles.contains(RoleInitializer.REALM_ADMINISTRATOR);
         
     }

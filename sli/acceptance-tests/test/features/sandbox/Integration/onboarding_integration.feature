@@ -7,6 +7,7 @@ Given I have an open web browser
 #And I have a "mock" SMTP/Email server configured
 And I have a SMTP/Email server configured
 
+@wip
 @sandbox
 Scenario: Developer is on-boarded in a sandbox enviornment
 Given I go to the sandbox account registration page
@@ -39,6 +40,7 @@ And the landing zone "<Landing_zone_directory>" is saved in Ldap
 And the tenantId "<Tenant_ID>" is saved in Ldap
 
 @sandbox
+@wip
 Scenario: Developer logs in after on-boarding on sandbox
 Given the user has an approved sandbox account
 When the user accesses the "<URL_TO_ADMIN_APP>"
@@ -49,6 +51,7 @@ And the user is redirected to "<URL_TO_ADMIN_APP>"
 #Then the user can access "<DASHBOARD_APP>", "<DATABROWSER_APP>"
 
 @sandbox
+@wip
 Scenario: Developer is able to register applications on sandbox
 Given the user has an approved sandbox account
 When the user clicks on "<URL_TO_APPLICATION_REGISTRATION>"
@@ -56,6 +59,7 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>"
 
 @production
+@wip
 Scenario: Vendor registers on a production environment
 Given I go to the production account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database

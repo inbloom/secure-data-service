@@ -276,9 +276,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
   id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
   #need to figure out what tenantId is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org@SLI"                                   if human_readable_id == "Tenant_ID"
+  id = "devldapuser@slidev.org"                                   if human_readable_id == "Tenant_ID"
   #need to figure out what landing zone path is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org@SLI-IL"                                if human_readable_id == "Landing_zone_directory"
+  id = "devldapuser@slidev.org"                                if human_readable_id == "Landing_zone_directory"
   
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
@@ -375,6 +375,7 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
 end
 
 Then /^an approval email is sent to the "([^"]*)"$/ do |email|
+  sleep(1)
   @email = email
   verifyEmail()
   found=@email_subject.downcase.include?("account approval")
