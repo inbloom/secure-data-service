@@ -201,8 +201,6 @@ public class IdNormalizer {
                                         filterValues.addAll(entityValues);
                                     } else if (entityValue != null) {
                                         filterValues.add(entityValue.toString());
-                                    } else {
-                                        throw new RuntimeException("entity value was null.");
                                     }
                                 } catch (Exception e) {
                                     LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
