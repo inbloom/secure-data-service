@@ -22,8 +22,6 @@ import org.slc.sli.common.constants.v1.PathConstants;
  *
  * If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead.
  *
- * Limitations: None
- *
  * @author kmyers
  *
  */
