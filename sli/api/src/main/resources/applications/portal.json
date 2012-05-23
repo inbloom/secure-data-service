@@ -18,7 +18,5 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Full Window App",
-   "developer_info":{
-      "organization":"${bootstrap.app.vendor}"
-   }
+   "vendor":"${bootstrap.app.vendor}"
 }
