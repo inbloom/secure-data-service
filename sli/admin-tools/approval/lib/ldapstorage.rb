@@ -59,7 +59,8 @@ class LDAPStorage
 	# READ-ONLY FIELDS 
 	RO_LDAP_ATTR_MAPPING = {
 		:createTimestamp => :created, 
-    	:modifyTimestamp => :updated
+    	:modifyTimestamp => :updated,
+    	:cn              => :cn
 	}
 
 	# these values are injected when the user is created 
@@ -119,6 +120,10 @@ class LDAPStorage
      	#raise ldap_ex(test_ldap, "Could not bind to ldap server.") if !test_ldap.bind 
 	end
 
+	def get_ldap_config
+		return @ldap_conf.clone 
+	end 
+
 	# user_info = {
 	#     :first => "John",
 	#     :last => "Doe", 
@@ -132,7 +137,7 @@ class LDAPStorage
 	# }
 	def create_user(user_info)
 		cn = user_info[:email]
-		dn = get_DN(user_info[:email])
+		dn = get_DN(cn)
 		attributes = {
 			:cn => cn,
 			:objectclass => OBJECT_CLASS,
@@ -201,7 +206,10 @@ class LDAPStorage
 	# updates the user status from an extended user_info 
 	def update_status(user)
 		if user_exists?(user[:email])
-			dn = get_DN(user[:email])
+			found_user = read_user(user[:email])
+			raise "Could not update user #{user[:email]}. User does not exist." if !found_user
+
+			dn = get_DN(found_user[:cn])
 			Net::LDAP.open(@ldap_conf) do |ldap|
 				if !ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
 					raise ldap_ex(ldap, "Could not update user status for user #{user[:email]}")
@@ -213,7 +221,6 @@ class LDAPStorage
 	# enable login and update the status
 	# This means the user is added to the LDAP group that corresponds to the given role
 	def add_user_group(email_address, group_id)
-		#user_dn  = get_DN(email_address)
 		user_dn  = email_address
 		group_dn = get_group_DN(group_id)
 
@@ -244,7 +251,7 @@ class LDAPStorage
 
 	# disable login and update the status 
 	def remove_user_group(email_address, group_id)
-		#user_dn = get_DN(email_address)
+		# note the user is stored in the group via uid only 
 		user_dn = email_address
 		group_dn = get_group_DN(group_id)
 
@@ -256,9 +263,13 @@ class LDAPStorage
 				removed = group_found[GROUP_MEMBER_ATTRIBUTE].delete(user_dn)
 				if removed
 					if group_found[GROUP_MEMBER_ATTRIBUTE].empty? 
-						ldap.delete(:dn => group_dn)
+						if !ldap.delete(:dn => group_dn)
+							raise ldap_ex(ldap, "Could not remove user #{user_dn} for group #{group_id}")
+						end
 					else 
-						ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[GROUP_MEMBER_ATTRIBUTE])
+						if !ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[GROUP_MEMBER_ATTRIBUTE])
+							raise ldap_ex(ldap, "Could not remove user #{user_dn} for group #{group_id}")
+						end
 					end 
 				end
 			end
@@ -266,7 +277,6 @@ class LDAPStorage
 	end
 
 	def get_user_groups(email_address)
-		#user_dn = get_DN(email_address)
 		user_dn = email_address
 		filter = Net::LDAP::Filter.eq( GROUP_MEMBER_ATTRIBUTE, user_dn)
 
@@ -290,13 +300,13 @@ class LDAPStorage
 		# get the current user entry 
 		curr_user_info = read_user(user_info[:email])
 		if curr_user_info
-			dn = get_DN(user_info[:email])
+			dn = get_DN(curr_user_info[:cn])
 
 			Net::LDAP.open(@ldap_conf) do |ldap|
 				#update the ldap attributes 
 				desc_attributes = {}
 				ALLOW_UPDATING.each do |attribute|
-					if user_info && (curr_user_info[attribute] != user_info[attribute])
+					if user_info && !!user_info[attribute] && (curr_user_info[attribute] != user_info[attribute])
 						if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
 							desc_attributes[attribute] = user_info[attribute]
 						else
@@ -317,9 +327,12 @@ class LDAPStorage
 
 	# deletes the user entirely 
 	def delete_user(email_address)
-		Net::LDAP.open(@ldap_conf) do |ldap|
-			ldap.delete(:dn => get_DN(email_address))
-		end
+		found_user = read_user(email_address)
+		if found_user
+			Net::LDAP.open(@ldap_conf) do |ldap|
+				ldap.delete(:dn => get_DN(found_user[:cn]))
+			end
+		end 
 	end 
 
 	#############################################################################
@@ -328,8 +341,8 @@ class LDAPStorage
 	private
 
 	# returns the LDAP DN
-	def get_DN(email_address)
-		return "cn=#{email_address},#{@people_base}"
+	def get_DN(cn)
+		return "cn=#{cn},#{@people_base}"
 	end
 
 	def get_group_DN(group_id)

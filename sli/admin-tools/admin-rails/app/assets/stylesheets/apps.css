@@ -1,1 +1,2 @@
-label { display:block; width: 120px }
+label.required { color: #D00;}
+div.field_with_errors input, div.field_with_errors textarea {border-color: red;}

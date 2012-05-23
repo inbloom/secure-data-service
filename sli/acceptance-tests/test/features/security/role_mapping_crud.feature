@@ -1,4 +1,5 @@
 @RALLY_US176
+@RALLY_US174
 Feature: Custom Role Mapping functions and Realm Listing functions
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 As any SLI application, I can access an API resource that only returns a list of realms, even while unauthenticated

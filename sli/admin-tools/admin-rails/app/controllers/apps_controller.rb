@@ -43,8 +43,7 @@ class AppsController < ApplicationController
   def new
     @title = "New Application"
     @app = App.new
-    @app.developer_info = App::DeveloperInfo.new
-  
+      
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @app }
