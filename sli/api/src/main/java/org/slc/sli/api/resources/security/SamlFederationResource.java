@@ -170,17 +170,28 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        String tenant = (String) realm.getBody().get("tenantId");
-        if (tenant == null || tenant.length() < 1) {
-            // accept the tenantId from the IDP if and only if the realm's tenantId is null
-            tenant = attributes.getFirst("tenant");
+        String tenant;
+        String realmTenant = (String) realm.getBody().get("tenantId");
+        String samlTenant = attributes.getFirst("tenant");
+        if (realmTenant == null || realmTenant.length() < 1) {
+            // Sandbox impersonation case: accept the tenantId from the IDP if and only if the realm's tenantId is null
+            tenant = samlTenant;
             if (tenant == null) {
                 LOG.error("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}",
                         issuer, inResponseTo);
                 throw new IllegalArgumentException("No tenant found in either the realm or SAMLResponse. issuer: "
                         + issuer + ", inResponseTo: ");
             }
+        } else {
+            Object temp = realm.getBody().get("admin");
+            Boolean isAdminRealm = (temp == null) ? false : (Boolean) temp; 
+            if (isAdminRealm && samlTenant != null) {
+                tenant = samlTenant;
+            } else {
+              tenant = realmTenant;
+            }
         }
+
         principal = users.locate(tenant, attributes.getFirst("userId"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
@@ -200,6 +211,10 @@ public class SamlFederationResource {
             throw new RuntimeException("Invalid user");
         }
         
+        if (samlTenant != null) {
+            principal.setTenantId(samlTenant);
+        }
+                
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
