@@ -496,11 +496,15 @@ DashboardUtil.Grid.Sorters = {
             }
         },
         
-        OtherFieldInt: function(params) {
-            var fieldArray = params.sortField.split(".");
+        /**
+         * Sort by sortField provided in the params. The field must be int.
+         */
+        ProxyInt: function(params) {
+            var fieldArray = (params.sortField) ? params.sortField.split(".") : [];
             var length = fieldArray.length;
             return function(value, rowObject) {
             	var ret = rowObject, i = 0;
+            	// find the field in the rowobject by its path "field.subfield.subsub" and return the value
                 while(i < length && (ret = ret[fieldArray[i ++]]));
                 return parseInt(ret);
             }
