@@ -261,7 +261,7 @@ end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1SectionAssessmentAssociationTests,
-                                :v1SessionCourseAssociationTests,
+                                :v1CourseOfferingTests,
                                 :v1StaffEdOrgAssociationTests,
                                 :v1StaffProgramAssociationTests,
                                 :v1StudentProgramAssociationTests,
@@ -394,7 +394,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
                          :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
-                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest] do
+                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -564,7 +564,7 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "courseOffering" => "sessionCourseAssociation_fixture.json",
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
@@ -592,7 +592,7 @@ task :importSandboxData do
     "assessment" => "smallville_assessment_fixture.json",
     "course" => "smallville_courses_fixture.json",
     "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
-    "sessionCourseAssociation" => "smallville_course_session_association_fixture.json",
+    "courseOffering" => "smallville_course_session_association_fixture.json",
     "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
     "educationOrganization" => "smallville_edOrg_fixture.json",
     "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",

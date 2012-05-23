@@ -134,6 +134,8 @@ public class RealmInitializer {
         toReturn.add(createRoleMapping(RoleInitializer.AGGREGATE_VIEWER));
         toReturn.add(createRoleMapping(RoleInitializer.LEADER));
         toReturn.add(createRoleMapping(RoleInitializer.REALM_ADMINISTRATOR));
+        toReturn.add(createRoleMapping(RoleInitializer.SEA_ADMINISTRATOR));
+        toReturn.add(createRoleMapping(RoleInitializer.INGESTION_USER));
         return toReturn;
     }
 

@@ -13,13 +13,13 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #section assessment association data
-  id = 25                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID"
-  id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "0cb7e99b-fc18-ecdb-830a-99abe8ee26be"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getSectionAssessmentAssociations"       if human_readable_id == "ASSOCIATION LINK NAME"
   id = "sectionAssessmentAssociation"           if human_readable_id == "ASSOCIATION TYPE"
@@ -43,8 +43,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "sectionId"                              if human_readable_id == "UPDATE FIELD"
-  id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "67ce204b-9999-4a11-aaac-000000000005"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE"
+  id = "7295e51e-cd51-4901-ae67-fa33966478c7"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE"
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"

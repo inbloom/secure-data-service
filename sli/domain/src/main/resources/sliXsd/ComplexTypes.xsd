@@ -981,6 +981,10 @@
 				<xs:annotation>
 					<xs:documentation>Full legal name of the person.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName"
@@ -990,6 +994,10 @@
 						Other names (e.g., alias, nickname, previous
 						legal name) associated with a person.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="sex" type="sexType">
@@ -1003,6 +1011,10 @@
 					<xs:documentation>Parent's address, if different from student
 						address.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone"
@@ -1350,7 +1362,7 @@
 
 			<!-- obtain location information via SectionBellScheduleAssocation -->
 
-			<xs:element maxOccurs="1" minOccurs="1" name="sessionId"
+			<xs:element maxOccurs="1" minOccurs="0" name="sessionId"
 				type="reference">
 				<xs:annotation>
 					<xs:documentation>The session associated with the section. This
@@ -1500,7 +1512,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="sessionCourseAssociation">
+	<xs:complexType name="courseOffering">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
 				with a session during which the course is offered.
@@ -2332,6 +2344,10 @@
 						record-keeping purposes by schools, social services, or other
 						agencies to refer to a student.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -4529,46 +4545,6 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="educationOrgAssociation">
-		<xs:annotation>
-			<xs:documentation>The association denoting a hierarchical
-				relationship among Educational Organizations.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="parentAgencyId" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Reference to the parent Education Organization
-						in
-						a hierarchy.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="childAgencyId" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Reference to the child Education Organization in
-						a hierarchy.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="feederSchool" type="feederSchoolType">
-				<xs:annotation>
-					<xs:documentation>If the child Education Org is a Feeder school
-						for
-						the parent, this optional entry provides details about that
-						relationship.
-					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

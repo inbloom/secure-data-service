@@ -1,59 +1,42 @@
-<p id="notice"><%= notice %></p>
+<!-- application_authorizations -->
 
-<h1>District - <%= Check.get("")["edOrg"].to_s %></h1>
-<h3>Please approve SLI applications to access the district's data</h3>
+<% names = @application_authorizations.map{|auth| auth.authId} %>
+<p id="notice"><%=
+    if notice != nil and names.member?(notice)
+        "Application was successfully updated"
+    elsif notice != nil
+      notice
+    end
+%></p>
+
+
+<% if @application_authorizations.length == 0 %>
+    <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
+<% else %>
+    <h3>Please approve SLI applications to access the district's data</h3>
+<% end %>
+<% if @application_authorizations.length > 1 %>
+    <select id="districtSelection">
+        <% names.each do |cur| %>
+            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= cur %></option>
+        <% end %>
+    </select>
+<% end %>
 
 
 <% @application_authorizations.each do |application_authorization| %>
-    <table id="Authorized Apps Table">
-      <tr>
-        <th>Name</th>
-        <th>Version</th>
-        <th>Vendor</th>
-        <th>Status</th>
-        <th> </th>
-      </tr>
-    <%
-        apps = App.all
-
-        #The reason map is being used is to put the apps in the order that they were authorized
-        authorizedApps = application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId}}
-        unauthorizedApps = apps.select {|app| application_authorization.appIds.find_index(app.id) == nil}
-        apps = authorizedApps + unauthorizedApps
-        apps.each do |app|
-    %>
-        <tr>
-          <% if app == nil
-                next
-             end
-          %>
-          <td><%= app.name %></td>
-          <td><%= app.version  %></td>
-          <td><%= app.developer_info.organization %></td>
-          <%=
-              isApproved = false
-              if application_authorization.appIds.find_index(app.id) != nil
-                    isApproved = true
-                    content_tag(:td, "Approved", :id => "approvedStatus")
-              else
-                    content_tag(:td, "Not Approved", :id => "notApprovedStatus")
-              end
-          %>
-          <td><%=
-              form_for application_authorization do |f|
-              %>
-                <%= f.hidden_field :appId, :value => app.id %>
-                <%= f.submit "Approve", :disabled => isApproved,
-                             :confirm => "Do you really want this application to access the district's data?'" %>
-                <%= f.submit "Deny", :disabled => !isApproved,
-                    :confirm => "Do you really want to deny the district's data to this application?"%>
-              <% end %>
-          </td>
-        </tr>
-        <%end %>
-      </table>
+    <% @application_authorization = application_authorization %>
+    <%= render 'form' %>
 <% end %>
+<script type="text/javascript" charset="utf-8">
+    $("select").change(function(){
+        $("select option:selected").each(function(){
+            $("table").hide();
+            $("#AuthorizedAppsTable_" + $(this).text()).show();
 
+       })  ;
+     }).change();
+
+</script>
 <br />
 
-<%= link_to 'New Application authorization', new_application_authorization_path %>

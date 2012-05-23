@@ -4,15 +4,15 @@
     <StateOrganizationId>${LocalEducationAgency.StateOrganizationId}</StateOrganizationId>
     </#if>
     
-    <#if (LocalEducationAgency.EducationOrgIdentificationCode[0])?? >
+    <#list LocalEducationAgency.EducationOrgIdentificationCode as edorgId >
     <EducationOrgIdentificationCode
-        <#if (LocalEducationAgency.EducationOrgIdentificationCode.@IdentificationSystem[0])??> 
-        IdentificationSystem="${LocalEducationAgency.EducationOrgIdentificationCode.@IdentificationSystem}"
+        <#if (edorgId.@IdentificationSystem[0])??> 
+        IdentificationSystem="${edorgId.@IdentificationSystem}"
         </#if>
         >
-        <#if (LocalEducationAgency.EducationOrgIdentificationCode.ID[0])??>
-        <ID>${LocalEducationAgency.EducationOrgIdentificationCode.ID}</ID>
+        <#if (edorgId.ID[0])??>
+        <ID>${edorgId.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
-    </#if>
+    </#list>
 </EducationOrgIdentity>

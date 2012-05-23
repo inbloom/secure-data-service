@@ -36,8 +36,11 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -64,6 +67,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+    @Autowired
+    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+
 
     private EntityService service;
     private EntityService applicationService;
@@ -100,15 +106,13 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{" + UUID + "}")
-    public Response getAuthorizations(@PathParam(UUID) String uuid) {
+    public Response getAuthorization(@PathParam(UUID) String uuid) {
 
         if (uuid != null) {
-
             EntityBody entityBody = service.get(uuid);
             if (entityBody != null) {
                 verifyAccess((String) entityBody.get(AUTH_ID));
                 return Response.status(Status.OK).entity(entityBody).build();
-
             }
         }
         return Response.status(Status.NOT_FOUND).build();
@@ -117,7 +121,7 @@ public class ApplicationAuthorizationResource {
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
 
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
 
@@ -132,7 +136,7 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{" + UUID + "}")
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
-        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
 
@@ -162,23 +166,42 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    public List<Map<String, Object>> getAuthorizations(@Context UriInfo info) {
+    public Response getAuthorizations(@Context UriInfo info) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-
         String edOrg = getUsersStateUniqueId();
-        if (edOrg != null) {
-            NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
-            query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrg));
-            Entity ent = repo.findOne(RESOURCE_NAME, query);
-            if (ent != null) {
+
+        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+            return Response.status(Status.FORBIDDEN).build();
+        }
+        
+        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            if (edOrg != null) {
+                NeutralQuery query = new NeutralQuery();
+                query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
+                query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrg));
+                Entity ent = repo.findOne(RESOURCE_NAME, query);
+                if (ent != null) {
+                    ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
+                    ent.getBody().put("id", ent.getEntityId());
+                    results.add(ent.getBody());
+                }
+            }
+        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+            List<String> delegateEdOrgs = myDelegateEdOrgs();
+            for (String curEdOrg : delegateEdOrgs) {
+                NeutralQuery finalQuery = new NeutralQuery();
+                finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
+                finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
+                Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
+                if (ent != null) {
                 ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
                 ent.getBody().put("id", ent.getEntityId());
                 results.add(ent.getBody());
+                }
             }
-
+            
         }
-        return results;
+        return Response.status(Status.OK).entity(results).build();
     }
 
     private String getUsersStateUniqueId() {
@@ -200,9 +223,26 @@ public class ApplicationAuthorizationResource {
         if (edOrg == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
-        if (!edOrg.equals(authId)) {
+        if (!edOrg.equals(authId) && !myDelegateEdOrgs().contains(authId)) {
             throw new AccessDeniedException("User can only access " + edOrg);
         }
+    }
+    
+    private List<String> myDelegateEdOrgs() {
+        String edOrg = getUsersStateUniqueId();
+
+        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);        
+        List<String> delegateEdOrgs = new ArrayList<String>();
+        for (String curEdOrg : myEdOrgsIds) {
+            NeutralQuery delegateQuery = new NeutralQuery();
+            delegateQuery.addCriteria(new NeutralCriteria("appApprovalEnabled", "=", true));
+            delegateQuery.addCriteria(new NeutralCriteria("localEdOrgId", "=", curEdOrg));
+            if (repo.findOne(EntityNames.ADMIN_DELEGATION, delegateQuery) != null) {
+                delegateEdOrgs.add(curEdOrg);
+            }
+        }
+        debug("Ed orgs that I can delegate are {}", delegateEdOrgs);
+        return delegateEdOrgs;
     }
 
     private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {
@@ -264,6 +304,8 @@ public class ApplicationAuthorizationResource {
                 app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
                 LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
+            } catch (EntityNotFoundException e) {
+                LOG.info("Could not find application [" + appId + "]. Omitting in Security Log.");
             }
             String stateOrganizationId  = "";
             String nameOfInstitution    = "";

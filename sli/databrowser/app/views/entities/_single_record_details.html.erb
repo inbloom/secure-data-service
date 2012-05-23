@@ -1,9 +1,10 @@
 <%=
-html = ""
+html = "<dl>"
 if entity.empty?
 	html << "Entity is empty"
 else
 	html << display_entity(entity)
 end
+html << "</dl>"
 html.html_safe
 %>

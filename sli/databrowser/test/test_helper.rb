@@ -28,15 +28,27 @@ class ActiveSupport::TestCase
     @teacher_fixtures = load_fixture("teachers")
     @school_fixtures = load_fixture("schools")
     # @realm_fixtures = load_fixture("realms")
+    headers = {"Link" => "</something/something?offset=30&limit=50; rel=next"}
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/v1/students", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json
-      mock.get "/api/rest/v1/teachers", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
-      mock.get "/api/rest/v1/students/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, @student_fixtures['one'].to_json
+      mock.get "/api/rest/v1/home/", {"Accept" => "application/vnd.slc+json"}, [].to_json, 200, headers
+      mock.get "/api/rest/v1/students/", {"Accept" => "application/vnd.slc+json"}, [@student_fixtures['one'], @student_fixtures['two']].to_json, 200, headers
+      mock.get "/api/rest/v1/teachers/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json, 200, headers
+      mock.get "/api/rest/v1/students/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, @student_fixtures['one'].to_json, 200, headers
+      mock.get "/api/rest/v1/teachers/?teacherUniqueStateId=11111111-1111-1111-1111-111111111111", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json, 200, headers
       
-      mock.get "/api/rest/v1/teacher-school-associations/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json
+      mock.get "/api/rest/v1/teacher-school-associations/11111111-1111-1111-1111-111111111111/", {"Accept" => "application/vnd.slc+json"}, [@teacher_fixtures['one'], @teacher_fixtures['two']].to_json, 200, headers
             
-      mock.get "/api/rest/system/session/check", {"Accept" => "application/json"}, {'full_name' => "Peter Griffin"}.to_json
-      mock.get "/api/rest/system/session/check", {"Accept" => "application/json", "sessionId" => "Waffles"}, {'full_name' => "Peter Griffin"}.to_json
+      mock.get "/api/rest/system/session/check", {"Accept" => "application/json"}, {'full_name' => "Peter Griffin"}.to_json, 200, headers
+      mock.get "/api/rest/system/session/check", {"Accept" => "application/json", "sessionId" => "Waffles"}, {'full_name' => "Peter Griffin"}.to_json, 200, headers
+    end
+  end
+end
+
+#Monkey patch for http_response gem
+module ActiveResource
+  class Response
+    def to_hash
+      @headers
     end
   end
 end
