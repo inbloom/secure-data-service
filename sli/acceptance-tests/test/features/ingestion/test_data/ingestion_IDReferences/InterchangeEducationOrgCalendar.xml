@@ -62,7 +62,7 @@
         <GradingPeriodReference ref="GP_7"/>
         <GradingPeriodReference ref="GP_8"/>
         <GradingPeriodReference ref="GP_9"/>
-        <GradingPeriodReference ref="GP_101"/>
+        <GradingPeriodReference ref="GP_1"/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Echo School</SessionName>
@@ -124,7 +124,7 @@
         <GradingPeriodReference ref="GP_7"/>
         <GradingPeriodReference ref="GP_8"/>
         <GradingPeriodReference ref="GP_9"/>
-        <GradingPeriodReference ref="GP_101"/>
+        <GradingPeriodReference ref="GP_1"/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Dog School</SessionName>
@@ -189,35 +189,35 @@
 		<BeginDate>2013-01-01</BeginDate>
 		<EndDate>2013-04-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_101"/>
+		<CalendarDateReference ref="CD_5"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_6">
 		<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 		<BeginDate>2013-09-01</BeginDate>
 		<EndDate>2013-12-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_1"/>
+		<CalendarDateReference ref="CD_6"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_7">
 		<GradingPeriod>First Summer Session</GradingPeriod>
 		<BeginDate>2010-05-01</BeginDate>
 		<EndDate>2010-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_2"/>
+		<CalendarDateReference ref="CD_7"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_8">
 		<GradingPeriod>Second Summer Session</GradingPeriod>
 		<BeginDate>2011-05-01</BeginDate>
 		<EndDate>2011-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_3"/>
+		<CalendarDateReference ref="CD_8"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_9">
 		<GradingPeriod>Third Summer Session</GradingPeriod>
 		<BeginDate>2012-05-01</BeginDate>
 		<EndDate>2012-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
-		<CalendarDateReference ref="CD_4"/>
+		<CalendarDateReference ref="CD_9"/>
 	</GradingPeriod>
 
 	<CalendarDate id="CD_1">
