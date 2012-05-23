@@ -1,4 +1,5 @@
-Feature: As a user I want to be able to search for entities by their unique IDs
+@RALLY_US215
+Feature: As a user I want to be able to search for entities by their unique IDs, sort on columns, and page new data
 Background:
 Given I have an open web browser
     And I navigated to the Data Browser Home URL
@@ -25,3 +26,17 @@ Scenario: Searching for a entities
 |educationOrganizations|waffles   | Fail   |
 |staff                 |wgoodman  | Pass   |
 |staff                 |waffles   | Fail   |
+
+Scenario: Sorting in ascending/descending
+  When I go to the students page
+    And I click on the First Name column
+  Then the order of the contents should change
+  When I click again
+  Then the contents should reverse
+
+Scenario: Paging data
+  When I go to the students page
+  Then I should see 50 students
+  When I scroll to the bottom
+    And wait for 5 seconds
+  Then I should see more students

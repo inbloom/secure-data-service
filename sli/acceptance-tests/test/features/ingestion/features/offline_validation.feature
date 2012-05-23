@@ -1,3 +1,6 @@
+@RALLY_US180
+@RALLY_US1703
+@RALLY_US1968
 Feature: Offline Tool Simple ValidationTest
 
 Background: I have a landing zone route configured

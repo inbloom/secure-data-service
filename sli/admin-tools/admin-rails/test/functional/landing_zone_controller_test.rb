@@ -7,7 +7,7 @@ class LandingZoneControllerTest < ActionController::TestCase
   # end
 
   test "should get index" do
-    get :index, {}, { :roles => ["LEA Administrator"] }
+    get :index, {}, { :roles => ["Ingestion User"] }
     assert_response :success, @response.body
   end
   

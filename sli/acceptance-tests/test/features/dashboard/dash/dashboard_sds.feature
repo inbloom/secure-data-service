@@ -85,8 +85,8 @@ And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
 And their grade is "8"
-And the teacher is "Mrs Linda Kim"
-And the class is "8th Grade English - Sec 6"
+#And the teacher is "Mrs Linda Kim"
+#And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
 And there are "7" Tabs

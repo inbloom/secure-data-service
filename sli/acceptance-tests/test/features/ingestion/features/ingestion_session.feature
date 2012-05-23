@@ -1,3 +1,5 @@
+@RALLY_US934
+@RALLY_US2285
 Feature: Session Ingestion Test
 
 Background: I have a landing zone route configured
