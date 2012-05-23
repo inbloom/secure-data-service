@@ -2,14 +2,13 @@ class App < SessionResource
   self.format = ActiveResource::Formats::JsonFormat
   validates_presence_of [:description, :application_url, :name, :redirect_uri, :vendor], :message => "must not be blank"
   validates_numericality_of :version, :message => "is not a number (eg 1.0)"
-  # validate :organization_must_not_be_blank
-  # 
-  # def organization_must_not_be_blank
-  #   if self.developer
-  #     errors.add(:developer_info, "must not be blank")
-  #   end
-  # end
-    
+  
+  def self.all_but_admin
+    apps = App.all
+    apps.delete_if { |app| app.respond_to? :endpoints }
+    apps
+  end
+  
   schema do 
     string "client_secret", "redirect_uri", "description", "image_url"
     string "name", "client_id", "application_url", "administration_url"

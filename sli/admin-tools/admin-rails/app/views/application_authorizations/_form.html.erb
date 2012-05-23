@@ -12,7 +12,7 @@
   </thead>
   <tbody>
 <%
-    apps = App.all
+    apps = App.all_but_admin
 
     #The reason map is being used is to put the apps in the order that they were authorized
     authorizedApps = @application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId }}
