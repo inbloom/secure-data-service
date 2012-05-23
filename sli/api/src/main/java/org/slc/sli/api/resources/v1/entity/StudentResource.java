@@ -36,8 +36,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * educational program under the jurisdiction of a school,
  * education agency, or other institution
  * or program. A student is a person who has been enrolled in a
- * school or other educational institution. For more information, see the schema for the $$students$$
- * entity.
+ * school or other educational institution. For more information, see the schema for the $$Student$$
+ * resources.
  *
  * @author jstokes
  *
@@ -81,16 +81,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the student with their grade information.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Path(PathConstants.STUDENT_WITH_GRADE)
     @GET
@@ -111,20 +101,11 @@ public class StudentResource extends DefaultCrudResource {
     }
 
     /**
-     * Get a single $$students$$ entity, with the grade included
+     * Get a single $$Student$$ entity, with the grade included
      * Calculates the current grade based on entryDate and exitWithdrawDate in
      * studentSchoolAssociations
      * Returns student with gradeLevel "Not Available" when information is insufficient, or the code
      * experiences an exception
-     *
-     * @param studentId
-     *            The Id of the $$students$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single student entity
-     * @throws ParseException
      */
     @SuppressWarnings("unchecked")
     @GET
@@ -220,20 +201,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
@@ -244,14 +211,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS + "/"
@@ -265,14 +224,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -283,14 +234,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
@@ -304,20 +247,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
@@ -328,14 +257,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
@@ -349,20 +270,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.ATTENDANCES)
@@ -373,14 +280,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS)
@@ -391,14 +290,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS + "/"
@@ -412,14 +303,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
@@ -430,14 +313,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/"
@@ -451,14 +326,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
@@ -471,14 +338,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS
@@ -492,20 +351,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the $$student$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
@@ -517,14 +362,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the $$students$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/"
@@ -538,20 +375,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
@@ -562,14 +385,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The Id of the Student.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/"
@@ -583,13 +398,6 @@ public class StudentResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentId
-     *            The id of the student
-     * @param headers
-     *            HTTP request headers
-     * @param uriInfo
-     *            URI information including path and query parameters
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.REPORT_CARDS)

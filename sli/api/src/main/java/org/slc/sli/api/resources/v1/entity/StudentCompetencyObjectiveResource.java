@@ -15,8 +15,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents additional competencies for student achievement that are not associated with specific learning objectives
  * (e.g., paying attention in class).
  *
- * @author chung
+ * For detailed information, see the schema for $$StudentCompetencyObjective$$ resources.
  *
+ * @author chung
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COMPETENCY_OBJECTIVES)
 @Component
