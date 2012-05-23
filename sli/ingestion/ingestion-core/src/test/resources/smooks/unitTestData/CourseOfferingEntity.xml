@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+    <CourseOffering>
+        <LocalCourseCode>Local Course Code</LocalCourseCode>
+        <LocalCourseTitle>Local Course Title</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>School Reference State Organization Id</StateOrganizationId>
+                <EducationOrgIdentificationCode IdentificationSystem="School Reference Identification System 1">
+                    <ID>School Reference ID 1</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="School Reference Identification System 2">
+                    <ID>School Reference ID 2</ID>
+                </EducationOrgIdentificationCode>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <StateOrganizationId>Session Reference State Organization Id 1</StateOrganizationId>
+                <StateOrganizationId>Session Reference State Organization Id 2</StateOrganizationId>
+                <EducationOrgIdentificationCode IdentificationSystem="Session Reference Identification System 1">
+                    <ID>Session Reference ID 1</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="Session Reference Identification System 2">
+                    <ID>Session Reference ID 2</ID>
+                </EducationOrgIdentificationCode>
+                <SessionName>Session Name</SessionName>
+                <SchoolYear>School Year</SchoolYear>
+                <Term>My Term</Term>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference>
+            <CourseIdentity ID="Course Reference ID" IDREF="Course Reference IDREF">
+                <CourseCode IdentificationSystem="Course Reference Identification System 1" AssigningOrganizationCode="Course Reference Assigning Organization Code 1">
+                    <ID>Course Reference ID 1</ID>
+                </CourseCode>
+                <CourseCode IdentificationSystem="Course Reference Identification System 2" AssigningOrganizationCode="Course Reference Assigning Organization Code 2">
+                    <ID>Course Reference ID 2</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+</InterchangeMasterSchedule>
