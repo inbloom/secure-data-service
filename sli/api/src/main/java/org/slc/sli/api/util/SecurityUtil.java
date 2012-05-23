@@ -4,10 +4,13 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import javax.ws.rs.core.Response;
@@ -74,6 +77,12 @@ public class SecurityUtil {
     }
 
     public static Response forbiddenResponse() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth instanceof OAuth2Authentication && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
+        
         EntityBody body = new EntityBody();
         body.put("response", "\"You are not authorized to perform this action.\"");
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
