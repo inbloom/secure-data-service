@@ -300,7 +300,7 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests] do
   Rake::Task["importSandboxData"].execute
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/admintools")
@@ -447,22 +447,9 @@ end
 # Onboarding Integration Tests start
 ############################################################
 
-desc "Run Onboarding Integration Tests"
-task :onboardingIntegrationSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
 
 desc "Run Onboarding Integration Tests"
-task :onboardingIntegrationProdTests do
-  @tags = ["~@wip", "@production"]
+task :onboardingIntegrationTests do
 sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
 runTests("test/features/sandbox/Integration/onboarding_integration.feature")
   displayFailureReport()
