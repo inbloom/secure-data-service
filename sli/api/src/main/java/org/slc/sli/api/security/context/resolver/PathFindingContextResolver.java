@@ -99,7 +99,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
                 Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
                 for (Entity entity : entities) {
                     String id = (String) entity.getBody().get(connection.getFieldName());
-                    if( id != null && !id.isEmpty())
+                    if (id != null && !id.isEmpty())
                         idSet.add(id);
                 }
             } else if (isAssociative(next, connection)) {

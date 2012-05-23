@@ -195,7 +195,7 @@ public class SamlFederationResource {
         principal.setAdminRealm(attributes.getFirst("edOrg"));
         
 
-        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean)realm.getBody().get("admin")) {
+        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
             throw new RuntimeException("Invalid user");
         }
