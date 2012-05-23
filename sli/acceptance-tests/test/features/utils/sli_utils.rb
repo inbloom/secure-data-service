@@ -323,7 +323,7 @@ module DataProvider
       "is_admin" => true,
       "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
-      "image_url" => "https://slidev.org/image",
+      "image_url" => "https://slidev.org/img",
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
