@@ -258,6 +258,8 @@ public final class Constants {
 
     public static final int MAX_RESULTS = 0;
 
+    public static final String ATTR_PARENTS = "parents";
+    
     /**
      * Contains the possible values for FRE participation
      */

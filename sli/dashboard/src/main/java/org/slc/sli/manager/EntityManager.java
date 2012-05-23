@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.entity.util.ParentsContactSorter;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardException;
 
@@ -124,6 +125,13 @@ public class EntityManager extends ApiClientManager {
 
         List<GenericEntity> studentEnrollment = getApiClient().getStudentEnrollment(token, student);
         student.put(Constants.ATTR_STUDENT_ENROLLMENT, studentEnrollment);
+        
+        List<GenericEntity> parentsContacts = getApiClient().getParentsForStudent(token, studentId);
+        ParentsContactSorter.sort(parentsContacts);
+        for (GenericEntity parentsContact : parentsContacts)
+            ContactSorter.sort(parentsContact);
+        student.put(Constants.ATTR_PARENTS, parentsContacts);
+        
         return student;
     }
 
