@@ -2,26 +2,18 @@
     "keyFields" : ["body.sectionId", "body.teacherId"],
 	"references" :
 	[{
-        "fieldPath" : "body.sectionId","ref" :
+        "fieldPath" : "body.sectionId",
+        "ref" :
         {
 	        "collectionName" : "section",
 	        "choiceOfFields" :
 	        [
 	            [
 		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.sectionId"
-		                }]
-		            }
-	            ],
-	            [
-	                { 
 		           	    "path" : "body.schoolId",
 		                "values" : 
 		                [{
-			                "ref":
+		                    "ref":
                              {
                                  "collectionName" : "school",
                                  "choiceOfFields" :
@@ -40,32 +32,10 @@
 		                }]
 		            },
 		            { 
-		           	    "path" : "body.sessionId",
-		                "values" : 
-		                [{
-			                "ref":
-                             {
-                                 "collectionName" : "session",
-                                 "choiceOfFields" :
-                                  [
-                                      [
-                                          {
-                                              "path" : "metaData.externalId",
-                                              "values" :
-                                               [{
-                                                     "valueSource" : "localParentIds.sessionId"
-                                               }]
-                                          }
-                                      ]
-                                  ]
-                             }
-		                }]
-		            },
-		            { 
 		           	    "path" : "body.courseId",
 		                "values" : 
 		                [{
-			                "ref":
+			                 "ref":
                              {
                                  "collectionName" : "course",
                                  "choiceOfFields" :
@@ -82,13 +52,45 @@
                                   ]
                              }
 		                }]
+		            },
+		            { 
+		           	    "path" : "body.sessionId",
+		                "values" : 
+		                [{
+		                    "ref":
+                             {
+                                 "collectionName" : "session",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "localParentIds.sessionId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }			                
+		                }]
+		            }
+	            ],
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.sectionId"
+		                }]
 		            }
 	            ]
 	        ]
         }
     },
     { 
-        "fieldPath" : "body.teacherId","ref" :
+        "fieldPath" : "body.teacherId",
+        "ref" :
         {
 	        "collectionName" : "staff",
 	        "choiceOfFields" :
