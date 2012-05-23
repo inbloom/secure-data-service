@@ -10,6 +10,7 @@ public interface DocumentationElements {
     public static final QName CLASS = new QName("class");
     public static final QName DATA_TYPE = new QName("datatype");
     public static final QName DESCRIPTION = new QName("description");
+    public static final QName GENERALIZATION = new QName("generalization");
     /**
      * Prolog is text that comes before a diagram.
      */
