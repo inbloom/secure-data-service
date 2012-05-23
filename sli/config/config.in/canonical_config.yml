@@ -60,6 +60,9 @@ default:
         # logging path
         logging.path: C:/lz/logs
 
+        # ingestion command topic
+        sli.ingestion.topic.command: seda:ingestion
+
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -622,8 +625,8 @@ local:
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host:
-        sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.host: localhost
+        sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -695,8 +698,8 @@ nxbuild2:
     ingestion:
         <<: *INGESTION-DEFAULT
         # nxbuild2/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host:
-        sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.host: localhost
+        sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
@@ -771,6 +774,10 @@ team:
         # team/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+        
+        # Command topic
+        sli.ingestion.topic.command: activemq:topic:ingestion.command
+    
         # team/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616

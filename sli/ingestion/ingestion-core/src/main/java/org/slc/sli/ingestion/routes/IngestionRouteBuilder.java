@@ -111,6 +111,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.queue.pit.uriOptions}")
     private String pitUriOptions;
+    
+    @Value("${sli.ingestion.topic.command}")
+    private String commandTopicUri;
 
     @Override
     public void configure() throws Exception {
@@ -148,7 +151,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
         }
         
-        from("activemq:topic:ingestion.command").bean(this.lookup(CommandProcessor.class));
+        from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
     }
 
     /**
