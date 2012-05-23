@@ -26,11 +26,11 @@
       {name: "Student", width: 100, field: "name.fullName", style:"ui-ellipsis", formatter:'restLink', params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: 'Lozenge'},
       {name: "StateTest Reading (highest ever)", items:[
-        {name: "Performance Level", field: "assessments.StateTest Reading.perfLevel", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Reading', valueField:'Scale score', fieldName: "StateTestReading", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: "Performance Level", field: "assessments.StateTest Reading.perfLevel", width:150, sorter: 'OtherFieldInt', formatter: 'FuelGaugeWithScore', params:{sortField: 'assessments.StateTest Reading.Scale score', name:'StateTest Reading', valueField:'Scale score', fieldName: "StateTestReading", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: "SS", field: "assessments.StateTest Reading.Scale score", width:45, sorter: 'int'},
-        {name: "Lexile", field: "assessments.StateTest Reading.Other", width:45}]},
+        {name: "Lexile", field: "assessments.StateTest Reading.Other", width:45, sorter: 'int'}]},
       {name: "StateTest Writing (most recent)", items:[   
-        {name: "Performance Level", field: "assessments.StateTest Writing.perfLevel", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Writing', valueField:'Scale score', fieldName: "StateTestWriting", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: "Performance Level", field: "assessments.StateTest Writing.perfLevel", width:150, sorter: 'OtherFieldInt', formatter: 'FuelGaugeWithScore', params:{sortField: 'assessments.StateTest Writing.Scale score', name:'StateTest Writing', valueField:'Scale score', fieldName: "StateTestWriting", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: "SS", field: "assessments.StateTest Writing.Scale score", width:45, sorter: 'int'}]},
       {name: "Current Grades", items:[
                {name: "Unit Test 1", field: "FallSemester2011-2012-0", width:100, sorter: 'LettersAndNumbers', formatter: 'Grade'}

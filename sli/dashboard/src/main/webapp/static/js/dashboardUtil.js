@@ -495,6 +495,16 @@ DashboardUtil.Grid.Sorters = {
                 return i ? parseInt(i) : -1;
             }
         },
+        
+        OtherFieldInt: function(params) {
+            var fieldArray = params.sortField.split(".");
+            var length = fieldArray.length;
+            return function(value, rowObject) {
+            	var ret = rowObject, i = 0;
+                while(i < length && (ret = ret[fieldArray[i ++]]));
+                return parseInt(ret);
+            }
+        },
 
         LetterGrade: function(params) {
             return function(semesterGrades, rowObject) {
