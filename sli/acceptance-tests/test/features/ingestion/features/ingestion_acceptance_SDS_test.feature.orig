@@ -34,36 +34,38 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
-        | learningStandard    |
+        | learningStandard            |
+        | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
-When zip file is scp to ingestion landing zone
+		| studentDisciplineIncidentAssociation|
+        | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
+  When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
+        | course                      | 95    |
         | educationOrganization       | 7     |
         | section                     | 97    |
-        | studentSectionAssociation   | 297   |
+        | studentSectionAssociation   | 296   |
         | staff                       | 14    |
-        | staffEducationOrganizationAssociation| 8|
+        | staffEducationOrganizationAssociation| 11|
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 10    |
         | session                     | 22    |
-<<<<<<< HEAD
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
-=======
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 141   |
->>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -71,9 +73,15 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
-        | learningStandard            | 10    |
+        | learningStandard            | 36    |
+        | learningObjective           | 63    |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
+		| studentDisciplineIncidentAssociation| 4|
+        | grade                       | 4     |
+        | gradingPeriod               | 17    |
+        | calendarDate                | 556   |
+        | reportCard                  | 2     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -93,36 +101,54 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
-       | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
-       | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
+       | disciplineIncident          | 1                   | body.incidentIdentifier  | Tardiness                  | string               |
+       | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-<<<<<<< HEAD
-    And I should see "Processed 15380 records." in the resulting batch job file
-=======
-    And I should see "Processed 15298 records." in the resulting batch job file
->>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
+       | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.1.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.2.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-3    | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
+    And I should see "Processed 16074 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 82" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 82" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 107" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 107" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 104" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 104" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 24" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 24" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 97" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 97" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 38" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 38" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 640" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 640" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 646" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 646" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 2" in the resulting batch job file
@@ -133,12 +159,12 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 10" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 10" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 99" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records failed: 0" in the resulting batch job file
@@ -172,8 +198,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentCohort.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration @IL-Sunset
@@ -184,29 +210,24 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 80    |
-        | studentSchoolAssociation    | 169   |
+        | student                     | 81    |
+        | studentSchoolAssociation    | 170   |
         | course                      | 96    |
         | educationOrganization       | 7     |
         | section                     | 98    |
         | studentSectionAssociation   | 299   |
         | staff                       | 21    |
-        | staffEducationOrganizationAssociation|11|
+        | staffEducationOrganizationAssociation|17|
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
-<<<<<<< HEAD
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
-=======
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 141   |
->>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -216,6 +237,9 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
+		| studentDisciplineIncidentAssociation| 4|
+        | grade                       | 4     |
+        | reportCard                  | 2     |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -224,10 +248,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 23 records." in the resulting batch job file
+    And I should see "Processed 29 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
@@ -238,11 +262,11 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 12" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 12" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 15" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 6" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 6" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration @NY-NYC
@@ -253,29 +277,24 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 88    |
-        | studentSchoolAssociation    | 177   |
+        | student                     | 89    |
+        | studentSchoolAssociation    | 178   |
         | course                      | 104   |
         | educationOrganization       | 14    |
         | section                     | 114   |
         | studentSectionAssociation   | 307   |
         | staff                       | 58    |
-        | staffEducationOrganizationAssociation|20|
+        | staffEducationOrganizationAssociation|38|
         | teacherSchoolAssociation    | 20    |
         | teacherSectionAssociation   | 27    |
         | session                     | 26    |
-<<<<<<< HEAD
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
-=======
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 141   |
->>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -283,8 +302,11 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
-        | disciplineIncident          | 2     |
-        | disciplineAction            | 2     |
+        | disciplineIncident          | 4     |
+        | disciplineAction            | 3     |
+		| studentDisciplineIncidentAssociation| 8|
+        | grade                       | 4     |
+        | reportCard                  | 2     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
@@ -293,7 +315,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
-    And I should see "Processed 137 records." in the resulting batch job file
+    And I should see "Processed 718 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
@@ -301,15 +323,18 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 566" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 566" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 16" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 16" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 78" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 78" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 90" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 90" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 16" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 16" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered: 7" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file

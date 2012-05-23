@@ -103,7 +103,7 @@
 						agency.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -916,7 +916,7 @@
 						a person.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1199,7 +1199,7 @@
 						that are assigned.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1297,7 +1297,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1310,7 +1310,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1322,7 +1322,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1334,7 +1334,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1395,7 +1395,7 @@
 						session (e.g., 2010/11, 2011 Summer).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1404,7 +1404,7 @@
 					<xs:documentation>The identifier for the school year.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1413,7 +1413,7 @@
 					<xs:documentation>The term for the session during the school year.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1597,7 +1597,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1607,7 +1607,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1686,7 +1686,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1697,7 +1697,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1744,7 +1744,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1756,7 +1756,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey />
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1852,7 +1852,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1862,7 +1862,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2027,7 +2027,7 @@
 					<xs:appinfo>
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2044,7 +2044,7 @@
 					<xs:appinfo>
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2262,7 +2262,7 @@
 						a student by a state education agency.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2601,7 +2601,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2614,7 +2614,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2916,7 +2916,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2927,7 +2927,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>assessment</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3046,7 +3046,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3057,7 +3057,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3069,7 +3069,7 @@
 						first identified as part of the cohort.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3081,7 +3081,7 @@
 						removed as part of the cohort.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3128,7 +3128,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3140,7 +3140,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3325,7 +3325,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3335,7 +3335,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>parent</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3410,7 +3410,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3420,7 +3420,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3439,7 +3439,7 @@
 						first received services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3451,7 +3451,7 @@
 						services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3491,7 +3491,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3501,7 +3501,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3556,7 +3556,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3565,7 +3565,7 @@
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3576,7 +3576,7 @@
 						begins to receive instructional services in a school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3646,7 +3646,7 @@
 						an individual left school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3700,7 +3700,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>gradebookEntry</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3710,7 +3710,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3720,7 +3720,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3994,7 +3994,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4004,7 +4004,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4033,7 +4033,7 @@
 							<xs:appinfo>
 								<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 								<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-								<sli:naturalKey/>
+								<sli:naturalKey>true</sli:naturalKey>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -4070,7 +4070,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4080,7 +4080,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4132,7 +4132,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4142,7 +4142,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4336,7 +4336,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4350,7 +4350,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4363,7 +4363,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4374,7 +4374,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4386,7 +4386,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4414,7 +4414,7 @@
 						by the State Education Agency (SEA).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4428,7 +4428,7 @@
 						other agency or entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5259,7 +5259,7 @@
 						objective in the context of a standard (e.g., 111.15.3.1.A)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5269,7 +5269,7 @@
 						objective.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5365,7 +5365,7 @@
 						(e.g., 111.15.3.1.A)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5590,7 +5590,7 @@
 						Grading Period).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5609,7 +5609,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5620,7 +5620,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5650,7 +5650,7 @@
 						homework, assignment, quiz, unit test, oral presentation, etc.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5660,7 +5660,7 @@
 						was assigned or executed.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5682,7 +5682,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5704,7 +5704,7 @@
 						reported
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5715,7 +5715,7 @@
 						grading period.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5726,7 +5726,7 @@
 						grading period.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5781,7 +5781,7 @@
 						Standard.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
@@ -5795,7 +5795,7 @@
 						tailored for an individual.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5806,7 +5806,7 @@
 						under this plan.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5820,7 +5820,7 @@
 						are eligible to meet subject credit requirements.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5833,7 +5833,7 @@
 						courses.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5905,7 +5905,7 @@
 					<xs:documentation>The name or ID for the cohort.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5925,7 +5925,7 @@
 						classroom breakout)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5936,7 +5936,7 @@
 						classroom, etc.)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5956,7 +5956,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6026,7 +6026,7 @@
 						reading, composition, spelling, and language arts).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6151,7 +6151,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6305,7 +6305,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6316,7 +6316,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6494,7 +6494,7 @@
 						offenders.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6598,7 +6598,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6611,7 +6611,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6691,7 +6691,7 @@
 					<xs:documentation>The month, day and year of the calendar date.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6708,7 +6708,7 @@
 						...
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6785,7 +6785,7 @@
 						entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7017,7 +7017,7 @@
 						the Report Card</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7029,7 +7029,7 @@
 						card.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7186,7 +7186,7 @@
 						the student.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7197,7 +7197,7 @@
 						the student.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7223,7 +7223,7 @@
 						with which the competency is evaluated.</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7244,7 +7244,7 @@
 					<xs:documentation>The Identifier for the student competency.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7253,7 +7253,7 @@
 					<xs:documentation>The designated title of the student competency
 						objective.</xs:documentation>
 					<xs:appinfo>
-						<sli:naturalKey/>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

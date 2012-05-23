@@ -1,3 +1,4 @@
+@RALLY_US1564
 @security
 @RALLY_US209
 Feature: Security for discipline incident CRUD

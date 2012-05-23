@@ -1,3 +1,4 @@
+@RALLY_US1804
 @security
 @RALLY_US209
 Feature: Security for Cohort CRUD
