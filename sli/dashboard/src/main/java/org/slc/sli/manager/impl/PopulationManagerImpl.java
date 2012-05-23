@@ -23,6 +23,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -141,6 +142,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         enhanceListOfStudents(studentSummaries, id);
 
         GenericEntity result = new GenericEntity();
+        Collections.sort(studentSummaries, STUDENT_COMPARATOR);
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
 
         return result;
@@ -1031,4 +1033,24 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         entity.put("scoreResultsSet", new ArrayList<String>(scoreResultNames));
         return entity;
     }
+
+    /**
+     * Comparator for student names
+     */
+    public static final Comparator<GenericEntity> STUDENT_COMPARATOR = new Comparator<GenericEntity>() {
+
+        @Override
+        public int compare(GenericEntity o1, GenericEntity o2) {
+            String name1 = (String) o1.getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME);
+            String name2 = (String) o2.getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME);
+            if (name1 == null && name2 == null) {
+                return 0;
+            }
+            if (name1 == null) {
+                name1 = StringUtils.EMPTY;
+            }
+            return name1.compareTo(name2);
+        }
+
+    };
 }
