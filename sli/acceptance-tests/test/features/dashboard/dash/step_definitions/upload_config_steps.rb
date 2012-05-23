@@ -100,7 +100,7 @@ Then /^I paste Valid json config into the text box$/ do
       {name: \"Student\", field: \"name.fullName\", width:100, formatter:'restLink', style:\"ui-ellipsis\", params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
       {name: \"READ 2.0\", items:[
-        {name: \"Performance Level\", field: \"assessments.READ 2.0.perfLevel\", width:100}]},
+        {name: \"Performance Level\", field: \"assessments.READ 2_0.perfLevel\", width:100}]},
       {name: \"Reading\", items:[          
         {name: \"RL\", field: \"assessments.TRC.readingLevel\", width:100},
         {name: \"Prof. Level\", field: \"assessments.TRC.profLevel\", width:100}]},
