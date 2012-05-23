@@ -18,9 +18,7 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Iframe App",
-   "developer_info":{
-      "organization":"${bootstrap.app.vendor}"
-   },
+   "vendor":"${bootstrap.app.vendor}",
    "endpoints":[
       {
          "name":"Application Registration",
@@ -67,7 +65,7 @@
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
          "roles":[
-            "SLI Administrator"
+            "Ingestion User"
          ]
       },
       {
