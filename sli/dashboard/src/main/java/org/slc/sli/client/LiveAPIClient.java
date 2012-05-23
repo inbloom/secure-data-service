@@ -29,6 +29,7 @@ import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
+import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -78,6 +79,18 @@ public class LiveAPIClient implements APIClient {
     private static final String EDORG_SLI_ID_ATTRIBUTE = "edOrgSliId";
     private static final String EDORG_ATTRIBUTE = "edOrg";
 
+    /**
+     * Wrapper for value for the custom store
+     *
+     */
+    public static class CustomEntityWrapper {
+        String value;
+
+        public CustomEntityWrapper(String value) {
+            this.value = value;
+        }
+    }
+
     private String apiUrl;
 
     private RESTClient restClient;
@@ -123,7 +136,8 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        return (ConfigMap) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, ConfigMap.class);
+        CustomEntityWrapper jsonConfig = (CustomEntityWrapper) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, CustomEntityWrapper.class);
+        return JsonConverter.fromJson(jsonConfig.value, ConfigMap.class);
     }
 
     /**
@@ -131,7 +145,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-        putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, configMap);
+        putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, new CustomEntityWrapper(JsonConverter.toJson(configMap)));
     }
 
     /**

@@ -57,7 +57,8 @@ public class Config implements Cloneable, Serializable {
         private static final long serialVersionUID = 1L;
         @Pattern(regexp = "[a-zA-Z0-9 \\-/\\+()\"':]{0,150}")
         protected String description;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.\\-_]{0,100}")
+        // Field is a json hierarchy with nodes delimited by period and can use optional single quote
+        @Pattern(regexp = "[a-zA-Z0-9 \\.\\-_\\\\]{0,100}")
         protected String field;
         @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
         protected String value;
@@ -276,7 +277,7 @@ public class Config implements Cloneable, Serializable {
      */
     public static class Condition implements Serializable {
         private static final long serialVersionUID = 1L;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
+        @Pattern(regexp = "[a-zA-Z0-9 \\.\\-]{0,30}")
         protected String field;
         protected Object[] value;
 
@@ -374,7 +375,7 @@ public class Config implements Cloneable, Serializable {
      * @param customConfig
      *            Config.Data.entity and Config.Data.param are used to overwrite to a cloned Config
      *            object
-     * @return cloned Config obejct merged with customConfig
+     * @return cloned Config object merged with customConfig
      */
     public Config overWrite(Config customConfig) {
         // parent id for overwrite should be the same as id of the driver
