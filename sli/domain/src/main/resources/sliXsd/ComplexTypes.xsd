@@ -2355,10 +2355,6 @@
 						record-keeping purposes by schools, social services, or other
 						agencies to refer to a student.
 					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true
-                        </sli:PersonallyIdentifiableInfo>
-                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -3270,6 +3266,10 @@
 						a school, school system, a state, or other agency or
 						entity.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="identificationSystem" type="studentIdentificationSystemType">
