@@ -12,9 +12,7 @@ if ARGV.count<1
     puts rec["_id"]
   end
   exit
-end  
-  
-  
+end
 
 id=ARGV[0]
 
@@ -36,7 +34,7 @@ rc = {}
 
 # Record Counts for stage
 rcStage={"TransformationProcessor" => 0,  "PersistenceProcessor"=>0 }
-  
+
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
     stage["chunks"].each do |chunk|
@@ -66,6 +64,15 @@ out.each do |key,value|
   sum+=value
 end
 
+mongoCalls=0
+mongoTime=0
+if !job["executionStats"].nil? 
+  job["executionStats"].each do |key,value|
+    mongoCalls+=value["left"]
+    mongoTime+=value["right"]
+  end
+end
+
 transformed = rcStage["TransformationProcessor"]
 wallClock = (endTime-earliest)
 puts "---------------------------"
@@ -74,4 +81,5 @@ puts "Total records for Persistence: #{rcStage["PersistenceProcessor"]}"
 puts "Total wall-clock time: #{wallClock}sec"
 puts "Total time spent (on all nodes): #{sum/1000} sec"
 puts "Extrapolated RPS (transformed per total time)  #{(transformed / wallClock )}"
+puts "Mongo calls: #{mongoCalls} took #{mongoTime/1000} secs"
 puts "ALL DONE"

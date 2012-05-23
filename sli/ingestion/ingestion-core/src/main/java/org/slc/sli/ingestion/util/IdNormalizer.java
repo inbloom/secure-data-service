@@ -52,6 +52,7 @@ public class IdNormalizer {
         Query query = new Query();
         resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, tenantId,
                 errorReport);
+        query.fields().include("_id");
 
         Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
