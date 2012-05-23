@@ -1,3 +1,6 @@
+@RALLY_US1801
+@RALLY_US2189
+@RALLY_US2286
 Feature: Ingestion IDRef Test
 
 Background: I have a landing zone route configured
