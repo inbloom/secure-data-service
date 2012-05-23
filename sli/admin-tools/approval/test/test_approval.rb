@@ -2,17 +2,18 @@ testdir = File.dirname(__FILE__)
 $LOAD_PATH << testdir + "/../lib"
 require 'approval'
 require 'test/unit'
+require 'socket'
 
 class MockEmailer 
-	def send_approval_email(email_address, first, last)
-		@last_call = [email_address, first, last]
+	def send_approval_email(args = {})
+		@last_call = args.clone 
 	end
 end
 
 class TestApprovalEngine < Test::Unit::TestCase
 	def setup
 		# define two basic users 
-		@jd_email = "jdoe@example.com"
+		@jd_email = "jdoe_#{Socket.gethostname}@example.com"
 		@jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
 		@jd_user = {
 			:first      => "John",
@@ -25,17 +26,18 @@ class TestApprovalEngine < Test::Unit::TestCase
 			:homedir    => "/home/exampleuser"	
 		}
 
-		@td_email = "tdoe@example.com"
+		@td_email = "tdoe_#{Socket.gethostname}@example.com"
 		@td_user = @jd_user.clone
 		@td_user[:email] = @td_email
 	end
 
 	def regular_workflow(is_sandbox)
-		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Sandbox,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
 
 		ApprovalEngine.init(@ldap, @mock_emailer, is_sandbox)
@@ -90,6 +92,9 @@ class TestApprovalEngine < Test::Unit::TestCase
 			roles = ApprovalEngine.get_roles(@td_email) 
 			assert(roles == [], "Expected empty roles but got #{roles}")
 		end 
+
+		ApprovalEngine.remove_user(@td_email)
+		ApprovalEngine.remove_user(@jd_email)
 
 		#ApprovalEngine.remove_user(@jd_email)
 		#assert(!ApprovalEngine.user_exists?(@jd_email))

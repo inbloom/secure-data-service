@@ -37,7 +37,7 @@ import org.slc.sli.modeling.uml.SimpleType;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
@@ -90,7 +90,7 @@ public final class Uml2XsdWriter {
                 : "unqualified");
     }
 
-    private static final Identifier getBase(final Identifier type, final Mapper lookup) {
+    private static final Identifier getBase(final Identifier type, final ModelIndex lookup) {
         final List<Generalization> generalizationBase = lookup.getGeneralizationBase(type);
         if (generalizationBase.isEmpty()) {
             return null;
@@ -172,7 +172,7 @@ public final class Uml2XsdWriter {
      * @throws XMLStreamException
      *             if anything bad happens.
      */
-    private static final void schema(final List<PsmDocument<Type>> elements, final Mapper lookup,
+    private static final void schema(final List<PsmDocument<Type>> elements, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.SCHEMA, xsw);
         try {
@@ -186,7 +186,7 @@ public final class Uml2XsdWriter {
             for (final PsmDocument<Type> element : elements) {
                 writeDocument(element, lookup, plugin, xsw);
             }
-            for (final SimpleType simpleType : sort(combine(lookup.getDataTypes(), lookup.getEnumTypes()),
+            for (final SimpleType simpleType : sort(combine(lookup.getDataTypes().values(), lookup.getEnumTypes()),
                     TypeComparator.SINGLETON)) {
                 writeSimpleType(simpleType, lookup, plugin, xsw);
             }
@@ -219,7 +219,7 @@ public final class Uml2XsdWriter {
         return Collections.unmodifiableList(copy);
     }
 
-    private static final void writeSimpleType(final SimpleType simpleType, final Mapper lookup,
+    private static final void writeSimpleType(final SimpleType simpleType, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         if (!isW3cXmlSchemaType(new QName(simpleType.getName()))) {
             writeStartElement(XsdElementName.SIMPLE_TYPE, xsw);
@@ -322,21 +322,21 @@ public final class Uml2XsdWriter {
         xsw.writeAttribute(XsdAttributeName.VALUE.getLocalName(), value);
     }
 
-    private static final void writeAssociationElements(final ClassType complexType, final Mapper lookup,
+    private static final void writeAssociationElements(final ClassType complexType, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         for (final AssociationEnd element : lookup.getAssociationEnds(complexType.getId())) {
             plugin.writeAssociation(complexType, element, lookup, new Uml2XsdPluginWriterAdapter(xsw, PREFIX_XS));
         }
     }
 
-    private static final void writeAttributeElements(final ClassType complexType, final Mapper lookup,
+    private static final void writeAttributeElements(final ClassType complexType, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         for (final Attribute element : complexType.getAttributes()) {
             writeElement(complexType, element, lookup, plugin, xsw);
         }
     }
 
-    private static final void writeComplexType(final ClassType complexType, final Mapper lookup,
+    private static final void writeComplexType(final ClassType complexType, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.COMPLEX_TYPE, xsw);
         try {
@@ -365,7 +365,7 @@ public final class Uml2XsdWriter {
         }
     }
 
-    public static final void writeDocuments(final List<PsmDocument<Type>> documents, final Mapper model,
+    public static final void writeDocuments(final List<PsmDocument<Type>> documents, final ModelIndex model,
             final Uml2XsdPlugin plugin, final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
@@ -383,7 +383,7 @@ public final class Uml2XsdWriter {
         }
     }
 
-    public static final void writeDocuments(final List<PsmDocument<Type>> elements, final Mapper model,
+    public static final void writeDocuments(final List<PsmDocument<Type>> elements, final ModelIndex model,
             final Uml2XsdPlugin plugin, final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -407,8 +407,8 @@ public final class Uml2XsdWriter {
         }
     }
 
-    private static final void writeElement(final ClassType complexType, final Attribute element, final Mapper lookup,
-            final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
+    private static final void writeElement(final ClassType complexType, final Attribute element,
+            final ModelIndex lookup, final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.ELEMENT, xsw);
         try {
             final QName name = plugin.getElementName(element.getName(), false);
@@ -443,7 +443,7 @@ public final class Uml2XsdWriter {
         }
     }
 
-    private static final void writeDocument(final PsmDocument<Type> document, final Mapper lookup,
+    private static final void writeDocument(final PsmDocument<Type> document, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.ELEMENT, xsw);
         try {
@@ -475,7 +475,7 @@ public final class Uml2XsdWriter {
         }
     }
 
-    private static final void writeElements(final ClassType complexType, final Mapper lookup,
+    private static final void writeElements(final ClassType complexType, final ModelIndex lookup,
             final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         /**
          * We are virtually forced to write all the elements inside the

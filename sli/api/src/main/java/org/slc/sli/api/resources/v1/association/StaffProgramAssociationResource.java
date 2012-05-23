@@ -23,8 +23,9 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+
 /**
- * This association indicates the staff associated with a program.
+ * Represents the association between a $$Staff$$ member and a $$Program$$.
  *
  * @author jtully
  *
@@ -40,7 +41,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$staffProgramAssociations$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations. 
      *
      * @param offset
      *            starting position in results to return to user
@@ -61,7 +62,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$staffProgramAssociations$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -82,15 +83,15 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$programs$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociations.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single staffProgramAssociation entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -101,10 +102,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$staffProgramAssociations$$ entity.
+     * Deletes the specified resource.
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociations.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -121,10 +122,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$staffProgramAssociations$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param staffProgramAssociationId
-     *            The id of the $$staffProgramAssociations$$.
+     *            The id of the staffProgramAssociations.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -144,11 +145,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$staff$$ that are referenced from the
-     * given $$staffProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociation.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -159,7 +159,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -171,11 +171,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$programs$$ that are referenced from
-     * the given $$staffProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffProgramAssociationId
-     *            The Id of the $$staffProgramAssociations$$.
+     *            The Id of the staffProgramAssociation.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -186,7 +185,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)

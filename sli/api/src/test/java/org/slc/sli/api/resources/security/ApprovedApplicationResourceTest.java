@@ -82,15 +82,18 @@ public class ApprovedApplicationResourceTest {
         endpoint.put("roles", roles);
         endpoints.add(endpoint);
         adminApp.put("endpoints", endpoints);
-        
+        adminApp.put("created_by", "slcdeveloper");
+        adminApp.put("name", "Admin App");
         userApp = new EntityBody();
         userApp.put("is_admin", false);
         userApp.put("installed", false);
-        
+        userApp.put("created_by", "bob");
+        userApp.put("name", "User App");
         installedApp = new EntityBody();
+        installedApp.put("name", "Installed App");
         installedApp.put("is_admin", false);
         installedApp.put("installed", true);
-        
+        installedApp.put("created_by", "bob");
         Mockito.when(service.get("adminAppId")).thenReturn(adminApp);
         Mockito.when(service.get("userAppId")).thenReturn(userApp);
         Mockito.when(service.get("disabledAppId")).thenReturn(installedApp);
@@ -113,7 +116,7 @@ public class ApprovedApplicationResourceTest {
         Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
-        assertTrue(ents.contains(userApp));
+        assertFalse(ents.contains(userApp));
         assertFalse(ents.contains(installedApp));
     }
     

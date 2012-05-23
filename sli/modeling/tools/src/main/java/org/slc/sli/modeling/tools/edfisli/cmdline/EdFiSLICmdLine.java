@@ -14,8 +14,8 @@ import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 /**
@@ -50,7 +50,7 @@ public final class EdFiSLICmdLine {
 
     private static final Map<String, String> classRenames() {
         final Map<String, String> renames = new HashMap<String, String>();
-        renames.put("CourseOffering", "SessionCourseAssociation");
+        renames.put("CourseOffering", "CourseOffering");
         renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
         renames.put("StudentGradebookEntry", "StudentSectionGradebookEntry");
@@ -59,7 +59,7 @@ public final class EdFiSLICmdLine {
     }
 
     @SuppressWarnings("unused")
-    private static final void compareAttributes(final Mapper slim, final Mapper edfi) {
+    private static final void compareAttributes(final ModelIndex slim, final ModelIndex edfi) {
 
         final Set<QName> slimNames = attributeNames(slim.getClassTypes());
         System.out.println("slimNames.size=" + slimNames.size());
@@ -76,7 +76,7 @@ public final class EdFiSLICmdLine {
         }
     }
 
-    private static final void compareClasses(final Mapper slimModel, final Mapper edfiModel) {
+    private static final void compareClasses(final ModelIndex slimModel, final ModelIndex edfiModel) {
         System.out.println("Ed-Fi - SLI deviations from UML models.");
         printGMT();
         System.out.println("");
@@ -146,7 +146,7 @@ public final class EdFiSLICmdLine {
 
         System.out.println("coverage: " + (common * 100.0d) / (common + missing) + "%");
         System.out.println("");
-        System.out.println("Disclaimer: This assumes that attribuites of classes are 100% covered.");
+        System.out.println("Disclaimer: This assumes that attributes of classes are 100% covered.");
     }
 
     private static final Set<String> groups() {
@@ -209,9 +209,9 @@ public final class EdFiSLICmdLine {
      */
     public static void main(final String[] args) {
         try {
-            final Mapper slim = new DefaultMapper(XmiReader.readModel("SLI.xmi")); // was
+            final ModelIndex slim = new DefaultModelIndex(XmiReader.readModel("SLI.xmi")); // was
                                                                                    // ../data/SLI.xmi
-            final Mapper edfi = new DefaultMapper(XmiReader.readModel("ED-Fi-Core.xmi"));
+            final ModelIndex edfi = new DefaultModelIndex(XmiReader.readModel("ED-Fi-Core.xmi"));
             compareClasses(slim, edfi);
             // compareAttributes(slim, edfi);
         } catch (final FileNotFoundException e) {

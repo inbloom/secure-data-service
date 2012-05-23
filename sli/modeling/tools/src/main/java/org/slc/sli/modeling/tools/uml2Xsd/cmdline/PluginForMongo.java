@@ -23,7 +23,7 @@ import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 
 final class PluginForMongo implements Uml2XsdPlugin {
 
@@ -45,7 +45,7 @@ final class PluginForMongo implements Uml2XsdPlugin {
     /**
      * Not all association ends have names so we synthesize a name based upon the type.
      */
-    private static final String getName(final AssociationEnd end, final Mapper lookup) {
+    private static final String getName(final AssociationEnd end, final ModelIndex lookup) {
         if (!end.getName().trim().isEmpty()) {
             // If a name has been specified explicitly, use it without change.
             return end.getName();
@@ -96,22 +96,36 @@ final class PluginForMongo implements Uml2XsdPlugin {
     }
 
     @Override
-    public void writeAppInfo(final TaggedValue taggedValue, final Mapper lookup, final Uml2XsdPluginWriter xsw) {
+    public void writeAppInfo(final TaggedValue taggedValue, final ModelIndex lookup, final Uml2XsdPluginWriter xsw) {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
         xsw.appinfo();
         {
-            if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
+            if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
+                        SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_READ.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_ENFORCE_READ.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_READ_ENFORCEMENT.getLocalPart(),
                         SliMongoConstants.SLI_READ_ENFORCEMENT.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            } else if (SliUmlConstants.TAGDEF_WRITE.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_ENFORCE_WRITE.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_WRITE_ENFORCEMENT.getLocalPart(),
                         SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
+                xsw.characters(taggedValue.getValue());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
+                        SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
+                xsw.characters(taggedValue.getValue());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
+                        SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
             } else {
@@ -121,20 +135,20 @@ final class PluginForMongo implements Uml2XsdPlugin {
         xsw.end();
     }
 
-    private static final boolean isMongoNavigable(final AssociationEnd element, final Mapper lookup) {
+    private static final boolean isMongoNavigable(final AssociationEnd element, final ModelIndex lookup) {
         return TaggedValueHelper.getBooleanTag(TagName.MONGO_NAVIGABLE, element, lookup, false);
     }
 
-    private static final boolean hasMongoName(final Feature feature, final Mapper lookup) {
+    private static final boolean hasMongoName(final Feature feature, final ModelIndex lookup) {
         return TaggedValueHelper.hasTag(TagName.MONGO_NAME, feature, lookup);
     }
 
-    private static final String getMongoName(final Feature feature, final Mapper lookup) {
+    private static final String getMongoName(final Feature feature, final ModelIndex lookup) {
         return TaggedValueHelper.getStringTag(TagName.MONGO_NAME, feature, lookup, null);
     }
 
     @Override
-    public void writeAssociation(final ClassType complexType, final AssociationEnd end, final Mapper lookup,
+    public void writeAssociation(final ClassType complexType, final AssociationEnd end, final ModelIndex lookup,
             final Uml2XsdPluginWriter xsw) {
         if (isMongoNavigable(end, lookup)) {
             final Type type = lookup.getType(end.getType());

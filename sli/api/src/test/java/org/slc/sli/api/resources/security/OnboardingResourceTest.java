@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import junit.framework.Assert;
+
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.After;
@@ -22,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
@@ -32,6 +36,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
+import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -63,6 +69,9 @@ public class OnboardingResourceTest {
     @Autowired
     private MockRepo repo;
 
+    @Mock
+    private TenantResource mockTenantResource;
+
     UriInfo uriInfo = null;
     HttpHeaders headers = null;
 
@@ -71,12 +80,16 @@ public class OnboardingResourceTest {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         injector.setDeveloperContext();
+        resource.isSandboxImpersonationEnabled = true;
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+
+        // mockTenantResource = mock(TenantResource.class);
 
         // clear all related collections
         repo.deleteAll("educationOrganization");
@@ -104,11 +117,29 @@ public class OnboardingResourceTest {
         Map<String, String> requestBody = new HashMap<String, String>();
         requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg");
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+
+        LandingZoneInfo landingZone = new LandingZoneInfo("LANDING ZONE", "INGESTION SERVER");
+
+        Map<String, String> tenantBody = new HashMap<String, String>();
+        tenantBody.put("landingZone", "LANDING ZONE");
+        tenantBody.put("ingestionServer", "INGESTION SERVER");
+
+        // Entity tenantEntity = Mockito.mock(Entity.class);
+        // when(tenantEntity.getBody()).thenReturn(tenantBody);
+        try {
+            when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(landingZone);
+        } catch (TenantResourceCreationException e) {
+            Assert.fail(e.getMessage());
+        }
+
         Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
         Map<String, String> result = (Map<String, String>) res.getEntity();
         assertNotNull(result.get("landingZone"));
+        Assert.assertEquals("LANDING ZONE", result.get("landingZone"));
         assertNotNull(result.get("edOrg"));
+        assertNotNull(result.get("serverName"));
+        Assert.assertEquals("landingZone", result.get("serverName"));
 
         // check new edorg has been created in mongod
         NeutralQuery query = new NeutralQuery();
@@ -202,4 +233,5 @@ public class OnboardingResourceTest {
         body.put("developer_info", developerInfo);
         return body;
     }
+
 }

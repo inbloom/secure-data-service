@@ -21,36 +21,48 @@
 
   <property file="${sli.conf}" />
 
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/ingestion-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
         <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
     </encoder>
 
   </appender>
 
-  <appender name="PERF_FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="PERF_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/performance.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/performance-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
     </encoder>
   </appender>
 
-  <appender name="SECURITY_FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/Security.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
     </encoder>
   </appender>
 
-  <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.FileAppender">
+  <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/performanceStatistics.log</File>
     <Append>true</Append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logging.path}/performanceStatistics-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
       </Pattern>
@@ -59,8 +71,8 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
-	</encoder>
+        <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
+    </encoder>
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->

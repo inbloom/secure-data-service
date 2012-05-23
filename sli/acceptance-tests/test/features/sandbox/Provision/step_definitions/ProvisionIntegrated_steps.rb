@@ -30,26 +30,25 @@ Given /^LDAP server has been setup and running$/ do
       :host => 'mon.slidev.org',
       :port => 3000,
       :sender_name => "SLC Admin",
-      :sender_email_addr => "admin@SLC.org"
+      :sender_email_addr => "hdjksflhsfadslfl@slidev.org"
     }
   ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
- clear_users()
 @vendor = vendor
-  
+
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
- @email = "devldapuser_#{Socket.gethostname}@slidev.org"
- clear_users()
+@email="devldapuser@slidev.org"
+clear_user()
 
   user_info = {
       :first => "Loraine",
-      :last => "Plyler", 
+      :last => "Plyler",
        :email => @email,
-       :password => "secret", 
+       :password => "secret",
        :emailtoken => "token",
        :vendor => @vendor,
        :status => "pending",
@@ -58,7 +57,7 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
        :gidnumber => "500",
      #  :tenantId => tenantId
    }
-  
+
   @ldap.create_user(user_info)
   ApprovalEngine.change_user_status(@email,"approve",true)
 end
@@ -99,17 +98,11 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
  clear_user()
 end
 
-
-def clear_users
-  # remove all users that have this hostname in their email address
-  users = @ldap.search_users("*#{Socket.gethostname}*")
-  if users
-    users.each do |u|
-      @ldap.delete_user(u[:email])    
-    end
-  end
+def clear_user
+  if @ldap.user_exists?(@email)
+  @ldap.delete_user(@email)
 end
-
+end
 
 
 

@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class TenantProcessor implements Processor {
      */
     private void updateLzRoutes() throws Exception {
         //get the new list of lz paths from the tenant DB collection
+        LOG.debug("Localhost is {}", getHostname());
         List<String> newLzPaths = tenantDA.getLzPaths(getHostname());
         Set<String> oldLzPaths = getLzRoutePaths();
 
@@ -79,7 +81,7 @@ public class TenantProcessor implements Processor {
         for (String lzPath : newLzPaths) {
             if (oldLzPaths.contains(lzPath)) {
                 oldLzPaths.remove(lzPath);
-            } else {
+            } else if (new File(lzPath).exists()) {
                 routesToAdd.add(lzPath);
             }
         }

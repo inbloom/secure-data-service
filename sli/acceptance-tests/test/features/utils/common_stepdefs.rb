@@ -1,3 +1,5 @@
+require 'rumbster'
+require 'message_observers'
 
 Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
@@ -89,3 +91,28 @@ When /^I POST the entity to "([^"]*)"$/ do |url|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
+  sender_email_address = "hlufhdsaffhuawiwhfkj@slidev.org"
+  @email_name = "SLC Admin"
+  test_port = 2525
+  @mode = (live_or_mock == "live")
+  
+  if @mode
+    @email_conf = {
+      :host => 'mon.slidev.org',
+      :port => 3000
+    }
+  else
+    @rumbster = Rumbster.new(test_port)
+    @message_observer = MailMessageObserver.new
+    @rumbster.add_observer @message_observer
+    @rumbster.start
+    @email_conf = {
+      :host => '127.0.0.1',
+      :port => test_port
+    }
+  end
+  @email_conf[:sender_name] = @email_name
+  @email_conf[:replacer] = { "__URI__" => "http://localhost:3000"}
+  @email_conf[:sender_email_addr] = sender_email_address
+end

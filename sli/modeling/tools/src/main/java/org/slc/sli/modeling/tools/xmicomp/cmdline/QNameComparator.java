@@ -15,5 +15,5 @@ enum QNameComparator implements Comparator<QName> {
             return nsComp;
         }
     }
-
+    
 }

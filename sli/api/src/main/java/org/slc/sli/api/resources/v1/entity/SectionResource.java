@@ -1,33 +1,30 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * SectionResource
- *
- * A Resource class for accessing a Section entity and other entities associated with Section.
+ * Represents the definition of a section resource. A section is an educational entity that
+ * represents a setting in which organized instruction of course content is provided to one
+ * or more students for a given period of time. See $$Course$$ resource for details.
+ * A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$,
+ * $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$.
+ * For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
  *
  * @author jstokes
  *
@@ -35,7 +32,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.SECTIONS)
 @Component
 @Scope("request")
-public class SectionResource extends DefaultCrudEndpoint {
+public class SectionResource extends DefaultCrudResource {
 
     @Autowired
     public SectionResource(EntityDefinitionStore entityDefs) {
@@ -43,127 +40,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * readAll
-     *
-     * Returns all $$sections$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @Override
-    @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
-    }
-
-    /**
-     * create
-     *
-     * Create a new $$sections$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
-     */
-    @Override
-    @POST
-    public Response create(final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * read
-     *
-     * Get a single $$sections$$ entity
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The Id of the $$sections$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single section entity
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response read(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(sectionId, headers, uriInfo);
-    }
-
-    /**
-     * delete
-     *
-     * Delete a $$sections$$ entity
-     *
-     * @param sectionId
-     *            The Id of the $$sections$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(sectionId, headers, uriInfo);
-    }
-
-    /**
-     * update
-     *
-     * Update an existing $$sections$$ entity.
-     *
-     * @param sectionId
-     *            The id of the $$sections$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.SECTION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(sectionId, newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * getStudentSectionAssociations
-     *
-     * Returns each $$studentSectionAssociations$$ that
-     * references the given $$sections$$
-     *
-     * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -185,13 +65,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getStudentSectionAssociationStudents
-     *
-     * Returns each $$students$$ associated to the given section through
-     * a $$studentSectionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -213,13 +90,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getTeacherSectionAssociations
-     *
-     * Returns each $$teacherSectionAssociations$$ that
-     * references the given $$sections$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -241,13 +115,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getTeacherSectionAssociationTeachers
-     *
-     * Returns each $$teachers$$ associated to the given section through
-     * a $$teacherSectionAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -265,13 +136,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getSectionAssessmentAssociations
-     *
-     * Returns each $$sectionAssessmentAssociations$$ that
-     * references the given $$sections$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$students$$.
+     *            The id of the $$Section$$.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -293,13 +161,10 @@ public class SectionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * getSectionAssessmentAssociationAssessments
-     *
-     * Returns each $$assessments$$ associated to the given section through
-     * a $$sectionAssessmentAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param sectionId
-     *            The id of the $$sections$$.
+     *            The id of the $$Section$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo

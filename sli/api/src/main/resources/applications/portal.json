@@ -1,0 +1,22 @@
+{
+   "name": "${bootstrap.app.portal.name}",
+   "description":"${bootstrap.app.portal.description}",
+   "version":"${bootstrap.app.portal.version}",
+   "bootstrap": true,
+   "image_url":"${bootstrap.app.portal.url}/assets/icon.png",
+   "administration_url":"${bootstrap.app.portal.url}",
+   "application_url":"${bootstrap.app.portal.url}",
+   "client_secret":"${bootstrap.app.portal.client_secret}",
+   "client_id":"${bootstrap.app.portal.client_id}",
+   "created_by":"slcdeveloper",
+   "registration":{
+      "status":"APPROVED",
+      "request_date": 1330521193111,
+      "approval_date": 1330521193111
+   },
+   "redirect_uri":"${bootstrap.app.portal.url}",
+   "is_admin":true,
+   "installed":false,
+   "behavior":"Full Window App",
+   "vendor":"${bootstrap.app.vendor}"
+}

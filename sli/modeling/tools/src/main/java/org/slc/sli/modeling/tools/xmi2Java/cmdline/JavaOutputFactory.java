@@ -15,8 +15,8 @@ public final class JavaOutputFactory {
         return INSTANCE;
     }
 
-    public JavaStreamWriter createJavaStreamWriter(final OutputStream stream, final String encoding)
-            throws UnsupportedEncodingException {
-        return new StandardJavaStreamWriter(stream, encoding);
+    public JavaStreamWriter createJavaStreamWriter(final OutputStream stream, final String encoding,
+            final JavaGenConfig config) throws UnsupportedEncodingException {
+        return new StandardJavaStreamWriter(stream, encoding, config);
     }
 }

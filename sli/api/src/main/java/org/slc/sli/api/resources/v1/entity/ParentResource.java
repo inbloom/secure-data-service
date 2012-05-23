@@ -25,8 +25,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- *
+ * Represents a parent or guardian of a student.  
+ * 
+ * For detailed information, see the schema for the $$Parent$$ entity.
+ * 
  * @author jstokes
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
@@ -40,7 +42,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$parents$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset  starting position in results to return to user
      * @param limit   maximum number of results to return to user (starting from offset)
@@ -57,7 +59,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$parents$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody entity data
      * @param headers       HTTP Request Headers
@@ -75,12 +77,12 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$parents$$ entity
+     * Returns the specified resource representation(s).
      *
-     * @param parentId The Id of the $$parents$$.
+     * @param parentId The id of the entity
      * @param headers  HTTP Request Headers
      * @param uriInfo  URI information including path and query parameters
-     * @return A single parent entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -91,9 +93,9 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$parents$$ entity
+     * Deletes the specified resource.
      *
-     * @param parentId The Id of the $$parents$$.
+     * @param parentId The id of the entity
      * @param headers  HTTP Request Headers
      * @param uriInfo  URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
@@ -108,9 +110,9 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$parents$$ entity.
+     * Updates the specified resource using the given resource data.
      *
-     * @param parentId      The id of the $$parents$$.
+     * @param parentId      The id of the entity
      * @param newEntityBody entity data
      * @param headers       HTTP Request Headers
      * @param uriInfo       URI information including path and query parameters
@@ -128,10 +130,9 @@ public class ParentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$studentParentAssociations$$ that
-     * references the given $$students$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
-     * @param parentId The Id of the parent.
+     * @param parentId The id of the entity
      * @param headers   HTTP Request Headers
      * @param uriInfo   URI information including path and query parameters
      * @return result of CRUD operation
@@ -146,9 +147,9 @@ public class ParentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * $$studentParentAssociations$$ - student lookup
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
-     * @param parentId The Id of the Parent.
+     * @param parentId The id of the entity
      * @param headers   HTTP Request Headers
      * @param uriInfo   URI information including path and query parameters
      * @return result of CRUD operation

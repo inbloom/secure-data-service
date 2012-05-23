@@ -19,44 +19,56 @@ import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public final class JavaGenerator {
 
     public static void main(final String[] args) {
         try {
-            final Mapper model = new DefaultMapper(XmiReader.readModel("SLI.xmi"));
-            final String dirName = "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja";
-            final File dir = new File(dirName);
-            for (final ClassType classType : model.getClassTypes()) {
-                final String fileName = classType.getName().concat(".java");
-                final File file = new File(dir, fileName);
-                final List<String> importNames = new ArrayList<String>();
-                importNames.add("java.math.BigInteger");
-                ClassTypeHelper.writeClassType("org.slc.sli.modeling.ninja", importNames, classType, model, file);
-            }
-            for (final EnumType enumType : model.getEnumTypes()) {
-                final String fileName = enumType.getName().concat(".java");
-                final File file = new File(dir, fileName);
-                writeEnumType(enumType, model, file);
-            }
-            for (final DataType dataType : model.getDataTypes()) {
-                final String fileName = dataType.getName().concat(".java");
-                final File file = new File(dir, fileName);
-                writeDataType(dataType, model, file);
-            }
+            final JavaGenConfig config = new JavaGenConfigBuilder().build();
+            doModel("SLI.xmi",
+                    "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja",
+                    "org.slc.sli.modeling.ninja", config);
+            // doModel("xmi-mapping.xmi",
+            // "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
+            // "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static final void writeDataType(final DataType dataType, final Mapper model, final File file) {
+    private static final void doModel(final String modelFileName, final String targetDirName,
+            final String targetPkgName, final JavaGenConfig config) throws FileNotFoundException {
+        final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(modelFileName));
+        final File dir = new File(targetDirName);
+        for (final ClassType classType : model.getClassTypes()) {
+            final String fileName = classType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            final List<String> importNames = new ArrayList<String>();
+            importNames.add("java.math.*");
+            importNames.add("java.util.*");
+            ClassTypeHelper.writeClassType(targetPkgName, importNames, classType, model, file, config);
+        }
+        for (final EnumType enumType : model.getEnumTypes()) {
+            final String fileName = enumType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            writeEnumType(targetPkgName, enumType, model, file, config);
+        }
+        for (final DataType dataType : model.getDataTypes().values()) {
+            final String fileName = dataType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            writeDataType(targetPkgName, dataType, model, file, config);
+        }
+    }
+
+    private static final void writeDataType(final String targetPkgName, final DataType dataType,
+            final ModelIndex model, final File file, final JavaGenConfig config) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
-                writeDataType(dataType, model, outstream);
+                writeDataType(targetPkgName, dataType, model, outstream, config);
             } finally {
                 CloseableHelper.closeQuiet(outstream);
             }
@@ -65,16 +77,17 @@ public final class JavaGenerator {
         }
     }
 
-    private static final void writeDataType(final DataType dataType, final Mapper model, final OutputStream outstream) {
+    private static final void writeDataType(final String targetPkgName, final DataType dataType,
+            final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
-            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8");
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
-                jsw.writePackage("org.slc.sli.modeling.ninja");
+                jsw.writePackage(targetPkgName);
                 JavadocHelper.writeJavadoc(dataType, model, jsw);
                 jsw.beginClass(dataType.getName(), null);
                 try {
-                    final String dataTypeBaseName = TypeHelper.getImplementationTypeName(getDataTypeBase(dataType,
+                    final String dataTypeBaseName = TypeHelper.getAttributePrimeTypeName(getDataTypeBase(dataType,
                             model));
                     final String baseName = "value";
 
@@ -126,7 +139,7 @@ public final class JavaGenerator {
         }
     }
 
-    private static final String getDataTypeBase(final DataType dataType, final Mapper model) {
+    private static final String getDataTypeBase(final DataType dataType, final ModelIndex model) {
         final Identifier id = dataType.getId();
         final List<Generalization> bases = model.getGeneralizationBase(id);
         for (final Generalization base : bases) {
@@ -136,11 +149,12 @@ public final class JavaGenerator {
         return "string";
     }
 
-    private static final void writeEnumType(final EnumType enumType, final Mapper model, final File file) {
+    private static final void writeEnumType(final String targetPkgName, final EnumType enumType,
+            final ModelIndex model, final File file, final JavaGenConfig config) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
-                writeEnumType(enumType, model, outstream);
+                writeEnumType(targetPkgName, enumType, model, outstream, config);
             } finally {
                 CloseableHelper.closeQuiet(outstream);
             }
@@ -149,12 +163,13 @@ public final class JavaGenerator {
         }
     }
 
-    private static final void writeEnumType(final EnumType enumType, final Mapper model, final OutputStream outstream) {
+    private static final void writeEnumType(final String targetPkgName, final EnumType enumType,
+            final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
-            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8");
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
-                jsw.writePackage("org.slc.sli.modeling.ninja");
+                jsw.writePackage(targetPkgName);
                 JavadocHelper.writeJavadoc(enumType, model, jsw);
                 jsw.beginEnum(enumType.getName());
                 try {
@@ -165,7 +180,7 @@ public final class JavaGenerator {
                         final String name = literal.getName();
                         index += 1;
                         jsw.writeComment(name);
-                        jsw.writeEnumLiteral(name, TypeHelper.getImplementationTypeName(name));
+                        jsw.writeEnumLiteral(name, name);
                         jsw.write("(").dblQte().write(name).dblQte().write(")");
                         if (index == size) {
                             jsw.endStmt();

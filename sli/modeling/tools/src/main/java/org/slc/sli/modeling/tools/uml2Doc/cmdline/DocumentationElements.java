@@ -6,10 +6,11 @@ import javax.xml.namespace.QName;
  * The elements used in the Platform Independent Model tool chain.
  */
 public interface DocumentationElements {
-    public static final QName ATTRIBUTE = new QName("attribute");
+    public static final QName FEATURE = new QName("feature");
     public static final QName CLASS = new QName("class");
     public static final QName DATA_TYPE = new QName("datatype");
     public static final QName DESCRIPTION = new QName("description");
+    public static final QName GENERALIZATION = new QName("generalization");
     /**
      * Prolog is text that comes before a diagram.
      */
@@ -28,6 +29,7 @@ public interface DocumentationElements {
     public static final QName ENUM_TYPE = new QName("enumeration");
     public static final QName LITERAL = new QName("literal");
     public static final QName LOWER = new QName("lower");
+    public static final QName NAMESPACE = new QName("namespace");
     public static final QName NAME = new QName("name");
     /**
      * The the document element for the generated Platform Independent Model Configuration.

@@ -6,6 +6,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.slc.sli.modeling.uml.Feature;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+
 public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     private static final String SPACE = " ";
@@ -27,10 +32,12 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     private final OutputStreamWriter writer;
+    private final JavaGenConfig config;
 
-    public StandardJavaStreamWriter(final OutputStream stream, final String encoding)
+    public StandardJavaStreamWriter(final OutputStream stream, final String encoding, final JavaGenConfig config)
             throws UnsupportedEncodingException {
         this.writer = new OutputStreamWriter(stream, encoding);
+        this.config = config;
     }
 
     private void assign(final String lhs, final String rhs) throws IOException {
@@ -144,8 +151,8 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     public void writeAttribute(final String name, final String typeName) throws IOException {
         writer.write("private");
         writer.write(SPACE);
-        // writer.write("final");
-        // writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
         writer.write(typeName);
         writer.write(SPACE);
         writer.write(camelCase(name));
@@ -170,7 +177,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
-    public void writeEnumLiteral(final String name, final String text) throws IOException {
+    public void writeEnumLiteral(final String name, final String unused) throws IOException {
         final String replaced = name.toUpperCase().trim().replace(' ', '_').replace("-", "_HYPHEN_")
                 .replace("/", "_FWDSLASH_").replace(",", "_COMMA_").replace("(", "_LPAREN_").replace(")", "_RPAREN_")
                 .replace("'", "_APOS_").replace(":", "_COLON_").replace(";", "_SEMICOLON_").replace(".", "_PERIOD_")
@@ -197,30 +204,65 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(name);
         writer.write("(");
         {
+            // Arguments
             boolean first = true;
             for (final JavaFeature feature : features) {
-                if (first) {
-                    first = false;
-                } else {
-                    writer.write(COMMA);
+                if (feature.isAttribute() || feature.isNavigable()) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        writer.write(COMMA);
+                        writer.write(SPACE);
+                    }
+                    writer.write("final");
                     writer.write(SPACE);
+                    if (feature.isAttribute()) {
+                        writer.write(feature.getAttributeTypeName(config));
+                    } else if (feature.isNavigable()) {
+                        writer.write(feature.getNavigableTypeName());
+                    }
+                    writer.write(SPACE);
+                    writer.write(camelCase(feature.getName(config)));
                 }
-                writer.write("final");
-                writer.write(SPACE);
-                writer.write(feature.getType());
-                writer.write(SPACE);
-                writer.write(camelCase(feature.getName()));
             }
         }
         writer.write(")");
         beginBlock();
+        // Preconditions
         for (final JavaFeature feature : features) {
-
-            final String lhs = "this.".concat(camelCase(feature.getName()));
-            final String rhs = camelCase(feature.getName());
-            assign(lhs, rhs);
+            if (feature.isAttribute() || feature.isNavigable()) {
+                if (!feature.isOptional()) {
+                    final String argName = camelCase(feature.getName(config));
+                    write("if (null == ").write(argName).write(")");
+                    beginBlock();
+                    beginStmt().write("throw new NullPointerException(").dblQte().write(argName).dblQte().write(")")
+                            .endStmt();
+                    endBlock();
+                }
+            }
+        }
+        // Assignments
+        for (final JavaFeature feature : features) {
+            if (feature.isAttribute() || feature.isNavigable()) {
+                final String lhs = "this.".concat(camelCase(feature.getName(config)));
+                final String rhs = makeDefensiveCopy(feature, config);
+                assign(lhs, rhs);
+            }
         }
         endBlock();
+    }
+
+    private static final String makeDefensiveCopy(final JavaFeature javaFeature, final JavaGenConfig config) {
+        final Feature feature = javaFeature.getFeature();
+        final Multiplicity multiplicity = feature.getMultiplicity();
+        final Range range = multiplicity.getRange();
+        final String primeType = javaFeature.getPrimeTypeName(config);
+        if (range.getUpper() == Occurs.UNBOUNDED) {
+            return "Collections.unmodifiableList(new ArrayList<" + primeType + ">("
+                    + camelCase(javaFeature.getName(config)) + "))";
+        } else {
+            return camelCase(feature.getName());
+        }
     }
 
     @Override

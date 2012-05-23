@@ -25,8 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association represents the program(s) that a
- * student participates in or is served by.
+ * Represents the association between a $$Student$$ and a $$Program$$.
  *
  * @author jtully
  *
@@ -42,7 +41,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$studentProgramAssociations$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -63,7 +62,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$studentProgramAssociations$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -84,15 +83,15 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$programs$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param studentProgramAssociationId
-     *            The Id of the $$studentProgramAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single studentProgramAssociation entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -103,10 +102,10 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$studentProgramAssociations$$ entity.
+     * Deletes the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The Id of the $$studentProgramAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -123,10 +122,10 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$studentProgramAssociations$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param studentProgramAssociationId
-     *            The id of the $$studentProgramAssociations$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -146,22 +145,21 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The Id of the $$studentProgramAssociations$$.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
-     *            Maximum number of results to return.
+     *            Maximum number of results to return
      * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
+     *            Number of hops (associations) for which to expand entities
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -173,11 +171,10 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$programs$$ that
-     * references the given $$studentProgramAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentProgramAssociationId
-     *            The Id of the $$studentProgramAssociations$$.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -188,7 +185,7 @@ public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)

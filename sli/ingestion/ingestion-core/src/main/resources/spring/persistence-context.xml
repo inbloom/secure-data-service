@@ -78,6 +78,7 @@
     <value>competencyLevelDescriptor</value>
     <value>gradingPeriod</value>
     <value>calendarDate</value>
+    <value>reportCard</value>
   </util:set>
 
 </beans>

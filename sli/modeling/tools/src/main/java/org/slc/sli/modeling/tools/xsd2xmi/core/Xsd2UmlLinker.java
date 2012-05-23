@@ -19,8 +19,8 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.DefaultMapper;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 
 /**
  * This class takes an incoming UML {@link Model} and converts attributes to
@@ -35,7 +35,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final List<Attribute> cleanUp(final ClassType classType, final List<Attribute> attributes,
-            final Xsd2UmlPlugin plugin, final Mapper lookup, final Map<String, Identifier> nameToClassTypeId,
+            final Xsd2UmlPlugin plugin, final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<String, AssociationEnd> classNavigations) {
         final List<Attribute> result = new LinkedList<Attribute>();
         for (final Attribute attribute : attributes) {
@@ -49,7 +49,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final Attribute cleanUpAttribute(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPlugin plugin, final Mapper mapper, final Map<String, Identifier> nameToClassTypeId,
+            final Xsd2UmlPlugin plugin, final ModelIndex mapper, final Map<String, Identifier> nameToClassTypeId,
             final Map<String, AssociationEnd> associationEnds) {
         final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(mapper);
         if (plugin.isAssociationEnd(classType, attribute, host)) {
@@ -63,7 +63,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final ClassType cleanUpClassType(final ClassType classType, final Xsd2UmlPlugin plugin,
-            final Mapper lookup, final Map<String, Identifier> nameToClassTypeId,
+            final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<Type, Map<String, AssociationEnd>> navigations) {
         final Identifier id = classType.getId();
         final String name = classType.getName();
@@ -172,7 +172,7 @@ final class Xsd2UmlLinker {
 
     public static Model link(final Model model, final Xsd2UmlPlugin plugin) {
 
-        final Mapper lookup = new DefaultMapper(model);
+        final ModelIndex lookup = new DefaultModelIndex(model);
         final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(lookup.getClassTypes());
         final Map<Type, Map<String, AssociationEnd>> navigations = new HashMap<Type, Map<String, AssociationEnd>>();
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
@@ -185,7 +185,7 @@ final class Xsd2UmlLinker {
                 ownedElements.add(ownedElement);
             }
         }
-        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(new DefaultMapper(model));
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(lookup);
 
         ownedElements.addAll(makeAssociations(navigations, lookup, plugin, host));
         return new Model(Identifier.random(), model.getName(), model.getTaggedValues(), ownedElements);
@@ -195,13 +195,13 @@ final class Xsd2UmlLinker {
             final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final Range sourceRange = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity sourceMultiplicity = new Multiplicity(sourceRange);
-        final boolean isNavigable = false; // The reverse direction is not
-                                           // navigable.
+        // Make reverse direction navigable default be true; this applies to the logical model.
+        final boolean isNavigable = true;
         return new AssociationEnd(sourceMultiplicity, lhsName, isNavigable, lhsType.getId());
     }
 
     private static final List<Association> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
-            final Mapper lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
+            final ModelIndex lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final List<Association> associations = new LinkedList<Association>();
         // Make sure that every navigation has a reverse navigation.
         for (final Type lhsType : navigations.keySet()) {
@@ -236,10 +236,7 @@ final class Xsd2UmlLinker {
         if (degeneracy > 1) {
             return sourceName.concat(titleCase(targetName)).concat("s");
         } else {
-            // The name is redundant when there is only one way to get to the
-            // target type.
-            return "";
-            // return camelCase(targetName).concat("s");
+            return camelCase(targetName).concat("s");
         }
     }
 

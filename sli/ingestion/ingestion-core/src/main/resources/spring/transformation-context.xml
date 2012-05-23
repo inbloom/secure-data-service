@@ -21,6 +21,11 @@
               <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradingPeriod.xml" />
           </bean>
       </entry>
+    <entry key="reportCard">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/reportCard.xml" />
+      </bean>
+    </entry>
     <entry key="studentTranscriptAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
@@ -210,5 +215,10 @@
     <property name="passThroughCollectionName" value="gradingPeriod" />
   </bean>
 
+  <bean id="reportCardTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+        scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="reportCard" />
+  </bean>
 </beans>
 

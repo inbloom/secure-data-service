@@ -79,6 +79,8 @@ public class XmlFileProcessor implements Processor {
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
+                } else {
+                    LOG.warn("Warning: ", String.format("The resource %s is not an EDFI format.", resource.getResourceName()));
                 }
             }
 

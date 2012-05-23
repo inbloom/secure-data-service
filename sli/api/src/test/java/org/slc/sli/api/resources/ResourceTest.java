@@ -84,7 +84,7 @@ public class ResourceTest {
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
     private static final String SCHOOL_SESSION_ASSOCIATION_URI = "school-session-associations";
-    private static final String SESSION_COURSE_ASSOCIATION_URI = "session-course-associations";
+    private static final String COURSE_OFFERING_URI = "courseOfferings";
     private static final String COURSE_SECTION_ASSOCIATION_URI = "course-section-associations";
     private static final String STUDENT_URI = "students";
     
@@ -174,7 +174,7 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createTestSessionCourseAssociation(String sessionId, String courseId) {
+    public Map<String, Object> createTestCourseOffering(String sessionId, String courseId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
         entity.put("courseId", courseId);
@@ -325,13 +325,13 @@ public class ResourceTest {
         String courseId = this.createEntity("courses", ids);
         String sessionId = this.createEntity("sessions", ids);
         
-        Response createAssociationResponse = api.createEntity(SESSION_COURSE_ASSOCIATION_URI, new EntityBody(
-                createTestSessionCourseAssociation(sessionId, courseId)), uriInfo);
+        Response createAssociationResponse = api.createEntity(COURSE_OFFERING_URI, new EntityBody(
+                createTestCourseOffering(sessionId, courseId)), uriInfo);
         assertNotNull(createAssociationResponse);
         String sessionCourseAssocId = parseIdFromLocation(createAssociationResponse);
         
         // test school session association
-        Response tscResponse = api.getEntity(SESSION_COURSE_ASSOCIATION_URI, sessionCourseAssocId, null, null, 0, 10,
+        Response tscResponse = api.getEntity(COURSE_OFFERING_URI, sessionCourseAssocId, null, null, 0, 10,
                 false, uriInfo);
         EntityBody tscAssocBody = (EntityBody) tscResponse.getEntity();
         assertNotNull(tscAssocBody);
@@ -800,78 +800,6 @@ public class ResourceTest {
                 || links3.contains("<request?limit=1&offset=1>; rel=prev"));
         assertEquals(1, links3.size());
         assertEquals(3L, response3.getMetadata().getFirst("TotalCount"));
-    }
-    
-    @Test
-    public void testRegExQuery() throws Exception {
-        repo.deleteAll();
-        EntityBody body1 = new EntityBody(createTestEntity());
-        body1.put("firstName", "Bob");
-        body1.put("studentUniqueStateId", "1");
-        Response createResponse = api.createEntity("students", body1, uriInfo);
-        String studentId1 = parseIdFromLocation(createResponse);
-        
-        EntityBody body2 = new EntityBody(createTestEntity());
-        body2.put("firstName", "Bobby");
-        body2.put("studentUniqueStateId", "2");
-        Response createResponse2 = api.createEntity("students", body2, uriInfo);
-        String studentId2 = parseIdFromLocation(createResponse2);
-        
-        EntityBody body3 = new EntityBody(createTestEntity());
-        body3.put("firstName", "Rob");
-        Response createResponse3 = api.createEntity("students", body3, uriInfo);
-        String studentId3 = parseIdFromLocation(createResponse3);
-        
-        Response schoolResp = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
-        String schoolId = parseIdFromLocation(schoolResp);
-        
-        EntityBody assocBody1 = new EntityBody(createTestAssociation(studentId1, schoolId));
-        assocBody1.put("entryGradeLevel", "First grade");
-        String assocId1 = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, assocBody1, uriInfo));
-        EntityBody assocBody2 = new EntityBody(createTestAssociation(studentId2, schoolId));
-        assocBody2.put("entryGradeLevel", "First");
-        String assocId2 = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, assocBody2, uriInfo));
-        EntityBody assocBody3 = new EntityBody(createTestAssociation(studentId3, schoolId));
-        assocBody3.put("entryGradeLevel", "Second grade");
-        @SuppressWarnings("unused")
-        String assocId3 = parseIdFromLocation(api.createEntity(STUDENT_SCHOOL_ASSOCIATION_URI, assocBody3, uriInfo));
-        
-        UriInfo queryInfo = buildMockUriInfo("firstName=~Bob.*");
-        Response hopResponse = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "studentUniqueStateId",
-                SortOrder.descending, 0, 10, false, queryInfo);
-        CollectionResponse hopCollection = (CollectionResponse) hopResponse.getEntity();
-        assertNotNull(hopCollection);
-        assertEquals(2, hopCollection.size());
-        Set<String> hoppedRelatives = new HashSet<String>();
-        for (EntityReference entity : hopCollection) {
-            hoppedRelatives.add(entity.getId());
-        }
-        assertEquals(new HashSet<String>(Arrays.asList(studentId1, studentId2)), hoppedRelatives);
-        
-        UriInfo queryInfo2 = buildMockUriInfo("entryGradeLevel=~First.*");
-        Response assocResponse = api.getEntity(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId, "entryGradeLevel",
-                SortOrder.descending, 0, 10, false, queryInfo2);
-        CollectionResponse assocCollection = (CollectionResponse) assocResponse.getEntity();
-        assertNotNull(assocCollection);
-        assertEquals(2, hopCollection.size());
-        Set<String> assocRelatives = new HashSet<String>();
-        for (EntityReference entity : assocCollection) {
-            assocRelatives.add(entity.getId());
-        }
-        assertEquals(new HashSet<String>(Arrays.asList(assocId1, assocId2)), assocRelatives);
-        
-        UriInfo queryInfo3 = buildMockUriInfo("firstName=~.*ob.*");
-        Response hopResponse2 = api.getHoppedRelatives(STUDENT_SCHOOL_ASSOCIATION_URI, schoolId,
-                "studentUniqueStateId", SortOrder.descending, 0, 10, false, queryInfo3);
-        CollectionResponse hopCollection2 = (CollectionResponse) hopResponse2.getEntity();
-        assertNotNull(hopCollection2);
-        assertEquals(3, hopCollection2.size());
-        Set<String> hoppedRelatives2 = new HashSet<String>();
-        for (EntityReference entity : hopCollection2) {
-            hoppedRelatives2.add(entity.getId());
-        }
-        assertEquals(new HashSet<String>(Arrays.asList(studentId1, studentId2, studentId3)), hoppedRelatives2);
-        
     }
     
     private static String parseIdFromLocation(Response response) {

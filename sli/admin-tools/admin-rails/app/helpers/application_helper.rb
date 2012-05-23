@@ -11,32 +11,11 @@ module ApplicationHelper
   }
 
   API_BASE=APP_CONFIG["api_base"]+"/v1/userAccounts"
-  LDAP_HOST=APP_CONFIG["ldap_host"]
-  LDAP_PORT=APP_CONFIG["ldap_port"]
-  LDAP_BASE=APP_CONFIG["ldap_base"]
-  LDAP_USER=APP_CONFIG["ldap_user"]
-  LDAP_PASS=APP_CONFIG["ldap_pass"]
-  IS_SANDBOX=APP_CONFIG["is_sandbox"]
-  EMAIL_HOST=APP_CONFIG["email_host"]
-  EMAIL_PORT=APP_CONFIG["email_port"]
-  EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name_user_reg_app"]
-  EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address_user_reg_app"]
-
-  EMAIL_CONF = {
-    :host=>EMAIL_HOST,
-    :port=>EMAIL_PORT,
-    :sender_name => EMAIL_SENDER_NAME,
-    :sender_email_addr => EMAIL_SENDER_ADDR
-  }
-  
   UNKNOWN_EMAIL = {
     "email_address" => "UNKNOWN",
     "first_name" => "UNKNOWN",
     "last_name" => "UNKNOWN",
   }
-
-  @@ldap=LDAPStorage.new(LDAP_HOST,LDAP_PORT,LDAP_BASE,LDAP_USER,LDAP_PASS)
-  @@emailer=Emailer.new(EMAIL_CONF)
   
   # Looks up the provided GUID (record) through the API, removes (deletes) that record,
   # and removes the associated user from the LDAP.
@@ -73,21 +52,22 @@ module ApplicationHelper
     user_email_info = get_email_info guid
     email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
+    userEmailValidationLink = "#{validate_base}/user_account_validation/#{email_token}"
       
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
       "\n\n#{userEmailValidationLink}\n\n"
       
     if (email_token.nil?)
-      email_message = "There was a problem creating your account. Please try again."
+      return false
     end
-    @@emailer.send_approval_email({
+    APP_EMAILER.send_approval_email({
       :email_addr => user_email_info["email_address"],
       :name       => user_email_info["first_name"]+" "+user_email_info["last_name"],
       :subject    => EMAIL_SUBJECT,
       :content    => email_message
     })
+    true
   end
   
   # Returns a map containing values for email_address, first_name, and last_name.
@@ -101,7 +81,6 @@ module ApplicationHelper
     
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
-    puts("EMAIL INFO*******#{res}")
 
     if (res.code==200)
       jsonDocument = JSON.parse(res.body)
@@ -140,7 +119,6 @@ module ApplicationHelper
   # }
   # 
   def self.add_user(userAccountRegistration)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     new_user = {
       :first      => userAccountRegistration.firstName,
       :last       => userAccountRegistration.lastName,
@@ -160,7 +138,6 @@ module ApplicationHelper
   # and included in a click through link that the user received in an email (as a query parameter).
   #
   def self.verify_email(emailtoken)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     ApprovalEngine.verify_email(emailtoken)
   end
 
@@ -169,7 +146,6 @@ module ApplicationHelper
   # Input parameter: A subset of the "user_info" submitted to the "add_user" method.
   #
   def self.update_user_info(userAccountRegistration)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     new_user = {
       :first      => userAccountRegistration.firstName,
       :last       => userAccountRegistration.lastName,
@@ -183,7 +159,6 @@ module ApplicationHelper
 
   #get email token for a specific user
   def self.get_email_token(email_address)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     user_info= ApprovalEngine.get_user(email_address)
     if (user_info.nil?)
       return nil
@@ -194,13 +169,11 @@ module ApplicationHelper
 
   # Returns an individual user via their email token or nil if the user does not exist.
   def self.get_user_with_emailtoken(email_token)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     return ApprovalEngine.get_user_emailtoken(email_token)
   end
 
   #remove user with address
   def self.remove_user(email_address)
-    ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     ApprovalEngine.remove_user(email_address)
   end
   

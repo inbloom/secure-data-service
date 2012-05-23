@@ -1,14 +1,14 @@
 {
-   "name": "Admin Tool",
-   "description":"Administrative tool suite",
-   "version":"1.0",
+   "name": "${bootstrap.app.admin.name}",
+   "description":"${bootstrap.app.admin.description}",
+   "version":"${bootstrap.app.admin.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.admin.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.admin.url}",
    "application_url":"${bootstrap.app.admin.url}",
    "client_secret":"${bootstrap.app.admin.client_secret}",
    "client_id":"${bootstrap.app.admin.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
@@ -18,9 +18,7 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Iframe App",
-   "developer_info":{
-      "organization":"SLI"
-   },
+   "vendor":"${bootstrap.app.vendor}",
    "endpoints":[
       {
          "name":"Application Registration",
@@ -31,25 +29,33 @@
          ]
       },
       {
-         "name":"Application Authorization",
-         "description":"Manage which applications a district's users can see.",
-         "url":"${bootstrap.app.admin.url}/application_authorizations",
+         "name":"Admin Delegation",
+         "description":"Delegate District Privileges to a State Super Administrator",
+         "url":"${bootstrap.app.admin.url}/admin_delegations",
          "roles":[
             "LEA Administrator"
          ]
       },
       {
-         "name":"Realm Role Mapper",
-         "description":"Control how roles are from a IDP are mapped to SLI roles.",
+         "name":"Application Authorization",
+         "description":"Manage which applications a district's users can see.",
+         "url":"${bootstrap.app.admin.url}/application_authorizations",
+         "roles":[
+            "LEA Administrator", "SEA Administrator"
+         ]
+      },
+      {
+         "name":"Role Mappings",
+         "description":"Control how roles from an IDP are mapped to SLI roles.",
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
            "Realm Administrator"
          ]
       },
       {
-         "name":"Role Viewer",
-         "description":"View available roles.",
-         "url":"${bootstrap.app.admin.url}",
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
          "roles":[
            "Realm Administrator"
          ]
@@ -59,7 +65,7 @@
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
          "roles":[
-            "SLI Administrator"
+            "Ingestion User"
          ]
       },
       {
@@ -69,6 +75,14 @@
          "roles":[
             "SLC Operator"
             ]
-       }
+       },
+       {
+         "name":"Realm Management",
+         "description":"Manage realm settings.",
+         "url":"${bootstrap.app.admin.url}/realm_management/",
+         "roles":[
+           "Realm Administrator"
+         ]
+      }
    ]
 }
