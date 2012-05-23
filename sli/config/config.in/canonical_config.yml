@@ -308,7 +308,7 @@ local:
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Trusted Certificate Authority Store
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         #Support Email
         sli.support.email: sli@example.com

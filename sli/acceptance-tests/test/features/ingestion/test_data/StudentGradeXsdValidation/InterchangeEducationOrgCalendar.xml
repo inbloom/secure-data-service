@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
-  <Session>
-    <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
   
   <!-- CalendarDates for the 2011-2012 school year -->
 	<CalendarDate id="CLND_20110822Instructionalday">
@@ -1304,7 +1288,22 @@
 		<CalendarDateReference ref="CLND_20120121Holiday"/>
 		<CalendarDateReference ref="CLND_20120122Holiday"/>
 	</GradingPeriod>
-
-    
-
+  
+  <Session>
+    <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110822"/>
+	<GradingPeriodReference ref="GRDP_20111128"/>
+	<GradingPeriodReference ref="GRDP_20111010"/>
+  </Session>
+  
 </InterchangeEducationOrgCalendar>
