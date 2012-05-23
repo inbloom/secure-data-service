@@ -528,7 +528,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="location">
 		<xs:annotation>
 			<xs:documentation>This entity represents the physical space where
@@ -565,7 +565,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+--> <!--
 	<xs:complexType name="meetingTime">
 		<xs:annotation>
 			<xs:documentation>This entity represents the set of elements defining
@@ -624,7 +624,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
@@ -1235,8 +1235,7 @@
 
 				Associations: TeacherSectionAssociation,
 				StudentSectionAssociation,
-				SectionAssessmentAssociation,
-				SectionBellScheduleAssociation
+				SectionAssessmentAssociation
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -1417,7 +1416,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="sectionBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
@@ -1446,7 +1445,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="session">
 		<xs:annotation>
 			<xs:documentation>This entity represents the prescribed span of time
@@ -5473,7 +5472,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="eventBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
@@ -5505,7 +5504,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="feederSchoolType">
 		<xs:annotation>
 			<xs:documentation>The feeder school relationship between two schools.
@@ -6293,7 +6292,7 @@
 			<xs:element name="reason" type="attendanceEventReason" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="bellSchedule">
 		<xs:annotation>
 			<xs:documentation>BellSchedule
@@ -6350,7 +6349,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="behaviorDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor holds the categories of behavior
