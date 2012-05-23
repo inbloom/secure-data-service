@@ -23,7 +23,8 @@ import org.slc.sli.api.resources.v1.entity.SectionResource;
 import org.slc.sli.api.resources.v1.entity.StudentCompetencyResource;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;

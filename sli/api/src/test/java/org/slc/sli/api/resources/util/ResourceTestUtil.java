@@ -26,7 +26,7 @@ import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 
 /**
  * Utils for entity resource unit tests

@@ -14,14 +14,7 @@
 
 	<dependencies>
 
-		<!-- SLI Dependencies -->
-<!--		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>sli-configuration</artifactId>
-		</dependency> --> 
-
-		  <dependency> 
-
+    <dependency> 
       <groupId>org.slc.sli.common</groupId>
       <artifactId>sli-common</artifactId>
     </dependency>
@@ -69,7 +62,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>${commons.codec.version}</version>
 		</dependency>
 	</dependencies>
 

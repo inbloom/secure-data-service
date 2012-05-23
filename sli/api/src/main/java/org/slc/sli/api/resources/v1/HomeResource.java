@@ -24,8 +24,8 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
 
 /**

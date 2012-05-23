@@ -10,21 +10,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Sample domain wrapper.
  */
 public class Students {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(Students.class);
-
+    
     @SuppressWarnings("unchecked")
     public static List<String> getNames(BasicClient client) throws IOException {
-        EntityCollection collection = new EntityCollection();
+        List<Entity> collection = new ArrayList<Entity>();
         try {
             client.read(collection, ResourceNames.STUDENTS, BasicQuery.Builder.create().startIndex(0).maxResults(50)
                     .build());
@@ -39,10 +38,10 @@ public class Students {
         }
         return toReturn;
     }
-
+    
     @SuppressWarnings("javadoc")
     public static int getGrade(BasicClient client, String studentName) {
         return 0;
     }
-
+    
 }

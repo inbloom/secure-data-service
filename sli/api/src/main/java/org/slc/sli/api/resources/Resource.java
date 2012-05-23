@@ -37,8 +37,8 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.service.query.SortOrder;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 

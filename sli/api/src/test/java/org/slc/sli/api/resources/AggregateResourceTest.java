@@ -26,7 +26,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.resources.url.AggregateURLCreator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 
 /**
  * Tests the AggregateResource Handler

@@ -9,8 +9,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.PathConstants;
+import org.slc.sli.client.util.URLBuilder;
 
 /**
  * Unit test for URL builder

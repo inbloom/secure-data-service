@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;

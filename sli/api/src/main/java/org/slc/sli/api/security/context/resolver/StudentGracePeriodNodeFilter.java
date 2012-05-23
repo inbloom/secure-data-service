@@ -2,8 +2,8 @@ package org.slc.sli.api.security.context.resolver;
 
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.EntityNames;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

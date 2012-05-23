@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.validation.NeutralSchemaType;

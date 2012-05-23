@@ -43,7 +43,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 
 /**
  * Unit tests for v1 entity resources CRUD methods

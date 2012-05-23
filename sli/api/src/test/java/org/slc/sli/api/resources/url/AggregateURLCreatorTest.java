@@ -22,7 +22,7 @@ import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 

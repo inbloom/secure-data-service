@@ -28,8 +28,9 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StudentDisciplineIncidentAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceNames;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;

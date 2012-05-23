@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;

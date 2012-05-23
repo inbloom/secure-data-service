@@ -192,7 +192,7 @@
 	</profiles>
 
 	<modules>
-		<!-- <module>sli-configuration</module> -->
+        <module>SDK</module>
 		<module>common</module>
 		<module>domain</module>
 		<module>data-access</module>
@@ -200,7 +200,6 @@
 		<module>scaffold</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
-        <module>SDK</module>
 		<module>simple-idp</module>
         </modules>
 
@@ -208,6 +207,12 @@
 		<dependencies>
 
 			<!-- WGEN dependencies -->
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>client-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
 				<artifactId>common</artifactId>
@@ -293,12 +298,6 @@
 				<artifactId>cucumber-tests</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slc.sli</groupId>
-				<artifactId>SDK</artifactId>
-				<version>${project.version}</version>
 			</dependency>
 
 

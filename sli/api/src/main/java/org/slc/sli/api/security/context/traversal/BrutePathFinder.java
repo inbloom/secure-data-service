@@ -16,8 +16,8 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.EntityNames;
+import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Basic brute force path finding implementation.

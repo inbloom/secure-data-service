@@ -46,9 +46,9 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.PathConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 

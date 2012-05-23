@@ -25,9 +25,9 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.PathConstants;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**

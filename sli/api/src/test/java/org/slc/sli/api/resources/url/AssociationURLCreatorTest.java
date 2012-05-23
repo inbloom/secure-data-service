@@ -38,7 +38,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 
 /**
  * Tests the AssociationURLCreator

@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Represents the definition of a staff resource. A staff is a person that is employed by

@@ -23,7 +23,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;

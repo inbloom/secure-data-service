@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;

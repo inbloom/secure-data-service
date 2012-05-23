@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.deser.std.StdDeserializer;
@@ -30,113 +29,106 @@ import org.slc.sli.api.client.impl.BasicLink;
 import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
- *
- * Tell Jackson how to de-marshal the GenericEntity type.
- *
+ * 
+ * Tell Jackson how to deserialize the GenericEntity type.
+ * 
  */
 public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
-
+    
     private static final String ENTITY_TYPE_KEY = "type";
-
+    
     public GenericEntityDeserializer() {
-    	super (GenericEntity.class);
+        super(GenericEntity.class);
     }
-
+    
     private Map<String, Object> processObject(final ObjectNode obj) {
         Map<String, Object> rval = new HashMap<String, Object>();
-
+        
         Iterator<String> it = obj.getFieldNames();
-
+        
         while (it.hasNext()) {
-        	String key = it.next();
-        	JsonNode node = obj.get(key);
-        	rval.put(key, processElement(key, node));
+            String key = it.next();
+            JsonNode node = obj.get(key);
+            rval.put(key, processElement(key, node));
         }
-
+        
         return rval;
     }
-
+    
     private Object processElement(final String key, final JsonNode element) {
         Object rval = null;
         if (element instanceof ObjectNode) {
             Map<String, Object> r2 = processObject((ObjectNode) element);
-
+            
             // convert TreeMap entries into Link instances.
             if (key.equals(Entity.LINKS_KEY)) {
                 rval = new LinkedList<Link>();
-
+                
                 String refName = (String) r2.get(Link.LINK_RESOURCE_KEY);
                 String hrefString = (String) r2.get(Link.LINK_HREF_KEY);
-
+                
                 try {
                     rval = new BasicLink(refName, new URL(hrefString));
-
+                    
                 } catch (MalformedURLException e) {
                     rval = r2;
                 }
-            } else {
+            } else
                 rval = r2;
-            }
-        } else if (element instanceof NullNode) {
+        } else if (element instanceof NullNode)
             rval = null;
-
-        } else if (element instanceof ArrayNode) {
-            rval = processArray(key, (ArrayNode)element);
-        }
-        else { //  element instanceof JsonPrimitive
+        else if (element instanceof ArrayNode)
+            rval = processArray(key, (ArrayNode) element);
+        else
             rval = processPrimitive(element);
-        }
-
+        
         return rval;
     }
-
+    
     private List<Object> processArray(final String key, final ArrayNode asJsonArray) {
         List<Object> list = new LinkedList<Object>();
-
+        
         Iterator<JsonNode> it = asJsonArray.getElements();
-        while (it.hasNext()) {
-        	list.add(processElement(key, it.next()));
-        }
+        while (it.hasNext())
+            list.add(processElement(key, it.next()));
         return list;
     }
-
+    
     private Object processPrimitive(final JsonNode prim) {
         Object val;
-
-        if (prim instanceof BooleanNode) {
-        	val = prim.getBooleanValue();
-        } else if (prim instanceof DoubleNode) {
-        	val = prim.getDoubleValue();
-        } else if (prim instanceof IntNode) {
-        	val = prim.getIntValue();
-        } else if (prim instanceof LongNode) {
-        	val = prim.getLongValue();
-        } else if (prim instanceof NumericNode) {
-        	val = prim.getDoubleValue();
-        } else {
-        	val = prim.getTextValue();
-        }
+        
+        if (prim instanceof BooleanNode)
+            val = prim.getBooleanValue();
+        else if (prim instanceof DoubleNode)
+            val = prim.getDoubleValue();
+        else if (prim instanceof IntNode)
+            val = prim.getIntValue();
+        else if (prim instanceof LongNode)
+            val = prim.getLongValue();
+        else if (prim instanceof NumericNode)
+            val = prim.getDoubleValue();
+        else
+            val = prim.getTextValue();
         return val;
     }
-
-	@Override
-	public GenericEntity deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
-
-	    ObjectMapper mapper = (ObjectMapper) parser.getCodec();
-	    ObjectNode root = (ObjectNode) mapper.readTree(parser);
-
+    
+    @Override
+    public GenericEntity deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        
+        ObjectMapper mapper = (ObjectMapper) parser.getCodec();
+        ObjectNode root = (ObjectNode) mapper.readTree(parser);
+        
         String entityType = null;
-
+        
         if (root.has(ENTITY_TYPE_KEY)) {
             entityType = root.get(ENTITY_TYPE_KEY).getTextValue();
             root.remove(ENTITY_TYPE_KEY);
         }
-
+        
         Map<String, Object> data = processObject(root);
-        if (entityType != null) {
+        if (entityType != null)
             return new GenericEntity(entityType, data);
-        } else {
+        else
             return new GenericEntity("Generic", data);
-        }
-	}
+    }
 }

@@ -32,7 +32,7 @@ import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource
 import org.slc.sli.api.resources.v1.association.StudentSchoolAssociationResource;
 import org.slc.sli.api.resources.v1.association.TeacherSchoolAssociationResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 
 /**
  * JUnit for school resources

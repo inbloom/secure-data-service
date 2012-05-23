@@ -8,7 +8,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;

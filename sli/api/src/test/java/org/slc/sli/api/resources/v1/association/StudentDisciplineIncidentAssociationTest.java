@@ -38,8 +38,8 @@ import org.slc.sli.api.resources.v1.entity.DisciplineIncidentResource;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Unit tests for the resource representing a Student

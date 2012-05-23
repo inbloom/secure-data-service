@@ -32,7 +32,7 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;

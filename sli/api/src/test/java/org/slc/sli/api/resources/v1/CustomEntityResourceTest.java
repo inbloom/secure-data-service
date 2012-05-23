@@ -21,7 +21,7 @@ import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Tests for CustomEntityResouce

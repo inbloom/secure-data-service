@@ -9,7 +9,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

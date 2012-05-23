@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  *

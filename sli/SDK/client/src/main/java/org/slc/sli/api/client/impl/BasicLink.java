@@ -12,19 +12,19 @@ import org.slc.sli.api.client.impl.transform.LinkSerializer;
 
 /**
  * A basic Link resource associated with an Entity.
- *
+ * 
  * @author asaarela
  */
-@JsonSerialize(using=LinkSerializer.class)
-@JsonDeserialize(using=LinkDeserializer.class)
+@JsonSerialize(using = LinkSerializer.class)
+@JsonDeserialize(using = LinkDeserializer.class)
 public class BasicLink implements Link {
-
+    
     private final String linkName;
     private final URL resource;
-
+    
     /**
      * Construct a new link
-     *
+     * 
      * @param linkName
      *            Name of the link.
      * @param resource
@@ -35,20 +35,20 @@ public class BasicLink implements Link {
         this.linkName = linkName;
         this.resource = resource;
     }
-
+    
     @Override
     public String getLinkName() {
         return linkName;
     }
-
+    
     @Override
     public URL getResourceURL() {
         return resource;
     }
-
+    
     @Override
-	public String toString() {
-    	return "rel=" + linkName + ",href=" + resource;
+    public String toString() {
+        return "rel=" + linkName + ",href=" + resource;
     }
-
+    
 }

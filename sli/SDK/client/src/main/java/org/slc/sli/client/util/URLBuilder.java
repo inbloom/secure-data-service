@@ -1,4 +1,4 @@
-package org.slc.sli.common.util;
+package org.slc.sli.client.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Builder for creating a URL suitable for use with the SLI API ReSTful web service.

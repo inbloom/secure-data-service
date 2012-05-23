@@ -15,7 +15,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 
 /**
  * Basic resource implementing crud steps on an entity

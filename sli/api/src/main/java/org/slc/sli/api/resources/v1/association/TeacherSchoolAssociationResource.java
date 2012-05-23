@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.v1.DefaultCrudResource;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * This association indicates the school(s) to which a teacher provides instructional services to.

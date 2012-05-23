@@ -16,8 +16,8 @@ import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldAppe
 import org.slc.sli.api.resources.v1.view.impl.StudentGradebookOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentTranscriptOptionalFieldAppender;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.client.constants.ResourceNames;
+import org.slc.sli.client.constants.v1.ParameterConstants;
 
 /**
  * Unit tests

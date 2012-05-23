@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**

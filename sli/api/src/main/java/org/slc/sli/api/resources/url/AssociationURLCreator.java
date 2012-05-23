@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.client.constants.ResourceConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;

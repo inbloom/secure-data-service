@@ -1,11 +1,5 @@
 package org.slc.sli.scaffold;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +29,12 @@ import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 /**
  * This class handles the document manipulation tasks
@@ -143,14 +143,13 @@ public class DocumentManipulator {
         } catch (FileNotFoundException e) {
             throw new DocumentManipulatorException(e);
         } finally {
-            if (out != null) {
+            if (out != null)
                 try {
                     out.close();
                 } catch (Exception ignored) {
                     // ignored
                     ignored.printStackTrace();
                 }
-            }
         }
         
     }
@@ -193,11 +192,10 @@ public class DocumentManipulator {
             factory = TransformerFactory.newInstance();
             
             // create the transformer
-            if (source != null) {
+            if (source != null)
                 transformer = factory.newTransformer(source);
-            } else {
+            else
                 transformer = factory.newTransformer();
-            }
             
             // set the properties
             transformer.setOutputProperties(props);
@@ -231,9 +229,8 @@ public class DocumentManipulator {
             
             @Override
             public String getNamespaceURI(String prefix) {
-                if("wadl".equals(prefix)){
+                if ("wadl".equals(prefix))
                     return WADL_NS;
-                }
                 return null;
             }
         });
@@ -244,17 +241,16 @@ public class DocumentManipulator {
             String id = item.getAttributes().getNamedItem("id").getNodeValue();
             Node docElem = doc.createElementNS(WADL_NS, "doc");
             String defaultDoc = null;
-            if("readAll".equals(id)){
+            if ("readAll".equals(id))
                 defaultDoc = "Returns the requested collection of resource representations.";
-            } else if ("read".equals(id)){
+            else if ("read".equals(id))
                 defaultDoc = "Returns the specified resource representation(s).";
-            } else if ("create".equals(id)){
+            else if ("create".equals(id))
                 defaultDoc = "Creates a new resource using the given resource data.";
-            } else if ("delete".equals(id)){
+            else if ("delete".equals(id))
                 defaultDoc = "Deletes the specified resource.";
-            } else if ("update".equals(id)){
+            else if ("update".equals(id))
                 defaultDoc = "Updates the specified resource using the given resource data.";
-            }
             if (defaultDoc != null) {
                 Text text = doc.createTextNode(defaultDoc);
                 docElem.appendChild(text);

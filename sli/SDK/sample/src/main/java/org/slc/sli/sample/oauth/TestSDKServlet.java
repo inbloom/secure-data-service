@@ -13,53 +13,51 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Servlet that do CRUD test against Java SDK.
- *
+ * 
  * @author dliu
- *
+ * 
  */
 public class TestSDKServlet extends HttpServlet {
-
+    
     /**
      *
      */
     private static final long serialVersionUID = 3258845941340138511L;
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         String testType = req.getParameter("test");
         String testResult = "failed";
-        if (testType.equals("read")) {
+        if (testType.equals("read"))
             testResult = testRead(client);
-        } else if (testType.equals("create")) {
+        else if (testType.equals("create"))
             testResult = testCreate(client);
-        } else if (testType.equals("update")) {
+        else if (testType.equals("update"))
             testResult = testUpdate(client);
-        } else if (testType.equals("delete")) {
+        else if (testType.equals("delete"))
             testResult = testDelete(client);
-        } else if (testType.equals("query")) {
+        else if (testType.equals("query"))
             testResult = testQuery(client);
-        } else {
+        else
             testResult = "unsupported test!";
-        }
         req.setAttribute("testResult", testResult);
         req.getRequestDispatcher("WEB-INF/sdktest.jsp").forward(req, resp);
     }
-
+    
     // the read test has been done in list student, so always return succeed
     private String testRead(BasicClient client) {
         String testResult = "succeed";
         return testResult;
     }
-
+    
     // test the create for Java SDK
     @SuppressWarnings("unchecked")
     private String testCreate(BasicClient client) {
@@ -67,7 +65,7 @@ public class TestSDKServlet extends HttpServlet {
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
-        EntityCollection collection = new EntityCollection();
+        List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
             if (response.getStatus() != 201) {
@@ -78,22 +76,20 @@ public class TestSDKServlet extends HttpServlet {
             id = location.substring(location.lastIndexOf("/") + 1);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
-
-                String firstName = ((Map<String, String>) (collection.get(0).getData().get("name"))).get("firstName");
-                String lastSurname = ((Map<String, String>) (collection.get(0).getData().get("name")))
-                        .get("lastSurname");
-                if (firstName.equals("Monique") && lastSurname.equals("Johnson")) {
+                
+                String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
+                String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
+                if (firstName.equals("Monique") && lastSurname.equals("Johnson"))
                     testResult = "succeed";
-                } else {
+                else
                     testResult = "failed";
-                }
             }
         } catch (Exception e) {
             testResult = "failed";
         }
         return testResult;
     }
-
+    
     // test the update for Java SDK
     @SuppressWarnings("unchecked")
     private String testUpdate(BasicClient client) {
@@ -101,7 +97,7 @@ public class TestSDKServlet extends HttpServlet {
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
-        EntityCollection collection = new EntityCollection();
+        List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
             String location = response.getHeaders().getHeaderValues("Location").get(0);
@@ -109,7 +105,7 @@ public class TestSDKServlet extends HttpServlet {
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
-                ((List<Map<String, String>>) (student.getData().get("address"))).get(0).put("streetNumberName",
+                ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
                         "2817 Oakridge Farm Lane");
                 response = client.update(student);
                 if (response.getStatus() != 204) {
@@ -120,27 +116,26 @@ public class TestSDKServlet extends HttpServlet {
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
-                String address = ((List<Map<String, String>>) (student.getData().get("address"))).get(0).get(
+                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
                         "streetNumberName");
-                if (address.equals("2817 Oakridge Farm Lane")) {
+                if (address.equals("2817 Oakridge Farm Lane"))
                     testResult = "succeed";
-                } else {
+                else
                     testResult = "failed";
-                }
             }
         } catch (Exception e) {
             testResult = "failed";
         }
         return testResult;
     }
-
+    
     // test the delete of Java SDK
     private String testDelete(BasicClient client) {
         String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
-        EntityCollection collection = new EntityCollection();
+        List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
             String location = response.getHeaders().getHeaderValues("Location").get(0);
@@ -155,33 +150,32 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (response.getStatus() == 404) {
+            if (response.getStatus() == 404)
                 testResult = "succeed";
-            } else {
+            else {
                 testResult = "failed";
                 return testResult;
             }
-
+            
         } catch (Exception e) {
             testResult = "failed";
         }
         return testResult;
     }
-
+    
     // test query and sorting of Java SDK
     @SuppressWarnings("unchecked")
     private String testQuery(BasicClient client) {
-        EntityCollection collection = new EntityCollection();
+        List<Entity> collection = new ArrayList<Entity>();
         String testResult = "";
         try {
-            client.read(collection, ResourceNames.TEACHERS,
-                    BasicQuery.Builder.create().filterEqual("sex", "Male").sortBy("name.firstName").sortDescending()
-                            .build());
+            client.read(collection, ResourceNames.TEACHERS, BasicQuery.Builder.create().filterEqual("sex", "Male")
+                    .sortBy("name.firstName").sortDescending().build());
             if (collection != null && collection.size() > 0) {
-                String firstName = ((Map<String, String>) (collection.get(0).getData().get("name"))).get("firstName");
-                if (firstName.equals("Mark")) {
+                String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
+                if (firstName.equals("Mark"))
                     testResult = "succeed";
-                } else {
+                else {
                     testResult = "failed";
                     return testResult;
                 }
@@ -189,11 +183,11 @@ public class TestSDKServlet extends HttpServlet {
         } catch (Exception e) {
             testResult = "failed";
         }
-
+        
         return testResult;
-
+        
     }
-
+    
     // build the test student entity that can pass schema validation
     private Map<String, Object> createStudentBody() {
         Map<String, Object> body = new HashMap<String, Object>();
@@ -219,12 +213,8 @@ public class TestSDKServlet extends HttpServlet {
         address.put("nameOfCounty", "Wake");
         addresses.add(address);
         body.put("address", addresses);
-
+        
         return body;
     }
-
-    private String buildTestResponse(String testResult) {
-        String testResponse = testResult;
-        return testResponse;
-    }
+    
 }

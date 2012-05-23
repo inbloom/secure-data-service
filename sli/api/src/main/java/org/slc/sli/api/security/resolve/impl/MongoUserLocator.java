@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;

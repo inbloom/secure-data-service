@@ -1,9 +1,9 @@
-package org.slc.sli.common.constants.v1;
+package org.slc.sli.client.constants.v1;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Constants used in URI path requests.

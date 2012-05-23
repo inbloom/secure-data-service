@@ -1,4 +1,4 @@
-package org.slc.sli.common.constants;
+package org.slc.sli.client.constants;
 
 /**
  * Defines for entity names exposed by API.
