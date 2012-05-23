@@ -81,6 +81,8 @@ public class IdNormalizer {
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
 
+                LOG.info(" ids is now: {} of size: {}", ids, ids.size());
+                
                 if (ids == null || ids.size() == 0) {
                     if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
                         LOG.error("Error with entity " + entity.getType() + " missing required reference "
@@ -252,6 +254,8 @@ public class IdNormalizer {
         } else if (collection.equals("teacher")) {
             collection = "staff";
         }
+        
+        LOG.info("query: {}", filter.getQueryObject().toString());
 
         @SuppressWarnings("deprecation")
         Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
@@ -263,6 +267,8 @@ public class IdNormalizer {
                 ids.add(record.getEntityId());
             }
         }
+        
+        LOG.info("returned {} number of ids: {}", ids.size(), ids);
 
         return ids;
     }
