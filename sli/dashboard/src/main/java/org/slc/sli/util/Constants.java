@@ -174,7 +174,7 @@ public final class Constants {
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
     
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
-    
+
     public static final String ATTR_CREDENTIALS_LIST_ATTRIBUTE = "credentials";
     public static final String ATTR_CREDENTIAL_FIELD_ATTRIBUTE = "credentialField";
     public static final String ATTR_CREDENTIAL_CODE_ATTRIBUTE = "codeValue";
@@ -261,9 +261,9 @@ public final class Constants {
     public static final String LOCAL_EDUCATION_AGENCY = "Local Education Agency";
     
     public static final int MAX_RESULTS = 0;
-    
+    public static final String LIMIT = "limit";
     public static final String ATTR_PARENTS = "parents";
-    
+
     /**
      * Contains the possible values for FRE participation
      */

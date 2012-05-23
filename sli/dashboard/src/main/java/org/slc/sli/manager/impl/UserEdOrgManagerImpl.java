@@ -3,12 +3,14 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import org.slc.sli.entity.Config.Data;
@@ -137,13 +139,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             // cache it
             putToCache(USER_SCHOOLS_CACHE, token, schools);
         }
-//        //Sort the Schools based on nameOfInstitution .
-//      Collections.sort(schools, new Comparator<Map<String, Object>>() {
-//          @Override
-//          public int compare(Map<String, Object> a, Map<String, Object> b) {
-//              return ((String) a.get("nameOfInstitution")).compareTo((String) b.get("nameOfInstitution"));
-//          }
-//      });
+
         return schools;
     }
 
@@ -223,17 +219,17 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 // code 403.
                 if (edOrgEntity != null) {
                     obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
-                    // convert school ids to the school object array
-                    Set<GenericEntity> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
-                    //Sort the Schools based on nameOfInstitution .
-//                  List<GenericEntity> schoolList = new ArrayList<GenericEntity>(schoolMap.values());
-//                  Collections.sort(schools, new Comparator<Map<String, Object>>() {
-//                      @Override
-//                      public int compare(Map<String, Object> a, Map<String, Object> b) {
-//                          return ((String) a.get("nameOfInstitution")).compareTo((String) b.get("nameOfInstitution"));
-//                      }
-//                  });
-                    //ddwaklk
+                    // convert school ids to the school object array and sort based on the name of
+                    // the institution
+                    Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(
+                            new Comparator<Map<String, Object>>() {
+                                @Override
+                                public int compare(Map<String, Object> a, Map<String, Object> b) {
+                                    return ((String) a.get(Constants.ATTR_NAME_OF_INST)).compareTo((String) b
+                                            .get(Constants.ATTR_NAME_OF_INST));
+                                }
+                            });
+                    reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
                     obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                     retVal.add(obj);
                 }
@@ -248,6 +244,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
         }
         putToCache(USER_HIERARCHY_CACHE, token, retVal);
+        //Sort the Districts based on the District Name
+        Collections.sort(retVal, new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> a, Map<String, Object> b) {
+                return ((String) a.get(Constants.ATTR_NAME)).compareTo((String) b.get(Constants.ATTR_NAME));
+            }
+        });
+
         return retVal;
     }
 
@@ -300,7 +304,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (key != null) {
             // TODO: a better way of searching should be implemented.
             for (GenericEntity org : entities) {
-                HashSet schools = ((HashSet) org.get(Constants.ATTR_SCHOOLS));
+                Set schools = ((Set) org.get(Constants.ATTR_SCHOOLS));
                 for (Object school : schools) {
                     for (Object course : ((GenericEntity) school).getList(Constants.ATTR_COURSES)) {
                         for (Object section : ((GenericEntity) course).getList(Constants.ATTR_SECTIONS)) {
