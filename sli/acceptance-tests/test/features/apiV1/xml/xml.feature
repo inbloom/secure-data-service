@@ -1,3 +1,5 @@
+@RALLY_US209
+@RALLY_US210
 Feature: As an SLI application, I want to be able to support XML.
   This means the API should support POST, PUT and GET with XML format.
 
@@ -60,7 +62,6 @@ Scenario: Getting response from PUT - Update (school)
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
 
-@RALLY_US210
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"
