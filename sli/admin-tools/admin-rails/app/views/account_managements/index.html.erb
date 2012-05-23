@@ -3,17 +3,14 @@
 
 <h1>User Account Managements</h1>
 <p>&nbsp;</p>
-<table id="Account_Management_Table" class="table table-striped">
-  <thead>
-  	<tr>
-  		<th id="vendor">Vendor</th>
-  		<th id="user_name">User Name</th>
-  		<th id="last_update">Last Update</th>
-  		<th id="status">Status</th>
-  		<th id="action">Action</th>
-  	</tr>
-	</thead>
-	<tbody>
+<table id="Account_Management_Table">
+	<tr>
+		<th id="vendor">Vendor</th>
+		<th id="user_name">User Name</th>
+		<th id="last_update">Last Update</th>
+		<th id="status">Status</th>
+		<th id="action">Action</th>
+	</tr>
 	<% if @account_managements!=nil and @account_managements.length>0%>
 	<% @account_managements.each do |account_management| %>
 	<tr>
@@ -34,17 +31,16 @@
 		%>
 		<%= f.hidden_field "email", :name=>"email", :value => account_management.email %>
 		<%= f.submit "Approve",:id=> "approve_button_"+account_management.name,:disabled => (account_management.transitions.index("approve")==nil),
-      :confirm => "Do you really want to approve this user account?", :class => "btn" %>
+      :confirm => "Do you really want to approve this user account?" %>
 		<%= f.submit "Reject",:id=> "reject_button_"+account_management.name,:disabled => (account_management.transitions.index("reject")==nil),
-      :confirm => "Do you really want to reject this user account?", :class => "btn btn-danger"%>
+      :confirm => "Do you really want to reject this user account?"%>
       <%= f.submit "Disable",:id=> "disable_button_"+account_management.name,:disabled => (account_management.transitions.index("disable")==nil),
-      :confirm => "Do you really want to disable this user account?", :class => "btn btn-warning"%>
+      :confirm => "Do you really want to disable this user account?"%>
       <%= f.submit "Enable",:id=> "enable_button_"+account_management.name,:disabled => (account_management.transitions.index("enable")==nil),
-      :confirm => "Do you really want to enable this user account?", :class => "btn"%>
+      :confirm => "Do you really want to enable this user account?"%>
 		<% end %>
 	</tr>
 	<% end %>
 	<% end %>
-	</tbody>
 </table>
 <br />

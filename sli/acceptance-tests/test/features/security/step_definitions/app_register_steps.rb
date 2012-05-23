@@ -91,7 +91,7 @@ end
 
 When /^I PUT an application updating the auto\-generated field "([^"]*)"$/ do |arg1|
   @format = "application/json"
-  uri = "/apps/d0b2ded4-89a9-db4a-8f80-aaece6fda529"
+  uri = "/apps/deb9a9d2-771d-40a1-bb9c-7f93b44e51df"
   restHttpGet(uri)
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")

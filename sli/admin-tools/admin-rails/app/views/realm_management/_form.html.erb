@@ -19,30 +19,30 @@
   <% end %>
 
 
-    <div class = "field well">
+    <div class = "field">
        	<%= f.label :name, "Display Name" %> <br />
    	    <%= f.text_field :name, :size => 50 %>
     </div>
 
     <%= f.fields_for :idp, @realm.idp do |idp| %>
-        <div class = "field well">
+        <div class = "field">
         		<%= idp.label :id, "IDP URL (URL that identifies the federated IDP)" %>  <br />
         		<%= idp.text_field :id, :size => 50 %>
         </div>
 
-        <div class = "field well">
+        <div class = "field">
           <%= idp.label :redirectEndpoint, "Redirect Endpoint (URL where authentication requests are sent)" %><br />
           <%= idp.text_field :redirectEndpoint, :size => 50 %>
         </div>
     <% end %>
 
-    <div class = "field well">
+    <div class = "field">
         <%= f.label :uniqueIdentifier, "Realm Identifier (Used for skipping the realm selection)" %> <br />
        	<%= f.text_field :uniqueIdentifier, :size => 50 %>
     </div>
 
 
   <div class="actions">
-    <%= f.submit :value => "Save", :class=>"btn" %>
+    <%= f.submit :value => "Save" %>
   </div>
 <% end %>

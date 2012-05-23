@@ -18,7 +18,9 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Iframe App",
-   "vendor":"${bootstrap.app.vendor}",
+   "developer_info":{
+      "organization":"${bootstrap.app.vendor}"
+   },
    "endpoints":[
       {
          "name":"Application Registration",
