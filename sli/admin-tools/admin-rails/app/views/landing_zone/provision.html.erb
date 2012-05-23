@@ -1,6 +1,11 @@
 <h1 id="successMessage">Success</h1>
 <div class="provision">
-	<p>Your landing zone was successfully provisioned on <%=@landingzone[:server]%> at <%=@landingzone[:landingzone]%>.  Please refer to the on-boarding documentation to understand how to access it.</p>
+	<p>
+	    Your landing zone was successfully provisioned on <%=@landingzone[:server]%> at <%=@landingzone[:landingzone]%>.  Please refer to the on-boarding documentation to understand how to access it.
+	</p>
+	<p>
+	    <%=@landingzone[:emailWarning]%>
+	</p>
 	<form>
 		<div class="provisionButtons">
   			<input type="button" value="OK" onclick="window.location.href='http://slcedu.org/api/'" />	
