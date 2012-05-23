@@ -1,6 +1,6 @@
 {
    "name": "Databrowser",
-   "description":"SLI Databrowser",
+   "description":"SLC Databrowser",
    "version":"1.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.databrowser.url}/assets/icon.png",
@@ -19,6 +19,6 @@
    "installed":false,
    "behavior":"Iframe App",
    "developer_info":{
-      "organization":"SLI"
+      "organization":"Shared Learning Collaborative, LLC"
    }
 }

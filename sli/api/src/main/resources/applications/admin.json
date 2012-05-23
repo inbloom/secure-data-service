@@ -19,12 +19,12 @@
    "installed":false,
    "behavior":"Iframe App",
    "developer_info":{
-      "organization":"SLI"
+      "organization":"Shared Learning Collaborative, LLC"
    },
    "endpoints":[
       {
          "name":"Application Registration",
-         "description":"Register an application that can access SLI API.",
+         "description":"Register an application that can access SLC API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "SLC Operator", "Application Developer"
@@ -40,7 +40,7 @@
       },
       {
          "name":"Realm Role Mapper",
-         "description":"Control how roles are from a IDP are mapped to SLI roles.",
+         "description":"Control how roles are from a IDP are mapped to SLC roles.",
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
            "Realm Administrator"

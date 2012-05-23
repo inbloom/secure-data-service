@@ -1,10 +1,10 @@
 {
-   "name": "Dashboard",
-   "description":"SLI dashboard application",
+   "name": "SLC Dashboards",
+   "description":"The SLC Dashboards allow you to see information about students in lists and profiles.",
    "version":"1.0",
    "bootstrap": true,
-   "image_url":"${bootstrap.app.dashboard.url}/assets/icon.png",
-   "administration_url":"${bootstrap.app.dashboard.url}",
+   "image_url":"${bootstrap.app.dashboard.url}/static/images/dashboard_icon.jpg",
+   "administration_url":"${bootstrap.app.dashboard.url}/service/config",
    "application_url":"${bootstrap.app.dashboard.url}",
    "client_secret":"${bootstrap.app.dashboard.client_secret}",
    "client_id":"${bootstrap.app.dashboard.client_id}",
@@ -19,6 +19,6 @@
    "installed":false,
    "behavior":"Full Window App",
    "developer_info":{
-      "organization":"SLI"
+      "organization":"Shared Learning Collaborative, LLC"
    }
 }
