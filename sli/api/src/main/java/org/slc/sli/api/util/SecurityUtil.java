@@ -73,6 +73,16 @@ public class SecurityUtil {
         return null;
     }
 
+    public static String getTenantId() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal.getTenantId();
+        }
+        return null;
+    }
+    
     public static Response forbiddenResponse() {
         EntityBody body = new EntityBody();
         body.put("response", "\"You are not authorized to perform this action.\"");
