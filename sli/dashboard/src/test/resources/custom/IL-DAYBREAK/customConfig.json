@@ -11,7 +11,7 @@
     params: {
       assessmentFilter: {"StateTest Reading": "HIGHEST_EVER", 
                          "StateTest Writing": "MOST_RECENT_WINDOW", 
-                         "READ 20": "MOST_RECENT_WINDOW",
+                         "READ 2.0": "MOST_RECENT_WINDOW",
                          "TRC": "MOST_RECENT_WINDOW",
                          "SAT Reading": "HIGHEST_EVER",
                          "SAT Writing": "HIGHEST_EVER",
