@@ -75,7 +75,7 @@ Scenario: Paging request the first two results from an API request
 	Then I should receive a collection with 2 elements
 		And the link at index 0 should point to an entity with id "455a39aa-f950-4dca-a3df-9a87f990054b"
 		And the link at index 1 should point to an entity with id "f05029c8-c4e8-427e-b2a4-cc89c74650a1"
-		And the header "TotalCount" equals 8
+		And the header "TotalCount" equals 4
 		And the a next link exists with offset equal to 2 and limit equal to 2
 		And the a previous link should not exist
 
@@ -106,7 +106,7 @@ Scenario: Request the last and middle page of results from a API request
 	Then I should receive a collection with 2 elements
 		And the link at index 0 should point to an entity with id "8f423e3d-a206-4bbe-a3ab-aa37e95ba3e5"
 		And the link at index 1 should point to an entity with id "69b49ecc-86f6-44b4-be99-43e9041dee2e"
-		And the header "TotalCount" equals 8
+		And the header "TotalCount" equals 4
 		And the a previous link exists with offset equal to 0 and limit equal to 2
 	Given parameter "offset" is "1"
 		And parameter "limit" is "2"
@@ -114,6 +114,6 @@ Scenario: Request the last and middle page of results from a API request
 	Then I should receive a collection with 2 elements
 			And the link at index 0 should point to an entity with id "f05029c8-c4e8-427e-b2a4-cc89c74650a1"
 			And the link at index 1 should point to an entity with id "8f423e3d-a206-4bbe-a3ab-aa37e95ba3e5"
-			And the header "TotalCount" equals 8
+			And the header "TotalCount" equals 4
 			And the a previous link exists with offset equal to 0 and limit equal to 2
 			And the a next link exists with offset equal to 3 and limit equal to 2
