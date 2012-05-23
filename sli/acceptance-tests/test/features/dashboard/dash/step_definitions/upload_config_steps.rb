@@ -151,10 +151,7 @@ Then /^I paste Valid json config into the text box$/ do
     {id: \"tabE\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistREAD2\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tabM\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistStateTestR\", type: \"GRID\"}, {id : \"assessmentHistStateTestW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tabH\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistAPE\", type: \"GRID\"}, {id : \"assessmentHistSATR\", type: \"GRID\"}, {id : \"assessmentHistSATW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}},
-    {id: \"tab4\", name: \"Grades and Credits\",  type : \"TAB\", items: [ {id : \"transcriptHistory\", type : \"PANEL\"} ]},
-    {id: \"tab5\", name: \"Advanced Academics\",  type : \"TAB\", items: []},
-    {id: \"tab10\", name: \"Daybreak District\",  type : \"TAB\", items: []},
-    {id: \"tab1\", name: \"ELL\", type : \"TAB\", condition: {field: \"limitedEnglishProficiency\", value: [\"Limited\"]}, items: []}
+    {id: \"tab4\", name: \"Grades and Credits\",  type : \"TAB\", items: [ {id : \"transcriptHistory\", type : \"PANEL\"} ]}
   ]
 }
 ,

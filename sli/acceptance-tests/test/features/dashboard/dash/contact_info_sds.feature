@@ -17,6 +17,7 @@ When I select section "Mrs. Braverman's Homeroom #38"
 Given I click on student "Dalia Pingel"
 And I view its student profile
 And I look at the panel "Contact Information"
+And I look at "Student" Contact Info
 And there are "1" phone numbers
 And the list of phone number includes "708-432-9033"
 And the phone number "708-432-9033" is of type "Unlisted"  
