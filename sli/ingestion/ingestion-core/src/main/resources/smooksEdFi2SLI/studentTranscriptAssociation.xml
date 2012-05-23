@@ -50,8 +50,4 @@
         <jb:value property="additionalCreditType" data="additionalCreditsEarned element additionalCreditType" />
       </jb:bean>
 
-      <jb:bean beanId="StudentTranscriptAssociation_StudentReference" class="java.util.HashMap" createOnElement="studentAcademicRecord">
-        <jb:value property="studentId" data="studentAcademicRecord studentId" />
-      </jb:bean>
-
 </smooks-resource-list>
