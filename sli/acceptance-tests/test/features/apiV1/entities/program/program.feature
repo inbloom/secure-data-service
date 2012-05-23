@@ -1,4 +1,6 @@
 @RALLY_US209
+@RALLY_US1803
+@RALLY_US1876
 Feature: As an SLI application, I want to be able to manage program entities
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.

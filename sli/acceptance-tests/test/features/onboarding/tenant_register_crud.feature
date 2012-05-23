@@ -1,3 +1,4 @@
+@RALLY_US2170
 Feature: Tenant Registration Entity
 As an administrator for SLI, I want to create a tenant entity so that it listen for files on landing zone
 
@@ -119,7 +120,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     | "tenantId" | "123456789012345678901234567890123456789012345678A" |
     | "tenantId" | "" |
 
-Scenario Outline: Deny creation when specifying individual wrong size fields
+Scenario Outline: Deny creation when specifying individual wrong size fields2
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
