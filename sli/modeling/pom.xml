@@ -19,5 +19,8 @@
 		<module>xsd</module>
 		<module>uml</module>
 		<module>tools</module>
+		<module>rest</module>
+		<module>wadl</module>
+		<module>xdm</module>
 	</modules>
 </project>
