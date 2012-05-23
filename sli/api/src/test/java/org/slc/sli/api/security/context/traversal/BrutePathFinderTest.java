@@ -1,5 +1,9 @@
 package org.slc.sli.api.security.context.traversal;
 
+import static junit.framework.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +18,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.util.List;
-
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Test to see if we can get from one node to another.
@@ -53,7 +53,7 @@ public class BrutePathFinderTest {
 
     @Test
     public void testGetSimplePath3() throws Exception {
-        path = pathFinder.getPreDefinedPath("teacher", "school");
+        path = pathFinder.find("teacher", "school");
         assertTrue(path.size() == 2);
         assertTrue(path.get(0).getName().equals("teacher"));
         assertTrue(path.get(1).getName().equals("school"));

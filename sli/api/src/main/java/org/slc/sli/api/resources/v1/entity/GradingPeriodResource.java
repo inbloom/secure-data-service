@@ -35,15 +35,15 @@ public class GradingPeriodResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$ReportCard$$ of the given $$GradingPeriod$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param gradingPeriodId
-     *            The Id of the $$GradingPeriod$$
+     *            The Id of the $$gradingPeriods$$
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return each $$ReportCard$$ of the given $$GradingPeriod$$
+     * @return report cards of the given $$gradingPeriods$$
      */
     @GET
     @Path("{" + ParameterConstants.GRADING_PERIOD_ID + "}" + "/" + PathConstants.REPORT_CARDS)
@@ -54,15 +54,15 @@ public class GradingPeriodResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Grade$$ of the given $$GradingPeriod$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param gradingPeriodId
-     *            The Id of the $$GradingPeriod$$
+     *            The Id of the $$gradingPeriods$$
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return each $$Grade$$ of the given $$GradingPeriod$$
+     * @return $$gradingPeriodsEducationOrganizationAssociations$$ that references the given $$gradingPeriods$$
      */
     @GET
     @Path("{" + ParameterConstants.GRADING_PERIOD_ID + "}" + "/" + PathConstants.GRADES)

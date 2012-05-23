@@ -25,14 +25,9 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * 
- * Represents the definition of a discipline action.  
- * 
- * A discipline action is defined as an action taken by an
+ * This event entity represents actions taken by an
  * education organization after a disruptive event that
  * is recorded as a discipline incident.
- * 
- * For detailed information, see the schema for the $$DisciplineAction$$ entity.
  *
  * @author slee
  *
@@ -48,7 +43,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the requested collection of resource representations.
+     * Returns all $$disciplineActions$$ entities for which the logged in User has permission and context.
      *
      * @param offset
      *            starting position in results to return to user
@@ -69,7 +64,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Creates a new resource using the given resource data.
+     * Create a new $$disciplineActions$$ entity.
      *
      * @param newEntityBody
      *            entity data
@@ -90,15 +85,15 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the specified resource representation(s).
+     * Get a single $$disciplineActions$$ entity.
      *
      * @param disciplineActionId
-     *            The id of the entity
+     *            The Id of the $$disciplineActions$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return A single disciplineIncident entity
      */
     @Override
     @GET
@@ -109,10 +104,10 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Deletes the specified resource.
+     * Delete a $$disciplineActions$$ entity.
      *
      * @param disciplineActionId
-     *            The id of the entity
+     *            The Id of the $$disciplineActions$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -129,10 +124,10 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Updates the specified resource using the given resource data.
+     * Update an existing $$disciplineActions$$ entity.
      *
      * @param disciplineActionId
-     *            The id of the entity
+     *            The id of the $$disciplineActions$$.
      * @param newEntityBody
      *            entity data
      * @param headers

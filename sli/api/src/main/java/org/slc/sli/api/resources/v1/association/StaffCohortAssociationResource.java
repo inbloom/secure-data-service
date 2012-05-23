@@ -25,7 +25,7 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$Staff$$ member a $$Cohort$$.
+ * This association indicates the $$staff$$ member associated with a $$cohorts$$.
  *
  * @author kmyers
  * @author srichards
@@ -101,7 +101,7 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return A single entity
      */
     @Override
     @GET
@@ -158,7 +158,7 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffCohortAssociationId
-     *            The id of the entity
+     *            The id of the referencing entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -169,7 +169,7 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -185,7 +185,7 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffCohortAssociationId
-     *            The id of the entity
+     *            The id of the referencing entity
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -196,7 +196,7 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)

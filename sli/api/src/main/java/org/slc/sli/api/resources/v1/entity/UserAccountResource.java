@@ -25,8 +25,8 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Represents list of $$userAccounts$$ (developer/vendor) and status of the
- * account requested by them.
+ * This entity represents any type of list of
+ * designated students for tracking, analysis, or intervention.
  *
  * @author jstokes
  * @author srichards

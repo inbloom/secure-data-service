@@ -5,7 +5,6 @@ table = null
 jQuery ->
   table = $('#simple-table').dataTable(
     "bLengthChange": false,
-    "bRetrieve": true,
     "bPaginate": false)
   $('#simple-table tbody tr').click ->
     details = $(@)

@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 14                                         if human_readable_id == "ASSOCIATION COUNT"
+  id = 21                                         if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 7                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                          if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"

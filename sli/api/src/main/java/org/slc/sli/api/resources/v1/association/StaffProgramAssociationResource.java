@@ -25,7 +25,7 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$Staff$$ member and a $$Program$$.
+ * Represents the association between a $$staff$$ member and a $$programs$$.
  *
  * @author jtully
  *
@@ -91,7 +91,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return A single staffProgramAssociation entity
      */
     @Override
     @GET
@@ -159,7 +159,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -185,7 +185,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}" + "/" + PathConstants.PROGRAMS)

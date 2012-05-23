@@ -29,11 +29,9 @@ import org.slc.sli.client.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
 
 /**
+ * HomeResource
  *
- * Provides initial information for a user.This includes providing different links to self and associated
- * resources.
- *
- * @author pghosh
+ * Provides initial information for a user.
  *
  */
 @Path(PathConstants.V1 + "/" + "home")
@@ -51,11 +49,10 @@ public class HomeResource {
 
     /**
      * Provides a set of initial information when a user logs in. This
-     * includes a self link and links to resources with which the user
+     * includes a self link and links to entities with which the user
      * is associated.
      *
-     * @param uriInfo
-     *              URI information including path and query parameters
+     * @param uriInfo URI information including path and query parameters
      * @return A list of links applicable to the user currently logged in.
      */
     @GET

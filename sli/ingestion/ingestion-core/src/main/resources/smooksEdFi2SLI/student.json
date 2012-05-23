@@ -1,9 +1,6 @@
 {
   "piiFields" : {
                   "loginId" : true,
-                  "studentIdentificationCode" : {
-                    "identificationCode" : true
-                  },
                   "otherName" : {"middleName" : true, "generationCodeSuffix" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "otherNameType" : true},
                   "sex" : true, "profileThumbnail" : true,
                   "address" : {"nameOfCounty" : true, "apartmentRoomSuiteNumber" : true, "buildingSiteNumber" : true, "closeDate" : true, "countryCode" : true, "addressType" : true, "city" : true, "countyFIPSCode" : true, "streetNumberName" : true, "postalCode" : true, "stateAbbreviation" : true, "longitude" : true, "latitude" : true, "openDate" : true},
@@ -11,5 +8,5 @@
                   "name" : {"middleName" : true, "generationCodeSuffix" : true, "verification" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "maidenName" : true},
                   "telephone" : {"primaryTelephoneNumberIndicator" : true, "telephoneNumberType" : true, "telephoneNumber" : true},
                   "birthData" : {"stateOfBirthAbbreviation" : true, "dateEnteredUS" : true, "countryOfBirthCode" : true, "birthDate" : true, "cityOfBirth" : true, "multipleBirthStatus" : true}
-   }
+                 }
 }

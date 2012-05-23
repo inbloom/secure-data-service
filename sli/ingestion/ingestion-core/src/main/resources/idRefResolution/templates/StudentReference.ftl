@@ -1,14 +1,8 @@
-<#if (Student[0])??>
-<#assign student=Student>
-<#elseif (StudentReference[0])??>
-<#assign student=StudentReference.StudentIdentity>
-</#if>
-
 <StudentIdentity>
-<#if (student.StudentUniqueStateId[0])??>
-<StudentUniqueStateId>${student.StudentUniqueStateId}</StudentUniqueStateId >
+<#if (Student.StudentUniqueStateId[0])??>
+<StudentUniqueStateId>${Student.StudentUniqueStateId}</StudentUniqueStateId >
 </#if>
-<#list student.StudentIdentificationCode as idCode>
+<#list Student.StudentIdentificationCode as idCode>
 <StudentIdentificationCode
     <#if (idCode.@IdentificationSystem[0])??>
     IdentificationSystem="${idCode.@IdentificationSystem}"
@@ -20,34 +14,34 @@
     <IdentificationCode>${idCode.IdentificationCode}</IdentificationCode>
 </StudentIdentificationCode>
 </#list>
-<#if (student.Name[0])??>
+<#if (Student.Name[0])??>
 <Name
-    <#if (student.Name.@Verification[0])??>
-    Verification="${student.Name.@Verification}"
+    <#if (Student.Name.@Verification[0])??>
+    Verification="${Student.Name.@Verification}"
     </#if>
     >
-    <#if (student.Name.PersonalTitlePrefix[0])??>
-    <PersonalTitlePrefix>${student.Name.PersonalTitlePrefix}</PersonalTitlePrefix>
+    <#if (Student.Name.PersonalTitlePrefix[0])??>
+    <PersonalTitlePrefix>${Student.Name.PersonalTitlePrefix}</PersonalTitlePrefix>
     </#if>
-    <#if (student.Name.FirstName[0])??>
-    <FirstName>${student.Name.FirstName}</FirstName>
+    <#if (Student.Name.FirstName[0])??>
+    <FirstName>${Student.Name.FirstName}</FirstName>
     </#if>
-    <#if (student.Name.MiddleName[0])??>
-    <MiddleName>${student.Name.MiddleName}</MiddleName>
+    <#if (Student.Name.MiddleName[0])??>
+    <MiddleName>${Student.Name.MiddleName}</MiddleName>
     </#if>
-    <#if (student.Name.LastSurname[0])??>
-    <LastSurname>${student.Name.LastSurname}</LastSurname>
+    <#if (Student.Name.LastSurname[0])??>
+    <LastSurname>${Student.Name.LastSurname}</LastSurname>
     </#if>
-    <#if (student.Name.GenerationCodeSuffix[0])??>
-    <GenerationCodeSuffix>${student.Name.GenerationCodeSuffix}</GenerationCodeSuffix>
+    <#if (Student.Name.GenerationCodeSuffix[0])??>
+    <GenerationCodeSuffix>${Student.Name.GenerationCodeSuffix}</GenerationCodeSuffix>
     </#if>
-    <#if (student.Name.MaidenName[0])??>
-    <MaidenName>${student.Name.MaidenName}</MaidenName>
+    <#if (StudentRerenece.Name.MaidenName[0])??>
+    <MaidenName>${StudentRerenece.Name.MaidenName}</MaidenName>
     </#if>
 </Name>
 </#if>
 
-<#list student.OtherName as otherName>
+<#list Student.OtherName as otherName>
 <OtherName
     <#if (otherName.@OtherNameType[0])??>
     OtherNameType="${otherName.@OtherNameType}"
@@ -70,18 +64,18 @@
     </#if>
 </OtherName>
 </#list>
-<#if (student.BirthData.BirthDate[0])??>
-<BirthDate>${student.BirthData.BirthDate}</BirthDate>
+<#if (Student.BirthData.BirthDate[0])??>
+<BirthDate>${Student.BirthData.BirthDate}</BirthDate>
 </#if>
-<#if (student.Sex[0])??>
-<Sex>${student.Sex}</Sex>
+<#if (Student.Sex[0])??>
+<Sex>${Student.Sex}</Sex>
 </#if>
-<#if (student.HispanicLatinoEthnicity[0])??>
-<HispanicLatinoEthnicity>${student.HispanicLatinoEthnicity}</HispanicLatinoEthnicity>
+<#if (Student.HispanicLatinoEthnicity[0])??>
+<HispanicLatinoEthnicity>${Student.HispanicLatinoEthnicity}</HispanicLatinoEthnicity>
 </#if>
-<#if (student.Race[0])??>
+<#if (Student.Race[0])??>
 <Race>
-    <#list student.Race.RacialCategory as racialCategory>
+    <#list Student.Race.RacialCategory as racialCategory>
     <RacialCategory>${racialCategory}</RacialCategory>
    </#list>
 </Race>

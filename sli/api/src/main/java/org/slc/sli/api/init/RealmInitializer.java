@@ -23,22 +23,22 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class RealmInitializer {
-    
+
     @Value("${bootstrap.admin.realm.name}")
     private String adminRealmName;
-    
+
     @Value("${bootstrap.admin.realm.tenantId}")
     private String adminTenantId;
-    
+
     @Value("${bootstrap.admin.realm.idpId}")
     private String adminIdpId;
-    
+
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
 
     @Value("${bootstrap.sandbox.realm.uniqueId}")
     private String sandboxUniqueId;
-    
+
     @Value("${bootstrap.sandbox.realm.name}")
     private String sandboxRealmName;
 
@@ -53,12 +53,12 @@ public class RealmInitializer {
 
     @Autowired
     private Repository<Entity> repository;
-    
+
     protected static final String REALM_RESOURCE = "realm";
-    
+
     //This is what we use to look up the existing admin realm.  If this changes, we might end up with extra realms
     protected static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
-    
+
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
@@ -88,7 +88,7 @@ public class RealmInitializer {
                         bootstrapSandboxRealmBody, new HashMap<String, Object>());
                 repository.update("realm", entity);
             }
-    }
+        }
     }
 
     /**
@@ -140,13 +140,13 @@ public class RealmInitializer {
         body.put("name", name);
         body.put("uniqueIdentifier", unqiueId);
         if (tenantId != null) {
-        body.put("tenantId", tenantId);
+            body.put("tenantId", tenantId);
         }
         if (edOrg != null) {
             body.put("edOrg", edOrg);
         }
         body.put("admin", admin);
-        
+
         Map<String, Object> idp = new HashMap<String, Object>();
         idp.put("id", idpId);
         idp.put("redirectEndpoint", redirectEndpoint);
@@ -154,7 +154,7 @@ public class RealmInitializer {
         return body;
 
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private List getAdminFields() {
         List toReturn = new ArrayList();
