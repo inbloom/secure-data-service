@@ -6,6 +6,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
@@ -34,13 +38,15 @@ import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
  *
  */
 @Component
-public class NeutralSchemaFactory implements SchemaFactory {
+public class NeutralSchemaFactory implements SchemaFactory, ApplicationContextAware {
 
     @Resource(name = "validationStrategyList")
     private List<AbstractBlacklistStrategy> validationStrategyList;
 
     @Resource(name = "relaxedValidationStrategyList")
     private List<AbstractBlacklistStrategy> relaxedValidationStrategyList;
+
+    private ApplicationContext applicationContext;
 
     /*
      * (non-Javadoc)
@@ -115,12 +121,28 @@ public class NeutralSchemaFactory implements SchemaFactory {
             case COMPLEX:
                 return new ComplexSchema(schemaType.getName());
             case REFERENCE:
-                return new ReferenceSchema(schemaType.getName());
+                return getReferenceSchema(schemaType);
             case CHOICE:
                 return new ChoiceSchema(schemaType.getName());
             default:
                 return null;
         }
     }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    private NeutralSchema getReferenceSchema(NeutralSchemaType schemaType) {
+        if (applicationContext != null) {
+            return new ReferenceSchema(schemaType.getName(),
+                    applicationContext.getBean(SchemaRepository.class));
+        } else {
+            return new ReferenceSchema(schemaType.getName());
+        }
+    }
+
+
 
 }

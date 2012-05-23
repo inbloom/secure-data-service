@@ -1343,7 +1343,7 @@
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1549,6 +1549,10 @@
 				that includes staff and students who participate in classes and
 				educational activity groups.
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
+                <sli:CollectionType>educationOrganization</sli:CollectionType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -1651,7 +1655,7 @@
 						session.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3588,7 +3592,7 @@
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4030,6 +4034,9 @@
 				These persons are instructional-type staff members. In the data
 				model, a teacher entity is a staff member with additional properties.
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>staff</sli:CollectionType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="abstractStaff">
@@ -4079,7 +4086,7 @@
 					<xs:documentation>The teacher providing services to the school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
+						<sli:ReferenceType>teacher</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4088,7 +4095,7 @@
 					<xs:documentation>The school where the teacher provides services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4139,7 +4146,7 @@
 					<xs:documentation>The teacher assigned to the section.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
+						<sli:ReferenceType>teacher</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4380,7 +4387,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4392,7 +4399,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6117,7 +6124,7 @@
 						often the LEA or school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6278,7 +6285,7 @@
                   The school associated with this attendance.
                 </xs:documentation>
                 <xs:appinfo>
-                  <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                  <sli:ReferenceType>school</sli:ReferenceType>
                 </xs:appinfo>
               </xs:annotation>
             </xs:element>
@@ -6596,7 +6603,7 @@
 					<xs:documentation>School where incident occurred
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

@@ -2,6 +2,7 @@ package org.slc.sli.validation.schema;
 
 import java.util.List;
 
+import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -21,9 +22,11 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  */
 @Scope("prototype")
 @Component
-public class ReferenceSchema extends NeutralSchema {
+public class ReferenceSchema extends NeutralSchema  {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(ReferenceSchema.class);
+
+    private SchemaRepository schemaRepository;
 
     // Constructors
     public ReferenceSchema() {
@@ -32,6 +35,11 @@ public class ReferenceSchema extends NeutralSchema {
 
     public ReferenceSchema(String xsdType) {
         super(xsdType);
+    }
+
+    public ReferenceSchema(String xsdType, SchemaRepository schemaRepository) {
+        super(xsdType);
+        this.schemaRepository = schemaRepository;
     }
 
     // Methods
@@ -46,7 +54,7 @@ public class ReferenceSchema extends NeutralSchema {
      * @return a collection/resource name this reference refers to
      */
     public String getResourceName() {
-        return super.getAppInfo().getReferenceType();
+        return getCollectionType();
     }
 
     @Override
@@ -76,10 +84,11 @@ public class ReferenceSchema extends NeutralSchema {
         }
 
         boolean found = false;
+        String collectionType = getCollectionType();
 
         try {
             // try to find an entity with the given id
-            found = repo.exists(getAppInfo().getReferenceType(), (String) entity);
+            found = repo.exists(collectionType, (String) entity);
         } catch (Exception e) {
             // repo.find is currently throwing multiple kinds of exceptions so we will catch all for
             // now, as we sort out what is thrown and why
@@ -96,4 +105,22 @@ public class ReferenceSchema extends NeutralSchema {
 
         return true;
     }
+
+    private String getCollectionType() {
+        String collectionType = getAppInfo().getReferenceType();
+
+        if (schemaRepository != null) {
+            //get the reference schema
+            NeutralSchema referenceSchema = schemaRepository.getSchema(collectionType);
+
+            //get the collection type
+            if (referenceSchema.getAppInfo() != null && referenceSchema.getAppInfo().getCollectionType() != null) {
+                collectionType = referenceSchema.getAppInfo().getCollectionType();
+            }
+        }
+
+        return collectionType;
+    }
+
+
 }
