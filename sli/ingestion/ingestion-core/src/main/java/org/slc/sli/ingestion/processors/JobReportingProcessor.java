@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -347,6 +348,7 @@ public class JobReportingProcessor implements Processor {
         } catch (UnknownHostException e) {
             LOG.error("Error getting local host", e);
         }
+        List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
                 "", // user
                 "", // targetEdOrg
@@ -360,6 +362,7 @@ public class JobReportingProcessor implements Processor {
                 ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                 this.getClass().getName(), // className
                 messageType, // Alpha MH (logLevel)
+                userRoles,
                 message); // Alpha MH (logMessage)
 
         audit(event);

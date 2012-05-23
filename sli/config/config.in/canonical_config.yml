@@ -31,12 +31,19 @@ default:
         
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
+        bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        
+        # Used to bootstrap the sandbox's other ream realm
+        bootstrap.sandbox.realm.uniqueId: SandboxIDP
+        bootstrap.sandbox.realm.name: Sandbox Environment
+        bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
         bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
@@ -177,7 +184,7 @@ default:
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
-        sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
         
@@ -397,6 +404,7 @@ local-sandbox:
     api:
         <<: *API-LOCAL
         sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
 
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -516,8 +524,11 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
@@ -728,8 +739,11 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM

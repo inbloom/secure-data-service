@@ -34,6 +34,7 @@ import org.springframework.util.LinkedMultiValueMap;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -70,15 +71,18 @@ public class SamlFederationResource {
     @Autowired
     private OauthSessionManager sessionManager;
 
+    @Autowired
+    private ClientRoleResolver roleResolver;
+
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
 
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
-    
+
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
@@ -170,17 +174,28 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        String tenant = (String) realm.getBody().get("tenantId");
-        if (tenant == null || tenant.length() < 1) {
-            // accept the tenantId from the IDP if and only if the realm's tenantId is null
-            tenant = attributes.getFirst("tenant");
+        String tenant;
+        String realmTenant = (String) realm.getBody().get("tenantId");
+        String samlTenant = attributes.getFirst("tenant");
+        if (realmTenant == null || realmTenant.length() < 1) {
+            // Sandbox impersonation case: accept the tenantId from the IDP if and only if the realm's tenantId is null
+            tenant = samlTenant;
             if (tenant == null) {
                 LOG.error("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}",
                         issuer, inResponseTo);
                 throw new IllegalArgumentException("No tenant found in either the realm or SAMLResponse. issuer: "
                         + issuer + ", inResponseTo: ");
             }
+        } else {
+            Object temp = realm.getBody().get("admin");
+            Boolean isAdminRealm = (temp == null) ? false : (Boolean) temp; 
+            if (isAdminRealm && samlTenant != null) {
+                tenant = samlTenant;
+            } else {
+              tenant = realmTenant;
+            }
         }
+
         principal = users.locate(tenant, attributes.getFirst("userId"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
@@ -188,18 +203,23 @@ public class SamlFederationResource {
         } else {
             principal.setName(attributes.getFirst("userName"));
         }
-        
+
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
 
-        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean)realm.getBody().get("admin")) {
+
+        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
             throw new RuntimeException("Invalid user");
         }
         
+        if (samlTenant != null) {
+            principal.setTenantId(samlTenant);
+        }
+                
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
