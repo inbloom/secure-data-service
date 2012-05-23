@@ -328,7 +328,7 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "developer_info" => { "organization" => "Acme" }, 
+      "vendor" => "Acme", 
       "authorized_ed_orgs" => []
     }
   end
