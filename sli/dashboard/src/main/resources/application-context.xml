@@ -60,11 +60,11 @@
     
     <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
     <bean id="restTemplateWTimeout" class = "org.springframework.web.client.RestTemplate">
-    <constructor-arg>
-    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
-    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
-    </bean>
-    </constructor-arg>
+	    <constructor-arg>
+	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+		    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
+	    </bean>
+	    </constructor-arg>
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
