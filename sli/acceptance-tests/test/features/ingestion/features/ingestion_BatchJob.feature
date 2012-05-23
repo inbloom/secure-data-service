@@ -170,8 +170,8 @@ Then I should see following map of entry counts in the corresponding batch job d
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                | searchValue             | searchType |
   | newBatchJob    | 1                   | totalFiles                     | 1                       | integer    |
-  | newBatchJob    | 1                   | status                         | CompletedSuccessfully   | string     |
-  | newBatchJob    | 1                   | status                         | CompletedWithErrors     | string     | 
+  | newBatchJob    | 2                   | status                         | CompletedSuccessfully   | string     |
+  | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
 
