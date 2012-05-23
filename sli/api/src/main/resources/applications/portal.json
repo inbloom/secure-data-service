@@ -14,7 +14,7 @@
       "request_date": 1330521193111,
       "approval_date": 1330521193111
    },
-   "redirect_uri":"${bootstrap.app.portal.url}/login",
+   "redirect_uri":"${bootstrap.app.portal.url}",
    "is_admin":true,
    "installed":false,
    "behavior":"Full Window App",
