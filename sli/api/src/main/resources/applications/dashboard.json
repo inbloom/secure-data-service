@@ -1,14 +1,14 @@
 {
-   "name": "Dashboard",
-   "description":"SLI dashboard application",
-   "version":"1.0",
+   "name": "${bootstrap.app.dashboard.name}",
+   "description":"${bootstrap.app.dashboard.description}",
+   "version":"${bootstrap.app.dashboard.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.dashboard.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.dashboard.url}",
    "application_url":"${bootstrap.app.dashboard.url}",
    "client_secret":"${bootstrap.app.dashboard.client_secret}",
    "client_id":"${bootstrap.app.dashboard.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
@@ -18,7 +18,5 @@
    "is_admin":false,
    "installed":false,
    "behavior":"Full Window App",
-   "developer_info":{
-      "organization":"SLI"
-   }
+   "vendor":"${bootstrap.app.vendor}"
 }

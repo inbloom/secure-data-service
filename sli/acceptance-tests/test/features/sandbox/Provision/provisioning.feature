@@ -1,3 +1,4 @@
+@RALLY_US219
 Feature: Use the Provisioning REST interface to provision a new sandbox application developer
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
@@ -35,7 +36,7 @@ Scenario Outline: Provision a new landing zone
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 201
 	And I should see a top level ed org is created with "stateOrganizationId" is <StateOrganizationId> and "tenantId" is <<TenantId>
-	And I should see this ed org is Authorized to use Apps "Databrowser" and "Dashboard"
+	And I should see this ed org is Authorized to use Apps "SLC Data Browser" and "SLC Dashboards"
 	Examples:
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
 	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "12345"  |
@@ -47,7 +48,7 @@ Scenario Outline: Provision a new landing zone twice should fail
 	Then I should receive a return code of 201
 	Then I should receive a return code of 201
 	And I should see a top level ed org is created with "stateOrganizationId" is <StateOrganizationId> and "tenantId" is <<TenantId>
-	And I should see this ed org is Authorized to use Apps "Databrowser" and "Dashboard"
+	And I should see this ed org is Authorized to use Apps "SLC Data Browser" and "SLC Dashboards"
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 409

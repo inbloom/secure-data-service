@@ -82,7 +82,7 @@ public class ApprovedApplicationResourceTest {
         endpoint.put("roles", roles);
         endpoints.add(endpoint);
         adminApp.put("endpoints", endpoints);
-        adminApp.put("created_by", "SLIDeveloper");
+        adminApp.put("created_by", "slcdeveloper");
         adminApp.put("name", "Admin App");
         userApp = new EntityBody();
         userApp.put("is_admin", false);

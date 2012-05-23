@@ -385,10 +385,10 @@
 		<resourceName>sessions</resourceName>
 		<collectionName>session</collectionName>
 	</document>
-	<document name="SessionCourseAssociation">
-		<class name="SessionCourseAssociation"></class>
-		<resourceName>sessionCourseAssociations</resourceName>
-		<collectionName>sessionCourseAssociation</collectionName>
+	<document name="CourseOffering">
+		<class name="CourseOffering"></class>
+		<resourceName>courseOfferings</resourceName>
+		<collectionName>courseOffering</collectionName>
 	</document>
 	<document name="Staff">
 		<class name="Staff"></class>

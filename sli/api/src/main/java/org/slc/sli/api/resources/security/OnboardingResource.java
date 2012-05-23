@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
@@ -30,6 +25,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -45,6 +44,10 @@ public class OnboardingResource {
 
     @Autowired
     private TenantResource tenantResource;
+    
+    //Use this to check if we're in sandbox mode
+    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
+    protected boolean isSandboxImpersonationEnabled;
 
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
@@ -65,6 +68,15 @@ public class OnboardingResource {
     public static final String APP_IDS = "appIds";
     public static final String APP_BOOTSTRAP = "bootstrap";
 
+    private final String landingZoneServer;
+
+
+    @Autowired
+    public OnboardingResource(@Value("${sli.landingZone.server}") String landingZoneServer) {
+        super();
+        this.landingZoneServer = landingZoneServer;
+    }
+
     /**
      * Provision a landing zone for the provide educational organization.
      *
@@ -77,18 +89,18 @@ public class OnboardingResource {
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
         // Ensure the user is an admin.
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
+        Right requiredRight = Right.INGEST_DATA;
+        if (isSandboxImpersonationEnabled) {
+            requiredRight = Right.ADMIN_ACCESS;
+        }
+        
+        if (!SecurityUtil.hasRight(requiredRight)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        String edOrgId = "";
-        Response r = createEdOrg(orgId, tenantId, edOrgId);
-
-        if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
-            return r;
-        }
+        Response r = createEdOrg(orgId, tenantId);
 
         return r;
     }
@@ -100,11 +112,9 @@ public class OnboardingResource {
      *            The State Educational Organization identifier.
      * @param tenantId
      *            The EdOrg tenant identifier.
-     * @param unique
-     *            identifier for the new EdOrg entity (out)
      * @return Response of the request as an HTTP Response.
      */
-    public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
+    public Response createEdOrg(final String orgId, final String tenantId) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
@@ -141,7 +151,7 @@ public class OnboardingResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        uuid = e.getEntityId();
+        String uuid = e.getEntityId();
 
         // retrieve the application ids for common applications that already exist in mongod
         List<String> appIds = getAppIds();
@@ -157,7 +167,7 @@ public class OnboardingResource {
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
-            returnObject.put("serverName", landingZone.getIngestionServerName());
+            returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", e.getEntityId());
 
             return Response.status(Status.CREATED).entity(returnObject).build();

@@ -1,3 +1,7 @@
+@RALLY_US1288
+@RALLY_US1289
+@RALLY_US1291
+@RALLY_US1292
 Feature: Attendance in the dashboard
 
 As a SEA/LEA user, I want to be able to see various

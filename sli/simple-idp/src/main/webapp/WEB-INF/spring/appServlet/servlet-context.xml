@@ -28,7 +28,6 @@
 
   <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect"
     factory-method="aspectOf">
-	<beans:property name="template" ref="mongoTemplate" />
   </beans:bean>
 
 <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

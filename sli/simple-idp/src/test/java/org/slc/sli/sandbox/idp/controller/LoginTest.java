@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthRequestService.Request;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
@@ -34,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Unit tests
  */
-//@RunWith(MockitoJUnitRunner.class)
+// @RunWith(MockitoJUnitRunner.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LoginTest {
@@ -60,8 +59,9 @@ public class LoginTest {
     @Before
     public void initMocks() throws Exception {
         MockitoAnnotations.initMocks(this);
+        loginController.setSliAdminRealmName("SLIAdmin");
     }
-
+    
     @Test
     public void testLoginSetup() {
         loginController.setSandboxImpersonationEnabled(false);
@@ -164,7 +164,8 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, httpSession, null);
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, httpSession,
+                null);
         
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
@@ -196,9 +197,40 @@ public class LoginTest {
                 httpSession, null);
         Mockito.verify(attributes, Mockito.times(1)).clear();
         Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
-
+        
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
+    }
+    
+    @Test
+    public void testSandboxImpersonationLoginWithNoTenant() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(true);
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn(null);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("tenant")).thenReturn("");
+        
+        List<String> roles = Arrays.asList("role1", "role2");
+        UserService.User user = new User("userId", roles, attributes);
+        
+        Mockito.when(userService.authenticate("SLIAdmin", "userId", "password")).thenReturn(user);
+        List<RoleService.Role> defaultRoles = new ArrayList<RoleService.Role>();
+        defaultRoles.add(new RoleService.Role("roleName"));
+        Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
+        SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse"); 
+        Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
+        
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
+                httpSession, null);
+        
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("", mov.getModel().get("realm"));
+        assertEquals("login", mov.getViewName());
+        assertEquals(true, mov.getModel().get("is_sandbox"));
     }
     
     @Test
