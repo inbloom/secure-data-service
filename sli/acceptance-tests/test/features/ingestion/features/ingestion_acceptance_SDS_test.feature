@@ -2,6 +2,7 @@
 @RALLY_US1889
 @RALLY_US1964
 @RALLY_US2033
+@RALLY_US1889
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
