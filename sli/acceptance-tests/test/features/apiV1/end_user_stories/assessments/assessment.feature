@@ -2,6 +2,7 @@ Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 
+    @RALLY_US210
     Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SLI"
@@ -92,6 +93,7 @@ Examples:
 | "administrator" | "administrator1234" | "IT Administrator" |
 | "leader"        | "leader1234"        | "Leader"           |
 
+    @RALLY_US210
     Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SLI"
