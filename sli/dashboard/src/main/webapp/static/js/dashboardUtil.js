@@ -36,9 +36,9 @@ DashboardProxy = {
 		},
 		load : function(componentId, id, callback) {
 			var prx = this,
-				loadingDiv = $("#sli-loadingSection");
+				w_studentListLoader = $("<div></div>").loader();
 			
-			loadingDiv.show();
+			w_studentListLoader.show();
 						
 			$.ajax({
 				  async: false,
@@ -47,13 +47,13 @@ DashboardProxy = {
 				  success: function(panel){
 					  jQuery.extend(prx.data, panel.data);
 					  jQuery.extend(prx.config, panel.config);
-					  loadingDiv.hide();
+					  w_studentListLoader.remove();
 					  
 					  if (jQuery.isFunction(callback))
 					    callback(panel);
 			      },
 			      error: $("body").ajaxError( function(event, request, settings) {
-			    	  loadingDiv.hide();
+			    	  w_studentListLoader.remove();
 			    	  if (request.responseText == "") {
 			    		  $(location).attr('href',$(location).attr('href'));
 			    	  } else {
@@ -855,3 +855,28 @@ DashboardUtil.teardrop = {
 };
 
 DashboardUtil.teardrop.init();
+
+// Loader widget
+$.widget( "SLI.loader", {
+	
+	options: {
+		message: "Loading..."
+	},
+	
+    _create: function() {
+        var message = this.options.message;
+        this.element
+            .addClass( "loader" )
+            .html("<div class='message'>" + message + "</div>")
+            .appendTo("body");
+    },
+    
+    message: function( message ) {
+        if ( message === undefined || typeof message !== "string" ) {
+            return this.options.message;
+        } else {
+            this.options.message = message;
+            this.element.find(".message").html(this.options.message);
+        }
+    },
+});
