@@ -2102,9 +2102,12 @@
       decoder="Integer" />
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:expression property="gradeType">'Final'</jb:expression>
-    <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
-    <jb:value property="studentId" data="CourseTranscript/StudentUniqueStateId" />
+    <jb:wiring property="studentAcademicRecordReference" beanIdRef="studentAcademicRecordReference_reference" />
+  </jb:bean>
+
+  <jb:bean beanId="studentAcademicRecordReference_reference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference">
+        <jb:value property="studentUniqueStateId" data="StudentAcademicRecordReference/StudentReference/StudentIdentity/StudentUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"
