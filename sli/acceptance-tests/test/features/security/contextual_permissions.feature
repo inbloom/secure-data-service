@@ -16,20 +16,6 @@ Examples:
 | "NY"  | "johndoe" | "johndoe1234" | "Parker-Dust Middle School" |
 | "IL"  | "ejane"   | "ejane1234"   | "Watson Elementary School"  |
 
-Scenario Outline: Authenticated Educator makes API call to get not own School
-Given I am logged in using <Username> <Password> to realm <Realm>
-And I have a Role attribute that equals "Educator"
-And my School is <School>
-When I make an API call to get the school <OtherSchool>
-Then I should get a message that I am not authorized
-Examples:
-| Realm | Username   | Password       | School                      | OtherSchool                 |
-| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" |
-| "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
-
 #Teacher
 
 Scenario Outline: Authenticated Educator makes API call to get self (Teacher)
