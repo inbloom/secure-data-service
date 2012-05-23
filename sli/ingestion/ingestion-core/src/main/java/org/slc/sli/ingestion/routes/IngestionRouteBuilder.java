@@ -161,8 +161,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
             
+            configureTenantPollingTimerRoute();
             tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
-            //this.addRoutesToCamelContext(camelContext);
+            this.addRoutesToCamelContext(camelContext);
         }
 
         if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
