@@ -30,6 +30,14 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
+   
+	| assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
+   
+   
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math             | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Critical Reading | string |
