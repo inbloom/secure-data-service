@@ -25,8 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates the staff associated
- * with a cohort of students.
+ * Represents the association between a $$Staff$$ member a $$Cohort$$.
  *
  * @author kmyers
  * @author srichards
@@ -35,7 +34,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
 @Component
 @Scope("request")
-public class StaffCohortAssociation extends DefaultCrudEndpoint {
+public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     public static final String BEGIN_DATE = "beginDate";
 
@@ -45,14 +44,14 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
 //    private static final Logger LOGGER = LoggerFactory.getLogger(StaffCohortAssociation.class);
 
     @Autowired
-    public StaffCohortAssociation(EntityDefinitionStore entityDefs) {
+    public StaffCohortAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STAFF_COHORT_ASSOCIATIONS);
 //        DE260 - Logging of possibly sensitive data
 //        LOGGER.debug("New resource handler created: {}", this);
     }
 
     /**
-     * Returns all $$staffCohortAssociations$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -73,7 +72,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$staffCohortAssociations$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -94,15 +93,15 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$staffCohortAssociations$$ entity.
+     * Returns the specified resource representation(s).
      *
      * @param staffCohortAssociationId
-     *            The Id of the $$staffCohortAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$schools$$ entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -113,10 +112,10 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$staffCohortAssociations$$ entity.
+     * Deletes the specified resource.
      *
      * @param staffCohortAssociationId
-     *            The Id of the $$staffCohortAssociations$$.
+     *            The id of the entity
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -133,10 +132,10 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$staffCohortAssociations$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param staffCohortAssociationId
-     *            The id of the $$staffCohortAssociations$$.
+     *            The id of the entity
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -156,22 +155,21 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$staff$$ that
-     * is referenced by the given $$staffCohortAssociations$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffCohortAssociationId
-     *            The Id of the $$staffCohortAssociation$$.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
-     *            Maximum number of results to return.
+     *            Maximum number of results to return
      * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
+     *            Number of hops (associations) for which to expand entities
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -184,22 +182,21 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$cohorts$$ that
-     * is referenced by the given $$staffCohortAssociations$$.
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param staffCohortAssociationId
-     *            The Id of the $$staffCohortAssociations$$.
+     *            The id of the entity
      * @param offset
      *            Index of the first result to return
      * @param limit
-     *            Maximum number of results to return.
+     *            Maximum number of results to return
      * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
+     *            Number of hops (associations) for which to expand entities
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return
+     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)

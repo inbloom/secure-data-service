@@ -27,8 +27,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates the staff associated
- * with a cohort of students.
+ * Represents the association between a $$Student$$ and a $$Cohort$$.
  *
  * @author kmyers
  * @author srichards
@@ -37,23 +36,23 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
 @Component
 @Scope("request")
-public class StudentCohortAssociation extends DefaultCrudEndpoint {
+public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     public static final String BEGIN_DATE = "beginDate";
 
     /**
      * Logging utility.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StudentCohortAssociation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentCohortAssociationResource.class);
 
     @Autowired
-    public StudentCohortAssociation(EntityDefinitionStore entityDefs) {
+    public StudentCohortAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_COHORT_ASSOCIATIONS);
         LOGGER.debug("New resource handler created: {}", this);
     }
 
     /**
-     * Returns all $$studentCohortAssociations$$ entities for which the logged in User has permission and context.
+     * Returns the requested collection of resource representations.
      *
      * @param offset
      *            starting position in results to return to user
@@ -74,7 +73,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$studentCohortAssociations$$ entity.
+     * Creates a new resource using the given resource data.
      *
      * @param newEntityBody
      *            entity data
@@ -95,15 +94,15 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$studentCohortAssociations$$ entity
+     * Returns the specified resource representation(s).
      *
      * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociations$$.
+     *            The Id of the studentCohortAssociations.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$schools$$ entity
+     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -114,10 +113,10 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$studentCohortAssociations$$ entity
+     * Deletes the specified resource.
      *
      * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociations$$.
+     *            The Id of the studentCohortAssociations.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -134,10 +133,10 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$studentCohortAssociations$$ entity.
+     * Updates the specified resource using the given resource data.
      *
      * @param studentCohortAssociationId
-     *            The id of the $$studentCohortAssociations$$.
+     *            The id of the studentCohortAssociations.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -157,8 +156,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentCohortAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentCohortAssociationId
      *            The Id of the studentCohortAssociation.
@@ -185,8 +183,7 @@ public class StudentCohortAssociation extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$cohorts$$ that
-     * references the given $$studentCohortAssociations$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      *
      * @param studentCohortAssociationId
      *            The Id of the $$studentCohortAssociation$$.
