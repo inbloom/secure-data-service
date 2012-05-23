@@ -19,9 +19,9 @@ import java.util.Map;
 public class CSVReader {
     public static String DATE_FORMAT = "yyyy-mm-dd";
 
-    private String[] columnNames;
-    private BufferedReader csvFile;
-    private Map<String, String> record;
+    protected String[] columnNames;
+    protected BufferedReader csvFile;
+    protected Map<String, String> record;
 
     public static Calendar getDate(String dateString) {
         DateFormat dateFormatter = new SimpleDateFormat(CSVReader.DATE_FORMAT);
@@ -47,7 +47,7 @@ public class CSVReader {
     /**
      * read one line of CSV file and convert it into a record
      */
-    private void readRecord() {
+    protected void readRecord() {
         try {
             String dataRow = csvFile.readLine();
             if (dataRow == null) {
