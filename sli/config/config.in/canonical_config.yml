@@ -15,7 +15,7 @@ default:
         sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
         sli.support.email: sli@example.com
@@ -184,7 +184,7 @@ default:
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
-        sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
         

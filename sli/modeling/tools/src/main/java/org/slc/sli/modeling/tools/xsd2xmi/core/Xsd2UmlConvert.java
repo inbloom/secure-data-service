@@ -481,7 +481,6 @@ final class Xsd2UmlConvert {
             final XmlSchemaObject schemaObject = schemaItems.getItem(i);
             if (schemaObject instanceof XmlSchemaAttribute) {
                 final XmlSchemaAttribute schemaAttribute = (XmlSchemaAttribute) schemaObject;
-                System.out.println(schemaComplexType.getQName());
                 attributes.add(parseAttribute(schemaAttribute, schema, context));
 
             } else {

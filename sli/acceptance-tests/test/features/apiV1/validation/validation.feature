@@ -1,4 +1,4 @@
-
+@RALLY_US209
 Feature: Test schema based validation on entities/associations
 
 

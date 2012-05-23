@@ -102,6 +102,7 @@
 						school system, a state, or other
 						agency.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="assessmentCategory" type="assessmentCategoryType">
@@ -477,9 +478,9 @@
 				etc.).
 			</xs:documentation>
 			<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
+				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+				<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="eventDate" type="xs:date">
@@ -975,6 +976,7 @@
 						A unique number or alphanumeric code assigned to
 						a person.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -1236,12 +1238,9 @@
 			<xs:documentation>Section
 
 				This educational entity represents a setting
-				in
-				which organized instruction of course content is provided to one
-				or
-				more students for a given period of time. A course may be offered
-				to
-				more than one class/section. Instruction, provided by one or more
+				in which organized instruction of course content is provided to one
+				or more students for a given period of time. A course may be offered
+				to more than one class/section. Instruction, provided by one or more
 				teachers or other staff members, may be delivered in person or via a
 				different medium.
 
@@ -1259,6 +1258,7 @@
 						instructors
 						that are assigned.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sequenceOfCourse">
@@ -1349,7 +1349,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the section is taught.
@@ -1357,11 +1356,10 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<!-- obtain location information via SectionBellScheduleAssocation -->
-
 			<xs:element maxOccurs="1" minOccurs="0" name="sessionId"
 				type="reference">
 				<xs:annotation>
@@ -1371,9 +1369,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element maxOccurs="unbounded" minOccurs="0"
 				name="programReference" type="reference">
 				<xs:annotation>
@@ -1383,9 +1381,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element maxOccurs="1" minOccurs="1" name="courseId"
 				type="reference">
 				<xs:annotation>
@@ -1395,6 +1393,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1474,18 +1473,21 @@
 					<xs:documentation>The identifier for the calendar for the academic
 						session (e.g., 2010/11, 2011 Summer).
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="schoolYear" type="schoolYearType">
 				<xs:annotation>
 					<xs:documentation>The identifier for the school year.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="term" type="termType">
 				<xs:annotation>
 					<xs:documentation>The term for the session during the school year.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -1665,6 +1667,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sessionId" type="reference">
@@ -1674,6 +1677,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1766,6 +1770,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" name="cohortId" type="reference">
@@ -1776,6 +1781,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -1822,6 +1828,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="educationOrganizationReference" type="reference">
@@ -1833,6 +1840,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="staffClassification" type="staffClassificationType">
@@ -1928,6 +1936,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programId" type="reference" maxOccurs="unbounded">
@@ -1937,6 +1946,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -2101,6 +2111,7 @@
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="staffIdentificationCode" type="staffIdentificationCode"
@@ -2117,6 +2128,7 @@
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -2142,7 +2154,6 @@
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
-				
 			</xs:element>
 			<xs:element name="birthDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
@@ -2331,9 +2342,9 @@
 			<xs:element name="studentUniqueStateId" type="uniqueStateIdentifier">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
-						a
-						student by a state education agency.
+						a student by a state education agency.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="studentIdentificationCode" type="studentIdentificationCode"
@@ -2344,10 +2355,6 @@
 						record-keeping purposes by schools, social services, or other
 						agencies to refer to a student.
 					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true
-                        </sli:PersonallyIdentifiableInfo>
-                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -2674,6 +2681,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sessionId" type="reference">
@@ -2686,6 +2694,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cumulativeCreditsEarned" type="credits"
@@ -2987,6 +2996,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="assessmentId" type="reference">
@@ -2997,6 +3007,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>assessment</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3114,6 +3125,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cohortId" type="reference">
@@ -3124,6 +3136,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>cohort</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -3133,6 +3146,7 @@
 						was
 						first identified as part of the cohort.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -3142,6 +3156,7 @@
 						was
 						removed as part of the cohort.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3188,6 +3203,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="disciplineIncidentId" type="reference">
@@ -3199,6 +3215,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="studentParticipationCode" type="studentParticipationCodeType">
@@ -3249,6 +3266,10 @@
 						a school, school system, a state, or other agency or
 						entity.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="identificationSystem" type="studentIdentificationSystemType">
@@ -3379,6 +3400,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="parentId" type="reference">
@@ -3388,6 +3410,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>parent</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="relation" type="relationType">
@@ -3462,6 +3485,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programId" type="reference">
@@ -3471,6 +3495,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
@@ -3487,6 +3512,7 @@
 					<xs:documentation>The month, day, and year on which the student
 						first received services.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="endDate" type="xs:date">
@@ -3496,6 +3522,7 @@
 						exited the program or stopped receiving
 						services.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="reasonExited" type="reasonExitedType">
@@ -3535,6 +3562,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
@@ -3544,6 +3572,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="beginDate" type="xs:date">
@@ -3598,6 +3627,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="schoolId" type="reference">
@@ -3606,6 +3636,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="entryDate" type="xs:date" minOccurs="0">
@@ -3614,6 +3645,7 @@
 						enters and
 						begins to receive instructional services in a school.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="entryGradeLevel" type="gradeLevelType">
@@ -3681,6 +3713,7 @@
 						officially that
 						an individual left school.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="exitWithdrawType" type="exitWithdrawType"
@@ -3734,6 +3767,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>gradebookEntry</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="studentId" type="reference">
@@ -3743,6 +3777,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
@@ -3752,6 +3787,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
@@ -4025,6 +4061,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="studentId" type="reference">
@@ -4034,6 +4071,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -4058,9 +4096,10 @@
 								identifies this teacher.
 							</xs:documentation>
 							<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
+								<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+								<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+							</xs:appinfo>
+							<sli:naturalKey/>
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" name="highlyQualifiedTeacher"
@@ -4097,6 +4136,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="schoolId" type="reference">
@@ -4106,6 +4146,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programAssignment" type="programAssignmentType">
@@ -4157,6 +4198,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
@@ -4166,6 +4208,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="classroomPosition" type="classroomPositionType">
@@ -4351,7 +4394,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="studentId" type="reference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The student(s) disciplined by the discipline
@@ -4360,9 +4402,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="disciplineIncidentId" type="reference"
 				maxOccurs="unbounded">
 				<xs:annotation>
@@ -4374,9 +4416,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>disciplineIncident</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="staffId" type="reference" minOccurs="0"
 				maxOccurs="unbounded">
 				<xs:annotation>
@@ -4387,9 +4429,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="responsibilitySchoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School responsible for student's
@@ -4398,9 +4440,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 			<xs:element name="assignmentSchoolId" type="reference"
 				minOccurs="0">
 				<xs:annotation>
@@ -4410,6 +4452,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -4435,19 +4478,17 @@
 						organization
 						by the State Education Agency (SEA).
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned
-						to
-						an
-						education organization by a school, school system, a state,
-						or
-						other
-						agency or entity.
+						to an education organization by a school, school system, a state,
+						or other agency or entity.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="nameOfInstitution" type="nameOfInstitution">
@@ -5276,6 +5317,7 @@
 					<xs:documentation>The Identifier for the specific learning
 						objective in the context of a standard (e.g., 111.15.3.1.A)
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="objective" type="objective">
@@ -5283,6 +5325,7 @@
 					<xs:documentation>The designated title of the learning
 						objective.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -5376,6 +5419,7 @@
 						standard
 						(e.g., 111.15.3.1.A)
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description">
@@ -5620,6 +5664,7 @@
 					<xs:documentation>The type of grade reported (e.g., Exam, Final,
 						Grading Period).
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="performanceBaseConversion" type="performanceBaseType"
@@ -5638,6 +5683,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="gradingPeriodId" type="reference"
@@ -5648,6 +5694,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -5675,6 +5722,7 @@
 					<xs:documentation>The type of the gradebook entry; for example,
 						homework, assignment, quiz, unit test, oral presentation, etc.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="dateAssigned" type="xs:date">
@@ -5682,6 +5730,7 @@
 					<xs:documentation>The date the assignment, homework, or assessment
 						was assigned or executed.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -5703,9 +5752,9 @@
 					<xs:appinfo>
 						<sli:ReferenceType>section</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
-
 		</xs:sequence>
 	</xs:complexType>
 
@@ -5723,6 +5772,7 @@
 						The name of the period for which grades are
 						reported
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date">
@@ -5731,6 +5781,7 @@
 						Month, day, and year of the first day of the
 						grading period.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="endDate" type="xs:date">
@@ -5739,6 +5790,7 @@
 						Month, day, and year of the last day of the
 						grading period.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="totalInstructionalDays">
@@ -5791,6 +5843,7 @@
 						Distinguished, or
 						Standard.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="graduationPlanType" />
@@ -5802,6 +5855,7 @@
 					<xs:documentation>An indicator of whether the graduation plan is
 						tailored for an individual.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="totalCreditsRequired" type="credits">
@@ -5810,18 +5864,19 @@
 						graduation
 						under this plan.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsBySubject" type="creditsBySubject"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The total credits required in subject to
-
 						graduate.
 						Only those courses identified as a high school course
 						requirement
 						are eligible to meet subject credit requirements.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="creditsByCourse" type="creditsByCourse"
@@ -5832,6 +5887,7 @@
 						specific course, or by taking one or more from a set of
 						courses.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -5901,6 +5957,7 @@
 				<xs:annotation>
 					<xs:documentation>The name or ID for the cohort.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="cohortDescription" type="cohortDescription">
@@ -5918,6 +5975,7 @@
 						The type of cohort (e.g., academic intervention,
 						classroom breakout)
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="cohortScope" type="cohortScopeType">
@@ -5926,6 +5984,7 @@
 						The scope of cohort (e.g., school, district,
 						classroom, etc.)
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
@@ -5945,6 +6004,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="programId"
@@ -6012,6 +6072,7 @@
 						instruction for which a grade or report is assigned (e.g.,
 						reading, composition, spelling, and language arts).
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="numberOfParts">
@@ -6135,6 +6196,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -6286,6 +6348,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
             <xs:element name="schoolId" type="reference">
@@ -6296,6 +6359,7 @@
                 <xs:appinfo>
                   <sli:ReferenceType>educationOrganization</sli:ReferenceType>
                 </xs:appinfo>
+				<sli:naturalKey/>
               </xs:annotation>
             </xs:element>
             <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded" />
@@ -6511,6 +6575,7 @@
 						multiple
 						offenders.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="incidentDate" type="xs:date">
@@ -6614,6 +6679,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="staffId" type="reference">
@@ -6626,6 +6692,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -6703,6 +6770,7 @@
 				<xs:annotation>
 					<xs:documentation>The month, day and year of the calendar date.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="calendarEvent" type="calendarEventType">
@@ -6717,6 +6785,7 @@
 						Student late arrival/early dismissal
 						...
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -6791,6 +6860,7 @@
 						state, or other agency or
 						entity.
 					</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programType" type="programType">
@@ -7008,6 +7078,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>student</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
       <!-- TODO remove minOccurs=0 -->
@@ -7017,6 +7088,7 @@
 					<xs:appinfo>
             <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -7050,7 +7122,8 @@
 
 	<xs:complexType name="behaviorDescriptorType">
 		<xs:annotation>
-			<xs:documentation>Provides references for behavior descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+			<xs:documentation>Provides references for behavior descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="codeValue" type="codeValue">
@@ -7079,7 +7152,8 @@
 
 	<xs:complexType name="disciplineDescriptorType">
 		<xs:annotation>
-			<xs:documentation>Provides references for discipline descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+			<xs:documentation>Provides references for discipline descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="codeValue" type="codeValue">
@@ -7108,7 +7182,8 @@
 
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
-			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="codeValue" type="codeValue">
@@ -7129,7 +7204,8 @@
 
 	<xs:complexType name="studentCompetency">
 		<xs:annotation>
-			<xs:documentation>This entity represents the competency assessed or evaluated for the student against a specific Learning Objective.</xs:documentation>
+			<xs:documentation>This entity represents the competency assessed or evaluated for the student against a specific Learning Objective.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<!-- learningObjective and studentCompetencyObjective were wrapped in <xs:choice>,
@@ -7142,6 +7218,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="studentCompetencyObjectiveId" type="reference" minOccurs="0">
@@ -7150,6 +7227,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<!--</xs:choice>-->
@@ -7169,6 +7247,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
 					</xs:appinfo>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -7176,17 +7255,20 @@
 
 	<xs:complexType name="studentCompetencyObjective">
 		<xs:annotation>
-			<xs:documentation>This entity holds additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class).</xs:documentation>
+			<xs:documentation>This entity holds additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class).
+			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentCompetencyObjectiveId" type="identificationCode" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The Identifier for the student competency.</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="objective" type="objective">
 				<xs:annotation>
 					<xs:documentation>The designated title of the student competency objective.</xs:documentation>
+					<sli:naturalKey/>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description" minOccurs="0">

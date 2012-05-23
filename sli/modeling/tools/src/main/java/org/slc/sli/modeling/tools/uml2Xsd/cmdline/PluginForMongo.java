@@ -100,7 +100,11 @@ final class PluginForMongo implements Uml2XsdPlugin {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
         xsw.appinfo();
         {
-            if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
+            if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
+                        SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
@@ -114,14 +118,12 @@ final class PluginForMongo implements Uml2XsdPlugin {
                         SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            }
-            else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
                         SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            }
-            else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
                         SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());

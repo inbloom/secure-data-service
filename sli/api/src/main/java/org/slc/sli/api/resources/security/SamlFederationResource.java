@@ -34,6 +34,7 @@ import org.springframework.util.LinkedMultiValueMap;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -70,15 +71,18 @@ public class SamlFederationResource {
     @Autowired
     private OauthSessionManager sessionManager;
 
+    @Autowired
+    private ClientRoleResolver roleResolver;
+
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
 
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
-    
+
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
@@ -199,12 +203,13 @@ public class SamlFederationResource {
         } else {
             principal.setName(attributes.getFirst("userName"));
         }
-        
+
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+
 
         if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
