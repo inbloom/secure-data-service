@@ -1,8 +1,7 @@
 package org.slc.sli.api.client.security;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.Token;
 import org.scribe.utils.Preconditions;
@@ -13,16 +12,21 @@ import org.scribe.utils.Preconditions;
  *
  */
 public class SliTokenExtractor  implements AccessTokenExtractor {
-//    private static final Logger LOG = LoggerFactory.getLogger(SliTokenExtractor.class);
+	private ObjectMapper mapper = new ObjectMapper();
 
-    @Override
+    @SuppressWarnings("finally")
+	@Override
     public Token extract(String response) {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
-        JsonParser parser = new JsonParser();
-        JsonObject json = parser.parse(response).getAsJsonObject();
-//        DE260 - commenting out possibly sensitive data
-//        LOG.debug("Response to extract token from - {}", json);
-        return new Token(json.get("access_token").getAsString(), "", response);
+        JsonNode root;
+		try {
+			root = mapper.readTree(response);
+	        JsonNode token = root.findValue("access_token");
+	        return new Token(token.getValueAsText(), "", response);
+
+		} finally {
+			return null;
+		}
     }
 
 }

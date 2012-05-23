@@ -1,12 +1,16 @@
 package org.slc.sli.api.client.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
+import org.slc.sli.api.client.impl.transform.GenericEntityDeserializer;
+import org.slc.sli.api.client.impl.transform.GenericEntitySerializer;
 
 /**
  * Generic implementation of the Entity interface. This is implements the Entity interface
@@ -14,11 +18,13 @@ import org.slc.sli.api.client.Link;
  *
  * @author asaarela
  */
-@XmlRootElement
+@JsonSerialize(using=GenericEntitySerializer.class, include=JsonSerialize.Inclusion.NON_NULL)
+@JsonDeserialize(using=GenericEntityDeserializer.class)
 public class GenericEntity implements Entity {
 
+	private final String type;
+
     private final Map<String, Object> data;
-    private final String type;
 
     /**
      * Construct a new generic entity.
@@ -29,9 +35,10 @@ public class GenericEntity implements Entity {
      *            Map representing the entity's data.
      */
     public GenericEntity(final String type, final Map<String, Object> data) {
-        this.type = type;
-        this.data = data;
+    	this.type = type;
+    	this.data = data;
     }
+
 
     @Override
     public String getId() {
@@ -42,11 +49,30 @@ public class GenericEntity implements Entity {
     }
 
     @Override
-    public Map<String, Object> getData() {
+	public Map<String, Object> getData() {
         return data;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
+    public Map<String, Object> getBody() {
+    	if (data.containsKey(ENTITY_BODY_KEY)) {
+    		return (Map<String, Object>) data.get(ENTITY_BODY_KEY);
+    	}
+    	return new HashMap<String, Object>();
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
+    public Map<String, Object> getMetaData() {
+    	if (data.containsKey(ENTITY_METADATA_KEY)) {
+    		return (Map<String, Object>) data.get(ENTITY_METADATA_KEY);
+    	}
+    	return null;
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Link> getLinks() {
 
         if (data.containsKey(LINKS_KEY)) {

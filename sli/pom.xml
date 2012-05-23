@@ -58,11 +58,12 @@
 		<avro.version>1.6.1</avro.version>
 		<commons.schema.version>1.4.7</commons.schema.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
+        <commons.collections.version>3.2.1</commons.collections.version>
 
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
 		<jersey.version>1.9.1</jersey.version>
-		<jackson.version>1.8.5</jackson.version>
+		<jackson.version>1.9.7</jackson.version>
 
 		<!-- Persistence Framework Versions -->
 		<commons.dbcp.version>20030825.184428</commons.dbcp.version>
@@ -80,12 +81,12 @@
 		<gson.version>2.1</gson.version>
         <sli.home>${project.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf> 
-		
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+
 		<!-- Signing Artifacts -->
 		<sli.sign.keystore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
 		<sli.sign.storepass>dalKey</sli.sign.storepass>
-		
+
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -180,7 +181,7 @@
             <properties>
                 <sli.env>sandbox</sli.env>
 <!--                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> --> 
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> -->
 				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
 				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
@@ -191,7 +192,7 @@
 	</profiles>
 
 	<modules>
-		<!-- <module>sli-configuration</module> --> 
+		<!-- <module>sli-configuration</module> -->
 		<module>common</module>
 		<module>domain</module>
 		<module>data-access</module>
@@ -816,7 +817,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.0-beta-3</version>
 				</plugin>
-				
+
 		      <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-jarsigner-plugin</artifactId>
@@ -835,7 +836,7 @@
 					<storepass>${sli.sign.storepass}</storepass>
 				</configuration>
 		      </plugin>
-		
+
 			</plugins>
 		</pluginManagement>
 
@@ -1047,7 +1048,7 @@
           <name>Maven2 repo1 repository</name>
           <url>http://repo1.maven.org/maven2</url>
         </repository>
-	
+
         <repository>
           <id>repository.jboss.org-public</id>
           <name>JBoss.org Maven repository</name>

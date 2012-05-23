@@ -1,7 +1,5 @@
 package org.slc.sli.api.client;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -10,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author asaarela
  */
-@XmlRootElement
 public interface Link {
 
     /** The resource name for the link */
@@ -24,7 +21,6 @@ public interface Link {
      *
      * @return String link resource name
      */
-    @XmlElement(name = "rel")
     public String getLinkName();
 
     /**
@@ -32,7 +28,5 @@ public interface Link {
      *
      * @return java.net.URL for this resource.
      */
-    @XmlElement(name = "href")
     public java.net.URL getResourceURL();
-
 }

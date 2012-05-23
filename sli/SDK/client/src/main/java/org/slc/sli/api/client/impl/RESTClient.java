@@ -1,5 +1,6 @@
 package org.slc.sli.api.client.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,10 +15,9 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Token;
@@ -123,10 +123,11 @@ public class RESTClient {
      * @param redirectUrl
      *            The redirect URL after a successful authentication - set by the Security API.
      * @return String containing the authentication token.
-     * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws JsonProcessingException
      */
-    public String sessionCheck(final String token) throws MalformedURLException, URISyntaxException {
+    public String sessionCheck(final String token) throws URISyntaxException, JsonProcessingException, IOException {
         logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
 
         URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
@@ -135,14 +136,14 @@ public class RESTClient {
 
         String jsonText = response.readEntity(String.class);
         logger.info("jsonText = " + jsonText);
-        JsonParser parser = new JsonParser();
-        JsonObject obj = parser.parse(jsonText).getAsJsonObject();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode obj = mapper.readTree(jsonText);
 
         if (obj.has("authenticated")) {
-            JsonElement e = obj.get("authenticated");
-            if (e.getAsBoolean()) {
+            JsonNode e = obj.get("authenticated");
+            if (e.getBooleanValue()) {
                 e = obj.get("sessionId");
-                sessionToken = e.getAsString();
+                sessionToken = e.getValueAsText();
             }
         }
 

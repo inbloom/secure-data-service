@@ -1,11 +1,15 @@
 package org.slc.sli.api.client;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.common.util.Query;
@@ -65,8 +69,11 @@ public interface SLIClient {
      * @return Response to the update request.
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonGenerationException
      */
-    public abstract Response create(final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response create(final Entity e) throws MalformedURLException, URISyntaxException, JsonGenerationException, JsonMappingException, IOException;
 
     /**
      * Read operation by ID.
@@ -82,10 +89,13 @@ public interface SLIClient {
      * @return ClientResponse from the ReST call.
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws MessageProcessingException
+     * @throws JsonMappingException
      */
     public abstract Response read(EntityCollection entities, final String type, final String id,
             final Query query)
-                    throws MalformedURLException, URISyntaxException;
+                    throws MalformedURLException, URISyntaxException, JsonMappingException, MessageProcessingException, IOException;
 
     /**
      * Read operation
@@ -99,10 +109,13 @@ public interface SLIClient {
      * @return ClientResponse from the ReST call.
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws MessageProcessingException
+     * @throws JsonMappingException
      */
     public abstract Response read(EntityCollection entities, final String type, final Query query)
             throws MalformedURLException,
-            URISyntaxException;
+            URISyntaxException, JsonMappingException, MessageProcessingException, IOException;
 
     /**
      * Update operation
@@ -112,8 +125,11 @@ public interface SLIClient {
      * @return Response to the update request.
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonGenerationException
      */
-    public abstract Response update(final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response update(final Entity e) throws MalformedURLException, URISyntaxException, JsonGenerationException, JsonMappingException, IOException;
 
     /**
      * Delete operation
@@ -139,8 +155,11 @@ public interface SLIClient {
      * @return ClientResponse from the ReST call.
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws IOException
+     * @throws MessageProcessingException
+     * @throws JsonMappingException
      */
     public abstract Response getResource(EntityCollection entities, final URL resourceURL, final Query query)
-            throws MalformedURLException, URISyntaxException;
+            throws MalformedURLException, URISyntaxException, JsonMappingException, MessageProcessingException, IOException;
 
 }

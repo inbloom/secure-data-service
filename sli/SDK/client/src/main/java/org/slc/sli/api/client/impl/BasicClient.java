@@ -1,30 +1,28 @@
 package org.slc.sli.api.client.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ValueNode;
 import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
-import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.api.client.impl.transform.BasicLinkJsonTypeAdapter;
-import org.slc.sli.api.client.impl.transform.GenericEntityFromJson;
-import org.slc.sli.api.client.impl.transform.GenericEntityToJson;
 import org.slc.sli.common.util.Query;
 import org.slc.sli.common.util.URLBuilder;
 
@@ -37,8 +35,8 @@ import org.slc.sli.common.util.URLBuilder;
 public final class BasicClient implements SLIClient {
 
     private RESTClient restClient;
-    private Gson gson = null;
     private static Logger logger = Logger.getLogger("BasicClient");
+    ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public URL getLoginURL() {
@@ -65,25 +63,27 @@ public final class BasicClient implements SLIClient {
 
     /**
      * CRUD operations
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonGenerationException
      */
 
     @Override
-    public Response create(final Entity e) throws MalformedURLException, URISyntaxException {
+    public Response create(final Entity e) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        return restClient.postRequest(url, gson.toJson(e.getData()));
+        return restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
     }
 
     @Override
     public Response read(EntityCollection entities, final String type, final Query query)
-            throws MalformedURLException,
-            URISyntaxException {
+            throws URISyntaxException, JsonMappingException, MessageProcessingException, IOException {
 
         return read(entities, type, null, query);
     }
 
     @Override
     public Response read(EntityCollection entities, final String type, final String id, final Query query)
-            throws MalformedURLException, URISyntaxException {
+            throws URISyntaxException, JsonMappingException, MessageProcessingException, IOException {
 
         entities.clear();
 
@@ -97,9 +97,9 @@ public final class BasicClient implements SLIClient {
 
 
     @Override
-    public Response update(final Entity e) throws MalformedURLException, URISyntaxException {
+    public Response update(final Entity e) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, gson.toJson(e.getData()));
+        return restClient.putRequest(url, mapper.writeValueAsString(e.getData()));
     }
 
     @Override
@@ -110,7 +110,7 @@ public final class BasicClient implements SLIClient {
 
     @Override
     public Response getResource(EntityCollection entities, URL resourceURL, Query query)
-            throws MalformedURLException, URISyntaxException {
+            throws URISyntaxException, JsonMappingException, MessageProcessingException, IOException {
         entities.clear();
 
         URLBuilder urlBuilder = URLBuilder.create(resourceURL.toString());
@@ -120,13 +120,11 @@ public final class BasicClient implements SLIClient {
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
             try {
-                JsonElement element = gson.fromJson(response.readEntity(String.class), JsonElement.class);
-
-                if (element instanceof JsonArray) {
-                    entities.fromJsonArray(element.getAsJsonArray());
-
-                } else if (element instanceof JsonObject) {
-                    Entity entity = gson.fromJson(element, Entity.class);
+            	JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
+                if (element instanceof ArrayNode) {
+                	entities = mapper.readValue(element, EntityCollection.class);
+                } else if (element instanceof ValueNode) {
+                	Entity entity = mapper.readValue(element, Entity.class);
                     entities.add(entity);
 
                 } else {
@@ -135,7 +133,7 @@ public final class BasicClient implements SLIClient {
                     builder.status(Response.Status.INTERNAL_SERVER_ERROR);
                     return builder.build();
                 }
-            } catch (JsonSyntaxException e) {
+            } catch (JsonParseException e) {
                 // invalid Json, or non-Json response?
                 ResponseBuilder builder = Response.fromResponse(response);
                 builder.status(Response.Status.INTERNAL_SERVER_ERROR);
@@ -159,9 +157,6 @@ public final class BasicClient implements SLIClient {
      */
     public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
         restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
-        gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
-                .registerTypeAdapter(Entity.class, new GenericEntityToJson())
-                .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter()).create();
     }
 
     /**
