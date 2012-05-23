@@ -1,3 +1,5 @@
+require 'approval'
+
 class DeveloperApprovalController < ApplicationController
 
     API_BASE=APP_CONFIG["api_base"]
@@ -192,7 +194,7 @@ class DeveloperApprovalController < ApplicationController
                 email_message = "There was a problem creating your account. Please try again."
             end
 
-            @@emailer.send_approval_email(
+            APP_EMAILER.send_approval_email(
                 user[:email],
                 user[:firstName],
                 user[:lastName],
