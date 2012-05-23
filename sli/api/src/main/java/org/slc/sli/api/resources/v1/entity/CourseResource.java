@@ -36,7 +36,7 @@ public class CourseResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$SessionCourseAssociation$$ that references the given $$Course$$.
+     * Returns each $$CourseOffering$$ that references the given $$Course$$.
      *
      * @param courseId
      *            The id of the $$Course$$
@@ -44,7 +44,7 @@ public class CourseResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return each $$SessionCourseAssociation$$ that references the given $$Course$$
+     * @return each $$CourseOffering$$ that references the given $$Course$$
      *
      */
     @GET
@@ -57,7 +57,7 @@ public class CourseResource extends DefaultCrudResource {
 
 
     /**
-     * Returns each $$Session$$ that is associated with the given $$Course$$ through $$SessionCourseAssociation$$.
+     * Returns each $$Session$$ that is associated with the given $$Course$$ through $$CourseOffering$$.
      *
      * @param courseId
      *            The id of the $$Course$$
@@ -65,7 +65,7 @@ public class CourseResource extends DefaultCrudResource {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return each $$Session$$ that is associated with the given $$Course$$ through $$SessionCourseAssociation$$
+     * @return each $$Session$$ that is associated with the given $$Course$$ through $$CourseOffering$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS + "/" + PathConstants.SESSIONS)
