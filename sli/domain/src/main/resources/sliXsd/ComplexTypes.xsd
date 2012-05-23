@@ -529,7 +529,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="location">
 		<xs:annotation>
 			<xs:documentation>This entity represents the physical space where
@@ -566,7 +566,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+--> <!--
 	<xs:complexType name="meetingTime">
 		<xs:annotation>
 			<xs:documentation>This entity represents the set of elements defining
@@ -625,7 +625,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
 			<xs:documentation>A miscellaneous event, such as recess or lunch
@@ -1246,8 +1246,7 @@
 
 				Associations: TeacherSectionAssociation,
 				StudentSectionAssociation,
-				SectionAssessmentAssociation,
-				SectionBellScheduleAssociation
+				SectionAssessmentAssociation
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
@@ -1428,7 +1427,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="sectionBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
@@ -1457,7 +1456,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="session">
 		<xs:annotation>
 			<xs:documentation>This entity represents the prescribed span of time
@@ -1511,6 +1510,16 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="gradingPeriodReference" type="reference" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The grading periods that take place during
+                    the session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -1652,13 +1661,6 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriod">
-				<xs:annotation>
-					<xs:documentation>Grading period dates and durations for the
-						session.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the school associated with the
@@ -1738,20 +1740,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="staff">
-		<xs:annotation>
-			<xs:documentation>This entity represents a person that is employed by
-				an LEA or other educational unit engaged in student instruction.
-				These persons are instructional-type staff members. In the data
-				model, a teacher entity is a staff member with additional properties.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="abstractStaff">
-			</xs:extension>
-		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="staffCohortAssociation">
@@ -2066,7 +2054,7 @@
 		</xs:choice>
 	</xs:complexType>
 
-	<xs:complexType name="abstractStaff">
+	<xs:complexType name="staff">
 		<xs:annotation>
 			<xs:documentation>This entity represents an individual who performs
 				specified activities
@@ -2355,10 +2343,6 @@
 						record-keeping purposes by schools, social services, or other
 						agencies to refer to a student.
 					</xs:documentation>
-                    <xs:appinfo>
-                        <sli:PersonallyIdentifiableInfo>true
-                        </sli:PersonallyIdentifiableInfo>
-                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -3270,6 +3254,10 @@
 						a school, school system, a state, or other agency or
 						entity.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="identificationSystem" type="studentIdentificationSystemType">
@@ -4086,7 +4074,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="abstractStaff">
+			<xs:extension base="staff">
 				<xs:sequence>
 					<xs:element minOccurs="0" name="teacherUniqueStateId"
 						type="uniqueStateIdentifier">
@@ -5544,7 +5532,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="eventBellScheduleAssociation">
 		<xs:annotation>
 			<xs:documentation>
@@ -5576,7 +5564,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="feederSchoolType">
 		<xs:annotation>
 			<xs:documentation>The feeder school relationship between two schools.
@@ -6384,7 +6372,7 @@
 			<xs:element name="reason" type="attendanceEventReason" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-
+<!--
 	<xs:complexType name="bellSchedule">
 		<xs:annotation>
 			<xs:documentation>BellSchedule
@@ -6441,7 +6429,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+-->
 	<xs:complexType name="behaviorDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor holds the categories of behavior
