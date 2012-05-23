@@ -3,8 +3,10 @@
 <div id="notice">
 	<%= notice %>
 </div>
-<%= render "index_dev" unless controller.operator? %>
-<%= render "index_op" if controller.operator? %>
+<div class="content">
+  <%= render "index_dev" unless controller.operator? %>
+  <%= render "index_op" if controller.operator? %>
+</div>
 
 <script type="text/javascript" charset="utf-8">
 	jQuery(document).ready(function() {

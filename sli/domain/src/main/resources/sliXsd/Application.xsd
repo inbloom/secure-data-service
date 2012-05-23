@@ -40,6 +40,7 @@
 
                 <!-- These two are generated during creation -->
                  <xs:element name="client_id" type="xs:string" minOccurs="1" />
+                 <xs:element name="client_secret" type="xs:string" minOccurs="1" />
 
                 <xs:element name="application_url" minOccurs="1">
                     <xs:simpleType>
@@ -54,7 +55,7 @@
                     </xs:simpleType>
                 </xs:element>
 
-                <xs:element name="administration_url" minOccurs="1">
+                <xs:element name="administration_url" minOccurs="0">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:appinfo>
@@ -67,9 +68,9 @@
                     </xs:simpleType>
                 </xs:element>
 
-                <xs:element name="client_secret" type="xs:string" minOccurs="1" />
+                
 
-                <xs:element name="image_url" minOccurs="1">
+                <xs:element name="image_url" minOccurs="0">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:appinfo>
@@ -94,8 +95,7 @@
 				<xs:element name="created_by" type="xs:string" minOccurs="0" />
                 <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
                 <xs:element name="installed" type="xs:boolean" minOccurs="1" />
-                <xs:element name="developer_info" type="developer_info"
-                    minOccurs="1" />
+                <xs:element name="vendor" type="xs:string" minOccurs="1" />
                 <xs:element name="registration" type="registration"
                     minOccurs="0" />   
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
@@ -123,13 +123,6 @@
             </xs:element>
             <xs:element name="request_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
             <xs:element name="approval_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="developer_info">
-        <xs:sequence>
-            <xs:element name="organization" type="xs:string"
-                minOccurs="1" />
         </xs:sequence>
     </xs:complexType>
 
