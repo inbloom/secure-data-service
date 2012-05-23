@@ -11,7 +11,7 @@ Given I add a new tenant for "TENANT-EDORG"
      | collectionName              |
      | student                     |
 When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 240 seconds for ingestion to complete
+  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -34,7 +34,7 @@ Given I add a new landing zone for "IL-Newtowne"
      | collectionName              |
      | student                     |
 When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 240 seconds for ingestion to complete
+  And I am willing to wait upto 60 seconds for ingestion to complete
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
