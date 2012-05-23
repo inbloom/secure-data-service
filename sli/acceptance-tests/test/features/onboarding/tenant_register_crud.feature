@@ -120,7 +120,7 @@ Scenario Outline: Deny creation when specifying individual wrong size fields
     | "tenantId" | "123456789012345678901234567890123456789012345678A" |
     | "tenantId" | "" |
 
-Scenario Outline: Deny creation when specifying individual wrong size fields2
+Scenario Outline: Deny creation when specifying individual wrong size fields
 
     Given I am logged in using "ingestionuser" "ingestionuser1234" to realm "SLI"
     When I provision a new landing zone
