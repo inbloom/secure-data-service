@@ -6,7 +6,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration
+@integration @RALLY_US197
 Scenario: Search by First name
 When I login as "linda.kim" "linda.kim1234"
 When I enter "Matt" into the "firstName" search box
@@ -24,7 +24,7 @@ And the search results has the following entries:
  |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
 
-@integration
+@integration @RALLY_US197
 Scenario: Search by Last name
 When I login as "linda.kim" "linda.kim1234"
 When I enter "Sollars" into the "lastName" search box
@@ -50,7 +50,7 @@ And the search results has the following entries:
   |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
   
-@integration
+@integration @RALLY_US197
 Scenario:  Search by non-existing student
 When I login as "linda.kim" "linda.kim1234"
 When I enter "Tran" into the "lastName" search box
@@ -58,7 +58,7 @@ And I click the search button
 Then I should be informed that "0" results are returned 
 Then "0" results are returned in the page
 
-@integration
+@integration @RALLY_US197
 Scenario:  Empty Search
 When I login as "linda.kim" "linda.kim1234"
 When I enter nothing into either field of student search
@@ -70,7 +70,7 @@ And I click the search button
 Then I should be informed that "0" results are returned 
 Then "0" results are returned in the page
 
-@integration
+@integration @RALLY_US197
 Scenario:  Search with more than 1 results
 When I login as "linda.kim" "linda.kim1234"
 When I enter "Gerardo" into the "firstName" search box
@@ -101,7 +101,7 @@ And the search results has the following entries:
   |Student            |Grade    |School                     |
   |Gerardo Rounsaville|8        |East Daybreak Junior High  |
 
-@integration
+@integration @RALLY_US197
 Scenario:  Search pagination
 When I login as "manthony" "manthony1234"
 When I enter "Matt" into the "firstName" search box

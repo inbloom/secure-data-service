@@ -3,7 +3,7 @@ Feature: K-3 student list view
 As a SEA/LEA user, I want to see the K-3 student list view
 on SLI, so I could see elementary school students results
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Check K-3 Student Name
 Given I have an open web browser
 Given the server is in "live" mode

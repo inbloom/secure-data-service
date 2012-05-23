@@ -8,13 +8,13 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration
+@integration @RALLY_US2276
 Scenario: Invalid User Login
 When I login as "linda.kim" "linda.kim1234"
 When I enter the Configuration Area
 Then I see an error 
 
-@integration
+@integration @RALLY_US2276 @RALLY_US200
 Scenario: Upload invalid config file
 When I login as "jstevenson" "jstevenson1234"
 When I enter the Configuration Area
@@ -37,7 +37,7 @@ Then I see a list of 28 students
 Then I should have a dropdown selector named "viewSelect"
 And I should have a selectable view named "Default View"
 
-@integration
+@integration @RALLY_US2276 @RALLY_US200
 Scenario: Upload valid config file
 When I login as "jstevenson" "jstevenson1234"
 When I enter the Configuration Area
@@ -72,7 +72,7 @@ When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
 Then I should only see one view named "Default View"
 
-@integration
+@integration @RALLY_US2276
 Scenario:  Non-District IT admin upload
 When I login as "rrogers" "rrogers1234"
 When I enter the Configuration Area

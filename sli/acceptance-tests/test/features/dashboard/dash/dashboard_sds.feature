@@ -7,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration 
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198 @RALLY_US2253 @RALLY_US196 @RALLY_US2254
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
@@ -131,7 +131,7 @@ And the Assessment History for "StateTest Writing" has the following entries:
 And I click on the browser back button
 Then I see a list of 28 students
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -214,7 +214,7 @@ And I see a footer on the page that has the text "Proprietary Information"
 And I click on the browser back button
 Then I see a list of 25 students
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Carmen Ortiz
 When I login as "cgray" "cgray1234"
 When I select ed org "Daybreak School District 4529"
