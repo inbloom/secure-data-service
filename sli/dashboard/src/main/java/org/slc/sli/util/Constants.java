@@ -4,19 +4,19 @@ package org.slc.sli.util;
  * This class is for constants that are used in multiple places throughout the
  * application.
  * Constants used only in one class should be kept in that class.
- *
+ * 
  * @author dwu
- *
+ * 
  */
 public final class Constants {
     // API related URLs
     public static final String API_PREFIX = "api/rest";
-
+    
     public static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
-
+    
     public static final String PROGRAM_ELL = "limitedEnglishProficiency";
     public static final String PROGRAM_FRE = "schoolFoodServicesEligibility";
-
+    
     /*
      * \"name\": \"limitedEnglishProficiency\",
      * \"name\": \"ELL_FORMER\",
@@ -43,7 +43,7 @@ public final class Constants {
     public static final String CONFIG_ASSESSMENT_FILTER = "assessmentFilter";
     public static final String OVERALL_CONTAINER_PAGE = "overall_container";
     public static final String PAGE_TO_INCLUDE = "page_to_include";
-
+    
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
@@ -61,7 +61,7 @@ public final class Constants {
     public static final String MM_KEY_LOGGER = "logger";
     public static final String MM_COMPONENT_ID = "componentId";
     public static final String MM_ENTITY_ID = "entityId";
-
+    
     // entity attributes
     public static final String ATTR_ROOT = "root";
     public static final String ATTR_SELECTED_POPULATION = "selectedPopulation";
@@ -172,19 +172,19 @@ public final class Constants {
     public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
-
+    
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
     
     public static final String ATTR_CREDENTIALS_LIST_ATTRIBUTE = "credentials";
     public static final String ATTR_CREDENTIAL_FIELD_ATTRIBUTE = "credentialField";
     public static final String ATTR_CREDENTIAL_CODE_ATTRIBUTE = "codeValue";
-
+    
     public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
     public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
     public static final String ATTR_SESSION_END_DATE = "endDate";
     public static final String ATTR_DATE_FORMAT = "yyyy-mm-dd";
-
+    
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
     public static final String ATTR_NUM_RESULTS = "numResults";
@@ -196,20 +196,24 @@ public final class Constants {
     public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";
     public static final String ATTR_ERROR_DETAILS = "errorDetails";
     public static final String ATTR_AUTHENTICATED = "authenticated";
-
+    public static final String ATTR_STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
+    public static final String ATTR_RELATION = "relation";
+    public static final String ATTR_CONTACT_PRIORITY = "contactPriority";
+    public static final String ATTR_PRIMARY_CONTACT_STATUS = "primaryContactStatus";
+    
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
-
+    
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
     public static final String MIDDLE_SCHOOL_VIEW = "Middle School ELA View";
-
+    
     public static final String ATTR_NAME_WITH_LINK = "name_w_link";
-
+    
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
-
+    
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
-
+    
     // AddressType Constants
     public static final String TYPE_ADDRESS_HOME = "Home";
     public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
@@ -218,7 +222,7 @@ public final class Constants {
     public static final String TYPE_ADDRESS_OTHER = "Other";
     public static final String TYPE_ADDRESS_TEMPORARY = "Temporary";
     public static final String TYPE_ADDRESS_WORK = "Work";
-
+    
     // TelephoneType Constants
     public static final String TYPE_TELEPHONE_HOME = "Home";
     public static final String TYPE_TELEPHONE_WORK = "Work";
@@ -228,36 +232,36 @@ public final class Constants {
     public static final String TYPE_TELEPHONE_FAX = "Fax";
     public static final String TYPE_TELEPHONE_OTHER = "Other";
     public static final String TYPE_TELEPHONE_UNLISTED = "Unlisted";
-
+    
     // EmailType Constants
     public static final String TYPE_EMAIL_HOME_PERSONAL = "Home/Personal";
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
-
+    
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     public static final String CONTEXT_PREVIOUS_PATH = "CONTEXT_PREVIOUS_PATH";
-
+    
     // extra elements added by API
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
-
+    
     // Grades for Sections Constants
     public static final String SECTION_LETTER_GRADE = "letterGrade";
     public static final String SECTION_COURSE = "courseTitle";
-
+    
     // Roles
     public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
-
+    
     // Ed-org types
     public static final String ATTR_ED_ORG = "edOrg";
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String LOCAL_EDUCATION_AGENCY = "Local Education Agency";
-
+    
     public static final int MAX_RESULTS = 0;
-
+    
     public static final String ATTR_PARENTS = "parents";
     
     /**
@@ -265,17 +269,17 @@ public final class Constants {
      */
     public static enum FREParticipation {
         FREE("Free"), REDUCED_PRICE("Reduced Price");
-
+        
         private final String value;
-
+        
         FREParticipation(String value) {
             this.value = value;
         }
-
+        
         public String getValue() {
             return value;
         }
-
+        
     }
-
+    
 }
