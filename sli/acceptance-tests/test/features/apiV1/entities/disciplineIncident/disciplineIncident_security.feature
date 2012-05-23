@@ -1,3 +1,4 @@
+@RALLY_US1564
 @security
 Feature: Security for discipline incident CRUD
   As a product owner, I want to validate that my discipline incident entity is properly secured up to current SLI standards
