@@ -9,7 +9,6 @@ public final class EntityNames {
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ATTENDANCE = "attendance";
-    public static final String BELL_SCHEDULE = "bellSchedule";
     public static final String COHORT = "cohort";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE = "competencyLevelDescriptorType";

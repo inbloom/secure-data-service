@@ -227,6 +227,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
+                     :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
