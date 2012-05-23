@@ -9,7 +9,7 @@ package org.slc.sli.web.entity;
  * @author iivanisevic
  *
  */
-public interface PagedSearch {
+public interface PagedEntity {
     /** default page being displayed, if not otherwise specified */
     public static final int DEFAULT_PAGE_NO = 1;
     /** default number of records per page, if not otherwise specified */
