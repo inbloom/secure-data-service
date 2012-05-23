@@ -1,7 +1,16 @@
 <div class="tabular">
-    <table><thead><tr><th></th><td class="contactInfoData"><h6>${parentContactName}</h6></td></tr></thead><tbody>
+	<table>
 	<#if parentContact.studentParentAssociation ??>
+		<thead>
 		<#list parentContact.studentParentAssociation as studentParentAssociation>
+			<tr><th></th><td class="contactInfoData"><h6>
+			<#if studentParentAssociation.primaryContactStatus??>
+				PRIMARY
+			<#else>
+				OTHER
+			</#if>
+			</h6></td></tr></thead>
+			<tbody>
 			<tr>
 				<th>
 					<#if studentParentAssociation.relation ??>
@@ -22,16 +31,20 @@
 		</#list>
 	</#if>
 	<#list parentContact.telephone as telephone>
-		<#if telephone.telephoneNumberType ??>
-			<tr>
-				<th>
+		<tr>
+			<th>
+				<#if telephone.telephoneNumberType ??>
 					${telephone.telephoneNumberType}:
-				</th>
-				<td class="contactInfoData">
+				<#else>
+					Phone:
+				</#if>
+			</th>
+			<td class="contactInfoData">
+				<#if telephone.telephoneNumber ??>
 					${telephone.telephoneNumber}
-				</td>
-			</tr>
-		</#if>
+				</#if>
+			</td>
+		</tr>
 	</#list>
 	<#list parentContact.electronicMail as electronicMail>
 			<tr>
