@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$Staff$$ member a $$Cohort$$.
+ * Represents the association between a $$Staff$$ member and a $$Cohort$$.
  *
  * @author kmyers
  * @author srichards
