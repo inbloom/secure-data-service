@@ -8,13 +8,14 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   contactSections = panel.find_elements(:xpath, ".//div[@class='tabular']/table/tbody")
   
   #right now we only have 3 sections  
-  # 0 is phone, 1 is email, 2 is address
+  # 0 is phone, 1 is email, 2 is address, 3 parent name
   sectionId = 0
   
   @curPerson = nil
   
-  #size of 2:  Student, Parent
+  #number of people's contact information
   size = contactSections.length
+  puts "# of People's Contact Info: " + size.to_s
   @people = Array.new(size)
   for k in (0..size)
     @people[k] = Person.new 
@@ -23,6 +24,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   
   contactSections.each do |contactSection|
     all_trs = contactSection.find_elements(:tag_name, "tr") 
+    foundParentName = false
     all_trs.each do |row|
      th = row.find_element(:tag_name, "th")
      td = row.find_element(:tag_name, "td") 
@@ -32,6 +34,10 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
          sectionId = 1
        elsif (td.text =~ /[A-Za-z,]/ and td.text.include? ',')
          sectionId = 2
+       elsif (i > 0 and !foundParentName)
+         #parent contact 
+         foundParentName = true
+         sectionId = 3
        else
          sectionId = 0
        end
@@ -104,7 +110,16 @@ end
 Given /^I look at "([^"]*)" Contact Info$/ do |personType|
   mapping = {
     "student" => 0,
-    "parent" => 1
+    "parent 1" => 1,
+    "parent 2" => 2,
+    "parent 3" => 3,
+    "parent 4" => 4,
+    "parent 5" => 5,
+    "parent 6" => 6,
+    "parent 7" => 7,
+    "parent 8" => 8,
+    "parent 9" => 9,
+    "parent 10" => 10
   }   
   id = mapping[personType.downcase]
   assert(id != nil, "Mapping for person to id is not defined")
@@ -124,6 +139,10 @@ Given /^the order of the addressess is "([^"]*)"$/ do |listOfAddresses|
   end
 end
 
+Given /^parent "([^"]*)" is his "([^"]*)"$/ do |parentName, parentRelationship|
+  checkType(3, parentName, parentRelationship) 
+end
+
 def isItemInList(searchValue, content)
   found = false
   content.each do |currentContent|
@@ -136,7 +155,8 @@ end
 
 def areItemsInOrder(listOfItems, content)
   array = listOfItems.split(";")
-   
+  puts array.length.to_s
+  puts content.length.to_s
   assert(array.length == content.length, "Counts do not match")
    
   for i in (0..array.length-1)
@@ -163,10 +183,10 @@ end
 class Person
 
   def initialize()
-    # 0 is phone, 1 is email, 2 is address
+    # 0 is phone, 1 is email, 2 is address, 3 is parent name
     @contactCategory = []
     @contactValue = []
-    for i in (0..2)
+    for i in (0..3)
       @contactCategory[i] = []
       @contactValue[i] = []
     end     
