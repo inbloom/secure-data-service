@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -605,7 +606,24 @@ public class LiveAPIClient implements APIClient {
                 GenericEntity c = courseMap.get(courseId);
                 s.appendToList(Constants.ATTR_COURSES, c);
             }
+            //Sort the courses based on course title.
+            GenericEntity s = schoolMap.get(schoolId);
+            List<Map<String, Object>> courses = (List<Map<String, Object>>) s.get(Constants.ATTR_COURSES);
+            Collections.sort(courses, new Comparator<Map<String, Object>>() {
+                @Override
+                public int compare(Map<String, Object> a, Map<String, Object> b) {
+                    return ((String) a.get("courseTitle")).compareTo((String) b.get("courseTitle"));
+                }
+            });
         }
+        //Sort the Schools based on nameOfInstitution .
+//        List<GenericEntity> schoolList = new ArrayList<GenericEntity>(schoolMap.values());
+//        Collections.sort(schools, new Comparator<Map<String, Object>>() {
+//            @Override
+//            public int compare(Map<String, Object> a, Map<String, Object> b) {
+//                return ((String) a.get("nameOfInstitution")).compareTo((String) b.get("nameOfInstitution"));
+//            }
+//        });
         return new ArrayList<GenericEntity>(schoolMap.values());
 
     }
@@ -1017,9 +1035,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-            url.append("&limit=" + Constants.MAX_RESULTS);
+//            url.append("&limit=" + Constants.MAX_RESULTS);
         } else {
-            url.append("?limit=" + Constants.MAX_RESULTS);
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return createEntityFromAPI(url.toString(), token);
@@ -1100,9 +1118,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-            url.append("&limit=" + Constants.MAX_RESULTS);
+//            url.append("&limit=" + Constants.MAX_RESULTS);
         } else {
-            url.append("?limit=" + Constants.MAX_RESULTS);
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         // get the entities
@@ -1135,9 +1153,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-            url.append("&limit=" + Constants.MAX_RESULTS);
+//            url.append("&limit=" + Constants.MAX_RESULTS);
         } else {
-            url.append("?limit=" + Constants.MAX_RESULTS);
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return url.toString();
