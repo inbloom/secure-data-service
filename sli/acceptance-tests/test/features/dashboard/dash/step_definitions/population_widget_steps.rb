@@ -19,18 +19,18 @@ When /^I look in the school drop\-down$/ do
   assertMissingField(@dropDownId, "id")
 end
 
-Then /^I only see "([^"]*)"$/ do |listContent|
+Then /^I see "([^"]*)"$/ do |listContent|
   select = @driver.find_element(:id, @dropDownId)
   all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
-  matchCondition = true
+  matchCondition = false
   # If any list item has a value that is not in the list - set flag to false
+  selectContent = ""
   all_options.each do |option|
-    if option.find_element(:tag_name, "a").attribute("text")  != listContent and 
-      option.find_element(:tag_name, "a").attribute("text") != "" then
-      matchCondition = false
+    if option.find_element(:tag_name, "a").attribute("text")  == listContent then
+      matchCondition = true
     end
   end
-  assert(matchCondition, "list has more then required string(s) " + listContent)
+  assert(matchCondition, "list does not have required string(s) " + listContent)
 end
 
 When /^I look in the course drop\-down$/ do

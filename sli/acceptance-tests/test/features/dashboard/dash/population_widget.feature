@@ -11,11 +11,11 @@ Then I see these values in the drop-down: "Daybreak School District 4529;Sunset 
 
 When I select ed org "Sunset School District 4526"
 When I look in the school drop-down
-Then I only see "Sunset Central High School"
+Then I see "Sunset Central High School"
 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "Daybreak Central High"
+Then I see "Daybreak Central High"
 
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
