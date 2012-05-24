@@ -10,24 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.QueryParseException;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -36,8 +18,24 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -616,17 +614,9 @@ public class BasicService implements EntityService {
 
     private Collection<GrantedAuthority> getAuths() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth instanceof AnonymousAuthenticationToken || auth == null) {
-            throw new InsufficientAuthenticationException("Login Required");
+        if (this.readRight != Right.ANONYMOUS_ACCESS) {
+            SecurityUtil.ensureAuthenticated();
         }
-        
-        if (auth instanceof OAuth2Authentication && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            if (this.readRight != Right.ANONYMOUS_ACCESS) {
-                throw new InsufficientAuthenticationException("Login Required");
-            }
-        }
-
         return auth.getAuthorities();
     }
 

@@ -66,10 +66,7 @@ Given /^I clicked the Submit button$/ do
 end
 
 Then /^I am informed that "([^"]*)"$/ do |arg1|
-  #make sure something is loaded, caveat, it might be still the old page
-  sleep 1
-  @explicitWait.until{@driver.find_element(:tag_name,"body")}
-  assertText(arg1)
+ checkForTextInBody(arg1)
 end
 
 Then /^I am redirected to the SLI\-IDP Login page$/ do
@@ -95,4 +92,10 @@ end
 
 Then /^I add a cookie for linda.kim$/ do
   @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
+end
+
+def checkForTextInBody(expectedText)
+  #make sure something is loaded, caveat, it might be still the old page
+  @explicitWait.until{@driver.find_element(:tag_name,"body")}
+  assertText(expectedText)
 end

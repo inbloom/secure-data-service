@@ -156,6 +156,12 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
+        
+        dashboard.google_analytics.id: UA-31838086-1
+        
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+        
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
@@ -204,9 +210,10 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
-        # LDAP base URL
+        # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org

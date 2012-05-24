@@ -44,7 +44,7 @@ public class RESTClientTest {
         //TODO: Change the overridden function to support HTTPEntity
         RESTClient client = new RESTClient() {
             
-            public HttpEntity<String> exchange(String url, HttpMethod method, HttpEntity entity, Class cl) {
+            public HttpEntity<String> exchange(RestTemplate template, String url, HttpMethod method, HttpEntity entity, Class cl) {
                 return new HttpEntity<String>("fakeResponse");
             }            
         };

@@ -946,6 +946,10 @@
 			<xs:element minOccurs="0" name="sex" type="sexType">
 				<xs:annotation>
 					<xs:documentation>A person's gender.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="address"
@@ -968,6 +972,10 @@
 						area
 						code, for the person.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0"
@@ -979,6 +987,10 @@
 						the network to
 						which the individual or organization belongs.
 					</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="loginId" type="identificationCode">

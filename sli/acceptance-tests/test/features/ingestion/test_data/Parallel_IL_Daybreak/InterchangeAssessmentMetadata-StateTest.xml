@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <!-- StateTest Section -->
+  <Assessment id="Grade_8_2011_StateTest_Writing">
+    <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>Grade 8 2011 StateTest Writing</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Writing</AcademicSubject>
+    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>W</CodeValue>
+        <Description>Academic Warning</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>6</MinimumScore>
+      <MaximumScore>14</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>B</CodeValue>
+        <Description>Below Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>15</MinimumScore>
+      <MaximumScore>20</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>S</CodeValue>
+        <Description>Meets Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>21</MinimumScore>
+      <MaximumScore>27</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>E</CodeValue>
+        <Description>Exceeds Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>28</MinimumScore>
+      <MaximumScore>33</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>33</MaxRawScore>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest Writing for Grade 8</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+  
+  <Assessment id="Grade_8_2011_StateTest_Reading">
+    <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>Grade 8 2011 StateTest Reading</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>W</CodeValue>
+        <Description>Academic Warning</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>120</MinimumScore>
+      <MaximumScore>179</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>B</CodeValue>
+        <Description>Below Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>180</MinimumScore>
+      <MaximumScore>230</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>S</CodeValue>
+        <Description>Meets Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>231</MinimumScore>
+      <MaximumScore>277</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>E</CodeValue>
+        <Description>Exceeds Standards</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>278</MinimumScore>
+      <MaximumScore>364</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>364</MaxRawScore>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest Reading for Grade 8</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+  
+  <AssessmentFamily id="StateTest">
+    <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>StateTest</ID>
+    </AssessmentFamilyIdentificationCode>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="StateTest_Reading_for_Grades_3-8">
+    <AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>StateTest Reading for Grades 3-8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="StateTest_Reading_for_Grade_8">
+    <AssessmentFamilyTitle>StateTest Reading for Grade 8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>StateTest Reading for Grade 8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest Reading for Grades 3-8</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="StateTest_Writing_for_Grades_3-8">
+    <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>StateTest Writing for Grades 3-8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  
+  <AssessmentFamily id="StateTest_Writing_for_Grade_8">
+    <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="Test Contractor">
+        <ID>StateTest Writing for Grade 8</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                <ID>StateTest Writing for Grades 3-8</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
+  <!-- <PerformanceLevelDescriptor id="ID_1"> <Description>State Criteria</Description> <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+    </PerformanceLevelDescriptor> -->
+</InterchangeAssessmentMetadata>
