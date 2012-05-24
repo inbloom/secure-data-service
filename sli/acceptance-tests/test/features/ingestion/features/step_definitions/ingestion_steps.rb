@@ -31,7 +31,7 @@ Before do
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
 
-   
+
   #remove all tenants other than NY and IL
   @tenantColl.find.each do |row|
     if row['body'] == nil
@@ -75,11 +75,11 @@ Before do
       identifier = @tenantId + '-' + educationOrganization
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
-      
+
       if !File.directory?(path)
         FileUtils.mkdir_p(path)
       end
-      
+
     end
   end
 
@@ -105,15 +105,15 @@ def initializeTenants()
       @topLevelLandingZone = ""
     end
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
-    
+
   elsif defaultLz.rindex('/') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
-    
+
   elsif defaultLz.rindex('\\') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
-    
+
   end
 
   puts "Top level LZ is -> " + @topLevelLandingZone
@@ -169,15 +169,15 @@ def remoteLzCopy(srcPath, destPath)
 end
 
 def clearRemoteLz(landingZone)
-	
+
 	puts "clear landing zone " + landingZone
-	
+
 	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.foreach(landingZone) do |entry|
 			next if entry.name == '.' or entry.name == '..'
-			
+
 			entryPath = File.join(landingZone, entry.name)
-			
+
 			if !sftp.stat!(entryPath).directory?
 				sftp.remove!(entryPath)
 			end
@@ -218,10 +218,10 @@ def remoteFileContainsMessage(prefix, message, landingZone)
 		sftp.dir.glob(landingZone, prefix + "*") do |entry|
 			entryPath = File.join(landingZone, entry.name)
 			puts "found file " + entryPath
-			
+
 			#download file contents to a string
 			file_contents = sftp.download!(entryPath)
-			
+
 			#check file contents for message
 			if (file_contents.rindex(message) != nil)
 				puts "Found message " + message
@@ -242,7 +242,7 @@ def createRemoteDirectory(dirPath)
 			puts "directory exists"
 		end
 	end
-	
+
 end
 
 ############################################################
@@ -467,7 +467,7 @@ end
 
 Given /^the following collections are empty in datastore:$/ do |table|
   @conn = Mongo::Connection.new(INGESTION_DB)
-  
+
   @db   = @conn[INGESTION_DB_NAME]
 
   @result = "true"
@@ -633,7 +633,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   if INGESTION_MODE == 'remote'
     absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
   end
-  
+
   if INGESTION_MODE != 'remote'
     FileUtils.mkdir_p(path)
     FileUtils.chmod(0777, path)
@@ -650,8 +650,8 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
       ingestionServer = ingestionServer[0, ingestionServer.index('.')]
     end
   end
-  
-  
+
+
   tenant = lz_key
   edOrg = lz_key
 
@@ -720,7 +720,7 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   if INGESTION_MODE == 'remote'
     absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
   end
-  
+
   if INGESTION_MODE != 'remote'
     FileUtils.mkdir_p(path)
     FileUtils.chmod(0777, path)
@@ -737,8 +737,8 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
       ingestionServer = ingestionServer[0, ingestionServer.index('.')]
     end
   end
-  
-  @newLandingZone = { 
+
+  @newLandingZone = {
         "educationOrganization" => edOrg,
         "ingestionServer" => ingestionServer,
         "path" => absolutePath
@@ -793,7 +793,7 @@ When /^a batch job log has been created$/ do
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
-      
+
       if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
@@ -824,20 +824,20 @@ When /^a batch job log has been created$/ do
 end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
-  
+
   @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
 
-  intervalTime = 5 #seconds
+  intervalTime = 1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
-      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "stages" => {"$elemMatch" => {"chunks.0.stageName" => "JobReportingProcessor"}}}).count().to_s 
+      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "stages" => {"$elemMatch" => {"chunks.0.stageName" => "JobReportingProcessor"}}}).count().to_s
 
       if @entity_count.to_s == "1"
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -1009,7 +1009,7 @@ end
 
 When /^local zip file is moved to ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name
-  
+
   assert(true, "File Not Uploaded")
 end
 
@@ -1347,7 +1347,7 @@ Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ 
 end
 
 Then /^I should not see an error log file created$/ do
-  if (INGESTION_MODE == 'remote') 
+  if (INGESTION_MODE == 'remote')
     if remoteLzContainsFile("error.*", @landing_zone_path)
       assert(false, "Error files created.")
     else
