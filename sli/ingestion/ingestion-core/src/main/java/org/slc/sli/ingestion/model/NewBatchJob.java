@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
@@ -46,8 +44,6 @@ public class NewBatchJob implements Job {
     private List<StageSet> stages;
 
     private List<ResourceEntry> resourceEntries;
-
-    private Map<String, Pair<AtomicLong, AtomicLong>> executionStats;
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
@@ -365,13 +361,5 @@ public class NewBatchJob implements Job {
     public FaultsReport getFaultsReport() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    public Map<String, Pair<AtomicLong, AtomicLong>> getExecutionStats() {
-        return executionStats;
-    }
-    
-    public void setExecutionStats(Map<String, Pair<AtomicLong, AtomicLong>> stats) {
-        this.executionStats = stats;
     }
 }
