@@ -75,5 +75,4 @@ public class AnythingToSchoolResolverTest {
         ret.add("test-3456-id");
         return ret;
     }
-
 }
