@@ -106,7 +106,7 @@ public class SDKAPIClient implements APIClient {
         }
         return configMap;
     }
-    
+
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
         try {
@@ -191,8 +191,38 @@ public class SDKAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getStudentsWithSearch(String token, String firstName, String lastName) {
-        // TODO Auto-generated method stub
-        return liveApiClient.getStudentsWithSearch(token, firstName, lastName);
+        String queryString = "?";
+        boolean queryExists = false;
+        if (firstName != null && !firstName.equals("")) {
+            queryString += "name.firstName=" + firstName;
+            queryExists = true;
+            if (lastName != null && !lastName.equals("")) {
+                queryString += "&name.lastSurname=" + lastName;
+            }
+        } else {
+            if (lastName != null && !lastName.equals("")) {
+                queryExists = true;
+                queryString += "name.lastSurname=" + lastName;
+            }
+        }
+        String url = getApiUrl() + ClientConstants.STUDENTS_URL;
+
+        if (queryExists) {
+            url += queryString + "&limit=0";
+        }
+
+        ((BasicClient) sdkClient).setToken(token); // TODO - Remove, once Robert checks his code in.
+        EntityCollection collection = new EntityCollection();
+        try {
+            sdkClient.getResource(collection, new URL(url), BasicQuery.EMPTY_QUERY);
+        } catch (URISyntaxException e) {
+            LOGGER.error("Exception occurred", e);
+        } catch (MalformedURLException e) {
+            LOGGER.error("Exception occurred", e);
+        }
+
+
+        return convertEntity(collection);
     }
 
     @Override
