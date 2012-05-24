@@ -183,7 +183,7 @@ default:
         sli.simple-idp.sandboxImpersonationEnabled: false
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
-        # LDAP base URL
+        # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
@@ -308,7 +308,7 @@ local:
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Trusted Certificate Authority Store
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         #Support Email
         sli.support.email: sli@example.com

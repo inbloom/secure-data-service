@@ -1,3 +1,4 @@
+@RALLY_US1889
 Feature: StudentCohortAssociation Ingestion Test
 
 Background: I have a landing zone route configured

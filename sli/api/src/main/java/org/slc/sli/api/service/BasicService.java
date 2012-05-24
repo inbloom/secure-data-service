@@ -114,15 +114,13 @@ public class BasicService implements EntityService {
                 ids.addAll(idList);
             }
         }
-        NeutralQuery localNeutralQuery = new NeutralQuery();
+        NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         
-        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {   //super list
-            localNeutralQuery = neutralQuery;
+        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {
+          //super list
         } else if (!ids.isEmpty()) {
-            Set<String> allowedSet = new HashSet<String>(allowed);
-            ids.retainAll(allowedSet);
-            List<String> finalIds = new ArrayList<String>(ids);
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+            ids.retainAll(new HashSet<String>(allowed)); //retain only those IDs that area allowed
+            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
         } else {
             localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
         }

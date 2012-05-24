@@ -23,8 +23,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the school to which a student is enrolled.
  *
- * @author srupasinghe
+ * For more information, see the schema for $$StudentSchoolAssociation$$ resources.
  *
+ * @author srupasinghe
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
 @Component
@@ -37,21 +38,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Student$$ that references the given $$StudentSchoolAssociation$$.
-     *
-     * @param studentSchoolAssociationId
-     *            The Id of the $$StudentSchoolAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Student$$ that references the given $$StudentSchoolAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -63,21 +50,7 @@ public class StudentSchoolAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$School$$ that references the given $$StudentSchoolAssociation$$.
-     *
-     * @param studentSchoolAssociationId
-     *            The Id of the $$StudentSchoolAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$School$$ that references the given $$StudentSchoolAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SCHOOL_ASSOCIATION_ID + "}" + "/" + PathConstants.SCHOOLS)

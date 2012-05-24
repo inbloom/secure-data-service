@@ -100,8 +100,8 @@ public class UsersTest {
         assertEquals("TestGroup2", user.getRoles().get(1));
     }
     @Test
-    public void testAttributeExtraction() {
-        String desc = "Tenant=myTenantId\nEdOrg=myEdorgId\n";
+    public void testAttributeExtractionCommas() {
+        String desc = "tenant=myTenantId,edOrg=myEdorgId";
         PersonContextMapper mapper = new PersonContextMapper();
         DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
         Mockito.when(context.getStringAttribute("cn")).thenReturn("Full Name");
@@ -109,9 +109,96 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         
         assertEquals("Full Name", user.getAttributes().get("userName"));
-        assertEquals("myTenantId", user.getAttributes().get("Tenant"));
-        assertEquals("myEdorgId", user.getAttributes().get("EdOrg"));
-        
+        assertEquals("myTenantId", user.getAttributes().get("tenant"));
+        assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
+        assertEquals(3, user.getAttributes().size());
     }
-    
+    @Test
+    public void testAttributeExtractionNewlines() {
+        String desc = "tenant=myTenantId\nedOrg=myEdorgId\n";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals("myTenantId", user.getAttributes().get("tenant"));
+        assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
+        assertEquals(3, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionSpaces() {
+        String desc = "tenant=myTenantId edOrg=myEdorgId";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals("myTenantId", user.getAttributes().get("tenant"));
+        assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
+        assertEquals(3, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionCommasWithSpaces() {
+        String desc = "tenant=myTenantId,edOrg=My Edorg Id";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals("myTenantId", user.getAttributes().get("tenant"));
+        assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
+        assertEquals(3, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionNewLinesWithSpaces() {
+        String desc = "tenant=myTenantId\nedOrg=My Edorg Id\n";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals("myTenantId", user.getAttributes().get("tenant"));
+        assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
+        assertEquals(3, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionNewLinesWithBlanks() {
+        String desc = "tenant=\nedOrg=My Edorg Id\n";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals(null, user.getAttributes().get("tenant"));
+        assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
+        assertEquals(2, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionNewLinesWithBlanks2() {
+        String desc = "tenant=\nedOrg=\n";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals(null, user.getAttributes().get("tenant"));
+        assertEquals(null, user.getAttributes().get("edOrg"));
+        assertEquals(1, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionCommasWithBlanks() {
+        String desc = "tenant=,edOrg=My Edorg Id,";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals(null, user.getAttributes().get("tenant"));
+        assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
+        assertEquals(2, user.getAttributes().size());
+    }
+    @Test
+    public void testAttributeExtractionCommasWithBlanks2() {
+        String desc = "tenant=,edOrg=,";
+        PersonContextMapper mapper = new PersonContextMapper();
+        DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        assertEquals(null, user.getAttributes().get("tenant"));
+        assertEquals(null, user.getAttributes().get("edOrg"));
+        assertEquals(1, user.getAttributes().size());
+    }
 }
