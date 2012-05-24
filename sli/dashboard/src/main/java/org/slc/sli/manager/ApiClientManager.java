@@ -1,5 +1,7 @@
 package org.slc.sli.manager;
 
+import java.io.Serializable;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -45,7 +47,8 @@ public abstract class ApiClientManager implements Manager {
      * @author agrebneva
      *
      */
-    protected static class CacheKey {
+    protected static class CacheKey implements Serializable {
+        private static final long serialVersionUID = 1L;
         String token;
         Object key;
 
@@ -129,7 +132,7 @@ public abstract class ApiClientManager implements Manager {
             if (cache != null) {
                 Element elem = cache.get(new CacheKey(token, key));
                 if (elem != null) {
-                    return new CacheValue<T>((T) elem.getValue());
+                    return new CacheValue<T>((T) elem.getObjectValue());
                 }
             }
         }

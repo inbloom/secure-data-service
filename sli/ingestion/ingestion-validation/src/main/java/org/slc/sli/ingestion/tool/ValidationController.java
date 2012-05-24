@@ -13,6 +13,7 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
@@ -104,6 +105,8 @@ public class ValidationController {
             }
         } catch (IOException e) {
             logger.error("Cannot parse control file", ValidationController.class);
+        } catch (SubmissionLevelException exception) {
+            logger.error(exception.getMessage());
         } finally {
             logger.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
         }

@@ -1,3 +1,5 @@
+@RALLY_US2290
+@RALLY_US2289
 Feature: Ingestion Mongo Performance Test
 
 Scenario: I want to profile mongoDB operations performance

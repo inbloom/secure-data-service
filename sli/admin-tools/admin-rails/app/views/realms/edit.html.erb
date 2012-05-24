@@ -1,4 +1,5 @@
-  <h2>Editing role mappings for <%=@realm.name%></h2>
+  <h2>Map Roles for <%=@realm.name%></h2>
+  <h4>Assign your client roles to the appropriate SLC roles</h4>
 
   <script type="text/javascript">
 
@@ -14,41 +15,62 @@
   sortTable(rMap, sortCol, sortOrder[sortCol]);
   var SLI_ROLES = <%= @sli_roles.to_json.html_safe %>;
   var UPDATE_URL = '<%= url_for(:action=>"update") %>'
-
-  
-
   </script>
+
   <%=javascript_tag "$(document).ready(function() {initRealmEdit();});"%>
-  <table>
-    <tr>
 
-      <td valign="top">
+  <p/>
+  <table cellpadding="0">
+   <tr>
+   <td>
+   <label>SLC Roles</label>
+   <div class="control-group" style="background-color: #ebebeb; padding: 10px">
+      <div class="controls">
         <% @sli_roles.each do |role| %>
-
-        <div>
-          <%= radio_button_tag 'role', role %><%= label_tag "role_#{role}", role %>
-        </div><% end %>
-      </td>
-
-      <td valign="top">
-      <%= label_tag "clientRole", "Client role" %><input id=
-      "clientRole"></td>
-
-      <td valign="top"><button id="addButton">Add</button></td>
+          <label class="radio">
+          <%= radio_button_tag 'role', role %>
+          <%= role %>
+          </label>
+          <% end %>
+      </div>
+   </div>
+   </td>
+   <td>
+     <%= image_tag "right_arrow.png" %>
+   </td>
+   <td>
+     <div class="control-group">
+       <label class="control-label" for="clientRole" style="display: inline;">Assign to Client Role:</label>
+       <div class="controls">
+         <div class="input-append">
+           <input id="clientRole" class="input-medium"/>
+           <button id="addButton" class="btn" type="button">Add</button>
+           <p/>
+         </div>
+       </div>
+     </div>
+    </td>
     </tr>
   </table>
+  <!--/form-->
 
-  <table>
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th id="cRole" style="text-decoration: underline">Client
+        <th id="cRole">Client
         role
-        <span><%= image_tag "sort_asc.png", :class => 'sort_asc', :style => 'display: none' %>
-        <%= image_tag "sort_desc.png", :class => 'sort_desc' %></span></th>
+        <span>
+          <i class="icon-chevron-up sort_asc" style="display: none"></i>
+          <i class="icon-chevron-down sort_desc"></i>
+        </span>
+        </th>
 
-        <th id="sRole" style="text-decoration: underline">SLI role
-        <span><%= image_tag "sort_asc.png", :class => 'sort_asc', :style => 'display: none' %>
-        <%= image_tag "sort_desc.png", :class => 'sort_desc', :style => 'display: none' %></span></th>
+        <th id="sRole">SLC role
+        <span>
+          <i class="icon-chevron-up sort_asc" style="display: none"></i>
+          <i class="icon-chevron-down sort_desc"></i>
+        </span>
+        </th>
       </tr>
     </thead>
 
@@ -56,7 +78,9 @@
   </table>
 
   <div>
-    <button id="resetButton">Reset to defaults</button>
+    <button id="resetButton" class="btn btn-warning">Reset to default</button>
   </div>
-
-<%= link_to 'Back', realms_path %>
+  </br>
+  <div>
+    <%= link_to 'Done', realms_path, :class=>"btn" %>
+  </div>

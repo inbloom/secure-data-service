@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +33,7 @@ import org.slc.sli.util.JsonConverter;
  */
 public class ConfigManagerImpl extends ApiClientManager implements ConfigManager {
     private static final String USER_CONFIG_CACHE = "user.panel.config";
+    private static final String USER_WIDGET_CONFIG_CACHE = "user.config.widget";
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String driverConfigLocation;
@@ -189,36 +188,40 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
 
     @Override
-    @Cacheable(cacheName = "user.config.widget")
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
-        // id to config map
-        Map<String, Config> widgets = new HashMap<String, Config>();
-        Config config;
-        // list files in driver dir
-        File driverConfigDir = new File(this.driverConfigLocation);
-        File[] configs = driverConfigDir.listFiles();
-        if (configs == null) {
-            logger.error("Unable to read config directory");
-            throw new DashboardException("Unable to read config directory!!!!");
-        }
+        CacheValue<Collection<Config>> value = getCacheValueFromCache(USER_WIDGET_CONFIG_CACHE, token, edOrgKey);
+        if (value == null) {
+            // id to config map
+            Map<String, Config> widgets = new HashMap<String, Config>();
+            Config config;
+            // list files in driver dir
+            File driverConfigDir = new File(this.driverConfigLocation);
+            File[] configs = driverConfigDir.listFiles();
+            if (configs == null) {
+                logger.error("Unable to read config directory");
+                throw new DashboardException("Unable to read config directory!!!!");
+            }
 
-        for (File f : driverConfigDir.listFiles()) {
-            try {
-                config = loadConfig(f);
-            } catch (Exception t) {
-                logger.error("Unable to read config " + f.getName()
-                        + ". Skipping file", t);
-                continue;
+            for (File f : driverConfigDir.listFiles()) {
+                try {
+                    config = loadConfig(f);
+                } catch (Exception t) {
+                    logger.error("Unable to read config " + f.getName()
+                            + ". Skipping file", t);
+                    continue;
+                }
+                // assemble widgets
+                if (config.getType() == Type.WIDGET) {
+                    widgets.put(config.getId(), config);
+                }
             }
-            // assemble widgets
-            if (config.getType() == Type.WIDGET) {
-                widgets.put(config.getId(), config);
+            for (String id : widgets.keySet()) {
+                widgets.put(id, getComponentConfig(token, edOrgKey, id));
             }
+            putToCache(USER_WIDGET_CONFIG_CACHE, token, edOrgKey, widgets.values());
+            return widgets.values();
         }
-        for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(token, edOrgKey, id));
-        }
-        return widgets.values();
+        return value.get();
     }
 
     /**
@@ -234,8 +237,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         CacheValue<ConfigMap> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
         ConfigMap config = null;
         if (value == null) {
-            config = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
-            putToCache(USER_CONFIG_CACHE, token, config);
+            try {
+              config = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
+              putToCache(USER_CONFIG_CACHE, token, config);
+            } catch (Throwable t) {
+                logger.error("Unable to get custom config from the store for district id " + edOrgKey.getDistrictId(), t);
+            }
         } else {
             config = value.get();
         }

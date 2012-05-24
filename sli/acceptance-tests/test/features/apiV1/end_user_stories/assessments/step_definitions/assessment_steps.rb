@@ -60,7 +60,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "e85b5aa7-465a-4dd3-8ffb-d02461ed79f8"       if human_readable_id == "'Most Recent SAT Student Assessment Association' ID"
   id = "67ce204b-9999-4a11-bfea-000000004685"       if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"
-
+  id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"       if human_readable_id == "'Grade 2 MOY READ2' ID"
+  id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY READ2' ID"
+  id = "1e0ddefb-875a-ef7e-b8c3-33bb5676115a"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
+  
   #teacher section associations
   id = "12f25c0f-75d7-4e45-8f36-af1bcc342871"       if human_readable_id == "'Teacher Ms. Jones and Section Algebra II' ID"
   

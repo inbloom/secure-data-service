@@ -1,3 +1,4 @@
+@RALLY_US1207
 Feature: Ingestion Encryption Testing
 
 Background: I have a landing zone route configured

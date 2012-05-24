@@ -95,7 +95,7 @@ def selectOption(selectFieldId, optionToSelect)
       break
     end
   end  
-  assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
+  assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + selectFieldId + "' list")
 end
 
 def selectDropdownOption(selectFieldId, optionToSelect)

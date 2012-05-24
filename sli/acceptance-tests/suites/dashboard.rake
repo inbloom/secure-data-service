@@ -82,8 +82,15 @@ task :dashboardHTMLEscapeTests do
   runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
 end
 
+desc "Dashboard Sad Path Test Suite"
+task :dashboardSadPathTestSuite => [:ingestionDashboardSadPathTest,
+                                    :realmInitNoPeople,
+                                    :dashboardSadPathTests] do
+end
+
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
+  Rake::Task["dashboardSadPathTestSuite"].invoke
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke
   Rake::Task["dashboardTests"].invoke
