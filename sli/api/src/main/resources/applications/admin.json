@@ -22,7 +22,7 @@
    "endpoints":[
       {
          "name":"Application Registration",
-         "description":"Register an application that can access SLI API.",
+         "description":"Register an application that can access SLC API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "SLC Operator", "Application Developer"
@@ -45,8 +45,9 @@
          ]
       },
       {
-         "name":"Role Mappings",
-         "description":"Control how roles from an IDP are mapped to SLI roles.",
+         "name":"Realm Role Mapper",
+         "description":"Control how roles are from a IDP are mapped to SLC roles.",
+
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
            "Realm Administrator"

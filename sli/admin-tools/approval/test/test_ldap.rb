@@ -12,18 +12,19 @@ class TestLdap < Test::Unit::TestCase
   Jd_email = "jdoe@example.com_#{Socket.gethostname}"
   Jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
   User_info = {
-    :first      => "John",
-    :last       => "Doe", 
-    :email      => Jd_email,
-    :password   => "secret", 
-    :vendor     => "Acme Inc.",
-    :emailtoken => Jd_emailtoken,
-    :status     => "submitted",
-    :homedir    => 'test',
-    :uidnumber  => '456',
-    :gidnumber  => '123',
-    :tenant     => 'testtenant',
-    :edorg      => 'testedorg'
+    :first        => "John",
+    :last         => "Doe", 
+    :email        => Jd_email,
+    :password     => "secret", 
+    :vendor       => "Acme Inc.",
+    :emailtoken   => Jd_emailtoken,
+    :status       => "submitted",
+    :homedir      => 'test',
+    :uidnumber    => '456',
+    :gidnumber    => '123',
+    :tenant       => 'testtenant',
+    :edorg        => 'testedorg',
+    :emailAddress => Jd_email
   }
 
   # Note: Socket.gethostname is used to ensure uniqueness when testers are 
@@ -35,7 +36,7 @@ class TestLdap < Test::Unit::TestCase
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
-    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn]
+    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn, :emailAddress]
 
   Email1 = "dog_cat_hamster_platypus_elephant"
   Email2 = "mouse_snake_lion_cat_horse"
@@ -198,7 +199,8 @@ class TestLdap < Test::Unit::TestCase
       :password   => "secret",
       :emailtoken => "abc",
       :homedir    => "-", 
-      :status     => "submitted"
+      :status     => "submitted",
+      :emailAddress => Jd_email
     }
     @ldap.create_user(test_user_info)
     @ldap.delete_user(test_user_info[:email])
@@ -213,7 +215,8 @@ class TestLdap < Test::Unit::TestCase
       :password   => "secret",
       :emailtoken => "abc",
       :homedir    => "-", 
-      :status     => "submitted"
+      :status     => "submitted",
+      :emailAddress => Jd_email
     }
 
     @ldap.create_user(test_user_info)

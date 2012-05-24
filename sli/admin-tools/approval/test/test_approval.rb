@@ -23,7 +23,8 @@ class TestApprovalEngine < Test::Unit::TestCase
 			:vendor     => "Acme Inc.",
 			:emailtoken => @jd_emailtoken,
 			:status     => "submitted",
-			:homedir    => "/home/exampleuser"	
+			:homedir    => "/home/exampleuser",
+			:emailAddress => @jd_email
 		}
 
 		@td_email = "tdoe_#{Socket.gethostname}@example.com"
