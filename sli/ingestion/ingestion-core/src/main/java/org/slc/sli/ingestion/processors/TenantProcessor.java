@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -13,13 +12,12 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
+import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
-import org.slc.sli.ingestion.tenant.TenantDA;
 
 /**
  * Processor for tenant collection polling
@@ -81,7 +79,7 @@ public class TenantProcessor implements Processor {
         for (String lzPath : newLzPaths) {
             if (oldLzPaths.contains(lzPath)) {
                 oldLzPaths.remove(lzPath);
-            } else if (new File(lzPath).exists()) {
+            } else {
                 routesToAdd.add(lzPath);
             }
         }
