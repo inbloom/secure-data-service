@@ -80,7 +80,7 @@ public class IdNormalizer {
 
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
-                
+
                 if (ids == null || ids.size() == 0) {
                     if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
                         LOG.error("Error with entity " + entity.getType() + " missing required reference "
@@ -164,56 +164,57 @@ public class IdNormalizer {
         String collection = refConfig.getCollectionName();
 
         try {
-            //int numRefInstances = getNumRefInstances(entity, refConfig);
+            int numRefInstances = getNumRefInstances(entity, refConfig);
 
             // if the reference is a list of references loop over all elements adding an 'or' query
             // statement for each
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
 
-                for (int refIndex = 0; refIndex < fields.size(); refIndex++) {
+                for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+
                     Query choice = new Query();
 
                     choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
                             tenantId));
                     int criteriaCount = 0;
 
-                    List<Object> filterValues = new ArrayList<Object>();
-                    
-                    Field field = fields.get(refIndex);
-                    for (FieldValue fv : field.getValues()) {
-                        if (fv.getRef() != null) {
-                            List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
-                                    fieldPath, proxyErrorReport);
-                            if (resolvedIds != null) {
-                                filterValues.addAll(resolvedIds);
-                            }
-                            if (resolvedIds.isEmpty()) {
-                                return new ArrayList<String>();
-                            }
-                        } else {
-                            String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
-                                    refIndex);
-                            try {
-                                Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                if (entityValue instanceof Collection) {
-                                    Collection<?> entityValues = (Collection<?>) entityValue;
-                                    filterValues.addAll(entityValues);
-                                } else if (entityValue != null) {
-                                    filterValues.add(entityValue.toString());
-                                }
-                            } catch (Exception e) {
-                                LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
-                                        + entity.getType() + " ", e.getLocalizedMessage());
-                                String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
-                                        + "       Entity " + entity.getType() + ": Reference to " + collection
-                                        + " is incomplete because the following reference field is not resolved: "
-                                        + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+                    for (Field field : fields) {
+                        List<Object> filterValues = new ArrayList<Object>();
 
-                                errorReport.error(errorMessage, this);
+                        for (FieldValue fv : field.getValues()) {
+                            if (fv.getRef() != null) {
+                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
+                                        fieldPath, proxyErrorReport);
+                                if (resolvedIds != null) {
+                                    filterValues.addAll(resolvedIds);
+                                }
+                                if (filterValues.isEmpty()) {
+                                    return new ArrayList<String>();
+                                }
+                            } else {
+                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
+                                        refIndex);
+                                try {
+                                    Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                    if (entityValue instanceof Collection) {
+                                        Collection<?> entityValues = (Collection<?>) entityValue;
+                                        filterValues.addAll(entityValues);
+                                    } else if (entityValue != null) {
+                                        filterValues.add(entityValue.toString());
+                                    }
+                                } catch (Exception e) {
+                                    LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
+                                            + entity.getType() + " ", e.getLocalizedMessage());
+                                    String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                            + "       Entity " + entity.getType() + ": Reference to " + collection
+                                            + " is incomplete because the following reference field is not resolved: "
+                                            + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+
+                                    errorReport.error(errorMessage, this);
+                                }
                             }
                         }
                         if (filterValues.size() > 0) {
-                            LOG.info("adding criteria where {} is $in : {}", field.getPath(), filterValues);
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }
@@ -251,7 +252,7 @@ public class IdNormalizer {
         } else if (collection.equals("teacher")) {
             collection = "staff";
         }
-        
+
         @SuppressWarnings("deprecation")
         Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
@@ -262,8 +263,6 @@ public class IdNormalizer {
                 ids.add(record.getEntityId());
             }
         }
-        
-        LOG.info("returned ids: {} for collection: {}", ids, refConfig.getCollectionName());
 
         return ids;
     }
