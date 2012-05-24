@@ -28,6 +28,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
     
+    private ThreadLocal<Cipher> cachedCipher = new ThreadLocal<Cipher>();
+    
     @Autowired
     CipherInitDataProvider initDataProvider;
     
@@ -163,9 +165,15 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         IvParameterSpec ivspec = new IvParameterSpec(ivBytes);
         
         try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(mode, initData.getSecretKey(), ivspec);
-            
+            Cipher cipher = cachedCipher.get();
+            if (cipher == null) {
+                synchronized (this) {  // might be over-reacting, but we've been burned before...
+                    cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                    cipher.init(mode, initData.getSecretKey(), ivspec);
+                    cachedCipher.set(cipher);
+                }
+            }
+
             return cipher;
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
