@@ -879,7 +879,6 @@
   <!-- TeacherSectionAssociation Mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/TeacherSectionAssociation">
     <jb:expression property="recordType">'teacherSectionAssociation'</jb:expression>
-<!--     <jb:expression property="association">true</jb:expression> -->
     <jb:wiring property="attributes" beanIdRef="teacherSectionAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="teacherSectionAssociationParentIds" />
   </jb:bean>
