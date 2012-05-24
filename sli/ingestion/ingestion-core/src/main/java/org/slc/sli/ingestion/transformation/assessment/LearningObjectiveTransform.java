@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Component;
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
-    public static final String LEARNING_OBJ_COLLECTION = "learningObjective";
     public static final String ID_CODE = "identificationCode";
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
@@ -46,17 +44,17 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
-        // load data
-        NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
-
+        
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
 
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
-        NeutralQuery query = new NeutralQuery();
-        query.setLimit(0);
-        Iterable<NeutralRecord> learningObjectives = repo
-                .findAllForJob(LEARNING_OBJ_COLLECTION, getBatchJobId(), query);
-        for (NeutralRecord lo : learningObjectives) {
+        
+        LOG.info("Loading data for learning objective transformation.");
+        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(EntityNames.LEARNINGOBJECTIVE);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.LEARNINGOBJECTIVE, learningObjectives.size());
+        
+        for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
+            NeutralRecord lo = entry.getValue();
             Map<String, Object> attributes = lo.getAttributes();
             String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
@@ -134,7 +132,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
-            repo.createForJob(nr, getBatchJobId());
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(nr, getBatchJobId());
         }
     }
 
