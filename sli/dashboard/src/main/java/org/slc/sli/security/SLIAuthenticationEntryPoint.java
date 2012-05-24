@@ -190,9 +190,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             addAuthentication((String) token);
             
             //save the cookie to support sessions across multiple dashboard servers
-            Cookie cookie = new Cookie(DASHBOARD_COOKIE, (String) token);
-            cookie.setDomain(DASHBOARD_COOKIE_DOMAIN);
-            response.addCookie(cookie);
+
+            //DE476 Using custom header, since servlet api version 2.5 does not support httpOnly
+            //TODO: Remove custom header and use cookie when servlet-api is upgraded to 3.0
+            response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token + ";path=/;domain=" + DASHBOARD_COOKIE_DOMAIN + ";Secure;HttpOnly");
             response.sendRedirect(request.getRequestURI());
         }
     }

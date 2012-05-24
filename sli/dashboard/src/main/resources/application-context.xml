@@ -19,12 +19,23 @@
     <ehcache:annotation-driven cache-manager="cacheManager" />
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+
+
+<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
+    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
+    <constructor-arg name="clientId" value="${oauth.client.id}" />
+    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
+    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
+</bean>
     
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
         <property name="apiClient" ref="apiClientRef"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
@@ -42,25 +53,37 @@
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
-        <property name="apiClient" ref="apiClient"/>
+        <property name="restClient" ref="restClient"/>
+        <property name="portalHeaderUrl" value="${portal.header.url}" />
+	    <property name="portalFooterUrl" value="${portal.footer.url}" />
+    </bean>
+    
+    <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
+    <bean id="restTemplateWTimeout" class = "org.springframework.web.client.RestTemplate">
+	    <constructor-arg>
+	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+		    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
+	    </bean>
+	    </constructor-arg>
     </bean>
     
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
-	    <property name="securityUrl" value="${security.server.url}" />	
+	    <property name="securityUrl" value="${security.server.url}" />
+	    <property name="template" ref = "restTemplate" />
+	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
+	    	
     </bean>
+    
+    
     
 	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	    <property name="apiUrl" value="${api.server.url}" />
-	    <property name="portalHeaderUrl" value="${portal.header.url}" />
-	    <property name="portalFooterUrl" value="${portal.footer.url}" />
 	    <property name="gracePeriod" value="${sli.security.gracePeriod}" />
 	</bean>
 	
 	<alias alias="apiClientRef" name="${api.client}"/>
 
-    <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
-    
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>
@@ -70,5 +93,5 @@
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
         <property name="cacheManager" ref="cacheManager"/>
         <property name="useCache" value="${panel.data.use.cache:true}"/>
-    </bean>
+    </bean> 
 </beans>

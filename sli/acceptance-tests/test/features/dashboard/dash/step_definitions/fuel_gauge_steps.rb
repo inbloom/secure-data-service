@@ -1,15 +1,31 @@
-Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)" with cutpoints "([^"]*)"$/ do |studentName, assessment, score, cutpointsArray|
-  studentCell = getStudentCell(studentName)
-  td = getTdBasedOnAttribute(studentCell, assessment)
-  testFuelGauge(td, score, cutpointsArray)
+Then /^the cutpoints for "([^"]*)" is "([^"]*)"$/ do |testName, cutPoints|
+  if (@cutPointMapping == nil)
+    @cutPointMapping = Hash.new
+  end
+  @cutPointMapping[testName] = cutPoints
 end
 
-def testFuelGauge(td, score, cutpointsArray)
+Then /^the fuel gauge for "([^"]*)" in "([^"]*)" column "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, column, score|
+  studentCell = getStudentCell(studentName)
+  td = getTdBasedOnAttribute(studentCell, assessment + "." + column)
+  setCutPoints(assessment)
+  testFuelGauge(td, score)
+end
+
+def setCutPoints(assessmentName)
+  if (@cutPointMapping[assessmentName] != nil)
+    @currentCutPoints = @cutPointMapping[assessmentName]
+  else
+    assert(false, "CutPoints are not defined for " + assessmentName)
+  end
+end
+
+def testFuelGauge(td, score)
 
   cutpoints = []
   colorCode = ["#eeeeee","#b40610", "#e58829","#dfc836", "#7fc124","#438746"]
   scoreValue = nil
-  cutpoints = cutpointsArray.split(',')
+  cutpoints = @currentCutPoints.split(',')
 
   scoreValue = td.attribute("title")
   assert(score == scoreValue, "Expected: " + score + " but found: " + scoreValue)

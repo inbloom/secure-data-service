@@ -1,4 +1,4 @@
-
+@RALLY_US2092 @RALLY_US2107 @RALLY_US2108 @RALLY_US2104 @RALLY_US2163
 Feature: SLC operator approves/disables production accounts or disables sandbox accounts
 
 Background: 

@@ -8,7 +8,7 @@ Background:
   Given I have an open web browser
   Given the server is in "test" mode
 
-Scenario: Displaying simple ISAT reading results for all students
+Scenario: Displaying simple StateTest reading results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
   When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
@@ -16,14 +16,14 @@ Scenario: Displaying simple ISAT reading results for all students
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-	And the configuration file "assessmentFamily" is like "ISAT Reading for Grades 3-8"
+	And the configuration file "assessmentFamily" is like "StateTest Reading for Grades 3-8"
 	
-    Then for each student I search for "Assessment" where "assessmentTitle" is "Grade 3 2010 ISAT Writing"
+    Then for each student I search for "Assessment" where "assessmentTitle" is "Grade 3 2010 StateTest Writing"
     And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
     And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "percentile"
     And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "other"  
 
-Scenario: Displaying most recent ISAT writing results for all students
+Scenario: Displaying most recent StateTest writing results for all students
   Given I am authenticated to SLI as "cgray" "cgray"
   When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
@@ -31,10 +31,10 @@ Scenario: Displaying most recent ISAT writing results for all students
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-	And in the configuration file "assessmentFamilyHierarchy" is "ISAT Writing for Grades 3-8"
+	And in the configuration file "assessmentFamilyHierarchy" is "StateTest Writing for Grades 3-8"
 	And in the configuration file "rule" is "Most Recent"
     
-    When I find the "Assessment" where the "assessmentTitle" is "Grade 3 2010 ISAT Writing" and the "assessmentFamilyHierarchy" is like "ISAT Writing for Grades 3-8*"
+    When I find the "Assessment" where the "assessmentTitle" is "Grade 3 2010 StateTest Writing" and the "assessmentFamilyHierarchy" is like "StateTest Writing for Grades 3-8*"
     Then for each student I find the "most recent" "studentAssessmentAssociation"
     And I see "studentAssessmentAssociation.scoreResults.result" where "studentAssessmentAssociation.scoreResult.assessmentReportingResultType" is "scaleScore" 
 
@@ -82,10 +82,10 @@ Scenario: Display Performance Levels for an Assessment
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   Then I should only see one view named "IL_K-3"
-  And in the configuration file "assessmentFamilyHierarchy" is like "DIBELS"
+  And in the configuration file "assessmentFamilyHierarchy" is like "READ2"
   And in the configuration file "ReportingTypes" are "performance"
   
-  When I find the "Assessment" where the "assessmentTitle" is "Grade K-3 MOY DIBELS" and the "assessmentFamilyHierarchy" is like "DIBELS*"
+  When I find the "Assessment" where the "assessmentTitle" is "Grade K-3 MOY READ2" and the "assessmentFamilyHierarchy" is like "READ2*"
   When for each student I find the "studentAssessmentAssociation"
    Then I see the "performanceLevelDescriptor.codeValue"
    And I see the "performanceLevelDescriptor.description"
@@ -98,11 +98,11 @@ Scenario: Display Performance Levels for an Assessment
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   Then I should only see one view named "IL_K-3"
-  And in the configuration file "assessmentFamilyHierarchy" is like "DIBELS"
+  And in the configuration file "assessmentFamilyHierarchy" is like "READ2"
   And in the configuration file "ReportingTypes" are "performance level"
   
-   When I find "most recent" "Assessment" where  the "assessmentFamilyHierarchy" is like "DIBELS*"
-   Then I find "Assessment" where "assessmentTitle" is "Grade K-3 MOY DIBELS" 
+   When I find "most recent" "Assessment" where  the "assessmentFamilyHierarchy" is like "READ2*"
+   Then I find "Assessment" where "assessmentTitle" is "Grade K-3 MOY READ2" 
    When for each student I find the "studentAssessmentAssociation"
    Then I see the "performanceLevelDescriptor.codeValue"
    And I see the "performanceLevelDescriptor.description"

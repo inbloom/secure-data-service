@@ -2,6 +2,7 @@ package org.slc.sli.util;
 
 import java.io.Reader;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
@@ -12,8 +13,10 @@ import com.google.gson.GsonBuilder;
  */
 public class JsonConverter {
 
+    private static final Gson GSON = new GsonBuilder().create();
+
     public static String toJson(Object o) {
-        return new GsonBuilder().create().toJson(o);
+        return GSON.toJson(o);
     }
     /**
      * TODO: switch to something more efficient than creating deserializer everytime and use jackson
@@ -22,7 +25,7 @@ public class JsonConverter {
      * @return
      */
     public static <T> T fromJson(String json, Class<T> clazz) {
-        return new GsonBuilder().create().fromJson(json, clazz);
+        return json == null ? null : GSON.fromJson(json, clazz);
     }
     /**
      * TODO: switch to something more efficient than creating deserializer everytime and use jackson
@@ -31,6 +34,6 @@ public class JsonConverter {
      * @return
      */
     public static <T> T fromJson(Reader reader, Class<T> clazz) {
-        return new GsonBuilder().create().fromJson(reader, clazz);
+        return GSON.fromJson(reader, clazz);
     }
 }

@@ -8,7 +8,9 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
+@wip
 Scenario: User has no data
+#BUG
 When I select "New York Realm" and click go
 When I login as "mario.sanchez" "mario.sanchez1234"
 Then I am informed that "No data is available for you to view."
@@ -26,7 +28,7 @@ Then I am informed that "No data is available for you to view."
 Scenario: User has org, no school
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "ejane" "ejane1234"
-Then I am informed that "the page that you were looking for could not be found"
+Then I am informed that "No data is available for you to view."
 
 Scenario: No sections
 When I select "Illinois Sunset School District 4526" and click go
@@ -41,6 +43,15 @@ Scenario: No schools in district
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "jwashington" "jwashington1234"
 Then I am informed that "No data is available for you to view."
+
+Scenario: Upload Config
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "jstevenson" "jstevenson1234"
+When I enter the Configuration Area
+Then I am authorized to the Configuration Area
+And I paste Valid json config into the text box
+And click Save
+Then I should be shown a success message
 
 Scenario:  Check empty student values
 When I select "Illinois Sunset School District 4526" and click go
@@ -58,7 +69,7 @@ And "Carmen Ortiz" has no "SAT Reading.percentile"
 And "Carmen Ortiz" has no "SAT Writing.x"
 And "Carmen Ortiz" has no "SAT Writing.percentile"
 
-Scenario: Check empty ISAT assessments
+Scenario: Check empty StateTest assessments
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I select course "8th Grade English"
@@ -67,11 +78,11 @@ Then I am informed that "There is no data available for your request. Please con
 When I select course "8th Grade Math"
 When I select section "8th Grade Math - Sec 1"
 And I see a list of 5 students
-And "Alton Ausiello" has no "ISAT Reading.perfLevel"
-And "Alton Ausiello" has no "ISAT Reading.Scale score"
-And "Alton Ausiello" has no "ISAT Reading.Other"
-And "Alton Ausiello" has no "ISAT Writing.perfLevel"
-And "Alton Ausiello" has no "ISAT Writing.Scale score"
+And "Alton Ausiello" has no "StateTest Reading.perfLevel"
+And "Alton Ausiello" has no "StateTest Reading.Scale score"
+And "Alton Ausiello" has no "StateTest Reading.Other"
+And "Alton Ausiello" has no "StateTest Writing.perfLevel"
+And "Alton Ausiello" has no "StateTest Writing.Scale score"
 And "Alton Ausiello" has no "FallSemester2011-2012-0"
 And "Alton Ausiello" has no "SpringSemester2010-2011"
 And "Alton Ausiello" has no "FallSemester2010-2011"

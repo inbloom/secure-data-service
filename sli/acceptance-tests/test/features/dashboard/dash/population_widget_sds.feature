@@ -1,6 +1,6 @@
 Feature: Population Widget <US435>
 
-@integration
+@integration @RALLY_US200
 Scenario: Selecting classes on LOS
 Given I have an open web browser
 Given the server is in "live" mode
