@@ -18,6 +18,7 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
@@ -117,9 +118,13 @@ public class IdNormalizer {
                                         }
                                     } catch (Exception e) {
                                         LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                + " for bean " + entity.getType() + " ", e.getLocalizedMessage());
-                                        String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
-                                                + "       Entity " + entity.getType() + ": Reference to " + collectionName
+                                                + " for bean " + entity.getType());
+                                        String errorMessage = "ERROR: Failed to resolve a reference"
+                                                + "\n"
+                                                + "       Entity "
+                                                + entity.getType()
+                                                + ": Reference to "
+                                                + collectionName
                                                 + " is incomplete because the following reference field is not resolved: "
                                                 + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
 
@@ -175,7 +180,7 @@ public class IdNormalizer {
 
             }
         } catch (Exception e) {
-            LOG.error("Error resolving reference to " + collectionName + " in " + entity.getType(), e.getLocalizedMessage());
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
@@ -264,7 +269,7 @@ public class IdNormalizer {
                                     }
                                 } catch (Exception e) {
                                     LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
-                                            + entity.getType() + " ", e.getLocalizedMessage());
+                                            + entity.getType());
                                     String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
                                             + "       Entity " + entity.getType() + ": Reference to " + collection
                                             + " is incomplete because the following reference field is not resolved: "
@@ -288,7 +293,7 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            LOG.error("Error resolving reference to " + fieldPath + " in " + entity.getType(), e.getLocalizedMessage());
+            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collection + " unresolved";
 
