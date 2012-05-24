@@ -56,8 +56,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #assessments
   id = "67ce204b-9999-4a11-bfea-000000004682"       if human_readable_id == "'Math Assessment' ID"
-  id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"
-  id = "e5e13e61-01aa-066b-efe0-710f7a0e8755"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"       if human_readable_id == "'SAT' ID"
+  id = "e85b5aa7-465a-4dd3-8ffb-d02461ed79f8"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
   
   #teacher section associations
   id = "12f25c0f-75d7-4e45-8f36-af1bcc342871"       if human_readable_id == "'Teacher Ms. Jones and Section Algebra II' ID"
