@@ -47,8 +47,14 @@ def getColumnLookupName(headerName)
     return getStudentColumnName()
   elsif (headerName == "absence count")
     return getAbsenceCountColumnName()
+  elsif (headerName == "statetest reading performance level") 
+    return "StateTest Reading.perfLevel"
+  elsif (headerName == "statetest writing performance level") 
+    return "StateTest Writing.perfLevel"
+  elsif (headerName == "unit test 1")
+    return "FallSemester2011-2012"
   else
-    assert(true, "unknown header name: " + headerName)
+    assert(false, "unknown header name: " + headerName)
   end
 end
 
@@ -63,3 +69,4 @@ end
 def getAbsenceCountColumnName()
   return "absenceCount"
 end
+

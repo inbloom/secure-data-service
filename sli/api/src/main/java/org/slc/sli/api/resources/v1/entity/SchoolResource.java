@@ -19,10 +19,8 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents an individual for whom instruction, services and/or care are provided in an early
- * childhood, elementary or secondary educational program under the jurisdiction of a school,
- * education agency, or other institution or program. A student is a person who has been enrolled in
- * a school or other educational institution.
+ * This entity represents an educational organization that includes staff and students who
+ * participate in classes and educational activity groups.
  *
  * For more information, see the schema for $$School$$ resources.
  *
@@ -41,7 +39,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -51,7 +50,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/"
@@ -63,7 +63,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -73,7 +74,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
@@ -85,7 +87,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -95,7 +98,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
@@ -105,7 +109,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/"

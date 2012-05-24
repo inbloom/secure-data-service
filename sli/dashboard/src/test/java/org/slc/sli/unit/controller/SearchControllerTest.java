@@ -18,7 +18,12 @@ import org.slc.sli.web.entity.StudentSearch;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context.xml", "/dashboard-servlet-test.xml" })
 public class SearchControllerTest extends ControllerTestBase  {
-    SearchController searchController = new SearchController();
+    SearchController searchController = new SearchController() {
+        @Override
+        public boolean isAdmin() {
+            return false;
+        }
+    };
 
     @Before
     public void setup() throws Exception {
