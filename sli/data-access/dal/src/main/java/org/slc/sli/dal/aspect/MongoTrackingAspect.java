@@ -41,4 +41,8 @@ public class MongoTrackingAspect {
         return this.stats;
     }
     
+    public void reset() {
+        this.stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
+    }
+    
 }
