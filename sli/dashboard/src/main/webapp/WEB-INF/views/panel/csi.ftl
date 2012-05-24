@@ -17,7 +17,7 @@
 		    </#list>
 	    </#if>
     </h1>
-    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(DashboardProxy.getData("${panelConfig.data.cacheKey}")));</script>
+    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(DashboardProxy.getData("csi")));</script>
     <div class="studentInfo">
         <div class="col1 column">
         	<div class="tabular">

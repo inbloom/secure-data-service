@@ -51,4 +51,60 @@
 			</SessionIdentity>
 		</SessionReference>
 	</Section>
+	<Section>
+        <UniqueSectionCode>A.P. Calculus Sec 301</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>A.P. Calculus</LocalCourseCode>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>A.P. Calculus</ID>
+                </CourseCode>
+                <Term>First Trimester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+                <StateOrganizationId>1</StateOrganizationId>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <SessionName>Fall 2011 Sunset Central High School</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+    <Section>
+        <UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>A.P. Calculus</LocalCourseCode>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>A.P. Calculus</ID>
+                </CourseCode>
+                <Term>First Trimester</Term>
+                <SchoolYear>2011-2012</SchoolYear>
+                <StateOrganizationId>1</StateOrganizationId>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <SessionName>Fall 2011 Sunset Central High School</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
 </InterchangeMasterSchedule>

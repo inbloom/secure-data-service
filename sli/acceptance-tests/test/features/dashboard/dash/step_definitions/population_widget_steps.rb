@@ -60,6 +60,10 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   assert(result == [], "list content does not match required content: " + listContent)  
 end
 
+Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
+  isValuesInList(listContent, false)  
+end
+
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
   studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
@@ -132,5 +136,27 @@ Then /^I don't see a course selection$/ do
     course = @driver.find_element(:id,"courseSelectMenu")
   rescue
     assert(course == nil, "Course is not nil")
+  end
+end
+
+def isValuesInList(listContent, isInList)
+  puts "@dropDownId = " + @dropDownId
+  desiredContentArray = listContent.split(";")
+  select = @driver.find_element(:id, @dropDownId)
+  all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
+  matchCondition = true
+  selectContent = ""
+  # If any list item has a value that is not in the list - set flag to false
+  all_options.each do |option|
+    selectContent += option.find_element(:tag_name, "a").attribute("text") + ";"
+    puts "selectContent = " + selectContent
+  end
+  selectContentArray = selectContent.split(";")
+  if (isInList)
+    result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
+    assert(result == [], "list content does not match required content: " + listContent)
+  else
+    result = selectContentArray - desiredContentArray
+    assert(result == selectContentArray, "The content is found: " + listContent)
   end
 end
