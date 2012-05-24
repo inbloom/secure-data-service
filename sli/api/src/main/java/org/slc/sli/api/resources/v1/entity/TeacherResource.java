@@ -21,8 +21,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents a person that is employed by an LEA or other educational unit engaged in student
  * instruction. These persons are instructional-type staff members. In the data model, a teacher
- * entity is a staff member with additional properties. For more information, see the schema for the
- * $$teacher$$ entity.
+ * entity is a staff member with additional properties. For more information, see the schema for
+ * $$Teacher$$ resources.
  *
  * @author jstokes
  *
@@ -39,20 +39,6 @@ public class TeacherResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param teacherId
-     *            The id of the $$teachers$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS)
@@ -63,14 +49,6 @@ public class TeacherResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param teacherId
-     *            The id of the $$teachers$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/"
@@ -84,20 +62,6 @@ public class TeacherResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param teacherId
-     *            The id of the $$teachers$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -108,14 +72,6 @@ public class TeacherResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param teacherId
-     *            The id of the $$teachers$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/"

@@ -23,8 +23,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the course sections a student is assigned to.
  *
- * @author kmyers
+ * For more information, see the schema for $$StudentSectionAssociation$$ resources.
  *
+ * @author kmyers
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
 @Component
@@ -43,21 +44,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Student$$ that references the given $$StudentSectionAssociation$$.
-     *
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Student$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -69,21 +56,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Section$$ that references the given $$StudentSectionAssociation$$.
-     *
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Section$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -95,19 +68,7 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$.
-     *
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)

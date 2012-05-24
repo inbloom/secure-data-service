@@ -23,6 +23,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the relationships between students and their parents, guardians, or caretakers.
  *
+ * For more information, see the schema for $$StudentParentAssociation$$ resources.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
 @Component
@@ -41,19 +42,7 @@ public class StudentParentAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Student$$ that references the given $$StudentParentAssociation$$.
-     *
-     * @param studentParentAssociationId
-     *            The Id of the $$StudentParentAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Student$$ that references the given $$StudentParentAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PARENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -65,19 +54,7 @@ public class StudentParentAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Parent$$ that references the given $$StudentParentAssociation$$.
-     *
-     * @param studentParentAssociationId
-     *            The Id of the $$StudentParentAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Parent$$ that references the given $$StudentParentAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_PARENT_ASSOCIATION_ID + "}" + "/" + PathConstants.PARENTS)

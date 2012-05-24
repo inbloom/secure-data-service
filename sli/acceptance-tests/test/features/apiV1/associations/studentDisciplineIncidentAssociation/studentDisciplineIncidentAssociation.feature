@@ -1,4 +1,5 @@
 @RALLY_US209
+@RALLY_US1564
 Feature: As an SLI application, I want to be able to manage student discipline incident associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.

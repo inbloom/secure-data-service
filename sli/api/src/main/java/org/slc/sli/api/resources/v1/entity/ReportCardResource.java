@@ -15,8 +15,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents the definition of a report card resource. A report card is an educational entity that
  * represents the collection of student grades for courses taken during a grading period.
  *
- * @author chung
+ * For detailed information, see the schema for $$ReportCard$$ resources.
  *
+ * @author chung
  */
 @Path(PathConstants.V1 + "/" + PathConstants.REPORT_CARDS)
 @Component
