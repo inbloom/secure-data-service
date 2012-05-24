@@ -627,7 +627,6 @@ public class LiveAPIClient implements APIClient {
                 s.appendToList(Constants.ATTR_COURSES, c);
             }
             //Sort the courses based on course title.
-            GenericEntity s = schoolMap.get(schoolId);
             List<Map<String, Object>> courses = (List<Map<String, Object>>) s.get(Constants.ATTR_COURSES);
             Collections.sort(courses, new Comparator<Map<String, Object>>() {
                 @Override

@@ -344,4 +344,9 @@ public class SDKAPIClient implements APIClient {
         return liveApiClient.getAcademicRecord(token, params);
     }
 
+    @Override
+    public List<GenericEntity> getParentsForStudent(String token, String studentId) {
+        // TODO Auto-generated method stub
+        return liveApiClient.getParentsForStudent(token, studentId);
+    }
 }
