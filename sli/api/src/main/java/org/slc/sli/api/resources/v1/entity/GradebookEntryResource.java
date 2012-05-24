@@ -16,6 +16,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
  *
+ * For more information, see the schema for $$GradebookEntry$$ resources.
+ *
  * @author kmyers
  *
  */

@@ -15,9 +15,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents a subelement of a learning objective consisting of a precise statement of the
  * expectation of a student's proficiency.
  *
- * For more information, see the schema for the $$learningStandardResources$$ entity.
- *
- *
+ * For more information, see the schema for $$LearningStandard$$ resources.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_STANDARDS)
 @Component

@@ -7,6 +7,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
 end
 
+task :apiV1QueryingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/querying/querying.feature")
+end
+
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")

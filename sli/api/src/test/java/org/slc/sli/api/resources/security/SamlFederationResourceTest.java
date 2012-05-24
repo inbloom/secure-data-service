@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -75,8 +77,9 @@ public class SamlFederationResourceTest {
         String postData = "badSAMLData";
 
         Exception exception = null;
+        UriInfo uriInfo = Mockito.mock(UriInfo.class);
         try {
-            resource.consume(postData);
+            resource.consume(postData, uriInfo);
         } catch (Exception e) {
             exception = e;
         }

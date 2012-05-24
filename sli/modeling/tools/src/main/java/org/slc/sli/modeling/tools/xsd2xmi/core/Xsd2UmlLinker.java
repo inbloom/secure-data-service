@@ -185,7 +185,7 @@ final class Xsd2UmlLinker {
                 ownedElements.add(ownedElement);
             }
         }
-        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(new DefaultModelIndex(model));
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(lookup);
 
         ownedElements.addAll(makeAssociations(navigations, lookup, plugin, host));
         return new Model(Identifier.random(), model.getName(), model.getTaggedValues(), ownedElements);
