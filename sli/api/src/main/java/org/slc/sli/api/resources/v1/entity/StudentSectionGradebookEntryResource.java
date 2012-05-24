@@ -14,6 +14,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents a student's grade or competency level for a $$GradebookEntry$$.
  *
+ * For detailed information, see the schema for $$StudentSectionGradebookEntry$$ resources.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
 @Component

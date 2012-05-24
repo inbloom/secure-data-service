@@ -21,6 +21,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the time span for which grades are reported.
  *
+ * For detailed information, see the schema for $$GradingPeriod$$ resources.
+ *
  * @author jstokes
  *
  */
@@ -35,15 +37,7 @@ public class GradingPeriodResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$ReportCard$$ of the given $$GradingPeriod$$.
-     *
-     * @param gradingPeriodId
-     *            The Id of the $$GradingPeriod$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$ReportCard$$ of the given $$GradingPeriod$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.GRADING_PERIOD_ID + "}" + "/" + PathConstants.REPORT_CARDS)
@@ -54,15 +48,7 @@ public class GradingPeriodResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Grade$$ of the given $$GradingPeriod$$.
-     *
-     * @param gradingPeriodId
-     *            The Id of the $$GradingPeriod$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Grade$$ of the given $$GradingPeriod$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.GRADING_PERIOD_ID + "}" + "/" + PathConstants.GRADES)

@@ -11,8 +11,6 @@ desc "Run Sandbox mode Tests"
 task :adminSandboxTests do
   @tags = ["~@wip", "@sandbox"]
   Rake::Task["adminToolsTests"].invoke
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
 end
 
 desc "Run Sandbox Simple IDP tests"
@@ -53,7 +51,18 @@ end
 # Onboarding tests start
 ############################################################
 
-
+desc "Run Onboarding Integration Tests"
+task :onboardingIntegrationSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
 ############################################################
 # Onboarding tests end
 ############################################################

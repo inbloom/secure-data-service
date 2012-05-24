@@ -1,3 +1,5 @@
+@RALLY_US209
+@RALLY_US210
 Feature: As an SLI application I want to prevent attackers from executing regular expression DoS attacks
   This means the API should no longer support query by regular expression
 

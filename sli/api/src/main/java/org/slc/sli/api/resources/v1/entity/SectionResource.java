@@ -21,10 +21,13 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the definition of a section resource. A section is an educational entity that
  * represents a setting in which organized instruction of course content is provided to one
- * or more students for a given period of time. See $$courses$$ resource for details.
- * A section is associated with a student, teacher, and assessment through $$studentSectionAssociations$$,
- * $$teacherSectionAssociations$$, and $$sectionAssessmentAssociations$$.
- * For more details about the resources, see $$students$$, $$teachers$$ and $$assessments$$ resources.
+ * or more students for a given period of time. See $$Course$$ resource for details.
+ * A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$,
+ * $$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$.
+ *
+ * For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources.
+ *
+ * For detailed information, see the schema for $$Section$$ resources.
  *
  * @author jstokes
  *
@@ -41,20 +44,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
@@ -66,14 +55,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$sections$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS + "/"
@@ -91,20 +72,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS)
@@ -116,14 +83,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$sections$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/"
@@ -137,20 +96,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$students$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
@@ -162,14 +107,6 @@ public class SectionResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param sectionId
-     *            The id of the $$sections$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"

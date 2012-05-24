@@ -23,10 +23,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents identified learning objectives for courses in specific grades.
  *
- * For more information, see the schema for the $$learningObjectives$$ entity.
+ * For more information, see the schema for $$LearningObjective$$ resources.
  *
  * @author dliu
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_OBJECTIVES)
 @Component
@@ -41,18 +40,6 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param learningObjectiveId
-     *            The Id of the $$learningObjectives$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A collection of learningStardard entities
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
@@ -67,14 +54,6 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param learningObjectiveId
-     *            The Id of the $$learningObjectives$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return the Response containing the parent entity
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.PARENT_LEARNING_OBJECTIVES)
@@ -87,14 +66,6 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param learningObjectiveId
-     *            The Id of the $$learningObjectives$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return the Response contianing the children entities
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.CHILD_LEARNING_OBJECTIVES)
@@ -108,19 +79,6 @@ public class LearningObjectiveResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param learningObjectiveId
-     *            The Id of the learningObjective.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$studentCompetencies$$ that
-     * references the given $$learningObjectives$$
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)

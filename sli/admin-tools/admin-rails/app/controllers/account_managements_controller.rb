@@ -1,3 +1,5 @@
+require 'approval'
+
 class AccountManagementsController < ApplicationController
   
   before_filter :check_slc_operator
@@ -31,7 +33,7 @@ class AccountManagementsController < ApplicationController
    
     # may need to figure out better way to handle exception
     begin  
-      AccountManagement.change_user_status(email,commit.downcase)
+      ApprovalEngine.change_user_status(email,commit.downcase)
     rescue Exception => e
       @error_notice=e.message
     ensure 
@@ -70,7 +72,7 @@ class AccountManagementsController < ApplicationController
 
   def get_all()
     account_managements=Array.new()
-    accounts=AccountManagement.get_users()
+    accounts=ApprovalEngine.get_users()
     if accounts!=nil && accounts.length>0
       accounts.each do |account|
         account_management = AccountManagement.new()
