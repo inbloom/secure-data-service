@@ -1,4 +1,5 @@
 @wip
+@RALLY_US215
 Feature: Traversal of district level data
 
 Scenario: Leader traversing through the available district data in the Data Browser

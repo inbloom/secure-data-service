@@ -19,7 +19,6 @@ public final class ResourceNames {
     public static final String ASSESSMENTS = "assessments";
     public static final String ASSESSMENT_FAMILIES = "assessmentFamilies";
     public static final String ATTENDANCES = "attendances";
-    public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
@@ -101,7 +100,6 @@ public final class ResourceNames {
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
-        SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, ResourceNames.COHORT_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSES, "getCourse");
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_INCIDENTS, "getDisciplineIncident");

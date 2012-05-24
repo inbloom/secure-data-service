@@ -1,3 +1,6 @@
+@RALLY_US209
+@RALLY_US1804
+@RALLY_US1961
 Feature: As an SLI application, I want to be able to manage staff cohort associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.

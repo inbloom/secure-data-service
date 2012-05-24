@@ -1,4 +1,4 @@
-
+@RALLY_US209
 Feature: Test resolution of targets link for different entities
 
 Background: Logged in as a super-user and using the small data set
