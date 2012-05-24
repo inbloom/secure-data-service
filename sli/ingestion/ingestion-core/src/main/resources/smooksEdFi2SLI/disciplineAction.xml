@@ -7,18 +7,22 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
+  <params>
+    <param name="stream.filter.type">SAX</param>
+  </params>
+
   <json:reader rootName="json" />
 
   <jb:bean beanId="disciplineActions" class="java.util.ArrayList" createOnElement="#document">
       <jb:wiring beanIdRef="disciplineAction" />
   </jb:bean>
-  
+
   <jb:bean beanId="disciplineAction" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'disciplineAction'</jb:expression>
     <jb:wiring property="metaData" beanIdRef="disciplineActionMeta" />
     <jb:wiring property="body" beanIdRef="disciplineActionBody" />
   </jb:bean>
-  
+
   <jb:bean beanId="disciplineActionMeta" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="externalId" data="attributes disciplineActionIdentifier" />
   </jb:bean>
@@ -29,7 +33,7 @@
     <jb:value property="disciplineDate" data="attributes disciplineDate" />
     <jb:value property="disciplineActionLength" data="attributes disciplineActionLength" decoder="Integer"/>
     <jb:value property="actualDisciplineActionLength" data="attributes actualDisciplineActionLength" decoder="Integer"/>
-    <jb:value property="disciplineActionLengthDifferenceReason" data="attributes disciplineActionLengthDifferenceReason" />    
+    <jb:value property="disciplineActionLengthDifferenceReason" data="attributes disciplineActionLengthDifferenceReason" />
     <jb:wiring property="studentId" beanIdRef="disciplineAction_studentIdArray" />
     <!-- jb:wiring property="disciplineIncidentReferenceSchoolId" beanIdRef="disciplineAction_disciplineIncidentReferenceSchoolIdArray" /-->
     <jb:wiring property="disciplineIncidentId" beanIdRef="disciplineAction_disciplineIncidentIdArray" />
@@ -37,55 +41,55 @@
     <jb:value property="responsibilitySchoolId" data="attributes responsibilitySchoolId" />
     <jb:value property="assignmentSchoolId" data="attributes assignmentSchoolId" />
   </jb:bean>
-  
+
   <!-- DisciplineAction wiring for disciplines -->
-  <jb:bean beanId="disciplineAction_disciplinesArray" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_disciplinesArray" class="java.util.ArrayList"
   	createOnElement="attributes">
     <jb:wiring beanIdRef="disciplineAction_disciplines" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_disciplines" class="java.util.ArrayList"
   	createOnElement="disciplines element">
   	<jb:wiring beanIdRef="disciplineAction_disciplines_codeValue" />
   	<jb:wiring beanIdRef="disciplineAction_disciplines_shortDescription" />
-  	<jb:wiring beanIdRef="disciplineAction_disciplines_description" />  	
+  	<jb:wiring beanIdRef="disciplineAction_disciplines_description" />
   </jb:bean>
 
-  <jb:bean beanId="disciplineAction_disciplines_codeValue" class="java.util.HashMap" 
+  <jb:bean beanId="disciplineAction_disciplines_codeValue" class="java.util.HashMap"
   	createOnElement="disciplines element element codeValue">
     <jb:value property="codeValue" data="disciplines element element codeValue" />
   </jb:bean>
-	
-  <jb:bean beanId="disciplineAction_disciplines_shortDescription" class="java.util.HashMap" 
+
+  <jb:bean beanId="disciplineAction_disciplines_shortDescription" class="java.util.HashMap"
   	createOnElement="disciplines element element shortDescription">
     <jb:value property="shortDescription" data="disciplines element element shortDescription" />
   </jb:bean>
-   
-  <jb:bean beanId="disciplineAction_disciplines_description" class="java.util.HashMap" 
+
+  <jb:bean beanId="disciplineAction_disciplines_description" class="java.util.HashMap"
   	createOnElement="disciplines element element description">
     <jb:value property="description" data="disciplines element element description" />
   </jb:bean>
 
   <!-- DisciplineAction wiring for studentId -->
-  <jb:bean beanId="disciplineAction_studentIdArray" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_studentIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
     <jb:value data="attributes studentId element" />
   </jb:bean>
-  
+
   <!-- DisciplineAction wiring for disciplineIncidentReferenceSchoolId, EdFi model, unused yet -->
-  <jb:bean beanId="disciplineAction_disciplineIncidentReferenceSchoolIdArray" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_disciplineIncidentReferenceSchoolIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
     <jb:value data="attributes disciplineIncidentReferenceSchoolId element" />
   </jb:bean>
-  
+
   <!-- DisciplineAction wiring for disciplineIncidentId, Current SLI model as on 04/26/2012 -->
-  <jb:bean beanId="disciplineAction_disciplineIncidentIdArray" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_disciplineIncidentIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
     <jb:value data="attributes disciplineIncidentId element" />
   </jb:bean>
-  
+
   <!-- DisciplineAction wiring for staffId -->
-  <jb:bean beanId="disciplineAction_staffIdArray" class="java.util.ArrayList" 
+  <jb:bean beanId="disciplineAction_staffIdArray" class="java.util.ArrayList"
   	createOnElement="attributes">
     <jb:value data="attributes staffId element" />
   </jb:bean>

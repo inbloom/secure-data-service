@@ -7,6 +7,10 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
+    <params>
+        <param name="stream.filter.type">SAX</param>
+    </params>
+
     <json:reader rootName="json" />
 
     <jb:bean beanId="assessments" class="java.util.ArrayList" createOnElement="#document">
@@ -73,12 +77,12 @@
         <jb:value property="performanceBaseConversion" data="element performanceLevelDescriptor performanceBaseConversion"></jb:value>
         -->
     </jb:bean>
-    
+
     <jb:bean beanId="assessmentPerformanceDescriptorDescription" class="java.util.HashMap"
         createOnElement="performanceLevelDescriptor element description">
         <jb:value property="description" data="performanceLevelDescriptor element description" />
     </jb:bean>
-    
+
     <jb:bean beanId="assessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
        createOnElement="performanceLevelDescriptor element codeValue">
       <jb:value property="codeValue" data="performanceLevelDescriptor element codeValue" />

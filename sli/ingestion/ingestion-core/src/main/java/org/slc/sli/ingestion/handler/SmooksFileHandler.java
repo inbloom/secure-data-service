@@ -47,11 +47,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private Set<String> filteredAttributes;
     private MessageSource messageSource;
 
+
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
         try {
-
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
@@ -94,7 +94,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
 
             ExecutionContext ctx = smooks.createExecutionContext();
-            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, messageSource, errorReport));
+            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, messageSource, errorReport, "Parsing phase"));
 
             smooks.filterSource(ctx, new StreamSource(inputStream));
         } catch (SmooksException se) {

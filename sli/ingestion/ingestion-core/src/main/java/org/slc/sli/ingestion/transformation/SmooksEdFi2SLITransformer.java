@@ -7,14 +7,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
+import org.milyn.container.ExecutionContext;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.smooks.NonSilentErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -24,10 +29,13 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @Component
-public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
+public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer implements MessageSourceAware {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    private static Set<String> filteredAttributes = Collections.emptySet();
+
     private Map<String, Smooks> smooksConfigs;
+    private MessageSource messageSource;
 
     @Override
     public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
@@ -52,7 +60,10 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         try {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
 
-            smooks.filterSource(source, result);
+            ExecutionContext ctx = smooks.createExecutionContext();
+            ctx.setEventListener(new NonSilentErrorReport(filteredAttributes, messageSource, errorReport, "Transforming phase - " + item.getRecordType()));
+
+            smooks.filterSource(ctx, source, result);
 
             sliEntities = getEntityListResult(result);
             // sliEntities = result.getBean(List.class);
@@ -89,4 +100,8 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         this.smooksConfigs = smooksConfigs;
     }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }

@@ -7,6 +7,10 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
+    <params>
+        <param name="stream.filter.type">SAX</param>
+    </params>
+
     <json:reader rootName="json" />
 
     <jb:bean beanId="schoolSessionAssociations" class="java.util.ArrayList" createOnElement="#document">

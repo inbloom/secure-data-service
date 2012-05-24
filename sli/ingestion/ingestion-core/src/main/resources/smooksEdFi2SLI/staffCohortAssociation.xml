@@ -7,29 +7,33 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
+  <params>
+    <param name="stream.filter.type">SAX</param>
+  </params>
+
   <json:reader rootName="json" />
 
   <jb:bean beanId="staffCohortAssociations" class="java.util.ArrayList" createOnElement="#document">
       <jb:wiring beanIdRef="staffCohortAssociation" />
   </jb:bean>
-  
+
   <jb:bean beanId="staffCohortAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'staffCohortAssociation'</jb:expression>
     <jb:wiring property="body" beanIdRef="staffCohortAssociationBody" />
   </jb:bean>
-  
+
   <jb:bean beanId="staffCohortAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:wiring property="staffId" beanIdRef="staffCohortAssociation_staffIdArray" />
     <jb:wiring property="cohortId" beanIdRef="staffCohortAssociation_cohortIdArray" />
-    <jb:value property="beginDate" data="attributes beginDate" />    
-    <jb:value property="endDate" data="attributes endDate" />    
+    <jb:value property="beginDate" data="attributes beginDate" />
+    <jb:value property="endDate" data="attributes endDate" />
     <jb:value property="studentRecordAccess" data="attributes studentRecordAccess" decoder="Boolean"/>
   </jb:bean>
-  
+
   <jb:bean beanId="staffCohortAssociation_staffIdArray" class="java.util.ArrayList" createOnElement="attributes">
     <jb:value data="attributes staffId element" />
   </jb:bean>
-  
+
   <jb:bean beanId="staffCohortAssociation_cohortIdArray" class="java.util.ArrayList" createOnElement="attributes">
     <jb:value data="attributes cohortId element" />
   </jb:bean>

@@ -12,6 +12,7 @@ import org.milyn.event.types.FilterLifecycleEvent;
 import org.milyn.event.types.FilterLifecycleEvent.EventType;
 import org.milyn.event.types.ResourceTargetingEvent;
 import org.springframework.context.MessageSource;
+import org.springframework.util.StringUtils;
 import org.xml.sax.Attributes;
 
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -30,6 +31,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
     private Stack<ElementState> processedElements = new Stack<ElementState>();
     private Set<String> filteredAttributes;
     private MessageSource messageSource;
+    private String messagePrefix;
 
     private final class ElementState {
         SAXElement element;
@@ -49,6 +51,12 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         this.filteredAttributes = filteredAttributes;
         this.messageSource = messageSource;
         this.errorReport = errorReport;
+    }
+
+    public NonSilentErrorReport(Set<String> filteredAttributes, MessageSource messageSource, ErrorReport errorReport, String messagePrefix) {
+        this(filteredAttributes, messageSource, errorReport);
+
+        this.messagePrefix = messagePrefix;
     }
 
     @Override
@@ -138,6 +146,11 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
         if (!last.isTargeted) {
             String message = MessageSourceHelper.getMessage(messageSource, "NON_SLI_ELEMENT", getXPath(processedElements), this);
+
+            if (StringUtils.hasText(messagePrefix)) {
+                message = messagePrefix + "\t" + message;
+            }
+
             errorReport.warning(message, this);
         }
     }
@@ -155,6 +168,11 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
         for (String attribute : ignoredAttributes) {
             String message = MessageSourceHelper.getMessage(messageSource, "NON_SLI_ATTRIBUTE", xPath, attribute, this);
+
+            if (StringUtils.hasText(messagePrefix)) {
+                message = messagePrefix + "\t" + message;
+            }
+
             errorReport.warning(message, this);
         }
     }

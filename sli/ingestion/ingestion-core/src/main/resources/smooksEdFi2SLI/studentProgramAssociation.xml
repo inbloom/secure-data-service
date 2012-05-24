@@ -7,6 +7,10 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
+  <params>
+    <param name="stream.filter.type">SAX</param>
+  </params>
+
   <json:reader rootName="json" />
 
   <jb:bean beanId="studentProgramAssociations" class="java.util.ArrayList" createOnElement="#document">
@@ -35,23 +39,23 @@
   <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.ArrayList" createOnElement="services element">
   	<jb:wiring beanIdRef="StudentProgramAssociation_Services_CodeValue" />
   	<jb:wiring beanIdRef="StudentProgramAssociation_Services_ShortDescription" />
-  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_Description" />  	
+  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_Description" />
   </jb:bean>
 
-  <jb:bean beanId="StudentProgramAssociation_Services_CodeValue" 
-  	class="java.util.HashMap" 
+  <jb:bean beanId="StudentProgramAssociation_Services_CodeValue"
+  	class="java.util.HashMap"
   	createOnElement="services element element codeValue">
     <jb:value property="codeValue" data="Services element element CodeValue" />
   </jb:bean>
-	
-  <jb:bean beanId="StudentProgramAssociation_Services_ShortDescription" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentProgramAssociation_Services_ShortDescription"
+  	class="java.util.HashMap"
   	createOnElement="services element element shortDescription">
     <jb:value property="shortDescription" data="Services element element ShortDescription" />
   </jb:bean>
-   
-  <jb:bean beanId="StudentProgramAssociation_Services_Description" 
-  	class="java.util.HashMap" 
+
+  <jb:bean beanId="StudentProgramAssociation_Services_Description"
+  	class="java.util.HashMap"
   	createOnElement="services element element description">
     <jb:value property="description" data="Services element element Description" />
   </jb:bean>
