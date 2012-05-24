@@ -1,3 +1,4 @@
+@RALLY_US1390 @RALLY_US632
 Feature: Transformed Assessment Ingestion Test
 
 Background: I have a landing zone route configured

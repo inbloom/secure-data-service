@@ -1,1 +1,14 @@
-$('#entities').html("<%= escape_javascript(render 'entities') %>");
+<% @tableFields = get_table_fields(@entities) %>
+// var table = $.fn.dataTable().fnTables(true);
+var body = "<%= j(render 'entities') %>"
+$('div#footer').addClass('hidden').html(body);
+$('div#footer').find('tr').each(function(index, value) {
+  $('#simple-table').dataTable().fnAddTr(value, true);
+});
+$('div#footer').removeClass('hidden').html('');
+// $('#simple-table tbody').append("<%= j(render 'entities') %>");
+<% if @page.next? || @page.prev? %>
+  $('div.pagination').replaceWith('<%= j (render "paginate")%>');
+<%else %>
+  $('div.pagination').remove();
+<% end %>

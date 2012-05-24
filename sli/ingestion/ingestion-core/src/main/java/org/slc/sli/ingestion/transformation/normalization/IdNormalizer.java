@@ -34,56 +34,6 @@ public class IdNormalizer {
 
     private Repository<Entity> entityRepository;
 
-    protected static Map<String, ComplexIdNormalizer> complexIdNormalizers = new HashMap<String, ComplexIdNormalizer>();
-    static {
-        complexIdNormalizers.put("studentTranscriptAssociation:body.studentId",
-                new StudentTranscriptAssociationStudentIdComplexIdNormalizer());
-    }
-
-    /**
-     * Resolves the specified field's reference and returns the associated ID. Returns an empty
-     * list if ID cannot be resolved or if this class is not aware how to resolve that field. This
-     * method
-     * is for the non-standard resolvers that have custom definitions.
-     *
-     * @param entity
-     *            entity containing field that needs to be resolved
-     * @param field
-     *            which field is currently being resolved
-     * @param neutralQuery
-     *            a query where "tenantId" is already specified
-     * @param entityRepository
-     *            access to execute query
-     * @return resolved ID or an empty list
-     */
-    protected List<String> resolveComplexInternalId(Entity entity, String field, NeutralQuery neutralQuery)
-            throws IdResolutionException {
-
-        if (entity == null) {
-            throw new IdResolutionException("Entity to resolve was null", field, null);
-        }
-
-        if (field == null) {
-            throw new IdResolutionException("Field to resolve was null", null, null);
-        }
-
-        if (neutralQuery == null) {
-            throw new IdResolutionException("NeutralQuery for ID resolution was null", field, null);
-        }
-
-        ComplexIdNormalizer complexIdNormalizer = complexIdNormalizers.get(entity.getType() + ":" + field);
-
-        if (complexIdNormalizer == null) {
-            throw new IdResolutionException("No defined complex resolver", field, null);
-        } else {
-            return complexIdNormalizer.resolveInternalId(entity, neutralQuery, this.entityRepository);
-        }
-    }
-
-    protected boolean isComplex(Entity entity, String field) {
-        return complexIdNormalizers.get(entity.getType() + ":" + field) == null ? false : true;
-    }
-
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig.getReferences() == null) {
@@ -254,11 +204,6 @@ public class IdNormalizer {
                                     if (entityValue instanceof Collection) {
                                         Collection<?> entityValues = (Collection<?>) entityValue;
                                         filterValues.addAll(entityValues);
-                                    } else if (entityValue == null && isComplex(entity, fieldPath)) {
-                                        NeutralQuery neutralQuery = new NeutralQuery();
-                                        String tenantKey = METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey();
-                                        neutralQuery.addCriteria(new NeutralCriteria(tenantKey, "=", tenantId, false));
-                                        return this.resolveComplexInternalId(entity, fieldPath, neutralQuery);
                                     } else if (entityValue != null) {
                                         filterValues.add(entityValue.toString());
                                     }

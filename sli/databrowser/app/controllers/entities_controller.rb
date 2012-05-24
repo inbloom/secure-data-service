@@ -27,14 +27,20 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
+    @@LIMIT = 50
+    @page = Page.new
     if params[:search_id] && @search_field
       @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
       flash[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
       return
     else
-      @entities = Entity.get("")
+      if params[:offset]
+        @entities = Entity.get("", {:offset => params[:offset], :limit => @@LIMIT})
+      else
+        @entities = Entity.get("")
+      end
+      @page = Page.new(@entities.http_response)
     end
-    
     if @entities.is_a?(Hash)
       tmp = Array.new()
       tmp.push(@entities)
@@ -49,6 +55,7 @@ class EntitiesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entities }
+      format.js #show.js.erb
     end
   end
 

@@ -1,3 +1,4 @@
+@RALLY_US209
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
@@ -129,7 +130,7 @@ Examples:
 | "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 17 |
 | "student"                      | "students"                | 82 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 7 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | 3 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
 | "userAccount"                  | "userAccounts"            | 2 |

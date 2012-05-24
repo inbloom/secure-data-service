@@ -45,10 +45,11 @@ end
 Then /^I paste Valid json config into the text box$/ do
         
   customConfig = "{ config :
-  {
+ {
 \"listOfStudents\" :
 {
   id : \"listOfStudents\",
+  name: \"SLI - List of Students\",
   type : \"PANEL\",
   data :{
     lazy: true,
@@ -70,14 +71,14 @@ Then /^I paste Valid json config into the text box$/ do
     {name: \"Middle School ELA View\", 
      condition: {field: \"gradeLevel\", value: [\"Third grade\", \"Fourth grade\", \"Fifth grade\", \"Sixth grade\", \"Seventh grade\", \"Eighth grade\"]},
      items: [
-      {name: \"Student\", width: 100, field: \"name.fullName\", style:\"ui-ellipsis\", formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
+      {name: \"Student\", width: 150, field: \"name.fullName\", style:\"ui-ellipsis\", formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
       {name: \"StateTest Reading (highest ever)\", items:[
-        {name: \"Performance Level\", field: \"assessments.StateTest Reading.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Reading', valueField:'Scale score', fieldName: \"StateTestReading\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: \"Performance Level\", field: \"assessments.StateTest Reading.perfLevel\", width:150, sorter: 'ProxyInt', formatter: 'FuelGaugeWithScore', params:{sortField: 'assessments.StateTest Reading.Scale score', name:'StateTest Reading', valueField:'Scale score', fieldName: \"StateTestReading\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: \"SS\", field: \"assessments.StateTest Reading.Scale score\", width:45, sorter: 'int'},
-        {name: \"Lexile\", field: \"assessments.StateTest Reading.Other\", width:45}]},
+        {name: \"Lexile\", field: \"assessments.StateTest Reading.Other\", width:45, sorter: 'int'}]},
       {name: \"StateTest Writing (most recent)\", items:[   
-        {name: \"Performance Level\", field: \"assessments.StateTest Writing.perfLevel\", width:150, sorter: 'int', formatter: 'FuelGaugeWithScore', params:{name:'StateTest Writing', valueField:'Scale score', fieldName: \"StateTestWriting\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
+        {name: \"Performance Level\", field: \"assessments.StateTest Writing.perfLevel\", width:150, sorter: 'ProxyInt', formatter: 'FuelGaugeWithScore', params:{sortField: 'assessments.StateTest Writing.Scale score', name:'StateTest Writing', valueField:'Scale score', fieldName: \"StateTestWriting\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: \"SS\", field: \"assessments.StateTest Writing.Scale score\", width:45, sorter: 'int'}]},
       {name: \"Current Grades\", items:[
                {name: \"Unit Test 1\", field: \"FallSemester2011-2012-0\", width:100, sorter: 'LettersAndNumbers', formatter: 'Grade'}
@@ -85,19 +86,19 @@ Then /^I paste Valid json config into the text box$/ do
       },
       {name: \"Final Grades\", items:[
                {name: \"Last Semester\", field: \"SpringSemester2010-2011\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
-               {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:94, sorter: 'LetterGrade', formatter: 'TearDrop'}
+               {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}
             ]
       },
       {name: \"Attendance (current school year)\", items:[   
-        {name: \"Absence Count\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
-        {name: \"Attendance Rate %\", field: \"attendances.attendanceRate\", width:100, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style:'color-widget-red'}, 94:{style: 'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style:'color-widget-darkgreen'}}}},
-        {name: \"Tardy Count\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
-        {name: \"Tardy Rate %\", field: \"attendances.tardyRate\", width:100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}]}
+        {name: \"Absence Count\", field: \"attendances.absenceCount\", width:60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
+        {name: \"Attendance Rate %\", field: \"attendances.attendanceRate\", width:75, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style:'color-widget-red'}, 94:{style: 'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style:'color-widget-darkgreen'}}}},
+        {name: \"Tardy Count\", field: \"attendances.tardyCount\", width:50, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
+        {name: \"Tardy Rate %\", field: \"attendances.tardyRate\", width:60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}]}
     ]},
     {name: \"Early Literacy View\",
      condition: {field: \"gradeLevel\", value: [\"Kindergarten\", \"First grade\", \"Second grade\", \"Third grade\"]}, 
      items: [
-      {name: \"Student\", field: \"name.fullName\", width:100, formatter:'restLink', style:\"ui-ellipsis\", params: {link:'service/layout/studentProfile/', target:\"_self\"}},
+      {name: \"Student\", field: \"name.fullName\", width:150, formatter:'restLink', style:\"ui-ellipsis\", params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
       {name: \"READ 2.0\", items:[
         {name: \"Performance Level\", field: \"assessments.READ 2_0.perfLevel\", width:100}]},
@@ -105,13 +106,13 @@ Then /^I paste Valid json config into the text box$/ do
         {name: \"RL\", field: \"assessments.TRC.readingLevel\", width:100},
         {name: \"Prof. Level\", field: \"assessments.TRC.profLevel\", width:100}]},
       {name: \"Attendance\", items:[   
-        {name: \"Absence Count\", field: \"attendances.absenceCount\", sorter: 'int', width:100, formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
-        {name: \"Tardy Count\", field: \"attendances.tardyCount\", sorter: 'int', width:100, formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
+        {name: \"Absence Count\", field: \"attendances.absenceCount\", sorter: 'int', width:60, formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
+        {name: \"Tardy Count\", field: \"attendances.tardyCount\", sorter: 'int', width:50, formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
     ]},
     {name: \"College Ready ELA View\", 
      condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\"]},
      items: [
-      {name: \"Student\", field: \"name.fullName\", width:100, formatter:'restLink', style:\"ui-ellipsis\", params: {link:'service/layout/studentProfile/', target:\"_self\"}},
+      {name: \"Student\", field: \"name.fullName\", width:150, formatter:'restLink', style:\"ui-ellipsis\", params: {link:'service/layout/studentProfile/', target:\"_self\"}},
       {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
       {name: \"Reading Test Scores (Highest)\", items:[
         {name: \"SAT\", field: \"assessments.SAT Reading.x\", width:100, sorter: 'int'},
@@ -124,12 +125,12 @@ Then /^I paste Valid json config into the text box$/ do
         {name: \"Lit.\", field: \"assessments.AP Literature.x\", width:100}]},                 
       {name: \"Final Grades\", items:[
         {name: \"Last Semester\", field: \"SpringSemester2010-2011\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
-        {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
+        {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
       {name: \"Attendance\", items:[   
-        {name: \"Absence Count\", field: \"attendances.absenceCount\", width: 100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
-        {name: \"Attendance Rate %\", field: \"attendances.attendanceRate\", width: 100, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},
-        {name: \"Tardy Count\", field: \"attendances.tardyCount\", width: 100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
-        {name: \"Tardy Rate %\", field: \"attendances.tardyRate\", width: 100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
+        {name: \"Absence Count\", field: \"attendances.absenceCount\", width: 60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
+        {name: \"Attendance Rate %\", field: \"attendances.attendanceRate\", width: 75, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},
+        {name: \"Tardy Count\", field: \"attendances.tardyCount\", width: 50, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
+        {name: \"Tardy Rate %\", field: \"attendances.tardyRate\", width: 60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
     ]}
   ] 
 }
@@ -137,6 +138,7 @@ Then /^I paste Valid json config into the text box$/ do
 \"studentProfile\" :
 {
   id : \"studentProfile\",
+  name: \"SLI - Student Profile\",
   type: \"LAYOUT\",
   data :{
     entity: \"student\",
@@ -227,8 +229,8 @@ Then /^I paste Valid json config into the text box$/ do
     }
 }
 }
-  }
-  "
+}
+"
   
   putTextForConfigUpload(customConfig)
 end

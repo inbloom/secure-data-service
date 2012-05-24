@@ -83,7 +83,7 @@ public class LiveAPIClient implements APIClient {
     private static final String EDORG_ATTRIBUTE = "edOrg";
 
     /**
-     * Wrapper for value for the custom store
+     * Wrapper for value for the custom store - value is expected json object vs primitive
      *
      */
     public static class CustomEntityWrapper {

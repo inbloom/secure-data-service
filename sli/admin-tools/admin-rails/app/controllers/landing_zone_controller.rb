@@ -35,7 +35,7 @@ class LandingZoneController < ApplicationController
   end
   
   def check_roles
-    allowed_roles = ["LEA Administrator", "SEA Administrator"]
+    allowed_roles = ["Ingestion User"]
     if APP_CONFIG["is_sandbox"]
       allowed_roles << "Application Developer"
     end

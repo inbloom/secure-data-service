@@ -605,6 +605,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
+                        // since we flip data to be the property name, we cannot allow dots in it
                         newAssmtResults.put(assmtFamily.replace('.', '_'), assmt);
                     }
                 }

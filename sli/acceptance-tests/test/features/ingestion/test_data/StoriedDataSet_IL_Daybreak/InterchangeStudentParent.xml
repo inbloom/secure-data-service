@@ -150,16 +150,16 @@
             <PostalCode>75229</PostalCode>
         </Address>		
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
-            <TelephoneNumber>3095550000</TelephoneNumber>
+            <TelephoneNumber>3095550001</TelephoneNumber>
         </Telephone>
         <Telephone TelephoneNumberType="Other">
-            <TelephoneNumber>3095550000</TelephoneNumber>
+            <TelephoneNumber>3095550002</TelephoneNumber>
         </Telephone>
         <Telephone TelephoneNumberType="Mobile">
-            <TelephoneNumber>3095550000</TelephoneNumber>
+            <TelephoneNumber>3095550003</TelephoneNumber>
         </Telephone>
         <Telephone TelephoneNumberType="Work">
-            <TelephoneNumber>3095550000</TelephoneNumber>
+            <TelephoneNumber>3095550004</TelephoneNumber>
         </Telephone>
         <ElectronicMail EmailAddressType="Home/Personal">
             <EmailAddress>c.ortiz@gmail.com</EmailAddress>

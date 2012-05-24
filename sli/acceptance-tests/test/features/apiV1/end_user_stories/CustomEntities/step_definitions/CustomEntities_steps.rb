@@ -18,15 +18,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
     
   #students
   id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed"       if human_readable_id == "STUDENT ID"
-      
-  #teachers
-  id = "a936f73f-7745-b450-922f-87ad78fd6bd1"       if human_readable_id == "'Ms. Jones' ID"
-  id = "e24b24aa-2556-994b-d1ed-6e6f71d1be97"       if human_readable_id == "'Ms. Smith' ID"
-  
-  #assessments
-  id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"       if human_readable_id == "'Grade 2 MOY READ2' ID"
-  id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY READ2' ID"
-  id = "1e0ddefb-875a-ef7e-b8c3-33bb5676115a"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
   
   #student school associations
   id = "3b638fbc-0b82-459a-8002-ee57717e02e9"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"

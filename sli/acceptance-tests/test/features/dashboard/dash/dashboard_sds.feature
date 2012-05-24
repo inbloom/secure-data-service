@@ -1,4 +1,4 @@
-
+@RALLY_US149
 Feature:  Dashboard Tests For 3 Sample Students
 
 Background:
@@ -17,8 +17,11 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
-And I click on "Absence Count" header to sort an integer column in "ascending" order
-And I click on "Student" header to sort a string column in "descending" order
+And I click on "Absence Count" header to sort a "integer" column in "ascending" order
+And I click on "Student" header to sort a "string" column in "descending" order
+And I click on "StateTest Reading Performance Level" header to sort an integer column in "ascending" order based on "title"
+And I click on "StateTest Writing Performance Level" header to sort an integer column in "descending" order based on "title"
+And I click on "Unit Test 1" header to sort a "LetterGrade" column in "ascending" order
 Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
@@ -87,8 +90,8 @@ And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
 And their grade is "8"
-And the teacher is "Mrs Linda Kim"
-And the class is "8th Grade English - Sec 6"
+#And the teacher is "Mrs Linda Kim"
+#And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
 And there are "4" Tabs
@@ -101,12 +104,55 @@ And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And I look at the panel "Contact Information"
+And I look at "Student" Contact Info
 And there are "1" email addresses
 And the list of email address includes "m.sollars@gmail.com"
 And there are "1" phone numbers
 And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
+And I look at "Parent 1" Contact Info
+And parent "Marsha Jones" is his "Grandparent"
+And there are "2" phone numbers
+And the order of the phone numbers is "3095550000;3095550001"
+And there are "0" email addresses
+And there are "1" addresses
+And the list of address includes
+"""
+34 Eastside Ave
+245
+Daybreak, IL 75229
+"""
+And I look at "Parent 2" Contact Info
+And parent "Matthew Sollars" is his "Father"
+And there are "1" phone numbers
+And the list of phone number includes "3095550000"
+And there are "1" addresses
+And the list of address includes
+"""
+82 EastCrest St, A11
+Daybreak, IL 75229
+"""
+And there are "1" email addresses
+And the list of email address includes "m.sollars@aol.com"
+And I look at "Parent 3" Contact Info
+And parent "Aaron Smith" is his "Agency representative"
+And there are "1" phone numbers
+And the list of phone number includes "3095550000"
+And the phone number "3095550000" is of type "Work"
+And there are "1" email addresses
+And the list of email address includes "a.smith@acs.daybreak.gov"
+And there are "1" addresses
+And the list of address includes
+"""
+18 East Main Street, Ste 200
+Daybreak, IL 75229
+"""
+And I look at "Parent 4" Contact Info
+And parent "Marsha Sollars-Jones" is his "Mother"
+And there are "0" phone numbers
+And there are "0" addresses
+And there are "0" email addresses
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
 |<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
@@ -205,6 +251,35 @@ And the list of address includes
 Daybreak, IL 75229
 """
 And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
+And I look at "Parent 1" Contact Info
+And parent "Ti Troung" is his "Mother"
+And there are "2" phone numbers
+And the list of phone number includes "3095550000"
+And the list of phone number includes "3095555341"
+And the order of the phone numbers is "3095550000;3095555341"
+And the phone number "3095550000" is of type "Home"
+And there are "3" email addresses
+And the list of email address includes "ti.troung@gmail.com"
+And the list of email address includes "ti.troung@unicef.org"
+And the list of email address includes "ti.troung@yahoo.com"
+And the order of the email addresses is "ti.troung@gmail.com;ti.troung@unicef.org;ti.troung@yahoo.com"
+And there are "1" addresses
+And the list of address includes
+"""
+34 Northshore Ave, Apt 9B
+Daybreak, IL 75229
+"""
+And I look at "Parent 2" Contact Info 
+# Defect on character set
+#And parent "Richard Lê" is his "Father"
+And there are "1" phone numbers
+And the list of phone number includes "+33 (1) 45.23.35.48.12"
+And there are "1" addresses
+And the list of address includes
+"""
+23 Rue Lecourbe
+Paris, IL 75229
+"""
 And Student Enrollment History has the following entries:
 |Year      |School                     |Gr  |Entry Date |Entry Type                                 |Transfer |Withdraw Date  |Withdraw Type      |
 |<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
@@ -285,12 +360,30 @@ And in "Attendance and Discipline" tab, there are "1" Panels
 #And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And I look at the panel "Contact Information"
+And I look at "Student" Contact Info
 And there are "1" email addresses
 And the list of email address includes "c.ortiz@gmail.com"
 And there are "1" phone numbers
 And the list of phone number includes "309-555-9372"
 And the phone number "309-555-9372" is of type "Other"
 And there are "0" addresses
+And I look at "Parent 1" Contact Info
+And parent "Ignatio Ortiz" is his "Father"
+And there are "4" phone numbers
+And the list of phone number includes "3095550001"
+And the order of the phone numbers is "3095550001;3095550004;3095550003;3095550002"
+And there are "1" email addresses
+And the list of email address includes "c.ortiz@gmail.com"
+And there are "1" addresses
+And the list of address includes 
+"""
+213 Central Ave
+Daybreak, IL 75229
+"""
+And I look at "Parent 2" Contact Info
+And parent "Felizia Ortiz" is his "Mother"
+And there are "1" phone numbers
+And the list of phone number includes "3095550000"
 And Student Enrollment History has the following entries:
 |Year   |School                 |Gr|Entry Date |Entry Type                                                                            |Transfer     |Withdraw Date  |Withdraw Type      |
 |<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                      |<empty>      |<empty>        |<empty>            |

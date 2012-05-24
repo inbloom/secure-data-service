@@ -9,7 +9,6 @@ public final class EntityNames {
     public static final String ASSESSMENT = "assessment";
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ATTENDANCE = "attendance";
-    public static final String BELL_SCHEDULE = "bellSchedule";
     public static final String COHORT = "cohort";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE = "competencyLevelDescriptorType";
@@ -36,6 +35,7 @@ public final class EntityNames {
     public static final String STUDENT_ACADEMIC_RECORD = "studentAcademicRecord";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
     public static final String TEACHER = "teacher";
+    public static final String SCHOOL_SESSION_ASSOCIATION = "schoolSessionAssociation";
     public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
@@ -48,8 +48,10 @@ public final class EntityNames {
     public static final String STAFF_PROGRAM_ASSOCIATION = "staffProgramAssociation";
     public static final String STUDENT_COHORT_ASSOCIATION = "studentCohortAssociation";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";
+    public static final String COURSE_OFFERING = "courseOffering";
     public static final String USER_ACCOUNT = "userAccount";
     public static final String GRADE = "grade";
     public static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentassessmentassociation";
     public static final String ADMIN_DELEGATION = "adminDelegation";
+    public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
 }

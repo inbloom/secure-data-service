@@ -1,8 +1,10 @@
+@RALLY_US2292
 Feature: Negative Ingestion Testing
 
 Background: I have a landing zone route configured
     Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
+
 
 Scenario: Post an empty zip file should fail
   Given I post "emptyFile.zip" file as the payload of the ingestion job
@@ -266,9 +268,8 @@ Then I should see following map of entry counts in the corresponding collections
 Then I should see "File Students.xml: unknown or empty file format specified" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
-@wip
 Scenario: Post a Zip File containing a control file with extra file item entry
-  Given I post "MissingXmlFile.zip" zip file with folder as the payload of the ingestion job
+  Given I post "ExtraCtlFileEntry.zip" zip file with folder as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName                          |
         | student                                 |
@@ -281,7 +282,7 @@ Then I should see following map of entry counts in the corresponding collections
 Then I should see "File MissingXmlFile.xml: Specified file is missing" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
-Scenario: Post a Zip File containing a control file with checksum error 
+Scenario: Post a Zip File containing a control file with checksum error
   Given I post "ChecksumError.zip" zip file with folder as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName                          |
@@ -295,10 +296,19 @@ Then I should see following map of entry counts in the corresponding collections
 Then I should see "ERROR  File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
-Scenario: Post a zip file with bad control file 
+Scenario: Post a zip file with bad control file
   Given I post "BadCtlFile.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
 
+Scenario: Post an zip file where the control file has extra properties
+  Given I post "ControlFileHasExtraProperty.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | session                     |
+  When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+  And I should see "Invalid control file entry at line number [1] Line: edfi-xml,EducationOrgCalendar,ControlFileHasExtraProperty.xml,93918571f947114cb84787d68b1e447b,extraProperty" in the resulting batch job error file
+  And I should see "Processed 0 records." in the resulting batch job file

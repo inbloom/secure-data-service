@@ -83,6 +83,7 @@ final class IndexingVisitor implements Visitor {
         scope.addFirst(pkg.getName());
         elementMap.put(pkg.getId(), pkg);
         for (final NamespaceOwnedElement ownedElement : pkg.getOwnedElements()) {
+            record(ownedElement.getId(), pkg, whereUsed);
             ownedElement.accept(this);
         }
         visitTaggedValues(pkg, this);

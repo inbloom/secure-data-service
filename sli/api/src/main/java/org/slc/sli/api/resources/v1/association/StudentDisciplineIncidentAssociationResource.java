@@ -25,9 +25,9 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This association indicates those students who were
- * victims, perpetrators, witnesses, and/or reporters for a discipline
- * incident.
+ * Represents the association between a $$Student$$ and a $$DisciplineIncident$$.
+ *
+ * For more information, see the schema for $$StudentDisciplineIncidentAssociation$$ resources.
  *
  * @author slee
  */
@@ -48,17 +48,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns all $$studentDisciplineIncidentAssociations$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -69,18 +59,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Create a new $$studentDisciplineIncidentAssociations$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     * {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     * item is accessable.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -90,15 +69,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Get a single $$studentDisciplineIncidentAssociations$$ entity.
-     *
-     * @param studentDisciplineIncidentAssociationId
-     *            The Id of the $$studentDisciplineIncidentAssociations$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single $$studentDisciplineIncidentAssociations$$ entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -109,16 +80,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Delete a $$studentDisciplineIncidentAssociations$$ entity.
-     *
-     * @param studentDisciplineIncidentAssociationId
-     *            The Id of the $$studentDisciplineIncidentAssociations$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -129,18 +91,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Update an existing $$studentDisciplineIncidentAssociations$$ entity.
-     *
-     * @param studentDisciplineIncidentAssociationId
-     *            The id of the $$studentDisciplineIncidentAssociations$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
      */
     @Override
     @PUT
@@ -152,20 +103,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$students$$ that is referenced by
-     * the given $$studentDisciplineIncidentAssociations$$.
-     *
-     * @param studentDisciplineIncidentAssociationId
-     *            The Id of the studentDisciplineIncidentAssociationId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -177,20 +115,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$disciplineIncidents$$ that is referenced by
-     * the given $$studentDisciplineIncidentAssociations$$.
-     *
-     * @param studentDisciplineIncidentAssociationId
-     *            The Id of the studentDisciplineIncidentAssociationId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.DISCIPLINE_INCIDENTS)

@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
-
-    <!-- User action="add" and action="delete" in combination
-         with the xpath associated with the WADL XML schema. -->
-
-    <merge type="node" action="add" xpath="//ns2:application">
-
-        <!-- FIXME: The following is a test entry. -->
-        <!-- <ns2:resources base="http://www.sli.slc.org/api/rest">
-            <ns2:resource path="v1/students">
-                <ns2:resource path="{studentId}">
-                    <ns2:method name="GET">
-                        <ns2:doc>
-                            Ortiz is my spirit animal.
-                        </ns2:doc>
-                    </ns2:method>
-                </ns2:resource>
-            </ns2:resource>
-        </ns2:resources> -->
-
+    <merge type="node" action="delete" xpath="//ns2:param[@style='query']" />
+    <merge type="node" action="delete" xpath="//ns2:resource[@path='v1/bellSchedules']" />
+    <merge type="node" action="add" xpath="//ns2:resource[@path='v1/students']/ns2:resource[@path='{id}']/ns2:method[@name='GET']">
+        <ns2:request>
+            <ns2:param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="optionalFields" style="query"
+                       type="xs:string">
+                <ns2:doc><![CDATA[A comma-separated list of optional fields to include,]]></ns2:doc>
+            </ns2:param>
+        </ns2:request>
     </merge>
-
+    <merge type="node" action="add" xpath="//ns2:resource[@path='v1/sections']/ns2:resource[@path='{sectionId}/studentSectionAssociations/students']/ns2:method[@name='GET']">
+        <ns2:request>
+            <ns2:param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="optionalFields" style="query"
+                       type="xs:string">
+                <ns2:doc><![CDATA[A comma-separated list of optional fields to include,]]></ns2:doc>
+            </ns2:param>
+        </ns2:request>
+    </merge>
 </merges>

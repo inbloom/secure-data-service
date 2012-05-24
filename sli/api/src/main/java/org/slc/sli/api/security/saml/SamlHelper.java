@@ -79,8 +79,12 @@ public class SamlHelper {
 
     @PostConstruct
     public void init() throws Exception {
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
+        factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         domBuilder = factory.newDocumentBuilder();
 
         transform = TransformerFactory.newInstance().newTransformer();
@@ -158,7 +162,7 @@ public class SamlHelper {
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
 
             // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
-            if (!validator.isDocumentValid(doc)) {
+            if (!validator.isDocumentTrustedAndValid(doc)) {
                 throw new IllegalArgumentException("Invalid SAML message");
             }
 

@@ -84,7 +84,7 @@ public class ResourceTest {
     private static final String TEACHER_SCHOOL_ASSOCIATION_URI = "teacher-school-associations";
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
     private static final String SCHOOL_SESSION_ASSOCIATION_URI = "school-session-associations";
-    private static final String SESSION_COURSE_ASSOCIATION_URI = "session-course-associations";
+    private static final String COURSE_OFFERING_URI = "courseOfferings";
     private static final String COURSE_SECTION_ASSOCIATION_URI = "course-section-associations";
     private static final String STUDENT_URI = "students";
     
@@ -174,7 +174,7 @@ public class ResourceTest {
         return entity;
     }
     
-    public Map<String, Object> createTestSessionCourseAssociation(String sessionId, String courseId) {
+    public Map<String, Object> createTestCourseOffering(String sessionId, String courseId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
         entity.put("courseId", courseId);
@@ -325,13 +325,13 @@ public class ResourceTest {
         String courseId = this.createEntity("courses", ids);
         String sessionId = this.createEntity("sessions", ids);
         
-        Response createAssociationResponse = api.createEntity(SESSION_COURSE_ASSOCIATION_URI, new EntityBody(
-                createTestSessionCourseAssociation(sessionId, courseId)), uriInfo);
+        Response createAssociationResponse = api.createEntity(COURSE_OFFERING_URI, new EntityBody(
+                createTestCourseOffering(sessionId, courseId)), uriInfo);
         assertNotNull(createAssociationResponse);
         String sessionCourseAssocId = parseIdFromLocation(createAssociationResponse);
         
         // test school session association
-        Response tscResponse = api.getEntity(SESSION_COURSE_ASSOCIATION_URI, sessionCourseAssocId, null, null, 0, 10,
+        Response tscResponse = api.getEntity(COURSE_OFFERING_URI, sessionCourseAssocId, null, null, 0, 10,
                 false, uriInfo);
         EntityBody tscAssocBody = (EntityBody) tscResponse.getEntity();
         assertNotNull(tscAssocBody);

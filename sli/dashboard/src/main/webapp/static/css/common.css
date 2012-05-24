@@ -71,15 +71,9 @@ input {
 }
 
 .tabular table tr td {
-    padding-bottom: 6px;
     padding-left: 4px;
-    padding-top: 6px;
     text-align: left;
-    line-height: 4px;
-}
-
-.tabular table tr td div {
-    padding: 0px 0px 12px 0px;
+    vertical-align: top;
 }
 
 .tabular table th{
@@ -87,10 +81,7 @@ input {
     vertical-align: top; 
     text-align: right;
     font-weight: normal;
-    padding-bottom: 6px;
     padding-left: 4px;
-    padding-top: 6px;
-    line-height: 4px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -153,7 +144,7 @@ h7 {
     font-weight: normal;
 }
 
-#sli-loadingSection {
+.loader {
 	position:absolute; 
 	z-index: 99; 
 	width: 100%; 
@@ -167,7 +158,7 @@ h7 {
 	display: none;
 }
 
-#sli-loadingSection .message {
+.loader .message {
 	background: url("../images/loading.gif") no-repeat top center;
 	font: 12px Arial, Helvetica, sans-serif; 
 	color: #424242; 
@@ -241,7 +232,11 @@ th.ui-th-column div {
 /* Custom */
 /* Contact Info panel related */
 .contactInfoItem {
-    width:30%;
+    width:33%;
+    height: 200px;
+}
+.contactInfoItem .tabular table th {
+	width: 150px;
 }
 .contactInfoData {
     width:250px;
