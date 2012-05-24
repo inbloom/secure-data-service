@@ -108,16 +108,12 @@
 	
 	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
 		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
-<!--
 		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
--->
-	<!--
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<Objective>Circles</Objective>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		-->
 	</ObjectiveAssessment>
 	
 	<AssessmentItem id="AssessmentItem-1">
@@ -125,7 +121,6 @@
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
 		<CorrectResponse>False</CorrectResponse>
-		<!--
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
@@ -140,7 +135,6 @@
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
-		-->
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-2">
@@ -148,22 +142,20 @@
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
 		<CorrectResponse>True</CorrectResponse>
-		<!--
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.2</IdentificationCode>
+					<IdentificationCode>G-SRT.2</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.3</IdentificationCode>
+					<IdentificationCode>G-SRT.3</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
-		-->
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-3">
@@ -171,15 +163,13 @@
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
 		<CorrectResponse>True</CorrectResponse>
-		<!--
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.5</IdentificationCode>
+					<IdentificationCode>G-SRT.5</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
-		-->
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-4">
@@ -187,15 +177,13 @@
 		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
 		<CorrectResponse>False</CorrectResponse>
-		<!--
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.6</IdentificationCode>
+					<IdentificationCode>G-SRT.6</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
-		-->
 	</AssessmentItem>
 
 
@@ -212,7 +200,6 @@
             <MaximumScore>100</MaximumScore>
         </AssessmentPerformanceLevel>
 		
-		<!--
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<LearningObjectiveId>
@@ -220,31 +207,26 @@
 				</LearningObjectiveId>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		-->
 		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTReadingArts"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTReadingSocialStudies">
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
-		<!--
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<Objective>Reading: Informational Text</Objective>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		-->
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
-		<!--
 		<LearningStandardReference>
 			<LearningObjectiveIdentity>
 				<Objective>Reading: Informational Text</Objective>
 			</LearningObjectiveIdentity>
 		</LearningStandardReference>
-		-->
 	</ObjectiveAssessment>
 
 
@@ -278,5 +260,190 @@
         </AssessmentPerformanceLevel>
 		
 	</ObjectiveAssessment>
-
+	
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Prove that all circles are similar.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Identify and describe relationships among inscribed angles, radii, and chords. Include the relationship between central, inscribed, 
+                      and circumscribed angles; inscribed angles on a diameter are right angles; the radius of a circle is perpendicular to the tangent where 
+                      the radius intersects the circle.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Construct the inscribed and circumscribed circles of a triangle, and prove properties of angles for a quadrilateral 
+                     inscribed in a circle.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Construct a tangent line from a point outside a given circle to the circle.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-C.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Derive using similarity the fact that the length of the arc intercepted by an angle is proportional to the radius, 
+                     and define the radian measure of the angle as the constant of proportionality; derive the formula for the area of a sector.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+<!-- SRT Learning Standards -->
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Verify experimentally the properties of dilations given by a center and a scale factor:
+                     A dilation takes a line not passing through the center of the dilation to a parallel line, 
+                     and leaves a line passing through the center unchanged.
+                     The dilation of a line segment is longer or shorter in the ratio given by the scale factor.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.2</IdentificationCode>
+        </LearningStandardId>
+        <Description>Given two figures, use the definition of similarity in terms of similarity transformations to decide if they are similar; 
+                     explain using similarity transformations the meaning of similarity for triangles as the equality of all corresponding pairs of 
+                     angles and the proportionality of all corresponding pairs of sides.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use the properties of similarity transformations to establish the AA criterion for two triangles to be similar.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.4</IdentificationCode>
+        </LearningStandardId>
+        <Description>Prove theorems about triangles. Theorems include: a line parallel to one side of a triangle divides the other two proportionally, 
+                     and conversely; the Pythagorean Theorem proved using triangle similarity.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.5</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use congruence and similarity criteria for triangles to solve problems and to prove relationships in geometric figures.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.6</IdentificationCode>
+        </LearningStandardId>
+        <Description>Understand that by similarity, side ratios in right triangles are properties of the angles in the triangle, 
+                     leading to definitions of trigonometric ratios for acute angles.</Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.7</IdentificationCode>
+        </LearningStandardId>
+        <Description>Explain and use the relationship between the sine and cosine of complementary angles.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.8</IdentificationCode>
+        </LearningStandardId>
+        <Description>Use trigonometric ratios and the Pythagorean Theorem to solve right triangles in applied problems.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.9</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Derive the formula A = 1/2 ab sin(C) for the area of a triangle by drawing an auxiliary line from a vertex perpendicular to the 
+                    opposite side.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.10</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Prove the Laws of Sines and Cosines and use them to solve problems.
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>G-SRT.11</IdentificationCode>
+        </LearningStandardId>
+        <Description>(+) Understand and apply the Law of Sines and the Law of Cosines to find unknown measurements in right and non-right triangles 
+                     (e.g., surveying problems, resultant forces).
+        </Description>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>Mathematics</SubjectArea>
+    </LearningStandard>
+    
 </InterchangeAssessmentMetadata>
