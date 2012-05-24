@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrgCalendar.xsd">
+
+  <CalendarDate id="ACC-TEST-CALENDAR-REF">
+    <Date>2012-09-03</Date>
+    <CalendarEventType>Instructional day</CalendarEventType>
+  </CalendarDate>
+
+  <GradingPeriod>
+    <GradingPeriod>End of Year</GradingPeriod>
+    <BeginDate>2012-09-03</BeginDate>
+    <EndDate>2013-06-04</EndDate>
+    <TotalInstructionDays>193</TotalInstructionDays>
+    <CalendarDateReference ref="ACC-TEST-CALENDAR-REF"/>
+  </GradingPeriod>
+
+  <Session>
+    <SessionName>TestSession</SessionName>
+    <SchoolYear>2012-2013</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2012-09-03</BeginDate>
+    <EndDate>2013-06-04</EndDate>
+    <TotalInstructionDays>193</TotalInstructionDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2012-2013</SchoolYear>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+</InterchangeEducationOrgCalendar>
+
