@@ -2,7 +2,8 @@ Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 
-    Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent DIBELS assessment
+@wip
+    Scenario Outline:  (sorting) As a teacher, for my class, I want to get the most recent Math assessment
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SLI"
     And the role attribute equals <AnyDefaultSLIRole>
@@ -19,46 +20,21 @@ Background: None
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 
      When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentFamilyHierarchyName" = "DIBELS Next"
-        And filter by "sortBy" = "assessmentPeriodDescriptor.beginDate"
-        And filter by "sortOrder" = "descending"
+        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
+#        And filter by "sortBy" = "assessmentPeriodDescriptor.beginDate"
+#        And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
         And filter by "limit" = "1"
         And I submit the sorting and pagination request
       Then I should have a list of 1 "assessment" entities
-        And I should have an entity with ID "<'Grade 2 MOY DIBELS' ID>"
+        And I should have an entity with ID "<'Math Assessment' ID>"
 
-     When I navigate to GET "/<ASSESSMENT URI>/<'Grade 2 MOY DIBELS' ID>"
+     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
-        And "assessmentTitle" should be "DIBELS-MOY"
-        And "assessmentCategory" should be "Benchmark test"
-        And "academicSubject" should be "Reading"
-        And "gradeLevelAssessed" should be "Second grade"
-        And "lowestGradeLevelAssessed" should be "Second grade"
-        And "assessmentFamilyHierarchyName" should be "DIBELS Next"
-        And "maxRawScore" should be "380"
-        And "minRawScore" should be "13"
-        And the field "assessmentPeriodDescriptor.beginDate" should be "2012-01-01"
-        And the field "assessmentPeriodDescriptor.endDate" should be "2012-02-01"
-        And there are "3" "assessmentPerformanceLevel"
-        And for the level at position "0"
-        And the key "minimumScore" has value "190"
-        And the key "maximumScore" has value "380"
-        And the key "assessmentReportingMethod" has value "Composite Score"
-        And the key "performanceLevelDescriptor.0.codeValue" has value "Level 1"
-        And the key "performanceLevelDescriptor.1.description" has value "At or Above Benchmark"
-        And for the level at position "1"
-        And the key "minimumScore" has value "145"
-        And the key "maximumScore" has value "189"
-        And the key "assessmentReportingMethod" has value "Composite Score"
-        And the key "performanceLevelDescriptor.0.codeValue" has value "Level 2"
-        And the key "performanceLevelDescriptor.1.description" has value "Below Benchmark"
-        And for the level at position "2"
-        And the key "minimumScore" has value "13"
-        And the key "maximumScore" has value "144"
-        And the key "assessmentReportingMethod" has value "Composite Score"
-        And the key "performanceLevelDescriptor.0.codeValue" has value "Level 3"
-        And the key "performanceLevelDescriptor.1.description" has value "Well Below Benchmark"
+        And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
+        And "assessmentCategory" should be "Advanced Placement"
+        And "academicSubject" should be "Mathematics"
+        And "gradeLevelAssessed" should be "Eighth grade"
 
      When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
     Then I should have a list of 28 "student" entities
@@ -91,7 +67,7 @@ Background: None
         And I should have an entity with ID "<'Damon Iskra' ID>"
         And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
 
-     When I navigate to URI "/<ASSESSMENT URI>/<'Grade 2 MOY DIBELS' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
+     When I navigate to URI "/<ASSESSMENT URI>/<'Math Assessment' ID>/<STUDENT ASSESSMENT ASSOC URI>" with filter sorting and pagination
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
@@ -102,17 +78,13 @@ Background: None
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Student Assessment Association' ID>"
       Then I should have a list of 1 "studentAssessmentAssociation" entities
-        And "administrationDate" should be "2012-01-10"
-        And "administrationEndDate" should be "2012-01-15"
-        And "gradeLevelWhenAssessed" should be "Second grade"
-        And "retestIndicator" should be "1st Retest"
-        And the field "performanceLevelDescriptors.0.1.description" should be "Below Benchmark"
-        And the field "scoreResults.0.assessmentReportingMethod" should be "Scale score"
-        And the field "scoreResults.0.result" should be "120"
+        And "administrationDate" should be "2011-09-15"
+        And "administrationEndDate" should be "2011-12-15"
+        And "retestIndicator" should be "Primary Administration"
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
-| "rrogers"       | "rrogers1234" | "IT Administrator" |
+| "rrogers"       | "rrogers1234"       | "IT Administrator" |
 | "sbantu"        | "sbantu1234"        | "Leader"           |
 
     Scenario Outline:  (paging/sorting) As a teacher, for my class, I want to get the most recent values of the following attributes: DIBELSCompositeScore, ReadingInstructionalLevel, PerformanceLevel
@@ -221,9 +193,10 @@ Examples:
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
-| "rrogers"       | "rrogers1234" | "IT Administrator" |
-| "sbantu"        | "sbantu1234"        | "Leader"           |
+| "rrogers"       | "rrogers1234"       | "IT Administrator" |
+#| "sbantu"        | "sbantu1234"        | "Leader"           |
 
+@wip
 Scenario Outline:  As a AggregateViewer I should not see personally identifiable information data
     Given I am a valid SEA/LEA end user <Username> with password <Password>
     And I have a Role attribute returned from the "SLI"
@@ -233,13 +206,13 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
     When I navigate to GET "/<TEACHER URI>/<'Ms. Smith' ID>"
     Then I should receive a return code of 403
 
-    When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Linda Kim and Section Algebra II' ID>/<TEACHER URI>"
+    When I navigate to GET "/<TEACHER SECTION ASSOC URI>/<'Teacher Ms. Jones and Section Algebra II' ID>/<TEACHER URI>"
     Then I should receive a return code of 403
 
     When I navigate to GET "/<STUDENT SECTION ASSOC URI>/<'Algebra II' ID>/<STUDENT URI>"
     Then I should receive a return code of 403
 
-    When I navigate to GET "/<STUDENT URI>/<'Jane Doe' ID>"      
+    When I navigate to GET "/<STUDENT URI>/<'Matt Sollars' ID>"      
     Then I should receive a return code of 403
 
     When I navigate to GET "/<SECTION URI>/<'Algebra II' ID>"      
@@ -250,4 +223,4 @@ Scenario Outline:  As a AggregateViewer I should not see personally identifiable
 
 Examples:
 | Username         | Password             | AnyDefaultSLIRole  |
-| "msmith"         | "msmith1234"     | "AggregateViewer"  |
+| "msmith"         | "msmith1234"         | "AggregateViewer"  |
