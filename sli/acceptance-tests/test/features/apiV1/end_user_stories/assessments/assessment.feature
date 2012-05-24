@@ -75,9 +75,9 @@ Background: None
         And filter by "limit" = "1"
         And I submit the sorting and pagination request
       Then I should have a list of 1 "studentAssessmentAssociation" entities
-        And I should have an entity with ID "<'Most Recent Student Assessment Association' ID>"
+        And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
 
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Student Assessment Association' ID>"
+     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
       Then I should have a list of 1 "studentAssessmentAssociation" entities
         And "administrationDate" should be "2011-09-15"
         And "administrationEndDate" should be "2011-12-15"
@@ -162,9 +162,9 @@ Examples:
         And filter by "limit" = "1"
         And I submit the sorting and pagination request
       Then I should have a list of 1 "studentAssessmentAssociation" entities
-        And I should have an entity with ID "<'Most Recent Student Assessment Association' ID>"
+        And I should have an entity with ID "<'Most Recent SAT Student Assessment Association' ID>"
 
-     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Student Assessment Association' ID>"
+     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>"
       Then I should have a list of 1 "studentAssessmentAssociation" entities
         And "administrationDate" should be "2011-05-10"
         And "administrationEndDate" should be "2011-06-15"
