@@ -143,13 +143,24 @@ public class UserService {
             User user = new User();
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("userName", context.getStringAttribute("cn"));
-            String raw = context.getStringAttribute("description");
-            if (raw != null && raw.length() > 0) {
-                String[] rows = raw.split("\n");
-                for (String row : rows) {
-                    String[] pair = row.split("=", 2);
-                    if (pair.length == 2) {
-                        attributes.put(pair[0].trim(), pair[1].trim());
+            String description = context.getStringAttribute("description");
+            if (description != null && description.length() > 0) {
+                String[] pairs;
+                if (description.indexOf("\n") > 0) {
+                    pairs = description.split("\n");
+                } else if (description.indexOf(",") > 0) {
+                    pairs = description.split(",");
+                } else {
+                    pairs = description.split(" ");
+                }
+                for (String pair : pairs) {
+                    pair = pair.trim();
+                    String[] pairArray = pair.split("=", 2);
+                    if (pairArray.length == 2) {
+                        String value = pairArray[1].trim();
+                        if(value.length()>0){
+                            attributes.put(pairArray[0].trim(), value);
+                        }
                     }
                 }
             }
