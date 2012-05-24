@@ -28,7 +28,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
     
-    private ThreadLocal<Cipher> cachedCipher = new ThreadLocal<Cipher>();
+    private ThreadLocal<Cipher> cachedEncryptCypher = new ThreadLocal<Cipher>();
+    private ThreadLocal<Cipher> cachedDecryptCypher = new ThreadLocal<Cipher>();
     
     @Autowired
     CipherInitDataProvider initDataProvider;
@@ -138,11 +139,25 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     }
     
     private Cipher buildEncryptCipher() {
-        return buildCipher(Cipher.ENCRYPT_MODE);
+        Cipher encryptCypher = cachedEncryptCypher.get();
+        
+        if (encryptCypher == null) {
+            encryptCypher = buildCipher(Cipher.ENCRYPT_MODE);
+            cachedEncryptCypher.set(encryptCypher);
+        }
+        
+        return encryptCypher;
     }
     
     private Cipher buildDecryptCipher() {
-        return buildCipher(Cipher.DECRYPT_MODE);
+        Cipher decryptCypher = cachedDecryptCypher.get();
+        
+        if (decryptCypher == null) {
+            decryptCypher = buildCipher(Cipher.DECRYPT_MODE);
+            cachedDecryptCypher.set(decryptCypher);
+        }
+        
+        return decryptCypher;
     }
     
     /**
@@ -165,15 +180,9 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         IvParameterSpec ivspec = new IvParameterSpec(ivBytes);
         
         try {
-            Cipher cipher = cachedCipher.get();
-            if (cipher == null) {
-                synchronized (this) {  // might be over-reacting, but we've been burned before...
-                    cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-                    cipher.init(mode, initData.getSecretKey(), ivspec);
-                    cachedCipher.set(cipher);
-                }
-            }
-
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(mode, initData.getSecretKey(), ivspec);
+            
             return cipher;
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
