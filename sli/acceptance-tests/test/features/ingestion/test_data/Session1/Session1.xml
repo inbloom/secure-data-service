@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
+    <GradingPeriod id="GRDP_20101004">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110104">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110222">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20110411">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20100823">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20101108">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
         <SchoolYear>2011-2012</SchoolYear>
@@ -818,43 +855,6 @@
         <GradingPeriodReference ref="GRDP_20110222"/>
         <GradingPeriodReference ref="GRDP_20110411"/>
     </Session>
-
-    <GradingPeriod id="GRDP_20101004">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110104">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110222">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110411">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20100823">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20101108">
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
 
 
 </InterchangeEducationOrgCalendar>

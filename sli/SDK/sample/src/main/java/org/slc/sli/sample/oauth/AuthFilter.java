@@ -108,7 +108,7 @@ public class AuthFilter implements Filter {
 
         InputStream propStream;
 
-        String externalProps = System.getProperty("sample.conf");
+        String externalProps = System.getProperty("sli.conf");
         if (externalProps != null) {
             try {
                 propStream = new FileInputStream(externalProps);
@@ -132,10 +132,10 @@ public class AuthFilter implements Filter {
             throw new RuntimeException(e);
         }
 
-        clientId = props.getProperty("clientId");
-        clientSecret = props.getProperty("clientSecret");
-        String apiUrlString = props.getProperty("apiUrl");
-        String callbackUrlString = props.getProperty("callbackUrl");
+        clientId = props.getProperty("sli.sample.clientId");
+        clientSecret = props.getProperty("sli.sample.clientSecret");
+        String apiUrlString = props.getProperty("sli.sample.apiUrl");
+        String callbackUrlString = props.getProperty("sli.sample.callbackUrl");
         if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
             throw new RuntimeException(
                     "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");

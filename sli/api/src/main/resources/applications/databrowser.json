@@ -8,7 +8,7 @@
    "application_url":"${bootstrap.app.databrowser.url}",
    "client_secret":"${bootstrap.app.databrowser.client_secret}",
    "client_id":"${bootstrap.app.databrowser.client_id}",
-   "created_by":"SLIDeveloper",
+   "created_by":"slcdeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
@@ -18,7 +18,5 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Full Window App",
-   "developer_info":{
-      "organization":"${bootstrap.app.vendor}"
-   }
+   "vendor":"${bootstrap.app.vendor}"
 }

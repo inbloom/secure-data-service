@@ -1,0 +1,1 @@
+package org.slc.sli.modeling.rest;public enum HTTPMethod {    /**     * POST     */    POST,    /**     * GET     */    GET,    /**     * DELETE     */    DELETE,    /**     * HEAD     */    HEAD,    /**     * PUT     */    PUT;}

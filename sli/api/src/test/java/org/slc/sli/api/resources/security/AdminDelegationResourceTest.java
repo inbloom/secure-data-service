@@ -87,7 +87,7 @@ public class AdminDelegationResourceTest {
         EntityBody body = new EntityBody();
         body.put(resource.LEA_ID, "1234");
 
-        Assert.assertEquals(resource.setLocalDelegation(body).getStatus(), Response.Status.NO_CONTENT.getStatusCode());
+        Assert.assertEquals(resource.setLocalDelegation(body).getStatus(), Response.Status.CREATED.getStatusCode());
 
     }
 }

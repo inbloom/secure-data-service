@@ -1,444 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
 
-  <Session>
-    <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2010-09-06</BeginDate>
-    <EndDate>2010-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20100823"/>
-	<GradingPeriodReference ref="GRDP_20101004"/>
-	<GradingPeriodReference ref="GRDP_20101108"/>
-  </Session>
-
-  <Session>
-    <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2011-01-06</BeginDate>
-    <EndDate>2011-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110110"/>
-	<GradingPeriodReference ref="GRDP_20110221"/>
-	<GradingPeriodReference ref="GRDP_20110411"/>
-  </Session>
-
-  <Session>
-    <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-
-  <Session>
-    <SessionName>Fall 2010 South Daybreak Elementary</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2010-09-06</BeginDate>
-    <EndDate>2010-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20100823"/>
-	<GradingPeriodReference ref="GRDP_20101004"/>
-	<GradingPeriodReference ref="GRDP_20101108"/>
-  </Session>
-
-  <Session>
-    <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2011-01-06</BeginDate>
-    <EndDate>2011-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110110"/>
-	<GradingPeriodReference ref="GRDP_20110221"/>
-	<GradingPeriodReference ref="GRDP_20110411"/>
-  </Session>
-
-  <Session>
-    <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-
-
-  <Session>
-    <SessionName>Fall 2011 Sunset Central High School</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-
-  <Session>
-    <SessionName>Fall 2011 Daybreak Central High</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-
-  <Session>
-    <SessionName>Spring 2011 Daybreak Central High</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2011-01-06</BeginDate>
-    <EndDate>2011-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110110"/>
-	<GradingPeriodReference ref="GRDP_20110221"/>
-	<GradingPeriodReference ref="GRDP_20110411"/>
-  </Session>
-
-  <Session>
-    <SessionName>Fall 2010 Daybreak Central High</SessionName>
-    <SchoolYear>2010-2011</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2010-09-06</BeginDate>
-    <EndDate>2010-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20100823"/>
-	<GradingPeriodReference ref="GRDP_20101004"/>
-	<GradingPeriodReference ref="GRDP_20101108"/>
-  </Session>
-
-  <!-- sessions for Carmen Ortiz history. We've already got F2010, S2011, and F2011 for Daybreak Central High.
-       These session represent her 9th grade in high school and 8th grade in middle school. -->
-  <Session>
-    <SessionName>Fall 2009 Daybreak Central High</SessionName>
-    <SchoolYear>2009-2010</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2009-09-06</BeginDate>
-    <EndDate>2009-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Spring 2010 Daybreak Central High</SessionName>
-    <SchoolYear>2009-2010</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2010-01-04</BeginDate>
-    <EndDate>2010-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
-    <SchoolYear>2008-2009</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2008-09-06</BeginDate>
-    <EndDate>2008-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
-    <SchoolYear>2008-2009</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2009-01-04</BeginDate>
-    <EndDate>2009-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-
-  <!-- sessions for Matt Sollars history. We've already got F2010, S2011, and F2011 for East Daybreak Junior High.
-       These sessions represent his 6th grade in middle school and grades 3-5 in elementary school. -->
-  <Session>
-    <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
-    <SchoolYear>2009-2010</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2009-09-06</BeginDate>
-    <EndDate>2009-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-
-  <Session>
-    <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
-    <SchoolYear>2009-2010</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2010-01-04</BeginDate>
-    <EndDate>2010-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
-    <SchoolYear>2008-2009</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2008-09-06</BeginDate>
-    <EndDate>2008-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
-    <SchoolYear>2008-2009</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2009-01-04</BeginDate>
-    <EndDate>2009-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
-    <SchoolYear>2007-2008</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2007-09-06</BeginDate>
-    <EndDate>2007-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2007-2008</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
-    <SchoolYear>2007-2008</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2008-01-04</BeginDate>
-    <EndDate>2008-05-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2007-2008</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
-    <SchoolYear>2006-2007</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2006-09-06</BeginDate>
-    <EndDate>2006-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2006-2007</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>
-  <Session>
-    <SessionName>Spring 2007 South Daybreak Elementary</SessionName>
-    <SchoolYear>2006-2007</SchoolYear>
-    <Term>Spring Semester</Term>
-    <BeginDate>2006-09-06</BeginDate>
-    <EndDate>2006-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2006-2007</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
-  </Session>   
-  <Session>
-      <SessionName>Fall 2002 South Daybreak Elementary</SessionName>>     
-      <SchoolYear>2002-2003</SchoolYear>
-      <Term>Fall Semester</Term>
-      <BeginDate>2002-09-01</BeginDate>
-      <EndDate>2002-12-16</EndDate>
-      <TotalInstructionalDays>75</TotalInstructionalDays>
-      <EducationOrganizationReference>
-          <EducationalOrgIdentity>
-              <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-         </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-      <GradingPeriodReference>
-       <GradingPeriodIdentity>
-          <GradingPeriod>First Semester</GradingPeriod>
-           <SchoolYear>2002-2003</SchoolYear>
-         <StateOrganizationId>1</StateOrganizationId>
-       </GradingPeriodIdentity>
-     </GradingPeriodReference>
- </Session>
-
 <!-- CalendarDates for the 2010-2011 school year -->
 	<CalendarDate id="CLND_20100823Instructionalday">
 		<Date>2010-08-23</Date>
@@ -3318,6 +2880,424 @@
 		<CalendarDateReference ref="CLND_20120524Instructionalday"/>
 		<CalendarDateReference ref="CLND_20120525Instructionalday"/>
 	</GradingPeriod>
+
+  <Session>
+    <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2010-09-06</BeginDate>
+    <EndDate>2010-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20100823"/>
+	<GradingPeriodReference ref="GRDP_20101004"/>
+	<GradingPeriodReference ref="GRDP_20101108"/>
+  </Session>
+
+  <Session>
+    <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2011-01-06</BeginDate>
+    <EndDate>2011-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110110"/>
+	<GradingPeriodReference ref="GRDP_20110221"/>
+	<GradingPeriodReference ref="GRDP_20110411"/>
+  </Session>
+
+  <Session>
+    <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110822"/>
+	<GradingPeriodReference ref="GRDP_20111128"/>
+	<GradingPeriodReference ref="GRDP_20111010"/>
+  </Session>
+
+  <Session>
+    <SessionName>Fall 2010 South Daybreak Elementary</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2010-09-06</BeginDate>
+    <EndDate>2010-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20100823"/>
+	<GradingPeriodReference ref="GRDP_20101004"/>
+	<GradingPeriodReference ref="GRDP_20101108"/>
+  </Session>
+
+  <Session>
+    <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2011-01-06</BeginDate>
+    <EndDate>2011-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110110"/>
+	<GradingPeriodReference ref="GRDP_20110221"/>
+	<GradingPeriodReference ref="GRDP_20110411"/>
+  </Session>
+
+  <Session>
+    <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110822"/>
+	<GradingPeriodReference ref="GRDP_20111128"/>
+	<GradingPeriodReference ref="GRDP_20111010"/>
+  </Session>
+
+
+  <Session>
+    <SessionName>Fall 2011 Sunset Central High School</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110822"/>
+	<GradingPeriodReference ref="GRDP_20111128"/>
+	<GradingPeriodReference ref="GRDP_20111010"/>
+  </Session>
+
+  <Session>
+    <SessionName>Fall 2011 Daybreak Central High</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110822"/>
+	<GradingPeriodReference ref="GRDP_20111128"/>
+	<GradingPeriodReference ref="GRDP_20111010"/>
+  </Session>
+
+  <Session>
+    <SessionName>Spring 2011 Daybreak Central High</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2011-01-06</BeginDate>
+    <EndDate>2011-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20110110"/>
+	<GradingPeriodReference ref="GRDP_20110221"/>
+	<GradingPeriodReference ref="GRDP_20110411"/>
+  </Session>
+
+  <Session>
+    <SessionName>Fall 2010 Daybreak Central High</SessionName>
+    <SchoolYear>2010-2011</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2010-09-06</BeginDate>
+    <EndDate>2010-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20100823"/>
+	<GradingPeriodReference ref="GRDP_20101004"/>
+	<GradingPeriodReference ref="GRDP_20101108"/>
+  </Session>
+
+  <!-- sessions for Carmen Ortiz history. We've already got F2010, S2011, and F2011 for Daybreak Central High.
+       These session represent her 9th grade in high school and 8th grade in middle school. -->
+  <Session>
+    <SessionName>Fall 2009 Daybreak Central High</SessionName>
+    <SchoolYear>2009-2010</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2009-09-06</BeginDate>
+    <EndDate>2009-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Spring 2010 Daybreak Central High</SessionName>
+    <SchoolYear>2009-2010</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2010-01-04</BeginDate>
+    <EndDate>2010-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+    <SchoolYear>2008-2009</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2008-09-06</BeginDate>
+    <EndDate>2008-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2008-2009</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+    <SchoolYear>2008-2009</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2009-01-04</BeginDate>
+    <EndDate>2009-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2008-2009</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+
+  <!-- sessions for Matt Sollars history. We've already got F2010, S2011, and F2011 for East Daybreak Junior High.
+       These sessions represent his 6th grade in middle school and grades 3-5 in elementary school. -->
+  <Session>
+    <SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+    <SchoolYear>2009-2010</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2009-09-06</BeginDate>
+    <EndDate>2009-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+
+  <Session>
+    <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+    <SchoolYear>2009-2010</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2010-01-04</BeginDate>
+    <EndDate>2010-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+    <SchoolYear>2008-2009</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2008-09-06</BeginDate>
+    <EndDate>2008-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2008-2009</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+    <SchoolYear>2008-2009</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2009-01-04</BeginDate>
+    <EndDate>2009-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2008-2009</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+    <SchoolYear>2007-2008</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2007-09-06</BeginDate>
+    <EndDate>2007-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2007-2008</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+    <SchoolYear>2007-2008</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2008-01-04</BeginDate>
+    <EndDate>2008-05-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2007-2008</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+    <SchoolYear>2006-2007</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2006-09-06</BeginDate>
+    <EndDate>2006-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>First Semester</GradingPeriod>
+        <SchoolYear>2006-2007</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+  <Session>
+    <SessionName>Spring 2007 South Daybreak Elementary</SessionName>
+    <SchoolYear>2006-2007</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2006-09-06</BeginDate>
+    <EndDate>2006-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2006-2007</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
 
     
 </InterchangeEducationOrgCalendar>

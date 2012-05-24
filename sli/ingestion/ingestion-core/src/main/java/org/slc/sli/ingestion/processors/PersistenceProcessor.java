@@ -222,10 +222,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
-
+                    ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForTransformer);
 
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
@@ -293,19 +298,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
 
-        if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
-            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
+        stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
 
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-        } else {
+        encounteredStgCollections.add(neutralRecord.getRecordType());
 
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-
-            encounteredStgCollections.add(neutralRecord.getRecordType());
-        }
         return stagedNeutralRecords;
     }
 

@@ -1,3 +1,5 @@
+@RALLY_US149
+@RALLY_US209
 Feature: As an SLI application, I want to be able to manage student section gradebook entry entities
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
