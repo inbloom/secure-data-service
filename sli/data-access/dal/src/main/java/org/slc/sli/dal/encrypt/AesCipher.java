@@ -28,6 +28,9 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
     
+    private ThreadLocal<Cipher> cachedEncryptCypher = new ThreadLocal<Cipher>();
+    private ThreadLocal<Cipher> cachedDecryptCypher = new ThreadLocal<Cipher>();
+    
     @Autowired
     CipherInitDataProvider initDataProvider;
     
@@ -136,11 +139,25 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     }
     
     private Cipher buildEncryptCipher() {
-        return buildCipher(Cipher.ENCRYPT_MODE);
+        Cipher encryptCypher = cachedEncryptCypher.get();
+        
+        if (encryptCypher == null) {
+            encryptCypher = buildCipher(Cipher.ENCRYPT_MODE);
+            cachedEncryptCypher.set(encryptCypher);
+        }
+        
+        return encryptCypher;
     }
     
     private Cipher buildDecryptCipher() {
-        return buildCipher(Cipher.DECRYPT_MODE);
+        Cipher decryptCypher = cachedDecryptCypher.get();
+        
+        if (decryptCypher == null) {
+            decryptCypher = buildCipher(Cipher.DECRYPT_MODE);
+            cachedDecryptCypher.set(decryptCypher);
+        }
+        
+        return decryptCypher;
     }
     
     /**

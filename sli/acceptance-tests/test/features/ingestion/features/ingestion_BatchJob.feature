@@ -16,7 +16,7 @@ Given I post "BatchJob.zip" file as the payload of the ingestion job
         | securityEvent               |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJob.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -69,7 +69,7 @@ Given I post "BatchJobPurge.zip" file as the payload of the ingestion job
         | error                       |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJobPurge.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -112,7 +112,7 @@ Given I post "BatchJobError.zip" file as the payload of the ingestion job
         | error                       |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJobError.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -162,7 +162,8 @@ Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two 
         | error                       |
 
 When zip files are scped to the ingestion landing zone
-  And two batch job logs have been created
+  And a batch job for file "BatchJob.zip" is completed in database
+  And a batch job for file "BatchJobLarge.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
