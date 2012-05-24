@@ -60,7 +60,7 @@ sum=0
 out.each do |key,value|
   rps = "N/A"
   rps = rc[key] / (value / 1000.0) unless value == 0
-  puts "[#{rc[key]}] #{key} => #{value}ms (#{rps} rps)"
+  puts "[\e[31m#{rc[key]}\e[0m] #{key} => \e[32m#{value}\e[0m ms (\e[35m#{rps.round() unless rps=="N/A"}\e[0m rps)"
   sum+=value
 end
 

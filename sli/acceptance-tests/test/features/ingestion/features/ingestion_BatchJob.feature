@@ -171,6 +171,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                | searchValue             | searchType |
   | newBatchJob    | 1                   | totalFiles                     | 1                       | integer    |
   | newBatchJob    | 2                   | status                         | CompletedSuccessfully   | string     |
+  | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
 

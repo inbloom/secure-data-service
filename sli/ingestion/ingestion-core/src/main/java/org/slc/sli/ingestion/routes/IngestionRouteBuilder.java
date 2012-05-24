@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -38,7 +37,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class IngestionRouteBuilder extends SpringRouteBuilder implements InitializingBean {
+public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
@@ -64,13 +63,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
     TransformationProcessor transformationProcessor;
 
     @Autowired
-    XmlFileProcessor xmlFileProcessor;
+    private XmlFileProcessor xmlFileProcessor;
     
     @Autowired
-    OrchestraPreProcessor orchestraPreProcessor;
+    private OrchestraPreProcessor orchestraPreProcessor;
 
     @Autowired
-    AggregationPostProcessor aggregationPostProcessor;
+    private AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
     JobReportingProcessor jobReportingProcessor;
@@ -161,7 +160,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
             buildExtractionRoutes(workItemQueueUri);
 
             buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
-
+            
+            configureTenantPollingTimerRoute();
+            tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
+            this.addRoutesToCamelContext(camelContext);
         }
 
         if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
@@ -396,18 +398,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
     }
 
     public void configureTenantPollingTimerRoute() {
-
         from(
                 "quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval="
                         + tenantPollingRepeatInterval).setBody()
                 .simple("TenantPollingTimer fired: ${header.firedTime}")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
                 .process(tenantProcessor);
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());
-        this.addRoutesToCamelContext(camelContext);
     }
 }
