@@ -413,6 +413,11 @@ def processZipWithFolder(file_name)
       next
       end
       payload_file = entries[2]
+      if payload_file == "MissingXmlFile.xml"
+	puts "DEBUG: An xml file in control file is missing .."
+        new_ctl_file.puts entries.join ","
+	next
+      end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
         puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
@@ -869,7 +874,6 @@ def checkForBatchJobLog(landing_zone)
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
-    puts "checkForBatchJobLog 2"
     iters.times do |i|
       if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -1411,6 +1415,32 @@ Then /^the jobs ran concurrently$/ do
   }
 
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
+end
+
+When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collection, searchTerm, value|
+  step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
+end
+
+Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
+  object = @record
+  field.split('.').each do |f|
+    if /(.+)\[(\d+)\]/.match f
+      f = $1
+      i = $2.to_i
+      object[f].should be_a Array
+      object[f][i].should_not == nil
+      object = object[f][i]
+    else
+      object[f].should_not == nil
+      object = object[f]
+    end
+  end
+  assert(object.length==Integer(arrayCount),"the field #{field} is not an array of size #{arrayCount}")
+  @idsArray
+end
+
+Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |arg1, collection, identificationCode, guid|
+  step "I find a record in \"#{collection}\" with \"#{identificationCode}\" equal to \"#{guid}\""
 end
 
 ############################################################

@@ -11,11 +11,12 @@ public final class EntityNames {
     public static final String ASSESSMENT_FAMILY = "assessmentFamily";
     public static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     public static final String ATTENDANCE = "attendance";
-    public static final String BELL_SCHEDULE = "bellSchedule";
     public static final String COHORT = "cohort";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE = "competencyLevelDescriptorType";
     public static final String COURSE = "course";
+    public static final String COURSE_OFFERING = "courseOffering";
+    public static final String COURSE_SECTION_ASSOCIATION = "courseSectionAssociation";
     public static final String DISCIPLINE_INCIDENT = "disciplineIncident";
     public static final String DISCIPLINE_ACTION = "disciplineAction";
     public static final String EDUCATION_ORGANIZATION = "educationOrganization";
@@ -31,9 +32,11 @@ public final class EntityNames {
     public static final String REPORT_CARD = "reportCard";
     public static final String SCHOOL = "school";
     public static final String SECTION = "section";
+    public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
     public static final String SESSION = "session";
     public static final String STAFF = "staff";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";
+    public static final String STAFF_ED_ORG_ASSOCIATION = "staffEducationOrganizationAssociation";
     public static final String STAFF_PROGRAM_ASSOCIATION = "staffProgramAssociation";
     public static final String STUDENT = "student";
     public static final String STUDENT_ACADEMIC_RECORD = "studentAcademicRecord";
@@ -50,6 +53,7 @@ public final class EntityNames {
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
     public static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
     public static final String TEACHER = "teacher";
+    public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String USER_ACCOUNT = "userAccount";
 }

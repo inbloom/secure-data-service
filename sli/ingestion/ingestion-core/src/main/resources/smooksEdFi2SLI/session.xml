@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="schoolSessionAssociations" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="schoolSessionAssociation" />
+    </jb:bean>
+
+    <jb:bean beanId="schoolSessionAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'schoolSessionAssociation'</jb:expression>
+        <jb:wiring property="body" beanIdRef="ssBody" />
+    </jb:bean>
+
+    <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:wiring property="session" beanIdRef="sessionType" />
+        <jb:value property="schoolId" data="attributes schoolId" />
+        <jb:value property="sessionId" data="attributes sessionId" />
+    </jb:bean>
+
+    <jb:bean beanId="sessionType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'session'</jb:expression>
+        <jb:wiring property="body" beanIdRef="sessionBody" />
+        <jb:wiring property="metaData" beanIdRef="metaData" />
+    </jb:bean>
+    <jb:bean beanId="metaData" class="java.util.HashMap" createOnElement="attributes"/>
+    <jb:bean beanId="sessionBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="sessionName" data="attributes sessionName" />
+        <jb:value property="schoolYear" data="attributes schoolYear" />
+        <jb:value property="term" data="attributes term" />
+        <jb:value property="beginDate" data="attributes beginDate" />
+        <jb:value property="endDate" data="attributes endDate" />
+        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
+    </jb:bean>
+
+    <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+      <jb:value data="attributes gradingPeriodReference element" />
+    </jb:bean>
+
+</smooks-resource-list>

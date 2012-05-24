@@ -11,6 +11,22 @@ ldap_conf = { :host => "ldap.slidev.org",
            :password => "Y;Gtf@w{"
      }}
 
+
+ldap_conf = { 
+    :host => "rcldap01.slidev.org",
+    :port => 636,
+    :base => "ou=people,dc=slidev,dc=org",
+    :auth => {
+      :method => :simple,
+      :username => "cn=admin,dc=slidev,dc=org",
+      :password => "Y;Gtf@w{"
+    },
+    :encryption => {
+      :method => :simple_tls
+    }
+}
+
+puts "TRYING TO OPEN"
 ldap = Net::LDAP.new ldap_conf
 
 # ldap = Net::LDAP.new
@@ -29,6 +45,7 @@ if ldap.bind
 else
   puts "Authentication failed."
 end
+raise "DONE"
 
 filter = Net::LDAP::Filter.eq( "cn", "*" )
 fetch_attributes = [

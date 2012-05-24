@@ -15,7 +15,7 @@ default:
         sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
         sli.support.email: sli@example.com
@@ -31,12 +31,19 @@ default:
         
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
+        bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        
+        # Used to bootstrap the sandbox's other ream realm
+        bootstrap.sandbox.realm.uniqueId: SandboxIDP
+        bootstrap.sandbox.realm.name: Sandbox Environment
+        bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
         bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
@@ -124,10 +131,10 @@ default:
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
-        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         log.level: warn
@@ -197,8 +204,10 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+        # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
+        sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
-        sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
         
@@ -213,6 +222,12 @@ default:
 
         # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
+        
+        # sample app externalized properties:
+        sli.sample.apiUrl: http://local.slidev.org:8080/
+        sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
+        sli.sample.clientId: fm67sH6vZZ
+        sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
 
 acceptance-tests:
     api:
@@ -530,8 +545,8 @@ devjuggernauts:
         api.client: apiClient
         api.server.url: https://devjuggernauts.slidev.org/
         security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: 65,91,79,-17,45,5,-49,-97,41,-49,-13,77,-90,86,-67,48
         oauth.client.secret: 111,60,86,23,24,6,110,41,114,-30,46,127,6,-93,29,14,28,87,-5,-21,54,-128,-52,86,73,-12,-100,101,-2,63,-102,63,11,-56,82,35,83,64,-104,-125,56,8,-93,89,66,-41,6,-120,66,100,81,66,-100,-125,97,95,-34,113,-106,49,72,-41,-82,-116
@@ -624,17 +639,17 @@ local:
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Trusted Certificate Authority Store
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         #Support Email
         sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
         
-        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
-
+        sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
         bootstrap.app.conf: ${sli.conf}
-        #li.tenant.landingZoneMountPoint: ~/lzs
+        #sli.tenant.ingestionServers: localhost
+        #sli.landingZone.server: localhost
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -714,6 +729,32 @@ local:
 
         log.path: target/logs
 
+#
+# Configuration to support running sandbox locally
+#
+local-sandbox:
+    api:
+        <<: *API-LOCAL
+        sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
+
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: false
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+
+    apps:
+        <<: *APPS-LOCAL
+
+    misc:
+        <<: *MISC-LOCAL
+        sli.simple-idp.sandboxImpersonationEnabled: true
+
 
 #
 # Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
@@ -733,8 +774,8 @@ local-acceptance-tests:
         <<: *DASHBOARD-LOCAL
         api.server.url: http://local.slidev.org:8080/
         security.server.url: http://local.slidev.org:8080/
-        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
@@ -784,8 +825,8 @@ local-acceptance-tests:
         <<: *DASHBOARD-LOCAL
         api.server.url: http://local.slidev.org:8080/
         security.server.url: http://local.slidev.org:8080/
-        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
         oauth.client.secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
@@ -825,8 +866,11 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
@@ -899,8 +943,8 @@ team:
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 93,-42,-41,122,-19,-51,-47,-70,21,-8,-18,125,-128,-47,-87,-98
         oauth.client.secret: -68,-29,17,-23,93,-116,49,56,61,-28,-123,-30,-122,-73,117,84,-62,-33,11,-32,-58,-40,81,-72,70,-124,-1,27,48,-29,-119,-36,12,-43,-3,71,-25,-10,-102,102,106,-105,-42,100,-45,-98,38,53,70,-80,-81,26,-17,-45,33,-59,-77,88,-9,62,46,-58,-84,126
@@ -934,6 +978,11 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
+        
+        sli.sample.apiUrl: https://${sample.swap}.slidev.org/
+        sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
+        sli.sample.clientId: AT1k3PdHzX
+        sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
 
 
@@ -1057,8 +1106,11 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM

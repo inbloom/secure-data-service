@@ -1,3 +1,4 @@
+@RALLY_US2169
 Feature: Tenant Ingestion Test
 
 Background: I have a landing zone route configured

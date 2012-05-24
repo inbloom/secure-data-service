@@ -1,3 +1,6 @@
+@RALLY_US1801
+@RALLY_US2189
+@RALLY_US2286
 Feature: Ingestion IDRef Test
 
 Background: I have a landing zone route configured
@@ -18,6 +21,8 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
      | schoolSessionAssociation     |
      | section                      |
      | session                      |
+     | gradingPeriod                |
+     | calendarDate                 |
      | student                      |
      | studentSectionAssociation    |
 When zip file is scp to ingestion landing zone
@@ -37,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                      |  11     |
      | studentSectionAssociation    |   2     |
   And I should see "Processed 112 records." in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 11" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 8" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 13" in the resulting batch job file
   And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file

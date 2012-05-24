@@ -31,7 +31,6 @@ class ApplicationAuthorizationsController < ApplicationController
       end
       @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
     end
-    @apps = @application_authorizations.first.apps_for_auths
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }

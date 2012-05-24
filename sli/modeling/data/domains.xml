@@ -225,7 +225,7 @@
 			<class name="StudentObjectiveAssessment"></class>
 		</entity>
 	</domain>
-	<domain>
+	<!-- domain>
 		<title>Bell Schedule</title>
 		<description xml:lang="en">
 			The BellSchedule represents the pattern of class period scheduling in
@@ -265,7 +265,6 @@
 			<title xml:lang="en">Calendar Date</title>
 			<class name="CalendarDate"></class>
 		</entity>
-		<!-- ClassPeriod is not defined for SLI -->
 		<entity>
 			<title xml:lang="en">Education Organization</title>
 			<class name="EducationOrganization"></class>
@@ -282,7 +281,7 @@
 			<title xml:lang="en">Session</title>
 			<class name="Session"></class>
 		</entity>
-	</domain>
+	</domain-->
 	<domain>
 		<title>Discipline</title>
 		<description xml:lang="en">
@@ -615,10 +614,9 @@
 			<title xml:lang="en">Course</title>
 			<class name="Course"></class>
 		</entity>
-		<!-- CourseOffering is renamed for SLI -->
 		<entity>
 			<title xml:lang="en">Course Offering</title>
-			<class name="SessionCourseAssociation"></class>
+			<class name="CourseOffering"></class>
 		</entity>
 		<!-- CourseTranscript is renamed for SLI -->
 		<entity>
@@ -814,7 +812,7 @@
 		</entity>
 		<entity>
 			<title xml:lang="en">Course Offering</title>
-			<class name="SessionCourseAssociation"></class>
+			<class name="CourseOffering"></class>
 		</entity>
 		<entity>
 			<title xml:lang="en">Education Organization</title>
@@ -828,10 +826,10 @@
 			<title xml:lang="en">Learning Standard</title>
 			<class name="LearningStandard"></class>
 		</entity>
-		<entity>
+		<!--  entity>
 			<title xml:lang="en">Location</title>
 			<class name="Location"></class>
-		</entity>
+		</entity-->
 		<entity>
 			<title xml:lang="en">School</title>
 			<class name="School" />

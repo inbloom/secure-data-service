@@ -227,6 +227,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
+                     :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
@@ -261,7 +262,7 @@ end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1SectionAssessmentAssociationTests,
-                                :v1SessionCourseAssociationTests,
+                                :v1CourseOfferingTests,
                                 :v1StaffEdOrgAssociationTests,
                                 :v1StaffProgramAssociationTests,
                                 :v1StudentProgramAssociationTests,
@@ -300,7 +301,7 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests] do
   Rake::Task["importSandboxData"].execute
   sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/admintools")
@@ -388,7 +389,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
@@ -447,22 +448,9 @@ end
 # Onboarding Integration Tests start
 ############################################################
 
-desc "Run Onboarding Integration Tests"
-task :onboardingIntegrationSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
 
 desc "Run Onboarding Integration Tests"
-task :onboardingIntegrationProdTests do
-  @tags = ["~@wip", "@production"]
+task :onboardingIntegrationTests do
 sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
 runTests("test/features/sandbox/Integration/onboarding_integration.feature")
   displayFailureReport()
@@ -564,7 +552,7 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "courseOffering" => "sessionCourseAssociation_fixture.json",
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
@@ -592,7 +580,7 @@ task :importSandboxData do
     "assessment" => "smallville_assessment_fixture.json",
     "course" => "smallville_courses_fixture.json",
     "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
-    "sessionCourseAssociation" => "smallville_course_session_association_fixture.json",
+    "courseOffering" => "smallville_course_session_association_fixture.json",
     "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
     "educationOrganization" => "smallville_edOrg_fixture.json",
     "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",

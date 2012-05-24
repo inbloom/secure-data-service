@@ -292,17 +292,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
         
-        if (neutralRecord.getRecordType().equals("session")) {
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob("session", job.getId(),
-                    neutralQuery);
-            encounteredStgCollections.add("session");
-        } else {
-            
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-            
-            encounteredStgCollections.add(neutralRecord.getRecordType());
-        }
+        stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
+        
+        encounteredStgCollections.add(neutralRecord.getRecordType());
+        
         return stagedNeutralRecords;
     }
     

@@ -41,7 +41,7 @@ module ApprovalEngine
 
 	# Roles to set in production mode
 	PRODUCTION_ROLES = [
-		"Vendor_Admin"
+		"Application Developer"
 	]
 
 	## backend storage
@@ -117,7 +117,7 @@ module ApprovalEngine
       if @@is_sandbox
         email[:subject] = "Developer Account Approval"
         email[:content] = "Hello,\n\n" <<
-          "Your request for developer account has been  approved.  There are some additional steps needed before you can use your sandbox environment.\n\n" <<
+          "Your request for developer account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
           "To provision your landing zone go to:\n" <<
           "__URI__/landing_zone\n\n" <<
           "To register your applications go to:\n" <<
@@ -127,7 +127,7 @@ module ApprovalEngine
       else
         email[:subject] = "Vendor Account Approval"
         email[:content] = "Hello,\n\n" <<
-          "Your request for vendor account has been  approved.\n\n" <<
+          "Your request for vendor account has been approved.\n\n" <<
           "To register your applications go to:\n" <<
           "__URI__/apps\n\n" <<
           "Thank you,\n" <<

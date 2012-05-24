@@ -16,7 +16,7 @@
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/ingestion.log</fileNamePattern>
+        <fileNamePattern>${logging.path}/ingestion-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
       <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
@@ -28,7 +28,7 @@
     <File>${logging.path}/performance.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/performance.log</fileNamePattern>
+        <fileNamePattern>${logging.path}/performance-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
@@ -40,7 +40,7 @@
     <File>${logging.path}/Security.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/Security.log</fileNamePattern>
+        <fileNamePattern>${logging.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
@@ -52,7 +52,7 @@
     <File>${logging.path}/performanceStatistics.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/%d{yyyy-MM-dd}/performanceStatistics.log</fileNamePattern>
+        <fileNamePattern>${logging.path}/performanceStatistics-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n

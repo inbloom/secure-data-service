@@ -191,8 +191,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addDefinition(educationOrganizationAssociation);
 
-        AssociationDefinition courseOffering = factory.makeAssoc("sessionCourseAssociation", "courseOfferings")
-                .exposeAs(ResourceNames.SESSION_COURSE_ASSOCIATIONS).storeAs("sessionCourseAssociation")
+        AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
+                .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")
                 .from(session, "getSession", "getSessions").to(course, "getCourse", "getCourses")
                 .calledFromSource("getCourseOfferings").calledFromTarget("getCourseOfferings")
                 .build();
@@ -263,6 +263,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
 
         addDefinition(factory.makeEntity("tenant").storeAs("tenant").build());
+        addDefinition(factory.makeEntity("securityEvent").storeAs("securityEvent").build());
 
         this.registerDirectReferences();
     }
@@ -286,7 +287,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 ReferenceSchema schema = fieldSchema.getValue(); // access to the reference schema
                 Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
 
-                if (resources == null) continue;
+                if (resources == null) {
+                    continue;
+                }
                 for (String resource : resources) {
                     EntityDefinition referencedEntity = this.mapping.get(resource);
                     LOG.debug(

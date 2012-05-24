@@ -13,11 +13,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
@@ -30,6 +25,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -45,6 +44,10 @@ public class OnboardingResource {
 
     @Autowired
     private TenantResource tenantResource;
+    
+    //Use this to check if we're in sandbox mode
+    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
+    protected boolean isSandboxImpersonationEnabled;
 
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
@@ -86,7 +89,12 @@ public class OnboardingResource {
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
         // Ensure the user is an admin.
-        if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
+        Right requiredRight = Right.INGEST_DATA;
+        if (isSandboxImpersonationEnabled) {
+            requiredRight = Right.ADMIN_ACCESS;
+        }
+        
+        if (!SecurityUtil.hasRight(requiredRight)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
             return Response.status(Status.FORBIDDEN).entity(body).build();

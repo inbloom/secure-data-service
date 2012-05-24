@@ -24,29 +24,29 @@ Then /^I see the list of all available apps on SLI$/ do
 end
 
 Then /^the authorized apps for my district are colored green$/ do
-  approved = @appsTable.find_elements(:xpath, ".//tr/td[text()='Approved']")
+  approved = @appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='Approved']")
   approved.each do |currentStatus|
     assert(currentStatus.attribute(:id) == "approvedStatus", "App is not the right color, should be green")
   end
 end
 
 Then /^the unauthorized are colored red$/ do
-  notApproved = @appsTable.find_elements(:xpath, ".//tr/td[text()='Not Approved']")
+  notApproved = @appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='Not Approved']")
   notApproved.each do |currentStatus|
     assert(currentStatus.attribute(:id) == "notApprovedStatus", "App is not the right color, should be red")
   end
 end
 
 Then /^are sorted by 'Status'$/ do
-  tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
+  tableHeadings = @appsTable.find_elements(:xpath, ".//thead/tr/th")
   index = 0
   tableHeadings.each do |arg|
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
-  rows = @appsTable.find_elements(:xpath, ".//tr/..")
+  rows = @appsTable.find_elements(:xpath, ".//tbody/tr")
   inApprovedSection = true
   rows.each do |curRow| 
-    td = curRow.find_element(:xpath, ".//td[#{index}]")
+    td = curRow.find_element(:xpath, "//td[#{index}]")
     assert(inApprovedSection || (!inApprovedSection && td.text != "Approved"), "Encountered an app with a 'Approved' status after one with a 'Not Approved' status")
     if td.text == "Not Approved"
       inApprovedSection = false
@@ -83,14 +83,14 @@ When /^I pass my valid username and password$/ do
 end
 
 Then /^I get message that I am not authorized$/ do
-  isForbidden = @driver.find_element(:xpath, './/body/title[text()="Not Authorized (403)"]')
+  isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
   assert(isForbidden != nil)
 end
 
 Then /^I do not get message that I am not authorized$/ do
   isForbidden = nil
   begin
-    isForbidden = @driver.find_element(:xpath, './/body/title[text()="Not Authorized (403)"]')
+    isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
   rescue Exception => e
     #expected
     assert(isForbidden == nil)
@@ -109,14 +109,14 @@ end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
   @appName = arg1
-  apps = @driver.find_elements(:xpath, ".//tr/td[text()='#{arg1}']/..")
+  apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
   assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
   statusIndex = 4
     
-  @appRow = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  @appRow = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus}")
 end
@@ -143,12 +143,12 @@ When /^I click on Ok$/ do
 end
 
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)
 end
 
 Then /^is put on the top of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tr/td/..")
+  @row = @driver.find_element(:xpath, ".//tbody/tr/td/..")
   assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 
@@ -195,12 +195,12 @@ Given /^I am asked 'Do you really want deny access to this application of the di
 end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)
 end
 
 Then /^it is put on the bottom of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  @row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
 end
 
 Then /^the Approve button next to it is enabled$/ do

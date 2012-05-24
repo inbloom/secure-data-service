@@ -1,3 +1,5 @@
+@RALLY_US1706
+@RALLY_US1970
 Feature: Ed-Fi XSD Verification
 
 Background: I have a landing zone route configured

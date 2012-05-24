@@ -1,3 +1,8 @@
 // Place all the styles related to the ApplicationAuthorizations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#approvedStatus {
+  color: green; }
+
+#notApprovedStatus {
+  color: red; }
