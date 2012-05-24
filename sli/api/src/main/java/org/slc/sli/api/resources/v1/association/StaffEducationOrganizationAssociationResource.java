@@ -25,29 +25,33 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$Staff$$ member a $$Cohort$$.
+ * Represents the link between an education organization and a staff member. Education
+ * organizations employ multiple staff and staff are free to work at multiple education
+ * organizations.
  *
- * For more information, see the schema for $$StaffCohortAssociation$$ resources.
+ * For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources.
  *
  * @author kmyers
- * @author srichards
  *
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
+@Path(PathConstants.V1 + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
 @Component
 @Scope("request")
-public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
+public class StaffEducationOrganizationAssociationResource extends DefaultCrudEndpoint {
 
+    public static final String STAFF_REFERENCE = "staffReference";
+    public static final String EDUCATION_ORGANIZATION_REFERENCE = "educationOrganizationReference";
+    public static final String STAFF_CLASSIFICATION = "staffClassification";
     public static final String BEGIN_DATE = "beginDate";
 
     /**
      * Logging utility.
      */
-//    private static final Logger LOGGER = LoggerFactory.getLogger(StaffCohortAssociation.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(StaffEducationOrganizationAssociation.class);
 
     @Autowired
-    public StaffCohortAssociationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.STAFF_COHORT_ASSOCIATIONS);
+    public StaffEducationOrganizationAssociationResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
 //        DE260 - Logging of possibly sensitive data
 //        LOGGER.debug("New resource handler created: {}", this);
     }
@@ -78,10 +82,10 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      */
     @Override
     @GET
-    @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
-    public Response read(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
+    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
+    public Response read(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(staffCohortAssociationId, headers, uriInfo);
+        return super.read(staffEducationOrganizationAssociationId, headers, uriInfo);
     }
 
     /**
@@ -89,10 +93,10 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      */
     @Override
     @DELETE
-    @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
+    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(staffCohortAssociationId, headers, uriInfo);
+        return super.delete(staffEducationOrganizationAssociationId, headers, uriInfo);
     }
 
     /**
@@ -100,36 +104,36 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
      */
     @Override
     @PUT
-    @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
+    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}")
+    public Response update(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationAssociationId,
             final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(staffCohortAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(staffEducationOrganizationAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
-    @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
-    public Response getStaffCohortAssocationStaff(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
+    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.STAFF)
+    public Response getStaffEducationOrganizationAssocationStaff(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId,
-               ParameterConstants.STAFF_ID, ResourceNames.STAFF, headers, uriInfo);
+       return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationAssociationId,
+               "staffReference", ResourceNames.STAFF, headers, uriInfo);
     }
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
-    @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)
-    public Response getStaffCohortAssocationCohorts(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
+    @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
+    public Response getStaffEducationOrganizationAssocationEducationOrganizations(@PathParam(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID) final String staffEducationOrganizationAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId,
-                ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
+        return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "_id", staffEducationOrganizationAssociationId,
+                "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
     }
 }

@@ -13,10 +13,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Defines various levels for assessed competencies.
- * For more information, see the schema for $$compentencyLevelDescriptors$$.
+ *
+ * For more information, see the schema for $$CompetencyLevelDescriptor$$ resources.
  *
  * @author chung
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COMPETENCY_LEVEL_DESCRIPTORS)
 @Component

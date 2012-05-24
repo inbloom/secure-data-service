@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents list of $$userAccounts$$ (developer/vendor) and status of the
+ * Represents list of $$UserAccount$$ (developer/vendor) and status of the
  * account requested by them.
  *
  * @author jstokes
@@ -43,17 +43,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$userAccounts$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns all $$UserAccount$$ entities for which the logged in User has permission and context.
      */
     @Override
     @GET
@@ -64,18 +54,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$userAccounts$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * Create a new $$UserAccount$$ entity.
      */
     @Override
     @POST
@@ -85,15 +64,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$userAccounts$$ entity
-     *
-     * @param userAccountId
-     *            The Id of the $$userAccounts$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single $$userAccounts$$ entity
+     * Get a single $$UserAccount$$ entity
      */
     @Override
     @GET
@@ -104,16 +75,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$userAccounts$$ entity
-     *
-     * @param userAccountId
-     *            The Id of the $$userAccounts$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Delete a $$UserAccount$$ entity
      */
     @Override
     @DELETE
@@ -124,18 +86,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$userAccounts$$ entity.
-     *
-     * @param userAccountId
-     *            The id of the $$userAccounts$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Update an existing $$UserAccount$$ entity.
      */
     @Override
     @PUT

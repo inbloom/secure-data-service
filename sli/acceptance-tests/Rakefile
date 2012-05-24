@@ -227,6 +227,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
+                     :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
@@ -388,7 +389,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,

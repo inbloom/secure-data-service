@@ -1,3 +1,4 @@
+@RALLY_US149
 Feature: Student Transcript History Panel
   As a teacher in a school district, I want to click on a student and look at his/her transcript history.
 

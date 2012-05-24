@@ -1572,15 +1572,37 @@
     <jb:value property="endDate" data="Session/EndDate" />
     <jb:value property="totalInstructionalDays" data="Session/TotalInstructionalDays" decoder="Integer" />
     <jb:value property="schoolId" data="Session/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId"/>
-    <jb:wiring property="gradingPeriod" beanIdRef="gradingPeriod_Session"/>
+    <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray"/>
   </jb:bean>
+  
+  <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeEducationOrgCalendar/Session">
+    <jb:wiring beanIdRef="session_gradingPeriodReference" />
+  </jb:bean>
+  
+  <jb:bean beanId="session_gradingPeriodReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
+    <jb:value property="GradingPeriodIdentity" data="Session/GradingPeriodReference/@ref" />
+  </jb:bean>
+  
+  <!--
+  <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort">
+    <jb:wiring beanIdRef="Cohort_ProgramReference" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_ProgramReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
+    <jb:wiring property="ProgramIdentity" beanIdRef="Cohort_ProgramReference_ProgramIdentity" />
+  </jb:bean>
+  
+  <jb:bean beanId="gradingPeriodReferenceArray_Session" class="java.util.ArrayList" 
+    createOnElement="InterchangeEducationOrgCalendar/Session">
+        <jb:value data="GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
+  </jb:bean>
+  -->
 
-  <jb:bean beanId="gradingPeriod_Session" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-    <jb:expression property="gradingPeriod">'Second Six Weeks'</jb:expression>
-    <jb:expression property="beginDate">'2000-01-01'</jb:expression>
-    <jb:expression property="endDate">'2000-01-01'</jb:expression>
-    <jb:expression property="totalInstructionalDays">'80'</jb:expression>
-  </jb:bean>
   <!-- Assessment family mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentFamily">
 
