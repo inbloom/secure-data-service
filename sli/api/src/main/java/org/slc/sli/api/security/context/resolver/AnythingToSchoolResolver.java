@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Component
 public class AnythingToSchoolResolver implements EntityContextResolver {
-    private String toEntity;
+    protected String toEntity;
 
     @Autowired
     private EntityDefinitionStore store;

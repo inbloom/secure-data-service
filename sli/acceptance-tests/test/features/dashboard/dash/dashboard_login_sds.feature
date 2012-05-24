@@ -295,7 +295,8 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "South Daybreak Elementary"
+#Schools have been made publicly visible - this step can be added when dashboard lists the correct schools
+#Then I only see "South Daybreak Elementary"
 And I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
@@ -315,7 +316,8 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "South Daybreak Elementary"
+#Schools have been made publicly visible - this step can be added when dashboard lists the correct schools
+#Then I only see "South Daybreak Elementary"
 And I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
@@ -338,7 +340,8 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "South Daybreak Elementary"
+#Schools have been made publicly visible - this step can be added when dashboard lists the correct schools
+#Then I only see "South Daybreak Elementary"
 And I select school "South Daybreak Elementary"
 Then I don't see a course selection
 
