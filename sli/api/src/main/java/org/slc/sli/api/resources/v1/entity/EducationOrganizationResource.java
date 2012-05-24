@@ -22,10 +22,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents any public or private institution, organization, or agency that provides instructional
  * or support services to students or staff at any level.
  *
- * For more information, see the schema for $$educationOrganizations$$ resource.
+ * For more information, see the schema for $$EducationOrganization$$ resources.
  *
  * @author kmyers
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
 @Component
@@ -40,20 +39,6 @@ public class EducationOrganizationResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param educationOrganizationId
-     *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"
@@ -67,14 +52,6 @@ public class EducationOrganizationResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param educationOrganizationId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"

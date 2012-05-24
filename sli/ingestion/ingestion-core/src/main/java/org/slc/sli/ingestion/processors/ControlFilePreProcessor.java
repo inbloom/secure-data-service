@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -112,6 +114,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             } catch (UnknownHostException e) {
                 LOG.error("Error getting local host", e);
             }
+            List<String> userRoles = Collections.emptyList();
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
                     "", // user
                     "", // targetEdOrg
@@ -125,6 +128,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                     ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                     this.getClass().getName(), // className
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
+                    userRoles,
                     "Ingestion process started."); // Alpha MH (logMessage)
 
              audit(event);

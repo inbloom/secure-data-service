@@ -1,3 +1,4 @@
+@RALLY_US2292
 Feature: Negative Ingestion Testing
 
 Background: I have a landing zone route configured
