@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -43,7 +44,7 @@ public class LearningObjectiveTransformTest {
     @Mock
     NeutralRecordRepository repo;
 
-    String transformCollection = LearningObjectiveTransform.LEARNING_OBJ_COLLECTION + "_transformed";
+    String transformCollection = EntityNames.LEARNINGOBJECTIVE + "_transformed";
 
     @Before
     public void init() {
@@ -87,7 +88,7 @@ public class LearningObjectiveTransformTest {
 
     private static NeutralRecord createNeutralRecord(String objectiveId, String contentStandardName) {
         NeutralRecord nr = new NeutralRecord();
-        nr.setRecordType(LearningObjectiveTransform.LEARNING_OBJ_COLLECTION);
+        nr.setRecordType(EntityNames.LEARNINGOBJECTIVE);
         nr.setAttributes(new HashMap<String, Object>());
         nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
