@@ -111,7 +111,7 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-            if (principal != null) {
+            if (principal != null && principal.getSliRoles() != null) {
 
                 Set<String> sliRoles = new HashSet<String>(principal.getSliRoles());
 
