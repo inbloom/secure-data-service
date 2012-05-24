@@ -155,6 +155,15 @@ public class IdNormalizer {
         return ids.get(0);
     }
 
+    /**
+     * Recursively resolves SLI internal id's.
+     * @param entity entity to have id's embedded on.
+     * @param tenantId tenant of the entity.
+     * @param refConfig reference configuration (json).
+     * @param fieldPath field to be resolved.
+     * @param errorReport error reporting.
+     * @return list of strings representing resolved id's.
+     */
     public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport) {
 
@@ -185,23 +194,24 @@ public class IdNormalizer {
                             if (fv.getRef() != null) {
                                 List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
                                         fieldPath, proxyErrorReport);
-                                if (resolvedIds != null) {
+                                if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
-                                }
-                                if (filterValues.isEmpty()) {
-                                    return new ArrayList<String>();
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
                                         refIndex);
                                 try {
                                     Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                    if (entityValue instanceof Collection) {
-                                        Collection<?> entityValues = (Collection<?>) entityValue;
-                                        filterValues.addAll(entityValues);
-                                    } else if (entityValue != null) {
-                                        filterValues.add(entityValue.toString());
+                                    
+                                    if (entityValue != null) {
+                                        if (entityValue instanceof Collection) {
+                                            Collection<?> entityValues = (Collection<?>) entityValue;
+                                            filterValues.addAll(entityValues);
+                                        } else if (entityValue != null) {
+                                            filterValues.add(entityValue.toString());
+                                        }
                                     }
+                                    
                                 } catch (Exception e) {
                                     LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
                                             + entity.getType() + " ", e.getLocalizedMessage());
@@ -215,6 +225,7 @@ public class IdNormalizer {
                             }
                         }
                         if (filterValues.size() > 0) {
+                            LOG.info("adding criteria where {} is $in: {}", field.getPath(), filterValues);
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }
