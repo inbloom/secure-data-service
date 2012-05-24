@@ -22,6 +22,8 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
@@ -111,7 +113,8 @@ public class ControlFilePreProcessor implements Processor {
                 LOG.error("Error getting local host", e);
             }
             List<String> userRoles = Collections.emptyList();
-            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
+            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
+                                                                                                               // MH
                     "", // user
                     "", // targetEdOrg
                     "processUsingNewBatchJob", // Alpha MH (actionUri)
@@ -124,10 +127,9 @@ public class ControlFilePreProcessor implements Processor {
                     ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                     this.getClass().getName(), // className
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                    userRoles,
-                    "Ingestion process started."); // Alpha MH (logMessage)
+                    userRoles, "Ingestion process started."); // Alpha MH (logMessage)
 
-             audit(event);
+            audit(event);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
@@ -147,6 +149,11 @@ public class ControlFilePreProcessor implements Processor {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
+
+            // FIXME we should be creating WorkNote at the very first point of processing.
+            // this will require some routing changes
+            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
 
