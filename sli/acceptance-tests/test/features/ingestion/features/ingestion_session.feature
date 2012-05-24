@@ -21,11 +21,10 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count  |
      | calendarDate                | 5      |
-     | gradingPeriod               | 6      |
      | educationOrganization       | 6      |
-     | session                     | 10     |
+     | gradingPeriod               | 6      |
      | schoolSessionAssociation    | 0      |
-     | gradingPeriod               | 5      |
+     | session                     | 10     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue             | searchType           |
      | session                     | 1                   | body.sessionName                            | Fall 2011 Able School   | string               |
@@ -36,8 +35,12 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 5                   | body.endDate                                | 2011-12-23              | string               |
      | session                     | 5                   | body.totalInstructionalDays                 | 125                     | integer              |
      | session                     | 5                   | body.totalInstructionalDays                 | 80                      | integer              |
-  And I should see "Processed 26 records." in the resulting batch job file
+  And I should see "Processed 37 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "Session2.xml records considered: 21" in the resulting batch job file
-  And I should see "Session2.xml records ingested successfully: 21" in the resulting batch job file
+  And I should see "Session2.xml records considered: 31" in the resulting batch job file
+  And I should see "Session2.xml records ingested successfully: 31" in the resulting batch job file
   And I should see "Session2.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file 
+  And I should see "InterchangeEducationOrganization.xml records ingested successfully: 6" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
+  
