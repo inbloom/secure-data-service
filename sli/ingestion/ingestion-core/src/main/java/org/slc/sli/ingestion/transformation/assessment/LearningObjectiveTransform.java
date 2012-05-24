@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -44,28 +45,29 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
-        
+
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
 
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
-        
+
         LOG.info("Loading data for learning objective transformation.");
         Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(EntityNames.LEARNINGOBJECTIVE);
         LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.LEARNINGOBJECTIVE, learningObjectives.size());
-        
+
         for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
             NeutralRecord lo = entry.getValue();
             Map<String, Object> attributes = lo.getAttributes();
             String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
-                if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
+                LearningObjectiveId learningObjectiveId = new LearningObjectiveId(objectiveId, contentStandard);
+                if (learningObjectiveIdMap.containsKey(learningObjectiveId)) {
                     super.getErrorReport(lo.getSourceFile()).error(
                             "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
                                     + objectiveId + ", ContentStandardName" + contentStandard, this);
                     continue;
                 }
-                learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
+                learningObjectiveIdMap.put(learningObjectiveId, lo);
             }
             allLearningObjectives.add(lo);
         }
