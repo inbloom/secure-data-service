@@ -5,10 +5,12 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
@@ -19,6 +21,9 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 public class ContextResolverStore implements ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
+
+    @Autowired
+    private DenyAllContextResolver denyAllContextResolver;
 
     private Collection<EntityContextResolver> resolvers;
 
@@ -46,8 +51,8 @@ public class ContextResolverStore implements ApplicationContextAware {
         }
 
         if (found == null) {
-            LOG.warn("No path resolver defined for {} -> {} returning a no-man (for now)", fromEntityType, toEntityType);
-            throw new IllegalStateException("Requested an unsupported resolution path " + fromEntityType + " -> " + toEntityType);
+            found = denyAllContextResolver;
+            LOG.warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
 
         return found;

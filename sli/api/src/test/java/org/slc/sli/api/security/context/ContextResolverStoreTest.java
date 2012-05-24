@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
@@ -64,9 +65,11 @@ public class ContextResolverStoreTest {
     }
 
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testNotFoundResolver() {
-        this.contextResolverStore.findResolver("hobbit", "mordor");
+        EntityContextResolver resolver = this.contextResolverStore.findResolver("hobbit", "mordor");
+
+        Assert.assertTrue(resolver.getClass() == DenyAllContextResolver.class);
     }
 
 }
