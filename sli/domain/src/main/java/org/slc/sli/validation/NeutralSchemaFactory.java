@@ -6,10 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
@@ -38,7 +35,7 @@ import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
  *
  */
 @Component
-public class NeutralSchemaFactory implements SchemaFactory, ApplicationContextAware {
+public class NeutralSchemaFactory implements SchemaFactory {
 
     @Resource(name = "validationStrategyList")
     private List<AbstractBlacklistStrategy> validationStrategyList;
@@ -46,7 +43,8 @@ public class NeutralSchemaFactory implements SchemaFactory, ApplicationContextAw
     @Resource(name = "relaxedValidationStrategyList")
     private List<AbstractBlacklistStrategy> relaxedValidationStrategyList;
 
-    private ApplicationContext applicationContext;
+    @Autowired
+    private SchemaRepositoryProvider schemaRepositoryProvider;
 
     /*
      * (non-Javadoc)
@@ -121,28 +119,14 @@ public class NeutralSchemaFactory implements SchemaFactory, ApplicationContextAw
             case COMPLEX:
                 return new ComplexSchema(schemaType.getName());
             case REFERENCE:
-                return getReferenceSchema(schemaType);
+                return new ReferenceSchema(schemaType.getName(),
+                        schemaRepositoryProvider != null ? schemaRepositoryProvider.getSchemaRepository() : null);
             case CHOICE:
                 return new ChoiceSchema(schemaType.getName());
             default:
                 return null;
         }
     }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    private NeutralSchema getReferenceSchema(NeutralSchemaType schemaType) {
-        if (applicationContext != null) {
-            return new ReferenceSchema(schemaType.getName(),
-                    applicationContext.getBean(SchemaRepository.class));
-        } else {
-            return new ReferenceSchema(schemaType.getName());
-        }
-    }
-
 
 
 }

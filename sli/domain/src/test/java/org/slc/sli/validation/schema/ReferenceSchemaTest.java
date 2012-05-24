@@ -53,7 +53,7 @@ public class ReferenceSchemaTest {
 
     @Before
     public void setup() {
-        schema = new ReferenceSchema("", schemaRepository);
+        schema = new ReferenceSchema("school", schemaRepository);
 
         Entity entity = mock(Entity.class);
         when(entity.getEntityId()).thenReturn(UUID);
