@@ -33,7 +33,7 @@
 		<div class="realm-name">
 			<h1>
 				<span class="heading">
-					<img src="resources/${realm}.png"/>
+					<img src="resources/${fn:escapeXml(realm)}.png"/>
 					<c:choose>
 						<c:when test ="${realm=='SLIAdmin'}">
 							SLI Admin IDP
