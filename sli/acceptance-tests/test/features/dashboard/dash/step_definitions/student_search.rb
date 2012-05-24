@@ -63,12 +63,12 @@ end
 
 Then /^I click on the next page$/ do
   @currentSearchResultsUrl = @driver.current_url
-  nextButton = @driver.find_element(:id, "dbrd_btn_search_next").click
+  nextButton = @driver.find_element(:id, "searchNextBtn").click
 end
 
 Then /^I click on the previous page$/ do
   @currentSearchResultsUrl = @driver.current_url
-  prevButton = @driver.find_element(:id, "dbrd_btn_search_prev").click
+  prevButton = @driver.find_element(:id, "searchPrevBtn").click
 end
 
 Then /^I select page size of "([^"]*)"$/ do |pageSize|
