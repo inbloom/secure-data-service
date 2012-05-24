@@ -2,6 +2,2215 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
 
+	<CourseOffering>
+		<LocalCourseCode>3rd Grade Homeroom</LocalCourseCode>
+		<LocalCourseTitle>3rd Grade Homeroom</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>3rd Grade Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Government-4</LocalCourseCode>
+		<LocalCourseTitle>Government-4</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Government-4</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 4A</LocalCourseCode>
+		<LocalCourseTitle>Math 4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 4A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 4A</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 4A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Reading 4A</LocalCourseCode>
+		<LocalCourseTitle>Reading 4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Reading 4A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 4A</LocalCourseCode>
+		<LocalCourseTitle>Science 4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 4A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Writing 4A</LocalCourseCode>
+		<LocalCourseTitle>Writing 4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Writing 4A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Choir A</LocalCourseCode>
+		<LocalCourseTitle>Choir A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Choir A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>ELA 8A</LocalCourseCode>
+		<LocalCourseTitle>ELA 8A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>ELA 8A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 8A</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 8A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 8A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Pre-Algebra I</LocalCourseCode>
+		<LocalCourseTitle>Pre-Algebra I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Pre-Algebra I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 8A</LocalCourseCode>
+		<LocalCourseTitle>Science 8A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 8A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>U.S. History I</LocalCourseCode>
+		<LocalCourseTitle>U.S. History I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2008 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>U.S. History I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>5th Grade Homeroom</LocalCourseCode>
+		<LocalCourseTitle>5th Grade Homeroom</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>5th Grade Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Government-5</LocalCourseCode>
+		<LocalCourseTitle>Government-5</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Government-5</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 5A</LocalCourseCode>
+		<LocalCourseTitle>Math 5A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 5A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 5A</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 5A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 5A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Reading 5A</LocalCourseCode>
+		<LocalCourseTitle>Reading 5A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Reading 5A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 5A</LocalCourseCode>
+		<LocalCourseTitle>Science 5A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 5A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Writing 5A</LocalCourseCode>
+		<LocalCourseTitle>Writing 5A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Writing 5A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Basic Math I</LocalCourseCode>
+		<LocalCourseTitle>Basic Math I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Basic Math I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>English 9A ELL</LocalCourseCode>
+		<LocalCourseTitle>English 9A ELL</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>English 9A ELL</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Environmental Studies I</LocalCourseCode>
+		<LocalCourseTitle>Environmental Studies I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Environmental Studies I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Vocal Ensemble I</LocalCourseCode>
+		<LocalCourseTitle>Vocal Ensemble I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Vocal Ensemble I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>World History I</LocalCourseCode>
+		<LocalCourseTitle>World History I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>World History I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Yoga and Fitness</LocalCourseCode>
+		<LocalCourseTitle>Yoga and Fitness</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2009 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Yoga and Fitness</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Drama I</LocalCourseCode>
+		<LocalCourseTitle>Drama I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Drama I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>ELA 6A</LocalCourseCode>
+		<LocalCourseTitle>ELA 6A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>ELA 6A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 6A</LocalCourseCode>
+		<LocalCourseTitle>Math 6A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 6A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 6A</LocalCourseCode>
+		<LocalCourseTitle>Science 6A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 6A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Team Sports</LocalCourseCode>
+		<LocalCourseTitle>Team Sports</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Team Sports</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>World History I-G6</LocalCourseCode>
+		<LocalCourseTitle>World History I-G6</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>World History I-G6</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>10th Grade English</LocalCourseCode>
+		<LocalCourseTitle>10th Grade English</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>10th Grade English</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Algebra I</LocalCourseCode>
+		<LocalCourseTitle>Algebra I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Algebra I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Earth Sciences I</LocalCourseCode>
+		<LocalCourseTitle>Earth Sciences I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Earth Sciences I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>State History I</LocalCourseCode>
+		<LocalCourseTitle>State History I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>State History I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Vocal Performance I</LocalCourseCode>
+		<LocalCourseTitle>Vocal Performance I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Vocal Performance I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Weight Training</LocalCourseCode>
+		<LocalCourseTitle>Weight Training</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Weight Training</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>7th Grade English</LocalCourseCode>
+		<LocalCourseTitle>7th Grade English</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>7th Grade English</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>7th Grade Math</LocalCourseCode>
+		<LocalCourseTitle>7th Grade Math</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>7th Grade Math</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Conditioning</LocalCourseCode>
+		<LocalCourseTitle>Conditioning</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Conditioning</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 7A</LocalCourseCode>
+		<LocalCourseTitle>Math 7A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 7A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 7A</LocalCourseCode>
+		<LocalCourseTitle>Science 7A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 7A</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Spanish I</LocalCourseCode>
+		<LocalCourseTitle>Spanish I</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Spanish I</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>State History I-G7</LocalCourseCode>
+		<LocalCourseTitle>State History I-G7</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>State History I-G7</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Kindergarten Homeroom</LocalCourseCode>
+		<LocalCourseTitle>Kindergarten Homeroom</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2010 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Kindergarten Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>American Literature</LocalCourseCode>
+		<LocalCourseTitle>American Literature</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Fall 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>American Literature</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>8th Grade English</LocalCourseCode>
+		<LocalCourseTitle>8th Grade English</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>8th Grade English</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+		<LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>1st Grade Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Spec. Elective: Debate Clinic</LocalCourseCode>
+		<LocalCourseTitle>Spec. Elective: Debate Clinic</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				<SessionName>Fall 2011 Sunset Central High School</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Spec. Elective: Debate Clinic</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>4th Grade Homeroom</LocalCourseCode>
+		<LocalCourseTitle>4th Grade Homeroom</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>4th Grade Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Geography-4</LocalCourseCode>
+		<LocalCourseTitle>Geography-4</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Geography-4</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 4B</LocalCourseCode>
+		<LocalCourseTitle>Math 4B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 4B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 4B</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 4B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 4B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Reading 4B</LocalCourseCode>
+		<LocalCourseTitle>Reading 4B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Reading 4B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 4B</LocalCourseCode>
+		<LocalCourseTitle>Science 4B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 4B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Writing 4B</LocalCourseCode>
+		<LocalCourseTitle>Writing 4B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Writing 4B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Choir B</LocalCourseCode>
+		<LocalCourseTitle>Choir B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Choir B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>ELA 8B</LocalCourseCode>
+		<LocalCourseTitle>ELA 8B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>ELA 8B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 8B</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 8B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 8B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Pre-Algebra II</LocalCourseCode>
+		<LocalCourseTitle>Pre-Algebra II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Pre-Algebra II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 8B</LocalCourseCode>
+		<LocalCourseTitle>Science 8B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 8B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>U.S. History II</LocalCourseCode>
+		<LocalCourseTitle>U.S. History II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2009 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>U.S. History II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Geography-5</LocalCourseCode>
+		<LocalCourseTitle>Geography-5</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Geography-5</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 5B</LocalCourseCode>
+		<LocalCourseTitle>Math 5B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 5B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Phys-Ed 5B</LocalCourseCode>
+		<LocalCourseTitle>Phys-Ed 5B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Phys-Ed 5B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Reading 5B</LocalCourseCode>
+		<LocalCourseTitle>Reading 5B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Reading 5B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 5B</LocalCourseCode>
+		<LocalCourseTitle>Science 5B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 5B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Writing 5B</LocalCourseCode>
+		<LocalCourseTitle>Writing 5B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Spring 2009 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Writing 5B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Basic Math II</LocalCourseCode>
+		<LocalCourseTitle>Basic Math II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Basic Math II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>English 9B ELL</LocalCourseCode>
+		<LocalCourseTitle>English 9B ELL</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>English 9B ELL</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Environmental Studies II</LocalCourseCode>
+		<LocalCourseTitle>Environmental Studies II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Environmental Studies II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Track and Field</LocalCourseCode>
+		<LocalCourseTitle>Track and Field</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Track and Field</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Vocal Ensemble II</LocalCourseCode>
+		<LocalCourseTitle>Vocal Ensemble II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Vocal Ensemble II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>World History II</LocalCourseCode>
+		<LocalCourseTitle>World History II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2010 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>World History II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>6th Grade English</LocalCourseCode>
+		<LocalCourseTitle>6th Grade English</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>6th Grade English</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>6th Grade Math</LocalCourseCode>
+		<LocalCourseTitle>6th Grade Math</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>6th Grade Math</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>7th Grade English</LocalCourseCode>
+		<LocalCourseTitle>7th Grade English</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>7th Grade English</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Drama II</LocalCourseCode>
+		<LocalCourseTitle>Drama II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Drama II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>ELA 6B</LocalCourseCode>
+		<LocalCourseTitle>ELA 6B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>ELA 6B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 6B</LocalCourseCode>
+		<LocalCourseTitle>Math 6B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 6B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Nutrition</LocalCourseCode>
+		<LocalCourseTitle>Nutrition</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Nutrition</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 6B</LocalCourseCode>
+		<LocalCourseTitle>Science 6B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 6B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>World History II-G6</LocalCourseCode>
+		<LocalCourseTitle>World History II-G6</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>World History II-G6</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>10th Grade Writing</LocalCourseCode>
+		<LocalCourseTitle>10th Grade Writing</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>10th Grade Writing</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Algebra II</LocalCourseCode>
+		<LocalCourseTitle>Algebra II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Algebra II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Earth Sciences II</LocalCourseCode>
+		<LocalCourseTitle>Earth Sciences II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Earth Sciences II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Nutrition</LocalCourseCode>
+		<LocalCourseTitle>Nutrition</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Nutrition</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>State History II</LocalCourseCode>
+		<LocalCourseTitle>State History II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>State History II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Vocal Performance II</LocalCourseCode>
+		<LocalCourseTitle>Vocal Performance II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+				<SessionName>Spring 2011 Daybreak Central High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Vocal Performance II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>7th Grade Composition</LocalCourseCode>
+		<LocalCourseTitle>7th Grade Composition</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>7th Grade Composition</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Jazz Band</LocalCourseCode>
+		<LocalCourseTitle>Jazz Band</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Jazz Band</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math 7B</LocalCourseCode>
+		<LocalCourseTitle>Math 7B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math 7B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Science 7B</LocalCourseCode>
+		<LocalCourseTitle>Science 7B</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Science 7B</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Spanish II</LocalCourseCode>
+		<LocalCourseTitle>Spanish II</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Spanish II</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>State History II-G7</LocalCourseCode>
+		<LocalCourseTitle>State History II-G7</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>State History II-G7</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
