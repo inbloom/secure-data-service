@@ -5,6 +5,7 @@
             "fieldPath": "body.schoolId",
             "ref": {
                 "collectionName": "educationOrganization",
+                "optional": true,
                 "choiceOfFields": [
                     [
                         {
