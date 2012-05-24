@@ -32,7 +32,7 @@ Given /^LDAP server has been setup and running$/ do
        :sender_email_addr => @email_sender_address
      }
   
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
+  ApprovalEngine.init(@ldap,Emailer.new(email_conf),true)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
@@ -46,13 +46,13 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 removeUser(@email)
 
   user_info = {
-      :first => "Loraine",
-      :last => "Plyler",
+      :first => "Provision",
+      :last => "test",
        :email => @email,
        :password => "test1234",
        :emailtoken => "token",
        :vendor => @vendor,
-       :status => "pending",
+       :status => "submitted",
        :homedir => "changeit",
        :uidnumber => "500",
        :gidnumber => "500",
@@ -61,7 +61,7 @@ removeUser(@email)
 
   emailToken=ApprovalEngine.add_disabled_user(user_info)
   ApprovalEngine.verify_email(emailToken)
-  ApprovalEngine.change_user_status(@email,"approve",true)
+  #ApprovalEngine.change_user_status(@email,"approve",true)
   #clear_edOrg()
   #clear_tenant()
 end
