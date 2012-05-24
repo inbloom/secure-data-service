@@ -20,8 +20,8 @@ public final class XmiGenerator {
     public static void main(final String[] args) {
         try {
             convert("SLI", "../../domain/src/main/resources/sliXsd/", new Xsd2UmlPluginForSLI());
-            // convert("Ed-Fi-Core", "../../domain/src/main/resources/edfiXsd/", new
-            // Xsd2UmlPluginForEdFi(false));
+            convert("Ed-Fi-Core-1-0-03", "./", new Xsd2UmlPluginForEdFi(false));
+            convert("Ed-Fi-Core-1-0-05", "./", new Xsd2UmlPluginForEdFi(false));
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
