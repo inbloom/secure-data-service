@@ -53,7 +53,7 @@ public class StaffEducationOrganizationAssociationTest {
     @Autowired
     private EducationOrganizationResource educationOrganizationResource;
     @Autowired
-    private StaffEducationOrganizationAssociation staffEducationOrganizationAssociationResource;
+    private StaffEducationOrganizationAssociationResource staffEducationOrganizationAssociationResource;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -84,8 +84,8 @@ public class StaffEducationOrganizationAssociationTest {
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 staffEducationOrganizationAssociationResourceName, staffResourceName, staffId, educationOrganizationResourceName, edOrgId);
-        map.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
-        map.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
+        map.put(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE, staffId);
+        map.put(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         createResponse = staffEducationOrganizationAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
@@ -106,8 +106,8 @@ public class StaffEducationOrganizationAssociationTest {
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 staffEducationOrganizationAssociationResourceName, staffResourceName, staffId, educationOrganizationResourceName, edOrgId);
-        map.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
-        map.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
+        map.put(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE, staffId);
+        map.put(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         createResponse = staffEducationOrganizationAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 

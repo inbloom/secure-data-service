@@ -1,3 +1,4 @@
+@RALLY_US134
 Feature: Admin delegation CRUD
 
 	Scenario: District administrator creating admin delegation

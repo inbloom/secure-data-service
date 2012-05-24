@@ -31,9 +31,9 @@ public final class JavaGenerator {
             doModel("SLI.xmi",
                     "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja",
                     "org.slc.sli.modeling.ninja", config);
-            doModel("xmi-mapping.xmi",
-                    "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
-                    "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
+            // doModel("xmi-mapping.xmi",
+            // "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
+            // "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }

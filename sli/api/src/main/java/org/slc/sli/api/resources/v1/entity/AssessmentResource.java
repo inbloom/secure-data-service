@@ -25,7 +25,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * be used to measure differences in individuals or groups and changes in performance from one
  * occasion to the next.
  *
- * For more information, see the schema for $$assessments$$ resources.
+ * For more information, see the schema for $$Assessment$$ resources.
  *
  * @author jstokes
  *
@@ -43,14 +43,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$ entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
@@ -64,14 +56,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
@@ -86,20 +70,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
@@ -113,14 +83,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
@@ -135,10 +97,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param id
-     *            the id of the assessment
-     * @return the learning standards
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
@@ -149,10 +107,6 @@ public class AssessmentResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param id
-     *            the id of the assessment
-     * @return the learning objectives
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)

@@ -94,7 +94,6 @@ public class ParameterConstants {
      * Entity/Association IDs
      */
     public static final String ASSESSMENT_ID = "assessmentId";
-    public static final String BELL_SCHEDULE_ID = "bellScheduleId";
     public static final String COURSE_ID = "courseId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_ID = "competencyLevelDescriptorId";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE_ID = "competencyLevelDescriptorTypeId";

@@ -9,13 +9,11 @@
 
 	<xs:element name="assessment" type="assessment" />
 	<xs:element name="attendance" type="attendance" />
-	<xs:element name="bellSchedule" type="bellSchedule" />
 	<xs:element name="cohort" type="cohort" />
 	<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
 	<xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
 	<xs:element name="course" type="course" />
 	<xs:element name="disciplineIncident" type="disciplineIncident" />
-	<xs:element name="eventBellScheduleAssociation" type="eventBellScheduleAssociation" />
   <xs:element name="grade" type="grade" />
 	<xs:element name="gradebookEntry" type="gradebookEntry" />
     <xs:element name="gradingPeriod" type="gradingPeriod" />
@@ -28,7 +26,6 @@
 	<xs:element name="schoolSessionAssociation" type="schoolSessionAssociation" />
 	<xs:element name="section" type="section" />
 	<xs:element name="sectionAssessmentAssociation" type="sectionAssessmentAssociation" />
-	<xs:element name="sectionBellScheduleAssociation" type="sectionBellScheduleAssociation" />
 	<xs:element name="session" type="session" />
 	<xs:element name="courseOffering" type="courseOffering" />
 	<xs:element name="staff" type="staff" />

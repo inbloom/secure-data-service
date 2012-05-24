@@ -1,4 +1,5 @@
 @security
+@RALLY_US209
 Feature: Security for Parent CRUD
   As a product owner, I want to validate that my parent entity is properly secured up to current SLI standards
 

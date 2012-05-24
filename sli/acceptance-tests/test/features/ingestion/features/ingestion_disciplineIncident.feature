@@ -1,3 +1,4 @@
+@RALLY_US1889
 Feature: DisciplineIncident Ingestion Test
 
 Background: I have a landing zone route configured

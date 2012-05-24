@@ -31,6 +31,5 @@ public class RoleInitializerTest {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
 
         assertTrue(roleInitializer.buildRoles() == 11);
-
     }
 }

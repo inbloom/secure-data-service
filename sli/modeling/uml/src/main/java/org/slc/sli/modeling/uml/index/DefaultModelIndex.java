@@ -224,6 +224,11 @@ public final class DefaultModelIndex implements ModelIndex {
 
     @Override
     public void lookup(final Identifier id, final Visitor visitor) {
-        elementMap.get(id).accept(visitor);
+        final ModelElement modelElement = elementMap.get(id);
+        if (modelElement != null) {
+            modelElement.accept(visitor);
+        } else {
+            throw new IllegalArgumentException("id=" + id);
+        }
     }
 }
