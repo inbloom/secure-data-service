@@ -81,7 +81,7 @@
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
   <% isNew = @district_hierarchy == nil %>
   <% isPending = client_field_value(app, :client_id) == "Pending"%>
-  <div class ="<%= "field well" if !isNew and !isPending%>">
+  <div class ="<%= "field well edorgs" if !isNew and !isPending%>">
   <% @district_hierarchy = {} if isNew or isPending %>
   <% @district_hierarchy.keys.each do |district| %>
       <%=
