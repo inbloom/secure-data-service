@@ -324,7 +324,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         // /v1/entity/{id}
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
-            public Response run(EntityDefinition entityDef) {
+            public Response run(final EntityDefinition entityDef) {
                 int idLength = idList.split(",").length;
 
                 if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
@@ -347,14 +347,34 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
+                final NeutralQuery finalNeutralQuery = new NeutralQuery(neutralQuery);
+
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
 
                 Iterable<EntityBody> entities;
                 if (idLength == 1) {
-                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
+                    if (shouldReadAll()) {
+                        entities = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
+                            @Override
+                            public Iterable<EntityBody> execute() {
+                                return Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, finalNeutralQuery) });
+                            }
+                        });
+                    } else {
+                        entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
+                    }
                 } else {
-                    entities = entityDef.getService().list(neutralQuery);
+                    if (shouldReadAll()) {
+                        entities = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
+                            @Override
+                            public Iterable<EntityBody> execute() {
+                                return entityDef.getService().list(finalNeutralQuery);
+                            }
+                        });
+                    } else {
+                        entities = entityDef.getService().list(neutralQuery);
+                    }
                 }
 
                 for (EntityBody result : entities) {
