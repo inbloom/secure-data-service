@@ -44,18 +44,18 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
      * @return
      */
     public Object getNode(String key) {
-       if (key == null) {
-           return null;
-       }
-       String[] fieldArray = key.split("\\.");
-       Object node = this;
-       for (String field: fieldArray) {
-           if (node == null || !(node instanceof Map)) {
-               return null;
-           }
-           node = ((Map<String, Object>) node).get(field);
-       }
-       return node;
+        if (key == null) {
+            return null;
+        }
+        String[] fieldArray = key.split("\\.");
+        Object node = this;
+        for (String field : fieldArray) {
+            if (node == null || !(node instanceof Map)) {
+                return null;
+            }
+            node = ((Map<String, Object>) node).get(field);
+        }
+        return node;
     }
 
     @SuppressWarnings("rawtypes")
@@ -76,11 +76,11 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
     }
 
     // Entity Interface for SDK Integration
-    
+
     public String getEntityType() {
         return null;
     }
-    
+
     public Map<String, Object> getData() {
         return this;
     }

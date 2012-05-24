@@ -1045,9 +1045,6 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-//            url.append("&limit=" + Constants.MAX_RESULTS);
-        } else {
-//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return createEntityFromAPI(url.toString(), token);
@@ -1128,9 +1125,6 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-//            url.append("&limit=" + Constants.MAX_RESULTS);
-        } else {
-//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         // get the entities
@@ -1163,9 +1157,6 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
-//            url.append("&limit=" + Constants.MAX_RESULTS);
-        } else {
-//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return url.toString();
