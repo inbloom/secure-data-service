@@ -20,16 +20,6 @@
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
 
-
-<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
-    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
-    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
-    <constructor-arg name="clientId" value="${oauth.client.id}" />
-    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
-    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
-</bean>
-    
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
