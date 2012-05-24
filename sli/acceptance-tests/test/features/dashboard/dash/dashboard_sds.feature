@@ -17,8 +17,11 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
-And I click on "Absence Count" header to sort an integer column in "ascending" order
-And I click on "Student" header to sort a string column in "descending" order
+And I click on "Absence Count" header to sort a "integer" column in "ascending" order
+And I click on "Student" header to sort a "string" column in "descending" order
+And I click on "StateTest Reading Performance Level" header to sort an integer column in "ascending" order based on "title"
+And I click on "StateTest Writing Performance Level" header to sort an integer column in "descending" order based on "title"
+And I click on "Unit Test 1" header to sort a "LetterGrade" column in "ascending" order
 Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
