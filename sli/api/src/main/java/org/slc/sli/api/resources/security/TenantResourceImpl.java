@@ -91,7 +91,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         
         // Tenants can not be created using this class. They will be created via OnboardingResource
-        return Response.status(Status.FORBIDDEN).build();
+        return SecurityUtil.forbiddenResponse();
     }
     
     @Override
@@ -225,7 +225,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to view tenants or landing zones.");
@@ -246,7 +246,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @GET
     @Path("{" + UUID + "}")
     public Response read(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to view tenants or landing zones.");
@@ -259,7 +259,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @DELETE
     @Path("{" + UUID + "}")
     public Response delete(@PathParam(UUID) String uuid, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to delete tenants or landing zones.");
@@ -273,7 +273,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Path("{" + UUID + "}")
     public Response update(@PathParam(UUID) String uuid, EntityBody tenant, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to provision tenants or landing zones.");

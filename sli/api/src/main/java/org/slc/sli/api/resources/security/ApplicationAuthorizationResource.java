@@ -120,7 +120,7 @@ public class ApplicationAuthorizationResource {
 
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -136,6 +136,7 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{" + UUID + "}")
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -167,11 +168,12 @@ public class ApplicationAuthorizationResource {
 
     @GET
     public Response getAuthorizations(@Context UriInfo info) {
+        SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrg = getUsersStateUniqueId();
 
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return Response.status(Status.FORBIDDEN).build();
+            return SecurityUtil.forbiddenResponse();
         }
         
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {

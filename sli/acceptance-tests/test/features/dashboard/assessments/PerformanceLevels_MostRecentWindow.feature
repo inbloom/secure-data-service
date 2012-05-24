@@ -1,3 +1,4 @@
+@RALLY_US510
 @wip
 Feature: Display either most recent performance levels for assessment contents or performance levels in a most recent window.
 
@@ -41,3 +42,4 @@ Scenario: Calculating Most Recent Performance Level for an Assessment Family
 	And I should see a field "Perf. Lvl." in this table
 	And I should see  "Rhonda Delgado" in student field
 	And I should see his/her Perf.level for READ 2.0 for most recent window is "2"
+
