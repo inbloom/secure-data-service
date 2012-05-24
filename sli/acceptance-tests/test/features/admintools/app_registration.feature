@@ -1,3 +1,5 @@
+@RALLY_US187
+@RALLY_US103
 Feature: Application Registration
 As a super-admin I want to be able to create new application keys to allow the onboarding of new applications to SLI
 
@@ -59,7 +61,7 @@ And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" lo
 Then I am redirected to the Application Approval Tool page
 And the pending apps are on top
 And application "NewApp" is pending approval
-When I click on 'X' next to application "NewApp"
+When I click on 'Deny' next to application "NewApp"
 And I get a dialog asking if I want to continue
 When I click 'Yes'
 Then application "NewApp" is not registered 
@@ -90,9 +92,9 @@ Then I am redirected to the Application Approval Tool page
 And I see all the applications registered on SLI
 And I see all the applications pending registration
 And the pending apps are on top
-When I click on 'Y' next to application "NewApp"
+When I click on 'Approve' next to application "NewApp"
 Then application "NewApp" is registered
-And the 'Y' button is disabled for application "NewApp"
+And the 'Approve' button is disabled for application "NewApp"
 
 Scenario: SLC Operator un-registers already-registered application
 Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
@@ -101,7 +103,7 @@ And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And application "NewApp" is registered
-When I click on 'X' next to application "NewApp"
+When I click on 'Deny' next to application "NewApp"
 And I get a dialog asking if I want to continue
 When I click 'Yes'
 Then application "NewApp" is not registered 
@@ -115,7 +117,7 @@ When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
-And I have clicked on the button 'X' for the application named "NewApp"
+And I have clicked on the button 'Deny' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
 When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI

@@ -24,10 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -44,6 +40,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -61,6 +62,8 @@ public class RealmRoleManagerResource {
     private static final String UNKNOWN_SLI_REALM_NAME = "UnknownSLIRealmName";
     private static final String UNKNOWN_SLI_ROLE_NAME  = "UnknownSLIRoleName";
 
+    private static final Logger LOG = LoggerFactory.getLogger(RealmRoleManagerResource.class);
+    
     @Autowired
     private EntityDefinitionStore store;
 
@@ -99,6 +102,7 @@ public class RealmRoleManagerResource {
     @Path("{realmId}")
     @Consumes("application/json")
     public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -126,6 +130,10 @@ public class RealmRoleManagerResource {
             }
         }
 
+        //set the tenant and edOrg
+        updatedRealm.put("tenantId", SecurityUtil.getTenantId());
+        updatedRealm.put("edOrg", SecurityUtil.getEdOrg());
+        
         if (service.update(realmId, updatedRealm)) {
             audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm [" + updatedRealm.get("name") + "] updated!"));
             logChanges(uriInfo, oldRealm, updatedRealm);
@@ -149,6 +157,7 @@ public class RealmRoleManagerResource {
     @POST
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -164,12 +173,18 @@ public class RealmRoleManagerResource {
             Response validateResponse = validateMappings(mappings);
             Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
+                LOG.debug("On Realm create, role mappings aren't valid");
                 return validateResponse;
             } else if (validateUniqueness != null) {
+                LOG.debug("On realm create, uniqueId is not unique");
                 return validateUniqueness;
             }
         }
 
+        //set the tenant and edOrg
+        newRealm.put("tenantId", SecurityUtil.getTenantId());
+        newRealm.put("edOrg", SecurityUtil.getEdOrg());
+        
         String id = service.create(newRealm);
         audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm [" + newRealm.get("name") + "] created!"));
         logChanges(uriInfo, null, newRealm);
@@ -181,6 +196,7 @@ public class RealmRoleManagerResource {
     @GET
     @Path("{realmId}")
     public Response getMappings(@PathParam("realmId") String realmId) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -193,6 +209,7 @@ public class RealmRoleManagerResource {
 
     @GET
     public Response getRealms(@QueryParam("realm") @DefaultValue("") String realm, @Context UriInfo info) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }

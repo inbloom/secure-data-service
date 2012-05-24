@@ -1,3 +1,4 @@
+@RALLY_US2507
 Feature: Common Core Standard Ingestion
 
 Background: I have a landing zone route configured
@@ -43,26 +44,26 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 3     |
-     | learningStandard            | 16    |
+     | learningObjective           | 65     |
+     | learningStandard            | 509    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue    |
-     | learningObjective           | 1                   | body.objective                                 | Geometry       |
+     | learningObjective           | 9                   | body.objective                                 | Geometry       |
      | learningObjective           | 1                   | body.objective                                 | Circles | 
-     | learningObjective           | 1                   | body.objective                                 | Similarity, Right Triangle, and Trigonometry |
-     | learningObjective           | 3                   | body.objectiveGradeLevel                       | Twelfth grade                                |
-     | learningStandard            | 1                   | body.description                               | Explain and use the relationship between the sine and cosine of complementary angles. |
+     | learningObjective           | 1                   | body.objective                                 | Vector And Matrix Quantities|
+     | learningObjective           | 22                   | body.objectiveGradeLevel                       | Ninth grade               |
+     | learningStandard            | 1                   | body.description                               | Read, write, and compare decimals to thousandths. |
      | learningStandard            | 1                   | body.description                               | Prove that all circles are similar. |
-     | learningStandard            | 1                   | body.learningStandardId.identificationCode     | G-SRT.7        |
-     | learningStandard            | 16                  | body.gradeLevel                                | Twelfth grade                                |
-     | learningStandard            | 16                  | body.subjectArea                               | Mathematics    |             
-     | learningStandard            | 16                  | body.contentStandard                           | National Standard    |
+     | learningStandard            | 1                   | body.learningStandardId.identificationCode     | BE6257FC08DA4AA896C87FC4A19F6520|
+     | learningStandard            | 36                  | body.gradeLevel                                | Eighth grade                                |
+     | learningStandard            | 509                  | body.subjectArea                               | Mathematics    |             
+     | learningStandard            | 509                  | body.contentStandard                           | State Standard    |
 
-  And I should see "Processed 19 records." in the resulting batch job file
+  And I should see "Processed 574 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "Grade_12_Math_CCS_G_C.xml records considered: 19" in the resulting batch job file
-  And I should see "Grade_12_Math_CCS_G_C.xml records ingested successfully: 19" in the resulting batch job file
-  And I should see "Grade_12_Math_CCS_G_C.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered: 574" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records ingested successfully: 574" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed: 0" in the resulting batch job file
 
 
 Scenario: Verify resolved references and ingestion to populated database
@@ -75,36 +76,36 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 3     |
-     | learningStandard            | 16    |
+     | learningObjective           | 65     |
+     | learningStandard            | 509    |
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 3     |
-     | learningStandard            | 16    |
+     | learningObjective           | 65     |
+     | learningStandard            | 509    |
 When I find a record in "learningObjective" where "body.objective" is "Circles"
 Then the field "body.learningStandards" is an array of size 5
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.1"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.2"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.3"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.5"
-  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
-When I find a record in "learningObjective" where "body.objective" is "Similarity, Right Triangle, and Trigonometry"
-Then the field "body.learningStandards" is an array of size 11
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.1"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.2"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.3"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.4"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.5"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.7"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.8"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.9"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.10"
-  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.11"
-  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "519064F0E97A489AA657BE1C4D81E64C"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "0B8104A4EC0441BBA569C75FDCD346A2"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "22CA4C028EDD4325ABF6007ADB252DA9"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "48AD7305975E4C38A38484926C2AC2B6"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "48AD7305975E4C38A38484926C2AC2B7"
+#  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
+When I find a record in "learningObjective" where "body.objective" is "Vector And Matrix Quantities"
+Then the field "body.learningStandards" is an array of size 17
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "05BAE0DE74104B1AADC31E85AA1A6128"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "A9F2C3A58194456C9F31B5A8E6D761FE"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "A2C32D9A05114A7A9DF0F41BCD26AA8B"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "FA9C047FE1C547998A6CBB16C323FAD8"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "E71EAB46BC9E474C861A53C60CAB9D2C"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "984534D6C05B4CFB9E257E5BB29EF018"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "B5969B9BA727452CAB1EF05C4694974C"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "5B4228464AF24FC2A8B23CF733ABD5D8"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "FA032D8A02564B37A0BAF505A0296FB5"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "FA032D8A02564B37A0BAF505A0296FB4"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "DB45830F7002427C8AF399E8819DA20E"
+#  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
 
 

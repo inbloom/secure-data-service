@@ -1,7 +1,7 @@
 [
 {
-	"id" : "ISAT-Reading-8th-grade-2011",
-	"assessmentTitle" : "ISAT-Reading-8th-grade-2011",
+	"id" : "StateTest-Reading-8th-grade-2011",
+	"assessmentTitle" : "StateTest-Reading-8th-grade-2011",
 	"maxRawScore" : 364,
 	"minRawScore" : 120,
 	"assessmentPerformanceLevel" : [
@@ -30,11 +30,11 @@
 			"maximumScore" : 364
 		}
 	],
-	"assessmentFamilyHierarchyName":"ISAT.ISAT Reading for Grades 3-8.ISAT Reading for Grade 8"
+	"assessmentFamilyHierarchyName":"StateTest.StateTest Reading for Grades 3-8.StateTest Reading for Grade 8"
 },
 {
-	"id" : "ISAT-Writing-8th-grade-2011",
-	"assessmentTitle" : "ISAT-Writing-8th-grade-2011",
+	"id" : "StateTest-Writing-8th-grade-2011",
+	"assessmentTitle" : "StateTest-Writing-8th-grade-2011",
 	"maxRawScore" : 410,
 	"minRawScore" : 120,
 	"assessmentPerformanceLevel" : [
@@ -63,7 +63,7 @@
 			"maximumScore" : 410
 		}
 	],
-	"assessmentFamilyHierarchyName":"ISAT.ISAT Writing for Grades 3-8.ISAT Writing for Grade 8"
+	"assessmentFamilyHierarchyName":"StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8"
 },
     {
         "id": "TRC_ASSESSMENT_GRADE_2_BOY_ID",
@@ -98,8 +98,8 @@
         ]
     },
     {
-        "id": "DIBELS_NEXT_GRADE_2_BOY_ID_2010",
-        "assessmentTitle": "DIBELS_NEXT_GRADE_2_BOY_2010",
+        "id": "READ2_NEXT_GRADE_2_BOY_ID_2010",
+        "assessmentTitle": "READ2_NEXT_GRADE_2_BOY_2010",
         "maxRawScore": 364,
         "minRawScore": 0,
         "assessmentPerformanceLevel": [
@@ -129,7 +129,7 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2010",
+        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2010",
         	"description": "Beginning of Year",
         	"shortDescription": "BOY",
         	"beginDate": "2010-08-01",
@@ -137,8 +137,8 @@
         }
     },
     {
-        "id": "DIBELS_NEXT_GRADE_3_BOY_ID_2011",
-        "assessmentTitle": "DIBELS_NEXT_GRADE_3_BOY_2011",
+        "id": "READ2_NEXT_GRADE_3_BOY_ID_2011",
+        "assessmentTitle": "READ2_NEXT_GRADE_3_BOY_2011",
         "maxRawScore": 364,
         "minRawScore": 0,
         "assessmentPerformanceLevel": [
@@ -168,7 +168,7 @@
             }
         ],
         "assessmentPeriodDescriptor": {
-        	"codeValue": "DIBELS_NEXT_GRADE_2_BOY_2011",
+        	"codeValue": "READ2_NEXT_GRADE_2_BOY_2011",
         	"description": "Beginning of Year",
         	"shortDescription": "BOY",
         	"beginDate": "2011-08-01",

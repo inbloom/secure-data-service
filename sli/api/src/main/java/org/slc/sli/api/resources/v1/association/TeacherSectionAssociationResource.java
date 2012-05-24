@@ -21,12 +21,12 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the class sections (see the $$sections$$ schema) to which a teacher (see the
- * $$teachers$$ schema) is assigned to. For detailed information, see the schema for the
- * $$teacherSectionAssociations$$ entity
+ * Represents the class sections (see the $$Section$$ schema) to which a teacher (see the
+ * $$Teacher$$ schema) is assigned to.
+ *
+ * For more information, see the schema for $$TeacherSectionAssociation$$ resources.
  *
  * @author srupasinghe
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.TEACHER_SECTION_ASSOCIATIONS)
 @Component
@@ -39,22 +39,7 @@ public class TeacherSectionAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     *
-     * @param teacherSectionAssociationId
-     *            The Id of the $$teacherSectionAssociations$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.TEACHERS)
@@ -69,20 +54,6 @@ public class TeacherSectionAssociationResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param teacherSectionAssociationId
-     *            The Id of the $$teacherSectionAssociations$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.TEACHER_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)

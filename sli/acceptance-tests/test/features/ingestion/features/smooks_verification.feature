@@ -19,11 +19,11 @@ Scenario: Assessment and StudentAssessment Verification
         | student                     | 1     |
         | assessment                  | 1     |
         | studentAssessmentAssociation| 1     |
-    And I find a(n) "assessment" record where "metaData.externalId" is equal to "Grade 8 2011 ISAT Writing"
+    And I find a(n) "assessment" record where "metaData.externalId" is equal to "Grade 8 2011 StateTest Writing"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
-       | body.assessmentTitle                                                     | Grade 8 2011 ISAT Writing             | string               |
-       | body.assessmentIdentificationCode.0.ID                                   | Grade 8 2011 ISAT Writing             | string               |
+       | body.assessmentTitle                                                     | Grade 8 2011 StateTest Writing             | string               |
+       | body.assessmentIdentificationCode.0.ID                                   | Grade 8 2011 StateTest Writing             | string               |
        | body.assessmentIdentificationCode.0.identificationSystem                 | Test Contractor                       | string               |
        | body.assessmentCategory                                                  | State summative assessment 3-8 general| string               |
        | body.academicSubject                                                     | Writing                               | string               |
@@ -50,7 +50,7 @@ Scenario: Assessment and StudentAssessment Verification
        | body.version                                                             | 1                                         | integer               |
        | body.revisionDate                                                        | 2011-03-12                                | string               |
        | body.maxRawScore                                                         | 450                                       | integer               |
-       | body.assessmentFamilyHierarchyName                                       | ISAT.ISAT Writing for Grades 3-8.ISAT Writing for Grade 8 | string               |
+       | body.assessmentFamilyHierarchyName                                       | StateTest.StateTest Writing for Grades 3-8.StateTest Writing for Grade 8 | string               |
 
 
     And I should see "Processed 3 records." in the resulting batch job file
@@ -65,7 +65,7 @@ Scenario: Assessment and StudentAssessment Verification
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "stu_assess.xml records failed: 0" in the resulting batch job file
 
-    And I find a(n) "studentAssessmentAssociation" record where "metaData.externalId" is equal to "{administrationDate=2011-05-01, studentId=1, assessmentId=Grade 8 2011 ISAT Writing}"
+    And I find a(n) "studentAssessmentAssociation" record where "metaData.externalId" is equal to "{administrationDate=2011-05-01, studentId=1, assessmentId=Grade 8 2011 StateTest Writing}"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
        | body.administrationDate                                                  | 2011-05-01                            | string               |

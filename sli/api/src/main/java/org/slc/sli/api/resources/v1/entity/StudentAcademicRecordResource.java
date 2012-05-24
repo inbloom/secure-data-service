@@ -22,10 +22,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
  *
  * If you're looking for records for a particular course, use StudentTranscriptAssociationResource instead.
  *
- * Limitations: None
+ * For detailed information, see the schema for $$StudentAcademicRecord$$ resources.
  *
  * @author kmyers
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ACADEMIC_RECORDS)
 @Component

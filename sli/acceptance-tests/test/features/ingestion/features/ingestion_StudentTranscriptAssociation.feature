@@ -1,3 +1,4 @@
+@RALLY_US149
 Feature: StudentTranscriptAssociation Ingestion Test
 
 Background: I have a landing zone route configured

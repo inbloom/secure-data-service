@@ -28,6 +28,7 @@ public class ErrorController extends GenericLayoutController {
     
     public static final String EXCEPTION_URL = "/exception";
     public static final String TEMPLATE_NAME = "error";
+    public static final String TEMPLATE_FILE = "error.ftl";
     public static final String URL_PARAM_ERROR_TYPE = "errorType";
     
     /**
@@ -58,10 +59,10 @@ public class ErrorController extends GenericLayoutController {
         model.addAttribute(Constants.ATTR_ERROR_HEADING, error.getHeading());
         model.addAttribute(Constants.ATTR_ERROR_CONTENT, error.getContent());
         
-        addHeaderFooter(model);
-        setContextPath(model, request);
+        addCommonData(model, request);
         
-        return new ModelAndView(TEMPLATE_NAME, model);
+        model.addAttribute(Constants.PAGE_TO_INCLUDE, TEMPLATE_FILE);
+        return new ModelAndView(Constants.OVERALL_CONTAINER_PAGE, model);
     }
     
     @RequestMapping(value = "/testException", method = RequestMethod.GET)

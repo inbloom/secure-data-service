@@ -1,38 +1,38 @@
 require "selenium-webdriver"
 require 'approval'
+require "mongo" 
+require 'rumbster'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
+Before do 
+   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
+   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])  
+end
+
+
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "sunsetadmin"                                if human_readable_id == "USERID"
-  id = "sunsetadmin1234"                            if human_readable_id == "PASSWORD"
+  id = @email                                       if human_readable_id == "USERID"
+  id = "test1234"                                   if human_readable_id == "PASSWORD"
+  id = "Test Ed Org"                                   if human_readable_id == "EDORG_NAME"
   id
 end
 
-Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
-  @driver.get url
-  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
 
 Given /^LDAP server has been setup and running$/ do
-  ldap_base=PropLoader.getProps['ldap.base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-  email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
-      :sender_name => "SLC Admin",
-      :sender_email_addr => "hdjksflhsfadslfl@slidev.org"
-    }
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
+  ldap_base=PropLoader.getProps['ldap_base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+   @email_sender_name= "Administrator"
+     @email_sender_address= "noreply@slidev.org"
+      email_conf = {
+       :host => 'mon.slidev.org',
+       :port => 3000,
+       :sender_name => @email_sender_name,
+       :sender_email_addr => @email_sender_address
+     }
+  
+  ApprovalEngine.init(@ldap,Emailer.new(email_conf),true)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
@@ -41,50 +41,58 @@ Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
+#@email="devldapuser_#{Socket.gethostname}@slidev.org"
 @email="devldapuser@slidev.org"
-clear_user()
+removeUser(@email)
+sleep(1)
 
   user_info = {
-      :first => "Loraine",
-      :last => "Plyler",
+      :first => "Provision",
+      :last => "test",
        :email => @email,
-       :password => "secret",
+       :password => "test1234",
        :emailtoken => "token",
        :vendor => @vendor,
-       :status => "pending",
+       :status => "submitted",
        :homedir => "changeit",
        :uidnumber => "500",
        :gidnumber => "500",
-     #  :tenantId => tenantId
+       :tenantId => tenantId
    }
 
-  @ldap.create_user(user_info)
-  ApprovalEngine.change_user_status(@email,"approve",true)
+  emailToken=ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.verify_email(emailToken)
+  #ApprovalEngine.change_user_status(@email,"approve",true)
+  #clear_edOrg()
+  #clear_tenant()
 end
 
-When /^I go to the provisioning application web page$/ do
+When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
+  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+end
+
+
+When /^the developer go to the provisioning application web page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
 end
 
-When /^I provision with high\-level ed\-org to "([^"]*)"$/ do |arg1|
-  @driver.find_element(:id, "custom_ed_org").send_keys arg1
+When /^I provision with high\-level ed\-org to "([^"]*)"$/ do |edorgName|
+  @driver.find_element(:id, "custom_ed_org").send_keys edorgName
   @driver.find_element(:id, "provisionButton").click
+  @edorgName=edorgName
 end
 
 Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
 end
 
-Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)" and "([^"]*)" is "([^"]*)"$/ do |key1, value1,key2,value2|
+Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
 step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
   uri="/v1/educationOrganizations"
   uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
   restHttpGet(uri)
   assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
-  dataH=JSON.parse(@res.body)
-  #verify tenantId after the simple IDP reading tenant info from ldap
- # assert(dataH[0]["metaData"][key2]==value2,"didnt see a top level ed org with #{key2} is #{value2}")
 end
 
 Then /^a request to provision a landing zone is made$/ do
@@ -93,16 +101,20 @@ end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
-  # landing zone path is not saved correctly to ldap
- # assert(user[:homedir]!="changeit","the landing zone path is not stored in ldap")
- clear_user()
+  assert(user[:homedir].include?(@edorgName),"the landing zone path is not stored in ldap")
 end
 
-def clear_user
-  if @ldap.user_exists?(@email)
-  @ldap.delete_user(@email)
+def removeUser(email)
+  if ApprovalEngine.user_exists?(email)
+  ApprovalEngine.remove_user(email)
+  end
 end
+def clear_edOrg
+   edOrg_coll=@db["educationOrganization"]
+   edOrg_coll.remove()
 end
 
-
-
+def clear_tenant
+   tenant_coll=@db["tenant"]
+   tenant_coll.remove()
+end

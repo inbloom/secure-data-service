@@ -38,3 +38,23 @@ Then /^the "([^"]*)" grade for "([^"]*)" is "([^"]*)"$/ do |gradePeriod, student
   gradeFound = getAttribute(studentCell, attribute)
   assert(gradeFound==grade, "Expected: " + grade + " Actual: " + gradeFound)
 end
+
+def letterGradeMapping(grade)
+  mapping = {"F-" => 0,
+             "F" => 1,
+             "F+" => 2, 
+             "D-" => 3,
+             "D" => 4, 
+             "D+" => 5,
+             "C-" => 6, 
+             "C" => 7,
+             "C+" => 8,
+             "B-" => 9,
+             "B" => 10,
+             "B+" => 11,
+             "A-" => 12,
+             "A" => 13, 
+             "A+" => 14}
+  
+  return mapping[grade]
+end

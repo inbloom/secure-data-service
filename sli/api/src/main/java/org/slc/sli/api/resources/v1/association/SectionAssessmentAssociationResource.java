@@ -21,12 +21,11 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the associations between sections and assessments.
+ * Represents the association between a $$Section$$ member a $$Assessment$$.
  *
- * For more information, see the schema for $$sectionAssessmentAssociations$$.
+ * For more information, see the schema for $$SectionAssessmentAssociation$$ resources.
  *
  * @author wscott
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
 @Component
@@ -41,20 +40,6 @@ public class SectionAssessmentAssociationResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param sectionAssessmentAssociationId
-     *            The Id of the sectionAssessmentAssociationId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -70,20 +55,6 @@ public class SectionAssessmentAssociationResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param sectionAssessmentAssociationId
-     *            The Id of the sectionAssessmentAssociationId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.ASSESSMENTS)

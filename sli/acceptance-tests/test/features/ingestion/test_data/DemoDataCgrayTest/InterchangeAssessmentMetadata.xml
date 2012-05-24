@@ -2,10 +2,10 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-<Assessment id="Grade 8 2011 ISAT Reading">
-    <AssessmentTitle>Grade 8 2011 ISAT Reading</AssessmentTitle>
+<Assessment id="Grade 8 2011 StateTest Reading">
+    <AssessmentTitle>Grade 8 2011 StateTest Reading</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Grade 8 2011 ISAT Reading</ID>
+      <ID>Grade 8 2011 StateTest Reading</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
@@ -50,7 +50,7 @@
 		<AssessmentFamilyIdentiy>
 			<AssessmentFamilyIdentificationCode
 				IdentificationSystem="Test Contractor">
-				<ID>ISAT Reading for Grade 8</ID>
+				<ID>StateTest Reading for Grade 8</ID>
 			</AssessmentFamilyIdentificationCode>
 		</AssessmentFamilyIdentiy>
 	</AssessmentFamilyReference>

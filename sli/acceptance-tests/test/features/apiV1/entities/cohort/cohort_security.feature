@@ -1,4 +1,6 @@
+@RALLY_US1804
 @security
+@RALLY_US209
 Feature: Security for Cohort CRUD
   As a product owner, I want to validate that my cohort entity is properly secured up to current SLI standards
 

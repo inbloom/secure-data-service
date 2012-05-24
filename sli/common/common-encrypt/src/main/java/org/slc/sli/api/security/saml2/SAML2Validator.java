@@ -1,5 +1,12 @@
 package org.slc.sli.api.security.saml2;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
+import javax.xml.crypto.MarshalException;
+
 import org.w3c.dom.Document;
 
 /**
@@ -7,6 +14,9 @@ import org.w3c.dom.Document;
  */
 public interface SAML2Validator {
 
+    public boolean isDocumentTrustedAndValid(Document samlDocument) throws KeyStoreException,
+            InvalidAlgorithmParameterException, CertificateException, NoSuchAlgorithmException, MarshalException;
+    
     public boolean isDocumentValid(Document samlDocument);
 
     public boolean isSignatureValid(Document samlDocument);
