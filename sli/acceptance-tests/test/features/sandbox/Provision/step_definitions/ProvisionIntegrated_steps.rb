@@ -62,8 +62,8 @@ removeUser(@email)
   emailToken=ApprovalEngine.add_disabled_user(user_info)
   ApprovalEngine.verify_email(emailToken)
   ApprovalEngine.change_user_status(@email,"approve",true)
-  clear_edOrg()
-  clear_tenant()
+  #clear_edOrg()
+  #clear_tenant()
 end
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
