@@ -64,7 +64,7 @@ public class PropertiesDecryptor {
      * @return
      * @throws Exception
      */
-    private String getDecryptedStringFromCSByteString(String csString) throws Exception {
+    public String getDecryptedStringFromCSByteString(String csString) throws Exception {
         List<String> items = Arrays.asList(csString.split("\\s*,\\s*"));
         byte[] encodedBytes = new byte[items.size()];
         int i = 0;

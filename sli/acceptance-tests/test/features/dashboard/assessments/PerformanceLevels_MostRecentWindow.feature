@@ -25,7 +25,7 @@ Given I am authenticated to SLI as "lkim" "lkim"
 	And I should see  "Delilah Sims" in student field
 	And I should see his/her most recent StateTest Writing Perf. level is "3"
 
-# USE: AssessmentFamilyHierarchy like "READ2.READ2 Next*"	
+# USE: AssessmentFamilyHierarchy like "READ2.READ 2.0*"	
 Scenario: Calculating Most Recent Performance Level for an Assessment Family
  Given I am authenticated to SLI as "rbraverman" "rbraverman"
  When I go to "/studentlist"
@@ -37,7 +37,7 @@ Scenario: Calculating Most Recent Performance Level for an Assessment Family
 	And the view configuration file set "field.value" is "READ2.Mastery level"
 	And the view configuration file set "field.timeslot" is "MOST_RECENT_WINDOW_RESULT"
   
- Then I should see a table heading "READ2 Next"
+ Then I should see a table heading "READ 2.0"
 	And I should see a field "Perf. Lvl." in this table
 	And I should see  "Rhonda Delgado" in student field
-	And I should see his/her Perf.level for READ2 Next for most recent window is "2"
+	And I should see his/her Perf.level for READ 2.0 for most recent window is "2"

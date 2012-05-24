@@ -153,6 +153,31 @@ h7 {
     font-weight: normal;
 }
 
+#sli-loadingSection {
+	position:absolute; 
+	z-index: 99; 
+	width: 100%; 
+	
+	height: 100%; 
+	left: 0; 
+	top: 170px; 
+	bottom:0; 
+	margin:0; 
+	overflow:visible;
+	display: none;
+}
+
+#sli-loadingSection .message {
+	background: url("../images/loading.gif") no-repeat top center;
+	font: 12px Arial, Helvetica, sans-serif; 
+	color: #424242; 
+	width: 460px;
+	margin: 165px auto 0 auto;
+	text-align: center;
+	height: 40x;
+	padding-top: 36px;
+}
+
 .studentInfo { clear: both; }
 
 /** JQueryUI overrides */
@@ -196,12 +221,22 @@ th.ui-th-column div {
     white-space: normal !important;height: auto !important;padding: 4px 5px;text-align: left;
 }
 .ui-jqgrid-bdiv {border-collapse: collapse;}
-.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD; border-right-style:hidden;white-space: normal !important;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td {
+	font-size:13px;
+	color: #333333; 
+	padding: 4px 5px;
+	border-top: 1px solid #DDDDDD; 
+	border-right-style:hidden;
+	white-space: normal;
+}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 .ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }
 .ui-widget-no-border .ui-state-hover a,.ui-widget-no-border  .ui-state-hover a:hover{ color: #000000; text-decoration: underline; }
 .ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #000000 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
+
+.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child { border-right: none; }
+.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 35px !important; }
 
 /* Custom */
 /* Contact Info panel related */

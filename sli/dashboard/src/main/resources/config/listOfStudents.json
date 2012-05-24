@@ -10,7 +10,7 @@
   items : [
     {name: "Default View", 
      items: [
-      {name: "Student", width: 150, field: "name.fullName", formatter:restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
+      {name: "Student", width: 100, field: "name.fullName", formatter:restLink, style:'ui-ellipsis', params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: Lozenge},
       {name: "Grade", field: "score.grade", width:50, formatter: TearDrop},
       {name: "Absence Count", field: "attendances.absenceCount", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},

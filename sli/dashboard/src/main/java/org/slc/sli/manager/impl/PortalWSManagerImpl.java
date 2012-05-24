@@ -34,7 +34,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     @Cacheable(cacheName = "user.portal.header")
     public String getHeader(boolean isAdmin) {
         try {
-            return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin);
+            return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
         } catch (Throwable t) {
             return StringUtils.EMPTY;
         }
@@ -44,7 +44,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     @Cacheable(cacheName = "user.portal.footer")
     public String getFooter(boolean isAdmin) {
         try {
-            return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin);
+            return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);
         } catch (Throwable t) {
             return StringUtils.EMPTY;
         }

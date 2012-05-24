@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * @author agrebneva
  *
  */
-public class StudentSearch implements PagedSearch {
+public class StudentSearch implements PagedEntity {
     @Size(max = 100, message = "Cannot exceed max size")
     @Pattern(regexp = "[a-zA-Z0-9-' ]*")
     private String firstName;
@@ -18,8 +18,8 @@ public class StudentSearch implements PagedSearch {
     @Pattern(regexp = "[a-zA-Z0-9-' ]*")
     private String lastName;
 
-    private int pageNo = PagedSearch.DEFAULT_PAGE_NO;
-    private int pageSize = PagedSearch.DEFAULT_PAGE_SIZE;
+    private int pageNo = PagedEntity.DEFAULT_PAGE_NO;
+    private int pageSize = PagedEntity.DEFAULT_PAGE_SIZE;
 
     public String getFirstName() {
         return firstName;

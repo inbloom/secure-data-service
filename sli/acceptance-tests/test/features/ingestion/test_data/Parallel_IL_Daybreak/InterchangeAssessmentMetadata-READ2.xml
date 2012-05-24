@@ -2,11 +2,11 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-<!-- READ2 Next-->
+<!-- READ 2.0-->
   <Assessment id="READ2-Next-Grade-1-BOY">
-    <AssessmentTitle>READ2 Next Grade 1 BOY</AssessmentTitle>
+    <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>READ2 Next Grade 1 BOY</ID>
+      <ID>READ 2.0 Grade 1 BOY</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Reading readiness test</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
@@ -46,16 +46,16 @@
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1</ID>
+          <ID>READ 2.0 Grade 1</ID>
         </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
 
   <Assessment id="READ2-Next-Grade-1-MOY">
-    <AssessmentTitle>READ2 Next Grade 1 MOY</AssessmentTitle>
+    <AssessmentTitle>READ 2.0 Grade 1 MOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>READ2 Next Grade 1 MOY</ID>
+      <ID>READ 2.0 Grade 1 MOY</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Reading readiness test</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
@@ -95,28 +95,28 @@
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next Grade 1</ID>
+          <ID>READ 2.0 Grade 1</ID>
         </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
 
   <AssessmentFamily id="READ2-Next">
-    <AssessmentFamilyTitle>READ2 Next</AssessmentFamilyTitle>
+    <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>READ2 Next</ID>
+      <ID>READ 2.0</ID>
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
   <AssessmentFamily id="READ2-Next-Grade-1">
-    <AssessmentFamilyTitle>READ2 Next Grade 1</AssessmentFamilyTitle>
+    <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>READ2 Next Grade 1</ID>
+      <ID>READ 2.0 Grade 1</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>READ2 Next</ID>
+          <ID>READ 2.0</ID>
          </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
 	</AssessmentFamilyReference>

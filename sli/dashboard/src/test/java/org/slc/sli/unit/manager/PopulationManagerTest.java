@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,11 +246,61 @@ public class PopulationManagerTest {
         Assert.assertEquals(1, attendances.get(Constants.ATTR_TARDY_COUNT));
     }
 
+    @Test
+    public void testStudentComparator() {
+        PopulationManagerImpl populationManager = new PopulationManagerImpl();
+        List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
+        GenericEntity student = new GenericEntity();
+        Map<String, Object> name = new HashMap<String, Object>();
+        name.put("firstName", "J");
+        name.put("lastSurname", "K");
+        student.put("name", name);
+        student.put("id", "dummyId");
+        populationManager.addFullName(student);
+        studentSummaries.add(student);
+
+        name = new HashMap<String, Object>();
+        student = new GenericEntity();
+        name.put("firstName", "Z");
+        name.put("lastSurname", "B");
+        student.put("name", name);
+        student.put("id", "dummyId3");
+        populationManager.addFullName(student);
+        studentSummaries.add(student);
+
+        name = new HashMap<String, Object>();
+        student = new GenericEntity();
+        name.put("firstName", "A");
+        name.put("lastSurname", "B");
+        student.put("name", name);
+        student.put("id", "dummyId1");
+        populationManager.addFullName(student);
+        studentSummaries.add(student);
+
+        name = new HashMap<String, Object>();
+        student = new GenericEntity();
+        name.put("firstName", "A");
+        name.put("lastSurname", "A");
+        student.put("name", name);
+        student.put("id", "dummyId5");
+        populationManager.addFullName(student);
+        studentSummaries.add(student);
+
+
+        Assert.assertEquals("J K", studentSummaries.get(0).getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME));
+        Collections.sort(studentSummaries, PopulationManagerImpl.STUDENT_COMPARATOR);
+        Assert.assertEquals("A A", studentSummaries.get(0).getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME));
+        Assert.assertEquals("A B", studentSummaries.get(1).getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME));
+        Assert.assertEquals("J K", studentSummaries.get(2).getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME));
+        Assert.assertEquals("Z B", studentSummaries.get(3).getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME));
+
+    }
+
     private List<GenericEntity> createSomeStudentSummaries() {
 
         List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
         GenericEntity student = new GenericEntity();
-        Map name = new HashMap();
+        Map<String, Object> name = new HashMap<String, Object>();
         name.put("firstName", "John");
         name.put("lastSurname", "Doe");
         student.put("name", name);
@@ -305,6 +356,10 @@ public class PopulationManagerTest {
         StudentSummaryBuilder.addRealGradeBookEntries(student);
 
         return studentSummaries;
+    }
+
+    public void testStudentNameSearch() {
+
     }
 
 }

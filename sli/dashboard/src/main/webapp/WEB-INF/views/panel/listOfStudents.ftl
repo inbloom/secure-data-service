@@ -1,5 +1,8 @@
  <@includePanelModel panelId="listOfStudents"/>
  <#assign id = getDivId(panelConfig.id)>
+  <div id="sli-loadingSection">
+  		<div class="message">Loading....</div>
+  </div>
   <div class="ui-widget-no-border">
     <table id="${id}"></table>
     <div id="losError" class="hidden"></div>

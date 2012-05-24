@@ -17,14 +17,14 @@ public class PortalWSManagerImplTest {
     private PortalWSManagerImpl portalWSManager = new PortalWSManagerImpl();
     private RESTClient goodRestClient = new RESTClient() {
         @Override
-        public String getJsonRequest(String path) {
+        public String getJsonRequest(String path, boolean timeout) {
             return "";
         }
     };
 
     private RESTClient badRestClient = new RESTClient() {
         @Override
-        public String getJsonRequest(String path) {
+        public String getJsonRequest(String path, boolean timeout) {
             throw new IllegalArgumentException();
         }
     };

@@ -128,6 +128,10 @@ default:
         panel.data.use.cache: true
         
         dashboard.google_analytics.id: UA-31838086-1
+        
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+        
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
@@ -176,6 +180,8 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+        # Name of the SLI Admin realm
+        sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URL
         sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
         # LDAP base DN
@@ -302,10 +308,9 @@ local:
 
         api.perf.log.path: target/apilogs/logs
         
-        sli.tenant.landingZoneMountPoint: C:/software/ingestion/lz/
-
-        bootstrap.app.conf: ${sli.conf}
-        #li.tenant.landingZoneMountPoint: ~/lzs
+        sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
+        #sli.tenant.ingestionServers: localhost
+        #sli.landingZone.server: localhost
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -383,6 +388,31 @@ local:
         sli.log4j.logger.org.springframework: WARN
 
         log.path: target/logs
+
+#
+# Configuration to support running sandbox locally
+#
+local-sandbox:
+    api:
+        <<: *API-LOCAL
+        sli.sandbox.autoRegisterApps: true
+
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: false
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+
+    apps:
+        <<: *APPS-LOCAL
+
+    misc:
+        <<: *MISC-LOCAL
+        sli.simple-idp.sandboxImpersonationEnabled: true
 
 
 #

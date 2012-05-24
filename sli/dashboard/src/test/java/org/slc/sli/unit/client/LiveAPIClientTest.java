@@ -38,6 +38,7 @@ import org.slc.sli.client.RESTClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.JsonConverter;
 
 /**
  * Unit test for the Live API client.
@@ -86,7 +87,7 @@ public class LiveAPIClientTest {
                 + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
                 + "}}";
 
-        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(JsonConverter.toJson(new LiveAPIClient.CustomEntityWrapper(json)));
         ConfigMap customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());

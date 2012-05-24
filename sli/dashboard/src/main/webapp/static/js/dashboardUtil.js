@@ -35,7 +35,11 @@ DashboardProxy = {
 			this.loadWidgetConfig(dataConfigObj.widgetConfig);
 		},
 		load : function(componentId, id, callback) {
-			var prx = this;
+			var prx = this,
+				loadingDiv = $("#sli-loadingSection");
+			
+			loadingDiv.show();
+						
 			$.ajax({
 				  async: false,
 				  url: contextRootPath + '/service/component/' + componentId + '/' + (id ? id : ""),
@@ -43,10 +47,13 @@ DashboardProxy = {
 				  success: function(panel){
 					  jQuery.extend(prx.data, panel.data);
 					  jQuery.extend(prx.config, panel.config);
+					  loadingDiv.hide();
+					  
 					  if (jQuery.isFunction(callback))
 					    callback(panel);
 			      },
 			      error: $("body").ajaxError( function(event, request, settings) {
+			    	  loadingDiv.hide();
 			    	  if (request.responseText == "") {
 			    		  $(location).attr('href',$(location).attr('href'));
 			    	  } else {
@@ -192,6 +199,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 	            if (item1.align) {
 	            	colModelItem.align = item1.align;
 	            }
+	            if(item1.style) {
+	            	colModelItem.classes = item1.style;
+	            }
 	            colModel.push( colModelItem );
 	        }     
 	    }
@@ -200,7 +210,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
-      	  useColSpanStyle: false, 
+      	  useColSpanStyle: true, 
       	  groupHeaders:groupHeaders
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
@@ -217,28 +227,28 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     }
 }
 
-DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
-{
+DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options) {
 
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
 	}
 	gridOptions = { 
-	    	data: panelData,
-	        datatype: 'local', 
-	        height: 'auto',
-	        viewrecords: true,
-	        autoencode: true,
-	        rowNum: 10000};
+    	data: panelData,
+        datatype: 'local', 
+        height: 'auto',
+        viewrecords: true,
+        autoencode: true,
+        rowNum: 10000};
+
         if(panelData === null || panelData === undefined || panelData.length < 1) {
             DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
         } else {
 	    if (options) {
-		gridOptions = jQuery.extend(gridOptions, options);
+	    	gridOptions = jQuery.extend(gridOptions, options);
 	    }
 	    return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
-        }
+    }
 };
 
 DashboardUtil.Grid = {};
@@ -483,6 +493,16 @@ DashboardUtil.Grid.Sorters = {
             return function(value, rowObject) {
                 var i = enumHash[value];
                 return i ? parseInt(i) : -1;
+            }
+        },
+        
+        OtherFieldInt: function(params) {
+            var fieldArray = params.sortField.split(".");
+            var length = fieldArray.length;
+            return function(value, rowObject) {
+            	var ret = rowObject, i = 0;
+                while(i < length && (ret = ret[fieldArray[i ++]]));
+                return parseInt(ret);
             }
         },
 
