@@ -12,7 +12,7 @@ Scenario: Ingested Student data should be encrypted - Clean database
         | collectionName              |
         | student                     |   
 	When zip file is scp to ingestion landing zone
-	And I am willing to wait upto 30 seconds for ingestion to complete
+	And I am willing to wait upto 60 seconds for ingestion to complete
 	And a batch job log has been created
 	Then I should see "Processed 1 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
