@@ -9,10 +9,10 @@
             [
                 [
                     {
-                        "path" : "metaData.externalId",
+                        "path" : "body.assessmentIdentificationCode",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId"
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
                         }]
                     }
                 ]
