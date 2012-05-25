@@ -116,13 +116,13 @@ public class BasicService implements EntityService {
         }
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         
-        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {
-          //super list
-        } else if (!ids.isEmpty()) {
-            ids.retainAll(new HashSet<String>(allowed)); //retain only those IDs that area allowed
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
-        } else {
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+        if (allowed.size() >= 0 && this.readRight != Right.ANONYMOUS_ACCESS) {
+            if (ids.isEmpty()) {
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            } else {
+                ids.retainAll(new HashSet<String>(allowed)); //retain only those IDs that area allowed
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            }
         }
 
         return repo.count(this.collectionName, localNeutralQuery);

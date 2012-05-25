@@ -1,7 +1,7 @@
 package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
-import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
+//import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import java.util.Collection;
 public class ContextResolverStore implements ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
-    private static final DenyAllContextResolver denyAllContextResolver = new DenyAllContextResolver();
+    //private static final DenyAllContextResolver DENY_ALL_CONTEXT_RESOLVER = new DenyAllContextResolver();
     
     private Collection<EntityContextResolver> resolvers;
     

@@ -26,7 +26,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
