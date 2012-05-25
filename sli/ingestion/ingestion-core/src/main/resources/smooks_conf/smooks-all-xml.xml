@@ -862,7 +862,7 @@
     <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
     <!-- CourseOfferingReference -->
-    <jb:value property="courseId" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
+    <jb:value property="courseOfferingId" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
 
     <!-- SchoolReference -->
     <jb:value property="schoolId" data="Section/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />

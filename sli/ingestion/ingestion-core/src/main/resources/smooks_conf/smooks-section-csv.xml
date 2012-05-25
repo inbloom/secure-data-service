@@ -53,7 +53,7 @@
    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
 	<!-- CourseOfferingReference -->
-	<jb:value property="courseId" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
+	<jb:value property="courseOfferingId" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
 
     <!-- SchoolReference -->
 	<jb:value property="schoolId" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
