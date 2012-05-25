@@ -47,7 +47,7 @@ default:
         bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
-        sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
+        sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
         sli.landingZone.server: devpantheon.slidev.org
 
