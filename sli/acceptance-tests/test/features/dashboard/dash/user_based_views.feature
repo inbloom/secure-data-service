@@ -11,7 +11,8 @@ Background:
 Scenario: Check user has multiple views available
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -24,7 +25,8 @@ Scenario: Check user has multiple views available
 Scenario: Views are filtered based on student grades
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
@@ -35,7 +37,8 @@ Scenario: Views are filtered based on student grades
 Scenario: Check changing view changes table headings
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -47,12 +50,13 @@ Scenario: Check changing view changes table headings
   Then I should see a table heading "Reading Test Scores (Highest)"
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
-   
+
  @RALLY_US200
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
   When I select "Illinois Daybreak School District 4529" and click go
-  When I login as "rbraverman" "rbraverman1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"

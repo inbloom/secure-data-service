@@ -361,6 +361,7 @@ Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "mario.sanchez" "mario.sanchez"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "mario.sanchez" "mario.sanchez" for the "Simple" login page
 #TODO there is a bug in the code right now
 Then I am informed that "Invalid User"
