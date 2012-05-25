@@ -103,7 +103,7 @@ When /^filter by studentId is (<[^>]*>)$/ do |studentId|
   assert(@res != nil, "Response from rest-client GET is nil")
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
-    uri = "/student-assessment-associations/"+dataH[0]["id"]
+    uri = "/v1/studentAssessments/"+dataH[0]["id"]
     restHttpGet(uri)
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")
