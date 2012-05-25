@@ -261,7 +261,8 @@ class TestLdap < Test::Unit::TestCase
       :destinationIndicator => "submitted",
       :homeDirectory        => "-",
       :uidNumber            => "500", 
-      :gidNumber            => "500"
+      :gidNumber            => "500", 
+      :description          => "tenant = IL\r\n\r\nedOrg=IL-DAYBREAK\r\n\r\n"
     }
 
 
@@ -274,18 +275,24 @@ class TestLdap < Test::Unit::TestCase
     found = @ldap.read_user(uid)
     assert !!found
     assert found[:homedir] == "-"
+    assert found[:tenant] == "IL"
+    assert found[:edorg] == "IL-DAYBREAK"
 
     test_user_info = {
       :email      => uid,
-      :homedir    => "/home/example"
+      :homedir    => "/home/example",
+      :tenant     => "IL-NEW",
+      :edorg      => found[:edorg]
     }
 
     @ldap.update_user_info(test_user_info)
     found = @ldap.read_user(uid)
     assert !!found
     assert found[:homedir] == test_user_info[:homedir]
+    assert found[:tenant] == test_user_info[:tenant]
+    assert found[:edorg] == test_user_info[:edorg]
 
-    @ldap.delete_user(uid)    
+    @ldap.delete_user(uid)
   end 
 end
 
