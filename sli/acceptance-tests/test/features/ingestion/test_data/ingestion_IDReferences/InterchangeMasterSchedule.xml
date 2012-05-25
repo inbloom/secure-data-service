@@ -395,6 +395,7 @@
 
   <CourseOffering id="CO_1">
     <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
     <CourseReference>
       <CourseIdentity>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -416,7 +417,7 @@
   </CourseOffering>
   <CourseOffering id="CO_2">
     <LocalCourseCode>8th Grade English</LocalCourseCode>
-    <LocalCourseTitle></LocalCourseTitle>
+    <LocalCourseTitle>8th Grade English</LocalCourseTitle>
     <CourseReference>
       <CourseIdentity>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -438,6 +439,7 @@
   </CourseOffering>
   <CourseOffering id="CO_3">
     <LocalCourseCode>Club/Team</LocalCourseCode>
+    <LocalCourseTitle>Club/Team</LocalCourseTitle>
     <CourseReference>
       <CourseIdentity>
         <CourseCode IdentificationSystem="CSSC course code">
@@ -447,8 +449,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 Able School</SessionName>
-        <StateOrganizationId>Able School</StateOrganizationId>
+        <SessionName>Fall 2011 Baker School</SessionName>
+        <StateOrganizationId>Baker School</StateOrganizationId>
       </SessionIdentity>
     </SessionReference>
     <SchoolReference>
