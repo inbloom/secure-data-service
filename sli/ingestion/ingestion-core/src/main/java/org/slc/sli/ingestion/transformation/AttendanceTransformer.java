@@ -96,7 +96,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             String schoolId = (String) attributes.get("schoolId");
 
             if (studentSchoolPairs.contains(Pair.of(studentId, schoolId))) {
-                LOG.warn("Already assembled attendance data for student: {} at school: {}", studentId, schoolId);
+                LOG.warn("Already assembled attendance data for a student at school: {}", schoolId);
             } else {
                 studentSchoolPairs.add(Pair.of(studentId, schoolId));
 
@@ -109,7 +109,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
                 Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
 
-                LOG.info("For student with id: {} in school: {}", studentId, schoolId);
+                LOG.info("For a student in school: {}", schoolId);
                 LOG.info("  Found {} associated sessions.", sessions.size());
                 LOG.info("  Found {} attendance events.", studentAttendance.size());
 
@@ -131,7 +131,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     attendanceRecord.setAttributes(attendanceAttributes);
                     newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
                 } else {
-                    LOG.warn("  No daily attendance for student: {} in school: {}", studentId, schoolId);
+                    LOG.warn("  No daily attendance for a student in school: {}", schoolId);
                 }
             }
         }
