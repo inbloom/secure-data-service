@@ -5784,19 +5784,18 @@
           <xs:documentation>The identifier for the school year.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:choice maxOccurs="unbounded">
-        <xs:element name="stateOrganizationId" type="identificationCode">
-          <xs:annotation>
-            <xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
-            </xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode" maxOccurs="unbounded">
-          <xs:annotation>
-            <xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-      </xs:choice>
+      <xs:element name="stateOrganizationId" type="identificationCode" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode"
+                  minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
