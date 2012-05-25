@@ -24,12 +24,14 @@ public class SDKConstants {
     public static final String EDORGS = "/educationOrganizations";    
     public static final String SECTIONS = "/sections";
     public static final String STUDENTS = "/students";
+    public static final String PARENTS = "/parents";
     public static final String ATTENDANCES = "/attendances";
     public static final String CUSTOM_DATA = "/custom";
     
     // SDK associations to append to base entities
     public static final String STAFF_EDORG_ASSIGNMENT_ASSOC = "/staffEducationOrgAssignmentAssociations";
     public static final String STUDENT_SCHOOL_ASSOC = "/studentSchoolAssociations";
+    public static final String STUDENT_PARENT_ASSOC = "/studentParentAssociations";
     public static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations";
     public static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
     public static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations";

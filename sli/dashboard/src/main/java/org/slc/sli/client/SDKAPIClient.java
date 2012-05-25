@@ -769,6 +769,20 @@ public class SDKAPIClient implements APIClient {
     }
     
     /**
+     * Get a list of parents for the given student id
+     * 
+     * @param token
+     * @param studentId
+     * @param params
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params) {
+        return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + studentId + SDKConstants.STUDENT_PARENT_ASSOC
+                + SDKConstants.PARENTS + "?" + this.buildQueryString(params));
+    }
+    
+    /**
      * Get a list of all students
      * 
      * @param token

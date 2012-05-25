@@ -348,6 +348,16 @@ public interface APIClient {
     public GenericEntity getStaffWithEducationOrganization(String token, String id, String organizationCategory);
     
     /**
+     * Get a list of parents for the given student id
+     * 
+     * @param token
+     * @param studentId
+     * @param params
+     * @return
+     */
+    public List<GenericEntity> getParentsForStudent(String token, String studentId, Map<String, String> params);
+    
+    /**
      * Get a list of teachers specified by a list of ids
      * 
      * @param token
