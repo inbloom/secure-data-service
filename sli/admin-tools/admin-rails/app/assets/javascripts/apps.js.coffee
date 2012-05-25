@@ -18,8 +18,22 @@ jQuery ->
       if $(@).attr("class") != "rowAction"
         $(@).parent().next("tr").slideToggle()
 
-toggleAll = (isOn) ->
-  if isOn
-    $('div.edorgs:checkbox:not(:checked)').prop("checked", "checked")
-  else
-    $('div.edorgs:checkbox:chencked').removeProp("checked")
+jQuery ->
+  $('div.edorgs > ul > li > :checkbox').click ->
+    $('div.edorgs.yellow').removeClass('yellow')
+    state = $(@).prop('checked')
+    $(@).next().find(":checkbox").each (index) ->
+      $(@).prop('checked', state)
+  $('a#enable-all').click ->
+    toggleAll true
+    false
+  $('a#disable-all').click ->
+    toggleAll false
+    false
+  toggleAll = (isOn) ->
+    $('div.edorgs :checkbox').each (index) ->
+      if isOn
+        $(@).prop('checked', true)
+      else
+        $(@).prop('checked', false)
+    

@@ -83,26 +83,27 @@
   <% isNew = @district_hierarchy == nil %>
   
   <% if !isNew and !app.pending? %>
-  <div class ="<%= "field edorgs" if !isNew and !app.pending? %>">
+  <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
     <h3>Enable</h2>
     <h6>Choose the states or Districts you would like to have access to your application.</h6>
     <div class="links">
-    <%= link_to_function("Enable All", '$("div.edorgs:checkbox").prop("checked", true)')%> |
-    <%= link_to_function("Disable All", 'toggleAll(false)')%>
+    <%= link_to "Enable All", "#", :id => "enable-all"%> |
+    <%= link_to "Disable All", "#", :id => "disable-all" %>
     </div>
   <% @district_hierarchy = {} if isNew or app.pending? %>
+  <ul class="clear">
   <% @district_hierarchy.keys.each do |district| %>
-      <%=
-          if app.authorized_ed_orgs != nil
-              check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"]))
-          else
-              check_box_tag(check_box_name, district["stateOrganizationId"])
-          end
-      %>
+    <li>
+      <% if !app.authorized_ed_orgs.nil? %>
+        <%= check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"])) %>
+      <% else %>
+         <%= check_box_tag(check_box_name, district["stateOrganizationId"]) %>
+      <%end%>
 
-         <%= district["name"] %>    <br />
+         <%= district["name"] %>
+         <ul class="clear">
     <% @district_hierarchy[district].each do |child_district| %>
-            &#160;&#160;
+            <li>
             <%=
                 if app.authorized_ed_orgs != nil
                     check_box_tag(check_box_name, child_district["stateOrganizationId"], app.authorized_ed_orgs.include?(child_district["stateOrganizationId"]))
@@ -110,9 +111,13 @@
                     check_box_tag(check_box_name, child_district["stateOrganizationId"])
                 end
             %>
-            <%= child_district["name"] %> <br />
+            <%= child_district["name"] %>
+            </li>
     <% end %>
+      </ul>
+    </li>
     <% end %>
+    </ul>
   <% end %>
   </div>
 <div class = "actions">
