@@ -41,7 +41,7 @@
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
          "roles":[
-            "LEA Administrator", "SEA Administrator"
+            "DELEGATED_ADMIN"
          ]
       },
       {

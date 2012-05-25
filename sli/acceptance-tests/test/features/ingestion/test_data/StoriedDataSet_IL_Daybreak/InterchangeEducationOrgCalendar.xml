@@ -2950,6 +2950,23 @@
   </Session>
 
   <Session>
+    <SessionName>Fall 2002 South Daybreak Elementary</SessionName>
+    <SchoolYear>2001-2002</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2002-09-06</BeginDate>
+    <EndDate>2002-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+	<GradingPeriodReference ref="GRDP_20100823"/>
+	<GradingPeriodReference ref="GRDP_20101004"/>
+	<GradingPeriodReference ref="GRDP_20101108"/>
+  </Session>
+
+  <Session>
     <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
     <Term>Spring Semester</Term>

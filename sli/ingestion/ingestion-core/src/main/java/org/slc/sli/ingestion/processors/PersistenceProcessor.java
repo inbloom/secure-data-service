@@ -192,7 +192,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             }
         } catch (Exception e) {
             errorReportForNrFile.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
+            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n");
         } finally {
             if (nrFileReader != null) {
                 nrFileReader.close();
@@ -275,7 +275,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         // only persist if it's in the spring-loaded list of supported record types
         if (persistedCollections.contains(neutralRecord.getRecordType())) {
-            LOG.debug("processing old-style neutral record: {}", neutralRecord);
+            LOG.debug("processing old-style neutral record");
 
             NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
             nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
@@ -362,7 +362,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LOG.error("Exception encountered in PersistenceProcessor. ");
 
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
