@@ -137,7 +137,7 @@ public class RoleInitializer {
 
     private Role buildIngestionUser() {
         LOG.info("Building Ingestion User default role.");
-        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).build();
+        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
 
     private Role buildRealmAdmin() {

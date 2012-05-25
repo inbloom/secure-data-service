@@ -20,6 +20,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -32,18 +42,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 
 /**
  *
@@ -68,7 +66,7 @@ public class ApplicationAuthorizationResourceTest {
 
     @Mock Repository<Entity> repo;
     
-    @Mock EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+    @Mock DelegationUtil delegationUtil;
 
     UriInfo uriInfo = null;
 
@@ -83,6 +81,7 @@ public class ApplicationAuthorizationResourceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         uriInfo = buildMockUriInfo(null);
+        
     }
 
     @Test
@@ -97,7 +96,7 @@ public class ApplicationAuthorizationResourceTest {
     public void testBadCreate() {   //authId doesn't match principal
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("OTHER-DISTRICT");
-        Mockito.when(edOrgNodeFilter.getChildEducationOrganizations((String) Mockito.any())).thenReturn(new ArrayList<String>());
+        Mockito.when(delegationUtil.getDelegateEdOrgs()).thenReturn(new ArrayList<String>());
         Response resp = resource.createAuthorization(auth, uriInfo);
     }
 
@@ -238,7 +237,7 @@ public class ApplicationAuthorizationResourceTest {
     }
 
 
-    private static void setupAuth(String edorg) {
+    private void setupAuth(String edorg) {
         Authentication mockAuth = Mockito.mock(Authentication.class);
         ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
         rights.add(Right.ADMIN_ACCESS);
@@ -248,6 +247,8 @@ public class ApplicationAuthorizationResourceTest {
         principal.setEdOrg(edorg);
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
+        
+        Mockito.when(delegationUtil.getUsersStateUniqueId()).thenReturn(edorg);
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
