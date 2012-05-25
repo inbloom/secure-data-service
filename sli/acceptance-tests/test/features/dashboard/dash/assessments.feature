@@ -7,7 +7,8 @@ Background:
   Given I have an open web browser
   Given the server is in "live" mode
 
-Scenario: Displaying simple ISAT reading and writing results for all students
+ @RALLY_US200
+Scenario: Displaying simple StateTest reading and writing results for all students
     When I navigate to the Dashboard home page
     When I select "Illinois Sunset School District 4526" and click go
     When I login as "linda.kim" "linda.kim1234"
@@ -19,7 +20,7 @@ Scenario: Displaying simple ISAT reading and writing results for all students
 	
 	#The test now runs against SDS data
 	 #Highest Ever reading
-     And the scale score for assessment "ISAT Reading" for student "Matt Sollars" is "199"
+     And the scale score for assessment "StateTest Reading" for student "Matt Sollars" is "199"
      #Most recent writing 
-     And the scale score for assessment "ISAT Writing" for student "Matt Sollars" is "1"
+     And the scale score for assessment "StateTest Writing" for student "Matt Sollars" is "1"
      

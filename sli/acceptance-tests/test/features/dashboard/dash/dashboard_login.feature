@@ -3,6 +3,7 @@ Feature: Dashboard User Login Authentication
 As a SEA/LEA user, I want to use the SLI IDP Login to authenticate 
 on SLI, so I could use the Dashboard application.
 
+ @RALLY_US200
 Scenario: Valid user login
 
 Given I have an open web browser
@@ -19,6 +20,7 @@ Then I should be redirected to the Dashboard landing page
 When I access "/simon"
 Then I am informed that "the page that you were looking for could not be found"
 
+ @RALLY_US200
 Scenario: Invalid user login
 
 Given I have an open web browser
