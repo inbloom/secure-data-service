@@ -64,12 +64,20 @@ out.each do |key,value|
   sum+=value
 end
 
+maestroMongoTime=0
+maestroMongoCalls=0
 mongoCalls=0
 mongoTime=0
 if !job["executionStats"].nil? 
-  job["executionStats"].each do |key,value|
-    mongoCalls+=value["left"]
-    mongoTime+=value["right"]
+  job["executionStats"].each do |hostName,value|
+    value.each do |functionName,innerValue|
+      if hostName=="nxmaestro"
+        maestroMongoCalls+=innerValue["left"]
+        maestroMongoTime+=innerValue["right"]
+      end
+      mongoCalls+=innerValue["left"]
+      mongoTime+=innerValue["right"]
+    end
   end
 end
 
@@ -81,5 +89,6 @@ puts "Total records for Persistence: #{rcStage["PersistenceProcessor"]}"
 puts "Total wall-clock time: #{wallClock}sec"
 puts "Total time spent (on all nodes): #{sum/1000} sec"
 puts "Extrapolated RPS (transformed per total time)  #{(transformed / wallClock )}"
-puts "Mongo calls: #{mongoCalls} took #{mongoTime/1000} secs"
+puts "Mongo calls (ALL): #{mongoCalls} took #{mongoTime/1000} secs"
+puts "Mongo calls (MAESTRO): #{maestroMongoCalls} took #{maestroMongoTime/1000} secs"
 puts "ALL DONE"
