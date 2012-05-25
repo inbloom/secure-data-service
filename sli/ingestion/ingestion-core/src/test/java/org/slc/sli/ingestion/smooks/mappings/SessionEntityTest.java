@@ -1,21 +1,13 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -27,9 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/spring/applicationContext-test.xml" })
 public class SessionEntityTest {
-
-    @Autowired
-    private EntityValidator validator;
 
     private String validXmlTestData = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
             + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
@@ -56,14 +45,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 validXmlTestData);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertTrue(validator.validate(e));
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionMissingSessionName() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -87,15 +72,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSessionName);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionMissingSchoolYear() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -119,15 +99,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingSchoolYear);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionMissingTerm() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -151,15 +126,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTerm);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionMissingBeginDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -183,15 +153,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingBeginDate);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionMissingEndDate() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -215,15 +180,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingEndDate);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = NullPointerException.class)
     public void testInvalidSessionMissingTotalInstructionalDays() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -245,15 +205,10 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlMissingTotalInstructionalDays);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
+        checkValidSessionNeutralRecord(neutralRecord);
     }
 
-    @Test(expected = EntityValidationException.class)
+    @Test(expected = AssertionError.class)
     public void testInvalidSessionIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeEducationOrgCalendar/Session";
@@ -278,24 +233,7 @@ public class SessionEntityTest {
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlIncorrectEnum);
 
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("session");
-
-        assertFalse(validator.validate(e));
-
-    }
-
-    @Test
-    public void testValidSessionXML() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeEducationOrgCalendar/Session";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                validXmlTestData);
-
         checkValidSessionNeutralRecord(neutralRecord);
-
     }
 
     private void checkValidSessionNeutralRecord(NeutralRecord record) {
@@ -307,7 +245,5 @@ public class SessionEntityTest {
         assertEquals("2012-01-02", entity.get("beginDate"));
         assertEquals("2012-06-22", entity.get("endDate"));
         assertEquals("118", entity.get("totalInstructionalDays").toString());
-
     }
-
 }
