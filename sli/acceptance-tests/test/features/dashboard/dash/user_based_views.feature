@@ -51,7 +51,7 @@ Scenario: Check changing view changes table headings
  @RALLY_US200
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
-  When I select "Sunset School District 4526" and click go
+  When I select "Illinois Daybreak School District 4529" and click go
   When I login as "rbraverman" "rbraverman1234"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"

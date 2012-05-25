@@ -218,7 +218,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 
 Scenario: Monster test until LOS is faster
     When I navigate to the Dashboard home page
-    When I select "Sunset School District 4526" and click go
+    When I select "Illinois Sunset School District 4526" and click go
     When I login as "cgray" "cgray1234"
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "Daybreak Central High"

@@ -5,7 +5,7 @@ Scenario: Selecting classes on LOS
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Sunset School District 4526" and click go
+When I select "Illinois Sunset School District 4526" and click go
 When I login as "cgray" "cgray1234"
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
