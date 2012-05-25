@@ -1,5 +1,4 @@
 @RALLY_US2281
-@wip
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
@@ -8,7 +7,7 @@ Given I have an open web browser
 And I have a SMTP/Email server configured
 
 
-@sandbox @wip
+@sandbox
 Scenario: Developer is on-boarded in a sandbox enviornment
 Given I go to the sandbox account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
@@ -49,14 +48,14 @@ And the user is redirected to "<URL_TO_ADMIN_APP>"
 #When the user is successfully authenticated
 #Then the user can access "<DASHBOARD_APP>", "<DATABROWSER_APP>"
 
-@sandbox @wip
+@sandbox
 Scenario: Developer is able to register applications on sandbox
 Given the user has an approved sandbox account
 When the user clicks on "<URL_TO_APPLICATION_REGISTRATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
 And the user is redirected to "<URL_TO_APPLICATION_REGISTRATION>"
 
-@production @wip
+@production
 Scenario: Vendor registers on a production environment
 Given I go to the production account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
@@ -86,17 +85,17 @@ And the SLC operator approves the vendor account for "<USER_EMAIL>"
 Then an approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
 
-@production @wip 
-Scenario: State Super admin provisions LZ for an Ed-Org
-When the state super admin accesses the "<URL_TO_APPLICATION_REGISTRATION>"
-Then the state super admin authenticates as "<STATE_SUPER_ADMIN_USER>" and "<STATE_SUPER_ADMIN_PASS>"
+@production
+Scenario: District admin provisions LZ for an Ed-Org
+When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"
+Then the state super admin authenticates as "<DISTRICT_ADMIN_USER>" and "<DISTRICT_ADMIN_PASS>"
 When  the state super admin set the custom high-level ed-org to "<STATE_ED_ORG>"
 And clicks on "Provision" 
 Then an "<STATE_ED_ORG>" is saved to mongo
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"
-And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
-And the landing zone "<Landing_zone_directory>" is saved in Ldap
-And the tenantId "<Tenant_ID>" is saved in Ldap
+And a tenant entry with "<Prod_Tenant_ID>" and "<Prod_Landing_zone_directory>" is added to mongo
+And the landing zone "<Prod_Landing_zone_directory>" is saved in Ldap
+And the tenantId "<Prod_Tenant_ID>" is saved in Ldap
 
 
 
