@@ -43,7 +43,7 @@ public final class DefaultModelIndex implements ModelIndex {
     private final List<Association> associations;
     private final Map<Identifier, ClassType> classTypeIndex;
 
-    private final Map<Identifier, DataType> dataTypeIndex;
+    // private final Map<Identifier, DataType> dataTypeIndex;
     private final Map<QName, DataType> dataTypesByName;
 
     private final Map<Identifier, ModelElement> elementMap;
@@ -104,7 +104,7 @@ public final class DefaultModelIndex implements ModelIndex {
             }
         }
         this.classTypeIndex = Collections.unmodifiableMap(classTypeIndex);
-        this.dataTypeIndex = Collections.unmodifiableMap(dataTypeIndex);
+        // this.dataTypeIndex = Collections.unmodifiableMap(dataTypeIndex);
         this.enumTypeIndex = Collections.unmodifiableMap(enumTypeIndex);
         this.tagDefinitionIndex = Collections.unmodifiableMap(tagDefinitionIndex);
         this.associations = Collections.unmodifiableList(associations);

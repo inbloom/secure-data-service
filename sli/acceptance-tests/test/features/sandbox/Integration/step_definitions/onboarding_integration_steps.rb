@@ -267,6 +267,9 @@ end
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
   id = "test1234"                                                     if human_readable_id == "USER_PASS"
+  id = "devldapuser@slidev.org"                                       if human_readable_id =="STATE_SUPER_ADMIN_USER"
+  id = "test1234"                                                     if human_readable_id =="STATE_SUPER_ADMIN_PASS"
+  id = "State Edorg"                                                  if human_readable_id =="STATE_ED_ORG"
   id = "Loraine"                                                      if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler"                                                       if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
@@ -521,6 +524,20 @@ end
 
 When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+end
+
+When /^the state super admin accesses the "([^"]*)"$/ do |link|
+   @admin_url = PropLoader.getProps['admintools_server_url']
+   url=@admin_url+"/"+link
+   @driver.get url
+end
+
+Then /^the state super admin authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
+  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+end
+
+When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ do |arg1|
+  @driver.find_element(:id, "custom_ed_org").send_keys arg1
 end
 
 def initializeApprovalAndLDAP(emailConf, prod)

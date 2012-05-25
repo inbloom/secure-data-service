@@ -19,6 +19,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Populates the tenant database collection with default tenant collections.
@@ -58,7 +59,7 @@ public class TenantPopulator implements ResourceLoaderAware {
             tenantDA.insertTenant(tenantRecord);
 
         } catch (Exception e) {
-            log.error("Exception adding tenant " + tenantRecord + " :", e);
+            LogUtil.error(log, "Exception adding tenant " + tenantRecord + " :", e);
             return false;
         }
         return true;
@@ -77,7 +78,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
-            log.error("Exception encountered populating default tenants:", e);
+            LogUtil.error(log, "Exception encountered populating default tenants:", e);
         }
     }
 
@@ -187,7 +188,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            log.error("Exception encountered loading tenant resource: ", e);
+            LogUtil.error(log, "Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }

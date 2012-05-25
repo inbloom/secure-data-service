@@ -86,17 +86,17 @@ And the SLC operator approves the vendor account for "<USER_EMAIL>"
 Then an approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
 
-@production  @wip
+@production @wip 
 Scenario: State Super admin provisions LZ for an Ed-Org
-When the "<STATE_SUPER_ADMIN>" accesses the "<ADMIN_APP>"
-Then the "<STATE_SUPER_ADMIN>" authenticates
-When the user enters "<TEST_ED_ORG>"
+When the state super admin accesses the "<URL_TO_APPLICATION_REGISTRATION>"
+Then the state super admin authenticates as "<STATE_SUPER_ADMIN_USER>" and "<STATE_SUPER_ADMIN_PASS>"
+When  the state super admin set the custom high-level ed-org to "<STATE_ED_ORG>"
 And clicks on "Provision" 
 Then an "<STATE_ED_ORG>" is saved to mongo
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"
-And tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
-And the "<Landing_zone_directory>" is saved in Ldap
-And the "<Tenant_ID>" is saved in ldap
+And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
+And the landing zone "<Landing_zone_directory>" is saved in Ldap
+And the tenantId "<Tenant_ID>" is saved in Ldap
 
 
 

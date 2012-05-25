@@ -11,8 +11,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.slc.sli.modeling.tools.SliMongoConstants;
-import org.slc.sli.modeling.tools.SliUmlConstants;
+import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2UmlPlugin;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2UmlPluginHost;
 import org.slc.sli.modeling.uml.AssociationEnd;

@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transformer for StudentAssessment entities
@@ -93,7 +94,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     writer.close();
                 }
             } catch (IOException e) {
-                LOG.error("Exception occurred while writing transformed student assessments", e);
+                LogUtil.error(LOG, "Exception occurred while writing transformed student assessments", e);
             }
         }
     }

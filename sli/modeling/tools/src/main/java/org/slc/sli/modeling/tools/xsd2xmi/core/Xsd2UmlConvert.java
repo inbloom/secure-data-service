@@ -45,7 +45,7 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;

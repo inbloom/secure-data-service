@@ -2,6 +2,7 @@ package org.slc.sli.modeling.wadl.reader;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -218,6 +219,9 @@ public final class WadlReader {
      * @return The parsed {@link Model}.
      */
     public static final Application readApplication(final InputStream stream) {
+        if (stream == null) {
+            throw new NullPointerException("stream");
+        }
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
@@ -231,7 +235,22 @@ public final class WadlReader {
         }
     }
 
+    public static final Application readApplication(final File file) throws FileNotFoundException {
+        if (file == null) {
+            throw new NullPointerException("file");
+        }
+        final InputStream istream = new BufferedInputStream(new FileInputStream(file));
+        try {
+            return readApplication(istream);
+        } finally {
+            closeQuiet(istream);
+        }
+    }
+
     public static final Application readApplication(final String fileName) throws FileNotFoundException {
+        if (fileName == null) {
+            throw new NullPointerException("fileName");
+        }
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
             return readApplication(istream);
