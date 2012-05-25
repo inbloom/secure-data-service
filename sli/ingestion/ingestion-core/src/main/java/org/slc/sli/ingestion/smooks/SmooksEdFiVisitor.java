@@ -30,6 +30,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
+    /** Constant to write a log message every N records. */
+    private static final int LOG_INTERVAL = 1000;
+
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
     private final String beanId;
@@ -68,15 +71,27 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
             this.recordsPerisisted++;
 
+            logRecordsPersisted( neutralRecord );
+
         } else {
 
             // Indicate Smooks Validation Failure
             LOG.error(terminationError.getMessage());
-            
+
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
         }
+
+
+    }
+
+    private void logRecordsPersisted(NeutralRecord neutralRecord) {
+
+        if ( recordsPerisisted % LOG_INTERVAL == 0 ) {
+            LOG.info( "Persisted {} records of type {} ", recordsPerisisted, neutralRecord.getRecordType() );
+        }
+
     }
 
     private NeutralRecord getProcessedNeutralRecord(ExecutionContext executionContext) {

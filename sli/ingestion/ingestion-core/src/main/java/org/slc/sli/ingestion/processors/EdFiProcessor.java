@@ -137,6 +137,7 @@ public class EdFiProcessor implements Processor {
 
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
 
+                LOG.info("Done processing file: {}", fe.getFile().getPath());
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
             }

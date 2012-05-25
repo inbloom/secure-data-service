@@ -101,6 +101,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         if (LOG.isDebugEnabled()) {
             LOG.debug(sw.prettyPrint());
         }
+        else {
+            LOG.info( sw.shortSummary() );
+        }
 
         if (semiResolvedXml == null) {
             return xml;
