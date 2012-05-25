@@ -21,6 +21,8 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.impl.DefaultProducerTemplate;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -65,6 +67,9 @@ public class JobReportingProcessor implements Processor {
     @Value("${sli.ingestion.staging.clearOnCompletion}")
     private String clearOnCompletion;
     
+    @Value("${sli.ingestion.topic.command}")
+    private String commandTopicUri;
+    
     @Autowired
     private BatchJobDAO batchJobDAO;
     
@@ -81,6 +86,9 @@ public class JobReportingProcessor implements Processor {
         } else {
             processJobReporting(workNote);
         }
+        
+        ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+        template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
     }
     
     private void processJobReporting(WorkNote workNote) {
