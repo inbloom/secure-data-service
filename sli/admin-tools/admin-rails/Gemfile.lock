@@ -89,7 +89,7 @@ GEM
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
       net-ssh (>= 2.0.9)
-    net-ssh (2.4.0)
+    net-ssh (2.5.1)
       jruby-pageant (>= 1.0.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
@@ -154,7 +154,7 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.0.7)
+    twitter-bootstrap-rails (2.0.8)
       actionpack (>= 3.1)
       less-rails (~> 2.2.2)
       railties (>= 3.1)
