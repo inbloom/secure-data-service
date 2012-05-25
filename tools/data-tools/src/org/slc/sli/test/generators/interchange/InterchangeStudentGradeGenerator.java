@@ -437,7 +437,7 @@ public final class InterchangeStudentGradeGenerator {
             for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
                 
                 // create a studentgradebookentry for just a fraction of gradebooks
-                if ((int) (Math.random() * StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY) == 1) {
+                if (true /*(int) (Math.random() * StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY) == 1*/) {
                     
                     GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
                     SectionMeta section = gradeBookEntryMeta.getSection();

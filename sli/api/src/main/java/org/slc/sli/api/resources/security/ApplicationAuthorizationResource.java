@@ -20,37 +20,29 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.stereotype.Component;
 
 /**
- *
- * @author pwolf
  *
  */
 @Component
@@ -67,9 +59,9 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+    
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
-
+    private DelegationUtil delegationUtil;
 
     private EntityService service;
     private EntityService applicationService;
@@ -120,7 +112,7 @@ public class ApplicationAuthorizationResource {
 
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -136,6 +128,7 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{" + UUID + "}")
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -167,11 +160,12 @@ public class ApplicationAuthorizationResource {
 
     @GET
     public Response getAuthorizations(@Context UriInfo info) {
+        SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        String edOrg = getUsersStateUniqueId();
+        String edOrg = delegationUtil.getUsersStateUniqueId();
 
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return Response.status(Status.FORBIDDEN).build();
+            return SecurityUtil.forbiddenResponse();
         }
         
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
@@ -187,7 +181,7 @@ public class ApplicationAuthorizationResource {
                 }
             }
         } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            List<String> delegateEdOrgs = myDelegateEdOrgs();
+            List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
             for (String curEdOrg : delegateEdOrgs) {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
@@ -204,45 +198,20 @@ public class ApplicationAuthorizationResource {
         return Response.status(Status.OK).entity(results).build();
     }
 
-    private String getUsersStateUniqueId() {
-        SLIPrincipal principal = null;
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context.getAuthentication() != null) {
-            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-            return principal.getEdOrg();
-        }
-        return null;
-    }
-
     private static String uriToString(UriInfo uri) {
         return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
 
     private void verifyAccess(String authId) throws AccessDeniedException {
-        String edOrg = getUsersStateUniqueId();
+        String edOrg = delegationUtil.getUsersStateUniqueId();
         if (edOrg == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
-        if (!edOrg.equals(authId) && !myDelegateEdOrgs().contains(authId)) {
+        
+        List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
+        if (!edOrg.equals(authId) && !delegateEdOrgs.contains(authId)) {
             throw new AccessDeniedException("User can only access " + edOrg);
         }
-    }
-    
-    private List<String> myDelegateEdOrgs() {
-        String edOrg = getUsersStateUniqueId();
-
-        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);        
-        List<String> delegateEdOrgs = new ArrayList<String>();
-        for (String curEdOrg : myEdOrgsIds) {
-            NeutralQuery delegateQuery = new NeutralQuery();
-            delegateQuery.addCriteria(new NeutralCriteria("appApprovalEnabled", "=", true));
-            delegateQuery.addCriteria(new NeutralCriteria("localEdOrgId", "=", curEdOrg));
-            if (repo.findOne(EntityNames.ADMIN_DELEGATION, delegateQuery) != null) {
-                delegateEdOrgs.add(curEdOrg);
-            }
-        }
-        debug("Ed orgs that I can delegate are {}", delegateEdOrgs);
-        return delegateEdOrgs;
     }
 
     private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {

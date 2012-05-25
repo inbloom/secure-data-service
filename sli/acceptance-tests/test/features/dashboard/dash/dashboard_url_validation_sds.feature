@@ -5,7 +5,7 @@ As a secrutiy officer, I want the application to be pretected from attacks via P
 Background:
 Given I have an open web browser
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Valid componentId PathVariable accessing LayoutController
 
 Given the server is in "live" mode

@@ -7,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration
+@integration  @RALLY_US198  @RALLY_US147
 Scenario: Student has 1 email, 1 address, 1 phone
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -17,6 +17,7 @@ When I select section "Mrs. Braverman's Homeroom #38"
 Given I click on student "Dalia Pingel"
 And I view its student profile
 And I look at the panel "Contact Information"
+And I look at "Student" Contact Info
 And there are "1" phone numbers
 And the list of phone number includes "708-432-9033"
 And the phone number "708-432-9033" is of type "Unlisted"  
@@ -31,7 +32,7 @@ Chicago, IL 60139-2152
 """
 And the address "1558 4th Street" is of type "Address"
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -66,7 +67,7 @@ New York, NY 10753-2389
 And the address "8124 Brighton 3 Place" is of type "Address"
 And the address "1537 Steuben Street" is of type "Physical"
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario:  Student has no email and no address
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -79,7 +80,7 @@ And I look at the panel "Contact Information"
 And there are "0" email addresses
 And there are "0" addresses
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario:  Student has no phone numbers
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -91,7 +92,7 @@ And I view its student profile
 And I look at the panel "Contact Information"
 And there are "0" phone numbers
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario: Address has buildingSiteNumber and not in US
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -115,7 +116,7 @@ Toronto, WA A1B 2C3
 CA
 """
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario:  primaryTelephoneNumber is not present
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -128,7 +129,7 @@ And I look at the panel "Contact Information"
 And there are "1" phone numbers
 And the list of phone number includes "708-929-8507"
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario:  primaryTelephoneNumber is not the Home Number
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -141,7 +142,7 @@ And I look at the panel "Contact Information"
 And there are "6" phone numbers
 And the order of the phone numbers is "219-828-9469;630-196-0500;779-503-8057;219-470-5216;630-971-1951;262-007-3326"
 
-@integration
+@integration @RALLY_US198  @RALLY_US147
 Scenario:  Check address sorting order
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"

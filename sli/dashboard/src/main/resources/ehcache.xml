@@ -40,4 +40,14 @@
         timeToIdleSeconds="600" timeToLiveSeconds="600"
         memoryStoreEvictionPolicy="LRU" />
         
+    <cache name="user.portal.header" eternal="false"
+        maxElementsInMemory="5" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="6000" timeToLiveSeconds="6000"
+        memoryStoreEvictionPolicy="LRU" />
+        
+    <cache name="user.portal.footer" eternal="false"
+        maxElementsInMemory="5" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="6000" timeToLiveSeconds="6000"
+        memoryStoreEvictionPolicy="LRU" />
+        
 </ehcache>

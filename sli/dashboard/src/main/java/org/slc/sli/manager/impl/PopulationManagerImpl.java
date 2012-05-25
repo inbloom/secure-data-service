@@ -23,6 +23,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -43,7 +44,7 @@ import org.slc.sli.util.TimedLogic;
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
  * entities/associations such as a student summary comprised of student profile,
- * enrollment, program, and assessment information in order to deliver the
+ * fment, program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
  * @author Robert Bloh
@@ -141,6 +142,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         enhanceListOfStudents(studentSummaries, id);
 
         GenericEntity result = new GenericEntity();
+        Collections.sort(studentSummaries, STUDENT_COMPARATOR);
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
 
         return result;
@@ -302,7 +304,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Grabs the subject area from the data based on the section ID.
-     * 
+     *
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -317,13 +319,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 break;
             }
         }
-        
+
         return subjectArea;
     }
-    
+
     /**
      * Grabs the Subject Area from a section.
-     * 
+     *
      * @param sections
      * @return
      */
@@ -332,12 +334,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (sections == null) {
             return null;
         }
-        
+
         Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
         if (courses == null) {
             return null;
         }
-        
+
         return (String) courses.get(Constants.ATTR_SUBJECTAREA);
     }
 
@@ -412,7 +414,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             if (stuSectAssocs == null) {
                 return;
             }
-            
+
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> assoc : stuSectAssocs) {
@@ -439,7 +441,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Returns the term and the year as a string for a given student Section association.
-     * 
+     *
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -459,7 +461,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Extracts the semester+Year from the section passed.
-     * 
+     *
      * @param sections
      * @return (e.g. FallSemester2010-2011 )
      */
@@ -469,18 +471,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (section == null) {
             return semesterString;
         }
-        
+
         Map<String, Object> sessions = (Map) section.get(Constants.ATTR_SESSIONS);
         if (sessions == null) {
             return semesterString;
         }
-        
+
         String term = (String) sessions.get(Constants.ATTR_TERM);
         String year = (String) sessions.get(Constants.ATTR_SCHOOL_YEAR);
         if (term != null && year != null) {
             semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
         }
-        
+
         return semesterString;
     }
 
@@ -604,7 +606,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
-                        newAssmtResults.put(assmtFamily, assmt);
+                        // since we flip data to be the property name, we cannot allow dots in it
+                        newAssmtResults.put(assmtFamily.replace('.', '_'), assmt);
                     }
                 }
 
@@ -859,16 +862,39 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config) {
         // Map<String, String> nameQueryMap = (Map<String, String>) nameQuery;
-        String[] nameList = (String[]) nameQuery;
-        String firstName = nameList[0];
-        String lastName = nameList[1];
         GenericEntity studentSearch = new GenericEntity();
-
-        if (((firstName == null) || (firstName.equals(""))) && ((lastName == null) || (lastName.equals("")))) {
-            studentSearch.put(Constants.ATTR_STUDENTS, new LinkedList<GenericEntity>());
-            studentSearch.put(Constants.ATTR_SEARCH_STRING, "");
-            studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
+        // make sure the incoming nameQuery is of the proper format:
+        // expected is an array of Strings generated by StudentSearch.get()
+        String[] nameList;
+        try {
+            nameList = (String[]) nameQuery;
+        } catch (ClassCastException cce) {
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1);
             return studentSearch;
+        }
+        // the query should contain at a minimum either a first or a last name
+        // both fields must be present in input, but one (not both) can optionally be empty
+        String firstName = null, lastName = null;
+        if (nameList.length >= 2) {
+            firstName = nameList[0];
+            lastName = nameList[1];
+        }
+        if ((firstName == null || firstName.equals("")) && (lastName == null || lastName.equals(""))) {
+            setStudentSearchEntity(studentSearch, new LinkedList<GenericEntity>(), "", "", "", 0, 1, 50, 1);
+            return studentSearch;
+        }
+        // optionally (but typically), it should also contain pagination information
+        int pageNum = 1, pageSize = 50;
+        if (nameList.length >= 4) {
+            try {
+                pageNum = Integer.parseInt(nameList[2]);
+                pageSize = Integer.parseInt(nameList[3]);
+            } catch (NumberFormatException nfe) {
+                // pagination information was in an incorrect format, use default values;
+                // this will never happen unless StudentSearch.get is changed incorrectly
+                pageNum = 1;
+                pageSize = 50;
+            }
         }
 
         String searchString = firstName + " " + lastName;
@@ -906,11 +932,54 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
+        // This is a temporary solution until we decide how to integrate the search with the API
+        // pagination calls. Currently, when API is used, the total number of search results is
+        // stored in the header which is not accessible. Also, code above performs two searches and
+        // combines results - this is a problem if API pagination is used.
+        int numResults = enhancedStudents.size();
+        // verify sensible page number was requested (negatives not allowed)
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        // verify sensible page size was specified (negatives not allowed)
+        if (pageSize < 1) {
+            pageSize = 1;
+        }
+        // calculate the last available page from the number of results and page size
+        int maxPageNum = numResults / pageSize;
+        if (numResults % pageSize != 0) {
+            maxPageNum++;
+        }
+        // requested page number cannot exceed last available page
+        if (pageNum > maxPageNum) {
+            pageNum = maxPageNum;
+        }
+        // fetch the subset of search results specified by the pagination request
+        if (numResults > pageSize) {
+            int beginIndex = (pageNum - 1) * pageSize;
+            int endIndex = beginIndex + pageSize;
+            if (endIndex > numResults) {
+                endIndex = numResults;
+            }
+            enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
+        }
 
-        studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
-        studentSearch.put(Constants.ATTR_SEARCH_STRING, searchString);
-        studentSearch.put(Constants.ATTR_NUM_RESULTS, enhancedStudents.size());
+        // fill the search map with results
+        setStudentSearchEntity(studentSearch, enhancedStudents, searchString, firstName, lastName, numResults, pageNum,
+                pageSize, maxPageNum);
         return studentSearch;
+    }
+
+    private void setStudentSearchEntity(GenericEntity studentSearch, List<GenericEntity> students, String searchStr,
+            String firstName, String lastName, int numResults, int pageNum, int pageSize, int maxPageNum) {
+        studentSearch.put(Constants.ATTR_STUDENTS, students);
+        studentSearch.put(Constants.ATTR_SEARCH_STRING, searchStr);
+        studentSearch.put(Constants.ATTR_FIRST_NAME, firstName);
+        studentSearch.put(Constants.ATTR_LAST_SURNAME, lastName);
+        studentSearch.put(Constants.ATTR_NUM_RESULTS, numResults);
+        studentSearch.put(Constants.ATTR_SEARCH_PAGE_NUM, pageNum);
+        studentSearch.put(Constants.ATTR_SEARCH_PAGE_SIZE, pageSize);
+        studentSearch.put(Constants.ATTR_SEARCH_MAX_PAGE_NUM, maxPageNum);
     }
 
     @SuppressWarnings("unchecked")
@@ -965,4 +1034,24 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         entity.put("scoreResultsSet", new ArrayList<String>(scoreResultNames));
         return entity;
     }
+
+    /**
+     * Comparator for student names
+     */
+    public static final Comparator<GenericEntity> STUDENT_COMPARATOR = new Comparator<GenericEntity>() {
+
+        @Override
+        public int compare(GenericEntity o1, GenericEntity o2) {
+            String name1 = (String) o1.getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME);
+            String name2 = (String) o2.getNode(Constants.ATTR_NAME + "." + Constants.ATTR_FULL_NAME);
+            if (name1 == null && name2 == null) {
+                return 0;
+            }
+            if (name1 == null) {
+                name1 = StringUtils.EMPTY;
+            }
+            return name1.compareTo(name2);
+        }
+
+    };
 }

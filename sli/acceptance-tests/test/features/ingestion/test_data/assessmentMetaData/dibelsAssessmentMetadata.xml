@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<Assessment id="DIBELS-Next-Kindergarten-1-BOY">
-		<AssessmentTitle>DIBELS-Next-Kindergarten BOY</AssessmentTitle>
+	<Assessment id="READ2-Next-Kindergarten-1-BOY">
+		<AssessmentTitle>READ2-Next-Kindergarten BOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
 			<ID>K-BOY</ID>
@@ -27,7 +27,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -36,8 +36,8 @@
 		</AssessmentPeriod>
 	</Assessment>
 
-	<Assessment id="DIBELS-Next-Kindergarten-1-MOY">
-		<AssessmentTitle>DIBELS-Next-Kindergarten MOY</AssessmentTitle>
+	<Assessment id="READ2-Next-Kindergarten-1-MOY">
+		<AssessmentTitle>READ2-Next-Kindergarten MOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
 			<ID>K-MOY</ID>
@@ -61,7 +61,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -70,8 +70,8 @@
 		</AssessmentPeriod>
 	</Assessment>
 
-	<Assessment id="DIBELS-Next-Kindergarten-1-EOY">
-		<AssessmentTitle>DIBELS-Next-Kindergarten EOY</AssessmentTitle>
+	<Assessment id="READ2-Next-Kindergarten-1-EOY">
+		<AssessmentTitle>READ2-Next-Kindergarten EOY</AssessmentTitle>
 		<AssessmentIdentificationCode
 			IdentificationSystem="Test Contractor">
 			<ID>K-EOY</ID>
@@ -95,7 +95,7 @@
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next Kindergarten</ID>
+					<ID>READ 2.0 Kindergarten</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
@@ -105,106 +105,106 @@
 	</Assessment>
 
 	<AssessmentFamily id="DIEBLS">
-		<AssessmentFamilyTitle>DIBELS</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels</ID>
+			<ID>Read2</ID>
 		</AssessmentFamilyIdentificationCode>
 	</AssessmentFamily>
 
 	<AssessmentFamily id="DIEBLS6th">
-		<AssessmentFamilyTitle>DIBELS 6th Edition</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>READ2 6th Edition</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels 6th Edition</ID>
+			<ID>Read2 6th Edition</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels</ID>
+					<ID>Read2</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIBELSNext">
-		<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+	<AssessmentFamily id="READ2Next">
+		<AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels Next</ID>
+			<ID>READ 2.0</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels</ID>
+					<ID>Read2</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIBELSNextK">
-		<AssessmentFamilyTitle>DIBELS Next Kindergarten</AssessmentFamilyTitle>
+	<AssessmentFamily id="READ2NextK">
+		<AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels Next Kindergarten</ID>
+			<ID>READ 2.0 Kindergarten</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIBELSNext1">
-		<AssessmentFamilyTitle>DIBELS Next Grade 1</AssessmentFamilyTitle>
+	<AssessmentFamily id="READ2Next1">
+		<AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels Next Grade 1</ID>
+			<ID>READ 2.0 Grade 1</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode>
 					<AssessmentFamilyIdentificationCode
 						IdentificationSystem="Test Contractor">
-						<ID>Dibels Next</ID>
+						<ID>READ 2.0</ID>
 					</AssessmentFamilyIdentificationCode>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIBELSNext2">
-		<AssessmentFamilyTitle>DIBELS Next Grade 2</AssessmentFamilyTitle>
+	<AssessmentFamily id="READ2Next2">
+		<AssessmentFamilyTitle>READ 2.0 Grade 2</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels Next Grade 2</ID>
+			<ID>READ 2.0 Grade 2</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</AssessmentFamily>
 
-	<AssessmentFamily id="DIBELSNext3">
-		<AssessmentFamilyTitle>DIBELS Next Grade 3</AssessmentFamilyTitle>
+	<AssessmentFamily id="READ2Next3">
+		<AssessmentFamilyTitle>READ 2.0 Grade 3</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode
 			IdentificationSystem="Test Contractor">
-			<ID>Dibels Next Grade 3</ID>
+			<ID>READ 2.0 Grade 3</ID>
 		</AssessmentFamilyIdentificationCode>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next</ID>
+					<ID>READ 2.0</ID>
 				</AssessmentFamilyIdentificationCode>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>

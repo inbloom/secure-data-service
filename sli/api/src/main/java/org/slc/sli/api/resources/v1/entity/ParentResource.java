@@ -98,6 +98,7 @@ public class ParentResource extends DefaultCrudEndpoint {
 
 
     /**
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PARENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)

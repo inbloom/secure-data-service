@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    var selectedPopulation=DashboardProxy.getData('userEdOrg')['selectedPopulation'];
+    var selectedPopulation=DashboardProxy.getData('populationWidget')['selectedPopulation'];
     var edOrgIndex = -1;
     var schoolIndex = -1;
     var courseIndex = -1;
@@ -67,8 +67,9 @@ $(document).ready( function() {
         //Load list of students only when all dropdowns are selected
         if (edOrgIndex > -1 && schoolIndex > -1 && courseIndex > -1 && sectionIndex > -1) {
             DashboardProxy.load("listOfStudents", selectedPopulation.section.id, function(panel) {
-                populateView(panel.viewConfig.items);
-                if (panel.viewConfig.items.length > 0) {
+            	var config = DashboardProxy.getConfig("listOfStudents");
+                populateView(config.items);
+                if (config.items.length > 0) {
                     DashboardUtil.selectDropDownOption("view", 0, false);
                 } else {
                     $("#viewSelect").val(-1);
@@ -156,7 +157,7 @@ function populateSectionMenu(){
 
 function populateFilter() {
     var defaultOptions = {"-1": "No Filter"};
-	DashboardUtil.setDropDownOptions("filter", defaultOptions, DashboardProxy.widgetConfig.lozenge.items, "description", "", true, function() {
+	DashboardUtil.setDropDownOptions("filter", defaultOptions, DashboardProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
 		clearStudentList();
 		filterStudents();
 	});
