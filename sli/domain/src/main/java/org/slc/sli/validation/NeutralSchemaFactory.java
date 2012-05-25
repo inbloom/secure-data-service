@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
@@ -41,6 +42,9 @@ public class NeutralSchemaFactory implements SchemaFactory {
 
     @Resource(name = "relaxedValidationStrategyList")
     private List<AbstractBlacklistStrategy> relaxedValidationStrategyList;
+
+    @Autowired
+    private SchemaRepositoryProvider schemaRepositoryProvider;
 
     /*
      * (non-Javadoc)
@@ -115,12 +119,14 @@ public class NeutralSchemaFactory implements SchemaFactory {
             case COMPLEX:
                 return new ComplexSchema(schemaType.getName());
             case REFERENCE:
-                return new ReferenceSchema(schemaType.getName());
+                return new ReferenceSchema(schemaType.getName(),
+                        schemaRepositoryProvider != null ? schemaRepositoryProvider.getSchemaRepository() : null);
             case CHOICE:
                 return new ChoiceSchema(schemaType.getName());
             default:
                 return null;
         }
     }
+
 
 }
