@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="courseOfferings" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="courseOffering" />
+    </jb:bean>
+
+    <jb:bean beanId="courseOffering" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'cohort'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="courseOfferingMeta" />
+        <jb:wiring property="body" beanIdRef="courseOfferingBody" />
+    </jb:bean>
+
+    <jb:bean beanId="courseOfferingBody" class="java.util.HashMap"
+            createOnElement="attributes">
+        <jb:value property="localCourseCode" data="attributes LocalCourseCode" />
+        <jb:value property="localCourseTitle" data="attributes LocalCourseTitle" />
+        <jb:wiring property="schoolId" beanIdRef="attributes schoolId" />
+        <jb:wiring property="sessionId" beanIdRef="attributes sessionId" />
+        <jb:wiring property="courseId" beanIdRef="attributes courseId" />
+    </jb:bean>
+
+</smooks-resource-list>
