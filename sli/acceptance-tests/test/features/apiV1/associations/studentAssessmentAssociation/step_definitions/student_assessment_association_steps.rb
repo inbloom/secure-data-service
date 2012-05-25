@@ -14,8 +14,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student assessment association data
   id = 337                                      if human_readable_id == "ASSOCIATION COUNT"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 22                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 23                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID"
@@ -63,8 +63,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "67ce204b-9999-4a11-aaaf-000000000254",
-    "assessmentId" => "dd916592-7d7e-5d27-a8ac-bec5fcb757f6",
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
+    "assessmentId" => "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
     "administrationDate" => "2011-10-01",
     "administrationEndDate" => "2012-01-01",
     "retestIndicator" => "1st Retest",
