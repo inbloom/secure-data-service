@@ -309,6 +309,6 @@ Scenario: Post an zip file where the control file has extra properties
         | collectionName              |
         | session                     |
   When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-  And I should see "ERROR  Invalid control file entry at line number" in the resulting batch job error file
+  And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
+  And I should see "ERROR  Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
