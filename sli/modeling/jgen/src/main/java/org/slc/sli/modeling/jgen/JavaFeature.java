@@ -1,6 +1,6 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.Feature;
@@ -47,22 +47,36 @@ public final class JavaFeature {
         return model;
     }
 
-    public String getPrimeTypeName(final JavaGenConfig config) {
+    public boolean isExposed(final JavaGenConfig config) {
         if (isAttribute()) {
-            return TypeHelper.getAttributePrimeTypeName(feature, model, config);
+            return true;
         } else if (isNavigable()) {
-            return TypeHelper.getNavigablePrimeTypeName(feature, model);
+            return true;
         } else {
-            throw new IllegalStateException("");
+            return false;
+        }
+    }
+
+    public String getPrimeTypeName(final JavaGenConfig config) {
+        if (isExposed(config)) {
+            if (isAttribute()) {
+                return JavaTypeHelper.getAttributePrimeTypeName(feature, model, config);
+            } else if (isNavigable()) {
+                return JavaTypeHelper.getNavigablePrimeTypeName(feature, model);
+            } else {
+                throw new AssertionError("getPrimeTypeName(" + feature + ")");
+            }
+        } else {
+            throw new IllegalStateException("isExposed(" + feature + ")");
         }
     }
 
     public String getAttributeTypeName(final JavaGenConfig config) {
-        return TypeHelper.getAttributeTypeName(feature, model, config);
+        return JavaTypeHelper.getAttributeTypeName(feature, model, config);
     }
 
     public String getNavigableTypeName() {
-        return TypeHelper.getNavigableTypeName(feature, model);
+        return JavaTypeHelper.getNavigableTypeName(feature, model);
     }
 
     public boolean isOptional() {

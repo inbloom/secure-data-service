@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
-public class TypeHelper {
+public class JavaTypeHelper {
 
     public static final String getAttributePrimeTypeName(final String typeName) {
         // TODO: We should define some simple types to mirror XML schema data-types.

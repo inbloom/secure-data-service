@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
 import java.io.IOException;
 import java.io.OutputStream;

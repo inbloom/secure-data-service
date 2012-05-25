@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
 public final class JavaGenConfig {
 
