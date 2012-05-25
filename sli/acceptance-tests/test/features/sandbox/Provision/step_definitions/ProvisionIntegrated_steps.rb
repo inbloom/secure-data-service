@@ -44,6 +44,7 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #@email="devldapuser_#{Socket.gethostname}@slidev.org"
 @email="devldapuser@slidev.org"
 removeUser(@email)
+sleep(1)
 
   user_info = {
       :first => "Provision",

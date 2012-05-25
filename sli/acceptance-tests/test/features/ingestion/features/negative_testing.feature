@@ -310,5 +310,5 @@ Scenario: Post an zip file where the control file has extra properties
         | session                     |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
-  And I should see "Invalid control file entry at line number [1] Line: edfi-xml,EducationOrgCalendar,ControlFileHasExtraProperty.xml,93918571f947114cb84787d68b1e447b,extraProperty" in the resulting batch job error file
+  And I should see "Invalid control file entry at line number [1]" in the resulting batch job error file
   And I should see "Processed 0 records." in the resulting batch job file
