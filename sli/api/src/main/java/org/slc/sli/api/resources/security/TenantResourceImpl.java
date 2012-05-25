@@ -150,7 +150,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         if (ingestionServer.equals(LZ_INGESTION_SERVER_LOCALHOST)) {
             try {
                 ingestionServer = InetAddress.getLocalHost().getHostName();
-            } catch(UnknownHostException e) {
+            } catch (UnknownHostException e) {
                 throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR,
                         "Failed to resolve ingestion server for " + LZ_INGESTION_SERVER_LOCALHOST + ".");
             }
