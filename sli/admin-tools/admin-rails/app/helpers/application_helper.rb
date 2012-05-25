@@ -120,12 +120,13 @@ module ApplicationHelper
   # 
   def self.add_user(userAccountRegistration)
     new_user = {
-      :first      => userAccountRegistration.firstName,
-      :last       => userAccountRegistration.lastName,
-      :email      => userAccountRegistration.email,
-      :password   => userAccountRegistration.password,
-      :vendor     => userAccountRegistration.vendor,
-      :status     => "submitted"
+      :first           => userAccountRegistration.firstName,
+      :last            => userAccountRegistration.lastName,
+      :email           => userAccountRegistration.email,
+      :emailAddress    => userAccountRegistration.email,
+      :password        => userAccountRegistration.password,
+      :vendor          => userAccountRegistration.vendor,
+      :status          => "submitted"
     }
     ApprovalEngine.add_disabled_user(new_user)
   end
@@ -147,12 +148,13 @@ module ApplicationHelper
   #
   def self.update_user_info(userAccountRegistration)
     new_user = {
-      :first      => userAccountRegistration.firstName,
-      :last       => userAccountRegistration.lastName,
-      :email      => userAccountRegistration.email,
-      :password   => userAccountRegistration.password,
-      :vendor     => userAccountRegistration.vendor,
-      :status     => "submitted"
+      :first          => userAccountRegistration.firstName,
+      :last           => userAccountRegistration.lastName,
+      :email          => userAccountRegistration.email,
+      :emailAddress   => userAccountRegistration.email,
+      :password       => userAccountRegistration.password,
+      :vendor         => userAccountRegistration.vendor,
+      :status         => "submitted"
     }
     ApprovalEngine.update_user_info(new_user)
   end
