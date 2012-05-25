@@ -6,7 +6,7 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 
 @integration @RALLY_US2276
 Scenario: Invalid User Login
@@ -27,7 +27,7 @@ And click Save
 Then I should be shown a success message
 And I logout
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -47,7 +47,7 @@ And click Save
 Then I should be shown a success message
 And I logout
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -79,7 +79,7 @@ When I enter the Configuration Area
 Then I am unauthorized to the Configuration Area
 And I logout
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 When I login as "akopel" "akopel1234"
 When I enter the Configuration Area
 Then I am unauthorized to the Configuration Area

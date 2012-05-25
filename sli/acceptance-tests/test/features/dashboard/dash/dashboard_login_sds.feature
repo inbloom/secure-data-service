@@ -15,7 +15,7 @@ When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 When I login as "linda.kim" "linda.kim1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL

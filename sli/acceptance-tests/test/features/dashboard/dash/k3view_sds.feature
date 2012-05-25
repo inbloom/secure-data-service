@@ -8,7 +8,7 @@ Scenario: Check K-3 Student Name
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"

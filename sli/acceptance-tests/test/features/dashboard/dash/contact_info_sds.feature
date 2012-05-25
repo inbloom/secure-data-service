@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 
 @integration  @RALLY_US198  @RALLY_US147
 Scenario: Student has 1 email, 1 address, 1 phone
