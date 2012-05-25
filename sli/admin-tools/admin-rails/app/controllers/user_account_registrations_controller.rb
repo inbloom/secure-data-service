@@ -6,7 +6,7 @@ class UserAccountRegistrationsController < ActionController::Base
   # GET /user_account_registrations/new
   # GET /user_account_registrations/new.json
   def new
-    if user_limit_reached?
+    if (APP_CONFIG["is_sandbox"] && user_limit_reached?)
       redirect_to(:controller => "waitlist_users", :action => "new")
     else
       @user_account_registration = UserAccountRegistration.new
