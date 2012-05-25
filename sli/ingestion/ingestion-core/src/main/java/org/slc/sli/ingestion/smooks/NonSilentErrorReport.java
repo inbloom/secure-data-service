@@ -32,7 +32,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
     private Set<String> filteredAttributes;
     private MessageSource messageSource;
     private String messagePrefix;
-
+    private Set<String> warningMessages = new HashSet<String>();
     private final class ElementState {
         SAXElement element;
         Set<String> targetedAttributes;
@@ -111,6 +111,9 @@ public class NonSilentErrorReport implements ExecutionEventListener {
                     reportIgnoredElements();
                     processedElements.pop();
                 }
+                for (String message : warningMessages) {
+                    errorReport.warning(message, this);
+                }
             }
         }
     }
@@ -150,8 +153,8 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             if (StringUtils.hasText(messagePrefix)) {
                 message = messagePrefix + "\t" + message;
             }
-
-            errorReport.warning(message, this);
+            warningMessages.add(message);
+            //errorReport.warning(message, this);
         }
     }
 
@@ -172,8 +175,8 @@ public class NonSilentErrorReport implements ExecutionEventListener {
             if (StringUtils.hasText(messagePrefix)) {
                 message = messagePrefix + "\t" + message;
             }
-
-            errorReport.warning(message, this);
+            warningMessages.add(message);
+            //errorReport.warning(message, this);
         }
     }
 
@@ -199,7 +202,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         StringBuffer sb = new StringBuffer();
 
         for (ElementState es : elements) {
-            sb.append(String.format("/%s(%d)", es.element.getName().getLocalPart(), es.sequence));
+            sb.append(String.format("/%s", es.element.getName().getLocalPart()));
         }
 
         return sb.toString();
