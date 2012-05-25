@@ -1,7 +1,8 @@
 package org.slc.sli.api.security.context;
 
-import java.util.Collection;
-
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -9,8 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import java.util.Collection;
 
 /**
  * Stores context based permission resolvers.
@@ -20,6 +20,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 public class ContextResolverStore implements ApplicationContextAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ContextResolverStore.class);
+    private static final DenyAllContextResolver DENY_ALL_CONTEXT_RESOLVER = new DenyAllContextResolver();
     
     private Collection<EntityContextResolver> resolvers;
     
@@ -46,10 +47,11 @@ public class ContextResolverStore implements ApplicationContextAware {
             }
         }
         
-        if (found == null) { // FIXME make secure by default!
+        if (found == null) {
+            //TODO enable
+            // found = denyAllContextResolver;
             found = new AllowAllEntityContextResolver();
-            LOG.warn("No path resolver defined for {} -> {} returning a yes-man (for now)", fromEntityType, toEntityType);
-            // throw new IllegalStateException("Requested an usupported resolution path " + fromEntityType + " -> " + toEntityType);
+            LOG.warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
         
         return found;

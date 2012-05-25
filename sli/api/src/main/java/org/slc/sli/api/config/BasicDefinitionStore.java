@@ -280,6 +280,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
         
         addDefinition(factory.makeEntity("tenant").storeAs("tenant").build());
+        addDefinition(factory.makeEntity("securityEvent").storeAs("securityEvent").build());
         
         registerDirectReferences();
     }

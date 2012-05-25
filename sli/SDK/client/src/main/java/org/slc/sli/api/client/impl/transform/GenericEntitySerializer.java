@@ -27,8 +27,16 @@ import org.slc.sli.api.client.impl.GenericEntity;
  * 
  * Tell Jackson how to serialize the GenericEntity type.
  * 
+ * Serialized objects used in PUT and POST events contain only the Entity body element as the
+ * root of the JSON. The root name and entity type are implied by the resource so they are
+ * omitted in the payload.
+ * 
  */
 public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
+    
+    public static final String ENTITY_BODY_KEY = "body";
+    public static final String ENTITY_LINKS_KEY = "links";
+    public static final String ENTITY_METADATA_KEY = "metaData";
     
     private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
     private ObjectMapper mapper = new ObjectMapper();
@@ -45,12 +53,13 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
     private JsonNode serializeObject(final String key, final Object val) {
         JsonNode rval = null;
         
-        if (val instanceof List)
+        if (val instanceof List) {
             rval = seralizeList(key, (List<Object>) val);
-        else if (val instanceof Map)
+        } else if (val instanceof Map) {
             rval = serializeMap(key, (Map<String, Object>) val);
-        else
+        } else {
             rval = serializePrimitive(key, val);
+        }
         return rval;
     }
     
@@ -59,11 +68,13 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
         ObjectNode rval = mapper.createObjectNode();
         ArrayNode array = mapper.createArrayNode();
         
-        for (Object obj : val)
+        for (Object obj : val) {
             array.add(serializeObject(obj));
+        }
         
-        if (key == null)
+        if (key == null) {
             return array;
+        }
         
         rval.put(key, array);
         return rval;
@@ -73,8 +84,9 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
         
         ObjectNode tree = mapper.createObjectNode();
         
-        for (Map.Entry<String, Object> entry : val.entrySet())
+        for (Map.Entry<String, Object> entry : val.entrySet()) {
             tree.put(entry.getKey(), serializeObject(null, entry.getValue()));
+        }
         return tree;
     }
     
@@ -82,23 +94,23 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
         
         JsonNode valueNode = null;
         
-        if (val == null)
+        if (val == null) {
             valueNode = NullNode.getInstance();
-        else if (val instanceof String)
+        } else if (val instanceof String) {
             valueNode = new TextNode((String) val);
-        else if (val instanceof Long)
-            valueNode = new LongNode((Long) val);
-        else if (val instanceof Integer)
+        } else if (val instanceof Integer) {
             valueNode = new IntNode((Integer) val);
-        else if (val instanceof Float)
-            valueNode = new DoubleNode((Float) val);
-        else if (val instanceof Double)
+        } else if (val instanceof Long) {
+            valueNode = new LongNode((Long) val);
+        } else if (val instanceof Double || val instanceof Float) {
             valueNode = new DoubleNode((Double) val);
-        else
+        } else {
             valueNode = new POJONode(val);
+        }
         
-        if (key == null)
+        if (key == null) {
             return valueNode;
+        }
         
         ObjectNode rval = mapper.createObjectNode();
         rval.put(key, valueNode);
@@ -109,10 +121,21 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
     public void serialize(GenericEntity entity, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         
         jgen.writeStartObject();
-        jgen.writeStringField("type", entity.getEntityType());
-        for (Map.Entry<String, Object> entry : entity.getData().entrySet()) {
-            jgen.writeFieldName(entry.getKey());
-            jgen.writeTree(serializeObject(entry.getKey(), entry.getValue()));
+        
+        // The SLI API only supports entity body elements for PUT and POST requests. If the
+        // entity data has a 'body' element, use that explicitly.
+        if (entity.getData().containsKey(ENTITY_BODY_KEY)) {
+            jgen.writeObject(serializeObject(entity.getData().get(ENTITY_BODY_KEY)));
+            
+        } else {
+            for (Map.Entry<String, Object> entry : entity.getData().entrySet()) {
+                if (entry.getKey().equals(ENTITY_LINKS_KEY) || entry.getKey().equals(ENTITY_METADATA_KEY)) {
+                    // ignore these read-only fields.
+                    continue;
+                }
+                jgen.writeFieldName(entry.getKey());
+                jgen.writeObject(serializeObject(entry.getValue()));
+            }
         }
         jgen.writeEndObject();
     }
@@ -121,5 +144,4 @@ public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
     public JsonNode getSchema(SerializerProvider provider, Type typeHint) throws JsonMappingException {
         return DEFAULT.getSchema(provider, typeHint);
     }
-    
 }

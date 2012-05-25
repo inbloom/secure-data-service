@@ -28,26 +28,10 @@ public class GenericEntitySerializeTest {
         assertNotNull(jsonString);
         JsonNode eNode = mapper.readTree(jsonString);
         
-        // System.err.println(TestHelpers.SimpleJsonObject.toString());
+        // System.err.println(TestHelpers.SIMPLE_JSON_BODY.toString());
         // System.err.println(eNode.toString());
         
-        assertTrue(TestHelpers.SIMPLE_JSON_OBJECT.equals(eNode));
-    }
-    
-    @Test
-    public void testSerializeBasicEntityWithMetadata() throws IOException {
-        
-        GenericEntity e = TestHelpers.createSimpleGenericEntityWithMetadata();
-        
-        String jsonString = mapper.writeValueAsString(e);
-        assertNotNull(jsonString);
-        
-        JsonNode eNode = mapper.readTree(jsonString);
-        
-        // System.err.println(TestHelpers.SimpleMetadataJsonObject.toString());
-        // System.err.println(eNode.toString());
-        
-        assertTrue(TestHelpers.SIMPLE_METADATA_JSON_OBJECT.equals(eNode));
+        assertTrue(TestHelpers.SIMPLE_JSON_BODY.equals(eNode.toString()));
     }
     
     @Test
@@ -60,12 +44,9 @@ public class GenericEntitySerializeTest {
         
         JsonNode eNode = mapper.readTree(jsonString);
         
-        // System.err.println(TestHelpers.ComplexJsonObject.toString());
+        // System.err.println(TestHelpers.COMPLEX_JSON_BODY.toString());
         // System.err.println(eNode.toString());
         
-        assertTrue(TestHelpers.COMPLEX_JSON_OBJECT.equals(eNode));
-        
-        // System.err.println(TestHelpers.ComplexJson);
-        // System.err.println(jsonString);
+        assertTrue(TestHelpers.COMPLEX_JSON_BODY.equals(eNode.toString()));
     }
 }

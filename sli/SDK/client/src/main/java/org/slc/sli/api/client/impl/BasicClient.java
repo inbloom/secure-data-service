@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,11 +17,14 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ValueNode;
+import org.codehaus.jackson.node.ObjectNode;
+import org.codehaus.jackson.type.TypeReference;
 import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.client.constants.v1.PathConstants;
 import org.slc.sli.client.util.Query;
 import org.slc.sli.client.util.URLBuilder;
 
@@ -65,7 +69,7 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response create(final Entity e) throws URISyntaxException, IOException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        return restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
+        return restClient.postRequest(url, mapper.writeValueAsString(e));
     }
     
     @Override
@@ -82,8 +86,9 @@ public final class BasicClient implements SLIClient {
         entities.clear();
         
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
-        if (id != null)
+        if (id != null) {
             builder.id(id);
+        }
         
         return getResource(entities, builder.build(), query);
     }
@@ -91,7 +96,7 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, mapper.writeValueAsString(e.getData()));
+        return restClient.putRequest(url, mapper.writeValueAsString(e));
     }
     
     @Override
@@ -110,13 +115,15 @@ public final class BasicClient implements SLIClient {
         urlBuilder.query(query);
         
         Response response = restClient.getRequest(urlBuilder.build());
-        if (response.getStatus() == Response.Status.OK.getStatusCode())
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
-                if (element instanceof ArrayNode)
-                    entities = mapper.readValue(element, List.class);
-                else if (element instanceof ValueNode) {
-                    Entity entity = mapper.readValue(element, Entity.class);
+                if (element instanceof ArrayNode) {
+                    List<Entity> tmp = mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
+                    });
+                    entities.addAll(tmp);
+                } else if (element instanceof ObjectNode) {
+                    Entity entity = mapper.readValue(element, GenericEntity.class);
                     entities.add(entity);
                 } else {
                     // not what was expected....
@@ -130,6 +137,30 @@ public final class BasicClient implements SLIClient {
                 builder.status(Response.Status.INTERNAL_SERVER_ERROR);
                 return builder.build();
             }
+        }
+        return response;
+    }
+    
+    @Override
+    public Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException, IOException {
+        
+        URL url = URLBuilder.create(restClient.getBaseURL()).addPath(PathConstants.HOME).build();
+        
+        Response response = restClient.getRequest(url);
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            try {
+                JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
+                Map<String, List<Link>> links = mapper.readValue(element,
+                        new TypeReference<Map<String, List<BasicLink>>>() {
+                        });
+                home.getData().putAll(links);
+            } catch (JsonParseException e) {
+                // invalid Json, or non-Json response?
+                ResponseBuilder builder = Response.fromResponse(response);
+                builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                return builder.build();
+            }
+        }
         return response;
     }
     

@@ -1,4 +1,4 @@
-class LandingZone < Ldap
+class LandingZone
   
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
@@ -14,7 +14,7 @@ class LandingZone < Ldap
   def self.provision(edorg_id, tenant, uid)
     Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}"
 
-    user_info = @@ldap.read_user(uid)
+    user_info = APP_LDAP_CLIENT.read_user(uid)
     if(!user_info)
       raise ProvisioningError.new "User does not exist in LDAP"
     end
@@ -34,7 +34,7 @@ class LandingZone < Ldap
     end
 
     begin
-      @@ldap.update_user_info(user_info)
+      APP_LDAP_CLIENT.update_user_info(user_info)
     rescue => e
       Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end 
@@ -54,7 +54,7 @@ class LandingZone < Ldap
         "SLC Operator\n"
     }
 
-    @@emailer.send_approval_email email
+    APP_EMAILER.send_approval_email email
     {:landingzone => @landingzone, :server => @server}
   end
 

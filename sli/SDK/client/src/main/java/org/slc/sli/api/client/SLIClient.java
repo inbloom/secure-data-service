@@ -155,7 +155,19 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract Response getResource(List<Entity> entities, final URL resourceURL, final Query query)
+    public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
+    
+    /**
+     * Get the home resource for the authenticated user.
+     * 
+     * @return ClientResponse from the ReST call.
+     * 
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws MessageProcessingException
+     */
+    public abstract Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException,
+            IOException;
     
 }

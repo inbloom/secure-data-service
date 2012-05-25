@@ -18,7 +18,7 @@ public class GenericEntityDeserializeTest {
     ObjectMapper mapper = new ObjectMapper();
     
     @Test
-    public void testDeerializeBasicEntity() throws IOException {
+    public void testDeserializeBasicEntity() throws IOException {
         
         GenericEntity e = TestHelpers.createSimpleGenericEntity();
         GenericEntity r = mapper.readValue(TestHelpers.SIMPLE_JSON, GenericEntity.class);
@@ -28,9 +28,9 @@ public class GenericEntityDeserializeTest {
     }
     
     @Test
-    public void testSerializeBasicEntityWithMetadata() throws IOException {
+    public void testDeserializeBasicEntityWithMetadata() throws IOException {
         
-        GenericEntity e = TestHelpers.createSimpleGenericEntityWithMetadata();
+        GenericEntity e = TestHelpers.createSimpleGenericEntity();
         GenericEntity r = mapper.readValue(TestHelpers.SIMPLE_METADATA_JSON, GenericEntity.class);
         
         assertNotNull(r);
@@ -38,7 +38,7 @@ public class GenericEntityDeserializeTest {
     }
     
     @Test
-    public void testComplexEntity() throws IOException {
+    public void testDeserializeComplexEntity() throws IOException {
         
         GenericEntity e = TestHelpers.createComplexEntity();
         GenericEntity r = mapper.readValue(TestHelpers.COMPLEX_JSON, GenericEntity.class);

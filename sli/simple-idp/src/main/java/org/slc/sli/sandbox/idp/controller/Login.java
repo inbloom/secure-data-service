@@ -1,9 +1,22 @@
 package org.slc.sli.sandbox.idp.controller;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.LoggingUtils;
@@ -15,15 +28,6 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles login form submissions.
@@ -60,7 +64,7 @@ public class Login {
     }
     
     void setSliAdminRealmName(String name) {
-        this.sliAdminRealmName = name;
+        sliAdminRealmName = name;
     }
     
     /**
@@ -90,9 +94,8 @@ public class Login {
             realm = null;
             mav.addObject("is_sandbox", true);
             mav.addObject("roles", roleService.getAvailableRoles());
-        } else {
+        } else
             mav.addObject("is_sandbox", false);
-        }
         mav.addObject("realm", realm);
         return mav;
     }
@@ -126,10 +129,27 @@ public class Login {
                 mav.addObject("is_sandbox", true);
                 mav.addObject("impersonate_user", impersonateUser);
                 mav.addObject("roles", roleService.getAvailableRoles());
-            } else {
+            } else
                 mav.addObject("is_sandbox", false);
+            
+            // if a user with this userId exists, get his info and roles/groups and
+            // log that information as a failed login attempt.
+            String edOrg = "UnknownEdOrg";
+            List<String> userRoles = Collections.emptyList();
+            try {
+                User unauthenticatedUser = userService.getUser(realm, userId);
+                if (unauthenticatedUser != null) {
+                    Map<String, String> attributes = unauthenticatedUser.getAttributes();
+                    if (attributes != null)
+                        edOrg = attributes.get("edOrg");
+                }
+                userRoles = userService.getUserGroups(realm, userId);
+            } catch (EmptyResultDataAccessException noMatchesException) {
+                LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
+            } catch (Exception exception) {
+                LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
             }
-            writeLoginSecurityEvent(false, userId, realm, request);
+            writeLoginSecurityEvent(false, userId, userRoles, edOrg, request);
             return mav;
         }
         
@@ -154,7 +174,7 @@ public class Login {
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
         
-        writeLoginSecurityEvent(true, userId, realm, request);
+        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
         
         httpSession.setAttribute(USER_SESSION_KEY, user);
         
@@ -164,29 +184,32 @@ public class Login {
         
     }
     
-    private void writeLoginSecurityEvent(boolean successful, String userId, String realm, HttpServletRequest request) {
+    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
+            HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
         
         event.setUser(userId);
-        event.setTargetEdOrg(realm);
+        event.setTargetEdOrg(edOrg);
+        event.setRoles(roles);
         
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
-            LOG.debug("Unable to set canonical host name on security event");
+            event.setLogLevel(LogLevelType.TYPE_TRACE);
+            event.setLogMessage("Runtime exception: " + e.getLocalizedMessage() + " " + edOrg + " by " + userId + ".");
         }
         
         if (request != null) {
-            event.setActionUri(request.getRequestURI());
+            event.setActionUri(request.getRequestURL().toString());
             event.setUserOrigin(request.getRemoteHost());
         }
         
         if (successful) {
             event.setLogLevel(LogLevelType.TYPE_INFO);
-            event.setLogMessage("Successful login to " + realm + " by " + userId + ".");
+            event.setLogMessage("Successful login to " + edOrg + " by " + userId + ".");
         } else {
             event.setLogLevel(LogLevelType.TYPE_ERROR);
-            event.setLogMessage("Failed login to " + realm + " by " + userId + ".");
+            event.setLogMessage("Failed login to " + edOrg + " by " + userId + ".");
         }
         
         audit(event);

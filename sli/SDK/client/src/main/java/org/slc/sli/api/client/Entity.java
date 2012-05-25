@@ -39,12 +39,6 @@ public interface Entity {
     /** Key to locate the Entity's id field */
     static final String ENTITY_ID_KEY = "id";
     
-    /** Key to locate the Entity's body information */
-    static final String ENTITY_BODY_KEY = "body";
-    
-    /** Key to locate the Entity's metadata */
-    static final String ENTITY_METADATA_KEY = "metaData";
-    
     /**
      * Get the data associated with this entity. If the entity has no data, returns
      * an empty map. The key into this map is the property name. The values of this
@@ -56,9 +50,7 @@ public interface Entity {
      * <li>null</li>
      * <li>Boolean</li>
      * <li>Character</li>
-     * <li>Integer</li>
      * <li>Long</li>
-     * <li>Float</li>
      * <li>Double</li>
      * <li>String</li>
      * </ul>
@@ -66,50 +58,6 @@ public interface Entity {
      * @return Map of data.
      */
     Map<String, Object> getData();
-    
-    /**
-     * Get the body associated with this entity. If the entity has no body, returns
-     * an empty map. The key into this map is the property name. The values of this
-     * map can one of the following JSON types:
-     * 
-     * <ul>
-     * <li>List</li>
-     * <li>Map</li>
-     * <li>null</li>
-     * <li>Boolean</li>
-     * <li>Character</li>
-     * <li>Integer</li>
-     * <li>Long</li>
-     * <li>Float</li>
-     * <li>Double</li>
-     * <li>String</li>
-     * </ul>
-     * 
-     * @return Map of data.
-     */
-    Map<String, Object> getBody();
-    
-    /**
-     * Get the metadata associated with this entity. If the entity has no metadata, returns
-     * an empty map. The key into this map is the metadata property name. The values of this
-     * map can one of the following JSON types:
-     * 
-     * <ul>
-     * <li>List</li>
-     * <li>Map</li>
-     * <li>null</li>
-     * <li>Boolean</li>
-     * <li>Character</li>
-     * <li>Integer</li>
-     * <li>Long</li>
-     * <li>Float</li>
-     * <li>Double</li>
-     * <li>String</li>
-     * </ul>
-     * 
-     * @return Map of data.
-     */
-    Map<String, Object> getMetaData();
     
     /**
      * Get the type name for this entity.

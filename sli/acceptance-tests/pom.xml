@@ -209,15 +209,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                             <argument>rake</argument>
                             <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
                             <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
-
                             <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
-
                             <argument>admintools_server_url=http://local.slidev.org:2000</argument>
-
                             <argument>api_server_url=http://local.slidev.org:8080</argument>
-
                             <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
-						    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
+						    <argument>simpleIDP_login_url=http://local.slidev.org:8080/simple-idp</argument>
 						    <argument>simpleIDP_realm_suffix=local</argument>
 						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
                             <argument>${TESTS_TO_RUN}</argument>

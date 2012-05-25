@@ -35,7 +35,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StaffCohortAssociationResource;
-import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
+import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociationResource;
 import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -61,7 +61,7 @@ public class StaffResourceTest {
     EducationOrganizationResource edOrgResource;
 
     @Autowired
-    StaffEducationOrganizationAssociation staffEdOrgAssn;
+    StaffEducationOrganizationAssociationResource staffEdOrgAssn;
 
     @Autowired
     CohortResource cohortResource;
@@ -152,8 +152,8 @@ public class StaffResourceTest {
     private Map<String, Object> createTestEdOrgAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID, edOrgAssociationId);
-        entity.put(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION, staffClassification);
-        entity.put(StaffEducationOrganizationAssociation.BEGIN_DATE, "2012-01-01");
+        entity.put(StaffEducationOrganizationAssociationResource.STAFF_CLASSIFICATION, staffClassification);
+        entity.put(StaffEducationOrganizationAssociationResource.BEGIN_DATE, "2012-01-01");
         return entity;
     }
 
@@ -298,8 +298,8 @@ public class StaffResourceTest {
         String targetId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestEdOrgAssociationEntity();
-        map.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, targetId);
-        map.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
+        map.put(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE, targetId);
+        map.put(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE, staffId);
 
         createResponse = staffEdOrgAssn.create(new EntityBody(map), httpHeaders, uriInfo);
         //String associationId = parseIdFromLocation(createResponse);
@@ -332,7 +332,7 @@ public class StaffResourceTest {
         }
 
         assertNotNull("Should return an entity", body);
-        assertEquals(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION + " should be " + staffClassification, staffClassification, body.get(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION));
+        assertEquals(StaffEducationOrganizationAssociationResource.STAFF_CLASSIFICATION + " should be " + staffClassification, staffClassification, body.get(StaffEducationOrganizationAssociationResource.STAFF_CLASSIFICATION));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -346,8 +346,8 @@ public class StaffResourceTest {
         String targetId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestEdOrgAssociationEntity();
-        map.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, targetId);
-        map.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
+        map.put(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE, targetId);
+        map.put(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE, staffId);
 
         createResponse = staffEdOrgAssn.create(new EntityBody(map), httpHeaders, uriInfo);
         //String associationId = parseIdFromLocation(createResponse);

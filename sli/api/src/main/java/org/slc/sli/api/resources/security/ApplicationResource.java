@@ -298,7 +298,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
 
         changedKeys.remove("registration");
-        changedKeys.remove("developer_info");   //TODO: developer_info is a pain since it's nested--need to validate this hasn't changed
         changedKeys.remove("metaData");
 
         //Operator - can only change registration status

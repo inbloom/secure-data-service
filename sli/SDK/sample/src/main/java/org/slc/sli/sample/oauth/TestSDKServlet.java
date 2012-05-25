@@ -36,18 +36,19 @@ public class TestSDKServlet extends HttpServlet {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         String testType = req.getParameter("test");
         String testResult = "failed";
-        if (testType.equals("read"))
+        if (testType.equals("read")) {
             testResult = testRead(client);
-        else if (testType.equals("create"))
+        } else if (testType.equals("create")) {
             testResult = testCreate(client);
-        else if (testType.equals("update"))
+        } else if (testType.equals("update")) {
             testResult = testUpdate(client);
-        else if (testType.equals("delete"))
+        } else if (testType.equals("delete")) {
             testResult = testDelete(client);
-        else if (testType.equals("query"))
+        } else if (testType.equals("query")) {
             testResult = testQuery(client);
-        else
+        } else {
             testResult = "unsupported test!";
+        }
         req.setAttribute("testResult", testResult);
         req.getRequestDispatcher("WEB-INF/sdktest.jsp").forward(req, resp);
     }
@@ -63,8 +64,7 @@ public class TestSDKServlet extends HttpServlet {
     private String testCreate(BasicClient client) {
         String testResult = "failed";
         String id = "";
-        Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
@@ -79,10 +79,11 @@ public class TestSDKServlet extends HttpServlet {
                 
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
-                if (firstName.equals("Monique") && lastSurname.equals("Johnson"))
+                if (firstName.equals("Monique") && lastSurname.equals("Johnson")) {
                     testResult = "succeed";
-                else
+                } else {
                     testResult = "failed";
+                }
             }
         } catch (Exception e) {
             testResult = "failed";
@@ -95,8 +96,8 @@ public class TestSDKServlet extends HttpServlet {
     private String testUpdate(BasicClient client) {
         String testResult = "failed";
         String id = "";
-        Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
+        
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
@@ -118,10 +119,11 @@ public class TestSDKServlet extends HttpServlet {
                 student = collection.get(0);
                 String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
                         "streetNumberName");
-                if (address.equals("2817 Oakridge Farm Lane"))
+                if (address.equals("2817 Oakridge Farm Lane")) {
                     testResult = "succeed";
-                else
+                } else {
                     testResult = "failed";
+                }
             }
         } catch (Exception e) {
             testResult = "failed";
@@ -133,8 +135,8 @@ public class TestSDKServlet extends HttpServlet {
     private String testDelete(BasicClient client) {
         String testResult = "failed";
         String id = "";
-        Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
+        
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
@@ -150,9 +152,9 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (response.getStatus() == 404)
+            if (response.getStatus() == 404) {
                 testResult = "succeed";
-            else {
+            } else {
                 testResult = "failed";
                 return testResult;
             }
@@ -173,9 +175,9 @@ public class TestSDKServlet extends HttpServlet {
                     .sortBy("name.firstName").sortDescending().build());
             if (collection != null && collection.size() > 0) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-                if (firstName.equals("Mark"))
+                if (firstName.equals("Mark")) {
                     testResult = "succeed";
-                else {
+                } else {
                     testResult = "failed";
                     return testResult;
                 }

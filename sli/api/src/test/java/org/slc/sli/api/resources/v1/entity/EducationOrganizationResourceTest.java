@@ -34,7 +34,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
+import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.client.constants.ResourceConstants;
@@ -59,7 +59,7 @@ public class EducationOrganizationResourceTest {
     StaffResource staffResource;
 
     @Autowired
-    StaffEducationOrganizationAssociation staffEducationOrganizationAssociationResource;
+    StaffEducationOrganizationAssociationResource staffEducationOrganizationAssociationResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -119,8 +119,8 @@ public class EducationOrganizationResourceTest {
     private Map<String, Object> createStaffEdOrgAssocTestEntity(String staffId, String edOrgId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID, 1234);
-        entity.put(StaffEducationOrganizationAssociation.STAFF_REFERENCE, staffId);
-        entity.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
+        entity.put(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE, staffId);
+        entity.put(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         return entity;
     }
 
@@ -259,8 +259,8 @@ public class EducationOrganizationResourceTest {
         }
 
         assertNotNull("Should return an entity", body);
-        assertEquals("Staff IDs should equal", staffId, body.get(StaffEducationOrganizationAssociation.STAFF_REFERENCE));
-        assertEquals("EdOrg IDs should equal", edOrgId, body.get(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE));
+        assertEquals("Staff IDs should equal", staffId, body.get(StaffEducationOrganizationAssociationResource.STAFF_REFERENCE));
+        assertEquals("EdOrg IDs should equal", edOrgId, body.get(StaffEducationOrganizationAssociationResource.EDUCATION_ORGANIZATION_REFERENCE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 

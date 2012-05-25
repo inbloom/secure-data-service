@@ -1,6 +1,5 @@
 package org.slc.sli.api.client.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +30,10 @@ public class GenericEntity implements Entity {
      * 
      * @param type
      *            Entity type for this entity.
-     * @param data
+     * @param body
      *            Map representing the entity's data.
+     * @param metadata
+     *            Map representing the entity's metadata.
      */
     public GenericEntity(final String type, final Map<String, Object> data) {
         this.type = type;
@@ -41,8 +42,9 @@ public class GenericEntity implements Entity {
     
     @Override
     public String getId() {
-        if (data.containsKey(ENTITY_ID_KEY))
+        if (data.containsKey(ENTITY_ID_KEY)) {
             return (String) data.get(ENTITY_ID_KEY);
+        }
         return null;
     }
     
@@ -53,26 +55,11 @@ public class GenericEntity implements Entity {
     
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> getBody() {
-        if (data.containsKey(ENTITY_BODY_KEY))
-            return (Map<String, Object>) data.get(ENTITY_BODY_KEY);
-        return new HashMap<String, Object>();
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<String, Object> getMetaData() {
-        if (data.containsKey(ENTITY_METADATA_KEY))
-            return (Map<String, Object>) data.get(ENTITY_METADATA_KEY);
-        return null;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
     public List<Link> getLinks() {
         
-        if (data.containsKey(LINKS_KEY))
+        if (data.containsKey(LINKS_KEY)) {
             return (List<Link>) data.get(LINKS_KEY);
+        }
         return null;
     }
     

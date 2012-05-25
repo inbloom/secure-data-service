@@ -13,7 +13,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.BasicLink;
 import org.slc.sli.api.client.impl.GenericEntity;
 
@@ -44,28 +43,13 @@ public class TestHelpers {
     public static GenericEntity createSimpleGenericEntity() {
         GenericEntity rval = null;
         
-        Map<String, Object> data = new HashMap<String, Object>();
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("String", "StringValue");
         body.put("Integer", Integer.parseInt("1"));
         body.put("Long", Long.parseLong("2"));
-        body.put("Float", Float.parseFloat("3.0"));
         body.put("Double", Double.parseDouble("4.0"));
         body.put("Boolean", Boolean.FALSE);
-        data.put("body", body);
-        
-        rval = new GenericEntity("GenericType", data);
-        
-        return rval;
-    }
-    
-    public static GenericEntity createSimpleGenericEntityWithMetadata() {
-        GenericEntity rval = createSimpleGenericEntity();
-        
-        Map<String, Object> metadata = new HashMap<String, Object>();
-        metadata.put("tenantId", "IL");
-        metadata.put("externalId", "linda.kim");
-        rval.getData().put(Entity.ENTITY_METADATA_KEY, metadata);
+        rval = new GenericEntity("GenericType", body);
         
         return rval;
     }
@@ -73,7 +57,6 @@ public class TestHelpers {
     public static GenericEntity createComplexEntity() {
         GenericEntity rval = null;
         
-        Map<String, Object> data = new HashMap<String, Object>();
         Map<String, Object> body = new HashMap<String, Object>();
         
         body.put("loginId", "a");
@@ -150,14 +133,8 @@ public class TestHelpers {
         staffCodes.add(staffCode);
         
         body.put("staffIdentificationCode", staffCodes);
-        data.put("body", body);
         
-        Map<String, Object> metadata = new HashMap<String, Object>();
-        metadata.put("tenantId", "IL");
-        metadata.put("externalId", "mjohnson");
-        data.put("metaData", metadata);
-        
-        rval = new GenericEntity("staff", data);
+        rval = new GenericEntity("staff", body);
         return rval;
     }
     
@@ -169,38 +146,38 @@ public class TestHelpers {
         }
     }
     
-    public static final String SIMPLE_JSON = "{" + "\"type\":\"GenericType\"," + "\"body\":" + "{" + "\"Double\":4.0,"
-            + "\"Float\":3.0," + "\"Long\":2," + "\"String\":\"StringValue\"," + "\"Boolean\":false," + "\"Integer\":1"
-            + "}" + "}";
+    public static final String SIMPLE_JSON_BODY = "{\"Double\":4.0,\"Long\":2,"
+            + "\"String\":\"StringValue\",\"Boolean\":false,\"Integer\":1}";
+    
+    public static final String SIMPLE_JSON = "{\"entityType\":\"GenericType\",\"body\":" + SIMPLE_JSON_BODY + "}";
     
     public static final JsonNode SIMPLE_JSON_OBJECT = initJsonNode(SIMPLE_JSON);
     
-    public static final String SIMPLE_METADATA_JSON = "{" + "\"type\":\"GenericType\"," + "\"body\":" + "{"
-            + "\"Double\":4.0," + "\"Float\":3.0," + "\"Long\":2," + "\"String\":\"StringValue\","
-            + "\"Boolean\":false," + "\"Integer\":1" + "}," + "\"metaData\":" + "{" + "\"tenantId\":\"IL\","
-            + "\"externalId\":\"linda.kim\"" + "}" + "}";
+    public static final String SIMPLE_METADATA_JSON = "{\"entityType\":\"GenericType\",\"body\":" + SIMPLE_JSON_BODY
+            + ",\"metaData\":{\"tenantId\":\"IL\"," + "\"externalId\":\"linda.kim\"}}";
     
     public static final JsonNode SIMPLE_METADATA_JSON_OBJECT = initJsonNode(SIMPLE_METADATA_JSON);
     
-    public static final String COMPLEX_JSON = "{" + "\"type\":\"staff\"," + "\"body\":" + "{" + "\"loginId\":\"a\","
-            + "\"otherName\":[]," + "\"sex\":\"Male\"," + "\"staffUniqueStateId\":\"mjohnson\","
-            + "\"hispanicLatinoEthnicity\":false," + "\"yearsOfPriorTeachingExperience\":0,"
-            + "\"yearsOfPriorProfessionalExperience\":20," + "\"address\":" + "[" + "{"
-            + "\"apartmentRoomSuiteNumber\":\"7B\"," + "\"postalCode\":\"99999\","
-            + "\"streetNumberName\":\"123 Wall Street\"," + "\"stateAbbreviation\":\"IL\"," + "\"countryCode\":\"SI\","
-            + "\"addressType\":\"Work\"," + "\"city\":\"Chicago\"" + "}" + "]," + "\"name\":" + "{"
-            + "\"verification\":\"Life insurance policy\"," + "\"lastSurname\":\"Johnson\","
-            + "\"personalTitlePrefix\":\"Mr\"," + "\"firstName\":\"Michael\"" + "}," + "\"electronicMail\":" + "["
-            + "{" + "\"emailAddress\":\"junk@junk.com\"," + "\"emailAddressType\":\"Organization\"" + "}" + "],"
-            + "\"highestLevelOfEducationCompleted\":\"No Degree\"," + "\"credentials\":" + "[" + "{"
-            + "\"credentialField\":" + "[" + "{\"description\":\"Linux Superstar\"}," + "{\"codeValue\":\"IT Admin\"}"
-            + "]," + "\"level\":\"All Level (Grade Level PK-12)\"," + "\"teachingCredentialType\":\"Standard\","
-            + "\"credentialType\":\"Certification\"," + "\"credentialIssuanceDate\":\"2000-01-01\"" + "}" + "],"
-            + "\"birthDate\":\"1980-02-01\"," + "\"telephone\":" + "[" + "{" + "\"telephoneNumber\":\"a\","
-            + "\"primaryTelephoneNumberIndicator\":true," + "\"telephoneNumberType\":\"Fax\"" + "}" + "],"
-            + "\"staffIdentificationCode\":" + "[" + "{" + "\"identificationSystem\":\"Selective Service\","
-            + "\"ID\":\"a\"," + "\"assigningOrganizationCode\":\"a\"" + "}" + "]" + "}," + "\"metaData\":" + "{"
-            + "\"tenantId\":\"IL\"," + "\"externalId\":\"mjohnson\"" + "}" + "}";
+    public static final String COMPLEX_JSON_BODY = "{\"loginId\":\"a\",\"otherName\":[],"
+            + "\"sex\":\"Male\",\"staffUniqueStateId\":\"mjohnson\",\"hispanicLatinoEthnicity\":false,"
+            + "\"yearsOfPriorTeachingExperience\":0,\"yearsOfPriorProfessionalExperience\":20,\"address\":"
+            + "[{\"apartmentRoomSuiteNumber\":\"7B\",\"postalCode\":\"99999\","
+            + "\"streetNumberName\":\"123 Wall Street\",\"stateAbbreviation\":\"IL\",\"countryCode\":\"SI\","
+            + "\"addressType\":\"Work\",\"city\":\"Chicago\"}],\"name\":{"
+            + "\"verification\":\"Life insurance policy\",\"lastSurname\":\"Johnson\","
+            + "\"personalTitlePrefix\":\"Mr\",\"firstName\":\"Michael\"},\"electronicMail\":["
+            + "{\"emailAddress\":\"junk@junk.com\",\"emailAddressType\":\"Organization\"}],"
+            + "\"highestLevelOfEducationCompleted\":\"No Degree\",\"credentials\":[{"
+            + "\"credentialField\":[{\"description\":\"Linux Superstar\"},{\"codeValue\":\"IT Admin\"}"
+            + "],\"level\":\"All Level (Grade Level PK-12)\",\"teachingCredentialType\":\"Standard\","
+            + "\"credentialType\":\"Certification\",\"credentialIssuanceDate\":\"2000-01-01\"}],"
+            + "\"birthDate\":\"1980-02-01\",\"telephone\":[{\"telephoneNumber\":\"a\","
+            + "\"primaryTelephoneNumberIndicator\":true,\"telephoneNumberType\":\"Fax\"}],"
+            + "\"staffIdentificationCode\":[{\"identificationSystem\":\"Selective Service\","
+            + "\"ID\":\"a\",\"assigningOrganizationCode\":\"a\"}]}";
+    
+    public static final String COMPLEX_JSON = "{\"entityType\":\"staff\",\"body\":" + COMPLEX_JSON_BODY
+            + ",\"metaData\":{\"tenantId\":\"IL\",\"externalId\":\"mjohnson\"}}";
     
     public static final JsonNode COMPLEX_JSON_OBJECT = initJsonNode(COMPLEX_JSON);
     
@@ -210,69 +187,81 @@ public class TestHelpers {
     
     public static boolean basicEntitiesEqual(GenericEntity e, GenericEntity r) {
         
-        if (!e.getEntityType().equals(r.getEntityType()))
+        if (!e.getEntityType().equals(r.getEntityType())) {
             return false;
+        }
         
         Map<String, Object> eData = e.getData();
         Map<String, Object> rData = r.getData();
         
-        if (eData.size() != rData.size())
+        if (eData.size() != rData.size()) {
             return false;
+        }
         
         for (Map.Entry<String, Object> entry : eData.entrySet()) {
-            if (!rData.containsKey(entry.getKey()))
+            if (!rData.containsKey(entry.getKey())) {
                 return false;
+            }
             
             Object eObj = entry.getValue();
             Object rObj = rData.get(entry.getKey());
             
-            if (eObj instanceof Map)
+            if (eObj instanceof Map) {
                 return compareMap(eObj, rObj);
-            else if (eObj instanceof List)
+            } else if (eObj instanceof List) {
                 return compareList(eObj, rObj);
-            else if (!eObj.equals(rObj))
-                return false;
+            } else {
+                return eObj.toString().equals(rObj.toString());
+            }
         }
         return true;
     }
     
     @SuppressWarnings("unchecked")
     private static boolean compareList(Object eObj, Object rObj) {
-        if (eObj == null || rObj == null)
+        if (eObj == null || rObj == null) {
             return false;
-        if (!(rObj instanceof List))
+        }
+        if (!(rObj instanceof List)) {
             return false;
+        }
         
         List<Object> eList = (List<Object>) eObj;
         List<Object> rList = (List<Object>) rObj;
         
-        if (eList.size() != rList.size())
+        if (eList.size() != rList.size()) {
             return false;
+        }
         
-        if (!(eList.containsAll(rList) && rList.containsAll(eList)))
+        if (!(eList.containsAll(rList) && rList.containsAll(eList))) {
             return false;
+        }
         
         return true;
     }
     
     @SuppressWarnings("unchecked")
     private static boolean compareMap(Object eObj, Object rObj) {
-        if (eObj == null || rObj == null)
+        if (eObj == null || rObj == null) {
             return false;
-        if (!(rObj instanceof Map))
+        }
+        if (!(rObj instanceof Map)) {
             return false;
+        }
         
         Map<String, Object> eMap = (Map<String, Object>) eObj;
         Map<String, Object> rMap = (Map<String, Object>) rObj;
         
-        if (eMap.size() != rMap.size())
+        if (eMap.size() != rMap.size()) {
             return false;
+        }
         
         Set<Map.Entry<String, Object>> eMapEntries = eMap.entrySet();
         rMap.entrySet();
         
-        if (!(eMapEntries.containsAll(eMapEntries) && eMapEntries.containsAll(eMapEntries)))
+        if (!(eMapEntries.containsAll(eMapEntries) && eMapEntries.containsAll(eMapEntries))) {
             return false;
+        }
         
         return true;
     }

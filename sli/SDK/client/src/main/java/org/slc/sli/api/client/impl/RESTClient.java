@@ -102,7 +102,8 @@ public class RESTClient {
         logger.log(Level.INFO, String.format("Oauth request token %s", authorizationCode));
         
         Verifier verifier = new Verifier(authorizationCode);
-        accessToken = service.getAccessToken(null, verifier);
+        accessToken = service.getAccessToken(new Token(config.getApiSecret(), authorizationCode), verifier);
+        
         sessionToken = accessToken.getToken();
         return accessToken.getRawResponse();
     }

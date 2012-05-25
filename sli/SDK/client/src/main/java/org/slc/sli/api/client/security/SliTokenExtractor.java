@@ -15,7 +15,6 @@ import org.scribe.utils.Preconditions;
 public class SliTokenExtractor implements AccessTokenExtractor {
     private ObjectMapper mapper = new ObjectMapper();
     
-    @SuppressWarnings("finally")
     @Override
     public Token extract(String response) {
         Preconditions.checkEmptyString(response,
@@ -26,7 +25,7 @@ public class SliTokenExtractor implements AccessTokenExtractor {
             JsonNode token = root.findValue("access_token");
             return new Token(token.asText(), "", response);
             
-        } finally {
+        } catch (Exception e) {
             return null;
         }
     }

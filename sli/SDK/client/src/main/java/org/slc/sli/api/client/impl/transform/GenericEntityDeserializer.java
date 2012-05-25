@@ -20,7 +20,6 @@ import org.codehaus.jackson.node.DoubleNode;
 import org.codehaus.jackson.node.IntNode;
 import org.codehaus.jackson.node.LongNode;
 import org.codehaus.jackson.node.NullNode;
-import org.codehaus.jackson.node.NumericNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import org.slc.sli.api.client.Entity;
@@ -35,7 +34,7 @@ import org.slc.sli.api.client.impl.GenericEntity;
  */
 public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
     
-    private static final String ENTITY_TYPE_KEY = "type";
+    public static final String ENTITY_TYPE_KEY = "entityType";
     
     public GenericEntityDeserializer() {
         super(GenericEntity.class);
@@ -73,14 +72,16 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
                 } catch (MalformedURLException e) {
                     rval = r2;
                 }
-            } else
+            } else {
                 rval = r2;
-        } else if (element instanceof NullNode)
+            }
+        } else if (element instanceof NullNode) {
             rval = null;
-        else if (element instanceof ArrayNode)
+        } else if (element instanceof ArrayNode) {
             rval = processArray(key, (ArrayNode) element);
-        else
+        } else {
             rval = processPrimitive(element);
+        }
         
         return rval;
     }
@@ -89,26 +90,26 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
         List<Object> list = new LinkedList<Object>();
         
         Iterator<JsonNode> it = asJsonArray.getElements();
-        while (it.hasNext())
+        while (it.hasNext()) {
             list.add(processElement(key, it.next()));
+        }
         return list;
     }
     
     private Object processPrimitive(final JsonNode prim) {
         Object val;
         
-        if (prim instanceof BooleanNode)
+        if (prim instanceof BooleanNode) {
             val = prim.getBooleanValue();
-        else if (prim instanceof DoubleNode)
+        } else if (prim instanceof DoubleNode) {
             val = prim.getDoubleValue();
-        else if (prim instanceof IntNode)
+        } else if (prim instanceof IntNode) {
             val = prim.getIntValue();
-        else if (prim instanceof LongNode)
+        } else if (prim instanceof LongNode) {
             val = prim.getLongValue();
-        else if (prim instanceof NumericNode)
-            val = prim.getDoubleValue();
-        else
+        } else {
             val = prim.getTextValue();
+        }
         return val;
     }
     
@@ -126,9 +127,10 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
         }
         
         Map<String, Object> data = processObject(root);
-        if (entityType != null)
+        if (entityType != null) {
             return new GenericEntity(entityType, data);
-        else
+        } else {
             return new GenericEntity("Generic", data);
+        }
     }
 }

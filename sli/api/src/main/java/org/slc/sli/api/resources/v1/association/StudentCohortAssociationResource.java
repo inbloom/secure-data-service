@@ -27,7 +27,7 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Represents the association between a $$students$$ and a $$cohorts$$.
+ * Represents the association between a $$Student$$ and a $$Cohort$$.
  *
  * @author kmyers
  * @author srichards

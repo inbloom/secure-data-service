@@ -25,7 +25,9 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * Represents the link between a school and a session of instruction. A school will likely
+ * be associated to multiple sessions over its operation and sessions can be shared by
+ * multiple schools (perhaps in the same district).
  *
  * @author kmyers
  *
@@ -69,7 +71,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$schoolSessionAssociations$$ entity.
+     * Creates a new $$schoolSessionAssociations$$.
      *
      * @param newEntityBody
      *            entity data
@@ -90,7 +92,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$schoolSessionAssociations$$ entity
+     * Gets a specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
@@ -98,7 +100,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single school entity
+     * @return A single school session association entity
      */
     @Override
     @GET
@@ -109,7 +111,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$schoolSessionAssociations$$ entity
+     * Deletes a specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
@@ -129,7 +131,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$schoolSessionAssociations$$ entity.
+     * Updates the specified $$schoolSessionAssociations$$.
      *
      * @param schoolSessionAssociationId
      *            The id of the $$schoolSessionAssociations$$.

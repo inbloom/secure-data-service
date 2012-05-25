@@ -15,6 +15,7 @@ import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
+import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
@@ -29,21 +30,29 @@ public class Teachers {
     
     @SuppressWarnings("unchecked")
     public static Map<String, String> getTenantIdMap(BasicClient client) throws IOException {
-        List<Entity> collection = new ArrayList<Entity>();
+        Entity home = new GenericEntity(PathConstants.HOME, new HashMap<String, Object>());
         try {
-            client.read(collection, PathConstants.HOME, BasicQuery.EMPTY_QUERY);
+            client.getHomeResource(home);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }
         URL myURL = null;
-        if (collection != null && collection.size() >= 1) {
-            List<Link> links = collection.get(0).getLinks();
-            for (Link link : links)
-                if (link.getLinkName().equals("self"))
+        List<Link> links = home.getLinks();
+        
+        if (links != null) {
+            for (Link link : links) {
+                if (link.getLinkName().equals("self")) {
                     myURL = link.getResourceURL();
+                    break;
+                }
+            }
         }
-        if (myURL == null)
+        
+        if (myURL == null) {
             return null;
+        }
+        
+        List<Entity> collection = new ArrayList<Entity>();
         try {
             client.getResource(collection, myURL, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {

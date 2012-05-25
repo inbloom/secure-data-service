@@ -22,6 +22,8 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
@@ -148,4 +150,24 @@ public class PathFindingContextResolverTest {
         }
     }
     
+    @Test
+    public void testGetResourceName() throws Exception {
+        String currentNodeType = "currentNodeType";
+        String nextNodeType = "nextNodeType";
+        String connectionNodeType = "connectionNodeType";
+        
+        SecurityNode mockCurrentNode = Mockito.mock(SecurityNode.class);
+        SecurityNode mockNextNode = Mockito.mock(SecurityNode.class);
+        SecurityNodeConnection mockConnection = Mockito.mock(SecurityNodeConnection.class);
+
+        when(mockCurrentNode.getType()).thenReturn(currentNodeType);
+        when(mockNextNode.getType()).thenReturn(nextNodeType);
+        when(mockConnection.getAssociationNode()).thenReturn(connectionNodeType);
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(connectionNodeType));
+        when(mockConnection.getAssociationNode()).thenReturn("");
+        when(mockConnection.isReferenceInSelf()).thenReturn(true);
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(currentNodeType));
+        when(mockConnection.isReferenceInSelf()).thenReturn(false);
+        assert (this.resolver.getResourceName(mockCurrentNode, mockNextNode, mockConnection).equals(nextNodeType));
+    }
 }

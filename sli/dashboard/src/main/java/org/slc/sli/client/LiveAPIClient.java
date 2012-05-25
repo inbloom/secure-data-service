@@ -265,6 +265,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * To retrieve Parent Educational Organizations
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<GenericEntity> getParentEducationalOrganizations(final String token, List<GenericEntity> edOrgs) {
         
@@ -292,7 +293,7 @@ public class LiveAPIClient implements APIClient {
         // entities.
         if (parentEducationAgencyReferences.length() != 0) {
             List<GenericEntity> returnedEdOrgsFromAPI = getEntities(token, Constants.ATTR_ED_ORGS,
-                    parentEducationAgencyReferences.toString(), Collections.<String, String> emptyMap());
+                    parentEducationAgencyReferences.toString(), Collections.EMPTY_MAP);
             if (returnedEdOrgsFromAPI != null)
                 return returnedEdOrgsFromAPI;
         }
@@ -619,6 +620,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get the associations between courses and sections
      */
+    @SuppressWarnings("unchecked")
     private void getCourseSectionsMappings(List<GenericEntity> sections, String token,
             Map<String, GenericEntity> courseMap, Map<String, String> sectionIDToCourseIDMap) {
         
@@ -654,7 +656,7 @@ public class LiveAPIClient implements APIClient {
         if (courseIds.length() != 0) {
             // get course Entity
             List<GenericEntity> courses = getEntities(token, Constants.ATTR_COURSES, courseIds.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.EMPTY_MAP);
             
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {

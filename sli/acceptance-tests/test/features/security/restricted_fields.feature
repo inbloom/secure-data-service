@@ -1,3 +1,5 @@
+@RALLY_US209
+@RALLY_US210
 Feature: As an SLI application I want to restrict user's access to restricted data
   That means the user should not be able to access/deduce any information about those data
 
