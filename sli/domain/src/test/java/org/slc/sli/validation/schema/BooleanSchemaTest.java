@@ -57,4 +57,19 @@ public class BooleanSchemaTest {
         assertTrue("BooleanSchema string validation failed", schema.validate(stringEntity));
     }
     
+    @Test
+    public void testConvert() throws Exception {
+        boolean value = true;
+        Object convertedValue = this.schema.convert("" + value);
+        assertTrue(convertedValue instanceof Boolean);
+        Boolean convertedInput = (Boolean) convertedValue;
+        assertTrue(convertedInput.booleanValue() == value);
+    }
+    
+    @Test
+    public void testBadConvert() {
+        Object convertedValue = this.schema.convert("INVALID INPUT");
+        assertFalse(convertedValue instanceof Boolean);
+    }
+    
 }
