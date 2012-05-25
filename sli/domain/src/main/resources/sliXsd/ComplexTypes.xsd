@@ -5709,7 +5709,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriodIdentityType">
+			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
 				<xs:annotation>
 					<xs:documentation>
 						The name of the period for which grades are
