@@ -2,12 +2,16 @@ package org.slc.sli.ingestion.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -16,8 +20,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for ingestion jobs.
@@ -27,6 +30,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document
 public class NewBatchJob implements Job {
+
+    private Date jobStartTimestamp;
 
     @Id
     private String id;
@@ -50,6 +55,7 @@ public class NewBatchJob implements Job {
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<StageSet>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
+        initStartTime();
     }
 
     public NewBatchJob(String id) {
@@ -57,6 +63,7 @@ public class NewBatchJob implements Job {
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<StageSet>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
+        initStartTime();
     }
 
     public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
@@ -70,23 +77,32 @@ public class NewBatchJob implements Job {
         this.totalFiles = totalFiles;
         if (batchProperties != null) {
             this.batchProperties = batchProperties;
-        }        
+        }
 
         this.stages = new LinkedList<StageSet>();
         if (listOfStages != null) {
             for (int i = 0; i < listOfStages.size(); i++) {
                 this.stages.add(new StageSet(listOfStages.get(i)));
             }
-        }        
+        }
 
         this.resourceEntries = new LinkedList<ResourceEntry>();
         if (resourceEntries != null) {
             this.resourceEntries = resourceEntries;
-        }        
+        }
+
+        initStartTime();
+    }
+
+    private void initStartTime() {
+        jobStartTimestamp = BatchJobUtils.getCurrentTimeStamp();
+
     }
 
     public static NewBatchJob createJobForFile(String fileName) {
+
         String id = createId(fileName);
+
         return new NewBatchJob(id);
     }
 
@@ -181,6 +197,10 @@ public class NewBatchJob implements Job {
 
     public void setBatchProperties(Map<String, String> batchProperties) {
         this.batchProperties = batchProperties;
+    }
+
+    public Date getJobStartTimestamp() {
+        return jobStartTimestamp;
     }
 
     /*
