@@ -1,4 +1,5 @@
-<h1>Application Registration</h1>
+<h1>Application Management</h1>
+<h4>Register a new application and update applications you have already registered.</h4>
 <%= link_to 'New Application', new_app_path, :class=> "btn" %>
 
 <table id="applications" class="table">
@@ -9,24 +10,33 @@
 		<th>Vendor</th>
 		<th>Creation Date</th>
 		<th>Last Update</th>
-    <th>Status</th>
-		<th>Actions</th>
+		<th></th>
 	</tr>
 	</thead>
 	<tbody>
 	<% @apps.each do |app| %>
 		<tr id='<%= app.id %>'>
-	    	<td><%= app.name %></td>
-		    <td><%= app.version %></td>
+      <td><%= app.name %></td>
+      <td><%= app.version %></td>
 			<td><%= app.vendor %></td>
-		        <td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
-		        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
-                        <td><%= app.registration.status %></td>
-			<td class="rowAction"><%= link_to_if app.registration.status != 'PENDING', 'Edit', "#", :class=> 'edit-link' %> | 
-                        <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
+			<%if app.pending? %>
+			  <td>Pending</td>
+        <td>Pending</td>
+			<%else%>
+  			<td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
+        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
+      
+			<%end%>
+			<td class="rowAction">
+			  <%if !app.pending? %>
+			  <%= link_to("In Progress", edit_app_path(app), :class => "btn btn-warning") if app.in_progress? and !app.pending? %>
+			  <%= link_to("Edit", edit_app_path(app), :class => "btn") if !app.in_progress?%> | 
+        <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %>
+        <% end %>
+      </td>
 		</tr>
 		<tr>
-			<td colspan="7"><%= render :partial => 'form', :locals => {:app => app} %></td>
+			<td colspan="7"><%= render :partial => 'single', :locals => {:app => app} %></td>
 		</tr>
 	<% end %>
 	</tbody>

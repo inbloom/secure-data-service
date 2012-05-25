@@ -17,21 +17,9 @@ jQuery ->
     $("#applications tr.odd td").click ->
       if $(@).attr("class") != "rowAction"
         $(@).parent().next("tr").slideToggle()
-  
-    $("tr.odd").each (index) ->
-      status = $(@).find('td')[5]
-      edOrgs = $(@).next().find('div.edorgs :checkbox')
-      $(edOrgs).each (index) ->
-        console.log(isNaN(parseInt($(@).attr('value'))))
-        if isNaN(parseInt($(@).attr('value')))
-          #Yellow the approved field
-          $(status).addClass("yellow")
-          $(status).text("In Progress")
-          return
-    
-  #   # alert($(status).text())
 
-changeCheck = (checkboxName, checkVal) ->
-  checkboxes = document.getElementsByName checkboxName
-  for i in checkboxes.length by 1
-    checkboxes[i].checked = checkVal
+toggleAll = (isOn) ->
+  if isOn
+    $('div.edorgs:checkbox:not(:checked)').prop("checked", "checked")
+  else
+    $('div.edorgs:checkbox:chencked').removeProp("checked")

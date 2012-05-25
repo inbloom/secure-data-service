@@ -1,3 +1,4 @@
 label.required { color: #D00;}
 div.field_with_errors input, div.field_with_errors textarea {border-color: red;}
 td.yellow {background-color: rgb(246, 248, 191)	;}
+dt {width: 250px;}

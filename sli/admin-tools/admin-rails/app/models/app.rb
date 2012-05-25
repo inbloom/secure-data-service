@@ -9,6 +9,16 @@ class App < SessionResource
     apps
   end
   
+  def pending?
+    self.registration.status == "PENDING" ? true : false
+  end
+  
+  def in_progress?
+    progress = true
+    self.authorized_ed_orgs.each { |ed_org| progress = false if !ed_org.to_i != 0 }
+    progress
+  end
+  
   schema do 
     string "client_secret", "redirect_uri", "description", "image_url"
     string "name", "client_id", "application_url", "administration_url"
