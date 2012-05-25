@@ -14,11 +14,13 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
+    reset_session
     raise exception
   end
   
   rescue_from ActiveResource::ServerError do |exception|
     logger.error {"Exception on server"}
+    reset_session
     SessionResource.access_token = nil
   end
 
