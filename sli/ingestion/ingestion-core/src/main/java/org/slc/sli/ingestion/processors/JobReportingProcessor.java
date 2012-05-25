@@ -87,8 +87,16 @@ public class JobReportingProcessor implements Processor {
             processJobReporting(workNote);
         }
         
-        ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
-        template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
+
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+            template.start();
+            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
+            template.stop();
+        } catch (Exception e) {
+            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+        }
+
     }
     
     private void processJobReporting(WorkNote workNote) {
