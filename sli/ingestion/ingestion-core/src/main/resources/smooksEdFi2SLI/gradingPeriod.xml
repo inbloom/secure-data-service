@@ -26,7 +26,7 @@
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="gradingPeriod" data="attributes gradingPeriod" />
+        <jb:value property="gradingPeriodIdentity" data="attributes gradingPeriodIdentity" />
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
