@@ -1,4 +1,4 @@
-@RALLY_US2281
+@RALLY_US2281 @wip
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
@@ -38,7 +38,7 @@ And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to
 And the landing zone "<Landing_zone_directory>" is saved in Ldap
 And the tenantId "<Tenant_ID>" is saved in Ldap
 
-@sandbox @wip
+@sandbox
 Scenario: Developer logs in after on-boarding on sandbox
 Given the user has an approved sandbox account
 When the user accesses the "<URL_TO_ADMIN_APP>"
