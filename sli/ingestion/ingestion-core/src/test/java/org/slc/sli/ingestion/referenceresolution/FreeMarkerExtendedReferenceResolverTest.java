@@ -81,7 +81,7 @@ public class FreeMarkerExtendedReferenceResolverTest {
             @Override
             public void run() {
                 try {
-                    test(input, expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference2");
+                    test(input, expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
                 } catch (Throwable t) {
                     exceptionThrown.value = Boolean.TRUE;
                     throw new RuntimeException(t);
