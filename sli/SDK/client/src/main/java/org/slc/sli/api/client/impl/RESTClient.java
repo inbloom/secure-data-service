@@ -23,8 +23,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.client.security.SliApi;
-import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Generic REST client. Provides the ability to connect to a ReSTful web service and make

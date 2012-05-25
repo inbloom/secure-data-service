@@ -5,13 +5,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.client.constants.ResourceNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Sample domain wrapper.

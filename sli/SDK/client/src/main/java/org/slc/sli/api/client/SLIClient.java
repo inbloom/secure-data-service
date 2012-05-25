@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
 
-import org.slc.sli.client.util.Query;
+import org.slc.sli.api.client.util.Query;
 
 /**
  * Interface defining the methods available to SLI API client applications. It provides

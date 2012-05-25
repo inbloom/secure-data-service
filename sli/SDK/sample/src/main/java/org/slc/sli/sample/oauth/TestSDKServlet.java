@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.client.constants.ResourceNames;
 
 /**
  * Servlet that do CRUD test against Java SDK.

@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Subresource for custom entities

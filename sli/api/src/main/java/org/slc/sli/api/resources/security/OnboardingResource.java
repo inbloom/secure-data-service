@@ -13,13 +13,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.security.TenantResource.TenantResourceCreationException;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.client.constants.EntityNames;
-import org.slc.sli.client.constants.ResourceConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;

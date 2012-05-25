@@ -3,8 +3,8 @@ package org.slc.sli.api.client.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.client.constants.v1.ParameterConstants;
-import org.slc.sli.client.util.Query;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.util.Query;
 
 /**
  * 

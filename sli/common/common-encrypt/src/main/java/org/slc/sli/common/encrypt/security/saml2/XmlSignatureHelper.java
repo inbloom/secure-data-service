@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.saml2;
+package org.slc.sli.common.encrypt.security.saml2;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.client.constants.ResourceNames;
-import org.slc.sli.client.constants.v1.ParameterConstants;
-import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Represents the session resource. A session is the prescribed span of time

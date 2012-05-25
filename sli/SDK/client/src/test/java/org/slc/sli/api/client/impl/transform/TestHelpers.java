@@ -185,6 +185,7 @@ public class TestHelpers {
     
     public static final JsonNode LINK_JSON_OBJECT = initJsonNode(LINK_JSON);
     
+    @SuppressWarnings("unchecked")
     public static boolean basicEntitiesEqual(GenericEntity e, GenericEntity r) {
         
         if (!e.getEntityType().equals(r.getEntityType())) {
@@ -193,6 +194,11 @@ public class TestHelpers {
         
         Map<String, Object> eData = e.getData();
         Map<String, Object> rData = r.getData();
+        
+        // only compare body elements
+        if (rData.containsKey(GenericEntitySerializer.ENTITY_BODY_KEY)) {
+            rData = (Map<String, Object>) rData.get(GenericEntitySerializer.ENTITY_BODY_KEY);
+        }
         
         if (eData.size() != rData.size()) {
             return false;

@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.saml2;
+package org.slc.sli.common.encrypt.security.saml2;
 
 import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
@@ -19,6 +19,8 @@ import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slc.sli.common.encrypt.security.saml2.DefaultSAML2Validator;
+import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 

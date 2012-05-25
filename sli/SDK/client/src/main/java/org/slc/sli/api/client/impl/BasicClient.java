@@ -24,9 +24,9 @@ import org.scribe.exceptions.OAuthException;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.client.constants.v1.PathConstants;
-import org.slc.sli.client.util.Query;
-import org.slc.sli.client.util.URLBuilder;
+import org.slc.sli.api.client.constants.v1.PathConstants;
+import org.slc.sli.api.client.util.Query;
+import org.slc.sli.api.client.util.URLBuilder;
 
 /**
  * Class defining the methods available to SLI API client applications. It provides

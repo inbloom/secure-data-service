@@ -1,4 +1,4 @@
-package org.slc.sli.api.security.saml2;
+package org.slc.sli.common.encrypt.security.saml2;
 
 import java.io.InputStream;
 
@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slc.sli.common.encrypt.security.saml2.DefaultSAML2Validator;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 

@@ -8,8 +8,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.client.constants.ResourceNames;
-import org.slc.sli.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 
 /**
  * Factory for returning the needed strategy to create the custom views

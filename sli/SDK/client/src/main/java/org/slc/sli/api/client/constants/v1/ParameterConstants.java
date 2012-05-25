@@ -1,4 +1,4 @@
-package org.slc.sli.client.constants.v1;
+package org.slc.sli.api.client.constants.v1;
 
 /**
  * Constants used in URI requests.

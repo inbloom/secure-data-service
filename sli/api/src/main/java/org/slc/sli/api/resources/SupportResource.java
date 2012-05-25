@@ -15,8 +15,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Support Resource

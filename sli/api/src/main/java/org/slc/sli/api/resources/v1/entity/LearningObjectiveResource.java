@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.v1.DefaultCrudResource;
-import org.slc.sli.client.constants.ResourceNames;
-import org.slc.sli.client.constants.v1.ParameterConstants;
-import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Represents identified learning objectives for courses in specific grades.

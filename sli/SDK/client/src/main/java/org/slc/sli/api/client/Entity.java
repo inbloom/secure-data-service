@@ -64,7 +64,7 @@ public interface Entity {
      * 
      * @return EntityType for this entity
      * 
-     * @see org.slc.sli.client.constants.EntityNames for a list of available names.
+     * @see org.slc.sli.api.client.constants.EntityNames for a list of available names.
      */
     String getEntityType();
     

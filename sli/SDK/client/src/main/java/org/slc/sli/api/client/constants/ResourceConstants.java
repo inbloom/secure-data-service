@@ -1,4 +1,4 @@
-package org.slc.sli.client.constants;
+package org.slc.sli.api.client.constants;
 
 import java.util.HashMap;
 import java.util.Map;
