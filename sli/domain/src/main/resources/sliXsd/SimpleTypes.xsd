@@ -1942,6 +1942,11 @@
 			<xs:enumeration value="Z-score" />
 			<xs:enumeration value="Other" />
 			<xs:enumeration value="Not applicable" />
+            <xs:enumeration value="Quantile Measure"/>
+            <xs:enumeration value="Lexile Measure"/>
+            <xs:enumeration value="Vertical Scale Score"/>
+            <xs:enumeration value="National College-Bound Percentile"/>
+            <xs:enumeration value="State College-Bound Percentile"/>
 		</xs:restriction>
 	</xs:simpleType>
 
