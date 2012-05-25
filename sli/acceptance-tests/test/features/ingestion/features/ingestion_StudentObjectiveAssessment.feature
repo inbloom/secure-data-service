@@ -1,3 +1,4 @@
+@RALLY_US2160
 Feature: StudentObjectiveAssessment Ingestion Test
 
 Background: I have a landing zone route configured

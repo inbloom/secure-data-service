@@ -13,8 +13,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.tools.SliUmlConstants;
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;

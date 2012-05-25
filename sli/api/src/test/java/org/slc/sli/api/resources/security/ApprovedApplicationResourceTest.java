@@ -23,7 +23,10 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -59,6 +62,8 @@ public class ApprovedApplicationResourceTest {
     
     @Mock
     ApplicationAuthorizationValidator appValidator;
+    
+    @Mock Repository<Entity> repo;
     
     EntityBody adminApp, userApp, installedApp;
     
@@ -186,7 +191,7 @@ public class ApprovedApplicationResourceTest {
         Response resp = resource.getApplications("false");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse(ents.contains(adminApp));
-        assertTrue(ents.contains(userApp));
+        assertFalse(ents.contains(userApp));
         assertFalse(ents.contains(installedApp));
     }
     
@@ -212,7 +217,7 @@ public class ApprovedApplicationResourceTest {
         assertFalse(ents.contains(installedApp));
     }
     
-    private static void setupAuth(GrantedAuthority auth, List<String> roles) {
+    private void setupAuth(GrantedAuthority auth, List<String> roles) {
         Authentication mockAuth = Mockito.mock(Authentication.class);
         ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
         rights.add(auth);
@@ -223,9 +228,20 @@ public class ApprovedApplicationResourceTest {
         } else {
             principal.setRoles(roles);
         }
+        principal.setRealm("someRealm");
+        Map realmBody = new HashMap();
+
+        if (auth == Right.ADMIN_ACCESS) {
+            realmBody.put("admin", true);
+        } else {
+            realmBody.put("admin", false);
+        }
+        MongoEntity realm = new MongoEntity("realm", realmBody);
+        Mockito.when(repo.findById("realm", "someRealm")).thenReturn(realm);
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
-
+        
+        
     }
 
 }

@@ -47,7 +47,7 @@ default:
         bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
-        sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
+        sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
         sli.landingZone.server: devpantheon.slidev.org
         
@@ -136,6 +136,12 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
+        
+        dashboard.google_analytics.id: UA-31838086-1
+        
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+        
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
@@ -184,9 +190,10 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
+
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
-        # LDAP base URL
+        # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
@@ -756,15 +763,19 @@ sandbox:
         <<: *DATA-ACCESS-TEAM
     apps:
         <<: *APPS-DEFAULT
-        bootstrap.app.keys: admin
+        bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
         bootstrap.app.admin.client_id: OY6Nnukmn6
         bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+        bootstrap.app.databrowser.url: https://${sli.dev.subdomain}.slidev.org:2000
+        bootstrap.app.databrowser.client_id: G9tjgDx1aL
+        bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+        bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
+        bootstrap.app.dashboard.client_id: 6TW4tHwcWG
+        bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
     misc:
         <<: *MISC-TEAM
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
-        
-# this is not used but required 

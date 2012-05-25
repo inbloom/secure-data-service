@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.slc.sli.modeling</groupId>
+		<artifactId>modeling</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>sdkgen</artifactId>
+	<name>sdkgen (Java SDK Generator)</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>jgen</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>rest</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>wadl</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>maven-plugins</groupId>
+			<artifactId>maven-javaapp-plugin</artifactId>
+			<!-- Forced to use this version rather than 1.4 due to transitive dependencies. -->
+			<version>1.2</version>
+		</dependency>
+	</dependencies>
+</project>

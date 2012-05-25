@@ -71,7 +71,7 @@ public class AdminDelegationResource {
      */
     @GET
     public Response getDelegations() {
-
+        SecurityUtil.ensureAuthenticated();
         if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
 
             String edOrg = SecurityUtil.getEdOrg();
@@ -113,6 +113,7 @@ public class AdminDelegationResource {
     @PUT
     @Path("myEdOrg")
     public Response setLocalDelegation(EntityBody body) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             return SecurityUtil.forbiddenResponse();
         }

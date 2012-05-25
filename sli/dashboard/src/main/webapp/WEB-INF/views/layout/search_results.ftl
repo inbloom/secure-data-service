@@ -1,32 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<#attempt>
-<html>
-<head>
+
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
-<script type="text/javascript">
-var no_result_string = 
-        '<h4>I\'m sorry, we do not have results that match your search.</h4>\
-        <p>There may be a quick fix:</p><ul>\
-        <li>Are the names spelled correctly?</li>\
-        <li>Are the names capitalized?</li>\
-        <li>Is appropriate punctuation included?</li>\
-        </ul>\
-        <p>Please check these items and try again.</p>\
-        <p>OR</p>\
-        <p>Return to the <a href="#">previous page</a>.</p>';
-
-function noSearchResults() {
-    if (dataModel.studentSearch.numResults == 0) {
-        document.getElementById("noSearchResultsDiv").innerHTML = no_result_string;
-        }
-}
-</script>
-</head>
-<body  onLoad="noSearchResults()">
-
-
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>
 <div class="panel-container">
     <div class="panel-left">
     <div class="panel">
@@ -38,43 +14,47 @@ function noSearchResults() {
     </div>
     </div>
     </div>
-    
+
     <div class="panel-right">
         <div class="panel">
             <div class="panel-header">
             </div>
-            <script>
-            if (dataModel.studentSearch.numResults == 1){
-                     var result_string = ' result.' 
-            } else {
-                     var result_string = ' results.'
-            }
-            document.write('Your search for \"'+ dataModel.studentSearch.searchString +'\" \
-                           returned ' + dataModel.studentSearch.numResults + result_string);
-            
-                            
-            </script>
-            
+				<@includePanelModel panelId="studentSearch"/>
+            	Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.
+
                 <div class="panel-content">
                     <div id="content">
                         <#-- create header panels -->
-                        <#list layout as item>     
-                            <@includePanelContent panel=item/>  
-                        </#list> 
+                        <#list layout as item>
+                            <@includePanelContent panel=item/>
+                        </#list>
                 <br/>
                 <div id="noSearchResultsDiv">
                 </div>
+				<div id="searchPgnDiv">
+					<button id="searchPrevBtn" onclick="gotoURL(this.id)" class="btn" type="button">
+						<input type="image" src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height = "13px" alt="Prev" />
+					</button>
+					Page ${panelData.searchPageNum} of ${panelData.searchMaxPageNum}
+					<button id="searchNextBtn" onclick="gotoURL(this.id)" class="btn" type="button">
+						<input type="image" src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height = "13px" alt="Next" />
+					</button>
+					<select id="pageSizeSelect" onChange="gotoURL(this.id)">
+  						<option value="50">50</option>
+  						<option value="100">100</option>
+					</select>
+					Viewing ${(panelData.searchPageNum - 1) * panelData.searchPageSize + 1} -
+					<#if (panelData.searchPageNum * panelData.searchPageSize) lte panelData.numResults>${panelData.searchPageNum * panelData.searchPageSize}</#if>
+					<#if (panelData.searchPageNum * panelData.searchPageSize) gt panelData.numResults>${panelData.numResults}</#if>
+					of ${panelData.numResults}
+					<script type="text/javascript">
+					setup();
+					</script>
+				</div>
                     </div>
                 </div>
         </div>
-        
+
     </div>
-    
+
 </div>
-</body>
-</html>
-<#include "layout_footer.ftl">
-<#recover>
-${logger.error(.error)}
-<#include "../error.ftl">
-</#attempt>

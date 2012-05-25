@@ -15,8 +15,11 @@ import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
+import org.slc.sli.modeling.uml.index.DefaultModelIndex;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.wadl.reader.WadlReader;
 import org.slc.sli.modeling.wadl.writer.WadlWriter;
+import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public final class WadlFixer {
 
@@ -233,6 +236,8 @@ public final class WadlFixer {
     public static void main(final String[] args) {
 
         try {
+            @SuppressWarnings("unused")
+            final ModelIndex model = new DefaultModelIndex(XmiReader.readModel("SLI.xmi"));
             final Application app = fixApplication(WadlReader.readApplication("wadl-original.xml"));
             WadlWriter.writeDocument(app, "wadl-clean.xml");
         } catch (final FileNotFoundException e) {

@@ -29,9 +29,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the association between a $$Student$$ and a $$Cohort$$.
  *
+ * For more information, see the schema for $$StudentCohortAssociation$$ resources.
+ *
  * @author kmyers
  * @author srichards
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
 @Component
@@ -53,16 +54,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resource representations.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -74,17 +65,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Creates a new resource using the given resource data.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
      */
     @Override
     @POST
@@ -95,14 +75,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the specified resource representation(s).
-     *
-     * @param studentCohortAssociationId
-     *            The Id of the studentCohortAssociations.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -114,15 +86,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Deletes the specified resource.
-     *
-     * @param studentCohortAssociationId
-     *            The Id of the studentCohortAssociations.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @Override
     @DELETE
@@ -134,17 +97,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Updates the specified resource using the given resource data.
-     *
-     * @param studentCohortAssociationId
-     *            The id of the studentCohortAssociations.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @Override
     @PUT
@@ -157,20 +109,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentCohortAssociationId
-     *            The Id of the studentCohortAssociation.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -184,20 +122,6 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param studentCohortAssociationId
-     *            The Id of the $$studentCohortAssociation$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)

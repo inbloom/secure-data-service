@@ -330,6 +330,20 @@
 		</SectionReference>
 		<ClassroomPosition>Teacher of Record</ClassroomPosition>
 	</TeacherSectionAssociation>
+	   <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <UniqueSectionCode>Gym Class - 4</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
 	<!-- Johnny Admin -->
 	<Staff>
 		<StaffUniqueStateId>demo</StaffUniqueStateId>

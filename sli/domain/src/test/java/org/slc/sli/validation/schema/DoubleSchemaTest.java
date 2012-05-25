@@ -49,4 +49,19 @@ public class DoubleSchemaTest {
         assertFalse(schema.validate(2D));
     }
     
+    @Test
+    public void testConvert() throws Exception {
+        double value = 1.2;
+        Object convertedValue = this.schema.convert("" + value);
+        assertTrue(convertedValue instanceof Double);
+        Double convertedInput = (Double) convertedValue;
+        assertTrue(convertedInput.doubleValue() == value);
+    }
+    
+    @Test
+    public void testBadConvert() {
+        Object convertedValue = this.schema.convert("INVALID INPUT");
+        assertFalse(convertedValue instanceof Double);
+    }
+    
 }

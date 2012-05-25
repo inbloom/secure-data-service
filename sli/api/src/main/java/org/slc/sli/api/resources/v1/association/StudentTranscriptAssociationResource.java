@@ -23,8 +23,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Represents the final record of a student's performance in their courses at the end of semester or school year.
  *
- * @author kmyers
+ * For more information, see the schema for $$StudentTranscriptAssociation$$ resources.
  *
+ * @author kmyers
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COURSE_TRANSCRIPTS)
 @Component
@@ -37,21 +38,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Student$$ that references the given $$StudentTranscriptAssociation$$.
-     *
-     * @param courseTranscriptId
-     *            The Id of the $$StudentTranscriptAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Student$$ that references the given $$StudentTranscriptAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_TRANSCRIPT_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -63,21 +50,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns each $$Course$$ that references the given $$StudentTranscriptAssociation$$.
-     *
-     * @param courseTranscriptId
-     *            The id of the $$StudentTranscriptAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Course$$ that references the given $$StudentTranscriptAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_TRANSCRIPT_ID + "}" + "/" + PathConstants.COURSES)

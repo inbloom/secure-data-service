@@ -74,6 +74,34 @@
 		</SectionReference>
 		<ClassroomPosition>Teacher of Record</ClassroomPosition>
 	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>manthony</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                <UniqueSectionCode>A.P. Calculus Sec 301</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
+        <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>manthony</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                <UniqueSectionCode>A.P. Calculus Sec 401</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
 	<!--Renee Acosta principal (Leader) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>racosta</StaffUniqueStateId>

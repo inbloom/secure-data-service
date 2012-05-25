@@ -9,6 +9,7 @@ that are displayed.
         Given I have an open web browser
         Given the server is in "test" mode
 
+@RALLY_US145
     Scenario: Check user has multiple filters available
         Given I am authenticated to SLI as "cgray" "cgray"
         When I select <edOrg> "Daybreak School District 4529"
@@ -18,6 +19,7 @@ that are displayed.
         Then I should have a dropdown selector named "studentFilterSelector"
           And I should have multiple filters available
 
+  @RALLY_US145
     Scenario: Students are filtered based on filter selected
         Given I am authenticated to SLI as "cgray" "cgray"
         When I select <edOrg> "Daybreak School District 4529"

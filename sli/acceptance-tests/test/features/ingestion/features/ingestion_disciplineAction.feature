@@ -1,3 +1,4 @@
+@RALLY_US1889 @RALLY_DE391
 Feature: DisciplineAction Ingestion Test
 
 Background: I have a landing zone route configured
