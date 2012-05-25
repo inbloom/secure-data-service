@@ -151,7 +151,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Purge process complete.");
-        logger.error("Exception:", exception);
+        logger.error("Exception encountered in PurgeProcessor. ");
 
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),

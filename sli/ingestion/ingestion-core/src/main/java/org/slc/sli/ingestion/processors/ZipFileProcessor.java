@@ -109,7 +109,7 @@ public class ZipFileProcessor implements Processor {
     private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LOG.error("Exception encountered in ZipFileProcessor.");
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
                     null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());

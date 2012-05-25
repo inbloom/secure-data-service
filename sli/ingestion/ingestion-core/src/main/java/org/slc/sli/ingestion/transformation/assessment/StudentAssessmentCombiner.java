@@ -57,7 +57,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fe.getNeutralRecordFile());
                 try {
                     for (DBObject studentAssessment : cursor) {
-                        LOG.debug("Transforming student assessment {}", studentAssessment);
+                        LOG.debug("Transforming student assessment");
                         Map<String, Object> body = ((DBObject) studentAssessment.get("body")).toMap();
                         String id = (String) body.get(XML_ID_FIELD);
                         body.remove(XML_ID_FIELD);
@@ -66,7 +66,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                                 SOA_EDFI_COLLECTION_NAME, getBatchJobId(), new NeutralQuery(new NeutralCriteria(
                                         STUDENT_ASSESSMENT_REFERENCE, "=", id)));
 
-                        LOG.debug("related SOAs are {}", studentObjectAssessmentsRefs);
+//                        LOG.debug("related SOAs are {}", studentObjectAssessmentsRefs);
                         List<Map<String, Object>> soas = new ArrayList<Map<String, Object>>();
                         for (NeutralRecord ref : studentObjectAssessmentsRefs) {
                             soas.add(resolveSoa(ref, oas));
