@@ -56,6 +56,7 @@ public class SecurityEventResourceTest {
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
+    private static boolean isExecuted = false;
 
     @Before
     public void setup() throws Exception {
@@ -71,12 +72,18 @@ public class SecurityEventResourceTest {
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
 
-        // create one entity
-        resource.createSecurityEvent(new EntityBody(sampleEntity1()), httpHeaders, uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity2()), httpHeaders, uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity3()), httpHeaders, uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity4()), httpHeaders, uriInfo);
-        resource.createSecurityEvent(new EntityBody(sampleEntity5()), httpHeaders, uriInfo);
+        synchronized (this) {
+            if (!isExecuted) {
+                isExecuted = true;
+
+                // create entities
+                resource.createSecurityEvent(new EntityBody(sampleEntity1()), httpHeaders, uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity2()), httpHeaders, uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity3()), httpHeaders, uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity4()), httpHeaders, uriInfo);
+                resource.createSecurityEvent(new EntityBody(sampleEntity5()), httpHeaders, uriInfo);
+            }
+        }
     }
 
     private Map<String, Object> sampleEntity1() {
@@ -199,6 +206,87 @@ public class SecurityEventResourceTest {
     //      the "IN" operation of NeutralCriteria is not correctly mocked.
 
     @Test
+    public void testSLCOperatorOffsetGetSecurityEvents() {
+        injector.setOperatorContext();
+
+        Response response = resource.getSecurityEvents(3, 100, httpHeaders, uriInfo);
+
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
+
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have three entities, but the actual count is " + results.size(), results.size() == 2);
+        } else {
+            fail("Response entity not recognized: " + response);
+        }
+
+    }
+
+    @Test
+    public void testSLCOperatorLimitGetSecurityEvents() {
+        injector.setOperatorContext();
+
+        Response response = resource.getSecurityEvents(0, 2, httpHeaders, uriInfo);
+
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
+
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have two entities, but the actual count is " + results.size(), results.size() == 2);
+        } else {
+            fail("Response entity not recognized: " + response);
+        }
+
+    }
+
+    @Test
+    public void testSLCOperatorOffsetLimitGetSecurityEvents() {
+        injector.setOperatorContext();
+
+        Response response = resource.getSecurityEvents(1, 3, httpHeaders, uriInfo);
+
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
+
+        if (responseEntityObj instanceof EntityBody) {
+            assertNotNull(responseEntityObj);
+        } else if (responseEntityObj instanceof List<?>) {
+            @SuppressWarnings("unchecked")
+            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
+            assertTrue("Should have three entities, but the actual count is " + results.size(), results.size() == 3);
+        } else {
+            fail("Response entity not recognized: " + response);
+        }
+
+    }
+
+    @Test
     public void testSLCOperatorGetSecurityEvents() {
         injector.setOperatorContext();
 
@@ -218,7 +306,7 @@ public class SecurityEventResourceTest {
         } else if (responseEntityObj instanceof List<?>) {
             @SuppressWarnings("unchecked")
             List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have five entity", results.size() == 5);
+            assertTrue("Should have five entities, but the actual count is " + results.size(), results.size() == 5);
         } else {
             fail("Response entity not recognized: " + response);
         }
