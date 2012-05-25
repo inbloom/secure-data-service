@@ -3,7 +3,7 @@ Feature: K-3 student list view
 As a SEA/LEA user, I want to see the K-3 student list view
 on SLI, so I could see elementary school students results
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Check K-3 Student Name
 Given I have an open web browser
 Given the server is in "live" mode
@@ -24,8 +24,8 @@ And Tab has a title named "Elementary School Overview"
  When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test         |
-|DIBELS Next  |
-And the Assessment History for "DIBELS Next" has the following entries:
+|READ 2.0  |
+And the Assessment History for "READ 2.0" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level |
-|2011-08-10   |1      |DIBELS Next Grade 1 BOY    |Level 2    |
-|2012-03-01   |1      |DIBELS Next Grade 1 MOY    |Level 1    |  
+|2011-08-10   |1      |READ 2.0 Grade 1 BOY    |Level 2    |
+|2012-03-01   |1      |READ 2.0 Grade 1 MOY    |Level 1    |  

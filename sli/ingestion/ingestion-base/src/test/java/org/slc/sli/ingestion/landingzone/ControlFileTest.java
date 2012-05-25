@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 
 /**
  * Test for ControlFile
@@ -20,7 +21,7 @@ import org.slc.sli.ingestion.FileType;
 public class ControlFileTest {
 
     @Test
-    public void testParseFile() throws IOException {
+    public void testParseFile() throws IOException, SubmissionLevelException {
 
         String sep = System.getProperty("line.separator");
         String content = "@hello=world" + sep + " " + sep

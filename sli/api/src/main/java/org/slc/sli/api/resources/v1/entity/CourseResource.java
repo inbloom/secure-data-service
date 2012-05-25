@@ -24,6 +24,8 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * for the instruction of students on a regular or systematic basis.
  *
  * This is similar to section except that a section is a specific instance of a course.
+ *
+ * For more information, see the schema for $$Course$$ resources.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.COURSES)
 @Component
@@ -37,15 +39,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return course offerings that reference the given $$courses$$
-     *
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS)
@@ -58,14 +51,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return $$sessions$$ associated with the given $$courses$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS + "/" + PathConstants.SESSIONS)
@@ -78,14 +63,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return $$studentTranscriptAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS)
@@ -97,14 +74,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return $$students$$ associated with the given $$courses$$ through $$studentTranscriptAssociations$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS + "/" + PathConstants.STUDENTS)
@@ -117,14 +86,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return $$studentParentAssociations$$ that reference the given $$courses$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
@@ -136,14 +97,6 @@ public class CourseResource extends DefaultCrudResource {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param courseId
-     *            The id of the $$courses$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return $$students$$ associated with the given $$courses$$ through $$studentParentAssociations$$
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)

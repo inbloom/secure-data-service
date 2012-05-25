@@ -57,3 +57,4 @@ function filterStudents() {
     var filterSelect = $("#filterSelect").val();
     filterStudentList(DashboardProxy.widgetConfig.lozenge.items[filterSelect]); 
 }
+

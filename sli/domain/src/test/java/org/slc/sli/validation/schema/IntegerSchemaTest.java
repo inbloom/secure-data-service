@@ -48,4 +48,18 @@ public class IntegerSchemaTest {
         assertFalse(schema.validate(19));
     }
     
+    @Test
+    public void testConvert() throws Exception {
+        int value = 12345;
+        Object convertedValue = this.schema.convert("" + value);
+        assertTrue(convertedValue instanceof Integer);
+        Integer convertedInput = (Integer) convertedValue;
+        assertTrue(convertedInput.intValue() == value);
+    }
+    
+    @Test
+    public void testBadConvert() {
+        Object convertedValue = this.schema.convert("INVALID INPUT");
+        assertFalse(convertedValue instanceof Integer);
+    }
 }

@@ -12,6 +12,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 >
+    <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" />
     <mvc:annotation-driven validator="validator" />
     <context:component-scan base-package="org.slc.sli.web"/>
     <context:annotation-config />
@@ -72,4 +73,9 @@
     <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
         <property name="validator" ref="validator" />
     </bean>
+        
+    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
+        <qualifier value="googleAnalyticsTrackerId" />
+        <constructor-arg value="${dashboard.google_analytics.id}" />
+    </bean>   
 </beans>

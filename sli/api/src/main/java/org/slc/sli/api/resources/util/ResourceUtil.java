@@ -186,14 +186,16 @@ public class ResourceUtil {
     }
 
     private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,
-            final EntityDefinition defn, final UriInfo uriInfo, String id) {
+                                                           final EntityDefinition defn, final UriInfo uriInfo, String id) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
+            boolean bAddRefField = true;
             // if the entity that has a reference to the defn parameter is an association
             if (definition instanceof AssociationDefinition) {
+
                 AssociationDefinition assoc = (AssociationDefinition) definition;
-                if (assoc.getSourceEntity().equals(defn)) {
+                if (assoc.getSourceEntity().getType().equals(defn.getType())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromSource(), assoc.getType(), getURI(uriInfo,
                             PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
@@ -203,7 +205,7 @@ public class ResourceUtil {
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getTargetEntity().getResourceName()).toString()));
 
-                } else if (assoc.getTargetEntity().equals(defn)) {
+                } else if (assoc.getTargetEntity().getType().equals(defn.getType())) {
                     links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), assoc.getType(), getURI(uriInfo,
                             PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
@@ -212,21 +214,25 @@ public class ResourceUtil {
                             uriInfo, PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getSourceEntity().getResourceName()).toString()));
+                } else {
+                    bAddRefField = false;
                 }
             }
 
-            // loop through all reference fields, display as ? links
-            for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());
-                
-                // handle learningObjective direct self reference link name
-                if (defn.getResourceName().equals(definition.getResourceName())
-                        && defn.getResourceName().equals(ResourceNames.LEARNINGOBJECTIVES)) {
-                    linkName = "getChildLearningObjectives";
+            if (bAddRefField) {
+                // loop through all reference fields, display as ? links
+                for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
+                    String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());
+
+                    // handle learningObjective direct self reference link name
+                    if (defn.getResourceName().equals(definition.getResourceName())
+                            && defn.getResourceName().equals(ResourceNames.LEARNINGOBJECTIVES)) {
+                        linkName = "getChildLearningObjectives";
+                    }
+                    links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                            PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                            + "?" + referenceFieldName + "=" + id));
                 }
-                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                        PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
-                        + "?" + referenceFieldName + "=" + id));
             }
         }
         return links;

@@ -21,7 +21,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ListSchemaTest {
-
+    
+    private static final Object[] TRUE_AND_FALSE = new Object[] {
+            Boolean.TRUE, 
+            Boolean.FALSE
+    };
+    
+    private static final Object[] INVALID_TRUE_FALSE_VALUES = new Object[] {
+        "NON-TRUE OR FALSE VALUE"
+    };
+    
     @Autowired
     ListSchema schema;
 
@@ -47,26 +56,31 @@ public class ListSchemaTest {
     DateTimeSchema dateTimeSchema;
 
     @Test
-    public void testListOfBooleanValidation() throws IllegalArgumentException {
-        schema.clearFields();
-        schema.getList().add(booleanSchema);
-        List<Boolean> listEntity = new ArrayList<Boolean>();
-        Boolean booleanEntity = true;
-        listEntity.add(booleanEntity);
-        assertTrue("List of boolean entity validation failed", schema.validate(listEntity));
+    public void testValidationOfValidBooleanList() throws IllegalArgumentException {
+        boolean validationResult = this.testValidationOfBooleanList(TRUE_AND_FALSE);
+        assertTrue("Validation of valid boolean list failed", validationResult);
     }
 
     @Test
-    public void testListOfBooleanStringValidation() throws IllegalArgumentException {
-        schema.clearFields();
-        schema.getList().add(booleanSchema);
-        List<String> listEntity = new ArrayList<String>();
-        String stringEntity = "test";
-
-        // Setup for failure
-        listEntity.add(stringEntity);
-
-        assertTrue("ListSchema boolean validation failed", schema.validate(listEntity));
+    public void testValidationOfInvalidBooleanList() throws IllegalArgumentException {
+        boolean validationResult = this.testValidationOfBooleanList(INVALID_TRUE_FALSE_VALUES);
+        assertFalse("Validation of invalid boolean list failed", validationResult);
+    }
+    
+    private boolean testValidationOfBooleanList(Object[]listValues) {
+        
+        //setup schema for list
+        this.schema.clearFields();
+        this.schema.getList().add(this.booleanSchema);
+        
+        //setup list with supplied parameter as its only value
+        List<Object> valuesList = new ArrayList<Object>();
+        for (Object listValue : listValues) {
+            valuesList.add(listValue);
+        }
+        
+        //run validation and return result
+        return this.schema.validate(valuesList);
     }
 
     @Test

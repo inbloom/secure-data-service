@@ -73,6 +73,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
      * org.slc.sli.api.security.context.resolver.EntityContextResolver#findAccessible(org.slc.sli
      * .domain.Entity)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
 
@@ -94,13 +95,19 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(9999);
                 Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
                 for (Entity entity : entities) {
-                    String id = (String) entity.getBody().get(connection.getFieldName());
-                    if( id != null && !id.isEmpty())
-                        idSet.add(id);
+                    Object fieldData = entity.getBody().get(connection.getFieldName());
+                    if (fieldData != null) {
+                        if (fieldData instanceof String) {
+                            String id = (String) fieldData;
+                            if (!id.isEmpty()) {
+                                idSet.add(id);
+                            }
+                        } else if (fieldData instanceof ArrayList) {
+                            ids.addAll((ArrayList<String>) fieldData);
+                        }
+                    }
                 }
             } else if (isAssociative(next, connection)) {
                 AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
@@ -141,7 +148,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
         return connection.getAssociationNode().length() != 0 && connection.getAssociationNode().endsWith("ssociations");
     }
 
-    private String getResourceName(SecurityNode current, SecurityNode next, SecurityNodeConnection connection) {
+    protected String getResourceName(SecurityNode current, SecurityNode next, SecurityNodeConnection connection) {
 
         String resourceName;
 

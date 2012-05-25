@@ -74,7 +74,7 @@ getSliRoleObject = function(sliRole, roleData) {
         	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
 
 		if (editable) {
-			tr.append("<td><button class='deleteButton'>X</button></td>");
+			tr.append("<td><button class='btn btn-danger deleteButton'>X</button></td>");
 		}	
 		//fade in last one
 		table.append(tr);

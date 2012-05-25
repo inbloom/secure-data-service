@@ -1,3 +1,5 @@
+@RALLY_US1387
+@RALLY_US2033
 Feature: TenantId Ingestion Test
 
 Background: I have a landing zone route configured

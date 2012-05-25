@@ -1,3 +1,4 @@
+@RALLY_US0615
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured

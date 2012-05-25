@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+<!-- READ 2.0-->
+  <Assessment id="READ2-Next-Grade-1-BOY">
+    <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>READ 2.0 Grade 1 BOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 1</CodeValue>
+        <Description>At or Above Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>113</MinimumScore>
+      <MaximumScore>380</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 2</CodeValue>
+        <Description>Below Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>97</MinimumScore>
+      <MaximumScore>112</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 3</CodeValue>
+        <Description>Well Below Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>0</MinimumScore>
+      <MaximumScore>96</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2010-05-17</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>READ2-BOY-2011</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment id="READ2-Next-Grade-1-MOY">
+    <AssessmentTitle>READ 2.0 Grade 1 MOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>READ 2.0 Grade 1 MOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 1</CodeValue>
+        <Description>At or Above Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>130</MinimumScore>
+      <MaximumScore>380</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 2</CodeValue>
+        <Description>Below Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>100</MinimumScore>
+      <MaximumScore>129</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Level 3</CodeValue>
+        <Description>Well Below Benchmark</Description>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+      <MinimumScore>0</MinimumScore>
+      <MaximumScore>99</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2010-05-17</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>READ2-MOY-2011</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <AssessmentFamily id="READ2-Next">
+    <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>READ 2.0</ID>
+    </AssessmentFamilyIdentificationCode>
+  </AssessmentFamily>
+
+  <AssessmentFamily id="READ2-Next-Grade-1">
+    <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>READ 2.0 Grade 1</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+          <ID>READ 2.0</ID>
+         </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+	</AssessmentFamilyReference>
+  </AssessmentFamily>
+
+  
+  <AssessmentPeriodDescriptor>
+	<CodeValue>READ2-BOY-2011</CodeValue>
+	<Description>Beginning of Year 2011-2012</Description>
+	<ShortDescription>READ2-BOY-2011</ShortDescription>
+	<BeginDate>2011-08-01</BeginDate>
+	<EndDate>2011-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+  <AssessmentPeriodDescriptor>
+	<CodeValue>READ2-MOY-2011</CodeValue>
+	<Description>Middle of Year 2011-2012</Description>
+	<ShortDescription>READ2-MOY-2011</ShortDescription>
+	<BeginDate>2012-01-01</BeginDate>
+	<EndDate>2012-03-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+</InterchangeAssessmentMetadata>

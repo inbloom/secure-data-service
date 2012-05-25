@@ -1,12 +1,12 @@
 package org.slc.sli.manager.impl;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.googlecode.ehcache.annotations.Cacheable;
 
-import org.slc.sli.client.LiveAPIClient;
+import org.apache.commons.lang3.StringUtils;
+
+import org.slc.sli.client.RESTClient;
 import org.slc.sli.manager.PortalWSManager;
 
-//import com.googlecode.ehcache.annotations.Cacheable;
 
 /**
  *
@@ -14,33 +14,39 @@ import org.slc.sli.manager.PortalWSManager;
  *
  */
 public class PortalWSManagerImpl implements PortalWSManager {
+    private RESTClient restClient;
+    private String portalHeaderUrl;
+    private String portalFooterUrl;
 
-    @Autowired
-    LiveAPIClient apiClient;
+    public void setPortalHeaderUrl(String portalHeaderUrl) {
+        this.portalHeaderUrl = portalHeaderUrl;
+    }
 
+    public void setPortalFooterUrl(String portalFooterUrl) {
+        this.portalFooterUrl = portalFooterUrl;
+    }
 
-    //@Cacheable(cacheName = "user.header")
+    public void setRestClient(RESTClient restClient) {
+        this.restClient = restClient;
+    }
+
     @Override
-    public String getHeader(String token) {
+    @Cacheable(cacheName = "user.portal.header")
+    public String getHeader(boolean isAdmin) {
         try {
-            return apiClient.getHeader(token);
+            return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
         } catch (Throwable t) {
             return StringUtils.EMPTY;
         }
     }
 
-    //@Cacheable(cacheName = "user.footer")
     @Override
-    public String getFooter(String token) {
+    @Cacheable(cacheName = "user.portal.footer")
+    public String getFooter(boolean isAdmin) {
         try {
-            return apiClient.getFooter(token);
+            return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);
         } catch (Throwable t) {
             return StringUtils.EMPTY;
         }
     }
-
-    public void setApiClient(LiveAPIClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
 }

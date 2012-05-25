@@ -68,20 +68,6 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
 
-When /^I see a header on the page that has the text "([^"]*)"$/ do |expectedText|
-  header = @explicitWait.until{@driver.find_element(:id, "sli_banner")}
-  logo = header.find_elements(:tag_name,"img")
-  assert(logo.length == 1, "Header logo img is not found")
-  headerText = header.find_element(:class, "header_right")
-  
-  assert(headerText.attribute("innerHTML").to_s.lstrip.rstrip.include?(expectedText), "Header text is not found")
-end
-
-When /^I see a footer on the page that has the text "([^"]*)"$/ do |expectedText|
-  footer = @driver.find_element(:id, "sli_footer")
-  assert(footer.attribute("innerHTML").to_s.lstrip.rstrip.include?(expectedText), "Footer text is not found")
-end
-
 def clickOnStudent(name)
   los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   

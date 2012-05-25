@@ -11,8 +11,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.slc.sli.modeling.tools.SliMongoConstants;
-import org.slc.sli.modeling.tools.SliUmlConstants;
+import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2UmlPlugin;
 import org.slc.sli.modeling.tools.xsd2xmi.core.Xsd2UmlPluginHost;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -56,6 +56,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
     @Override
     public List<TagDefinition> declareTagDefinitions(final Xsd2UmlPluginHost host) {
         final List<TagDefinition> tagDefs = new LinkedList<TagDefinition>();
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_NATURAL_KEY, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_PII, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ENFORCE_READ, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ENFORCE_WRITE, Occurs.ZERO, Occurs.ONE, host));
@@ -135,7 +136,10 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                 final String namespace = element.getNamespaceURI();
                 final String localName = element.getLocalName();
                 final QName name = new QName(namespace, localName);
-                if (SliMongoConstants.SLI_REFERENCE_TYPE.equals(name)) {
+                if (SliMongoConstants.SLI_NATURAL_KEY.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_NATURAL_KEY);
+                    taggedValues.add(new TaggedValue("true", tagDefinition));
+                } else if (SliMongoConstants.SLI_REFERENCE_TYPE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_REFERENCE);
                     final String refereceType = nameFromTypeName(new QName(
                             XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));

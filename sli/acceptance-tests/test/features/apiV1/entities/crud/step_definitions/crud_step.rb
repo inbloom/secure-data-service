@@ -176,7 +176,8 @@ $entityData = {
     "term" => "Spring Semester",
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
-    "totalInstructionalDays" => 80
+    "totalInstructionalDays" => 80,
+    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] 
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
@@ -266,12 +267,12 @@ $entityData = {
   },
   "reportCard" => {
       "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-      "studentCompetencyId" => "b57643e4-9acf-11e1-89a7-68a86d21d918",
-      "gpaGivenGradingPeriod" => "3.14",
-      "gpaCumulative" => "2.9",
-      "numberOfDaysAbsent" => "15",
-      "numberOfDaysInAttendance" => "150",
-      "numberOfDaysTardy" => "10",
+      "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
+      "gpaGivenGradingPeriod" => 3.14,
+      "gpaCumulative" => 2.9,
+      "numberOfDaysAbsent" => 15,
+      "numberOfDaysInAttendance" => 150,
+      "numberOfDaysTardy" => 10,
       "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992"
       #"gradingPeriodId" => "TODO"
   }

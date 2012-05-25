@@ -4,10 +4,13 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import javax.ws.rs.core.Response;
@@ -73,6 +76,16 @@ public class SecurityUtil {
         return null;
     }
 
+    public static String getTenantId() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal.getTenantId();
+        }
+        return null;
+    }
+    
     public static Response forbiddenResponse() {
         EntityBody body = new EntityBody();
         body.put("response", "\"You are not authorized to perform this action.\"");
@@ -83,6 +96,17 @@ public class SecurityUtil {
         EntityBody body = new EntityBody();
         body.put("response", response);
         return Response.status(Response.Status.FORBIDDEN).entity(body).build();
+    }
+    
+    /**
+     * Throws an InsufficientAuthenticationException (401) if a user is logged in anonymously,
+     * e.g. they don't have an access token or they have an expired token.
+     */
+    public static void ensureAuthenticated() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof OAuth2Authentication && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
+            throw new InsufficientAuthenticationException("Login Required");
+        }
     }
 
 }

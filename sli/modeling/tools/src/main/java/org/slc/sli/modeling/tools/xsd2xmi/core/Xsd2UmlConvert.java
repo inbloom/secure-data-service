@@ -22,9 +22,12 @@ import org.apache.ws.commons.schema.XmlSchemaDocumentation;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaEnumerationFacet;
 import org.apache.ws.commons.schema.XmlSchemaFacet;
+import org.apache.ws.commons.schema.XmlSchemaFractionDigitsFacet;
 import org.apache.ws.commons.schema.XmlSchemaImport;
 import org.apache.ws.commons.schema.XmlSchemaInclude;
+import org.apache.ws.commons.schema.XmlSchemaMaxInclusiveFacet;
 import org.apache.ws.commons.schema.XmlSchemaMaxLengthFacet;
+import org.apache.ws.commons.schema.XmlSchemaMinInclusiveFacet;
 import org.apache.ws.commons.schema.XmlSchemaMinLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
@@ -42,7 +45,7 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -193,6 +196,18 @@ final class Xsd2UmlConvert {
                         final XmlSchemaPatternFacet patternFacet = (XmlSchemaPatternFacet) facet;
                         final TaggedValue pattern = pattern(patternFacet, config);
                         taggedValues.add(pattern);
+                    } else if (facet instanceof XmlSchemaMinInclusiveFacet) {
+                        final XmlSchemaMinInclusiveFacet minInclusiveFacet = (XmlSchemaMinInclusiveFacet) facet;
+                        final TaggedValue minInclusive = minInclusive(minInclusiveFacet, config);
+                        taggedValues.add(minInclusive);
+                    } else if (facet instanceof XmlSchemaMaxInclusiveFacet) {
+                        final XmlSchemaMaxInclusiveFacet maxInclusiveFacet = (XmlSchemaMaxInclusiveFacet) facet;
+                        final TaggedValue maxInclusive = maxInclusive(maxInclusiveFacet, config);
+                        taggedValues.add(maxInclusive);
+                    } else if (facet instanceof XmlSchemaFractionDigitsFacet) {
+                        final XmlSchemaFractionDigitsFacet fractionDigitsFacet = (XmlSchemaFractionDigitsFacet) facet;
+                        final TaggedValue fractionDigits = fractionDigits(fractionDigitsFacet, config);
+                        taggedValues.add(fractionDigits);
                     } else {
                         // Implement other facets as we need them.
                         throw new AssertionError(facet);
@@ -317,6 +332,8 @@ final class Xsd2UmlConvert {
         tagDefinitions.add(makeTagDefinition(TagName.MIN_EXCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition(TagName.MAX_INCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition(TagName.MIN_INCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.TOTAL_DIGITS, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.FRACTION_DIGITS, Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAME, Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAVIGABLE, Occurs.ZERO, Occurs.ONE, config));
         // Tag definition used by the plug-in.
@@ -359,6 +376,14 @@ final class Xsd2UmlConvert {
         return parseXmlSchema(name, level, schema, context, plugin);
     }
 
+    private static final TaggedValue fractionDigits(final XmlSchemaFractionDigitsFacet fractionDigits,
+            final Xsd2UmlConfig ctxt) {
+        final String value = fractionDigits.getValue().toString();
+        final List<TaggedValue> annotations = annotations(fractionDigits, ctxt);
+        final Identifier tagDefinition = ctxt.ensureTagDefinitionId("fractionDigits");
+        return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
+    }
+
     private static final QName getSimpleTypeName(final XmlSchemaSimpleType simpleType) {
         final QName typeName = simpleType.getQName();
         if (null == typeName) {
@@ -386,10 +411,26 @@ final class Xsd2UmlConvert {
         return new TagDefinition(id, name, multiplicity);
     }
 
+    private static final TaggedValue maxInclusive(final XmlSchemaMaxInclusiveFacet maxInclusive,
+            final Xsd2UmlConfig ctxt) {
+        final String value = maxInclusive.getValue().toString();
+        final List<TaggedValue> annotations = annotations(maxInclusive, ctxt);
+        final Identifier tagDefinition = ctxt.ensureTagDefinitionId("maxInclusive");
+        return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
+    }
+
     private static final TaggedValue maxLength(final XmlSchemaMaxLengthFacet maxLength, final Xsd2UmlConfig ctxt) {
         final String value = maxLength.getValue().toString();
         final List<TaggedValue> annotations = annotations(maxLength, ctxt);
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("maxLength");
+        return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
+    }
+
+    private static final TaggedValue minInclusive(final XmlSchemaMinInclusiveFacet minInclusive,
+            final Xsd2UmlConfig ctxt) {
+        final String value = minInclusive.getValue().toString();
+        final List<TaggedValue> annotations = annotations(minInclusive, ctxt);
+        final Identifier tagDefinition = ctxt.ensureTagDefinitionId("minInclusive");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
 
@@ -414,6 +455,24 @@ final class Xsd2UmlConvert {
         } else {
             throw new AssertionError(Long.valueOf(occurs));
         }
+    }
+
+    private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
+            final Xsd2UmlConfig config) {
+
+        final String name = config.nameFromElementName(attribute.getQName());
+        final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
+        taggedValues.addAll(annotations(attribute, config));
+
+        final XmlSchemaSimpleType simpleType = attribute.getSchemaType();
+        final Identifier type;
+        if (simpleType != null) {
+            type = config.ensureId(getSimpleTypeName(simpleType));
+        } else {
+            type = config.ensureId(attribute.getSchemaTypeName());
+        }
+        final Multiplicity multiplicity = multiplicity(range(Occurs.ONE, Occurs.ONE));
+        return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
     }
 
     private static final Attribute parseElement(final XmlSchemaElement element, final XmlSchema schema,
@@ -442,26 +501,10 @@ final class Xsd2UmlConvert {
             final Identifier type = config.ensureId(getSimpleTypeName(simpleType));
             return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
         } else {
-            throw new AssertionError(elementSchemaType);
+            System.err.println(Xsd2UmlConvert.class.getSimpleName() + ".parseElement(element " + name
+                    + "). Element does not have a type.");
+            return null;
         }
-    }
-
-    private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
-            final Xsd2UmlConfig config) {
-
-        final String name = config.nameFromElementName(attribute.getQName());
-        final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
-        taggedValues.addAll(annotations(attribute, config));
-
-        final XmlSchemaSimpleType simpleType = attribute.getSchemaType();
-        final Identifier type;
-        if (simpleType != null) {
-            type = config.ensureId(getSimpleTypeName(simpleType));
-        } else {
-            type = config.ensureId(attribute.getSchemaTypeName());
-        }
-        final Multiplicity multiplicity = multiplicity(range(Occurs.ONE, Occurs.ONE));
-        return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
     }
 
     private static final List<Attribute> parseFields(
@@ -481,7 +524,6 @@ final class Xsd2UmlConvert {
             final XmlSchemaObject schemaObject = schemaItems.getItem(i);
             if (schemaObject instanceof XmlSchemaAttribute) {
                 final XmlSchemaAttribute schemaAttribute = (XmlSchemaAttribute) schemaObject;
-                System.out.println(schemaComplexType.getQName());
                 attributes.add(parseAttribute(schemaAttribute, schema, context));
 
             } else {
@@ -502,7 +544,12 @@ final class Xsd2UmlConvert {
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 final XmlSchemaElement element = (XmlSchemaElement) particle;
-                attributes.add(parseElement(element, schema, context));
+                final Attribute attribute = parseElement(element, schema, context);
+                if (attribute != null) {
+                    attributes.add(attribute);
+                } else {
+                    System.err.println("");
+                }
             } else if (particle instanceof XmlSchemaSequence) {
                 final XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
@@ -566,6 +613,16 @@ final class Xsd2UmlConvert {
                 convertType(schemaType, schema, config, new Visitor() {
 
                     @Override
+                    public void beginPackage(final UmlPackage pkg) {
+                        throw new AssertionError();
+                    }
+
+                    @Override
+                    public void endPackage(final UmlPackage pkg) {
+                        throw new AssertionError();
+                    }
+
+                    @Override
                     public void visit(final Association association) {
                         throw new AssertionError();
                     }
@@ -627,16 +684,6 @@ final class Xsd2UmlConvert {
 
                     @Override
                     public void visit(final TaggedValue taggedValue) {
-                        throw new AssertionError();
-                    }
-
-                    @Override
-                    public void beginPackage(final UmlPackage pkg) {
-                        throw new AssertionError();
-                    }
-
-                    @Override
-                    public void endPackage(final UmlPackage pkg) {
                         throw new AssertionError();
                     }
 

@@ -1,7 +1,5 @@
 package org.slc.sli.modeling.tools.uml2Xsd.cmdline;
 
-import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,20 +7,20 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.psm.PsmDocument;
-import org.slc.sli.modeling.tools.SliMongoConstants;
-import org.slc.sli.modeling.tools.SliUmlConstants;
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPlugin;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPluginWriter;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdTools;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Feature;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
+import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
 final class PluginForMongo implements Uml2XsdPlugin {
@@ -35,11 +33,6 @@ final class PluginForMongo implements Uml2XsdPlugin {
     @SuppressWarnings("unused")
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
-    }
-
-    @SuppressWarnings("unused")
-    private static final String titleCase(final String text) {
-        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
     /**
@@ -58,8 +51,24 @@ final class PluginForMongo implements Uml2XsdPlugin {
         }
     }
 
+    private static final QName getQName(final Type type, final ModelIndex lookup) {
+        final Identifier id = type.getId();
+        for (final ModelElement whereUsed : lookup.whereUsed(id)) {
+            if (whereUsed instanceof UmlPackage) {
+                final UmlPackage pkg = (UmlPackage) whereUsed;
+                return new QName(pkg.getName(), type.getName());
+            }
+        }
+        return new QName(type.getName());
+    }
+
     private static final boolean isUnbounded(final Occurs occurs) {
         return occurs.equals(Occurs.UNBOUNDED);
+    }
+
+    @SuppressWarnings("unused")
+    private static final String titleCase(final String text) {
+        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
     @Override
@@ -67,11 +76,6 @@ final class PluginForMongo implements Uml2XsdPlugin {
         final Map<String, String> pms = new HashMap<String, String>();
         pms.put("sli", SliMongoConstants.NAMESPACE_SLI);
         return Collections.unmodifiableMap(pms);
-    }
-
-    @Override
-    public QName getElementName(final PsmDocument<Type> classType) {
-        return new QName(classType.getResource().getName());
     }
 
     @Override
@@ -83,6 +87,16 @@ final class PluginForMongo implements Uml2XsdPlugin {
     @Override
     public QName getElementType(final String name, final boolean isAssociation) {
         return getTypeName(name);
+    }
+
+    @Override
+    public QName getPluralTopLevelElementName(final PsmDocument<Type> classType) {
+        return new QName(classType.getPluralResourceName().getName());
+    }
+
+    @Override
+    public QName getSingularTopLevelElementName(final PsmDocument<Type> classType) {
+        return new QName(classType.getSingularResourceName().getName());
     }
 
     @Override
@@ -100,7 +114,12 @@ final class PluginForMongo implements Uml2XsdPlugin {
         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
         xsw.appinfo();
         {
-            if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
+            if (SliUmlConstants.TAGDEF_NATURAL_KEY.equals(tagDefinition.getName())) {
+                xsw.begin("sli", SliMongoConstants.SLI_NATURAL_KEY.getLocalPart(),
+                        SliMongoConstants.SLI_NATURAL_KEY.getNamespaceURI());
+                xsw.characters(taggedValue.getValue());
+                xsw.end();
+            } else if (SliUmlConstants.TAGDEF_PII.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_PII.getLocalPart(), SliMongoConstants.SLI_PII.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
@@ -114,14 +133,12 @@ final class PluginForMongo implements Uml2XsdPlugin {
                         SliMongoConstants.SLI_WRITE_ENFORCEMENT.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            }
-            else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_RELAXED_BLACKLIST.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_RELAXEDBLACKLIST.getLocalPart(),
                         SliMongoConstants.SLI_RELAXEDBLACKLIST.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
                 xsw.end();
-            }
-            else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
+            } else if (SliUmlConstants.TAGDEF_SECURITY_SPHERE.equals(tagDefinition.getName())) {
                 xsw.begin("sli", SliMongoConstants.SLI_SECURITY_SPHERE.getLocalPart(),
                         SliMongoConstants.SLI_SECURITY_SPHERE.getNamespaceURI());
                 xsw.characters(taggedValue.getValue());
@@ -133,65 +150,60 @@ final class PluginForMongo implements Uml2XsdPlugin {
         xsw.end();
     }
 
-    private static final boolean isMongoNavigable(final AssociationEnd element, final ModelIndex lookup) {
-        return TaggedValueHelper.getBooleanTag(TagName.MONGO_NAVIGABLE, element, lookup, false);
-    }
-
-    private static final boolean hasMongoName(final Feature feature, final ModelIndex lookup) {
-        return TaggedValueHelper.hasTag(TagName.MONGO_NAME, feature, lookup);
-    }
-
-    private static final String getMongoName(final Feature feature, final ModelIndex lookup) {
-        return TaggedValueHelper.getStringTag(TagName.MONGO_NAME, feature, lookup, null);
-    }
-
     @Override
-    public void writeAssociation(final ClassType complexType, final AssociationEnd end, final ModelIndex lookup,
+    public void writeAssociation(final ClassType complexType, final AssociationEnd end, final ModelIndex model,
             final Uml2XsdPluginWriter xsw) {
-        if (isMongoNavigable(end, lookup)) {
-            final Type type = lookup.getType(end.getType());
-            final Occurs minOccurs = end.getMultiplicity().getRange().getLower();
-            final Occurs maxOccurs = end.getMultiplicity().getRange().getUpper();
+        // The existence of this feature depends on whether the association is physically navigable.
+        if (PluginHelpers.isMongoNavigable(end, model)) {
+            final Type type = model.getType(end.getType());
             xsw.element();
-            if (hasMongoName(end, lookup)) {
-                xsw.name(new QName(getMongoName(end, lookup)));
-            } else {
-                xsw.name(new QName(getName(end, lookup)));
-            }
-            xsw.type(getTypeName(MONGO_REFERENCE_TYPE));
-            // xsw.type(getTypeName(type.getName()));
-            xsw.minOccurs(minOccurs);
-            xsw.maxOccurs(maxOccurs);
-            {
-                xsw.annotation();
+            try {
+                if (PluginHelpers.hasMongoName(end, model)) {
+                    xsw.name(new QName(PluginHelpers.getMongoName(end, model)));
+                } else {
+                    xsw.name(new QName(getName(end, model)));
+                }
+                xsw.type(getTypeName(MONGO_REFERENCE_TYPE));
+                xsw.minOccurs(end.getMultiplicity().getRange().getLower());
+                xsw.maxOccurs(end.getMultiplicity().getRange().getUpper());
                 {
-                    for (final TaggedValue taggedValue : end.getTaggedValues()) {
-                        final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                        if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
-                            xsw.documentation();
-                            xsw.characters(collapseWhitespace(taggedValue.getValue()));
-                            xsw.end();
-                        } else if (SliUmlConstants.TAGDEF_REFERENCE.equals(tagDefinition.getName())) {
-                            // Ignore, or should we used the code below?
-                        } else if (TagName.MONGO_NAME.equals(tagDefinition.getName())) {
-                            // Ignore.
-                        } else if (TagName.MONGO_NAVIGABLE.equals(tagDefinition.getName())) {
-                            // Ignore.
-                        } else {
-                            throw new AssertionError(tagDefinition.getName());
-                        }
-                    }
-                    xsw.appinfo();
+                    xsw.annotation();
                     {
-                        xsw.begin("sli", SliMongoConstants.SLI_REFERENCE_TYPE.getLocalPart(),
-                                SliMongoConstants.SLI_REFERENCE_TYPE.getNamespaceURI());
-                        xsw.characters(getTypeName(type.getName()).getLocalPart());
+                        PluginHelpers.writeDocumentation(end, model, xsw);
+                        xsw.appinfo();
+                        {
+                            xsw.begin("sli", SliMongoConstants.SLI_REFERENCE_TYPE.getLocalPart(),
+                                    SliMongoConstants.SLI_REFERENCE_TYPE.getNamespaceURI());
+                            xsw.characters(getTypeName(type.getName()).getLocalPart());
+                            xsw.end();
+                        }
                         xsw.end();
                     }
                     xsw.end();
                 }
+            } finally {
                 xsw.end();
             }
+        }
+    }
+
+    @Override
+    public void writeTopLevelElement(PsmDocument<Type> classType, ModelIndex model, Uml2XsdPluginWriter xsw) {
+        xsw.element();
+        try {
+            final QName name = getSingularTopLevelElementName(classType);
+            xsw.name(name);
+            final Type elementType = classType.getType();
+            {
+                xsw.type(getQName(elementType, model));
+            }
+            xsw.annotation();
+            try {
+                PluginHelpers.writeDocumentation(elementType, model, xsw);
+            } finally {
+                xsw.end();
+            }
+        } finally {
             xsw.end();
         }
     }

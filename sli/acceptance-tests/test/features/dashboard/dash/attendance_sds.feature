@@ -1,3 +1,7 @@
+@RALLY_US1288
+@RALLY_US1289
+@RALLY_US1291
+@RALLY_US1292
 Feature: Attendance in the dashboard
 
 As a SEA/LEA user, I want to be able to see various
@@ -212,7 +216,7 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
       And the count for id "attendances.tardyCount" for student "Charde Lowery" is "0"
       And the class for id "attendances.tardyCount" for student "Charde Lowery" is "countLevel1"
 
-@integration
+@integration  @RALLY_US200
 Scenario: Monster test until LOS is faster
     When I navigate to the Dashboard home page
     When I select "Illinois Sunset School District 4526" and click go
