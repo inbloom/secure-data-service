@@ -15,7 +15,6 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,6 +83,7 @@ public class JobReportingProcessorTest {
         if (tmpDir.mkdirs()) {
             printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
         }
+        jobReportingProcessor.setCommandTopicUri("seda:ingestion.command");
     }
     
     @After
@@ -126,7 +126,7 @@ public class JobReportingProcessorTest {
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(mockWorkNote, WorkNote.class);
-        
+                
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(tmpDir);
         // jobReportingProcessor.setLandingZone(tmpLz);
@@ -138,7 +138,7 @@ public class JobReportingProcessorTest {
         FileReader fr = new FileReader(TEMP_DIR + OUTFILE);
         BufferedReader br = new BufferedReader(fr);
         
-        String contents = FileUtils.readFileToString(new File(TEMP_DIR + OUTFILE));
+        //String contents = FileUtils.readFileToString(new File(TEMP_DIR + OUTFILE));
         
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName() + ")"));

@@ -5,12 +5,8 @@ import java.util.HashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
@@ -28,6 +24,10 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Control file processor.
@@ -58,6 +58,8 @@ public class ControlFileProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         processUsingNewBatchJob(exchange);
+        
+        MongoTrackingAspect.aspectOf().reset();
     }
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {

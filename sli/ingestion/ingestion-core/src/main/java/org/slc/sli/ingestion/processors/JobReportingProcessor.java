@@ -96,7 +96,6 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LOG.error("Error sending `that's all folks` message to the orchestra", e);
         }
-
     }
 
     private void processJobReporting(WorkNote workNote) {
@@ -417,5 +416,9 @@ public class JobReportingProcessor implements Processor {
                 userRoles, message); // Alpha MH (logMessage)
 
         audit(event);
+    }
+
+    public void setCommandTopicUri(String commandTopicUri) {
+        this.commandTopicUri = commandTopicUri;
     }
 }
