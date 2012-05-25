@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -12,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -25,6 +29,7 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -42,7 +47,7 @@ import org.slc.sli.ingestion.util.LogUtil;
  *
  */
 @Component
-public class ControlFilePreProcessor implements Processor {
+public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
 
@@ -57,6 +62,7 @@ public class ControlFilePreProcessor implements Processor {
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
+    private MessageSource messageSource;
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
@@ -84,7 +90,7 @@ public class ControlFilePreProcessor implements Processor {
             LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
             LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
 
-            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone);
+            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
 
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
@@ -109,6 +115,7 @@ public class ControlFilePreProcessor implements Processor {
             } catch (UnknownHostException e) {
                 LogUtil.error(LOG, "Error getting local host", e);
             }
+            List<String> userRoles = Collections.emptyList();
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
                     "", // user
                     "", // targetEdOrg
@@ -122,12 +129,15 @@ public class ControlFilePreProcessor implements Processor {
                     ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                     this.getClass().getName(), // className
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
+                    userRoles,
                     "Ingestion process started."); // Alpha MH (logMessage)
 
              audit(event);
 
+        } catch (SubmissionLevelException exception) {
+            handleSubmissionLevelException(exchange, newBatchJob.getId(), exception);
         } catch (Exception exception) {
-            handleExceptions(exchange, batchJobId, exception);
+            handleExceptions(exchange, newBatchJob.getId(), exception);
         } finally {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
@@ -137,6 +147,7 @@ public class ControlFilePreProcessor implements Processor {
     }
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
@@ -145,6 +156,19 @@ public class ControlFilePreProcessor implements Processor {
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }
+    }
+
+    private void handleSubmissionLevelException(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("BatchJobId", batchJobId);
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
+            batchJobDAO.saveError(error);
+        }
+
     }
 
     private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor, NewBatchJob newJob) {
@@ -196,6 +220,12 @@ public class ControlFilePreProcessor implements Processor {
         } else {
             throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
         }
+    }
+
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+
     }
 
 }

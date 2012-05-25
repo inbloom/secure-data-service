@@ -1,4 +1,5 @@
-Feature: Security for Attendance CRUD 
+@RALLY_US209
+Feature: Security for Attendance CRUD
 As a product owner, I want to validate that my attendance entity is properly secured up to current SLI standards
 
 Scenario: Showing attendance event list link in Student's available links

@@ -1,3 +1,9 @@
+@RALLY_US209
+@RALLY_US1803
+@RALLY_US1804
+@RALLY_US1961
+@RALLY_DE85
+@RALLY_DE87
 Feature: As an SLI application, I want entity references displayed as usable links with exlicit link names
 This means that when links are requested in a GET request, a link should be present that represents each reference field
 and that the links are valid

@@ -50,9 +50,11 @@ public class ErrorControllerTest {
         String errorType = "default";
         ModelAndView modelAndView = errorController.handleError(errorType, model, request, response);
         
-        assertEquals(ErrorController.TEMPLATE_NAME, modelAndView.getViewName());
+        assertEquals(Constants.OVERALL_CONTAINER_PAGE, modelAndView.getViewName());
         String errorHeading = (String) modelAndView.getModel().get(Constants.ATTR_ERROR_HEADING);
         String errorContent = (String) modelAndView.getModel().get(Constants.ATTR_ERROR_CONTENT);
+        String errorPage = (String) modelAndView.getModel().get(Constants.PAGE_TO_INCLUDE);
+        assertEquals(errorPage, ErrorController.TEMPLATE_FILE);
         assertNotNull(errorHeading);
         assertEquals(ErrorDescriptor.DEFAULT.getHeading(), errorHeading);
         assertNotNull(errorContent);

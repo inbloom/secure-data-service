@@ -15,7 +15,7 @@ default:
         sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
         sli.support.email: sli@example.com
@@ -31,12 +31,19 @@ default:
         
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
+        bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        
+        # Used to bootstrap the sandbox's other ream realm
+        bootstrap.sandbox.realm.uniqueId: SandboxIDP
+        bootstrap.sandbox.realm.name: Sandbox Environment
+        bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
         bootstrap.app.conf: 
 
         # Used for populating Tenants and LandingZones
@@ -126,6 +133,12 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
+        
+        dashboard.google_analytics.id: UA-31838086-1
+        
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+        
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
@@ -174,10 +187,11 @@ default:
         sli.simple-idp.groupObjectClass: posixGroup
         # Are we in the sandbox and allowing impersonation?
         sli.simple-idp.sandboxImpersonationEnabled: false
-        # Name of the SLI Admin realm
+
+        # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
-        # LDAP base URL
-        sli.simple-idp.ldap.url: ldap://ldap.slidev.org:389
+        # LDAP base URLs, comma separated list of ldap servers
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
         
@@ -192,6 +206,12 @@ default:
 
         # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
+        
+        # sample app externalized properties:
+        sli.sample.apiUrl: http://local.slidev.org:8080/
+        sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
+        sli.sample.clientId: fm67sH6vZZ
+        sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
 
 
 devjuggernauts:
@@ -295,7 +315,7 @@ local:
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Trusted Certificate Authority Store
-        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+        sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         #Support Email
         sli.support.email: sli@example.com
@@ -391,6 +411,7 @@ local-sandbox:
     api:
         <<: *API-LOCAL
         sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
 
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -510,8 +531,11 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
@@ -597,6 +621,11 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
+        
+        sli.sample.apiUrl: https://${sample.swap}.slidev.org/
+        sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
+        sli.sample.clientId: AT1k3PdHzX
+        sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
 
 
@@ -717,8 +746,11 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     dashboard:
         <<: *DASHBOARD-TEAM
@@ -728,15 +760,19 @@ sandbox:
         <<: *DATA-ACCESS-TEAM
     apps:
         <<: *APPS-DEFAULT
-        bootstrap.app.keys: admin
+        bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
         bootstrap.app.admin.client_id: OY6Nnukmn6
         bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+        bootstrap.app.databrowser.url: https://${sli.dev.subdomain}.slidev.org:2000
+        bootstrap.app.databrowser.client_id: G9tjgDx1aL
+        bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+        bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
+        bootstrap.app.dashboard.client_id: 6TW4tHwcWG
+        bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
     misc:
         <<: *MISC-TEAM
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
-        
-# this is not used but required 

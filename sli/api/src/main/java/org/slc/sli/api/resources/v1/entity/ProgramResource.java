@@ -25,9 +25,10 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This entity represents any program designed to work
- * in conjunction with or to supplement the main
- * academic program.
+ * Represents the definition of a program.  A program is designed to work in 
+ * conjunction with or to supplement the main academic program.  
+ * 
+ * For detailed information, see the schema for $$Program$$ resources.
  *
  * @author jstokes
  * @author jtully
@@ -44,17 +45,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$programs$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -65,18 +56,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$programs$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -86,15 +66,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$programs$$ entity.
-     *
-     * @param programId
-     *            The Id of the $$programs$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single program entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -105,16 +77,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$programs$$ entity.
-     *
-     * @param programId
-     *            The Id of the $$programs$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -125,18 +88,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$programs$$ entity.
-     *
-     * @param programId
-     *            The id of the $$programs$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
      */
     @Override
     @PUT
@@ -148,22 +100,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the $$studentProgramAssociations$$ that
-     * reference the given $$programs$$
-     *
-     * @param programId
-     *            The Id of the Program.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
@@ -175,16 +112,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$students$$ that are referenced from the $$studentProgramAssociations$$
-     * that references the given $$programs$$.
-     *
-     * @param programId
-     *            The Id of the program.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
@@ -196,22 +124,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns the $$staffProgramAssociations$$ that
-     * reference the given $$programs$$
-     *
-     * @param programId
-     *            The Id of the program.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
@@ -223,16 +136,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns the $$staff$$ that are referenced from the $$staffProgramAssociations$$
-     * that references the given $$programs$$.
-     *
-     * @param programId
-     *            The Id of the program.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.STAFF)

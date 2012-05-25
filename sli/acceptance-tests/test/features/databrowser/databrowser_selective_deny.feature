@@ -1,4 +1,4 @@
-
+@RALLY_US215
 Feature: User sees information in databrowser for certain districts
 
 Scenario: An Educator in Daybreak and Sunset sees the Daybreak data and the Sunset data

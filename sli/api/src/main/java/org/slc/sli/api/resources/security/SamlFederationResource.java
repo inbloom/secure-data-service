@@ -7,6 +7,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -34,6 +37,7 @@ import org.springframework.util.LinkedMultiValueMap;
 
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -70,15 +74,18 @@ public class SamlFederationResource {
     @Autowired
     private OauthSessionManager sessionManager;
 
+    @Autowired
+    private ClientRoleResolver roleResolver;
+
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
 
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
-    
+
     @Value("${sli.api.cookieDomain}")
     private String apiCookieDomain;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
@@ -99,7 +106,7 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) throws Exception {
 
         LOG.info("Received a SAML post for SSO...");
 
@@ -152,9 +159,28 @@ public class SamlFederationResource {
         if (realm == null) {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
+        org.jdom.Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
+        org.jdom.Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
+        
+        org.jdom.Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
+        if (conditions != null) {
+            String notBefore = conditions.getAttributeValue("NotBefore");
+            String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
+            verifyTime(notBefore, notOnOrAfter);
+        }
+        
+        try {
+            org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS).getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
+            String recipient = subjConfirmationData.getAttributeValue("Recipient");
+            
+            if (!uriInfo.getRequestUri().toString().equals(recipient)) {
+                throw new SecurityException("SAML Recipient was invalid, was " + recipient);
+            }
 
-        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
-                .getChild("AttributeStatement", SamlHelper.SAML_NS);
+        } catch (NullPointerException e) {
+            debug("NullPointer trying to confirm the recipient of the SAML response");
+        }
+        
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -170,17 +196,28 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        String tenant = (String) realm.getBody().get("tenantId");
-        if (tenant == null || tenant.length() < 1) {
-            // accept the tenantId from the IDP if and only if the realm's tenantId is null
-            tenant = attributes.getFirst("tenant");
+        String tenant;
+        String realmTenant = (String) realm.getBody().get("tenantId");
+        String samlTenant = attributes.getFirst("tenant");
+        if (realmTenant == null || realmTenant.length() < 1) {
+            // Sandbox impersonation case: accept the tenantId from the IDP if and only if the realm's tenantId is null
+            tenant = samlTenant;
             if (tenant == null) {
                 LOG.error("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}",
                         issuer, inResponseTo);
                 throw new IllegalArgumentException("No tenant found in either the realm or SAMLResponse. issuer: "
                         + issuer + ", inResponseTo: ");
             }
+        } else {
+            Object temp = realm.getBody().get("admin");
+            Boolean isAdminRealm = (temp == null) ? false : (Boolean) temp; 
+            if (isAdminRealm && samlTenant != null) {
+                tenant = samlTenant;
+            } else {
+              tenant = realmTenant;
+            }
         }
+
         principal = users.locate(tenant, attributes.getFirst("userId"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
@@ -188,13 +225,23 @@ public class SamlFederationResource {
         } else {
             principal.setName(attributes.getFirst("userName"));
         }
-        
+
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
 
+
+        if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
+            //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
+            throw new RuntimeException("Invalid user");
+        }
+        
+        if (samlTenant != null) {
+            principal.setTenantId(samlTenant);
+        }
+                
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
@@ -249,6 +296,18 @@ public class SamlFederationResource {
             return Response.ok(metadata).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
-
+        
     }
+    
+    private void verifyTime(String notBefore, String notOnOrAfter) throws SecurityException {
+        Calendar currentTime = Calendar.getInstance();
+        Calendar calNotBefore = DatatypeConverter.parseDateTime(notBefore);
+        Calendar calNotOnOrAfter = DatatypeConverter.parseDateTime(notOnOrAfter);
+        
+        if (currentTime.compareTo(calNotBefore) < 0 || currentTime.compareTo(calNotOnOrAfter) >= 0) {
+            throw new SecurityException("SAML Conditions not met, the time is not within " + notBefore + " - "
+                    + notOnOrAfter);
+        }
+    }
+
 }

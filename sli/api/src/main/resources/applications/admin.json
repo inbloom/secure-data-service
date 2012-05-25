@@ -18,9 +18,7 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Iframe App",
-   "developer_info":{
-      "organization":"${bootstrap.app.vendor}"
-   },
+   "vendor":"${bootstrap.app.vendor}",
    "endpoints":[
       {
          "name":"Application Registration",
@@ -32,7 +30,7 @@
       },
       {
          "name":"Admin Delegation",
-         "description":"Delegate the ability to approve applications to SEA admins.",
+         "description":"Delegate District Privileges to a State Super Administrator",
          "url":"${bootstrap.app.admin.url}/admin_delegations",
          "roles":[
             "LEA Administrator"
@@ -43,7 +41,7 @@
          "description":"Manage which applications a district's users can see.",
          "url":"${bootstrap.app.admin.url}/application_authorizations",
          "roles":[
-            "LEA Administrator", "SEA Administrator"
+            "DELEGATED_ADMIN"
          ]
       },
       {
@@ -67,7 +65,7 @@
          "description":"Provision a landing zone for an educational organization.",
          "url":"${bootstrap.app.admin.url}/landing_zone",
          "roles":[
-            "SLI Administrator"
+            "Ingestion User"
          ]
       },
       {

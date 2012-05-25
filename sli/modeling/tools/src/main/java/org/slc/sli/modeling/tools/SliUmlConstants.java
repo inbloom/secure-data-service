@@ -9,6 +9,7 @@ public final class SliUmlConstants {
      */
     private static final String TAGDEF_PREFIX = "dataStore.";
 
+    public static final String TAGDEF_NATURAL_KEY = TAGDEF_PREFIX.concat("naturalKey");
     public static final String TAGDEF_PII = TAGDEF_PREFIX.concat("pii");
     public static final String TAGDEF_ENFORCE_READ = TAGDEF_PREFIX.concat("enforceRead");
     public static final String TAGDEF_ENFORCE_WRITE = TAGDEF_PREFIX.concat("enforceWrite");

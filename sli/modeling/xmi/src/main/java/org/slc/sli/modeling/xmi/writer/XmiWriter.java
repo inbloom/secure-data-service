@@ -323,6 +323,8 @@ public final class XmiWriter {
             for (final TaggedValue taggedValue : element.getTaggedValues()) {
                 writeTaggedValue(taggedValue, mapper, xsw);
             }
+        } catch (final Exception e) {
+            System.err.println("writeModelElementTaggedValues(" + element + ")");
         } finally {
             xsw.writeEndElement();
         }

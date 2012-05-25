@@ -13,6 +13,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.slc.sli.modeling.tools.SliUmlConstants;
 import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -21,12 +22,16 @@ import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Feature;
+import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
@@ -48,6 +53,17 @@ public final class DocumentationWriter {
         return feature.isAttribute();
     }
 
+    private static boolean isNaturalKey(final Feature feature, final ModelIndex model) {
+        for (final TaggedValue taggedValue : feature.getTaggedValues()) {
+            final Identifier tagDefinitionId = taggedValue.getTagDefinition();
+            final TagDefinition tagDefinition = model.getTagDefinition(tagDefinitionId);
+            if (tagDefinition.getName().equals(SliUmlConstants.TAGDEF_NATURAL_KEY)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static final void writeFeature(final Feature feature, final ModelIndex modelIndex, final XMLStreamWriter xsw)
             throws XMLStreamException {
         final Type type = modelIndex.getType(feature.getType());
@@ -55,6 +71,9 @@ public final class DocumentationWriter {
         try {
             if (isEmbedded(feature, modelIndex)) {
                 xsw.writeAttribute(DocumentationAttributes.EMBEDDED, Boolean.toString(true));
+            }
+            if (isNaturalKey(feature, modelIndex)) {
+                xsw.writeAttribute(DocumentationAttributes.NATURAL_KEY, Boolean.toString(true));
             }
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
@@ -129,6 +148,7 @@ public final class DocumentationWriter {
                 xsw.writeEndElement();
             }
             writeDescription(classType, model, xsw);
+            writeGeneralizations(classType, model, xsw);
             for (final Attribute attribute : classType.getAttributes()) {
                 writeFeature(attribute, model, xsw);
             }
@@ -142,6 +162,21 @@ public final class DocumentationWriter {
         }
     }
 
+    /**
+     * Writes the {@link DataType} to the {@link XMLStreamWriter}.
+     *
+     * @param dataType
+     *            The data-type from which we obtain the description and facets.
+     * @param name
+     *            The qualified name of the data-type, which takes into account the namespace it
+     *            belongs to.
+     * @param model
+     *            The indexed UML model.
+     * @param xsw
+     *            The {@link XMLStreamWriter}.
+     * @throws XMLStreamException
+     *             if an exception occurs when writing to the stream.
+     */
     private static final void writeDataType(final DataType dataType, final QName name, final ModelIndex model,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DATA_TYPE.getLocalPart());
@@ -159,10 +194,46 @@ public final class DocumentationWriter {
                 xsw.writeEndElement();
             }
             writeDescription(dataType, model, xsw);
+            writeGeneralizations(dataType, model, xsw);
             writeFacets(dataType, model, xsw);
         } finally {
             xsw.writeEndElement();
         }
+    }
+
+    private static final void writeGeneralizations(final Type type, final ModelIndex model, final XMLStreamWriter xsw)
+            throws XMLStreamException {
+        for (final Generalization generalization : model.getGeneralizationBase(type.getId())) {
+            final Identifier parentId = generalization.getParent();
+            final Type parent = model.getType(parentId);
+            xsw.writeStartElement(DocumentationElements.GENERALIZATION.getLocalPart());
+            try {
+                xsw.writeStartElement(DocumentationElements.NAMESPACE.getLocalPart());
+                try {
+                    xsw.writeCharacters(getNamespace(parent, model));
+                } finally {
+                    xsw.writeEndElement();
+                }
+                xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
+                try {
+                    xsw.writeCharacters(parent.getName());
+                } finally {
+                    xsw.writeEndElement();
+                }
+            } finally {
+                xsw.writeEndElement();
+            }
+        }
+    }
+
+    private static final String getNamespace(final Type type, final ModelIndex model) {
+        for (final ModelElement whereUsed : model.whereUsed(type.getId())) {
+            if (whereUsed instanceof UmlPackage) {
+                final UmlPackage pkg = (UmlPackage) whereUsed;
+                return pkg.getName();
+            }
+        }
+        return "";
     }
 
     private static final void writeEnumType(final EnumType enumType, final ModelIndex model, final XMLStreamWriter xsw)
@@ -176,6 +247,7 @@ public final class DocumentationWriter {
                 xsw.writeEndElement();
             }
             writeDescription(enumType, model, xsw);
+            writeGeneralizations(enumType, model, xsw);
             for (final EnumLiteral literal : enumType.getLiterals()) {
                 xsw.writeStartElement(DocumentationElements.LITERAL.getLocalPart());
                 try {

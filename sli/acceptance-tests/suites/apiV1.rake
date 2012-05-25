@@ -7,6 +7,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
 end
 
+task :apiV1QueryingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/querying/querying.feature")
+end
+
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
@@ -329,6 +334,12 @@ desc "Run V1 Blacklist/Whitelist input Tests"
 task :v1BlacklistValidationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
+end
+
+desc "Run V1 SecurityEvent Tests"
+task :v1SecurityEventTests => [:realmInit] do
+  setFixture("securityEvent", "securityEvent_fixture.json")
+  runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
 ############################################################
