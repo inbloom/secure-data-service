@@ -1075,9 +1075,6 @@ public class SDKAPIClient implements APIClient {
     protected GenericEntity readEntity(String token, String url) {
         GenericEntity entity = null;
         
-        // Testing
-        LOGGER.warn("Accessing SDK URL: {}", url);
-        
         try {
             List<GenericEntity> entityList = new ArrayList<GenericEntity>();
             sdkClient.read(token, entityList, url, GenericEntity.class);
@@ -1100,9 +1097,6 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected List<GenericEntity> readEntityList(String token, String url) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
-        
-        // Testing
-        LOGGER.warn("Accessing SDK URL: {}", url);
         
         try {
             sdkClient.read(token, entityList, url, GenericEntity.class);
