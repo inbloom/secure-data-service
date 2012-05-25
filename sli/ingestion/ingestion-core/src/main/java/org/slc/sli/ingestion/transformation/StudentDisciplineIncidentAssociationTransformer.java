@@ -67,7 +67,7 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
                 PropertyUtils.setProperty(nr, "attributes.refIncidentIdentifier", incidentIdentifier);
             }
         } catch (Exception e) {
-            LOG.error("Exception encountered resolving DisciplineIncidentAssociation reference:", e);
+            LOG.error("Exception encountered resolving DisciplineIncidentAssociation reference");
         }
     }
 

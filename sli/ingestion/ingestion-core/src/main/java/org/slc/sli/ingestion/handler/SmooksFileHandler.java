@@ -88,7 +88,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             smooks.filterSource(new StreamSource(inputStream));
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName() + "\n", se.getLocalizedMessage());
+                    + neutralRecordOutFile.getName() /*+ "\n", se.getLocalizedMessage()*/);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

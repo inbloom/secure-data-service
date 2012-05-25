@@ -148,7 +148,7 @@ public class SmooksCallable implements Callable<Boolean> {
             smooks.filterSource(new StreamSource(inputStream));
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n"
+                    + neutralRecordOutFile.getName() + ": " /*+ se.getMessage()*/ + "\n"
                     + Arrays.toString(se.getStackTrace()));
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
