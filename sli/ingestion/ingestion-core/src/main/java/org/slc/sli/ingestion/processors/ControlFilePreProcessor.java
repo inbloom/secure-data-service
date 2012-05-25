@@ -10,14 +10,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -40,6 +32,13 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -147,6 +146,13 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         }
     }
 
+    /**
+     * Handles errors associated with the control file.
+     * 
+     * @param exchange Camel exchange.
+     * @param batchJobId String representing current batch job id.
+     * @param exception Exception thrown during control file parsing.
+     */
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -157,13 +163,20 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
 
-            // FIXME we should be creating WorkNote at the very first point of processing.
+            // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
             WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
 
+    /**
+     * Handles errors associated with the control file (extra properties, bad parsing).
+     * 
+     * @param exchange Camel exchange.
+     * @param batchJobId String representing current batch job id.
+     * @param exception Exception thrown during control file parsing.
+     */
     private void handleSubmissionLevelException(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -174,6 +187,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                     FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
             batchJobDAO.saveError(error);
             
+            // TODO: we should be creating WorkNote at the very first point of processing.
+            // this will require some routing changes
             WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
