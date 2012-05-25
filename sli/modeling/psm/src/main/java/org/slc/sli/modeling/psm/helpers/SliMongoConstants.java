@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools;
+package org.slc.sli.modeling.psm.helpers;
 
 import javax.xml.namespace.QName;
 

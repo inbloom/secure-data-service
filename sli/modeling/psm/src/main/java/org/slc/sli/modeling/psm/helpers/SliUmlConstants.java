@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools;
+package org.slc.sli.modeling.psm.helpers;
 
 /**
  * Constants used in the SLI UML Model.

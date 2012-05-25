@@ -43,6 +43,8 @@ public class ControlFileProcessor implements Processor {
 
     private static final String PURGE = "purge";
 
+    private static final String DRYRUN = "dry-run";
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -133,6 +135,9 @@ public class ControlFileProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+        }
+        if (newJob.getProperty(DRYRUN) != null) {
+            exchange.getIn().setHeader(DRYRUN, true);
         }
     }
 

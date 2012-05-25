@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -103,8 +103,8 @@ final class Xsd2UmlLinker {
                 final TaggedValue tag = new TaggedValue(oldName, nameTag);
                 taggedValues.add(tag);
             }
-            final boolean isNavigable = true;
-            return new AssociationEnd(multiplicity, newName, isNavigable, id, taggedValues, reference);
+            // If it's navigable at the database level then we assume this is also true logically.
+            return new AssociationEnd(multiplicity, newName, true, id, taggedValues, reference);
         } else {
             throw new IllegalStateException(referenceType + " " + nameToClassTypeId);
         }
@@ -195,9 +195,10 @@ final class Xsd2UmlLinker {
             final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final Range sourceRange = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity sourceMultiplicity = new Multiplicity(sourceRange);
-        // Make reverse direction navigable default be true; this applies to the logical model.
-        final boolean isNavigable = true;
-        return new AssociationEnd(sourceMultiplicity, lhsName, isNavigable, lhsType.getId());
+        // Make reverse direction navigable default be false; this applies to the logical model.
+        // We will have to explicitly enable reverse navigable at the model level.
+        // This corresponds better for functionality not yet implemented.
+        return new AssociationEnd(sourceMultiplicity, lhsName, false, lhsType.getId());
     }
 
     private static final List<Association> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
