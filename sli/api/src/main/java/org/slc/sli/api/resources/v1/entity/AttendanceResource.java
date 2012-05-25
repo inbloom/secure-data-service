@@ -15,6 +15,7 @@ import org.slc.sli.client.constants.v1.PathConstants;
  * Represents the definition of an attendance resource. An attendance resource represents
  * both daily and class period (section) attendance.
  *
+ * For more information, see the schema for $$Attendance$$ resources.
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ATTENDANCES)
 @Component

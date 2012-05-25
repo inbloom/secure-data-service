@@ -30,7 +30,7 @@ import org.slc.sli.domain.Entity;
 
 /**
  *
- * Provides initial information for a user.This includes providing different links to self and associated
+ * Provides initial information for a user. This includes providing different links to self and associated
  * resources.
  *
  * @author pghosh
@@ -53,10 +53,6 @@ public class HomeResource {
      * Provides a set of initial information when a user logs in. This
      * includes a self link and links to resources with which the user
      * is associated.
-     *
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return A list of links applicable to the user currently logged in.
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {

@@ -56,7 +56,7 @@ public class DocumentManipulator {
     /**
      * Parse a xml document
      * 
-     * @param fileName
+     * @param file
      * @throws ScaffoldException
      */
     protected Document parseDocument(File file) throws DocumentManipulatorException {
@@ -143,13 +143,14 @@ public class DocumentManipulator {
         } catch (FileNotFoundException e) {
             throw new DocumentManipulatorException(e);
         } finally {
-            if (out != null)
+            if (out != null) {
                 try {
                     out.close();
                 } catch (Exception ignored) {
                     // ignored
                     ignored.printStackTrace();
                 }
+            }
         }
         
     }
@@ -192,10 +193,11 @@ public class DocumentManipulator {
             factory = TransformerFactory.newInstance();
             
             // create the transformer
-            if (source != null)
+            if (source != null) {
                 transformer = factory.newTransformer(source);
-            else
+            } else {
                 transformer = factory.newTransformer();
+            }
             
             // set the properties
             transformer.setOutputProperties(props);
@@ -229,8 +231,9 @@ public class DocumentManipulator {
             
             @Override
             public String getNamespaceURI(String prefix) {
-                if ("wadl".equals(prefix))
+                if("wadl".equals(prefix)){
                     return WADL_NS;
+                }
                 return null;
             }
         });
@@ -241,22 +244,46 @@ public class DocumentManipulator {
             String id = item.getAttributes().getNamedItem("id").getNodeValue();
             Node docElem = doc.createElementNS(WADL_NS, "doc");
             String defaultDoc = null;
-            if ("readAll".equals(id))
+            if("readAll".equals(id)){
                 defaultDoc = "Returns the requested collection of resource representations.";
-            else if ("read".equals(id))
+            } else if ("read".equals(id)){
                 defaultDoc = "Returns the specified resource representation(s).";
-            else if ("create".equals(id))
+            } else if ("create".equals(id)){
                 defaultDoc = "Creates a new resource using the given resource data.";
-            else if ("delete".equals(id))
+            } else if ("delete".equals(id)){
                 defaultDoc = "Deletes the specified resource.";
-            else if ("update".equals(id))
+            } else if ("update".equals(id)){
                 defaultDoc = "Updates the specified resource using the given resource data.";
+            }
             if (defaultDoc != null) {
                 Text text = doc.createTextNode(defaultDoc);
                 docElem.appendChild(text);
                 item.appendChild(docElem);
             }
         }
+
+        // "//ns2:param[@name='id']"
+        XPathExpression idDelExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template']/wadl:doc");
+        NodeList idDelNl = (NodeList) idDelExp.evaluate(doc, XPathConstants.NODESET);
+        for (int i = 0; i < idDelNl.getLength(); i++) {
+            Node item = idDelNl.item(i);
+            item.getParentNode().removeChild(item);
+        }
+
+        // "//ns2:param[@name='id']"
+        XPathExpression idExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template'][not(wadl:doc)]");
+        NodeList idNl = (NodeList) idExp.evaluate(doc, XPathConstants.NODESET);
+        for (int i = 0; i < idNl.getLength(); i++) {
+            Node item = idNl.item(i);
+            Node docElem = doc.createElementNS(WADL_NS, "doc");
+            String defaultDoc = "A comma-separated list of resource IDs.";
+            if (defaultDoc != null) {
+                Text text = doc.createTextNode(defaultDoc);
+                docElem.appendChild(text);
+                item.appendChild(docElem);
+            }
+        }
+
         return doc;
     }
 }

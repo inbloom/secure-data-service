@@ -22,43 +22,24 @@ import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
  * Represents the course sections a student is assigned to.
- * 
+ *
+ * For more information, see the schema for $$StudentSectionAssociation$$ resources.
+ *
  * @author kmyers
- * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
 @Component
 @Scope("request")
 public class StudentSectionAssociationResource extends DefaultCrudResource {
-    /**
-     * Logging utility.
-     */
-    // private static final Logger LOGGER =
-    // LoggerFactory.getLogger(StudentSectionAssociationResource.class);
-    
+
+
     @Autowired
     public StudentSectionAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
-        // DE260 - Logging of possibly sensitive data
-        // LOGGER.debug("New resource handler created {}", this);
     }
-    
+
     /**
-     * Returns each $$Student$$ that references the given $$StudentSectionAssociation$$.
-     * 
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Student$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -70,23 +51,9 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "_id", studentSectionAssociationId, "studentId",
                 ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns each $$Section$$ that references the given $$StudentSectionAssociation$$.
-     * 
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$Section$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -98,21 +65,9 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "_id", studentSectionAssociationId, "sectionId",
                 ResourceNames.SECTIONS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$.
-     * 
-     * @param studentSectionAssociationId
-     *            The Id of the $$StudentSectionAssociation$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$StudentCompetency$$ that references the given $$StudentSectionAssociation$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENT_COMPETENCIES)

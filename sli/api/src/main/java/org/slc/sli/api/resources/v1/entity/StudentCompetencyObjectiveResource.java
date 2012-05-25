@@ -15,18 +15,19 @@ import org.slc.sli.client.constants.v1.PathConstants;
  * Represents additional competencies for student achievement that are not associated with specific
  * learning objectives
  * (e.g., paying attention in class).
- * 
+ *
+ * For detailed information, see the schema for $$StudentCompetencyObjective$$ resources.
+ *
  * @author chung
- * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COMPETENCY_OBJECTIVES)
 @Component
 @Scope("request")
 public class StudentCompetencyObjectiveResource extends DefaultCrudResource {
-    
+
     @Autowired
     public StudentCompetencyObjectiveResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_COMPETENCY_OBJECTIVES);
     }
-    
+
 }

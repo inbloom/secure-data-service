@@ -19,11 +19,10 @@ import org.slc.sli.client.constants.v1.ParameterConstants;
 import org.slc.sli.client.constants.v1.PathConstants;
 
 /**
- * Represents an individual for whom instruction, services and/or care are provided in an early
- * childhood, elementary or secondary educational program under the jurisdiction of a school,
- * education agency, or other institution or program. A student is a person who has been enrolled in
- * a school or other educational institution.
- * For more information, see the schema for the $$schools$$ entity.
+ * This entity represents an educational organization that includes staff and students who
+ * participate in classes and educational activity groups.
+ *
+ * For more information, see the schema for $$School$$ resources.
  *
  * @author srupasinghe
  * @author kmyers
@@ -40,21 +39,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -64,15 +50,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS + "/"
@@ -84,15 +63,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -102,15 +74,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
@@ -122,15 +87,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SECTIONS)
@@ -140,21 +98,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
@@ -164,15 +109,8 @@ public class SchoolResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param schoolId
-     *            The Id of the School.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/"

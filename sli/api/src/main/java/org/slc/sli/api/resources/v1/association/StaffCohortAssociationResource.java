@@ -27,6 +27,8 @@ import org.slc.sli.client.constants.v1.PathConstants;
 /**
  * Represents the association between a $$Staff$$ member a $$Cohort$$.
  *
+ * For more information, see the schema for $$StaffCohortAssociation$$ resources.
+ *
  * @author kmyers
  * @author srichards
  *
@@ -52,16 +54,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resource representations.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -73,17 +65,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Creates a new resource using the given resource data.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
      */
     @Override
     @POST
@@ -94,14 +75,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the specified resource representation(s).
-     *
-     * @param staffCohortAssociationId
-     *            The id of the entity
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -113,15 +86,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Deletes the specified resource.
-     *
-     * @param staffCohortAssociationId
-     *            The id of the entity
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @Override
     @DELETE
@@ -133,17 +97,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Updates the specified resource using the given resource data.
-     *
-     * @param staffCohortAssociationId
-     *            The id of the entity
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @Override
     @PUT
@@ -156,20 +109,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param staffCohortAssociationId
-     *            The id of the entity
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -183,20 +122,6 @@ public class StaffCohortAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
-     *
-     * @param staffCohortAssociationId
-     *            The id of the entity
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)

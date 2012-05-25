@@ -1,8 +1,5 @@
 package org.slc.sli.client;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
@@ -13,6 +10,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * 
@@ -26,10 +26,7 @@ public class RESTClient {
     private static Logger logger = LoggerFactory.getLogger(RESTClient.class);
     
     private RestTemplate template;
-
-    public RESTClient() {
-        template = new RestTemplate();
-    }
+    private RestTemplate templateWTimeout;
 
     /**
      * Call the session/check API
@@ -81,7 +78,7 @@ public class RESTClient {
             logger.debug("Accessing API at: {}", url);
             HttpEntity<String> response = null;
             try {
-                response = exchange(url.toString(), HttpMethod.GET, entity, String.class);
+                response = exchange(template, url.toString(), HttpMethod.GET, entity, String.class);
             } catch (HttpClientErrorException e) {
                 logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
             }
@@ -132,11 +129,27 @@ public class RESTClient {
         }
     }
 
-    public String getJsonRequest(String path) {
+    
+    /**
+     * Makes a JSONRequest with the path. Times out, if boolean timeout property is set to true.
+     * Timeout value is set in application-context.xml (dashboard.WSCall.timeout)
+     * @param path
+     * @param timeout
+     * @return
+     */
+    public String getJsonRequest(String path, boolean timeout) {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> response = null;
+        
+        RestTemplate templateToUse;
+        if (timeout) {
+            templateToUse = templateWTimeout;
+        } else {
+            templateToUse = template;
+        }
+        
         try {
-        response = exchange(path, HttpMethod.GET, new HttpEntity(headers), String.class);
+        response = exchange(templateToUse, path, HttpMethod.GET, new HttpEntity(headers), String.class);
         } catch (HttpClientErrorException e) {
             logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
         }
@@ -167,7 +180,16 @@ public class RESTClient {
         this.template = template;
     }
     
-    public HttpEntity<String> exchange(String url, HttpMethod method, HttpEntity entity, Class cl) {
-        return this.template.exchange(url, method, entity, cl);
+
+    public RestTemplate getTemplateWTimeout() {
+        return templateWTimeout;
+    }
+
+    public void setTemplateWTimeout(RestTemplate templateWTimeout) {
+        this.templateWTimeout = templateWTimeout;
+    }
+    
+    public HttpEntity<String> exchange(RestTemplate templateIn, String url, HttpMethod method, HttpEntity entity, Class cl) {
+        return templateIn.exchange(url, method, entity, cl);
     }
 }

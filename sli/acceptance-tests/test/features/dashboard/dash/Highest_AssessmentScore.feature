@@ -37,13 +37,13 @@ Scenario: Calculating Highest ReportingResultType for any a defined assessment
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
 	And I select <viewSelector> "IL_3-8_ELA"
-  And the view configuration file set "field.value" is "ISAT Writing.Scale score"
+  And the view configuration file set "field.value" is "StateTest Writing.Scale score"
 	And the view configuration file set "field.timeslot" is "HIGHEST_EVER"
   
-   Then I should see a table heading "ISAT Writing (highest)"
+   Then I should see a table heading "StateTest Writing (highest)"
 	And I should see a field "SS" in this table
 	And I should see  "Delilah Sims" in student field
-	And I should see his/her highest ISAT Writing Scale Score is "295"	
+	And I should see his/her highest StateTest Writing Scale Score is "295"	
 
 #USE:  "assessmentFamilyHierarchy" is  "AP English"
 @wip

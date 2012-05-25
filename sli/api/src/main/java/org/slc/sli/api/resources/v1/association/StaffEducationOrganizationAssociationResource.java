@@ -29,6 +29,8 @@ import org.slc.sli.client.constants.v1.PathConstants;
  * organizations employ multiple staff and staff are free to work at multiple education
  * organizations.
  *
+ * For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources.
+ *
  * @author kmyers
  *
  */
@@ -55,17 +57,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Returns all $$staffEducationOrganizationAssociations$$ for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -76,18 +68,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Creates a new $$staffEducationOrganizationAssociations$$.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -97,15 +78,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Gets a single $$staffEducationOrganizationAssociations$$
-     *
-     * @param staffEducationOrganizationAssignmentId
-     *            The Id of the $$staffEducationOrgAssignmentAssociation$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single school entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -116,16 +89,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Deletes a $$staffEducationOrganizationAssociations$$
-     *
-     * @param staffEducationOrganizationAssignmentId
-     *            The Id of the $$staffEducationOrgAssignmentAssociation$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -136,18 +100,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Updates an existing $$staffEducationOrganizationAssociations$$
-     *
-     * @param staffEducationOrganizationAssignmentId
-     *            The id of the $$staffEducationOrgAssignmentAssociation$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
      */
     @Override
     @PUT
@@ -159,22 +112,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Returns each $$staff$$ that
-     * references the given $$staffEducationOrganizationAssociations$$
-     *
-     * @param staffEducationOrganizationAssignmentId
-     *            The Id of the $$staffEducationOrganizationAssociations$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.STAFF)
@@ -187,22 +125,7 @@ public class StaffEducationOrganizationAssociationResource extends DefaultCrudEn
     }
 
     /**
-     * Returns each $$educationalOrganizations$$ that
-     * references the given $$staffEducationOrganizationAssociations$$
-     *
-     * @param staffEducationOrganizationAssignmentId
-     *            The Id of the $$staffEducationOrganizationAssociations$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_EDUCATION_ORGANIZATION_ID + "}" + "/" + PathConstants.EDUCATION_ORGANIZATIONS)

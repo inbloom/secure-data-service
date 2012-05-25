@@ -17,6 +17,8 @@ import org.slc.sli.client.constants.v1.PathConstants;
  *
  * Student grades are usually a compilation of marks and other scores.
  *
+ * For more information, see the schema for $$Grade$$ resources.
+ *
  * @author jstokes
  *
  */

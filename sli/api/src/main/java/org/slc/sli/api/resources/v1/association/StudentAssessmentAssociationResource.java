@@ -24,10 +24,9 @@ import org.slc.sli.client.constants.v1.PathConstants;
  * Represents the analysis or scoring of a student's response on an assessment. The analysis results
  * in a value that represents a student's performance on a set of items on a test.
  *
- * For more information, see the schema for $$studentAssessmentAssociations$$.
+ * For more information, see the schema for $$StudentAssessmentAssociation$$ resources.
  *
  * @author wscott
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
 @Component
@@ -42,20 +41,6 @@ public class StudentAssessmentAssociationResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param studentAssessmentId
-     *            The Id of the studentAssessmentId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -71,20 +56,6 @@ public class StudentAssessmentAssociationResource extends DefaultCrudResource {
     /**
      * Returns the requested collection of resources that are associated with the specified
      * resource.
-     *
-     * @param studentAssessmentId
-     *            The Id of the studentAssessmentId.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.ASSESSMENTS)

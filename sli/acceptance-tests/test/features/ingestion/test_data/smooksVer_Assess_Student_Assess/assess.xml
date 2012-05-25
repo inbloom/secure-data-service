@@ -2,11 +2,11 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-  <Assessment id="Grade-8-2011-ISAT-Writing">
-    <AssessmentTitle>Grade 8 2011 ISAT Writing</AssessmentTitle>
+  <Assessment id="Grade-8-2011-StateTest-Writing">
+    <AssessmentTitle>Grade 8 2011 StateTest Writing</AssessmentTitle>
     <AssessmentIdentificationCode
       IdentificationSystem="Test Contractor">
-      <ID>Grade 8 2011 ISAT Writing</ID>
+      <ID>Grade 8 2011 StateTest Writing</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Writing</AcademicSubject>
@@ -57,50 +57,50 @@
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode
           IdentificationSystem="Test Contractor">
-          <ID>ISAT Writing for Grade 8</ID>
+          <ID>StateTest Writing for Grade 8</ID>
         </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
     <SectionReference></SectionReference>
   </Assessment>
   
-  <AssessmentFamily id="ISAT_Writing_for_Grade_8">
-    <AssessmentFamilyTitle>ISAT Writing for Grade 8</AssessmentFamilyTitle>
+  <AssessmentFamily id="StateTest_Writing_for_Grade_8">
+    <AssessmentFamilyTitle>StateTest Writing for Grade 8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Writing for Grade 8</ID>
+        <ID>StateTest Writing for Grade 8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT Writing for Grades 3-8</ID>
+                <ID>StateTest Writing for Grades 3-8</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="ISAT_Writing_for_Grades_3-8">
-    <AssessmentFamilyTitle>ISAT Writing for Grades 3-8</AssessmentFamilyTitle>
+  <AssessmentFamily id="StateTest_Writing_for_Grades_3-8">
+    <AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT Writing for Grades 3-8</ID>
+        <ID>StateTest Writing for Grades 3-8</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>ISAT</ID>
+                <ID>StateTest</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
   
-  <AssessmentFamily id="ISAT">
-    <AssessmentFamilyTitle>ISAT</AssessmentFamilyTitle>
+  <AssessmentFamily id="StateTest">
+    <AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
-        <ID>ISAT</ID>
+        <ID>StateTest</ID>
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
   

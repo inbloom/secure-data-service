@@ -16,7 +16,7 @@ import org.slc.sli.client.constants.v1.PathConstants;
  * reference a course record that is included in the interchange. To lookup where already loaded
  * specify either CodeValue OR Description.
  *
- * For more information, see the schema for $$competencyLevelDescriptors$$ entities.
+ * For more information, see the schema $$CompetencyLevelDescriptorType$$ resources.
  *
  * @author chung
  *

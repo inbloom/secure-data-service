@@ -1,8 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-    <head>
-        <#include "layout/layout_header.ftl"> 
-               
+              
 	<#if CONTEXT_ROOT_PATH??>
         <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/css/ui.jqgrid.css" media="screen" />
@@ -10,9 +6,8 @@
 	<#else>
         <link rel="stylesheet" type="text/css" href="/dashboard/static/css/common.css" media="screen" />
 	</#if>
-    </head>
+
     
-    <body>
 	<div class="error-container"> 
 	
 	<div class="error-header">
@@ -53,9 +48,3 @@
 	</div>
     
 	</div>
-    </body>
-    
-	<#include "layout/layout_footer.ftl">
-	
-</html>
-

@@ -21,30 +21,23 @@ import org.slc.sli.client.constants.v1.PathConstants;
 /**
  * Represents the competency assessed or evaluated for the student against a specific Learning
  * Objective.
- * 
+ *
+ * For detailed information, see the schema for $$StudentCompetency$$ resources.
+ *
  * @author chung
- * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_COMPETENCIES)
 @Component
 @Scope("request")
 public class StudentCompetencyResource extends DefaultCrudResource {
-    
+
     @Autowired
     public StudentCompetencyResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_COMPETENCIES);
     }
-    
+
     /**
-     * Returns each $$ReportCard$$ that is associated with the given $$StudentCompetency$$.
-     * 
-     * @param studentCompetencyId
-     *            The Id of the $$StudentCompetency$$
-     * @param headers
-     *            HTTP request headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return each $$ReportCard$$ that is associated with the given $$StudentCompetency$$
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}" + "/" + PathConstants.REPORT_CARDS)

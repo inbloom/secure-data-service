@@ -41,13 +41,14 @@ Scenario: Check changing view changes table headings
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   When I select view "Middle School ELA View"
-  Then I should see a table heading "ISAT Reading"
-    And I should see a table heading "ISAT Writing (most recent)"
+  Then I should see a table heading "StateTest Reading"
+    And I should see a table heading "StateTest Writing (most recent)"
   When I select view "College Ready ELA View"
   Then I should see a table heading "Reading Test Scores (Highest)"
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
-    
+   
+ @RALLY_US200
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
