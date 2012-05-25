@@ -30,7 +30,6 @@
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
-        <!--<jb:value property="calendarDateReference" data="attributes calendarDateReference" />-->
         <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
     </jb:bean>
 
