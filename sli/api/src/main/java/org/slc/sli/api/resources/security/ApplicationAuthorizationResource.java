@@ -37,6 +37,7 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -119,7 +120,7 @@ public class ApplicationAuthorizationResource {
 
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -135,6 +136,7 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{" + UUID + "}")
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
+        SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -166,11 +168,12 @@ public class ApplicationAuthorizationResource {
 
     @GET
     public Response getAuthorizations(@Context UriInfo info) {
+        SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrg = getUsersStateUniqueId();
 
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            return Response.status(Status.FORBIDDEN).build();
+            return SecurityUtil.forbiddenResponse();
         }
         
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
@@ -303,6 +306,8 @@ public class ApplicationAuthorizationResource {
                 app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
                 LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
+            } catch (EntityNotFoundException e) {
+                LOG.info("Could not find application [" + appId + "]. Omitting in Security Log.");
             }
             String stateOrganizationId  = "";
             String nameOfInstitution    = "";

@@ -13,9 +13,12 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Represents control file information.
@@ -26,25 +29,26 @@ public class ControlFile implements Serializable {
     private static final long serialVersionUID = 3231739301361458948L;
     private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
+
     protected File file;
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();
 
-    public static ControlFile parse(File file) throws IOException {
-        return parse(file, null);
+    public static ControlFile parse(File file) throws IOException, SubmissionLevelException {
+        return parse(file, null, null);
     }
 
-    public static ControlFile parse(File file, LandingZone landingZone) throws IOException {
+    public static ControlFile parse(File file, LandingZone landingZone, MessageSource messageSource) throws IOException, SubmissionLevelException {
 
         Scanner scanner = new Scanner(file);
-        Pattern fileItemPattern = Pattern.compile("^([^\\s]+)\\,([^\\s]+)\\,([^,]+)\\,(\\w+)\\s*$");
+        Pattern fileItemPattern = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
         Matcher fileItemMatcher;
         Pattern configItemPattern = Pattern.compile("^@(.*)$");
         Matcher configItemMatcher;
         String line;
         FileFormat fileFormat;
         FileType fileType;
-        int lineNumber = 1;
+        int lineNumber = 0;
 
         String topLevelLandingZonePath = null;
         if (landingZone != null) {
@@ -68,24 +72,30 @@ public class ControlFile implements Serializable {
                     fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
                     fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3),
                             fileItemMatcher.group(4), topLevelLandingZonePath));
+                    lineNumber += 1;
                     continue;
                 }
 
                 configItemMatcher = configItemPattern.matcher(line);
                 if (configItemMatcher.matches()) {
-                    configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).getBytes()));
+                    configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).trim().getBytes()));
                     // System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
+                    lineNumber += 1;
                     continue;
                 }
 
                 // blank lines are ignored silently, but stray marks are not
                 if (line.trim().length() > 0) {
                     // line was not parseable
-                    // TODO fault or custom exception?
-                    throw new RuntimeException("invalid control file entry. line number:" + lineNumber + ", line: \""
-                            + line + "\"");
+                    lineNumber += 1;
+                    String errorMessage;
+                    if (messageSource != null) {
+                         errorMessage = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG16", lineNumber, line);
+                    } else {
+                        errorMessage = "Invalid control file entry at line number [" + lineNumber + "] Line:" + line;
+                    }
+                    throw new SubmissionLevelException(errorMessage);
                 }
-                lineNumber += 1;
             }
 
             return new ControlFile(file, fileEntries, configProperties);

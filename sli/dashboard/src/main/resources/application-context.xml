@@ -19,7 +19,7 @@
     <ehcache:annotation-driven cache-manager="cacheManager" />
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
-    
+
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
@@ -48,8 +48,20 @@
 	    <property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
     
+    <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
+    <bean id="restTemplateWTimeout" class = "org.springframework.web.client.RestTemplate">
+	    <constructor-arg>
+	    <bean class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+		    <property name="readTimeout" value="${dashboard.WSCall.timeout}" />
+	    </bean>
+	    </constructor-arg>
+    </bean>
+    
     <bean id="restClient" class="org.slc.sli.client.RESTClient" >
-	    <property name="securityUrl" value="${security.server.url}" />	
+	    <property name="securityUrl" value="${security.server.url}" />
+	    <property name="template" ref = "restTemplate" />
+	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
+	    	
     </bean>
 
     <bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
@@ -82,6 +94,9 @@
     </bean>
 
     <alias alias="apiClientRef" name="${api.client}"/>
+    
+    
+    
 
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
@@ -93,10 +108,5 @@
         <property name="cacheManager" ref="cacheManager"/>
         <property name="useCache" value="${panel.data.use.cache:true}"/>
     </bean>
-    
-    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
-    <qualifier value="googleAnalyticsTrackerId" />
-    <constructor-arg value="${dashboard.google_analytics.id}" />
-    </bean>    
-    
+
 </beans>

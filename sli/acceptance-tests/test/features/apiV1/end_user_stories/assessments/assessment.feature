@@ -1,3 +1,5 @@
+@RALLY_US209
+@RALLY_US210
 Feature: As a teacher I want to get READ2 Composite Score and Reading Level
 
 Background: None
@@ -19,7 +21,7 @@ Background: None
         And I should have an entity with ID "<'Important Section' ID>"
 
      When I navigate to URI "/<SECTION URI>/<'Important Section' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentFamilyHierarchyName" = "READ2 Next"
+        And filter by "assessmentFamilyHierarchyName" = "READ 2.0"
         And filter by "sortBy" = "assessmentPeriodDescriptor.beginDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
@@ -35,7 +37,7 @@ Background: None
         And "academicSubject" should be "Reading"
         And "gradeLevelAssessed" should be "Second grade"
         And "lowestGradeLevelAssessed" should be "Second grade"
-        And "assessmentFamilyHierarchyName" should be "READ2 Next"
+        And "assessmentFamilyHierarchyName" should be "READ 2.0"
         And "maxRawScore" should be "380"
         And "minRawScore" should be "13"
         And the field "assessmentPeriodDescriptor.beginDate" should be "2012-01-01"
@@ -129,7 +131,7 @@ Examples:
         And "academicSubject" should be "Reading"
         And "gradeLevelAssessed" should be "Second grade"
         And "lowestGradeLevelAssessed" should be "Second grade"
-        And "assessmentFamilyHierarchyName" should be "READ2 Next"
+        And "assessmentFamilyHierarchyName" should be "READ 2.0"
         And "maxRawScore" should be "380"
         And "minRawScore" should be "13"
         And the field "assessmentPeriodDescriptor.beginDate" should be "2012-01-01"

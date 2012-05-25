@@ -7,6 +7,7 @@ Background:
   Given I have an open web browser
   Given the server is in "live" mode
 
+ @RALLY_US200
 Scenario: Displaying simple StateTest reading and writing results for all students
     When I navigate to the Dashboard home page
     When I select "Illinois Sunset School District 4526" and click go

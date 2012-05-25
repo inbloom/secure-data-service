@@ -81,7 +81,7 @@ Then /^I am redirected to the associations list page$/ do
 end
 
 Then /^I see a table displaying the associations in a list$/ do
-  assertWithWait("Failed to find table of associations")  {@driver.find_element(:id, "simple")}
+  assertWithWait("Failed to find table of associations")  {@driver.find_element(:id, "simple-table")}
 end
 
 Then /^those names include the IDs of both "([^"]*)" and "([^"]*)" in the association$/ do |arg1, arg2|
@@ -96,7 +96,7 @@ When /^I click on the row containing "([^"]*)"$/ do |arg1|
 end
 
 Then /^the row expands below listing the rest of the attributes for the item$/ do
-  assertWithWait("Failed to find expanded row")  {@driver.find_element(:xpath, "//tr[contains(@style,'display: table-row')]//dd/dl[text()='Independent study']")}
+  assertWithWait("Failed to find expanded row")  {@driver.find_element(:css, "td.details")}
 end
 
 When /^I click on the expanded row$/ do
@@ -105,7 +105,14 @@ When /^I click on the expanded row$/ do
 end
 
 Then /^the row collapses hiding the additional attributes$/ do
-  assertWithWait("Failed to find row collapsed row")  {@driver.find_element(:xpath, "//tr[contains(@style,'display: none')]//dd/dl[text()='#{@expandedRow}']")}
+  assertWithWait("Failed to find row collapsed row") do
+      begin
+        @driver.find_element(:css, "td.details")
+        false
+      rescue
+        true
+      end
+    end
 end
 
 When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
@@ -114,19 +121,19 @@ When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
 end
 
 Then /^I am redirected to a page that page lists all of the "([^"]*)" entity's fields$/ do |arg1|
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd/dl[text()='#{arg1}']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='#{arg1}']")}
 end
 
 Then /^I am redirected to the particular associations Simple View$/ do
-  assertWithWait("Failed to find table of associations")  {@driver.find_element(:id, "simple")}
+  assertWithWait("Failed to find table of associations")  {@driver.find_element(:id, "simple-table")}
 end
 
 Then /^I am redirected to the particular entity Detail View$/ do
   # Make sure you don't see the simple view
-  assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple").size == 0}
+  assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd/dl[text()='Fry High School']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Fry High School']")}
 end
 
 When /^I click on any of the entity IDs$/ do

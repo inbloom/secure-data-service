@@ -32,15 +32,15 @@ public abstract class GenericLayoutController {
     private static final String LAYOUT_DIR = "layout/";
     private static final String FTL_EXTENSION = ".ftl";
     private CustomizationAssemblyFactory customizationAssemblyFactory;
-    
+
     private static final String GOOGLE_ANALYTICS_TRACKER_CONSTANT = "googleAnalyticsTrackerId";
-    
+
     @Autowired
     @Qualifier("googleAnalyticsTrackerId")
     private String googleAnalyticsTrackerId;
-    
-    
-    
+
+
+
     protected PortalWSManager portalWSManager;
 
 
@@ -82,14 +82,14 @@ public abstract class GenericLayoutController {
             model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(isAdmin));
         }
     }
-    
+
     protected void addCommonData(ModelMap model, HttpServletRequest request) {
         addHeaderFooter(model);
         model.addAttribute(GOOGLE_ANALYTICS_TRACKER_CONSTANT, googleAnalyticsTrackerId);
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
     }
-    
+
 
     // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {

@@ -1,3 +1,4 @@
+@RALLY_US510 @RALLY_US646
 Feature: Get StateTest Reading Scores
 Background: None
 

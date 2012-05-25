@@ -12,16 +12,16 @@
     <StateOrganizationId>${entityName.StateOrganizationId}</StateOrganizationId>
     </#if>
     
-    <#if (entityName.EducationOrgIdentificationCode[0])?? >
+    <#list entityName.EducationOrgIdentificationCode as edorgId >
     <EducationOrgIdentificationCode
-        <#if (entityName.EducationOrgIdentificationCode.@IdentificationSystem[0])??> 
-        IdentificationSystem="${entityName.EducationOrgIdentificationCode.@IdentificationSystem}"
+        <#if (edorgId.@IdentificationSystem[0])??> 
+        IdentificationSystem="${edorgId.@IdentificationSystem}"
         </#if>
         >
-        <#if (entityName.EducationOrgIdentificationCode.ID[0])??>
-        <ID>${entityName.EducationOrgIdentificationCode.ID}</ID>
+        <#if (edorgId.ID[0])??>
+        <ID>${edorgId.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
-    </#if>
+    </#list>
 </EducationOrgIdentity>
 </EducationOrgIdentity>

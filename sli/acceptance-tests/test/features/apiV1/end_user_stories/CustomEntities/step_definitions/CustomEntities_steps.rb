@@ -14,22 +14,13 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id =  "<"+human_readable_id+">"                   if human_readable_id.include? "?"
  
   #education organizations
-  id = "4f0c9368-8488-7b01-0000-000059f9ba56"       if human_readable_id == "EDUCATION ORGANIZATION ID"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"       if human_readable_id == "EDUCATION ORGANIZATION ID"
     
   #students
-  id = "2899a720-4196-6112-9874-edde0e2541db"       if human_readable_id == "STUDENT ID"
-      
-  #teachers
-  id = "a936f73f-7745-b450-922f-87ad78fd6bd1"       if human_readable_id == "'Ms. Jones' ID"
-  id = "e24b24aa-2556-994b-d1ed-6e6f71d1be97"       if human_readable_id == "'Ms. Smith' ID"
-  
-  #assessments
-  id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"       if human_readable_id == "'Grade 2 MOY READ2' ID"
-  id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY READ2' ID"
-  id = "1e0ddefb-875a-ef7e-b8c3-33bb5676115a"       if human_readable_id == "'Most Recent Student Assessment Association' ID"
+  id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed"       if human_readable_id == "STUDENT ID"
   
   #student school associations
-  id = "4e044247-4cc0-49fa-900d-80064614060c"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"
+  id = "3b638fbc-0b82-459a-8002-ee57717e02e9"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"
   id
 end
 

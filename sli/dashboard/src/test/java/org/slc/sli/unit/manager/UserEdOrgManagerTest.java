@@ -32,7 +32,7 @@ public class UserEdOrgManagerTest {
     @Test
     public void testGetStaffInfo() {
         GenericEntity entity = userEdOrgManager.getStaffInfo("1");
-        Assert.assertEquals(true, entity.get(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN));
+        Assert.assertEquals(false, entity.get(Constants.LOCAL_EDUCATION_AGENCY));
     }
 
     public void testUserEdOrg() {

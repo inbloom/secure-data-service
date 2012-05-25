@@ -5,7 +5,7 @@
 <input id='dbrd_inp_search_firstName' class="input-small" type="text" placeholder="First Name">
 <input id='dbrd_inp_search_lastName' class="input-small" type="text" placeholder="Last Name">
 <button id="dbrd_btn_name_search" class="btn" type="submit">
-<input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_027_search.png" height = "13px" alt="Search" />
+<input type="image" src="${CONTEXT_ROOT_PATH}/static/images/search_icon.png" height = "13px" alt="Search" />
 </button>
 <script>
 $('#dbrd_frm_search').submit(function(e) {

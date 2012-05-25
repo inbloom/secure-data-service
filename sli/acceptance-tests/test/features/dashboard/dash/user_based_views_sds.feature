@@ -42,7 +42,7 @@ Scenario: Check changing view changes table headings
   Then I should see a table heading "StateTest Reading"
     And I should see a table heading "StateTest Writing (most recent)"
     
- @integration
+ @integration @RALLY_US200
 Scenario: Different users have different views defined
   When I login as "rbraverman" "rbraverman1234"
   When I select <edOrg> "Daybreak School District 4529"

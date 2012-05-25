@@ -42,7 +42,7 @@ public final class Constants {
     public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
     public static final String CONFIG_ASSESSMENT_FILTER = "assessmentFilter";
     public static final String OVERALL_CONTAINER_PAGE = "overall_container";
-    public static final String PAGE_TO_INCLUDE = "page_to_include"; 
+    public static final String PAGE_TO_INCLUDE = "page_to_include";
     
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
@@ -176,6 +176,7 @@ public final class Constants {
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
     
     public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
+
     public static final String ATTR_CREDENTIALS_LIST_ATTRIBUTE = "credentials";
     public static final String ATTR_CREDENTIAL_FIELD_ATTRIBUTE = "credentialField";
     public static final String ATTR_CREDENTIAL_CODE_ATTRIBUTE = "codeValue";
@@ -197,6 +198,10 @@ public final class Constants {
     public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";
     public static final String ATTR_ERROR_DETAILS = "errorDetails";
     public static final String ATTR_AUTHENTICATED = "authenticated";
+    public static final String ATTR_STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
+    public static final String ATTR_RELATION = "relation";
+    public static final String ATTR_CONTACT_PRIORITY = "contactPriority";
+    public static final String ATTR_PRIMARY_CONTACT_STATUS = "primaryContactStatus";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
@@ -257,6 +262,10 @@ public final class Constants {
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String LOCAL_EDUCATION_AGENCY = "Local Education Agency";
     
+    public static final int MAX_RESULTS = 0;
+    public static final String LIMIT = "limit";
+    public static final String ATTR_PARENTS = "parents";
+
     /**
      * Contains the possible values for FRE participation
      */
