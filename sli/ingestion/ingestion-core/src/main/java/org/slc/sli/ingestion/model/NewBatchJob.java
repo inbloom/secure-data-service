@@ -50,6 +50,8 @@ public class NewBatchJob implements Job {
 
     private List<ResourceEntry> resourceEntries;
 
+    private Date jobStopTimestamp;
+
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
@@ -98,6 +100,10 @@ public class NewBatchJob implements Job {
         jobStartTimestamp = BatchJobUtils.getCurrentTimeStamp();
 
     }
+
+    public void stop() {
+        jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
+      }
 
     public static NewBatchJob createJobForFile(String fileName) {
 
@@ -382,4 +388,6 @@ public class NewBatchJob implements Job {
         // TODO Auto-generated method stub
         return null;
     }
+
+
 }

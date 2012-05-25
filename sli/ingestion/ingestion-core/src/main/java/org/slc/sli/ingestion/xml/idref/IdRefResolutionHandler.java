@@ -99,10 +99,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug(sw.prettyPrint());
+            LOG.debug("ID Ref time {}", sw.prettyPrint());
         }
         else {
-            LOG.info( sw.shortSummary() );
+            LOG.info( "ID Ref time {}", sw.shortSummary() );
         }
 
         if (semiResolvedXml == null) {

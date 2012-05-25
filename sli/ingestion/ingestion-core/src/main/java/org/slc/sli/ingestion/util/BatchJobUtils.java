@@ -85,6 +85,7 @@ public class BatchJobUtils {
     public static void stopStageChunkAndAddToJob(Stage stage, NewBatchJob job) {
         stage.stopStage();
         job.addStageChunk(stage);
+        job.stop();
     }
 
     public static ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
