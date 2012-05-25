@@ -227,13 +227,12 @@ th.ui-th-column div {
 .ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #000000 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
 
 .ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child { border-right: none; }
-.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 35px !important; }
+.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 20px !important; }
 
 /* Custom */
 /* Contact Info panel related */
 .contactInfoItem {
     width:33%;
-    height: 200px;
 }
 .contactInfoItem .tabular table th {
 	width: 150px;
@@ -241,6 +240,8 @@ th.ui-th-column div {
 .contactInfoData {
     width:250px;
 }
+
+.clear { clear: both; }
 
 .lozenge-widget
 {

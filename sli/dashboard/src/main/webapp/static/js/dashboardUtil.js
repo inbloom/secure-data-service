@@ -202,6 +202,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 	            if(item1.style) {
 	            	colModelItem.classes = item1.style;
 	            }
+	            
+	            colModelItem.resizable = false; // prevent the user from manually resizing the columns
+	            
 	            colModel.push( colModelItem );
 	        }     
 	    }
@@ -211,7 +214,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
       	  useColSpanStyle: true, 
-      	  groupHeaders:groupHeaders
+      	  groupHeaders:groupHeaders,
+          fixed: true,
+          shrinkToFit : false
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
     	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');
