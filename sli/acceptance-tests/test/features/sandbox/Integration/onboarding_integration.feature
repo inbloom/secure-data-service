@@ -1,4 +1,4 @@
-@RALLY_US2281 @wip
+@RALLY_US2281 @test
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
