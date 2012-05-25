@@ -173,6 +173,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
             batchJobDAO.saveError(error);
+            
+            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
         }
 
     }
