@@ -12,7 +12,8 @@ Background:
 @integration @wip
 Scenario: Check user has multiple views available
 #notes: SDS doesn't have students that are in more than one school/grade level
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -23,7 +24,8 @@ Scenario: Check user has multiple views available
 @integration @wip
 Scenario: Views are filtered based on student grades
 #notes: SDS doesn't have students that are in more than one school/grade level
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
@@ -33,7 +35,8 @@ Scenario: Views are filtered based on student grades
 @integration @wip
 Scenario: Check changing view changes table headings
 #notes: SDS doesn't have students that are in more than one school/grade level
-  When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
@@ -41,10 +44,11 @@ Scenario: Check changing view changes table headings
   When I select view "Middle School ELA View"
   Then I should see a table heading "StateTest Reading"
     And I should see a table heading "StateTest Writing (most recent)"
-    
+
  @integration @RALLY_US200
 Scenario: Different users have different views defined
-  When I login as "rbraverman" "rbraverman1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
