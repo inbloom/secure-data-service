@@ -37,6 +37,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
    
+    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue      | act1                         | string |
+    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.description    | American Literature I          | string |
+   
    
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math             | string |
