@@ -100,7 +100,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
                 // read parent organization
                 edOrg = getParentEducationalOrganization(getToken(), school);
-                if (edOrg == null) {
+                if(edOrg == null) {
                     throw new DashboardException(
                             "No data is available for you to view. Please contact your IT administrator.");
                 }

@@ -231,7 +231,7 @@ public class DocumentManipulator {
             
             @Override
             public String getNamespaceURI(String prefix) {
-                if("wadl".equals(prefix)){
+                if ("wadl".equals(prefix)) {
                     return WADL_NS;
                 }
                 return null;
@@ -244,15 +244,15 @@ public class DocumentManipulator {
             String id = item.getAttributes().getNamedItem("id").getNodeValue();
             Node docElem = doc.createElementNS(WADL_NS, "doc");
             String defaultDoc = null;
-            if("readAll".equals(id)){
+            if ("readAll".equals(id)) {
                 defaultDoc = "Returns the requested collection of resource representations.";
-            } else if ("read".equals(id)){
+            } else if ("read".equals(id)) {
                 defaultDoc = "Returns the specified resource representation(s).";
-            } else if ("create".equals(id)){
+            } else if ("create".equals(id)) {
                 defaultDoc = "Creates a new resource using the given resource data.";
-            } else if ("delete".equals(id)){
+            } else if ("delete".equals(id)) {
                 defaultDoc = "Deletes the specified resource.";
-            } else if ("update".equals(id)){
+            } else if ("update".equals(id)) {
                 defaultDoc = "Updates the specified resource using the given resource data.";
             }
             if (defaultDoc != null) {

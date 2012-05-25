@@ -34,6 +34,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;

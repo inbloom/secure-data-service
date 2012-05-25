@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -535,6 +534,7 @@ public class BasicService implements EntityService {
                 } catch (AccessDeniedException ade) {
                     debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
                             sourceId });
+                }
             }
         }
     }
@@ -612,9 +612,9 @@ public class BasicService implements EntityService {
 
     private Collection<GrantedAuthority> getAuths() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (this.readRight != Right.ANONYMOUS_ACCESS) {
+            if (this.readRight != Right.ANONYMOUS_ACCESS) {
             SecurityUtil.ensureAuthenticated();
-        }
+            }
         return auth.getAuthorities();
     }
 

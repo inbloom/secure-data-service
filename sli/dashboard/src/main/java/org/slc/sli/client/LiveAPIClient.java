@@ -161,8 +161,9 @@ public class LiveAPIClient implements APIClient {
     @LogExecutionTime
     public Object createEntityFromAPI(String url, String token, Class entityClass) {
         String response = restClient.makeJsonRequestWHeaders(url, token);
-        if (response == null)
+        if (response == null) {
             return null;
+        }
         Object e = gson.fromJson(response, entityClass);
         return e;
     }
@@ -182,9 +183,9 @@ public class LiveAPIClient implements APIClient {
 
         // get sections
         List<GenericEntity> sections = null;
-        if (SecurityUtil.isNotEducator())
+        if (SecurityUtil.isNotEducator()) {
             sections = getSectionsForNonEducator(token);
-        else {
+        } else {
             // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token);
@@ -201,16 +202,18 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public List<GenericEntity> getStudents(final String token, Collection<String> ids) {
-        if (ids == null || ids.size() == 0)
+        if (ids == null || ids.size() == 0) {
             return null;
+        }
 
         List<GenericEntity> students = new ArrayList<GenericEntity>();
 
         for (String id : ids) {
             GenericEntity student = getStudent(token, id);
-            if (student != null)
+            if (student != null) {
                 students.add(student);
             }
+        }
 
         return students;
     }
@@ -227,9 +230,11 @@ public class LiveAPIClient implements APIClient {
         // for each link in the returned list, make the student-assessment call
         // for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
-        if (responses != null)
-            for (GenericEntity studentAssmt : responses)
+        if (responses != null) {
+            for (GenericEntity studentAssmt : responses) {
                 studentAssmts.add(studentAssmt);
+            }
+        }
         return studentAssmts;
     }
 
@@ -240,8 +245,9 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
 
         List<GenericEntity> assmts = new ArrayList<GenericEntity>();
-        for (String assmtId : assessmentIds)
+        for (String assmtId : assessmentIds) {
             assmts.add(getAssessment(assmtId, token));
+        }
         return assmts;
     }
 
@@ -265,8 +271,9 @@ public class LiveAPIClient implements APIClient {
             // identical educationOrganizationParentId multiple times.
             if (parentEducationAgencyReferenceId != null && !parentEducationAgencyReferenceId.isEmpty()
                     && !edOrgParentIdLookup.contains(parentEducationAgencyReferenceId)) {
-                if (parentEducationAgencyReferences.length() != 0)
+                if (parentEducationAgencyReferences.length() != 0) {
                     parentEducationAgencyReferences.append(",");
+                }
                 parentEducationAgencyReferences.append(parentEducationAgencyReferenceId);
                 edOrgParentIdLookup.add(parentEducationAgencyReferenceId);
             }
@@ -277,9 +284,10 @@ public class LiveAPIClient implements APIClient {
         if (parentEducationAgencyReferences.length() != 0) {
             List<GenericEntity> returnedEdOrgsFromAPI = getEntities(token, Constants.ATTR_ED_ORGS,
                     parentEducationAgencyReferences.toString(), Collections.EMPTY_MAP);
-            if (returnedEdOrgsFromAPI != null)
+            if (returnedEdOrgsFromAPI != null) {
                 return returnedEdOrgsFromAPI;
             }
+        }
         return Collections.emptyList();
     }
 
@@ -294,9 +302,10 @@ public class LiveAPIClient implements APIClient {
             // between
             // parent or children edOrgs. DE105 has been logged to resolve it.
             // TODO: Remove the if statement once DE105 is resolved.
-            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "="))
+            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
                 // Links to children edOrgs are queries; ignore them.
                 continue;
+            }
 
             GenericEntity responses = createEntityFromAPI(href, token);
             return responses; // there should only be one parent.
@@ -314,9 +323,11 @@ public class LiveAPIClient implements APIClient {
                 token);
         List<String> studentIds = new ArrayList<String>();
 
-        if (responses != null)
-            for (GenericEntity response : responses)
+        if (responses != null) {
+            for (GenericEntity response : responses) {
                 studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
+            }
+        }
         return studentIds;
     }
 
@@ -352,15 +363,18 @@ public class LiveAPIClient implements APIClient {
      * Get one section
      */
     public GenericEntity getSection(String id, String token) {
-        if (id == null)
+        if (id == null) {
             return null;
+        }
         GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token);
-        if (section == null)
+        if (section == null) {
             return null;
+        }
 
         // if no section name, fill in with section code
-        if (section.get(Constants.ATTR_SECTION_NAME) == null)
+        if (section.get(Constants.ATTR_SECTION_NAME) == null) {
             section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+        }
 
         return section;
     }
@@ -405,11 +419,14 @@ public class LiveAPIClient implements APIClient {
         String returnValue = "";
         GenericEntity response = createEntityFromAPI(getApiUrl() + HOME_URL, token);
 
-        if (response == null)
+        if(response == null) {
             return null;
-        for (Map link : (List<Map>) response.get(Constants.ATTR_LINKS))
-            if (link.get(Constants.ATTR_REL).equals(Constants.ATTR_SELF))
+        }
+        for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
+            if (link.get(Constants.ATTR_REL).equals(Constants.ATTR_SELF)) {
                 returnValue = parseId(link);
+            }
+        }
 
         return returnValue;
     }
@@ -467,13 +484,14 @@ public class LiveAPIClient implements APIClient {
      */
     private void enrichSectionsWithSessionDetails(String token, List<GenericEntity> sections) {
 
-        List<GenericEntity> sessions = getSessions(token);
-        if (sessions != null && sections != null) {
+        List<GenericEntity> sessions = this.getSessions(token);
+        if ((sessions != null) && (sections != null)) {
 
             // Setup sessions lookup map
             Map<String, GenericEntity> sessionMap = new HashMap<String, GenericEntity>();
-            for (GenericEntity session : sessions)
+            for (GenericEntity session : sessions) {
                 sessionMap.put(session.getId(), session);
+            }
 
             // Enrich each section with session entity
             for (GenericEntity section : sections) {
@@ -496,8 +514,9 @@ public class LiveAPIClient implements APIClient {
     private List<GenericEntity> filterCurrentSections(List<GenericEntity> sections, boolean filterHistoricalData) {
         List<GenericEntity> filteredSections = sections;
 
-        if (filterHistoricalData)
+        if (filterHistoricalData) {
             filteredSections = new ArrayList<GenericEntity>();
+        }
 
         if (sections != null) {
 
@@ -517,15 +536,16 @@ public class LiveAPIClient implements APIClient {
             for (GenericEntity section : sections) {
 
                 // if no section name, fill in with section code
-                if (section.get(Constants.ATTR_SECTION_NAME) == null)
+                if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+                }
 
                 // Filter historical sections/sessions if necessary
                 if (filterHistoricalData) {
                     Map<String, Object> session = (Map<String, Object>) section.get(Constants.ATTR_SESSION);
 
                     // Verify section has been enriched with session details
-                    if (session != null)
+                    if (session != null) {
                         try {
                             // Setup session end date
                             String endDateAttribute = (String) session.get(Constants.ATTR_SESSION_END_DATE);
@@ -536,8 +556,9 @@ public class LiveAPIClient implements APIClient {
 
                             // Add filtered section if grace period adjusted date is before
                             // or equal to session end date
-                            if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0)
+                            if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
                                 filteredSections.add(section);
+                            }
 
                         } catch (IllegalArgumentException exception) {
                             LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
@@ -547,6 +568,7 @@ public class LiveAPIClient implements APIClient {
                     }
                 }
             }
+        }
 
         return filteredSections;
     }
@@ -576,21 +598,23 @@ public class LiveAPIClient implements APIClient {
         // a school, its course will also be associated.
         HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
 
-        if (sections != null)
+        if (sections != null) {
             for (int i = 0; i < sections.size(); i++) {
                 GenericEntity section = sections.get(i);
                 if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
                         && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
                     String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
                     String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                    if (!schoolIDToCourseIDMap.containsKey(schoolId))
+                    if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
                         schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
+                    }
                     schoolIDToCourseIDMap.get(schoolId).add(courseId);
                 }
             }
+        }
 
         // now create the generic entity
-        for (String schoolId : schoolIDToCourseIDMap.keySet())
+        for (String schoolId : schoolIDToCourseIDMap.keySet()) {
             for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
                 GenericEntity s = schoolMap.get(schoolId);
                 GenericEntity c = courseMap.get(courseId);
@@ -628,24 +652,27 @@ public class LiveAPIClient implements APIClient {
 
         StringBuilder courseIds = new StringBuilder();
         // iterate each section
-        if (sections != null)
+        if (sections != null) {
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
                 String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
                 // search course which doesn't exist already
                 if (!courseMap.containsKey(courseId)) {
                     if (!courseIdTracker.contains(courseId)) {
-                        if (courseIds.length() != 0)
+                        if (courseIds.length() != 0) {
                             courseIds.append(",");
+                        }
                         courseIds.append(courseId);
                         courseIdTracker.add(courseId);
                     }
-                    if (!sectionLookup.containsKey(courseId))
+                    if (!sectionLookup.containsKey(courseId)) {
                         sectionLookup.put(courseId, new HashSet<GenericEntity>());
+                    }
                     sectionLookup.get(courseId).add(section);
                 }
 
             }
+        }
 
         // get Entites by given courseIds
         if (courseIds.length() != 0) {

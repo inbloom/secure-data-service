@@ -77,7 +77,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-
+        
         if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -181,7 +181,7 @@ public class Login {
         writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
 
         httpSession.setAttribute(USER_SESSION_KEY, user);
-
+        
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         return mav;

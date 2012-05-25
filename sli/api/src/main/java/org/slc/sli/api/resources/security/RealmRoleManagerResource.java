@@ -107,6 +107,7 @@ public class RealmRoleManagerResource {
 
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
+        }
 
         EntityBody oldRealm = service.get(realmId);
 
