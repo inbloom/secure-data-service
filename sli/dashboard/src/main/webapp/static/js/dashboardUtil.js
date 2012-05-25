@@ -75,9 +75,23 @@ DashboardProxy = {
 		},
 		getWidgetConfig: function(widget) {
 			return this.widgetConfig[widget];
-		}
+		},
 		
-
+		// The function returns the page title for the browser
+		getPageTitle: function () {
+			var configObj = this.config,
+				key,
+				obj;
+			
+			for (key in configObj) {
+				obj = configObj[key];
+				if(obj.type && obj.type === "LAYOUT" && obj.name) {
+					return obj.name;
+				}
+			}
+			
+			return "SLI";
+		}
 };
 
 DashboardUtil.getContextRootPath = function() {
