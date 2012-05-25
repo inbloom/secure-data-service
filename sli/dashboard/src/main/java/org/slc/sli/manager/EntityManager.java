@@ -1,17 +1,18 @@
 package org.slc.sli.manager;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.client.SDKConstants;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -92,11 +93,11 @@ public class EntityManager extends ApiClientManager {
         }
         student = ContactSorter.sort(student);
         student = GenericEntityEnhancer.enhanceStudent(student);
-        GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
+        GenericEntity section = getApiClient().getSectionHomeForStudent(token, studentId);
 
         if (section != null) {
             student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-            GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
+            GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
 
             if (teacher != null) {
                 Map teacherName = (Map) teacher.get(Constants.ATTR_NAME);
@@ -106,7 +107,7 @@ public class EntityManager extends ApiClientManager {
             }
         }
 
-        List<GenericEntity> studentEnrollment = getApiClient().getStudentEnrollment(token, student);
+        List<GenericEntity> studentEnrollment = getApiClient().getEnrollmentForStudent(token, student.getId());
         student.put(Constants.ATTR_STUDENT_ENROLLMENT, studentEnrollment);
         return student;
     }
@@ -118,7 +119,12 @@ public class EntityManager extends ApiClientManager {
      * @return a list of attendance objects
      */
     public List<GenericEntity> getAttendance(final String token, final String studentId, final String start, final String end) {
-        return getApiClient().getStudentAttendance(token, studentId, start, end);
+        Map params = new HashMap();
+        if (start != null && start.length() > 0) {
+            params.put(SDKConstants.PARAM_EVENT_DATE + ">", "" + start);
+            params.put(SDKConstants.PARAM_EVENT_DATE + "<", "" + end);
+        }
+        return getApiClient().getAttendanceForStudent(token, studentId, params);
     }
 
     /**
@@ -129,22 +135,11 @@ public class EntityManager extends ApiClientManager {
      * @return
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        return getApiClient().getCourses(token, studentId, params);
-    }
-
-    /**
-     * Returns a list of student grade book entries for a given student and params
-     * @param token Security token
-     * @param studentId The student Id
-     * @param params param map
-     * @return
-     */
-    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
-        return getApiClient().getStudentSectionGradebookEntries(token, studentId, params);
+        return getApiClient().getCoursesForStudent(token, studentId, params);
     }
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
-        return getApiClient().getStudentsWithGradebookEntries(token, sectionId);
+        return getApiClient().getStudentsForSectionWithGradebookEntries(token, sectionId);
     }
 
     /**
@@ -168,7 +163,7 @@ public class EntityManager extends ApiClientManager {
      * @return
      */
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        return getApiClient().getStudents(token, sectionId, studentIds);
+        return getApiClient().getStudentsForSection(token, sectionId, studentIds);
     }
 
     /**
@@ -188,10 +183,16 @@ public class EntityManager extends ApiClientManager {
     }
 
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
-        return getApiClient().getSessionsByYear(token, schoolYear);  //To change body of created methods use File | Settings | File Templates.
+        return getApiClient().getSessionsForYear(token, schoolYear);  //To change body of created methods use File | Settings | File Templates.
     }
 
-    public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
-        return getApiClient().getAcademicRecord(token, params);
+    public GenericEntity getAcademicRecord(String token, String studentId, Map<String, String> params) {
+        List<GenericEntity> entities = getApiClient().getAcademicRecordsForStudent(token, studentId, params);
+
+        if (entities == null || entities.size() <= 0) {
+            return null;
+        } 
+
+        return entities.get(0);
     }
 }

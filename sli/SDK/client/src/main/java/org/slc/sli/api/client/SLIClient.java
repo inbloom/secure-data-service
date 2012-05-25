@@ -20,7 +20,6 @@ import org.slc.sli.common.util.Query;
  */
 public interface SLIClient {
 
-
     /**
      * Retrieve the login URL a consuming application needs to hit to locate the IDP
      * landing zone. The client application is responsible for redirecting the user
@@ -44,12 +43,13 @@ public interface SLIClient {
      * successful login attempts to the callbackURL and include an authorization code in the
      * response. This auth code is then passed to this call and verified. If the code is
      * invalid, an exception is thrown.
+     *
      * @param authorizationCode
      *
      * @param requestToken
      *            Oauth2 authorization code returned by the login URL.
-     * @return  String authorization token for the authenticated user, or null if
-     *            authentication fails.
+     * @return String authorization token for the authenticated user, or null if
+     *         authentication fails.
      * @throws OAuthException
      */
     public abstract String connect(final String authorizationCode) throws OAuthException;
@@ -63,6 +63,14 @@ public interface SLIClient {
     public abstract void setToken(String sessionToken);
 
     /**
+     * Get access token
+     *
+     * @return sessionToken
+     *         Session token
+     */
+    public abstract String getToken();
+
+    /**
      * Logout and invalidate the session.
      */
     public abstract void logout();
@@ -70,6 +78,8 @@ public interface SLIClient {
     /**
      * Create operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param e
      *            Entity to create
      * @return Response to the create request.
@@ -81,6 +91,8 @@ public interface SLIClient {
     /**
      * Create operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param resourceUrl
      *            The ReST resource url suffix
      * @param e
@@ -89,11 +101,14 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response create(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
+            throws MalformedURLException, URISyntaxException;
 
     /**
      * Read operation by ID.
      *
+     * @param sessionToken
+     *            Session token.
      * @param entities
      *            Entities returned by the API.
      * @param type
@@ -106,13 +121,14 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(EntityCollection entities, final String type, final String id,
-            final Query query)
-                    throws MalformedURLException, URISyntaxException;
+    public abstract Response read(EntityCollection entities, final String type, final String id, final Query query)
+            throws MalformedURLException, URISyntaxException;
 
     /**
      * Read operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param entities
      *            Entities returned by the API.
      * @param type
@@ -124,12 +140,13 @@ public interface SLIClient {
      * @throws URISyntaxException
      */
     public abstract Response read(EntityCollection entities, final String type, final Query query)
-            throws MalformedURLException,
-            URISyntaxException;
+            throws MalformedURLException, URISyntaxException;
 
     /**
      * Read operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param entities
      *            Entities returned by the API.
      * @param resourceUrl
@@ -140,13 +157,14 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(List entities, final String resourceUrl, Class entityClass)
-            throws MalformedURLException,
-            URISyntaxException;
+    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+            throws MalformedURLException, URISyntaxException;
 
     /**
      * Update operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param e
      *            Entity to update.
      * @return Response to the update request.
@@ -158,6 +176,8 @@ public interface SLIClient {
     /**
      * Update operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param resourceUrl
      *            The ReST resource url suffix
      * @param e
@@ -166,11 +186,14 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response update(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException;
+    public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
+            throws MalformedURLException, URISyntaxException;
 
     /**
      * Delete operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param e
      *            Entity to delete
      * @return Response to the delete request.
@@ -182,18 +205,23 @@ public interface SLIClient {
     /**
      * Delete operation
      *
+     * @param sessionToken
+     *            Session token.
      * @param resourceUrl
      *            The ReST resource url suffix
      * @return Response to the delete request.
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response delete(final String resourceUrl) throws MalformedURLException, URISyntaxException;
+    public abstract Response delete(final String sessionToken, final String resourceUrl) throws MalformedURLException,
+            URISyntaxException;
 
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
      *
+     * @param sessionToken
+     *            Session token.
      * @param entities
      *            Entities returned by the API in response to this request.
      * @param resourceURL
@@ -211,6 +239,8 @@ public interface SLIClient {
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
      *
+     * @param sessionToken
+     *            Session token.
      * @param entities
      *            Entities returned by the API in response to this request.
      * @param restURL
@@ -221,7 +251,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response getResource(List entities, final URL restURL, Class entityClass)
+    public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class entityClass)
             throws MalformedURLException, URISyntaxException;
 
 }

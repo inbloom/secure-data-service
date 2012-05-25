@@ -127,6 +127,7 @@ public final class Constants {
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
+    public static final String ATTR_STUDENT_ATTENDANCES_1 = "attendances.1";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
     public static final String ATTR_TEACHER_ID = "teacherId";
     public static final String ATTR_TEACHER_NAME = "teacherName";
@@ -145,6 +146,7 @@ public final class Constants {
     public static final String ATTR_DATE_FULFILLED = "dateFulfilled";
     public static final String ATTR_HOMEROOM_INDICATOR = "homeroomIndicator";
     public static final String ATTR_PERSONAL_TITLE_PREFIX = "personalTitlePrefix";
+    public static final String ATTR_GRADEBOOK = "gradebook";
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";

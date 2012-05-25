@@ -36,7 +36,7 @@ import org.slc.sli.common.util.URLBuilder;
  * @author asaarela
  * @author rbloh
  */
-public final class BasicClient implements SLIClient {
+public class BasicClient implements SLIClient {
 
     private RESTClient restClient;
     private Gson gson = null;
@@ -64,7 +64,6 @@ public final class BasicClient implements SLIClient {
         // TODO - implement this when logout becomes available.
     }
 
-
     /**
      * CRUD operations
      */
@@ -72,17 +71,18 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response create(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        return restClient.postRequest(url, gson.toJson(e.getData()));
+        return restClient.postRequest(this.getToken(), url, gson.toJson(e.getData()));
     }
 
     @Override
-    public Response create(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException {
-        return restClient.postRequest(new URL(restClient.getBaseURL() + resourceUrl), gson.toJson(e.getData()));
+    public Response create(final String sessionToken, final String resourceUrl, final Entity e)
+            throws MalformedURLException, URISyntaxException {
+        return restClient.postRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
+                gson.toJson(e.getData()));
     }
 
     @Override
-    public Response read(EntityCollection entities, final String type, final Query query)
-            throws MalformedURLException,
+    public Response read(EntityCollection entities, final String type, final Query query) throws MalformedURLException,
             URISyntaxException {
 
         return read(entities, type, null, query);
@@ -103,46 +103,48 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(List entities, final String resourceUrl, Class entityClass)
+    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
             throws MalformedURLException, URISyntaxException {
 
         entities.clear();
 
-        return getResource(entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
+        return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
     }
-
 
     @Override
     public Response update(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, gson.toJson(e.getData()));
+        return restClient.putRequest(this.getToken(), url, gson.toJson(e.getData()));
     }
 
     @Override
-    public Response update(final String resourceUrl, final Entity e) throws MalformedURLException, URISyntaxException {
-        return restClient.putRequest(new URL(restClient.getBaseURL() + resourceUrl), gson.toJson(e.getData()));
+    public Response update(final String sessionToken, final String resourceUrl, final Entity e)
+            throws MalformedURLException, URISyntaxException {
+        return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
+                gson.toJson(e.getData()));
     }
 
     @Override
     public Response delete(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.deleteRequest(url);
+        return restClient.deleteRequest(this.getToken(), url);
     }
 
     @Override
-    public Response delete(final String resourceUrl) throws MalformedURLException, URISyntaxException {
-        return restClient.deleteRequest(new URL(restClient.getBaseURL() + resourceUrl));
+    public Response delete(final String sessionToken, final String resourceUrl) throws MalformedURLException,
+            URISyntaxException {
+        return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
     @Override
-    public Response getResource(EntityCollection entities, URL resourceURL, Query query)
-            throws MalformedURLException, URISyntaxException {
+    public Response getResource(EntityCollection entities, URL resourceURL, Query query) throws MalformedURLException,
+            URISyntaxException {
         entities.clear();
 
         URLBuilder urlBuilder = URLBuilder.create(resourceURL.toString());
         urlBuilder.query(query);
 
-        Response response = restClient.getRequest(urlBuilder.build());
+        Response response = restClient.getRequest(this.getToken(), urlBuilder.build());
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
             try {
@@ -172,11 +174,11 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response getResource(List entities, URL restURL, Class entityClass)
+    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
             throws MalformedURLException, URISyntaxException {
         entities.clear();
 
-        Response response = restClient.getRequest(restURL);
+        Response response = restClient.getRequest(sessionToken, restURL);
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
 
             try {
@@ -230,5 +232,15 @@ public final class BasicClient implements SLIClient {
     @Override
     public void setToken(String sessionToken) {
         restClient.setSessionToken(sessionToken);
+    }
+
+    /**
+     * Get the sessionToken for all SLI API ReSTful service calls.
+     *
+     * @return sessionToken
+     */
+    @Override
+    public String getToken() {
+        return restClient.getSessionToken();
     }
 }

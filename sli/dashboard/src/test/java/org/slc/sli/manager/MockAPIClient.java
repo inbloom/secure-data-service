@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.client.APIClient;
+import org.slc.sli.client.SDKAPIClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -25,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * A mock API client. Reads json data from local files, instead of calling an API server.
  *
  */
-public class MockAPIClient implements APIClient {
+public class MockAPIClient extends SDKAPIClient implements APIClient {
 
     private static Logger log = LoggerFactory.getLogger(MockAPIClient.class);
 
@@ -51,13 +52,17 @@ public class MockAPIClient implements APIClient {
         return null;
     }
 
+    public String getId(String token) {
+        return null;
+    }
+    
     /**
      *
      * Mock API client does not support new Staff API call.
      *
      */
     @Override
-    public GenericEntity getStaffInfo(String token) {
+    public GenericEntity getStaffWithEducationOrganization(String token, String id, String organizationCategory) {
         return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + "common/staffInfo.json"), "IT Admin");
     }
 
@@ -86,12 +91,12 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+    public List<GenericEntity> getStudentsForSection(String token, String sectionId, List<String> studentIds) {
         return getStudents(token, studentIds);
     }
 
     @Override
-    public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
+    public List<GenericEntity> getStudentsForSectionWithGradebookEntries(final String token, final String sectionId) {
         return null;
     }
 
@@ -113,7 +118,7 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
+    public List<GenericEntity> getAssessmentsForStudent(final String token, String studentId) {
 
         // get all assessments in the file. this is very inefficient, since we're reading the whole
         // file each time, but only
@@ -136,7 +141,7 @@ public class MockAPIClient implements APIClient {
      * We aren't going to bother with this for now.
      */
     @Override
-    public List<GenericEntity> getStudentAttendance(String token, String studentId, String start, String end) {
+    public List<GenericEntity> getAttendanceForStudent(String token, String studentId, Map<String, String> params) {
         return new ArrayList<GenericEntity>();
     }
 
@@ -149,24 +154,24 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getSessions(String token) {
+    public List<GenericEntity> getSessions(String token, Map<String, String> params) {
         return new ArrayList<GenericEntity>();
     }
 
     @Override
-    public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
+    public List<GenericEntity> getSessionsForYear(String token, String schoolYear) {
         return new ArrayList<GenericEntity>();
     }
 
 
     @Override
-    public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
+    public List<GenericEntity> getAcademicRecordsForStudent(String token, String studentId, Map<String, String> params) {
         return null;
     }
 
 
     @Override
-    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
+    public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds, Map<String, String> params) {
 
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
     }
@@ -300,7 +305,7 @@ public class MockAPIClient implements APIClient {
      * with minimal data
      */
     @Override
-    public GenericEntity getHomeRoomForStudent(String studentId, String token) {
+    public GenericEntity getSectionHomeForStudent(String token, String studentId) {
         List<GenericEntity> hierarchy = getSchools(token, null);
 
         for (GenericEntity school : hierarchy) {
@@ -329,7 +334,7 @@ public class MockAPIClient implements APIClient {
      * Token is the username of logged in user, we use it to populate the name
      */
     @Override
-    public GenericEntity getTeacherForSection(String sectionId, String token) {
+    public GenericEntity getTeacherForSection(String token, String sectionId) {
         GenericEntity name = new GenericEntity();
         name.put(Constants.ATTR_FIRST_NAME, token);
         name.put(Constants.ATTR_LAST_SURNAME, "");
@@ -395,18 +400,18 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getCourses(String token, String studentId, Map<String, String> params) {
+    public List<GenericEntity> getCoursesForStudent(String token, String studentId, Map<String, String> params) {
         return null;
     }
 
     @Override
-    public List<GenericEntity> getStudentTranscriptAssociations(String token, String studentId,
+    public List<GenericEntity> getTranscriptsForStudent(String token, String studentId,
             Map<String, String> params) {
         return null;
     }
 
     @Override
-    public List<GenericEntity> getSections(String token, String studentId, Map<String, String> params) {
+    public List<GenericEntity> getSectionsForStudent(String token, String studentId, Map<String, String> params) {
         return null;
     }
 
@@ -416,13 +421,7 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
-    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
-            Map<String, String> params) {
-        return null;
-    }
-
-    @Override
-    public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student) {
+    public List<GenericEntity> getEnrollmentForStudent(final String token, String studentId) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -454,7 +453,6 @@ public class MockAPIClient implements APIClient {
      * @param sortBy
      * @return
      */
-    @Override
     public String sortBy(String url, String sortBy) {
         return url + "?sortBy=" + sortBy;
     };
@@ -467,8 +465,8 @@ public class MockAPIClient implements APIClient {
      *          "descending" or "ascending"
      * @return
      */
-    @Override
     public String sortBy(String url, String sortBy, String sortOrder) {
         return url + "?sortBy=" + sortBy + "&sortOrder=" + sortOrder;
     };
+
 }

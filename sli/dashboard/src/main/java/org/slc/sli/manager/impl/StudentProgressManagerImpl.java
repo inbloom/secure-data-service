@@ -130,7 +130,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         params.put(Constants.ATTR_SESSION_ID, sessionId);
         params.put(Constants.ATTR_STUDENT_ID, studentId);
 
-        GenericEntity academicRecord = entityManager.getAcademicRecord(token, params);
+        GenericEntity academicRecord = entityManager.getAcademicRecord(token, studentId, params);
 
         String gpa = "";
         if (academicRecord != null) {

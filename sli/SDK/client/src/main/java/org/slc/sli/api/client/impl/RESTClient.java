@@ -26,6 +26,8 @@ import org.scribe.oauth.OAuthService;
 
 import org.slc.sli.api.client.security.SliApi;
 import org.slc.sli.common.constants.v1.PathConstants;
+
+
 /**
  * Generic REST client. Provides the ability to connect to a ReSTful web service and make
  * requests.
@@ -131,7 +133,7 @@ public class RESTClient {
 
         URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
 
-        Response response = getRequest(url);
+        Response response = getRequest(token, url);
 
         String jsonText = response.readEntity(String.class);
         logger.info("jsonText = " + jsonText);
@@ -152,21 +154,26 @@ public class RESTClient {
     /**
      * Make a synchronous GET request to a REST service.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            full URL to the request.
      * @return ClientResponse containing the status code and return values.
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public Response getRequest(final URL url) throws MalformedURLException, URISyntaxException {
+    public Response getRequest(final String sessionToken, final URL url) throws MalformedURLException,
+            URISyntaxException {
 
-        return getRequestWithHeaders(url, null);
+        return getRequestWithHeaders(sessionToken, url, null);
     }
 
     /**
      * Make a synchronous GET request to a REST service. The request includes additional header
      * information.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *
      * @param URL
@@ -176,7 +183,8 @@ public class RESTClient {
      * @return ClientResponse containing the status code and return value(s).
      * @throws URISyntaxException
      */
-    public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers) throws URISyntaxException {
+    public Response getRequestWithHeaders(final String sessionToken, final URL url, final Map<String, Object> headers)
+            throws URISyntaxException {
 
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
@@ -184,7 +192,7 @@ public class RESTClient {
         }
 
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
-        builder = getCommonRequestBuilder(builder, headers);
+        builder = getCommonRequestBuilder(builder, headers, sessionToken);
 
         Invocation i = builder.buildGet();
         return i.invoke();
@@ -193,6 +201,8 @@ public class RESTClient {
     /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @param json
@@ -201,15 +211,18 @@ public class RESTClient {
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public Response postRequest(final URL url, final String json) throws URISyntaxException, MalformedURLException {
+    public Response postRequest(final String sessionToken, final URL url, final String json) throws URISyntaxException,
+            MalformedURLException {
 
-        return postRequestWithHeaders(url, json, null);
+        return postRequestWithHeaders(sessionToken, url, json, null);
     }
 
     /**
      * Synchronously post a new entity to the REST service. This request includes additional header
      * information.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @param json
@@ -221,8 +234,8 @@ public class RESTClient {
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public Response postRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
-            throws URISyntaxException, MalformedURLException {
+    public Response postRequestWithHeaders(final String sessionToken, final URL url, final String json,
+            final Map<String, Object> headers) throws URISyntaxException, MalformedURLException {
 
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
@@ -230,7 +243,7 @@ public class RESTClient {
         }
 
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
-        builder = getCommonRequestBuilder(builder, headers);
+        builder = getCommonRequestBuilder(builder, headers, sessionToken);
 
         Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
         return i.invoke();
@@ -239,6 +252,8 @@ public class RESTClient {
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @param json
@@ -247,14 +262,17 @@ public class RESTClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public Response putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
-        return putRequestWithHeaders(url, json, null);
+    public Response putRequest(final String sessionToken, final URL url, final String json)
+            throws MalformedURLException, URISyntaxException {
+        return putRequestWithHeaders(sessionToken, url, json, null);
     }
 
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      * This request includes additional header information.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @param json
@@ -266,8 +284,8 @@ public class RESTClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public Response putRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
-            throws MalformedURLException, URISyntaxException {
+    public Response putRequestWithHeaders(final String sessionToken, final URL url, final String json,
+            final Map<String, Object> headers) throws MalformedURLException, URISyntaxException {
 
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
@@ -275,7 +293,7 @@ public class RESTClient {
         }
 
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
-        builder = getCommonRequestBuilder(builder, headers);
+        builder = getCommonRequestBuilder(builder, headers, sessionToken);
 
         Invocation i = builder.buildPut(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
         return i.invoke();
@@ -284,14 +302,17 @@ public class RESTClient {
     /**
      * Synchronously delete an existing entity using the REST service.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @return ClientResponse containing the status code and return value(s).
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public Response deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
-        return deleteRequestWithHeaders(url, null);
+    public Response deleteRequest(final String sessionToken, final URL url) throws MalformedURLException,
+            URISyntaxException {
+        return deleteRequestWithHeaders(sessionToken, url, null);
     }
 
     /**
@@ -299,6 +320,8 @@ public class RESTClient {
      * additional header
      * information.
      *
+     * @param sessionToken
+     *            Session token.
      * @param url
      *            Fully qualified URL to the ReSTful resource.
      * @param headers
@@ -308,7 +331,7 @@ public class RESTClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
+    public Response deleteRequestWithHeaders(final String sessionToken, final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException {
 
         if (sessionToken == null) {
@@ -317,7 +340,7 @@ public class RESTClient {
         }
 
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
-        builder = getCommonRequestBuilder(builder, headers);
+        builder = getCommonRequestBuilder(builder, headers, sessionToken);
 
         Invocation i = builder.buildDelete();
         return i.invoke();
@@ -342,12 +365,22 @@ public class RESTClient {
     }
 
     /**
+     * Get the sessionToken for all SLI API ReSTful service calls.
+     *
+     * @return sessionToken
+     */
+    public String getSessionToken() {
+        return this.sessionToken;
+    }
+
+    /**
      * Get a ClientRequest.Builder with common properties already set.
      *
      * @param headers
      * @return
      */
-    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers) {
+    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers,
+            String sessionToken) {
 
         if (headers == null) {
             headers = new HashMap<String, Object>();

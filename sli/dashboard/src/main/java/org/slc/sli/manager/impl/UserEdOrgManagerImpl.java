@@ -64,7 +64,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // ed org
         if (!isEducator()) {
 
-            GenericEntity staff = getApiClient().getStaffInfo(token);
+            String id = getApiClient().getId(token);
+            GenericEntity staff = getApiClient().getStaffWithEducationOrganization(token, id, Constants.STATE_EDUCATION_AGENCY);
             if (staff != null) {
                 
                 GenericEntity staffEdOrg = (GenericEntity) staff.get(Constants.ATTR_ED_ORG);
@@ -307,7 +308,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @Override
     @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
-        GenericEntity staffEntity = getApiClient().getStaffInfo(token);
+        String id = getApiClient().getId(token);
+        GenericEntity staffEntity = getApiClient().getStaffWithEducationOrganization(token, id, null);
         if (staffEntity == null) {
             staffEntity = new GenericEntity();
         }

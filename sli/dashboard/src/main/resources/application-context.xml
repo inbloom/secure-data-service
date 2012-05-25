@@ -52,13 +52,6 @@
 	    <property name="securityUrl" value="${security.server.url}" />	
     </bean>
 
-    <!-- API Clients -->
-    <bean id= "liveAPIClient" class="org.slc.sli.client.LiveAPIClient">
-        <property name="restClient" ref="restClient" />
-        <property name="apiUrl" value="${api.server.url}" />
-        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-    </bean>
-
     <bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
         <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
         <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
@@ -85,9 +78,7 @@
 
     <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
-        <property name="apiUrl" value="${api.server.url}" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-        <property name="liveApiClient" ref="liveAPIClient" />
     </bean>
 
     <alias alias="apiClientRef" name="${api.client}"/>
