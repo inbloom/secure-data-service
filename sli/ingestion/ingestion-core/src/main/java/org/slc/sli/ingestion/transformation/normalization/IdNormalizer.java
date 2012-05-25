@@ -257,14 +257,10 @@ public class IdNormalizer {
             proxyErrorReport.error(errorMessage, this);
         }
         
-        if (proxyErrorReport.hasErrors()) {
+        if (proxyErrorReport.hasErrors() || queryOrList.size() == 0) {
             return null;
         }
-        
-        if (queryOrList.size() == 0) {
-            return null;
-        }
-        
+                
         // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
