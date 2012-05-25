@@ -4,6 +4,7 @@ import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -144,15 +145,11 @@ public final class XmiReader {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
-                    if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader))
-                    {
+                    if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
                         taggedValues.addAll(readTaggedValueGroup(reader));
-                    }
-                    else if (match(XmiElementName.ASSOCIATION_DOT_CONNECTION, reader))
-                    {
+                    } else if (match(XmiElementName.ASSOCIATION_DOT_CONNECTION, reader)) {
                         connection = assertNotNull(readAssociationConnection(reader));
-                    }
-                    else {
+                    } else {
                         skipElement(reader);
                     }
                     break;
@@ -681,6 +678,15 @@ public final class XmiReader {
             }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static final Model readModel(final File file) throws FileNotFoundException {
+        final InputStream istream = new BufferedInputStream(new FileInputStream(file));
+        try {
+            return readModel(istream);
+        } finally {
+            closeQuiet(istream);
         }
     }
 

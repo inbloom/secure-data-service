@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;

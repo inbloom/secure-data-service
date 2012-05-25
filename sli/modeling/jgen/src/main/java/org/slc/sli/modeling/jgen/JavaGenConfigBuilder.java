@@ -1,4 +1,5 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
+
 
 /**
  * Builder pattern for a {@link JavaGenConfig}
