@@ -58,6 +58,7 @@ public class SDKAPIClient implements APIClient {
      * 
      * @return
      */
+    @Override
     public SLIClient getSdkClient() {
         return sdkClient;
     }
@@ -76,6 +77,7 @@ public class SDKAPIClient implements APIClient {
      * 
      * @return
      */
+    @Override
     public String getGracePeriod() {
         return this.gracePeriod;
     }
@@ -124,6 +126,7 @@ public class SDKAPIClient implements APIClient {
      * @param token
      * @return
      */
+    @Override
     public GenericEntity getHome(String token) {
         return this.readEntity(token, SDKConstants.HOME_ENTITY);
     }
@@ -187,6 +190,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getEducationalOrganizations(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -203,6 +207,7 @@ public class SDKAPIClient implements APIClient {
      * @param staffId
      * @return
      */
+    @Override
     public List<GenericEntity> getEducationOrganizationsForStaff(String token, String staffId) {
         if ((staffId == null) || (staffId.length() <= 0)) {
             return Collections.emptyList();
@@ -219,6 +224,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getEducationalOrganization(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -236,6 +242,7 @@ public class SDKAPIClient implements APIClient {
      * @param organizationCategory
      * @return
      */
+    @Override
     public GenericEntity getEducationOrganizationForStaff(String token, String staffId, String organizationCategory) {
         if ((staffId == null) || (staffId.length() <= 0)) {
             return null;
@@ -332,6 +339,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSchools(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -348,6 +356,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getSchool(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -376,6 +385,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSessions(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -422,6 +432,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSections(String token, Map<String, String> params) {
         return this.readEntityList(token, SDKConstants.SECTIONS_ENTITY + "?" + this.buildQueryString(params));
     }
@@ -434,6 +445,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSections(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -450,6 +462,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSectionsForNonEducator(String token, Map<String, String> params) {
         List<GenericEntity> sections = this.getSections(token, params);
         
@@ -470,6 +483,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getSectionsForTeacher(String teacherId, String token, Map<String, String> params) {
         if ((teacherId == null) || (teacherId.length() <= 0)) {
             return Collections.emptyList();
@@ -519,6 +533,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getSection(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -568,6 +583,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getCourses(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -621,6 +637,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getCourse(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -637,6 +654,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getStaff(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -653,6 +671,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getStaff(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -694,6 +713,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getTeachers(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -710,6 +730,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getTeacher(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
@@ -755,6 +776,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getStudents(String token, Map<String, String> params) {
         return this.readEntityList(token, SDKConstants.STUDENTS_ENTITY + "?" + this.buildQueryString(params));
     }
@@ -767,6 +789,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getStudents(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -954,6 +977,7 @@ public class SDKAPIClient implements APIClient {
      * @param params
      * @return
      */
+    @Override
     public List<GenericEntity> getAssessments(String token, List<String> ids, Map<String, String> params) {
         if ((ids == null) || (ids.size() <= 0)) {
             return Collections.emptyList();
@@ -988,6 +1012,7 @@ public class SDKAPIClient implements APIClient {
      * @param id
      * @return
      */
+    @Override
     public GenericEntity getAssessment(String token, String id) {
         if ((id == null) || (id.length() <= 0)) {
             return null;
