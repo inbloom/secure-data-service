@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -114,13 +113,13 @@ public class BasicService implements EntityService {
         }
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         
-        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {
-          //super list
-        } else if (!ids.isEmpty()) {
-            ids.retainAll(new HashSet<String>(allowed)); //retain only those IDs that area allowed
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
-        } else {
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+        if (allowed.size() >= 0 && this.readRight != Right.ANONYMOUS_ACCESS) {
+            if (ids.isEmpty()) {
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            } else {
+                ids.retainAll(new HashSet<String>(allowed)); //retain only those IDs that area allowed
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
+            }
         }
 
         return repo.count(this.collectionName, localNeutralQuery);
