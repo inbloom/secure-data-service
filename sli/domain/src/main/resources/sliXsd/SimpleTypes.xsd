@@ -2767,7 +2767,7 @@
 			<xs:enumeration value="Doctoral degree" />
 			<xs:enumeration value="Met state testing requirement" />
 			<xs:enumeration value="Special/alternative program completion" />
-			<xs:enumeration value=" Relevant experience" />
+			<xs:enumeration value="Relevant experience" />
 			<xs:enumeration
 				value="Credentials based on reciprocation with another state" />
 		</xs:restriction>

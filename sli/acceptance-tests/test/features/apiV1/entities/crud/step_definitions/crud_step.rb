@@ -267,7 +267,7 @@ $entityData = {
   },
   "reportCard" => {
       "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-      "studentCompetencyId" => "b57643e4-9acf-11e1-89a7-68a86d21d918",
+      "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
       "gpaGivenGradingPeriod" => 3.14,
       "gpaCumulative" => 2.9,
       "numberOfDaysAbsent" => 15,

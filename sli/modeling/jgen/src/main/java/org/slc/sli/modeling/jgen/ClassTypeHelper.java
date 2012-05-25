@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.jgen;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -24,7 +24,11 @@ public class ClassTypeHelper {
             try {
                 writeClassType(packageName, importNames, classType, model, outstream, config);
             } finally {
-                CloseableHelper.closeQuiet(outstream);
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (final FileNotFoundException e) {
             e.printStackTrace();

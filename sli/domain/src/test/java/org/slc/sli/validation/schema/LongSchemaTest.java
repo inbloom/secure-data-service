@@ -48,4 +48,19 @@ public class LongSchemaTest {
         assertFalse(schema.validate(19));
     }
     
+    @Test
+    public void testConvert() throws Exception {
+        long value = 10L;
+        Object convertedValue = this.schema.convert("" + value);
+        assertTrue(convertedValue instanceof Long);
+        Long convertedInput = (Long) convertedValue;
+        assertTrue(convertedInput.longValue() == value);
+    }
+    
+    @Test
+    public void testBadConvert() {
+        Object convertedValue = this.schema.convert("INVALID INPUT");
+        assertFalse(convertedValue instanceof Long);
+    }
+    
 }
