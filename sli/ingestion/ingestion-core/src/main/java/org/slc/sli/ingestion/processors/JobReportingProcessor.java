@@ -84,7 +84,7 @@ public class JobReportingProcessor implements Processor {
             writeBatchJobReportFile(job, hasErrors);
 
         } catch (Exception e) {
-            LOG.error("Exception encountered in JobReportingProcessor. ", e);
+            LOG.error("Exception encountered in JobReportingProcessor. ");
         } finally {
             deleteNeutralRecordFiles(job);
 

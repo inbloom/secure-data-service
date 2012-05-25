@@ -1,45 +1,45 @@
 
 <CourseOfferingIdentity>
     <#if (CourseOffering.LocalCourseCode[0])??>
-        <LocalCourseCourseCode>${CourseOffering.LocalCourseCode}</LocalCourseCourseCode>
+        <LocalCourseCode>${CourseOffering.LocalCourseCode}</LocalCourseCode>
     </#if>
 
-    <#if (CourseOffering.CourseCode[0])??>
+    <#list CourseOffering.CourseReference.CourseIdentity.CourseCode as courseCode>
         <CourseCode
-            <#if (CourseOffering.CourseCode.@IdentificationSystem[0])??>
-                IdentificationSystem="${CourseOffering.CourseCode.@IdentificationSystem}"
+            <#if (courseCode.@IdentificationSystem[0])??>
+                IdentificationSystem="${courseCode.@IdentificationSystem}"
             </#if>
-            <#if (CourseOffering.CourseCode.@AssigningOrganizationCode[0])??>
-                AssigningOrganizationCode="${CourseOffering.CourseCode.@AssigningOrganizationCode[0]}"
+            <#if (coureseCode.@AssigningOrganizationCode[0])??>
+                AssigningOrganizationCode="${courseCode.@AssigningOrganizationCode[0]}"
             </#if>
             >
-            <#if (CourseOffering.CourseCode.ID[0])??>
-                <ID>${CourseOffering.CourseCode.ID}</ID>
+            <#if (courseCode.ID[0])??>
+                <ID>${courseCode.ID}</ID>
             </#if>
         </CourseCode>
+    </#list>
+
+    <#if (CourseOffering.SessionReference.SessionIdentity.Term[0])??>
+        <Term>${CourseOffering.SessionReference.SessionIdentity.Term}</Term>
     </#if>
 
-    <#if (CourseOffering.Term[0])??>
-        <Term>${CourseOffering.Term}</Term>
+    <#if (CourseOffering.SessionReference.SessionIdentity.SchoolYear[0])??>
+        <SchoolYear>${CourseOffering.SessionReference.SessionIdentity.SchoolYear}</SchoolYear>
     </#if>
 
-    <#if (CourseOffering.SchoolYear[0])??>
-        <SchoolYear>${CourseOffering.SchoolYear}</SchoolYear>
+    <#if (CourseOffering.SchoolReference.EducationalOrgIdentity.StateOrganizationId[0])?? >
+    <StateOrganizationId>${CourseOffering.SchoolReference.EducationalOrgIdentity.StateOrganizationId}</StateOrganizationId>
     </#if>
 
-    <#if (CourseOffering.StateOrganizationId[0])?? >
-    <StateOrganizationId>${CourseOffering.StateOrganizationId}</StateOrganizationId>
-    </#if>
-
-    <#if (CourseOffering.CourseOfferingIdentificationCode[0])?? >
-    <CourseOfferingIdentificationCode
-        <#if (CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem[0])??>
-        IdentificationSystem="${CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem}"
+    <#list CourseOffering.SchoolReference.EducationalOrgIdentity.EducationOrgIdentificationCode as edorgID >
+    <EducationOrgIdentificationCode
+        <#if (edorgID.@IdentificationSystem[0])??>
+        IdentificationSystem="${edorgID.@IdentificationSystem}"
         </#if>
         >
-        <#if (CourseOffering.CourseOfferingIdentificationCode.ID[0])??>
-        <ID>${CourseOffering.CourseOfferingIdentificationCode.ID}</ID>
+        <#if (edorgID.ID[0])??>
+        <ID>${edorgID.ID}</ID>
         </#if>
-    </CourseOfferingIdentificationCode>
-    </#if>
+    </EducationOrgIdentificationCode>
+    </#list>
 </CourseOfferingIdentity>
