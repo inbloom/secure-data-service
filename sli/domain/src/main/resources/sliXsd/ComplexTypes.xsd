@@ -5709,7 +5709,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriodType">
+			<xs:element name="gradingPeriod" type="gradingPeriodIdentityType">
 				<xs:annotation>
 					<xs:documentation>
 						The name of the period for which grades are
@@ -5768,6 +5768,37 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+  <xs:complexType name="gradingPeriodIdentityType">
+    <xs:annotation>
+      <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="gradingPeriod" type="gradingPeriodType">
+        <xs:annotation>
+          <xs:documentation>The name of the period for which grades are reported</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="schoolYear" type="schoolYearType">
+        <xs:annotation>
+          <xs:documentation>The identifier for the school year.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="stateOrganizationId" type="identificationCode">
+          <xs:annotation>
+            <xs:documentation>The identifier assigned to an education agency by the State Education Agency (SEA).  Also known as the State LEA ID.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="educationOrgIdentificationCode" type="educationOrgIdentificationCode" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
 
 	<xs:complexType name="graduationPlan">
 		<xs:annotation>
