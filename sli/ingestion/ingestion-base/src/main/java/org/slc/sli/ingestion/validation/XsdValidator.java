@@ -62,12 +62,11 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
         } catch (SAXException e) {
-            LOG.error("SAXException", e.getLocalizedMessage());
+            LOG.error("SAXException");
         } catch (RuntimeException e) {
             LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
-            LOG.error(e.getMessage());
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error("Exception", e);
         }
 
         return false;
