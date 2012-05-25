@@ -11,7 +11,8 @@ Scenario: Student Name Contains Special Character "<" and ">"
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"

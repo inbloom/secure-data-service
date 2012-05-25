@@ -12,7 +12,7 @@ Scenario: Displaying simple StateTest reading and writing results for all studen
     When I navigate to the Dashboard home page
     When I select "Illinois Sunset School District 4526" and click go
     And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials  "linda.kim" "linda.kim1234" for the "Simple" login page
+    When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
     When I select <edOrg> "Daybreak School District 4529"
       And I select <school> "East Daybreak Junior High"
       And I select <course> "8th Grade English"

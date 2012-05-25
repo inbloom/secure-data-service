@@ -1,6 +1,6 @@
 Feature: Dashboard User Login Authentication
 
-As a SEA/LEA user, I want to use the SLI IDP Login to authenticate 
+As a SEA/LEA user, I want to use the SLI IDP Login to authenticate
 on SLI, so I could use the Dashboard application.
 
 Background:
@@ -11,25 +11,27 @@ Given the server is in "live" mode
 Scenario: Valid user login
 
 #hitting static URL
-When I access "/static/html/test.html" 
+When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 When I select "Illinois Daybreak School District 4529" and click go
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"
 And I am informed that "the page that you were looking for could not be found"
 
-@integration 
+@integration
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
 And was redirected to the Realm page
 When I select "New York Realm" and click go
 And was redirected to the SLI-IDP login page
-When I login as "InvalidJohnDoe" "demo1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Authentication failed"
 
 @integration
@@ -45,7 +47,8 @@ Then I should be redirected to the Dashboard landing page
 Scenario: Login with District Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "jstevenson" "jstevenson1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
@@ -132,12 +135,13 @@ And the search results include:
   |Student          |Grade    |School                     |
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
-  
+
  @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "rrogers" "rrogers1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -177,7 +181,8 @@ And Student Enrollment History has the following entries:
 Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "sbantu" "sbantu1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -214,12 +219,13 @@ Then "1" results are returned in the page
 And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
-  
+
  @integration @RALLY_US200
  Scenario: Login with District level Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "jjackson" "jjackson1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jjackson" "jjackson1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -232,7 +238,8 @@ Then I don't see a course selection
 Scenario: Login with State Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "mjohnson" "mjohnson1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "mjohnson" "mjohnson1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -249,7 +256,8 @@ Then I don't see a course selection
 Scenario: Login with State Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "ckoch" "ckoch1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "ckoch" "ckoch1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -290,7 +298,8 @@ And the class is "A.P. Calculus Sec 201"
 Scenario: Login with School Level Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "mgonzales" "mgonzales1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -310,7 +319,8 @@ Then I see a list of 25 students
 Scenario: Login with School Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "akopel" "akopel1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -333,7 +343,8 @@ And the lozenges count is "0"
 Scenario: Login with School Level aggr viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
-When I login as "msmith" "msmith1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "msmith" "msmith1234" for the "Simple" login page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -345,7 +356,7 @@ Then I don't see a course selection
 @wip @integration
 Scenario: user in IDP but not in mongo
 #TODO there is a bug in the code right now, enable after bug fix
-When I access "/static/html/test.html" 
+When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
