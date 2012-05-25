@@ -3,12 +3,6 @@ package org.slc.sli.ingestion.routes;
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
@@ -31,6 +25,11 @@ import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion route builder.
@@ -391,7 +390,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 "quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval="
                         + tenantPollingRepeatInterval).setBody()
                 .simple("TenantPollingTimer fired: ${header.firedTime}")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
                 .process(tenantProcessor);
     }
 }
