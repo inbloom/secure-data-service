@@ -102,17 +102,6 @@ public class SchoolResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS)
-    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, headers, uriInfo);
-    }
-    
-    /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SESSIONS)
     public Response getSessionsForSchool(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SESSIONS, "schoolId", schoolId, headers, uriInfo);
