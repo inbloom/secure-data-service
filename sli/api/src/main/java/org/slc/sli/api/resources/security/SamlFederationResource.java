@@ -230,8 +230,9 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
-
+        if (principal.getRoles() != null) {
+            principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+        }
 
         if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
