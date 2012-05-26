@@ -1,10 +1,11 @@
-package org.slc.sli.modeling.tools.uml2Doc.cmdline;
+package org.slc.sli.modeling.docgen;
 
 import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
 import static org.slc.sli.modeling.xml.XmlTools.collapseWhitespace;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -173,6 +174,9 @@ public final class DocumentationReader {
      * @return The parsed {@link Model}.
      */
     public static final Documentation<Type> readDocumentation(final InputStream stream, final ModelIndex mapper) {
+        if (stream == null) {
+            throw new NullPointerException("stream");
+        }
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
@@ -187,8 +191,24 @@ public final class DocumentationReader {
         }
     }
 
+    public static final Documentation<Type> readDocumentation(final File file, final ModelIndex mapper)
+            throws FileNotFoundException {
+        if (file == null) {
+            throw new NullPointerException("file");
+        }
+        final InputStream istream = new BufferedInputStream(new FileInputStream(file));
+        try {
+            return readDocumentation(istream, mapper);
+        } finally {
+            closeQuiet(istream);
+        }
+    }
+
     public static final Documentation<Type> readDocumentation(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
+        if (fileName == null) {
+            throw new NullPointerException("fileName");
+        }
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
             return readDocumentation(istream, mapper);
@@ -323,6 +343,7 @@ public final class DocumentationReader {
                         title = assertNotNull(readTitle(reader));
                     } else if (match(DocumentationElements.CLASS, reader)) {
                         final String className = readClassName(DocumentationElements.CLASS, reader);
+                        @SuppressWarnings("deprecation")
                         final Set<ModelElement> elements = mapper.lookupByName(new QName(className));
                         type = assertNotNull(resolveClass(elements, className));
                     } else {

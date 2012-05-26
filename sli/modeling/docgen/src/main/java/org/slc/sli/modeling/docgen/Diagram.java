@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.uml2Doc.cmdline;
+package org.slc.sli.modeling.docgen;
 
 public final class Diagram {
     private final String title;
