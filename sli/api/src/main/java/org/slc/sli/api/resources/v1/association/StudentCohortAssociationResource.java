@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Represents the association between a $$Student$$ and a $$Cohort$$.
- * 
+ *
  * For more information, see the schema for $$StudentCohortAssociation$$ resources.
  * 
  * @author kmyers
@@ -35,15 +35,15 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
-    
+
     public static final String BEGIN_DATE = "beginDate";
-    
+
     @Autowired
     public StudentCohortAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_COHORT_ASSOCIATIONS);
         debug("New resource handler created: {}", this);
     }
-    
+
     /**
      * Returns the requested collection of resource representations.
      */
@@ -55,7 +55,7 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
-    
+
     /**
      * Creates a new resource using the given resource data.
      */
@@ -64,7 +64,7 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns the specified resource representation(s).
      */
@@ -76,7 +76,7 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(studentCohortAssociationId, headers, uriInfo);
     }
-    
+
     /**
      * Deletes the specified resource.
      */
@@ -88,7 +88,7 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(studentCohortAssociationId, headers, uriInfo);
     }
-    
+
     /**
      * Updates the specified resource using the given resource data.
      */
@@ -100,10 +100,9 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(studentCohortAssociationId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
@@ -112,13 +111,12 @@ public class StudentCohortAssociationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId,
-                ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
+       return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "_id", studentCohortAssociationId,
+               ParameterConstants.STUDENT_ID, ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)

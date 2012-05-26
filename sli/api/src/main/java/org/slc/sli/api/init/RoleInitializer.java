@@ -17,10 +17,10 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
- *
+ * 
  * IMPORTANT: If you add new SLI Administrative roles, make sure you set the admin flag to true.
  * Failure to do so can introduce a large security hole.
- *
+ * 
  * @author rlatta
  */
 @Component
@@ -134,7 +134,7 @@ public class RoleInitializer {
 
     private Role buildIngestionUser() {
         info("Building Ingestion User default role.");
-        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).build();
+        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
 
     private Role buildRealmAdmin() {

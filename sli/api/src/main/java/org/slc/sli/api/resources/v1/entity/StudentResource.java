@@ -35,21 +35,21 @@ import org.springframework.stereotype.Component;
  * or program. A student is a person who has been enrolled in a
  * school or other educational institution. For more information, see the schema for the $$Student$$
  * resources.
- * 
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
 public class StudentResource extends DefaultCrudResource {
-    
+
     public static final String UNIQUE_STATE_ID = "studentUniqueStateId";
     public static final String NAME = "name";
     public static final String SEX = "sex";
     public static final String BIRTH_DATA = "birthData";
     public static final String HISPANIC_LATINO_ETHNICITY = "hispanicLatinoEthnicity";
-    
+
     /*
      * Constants for readWithGrade
      */
@@ -57,12 +57,12 @@ public class StudentResource extends DefaultCrudResource {
     private static final String ENTRY_DATE = "entryDate";
     private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
     private static final String GRADE_LEVEL = "gradeLevel";
-    
+
     @Autowired
     public StudentResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENTS);
     }
-    
+
     @Override
     protected List<String> getOptionalFields(UriInfo info) {
         List<String> origFields = super.getOptionalFields(info);
@@ -70,7 +70,7 @@ public class StudentResource extends DefaultCrudResource {
         optionalFields.add("gradeLevel");
         return optionalFields;
     }
-    
+
     /**
      * Returns the student with their grade information.
      */
@@ -91,7 +91,7 @@ public class StudentResource extends DefaultCrudResource {
         }
         return response;
     }
-    
+
     /**
      * Get a single $$Student$$ entity, with the grade included
      * Calculates the current grade based on entryDate and exitWithdrawDate in
@@ -104,55 +104,55 @@ public class StudentResource extends DefaultCrudResource {
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_WITH_GRADE)
     public Response readWithGrade(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+
         // Retrieve student entity for student with id = studentId
         Response studentResponse = read(studentId, headers, uriInfo);
         EntityResponse studentEntityResponse = (EntityResponse) studentResponse.getEntity();
-        
+
         if (studentEntityResponse == null || !(studentEntityResponse.getEntity() instanceof Map)) {
             return studentResponse;
         }
-        
+
         Map<String, String> student = (Map<String, String>) studentEntityResponse.getEntity();
         addGradeLevelToStudent(student, studentId, headers, uriInfo);
         return studentResponse;
-        
+
     }
-    
+
     private void addGradeLevelToStudent(Map<String, String> student, String studentId, HttpHeaders headers,
             UriInfo uriInfo) {
         // Most recent grade level, not available till found
         String mostRecentGradeLevel = "Not Available";
         String mostRecentSchool = "";
-        
+
         // Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
-        
+
         EntityResponse studentSchoolAssociationEntityResponse = null;
         if (EntityResponse.class.isInstance(studentSchoolAssociationsResponse.getEntity())) {
             studentSchoolAssociationEntityResponse = (EntityResponse) studentSchoolAssociationsResponse.getEntity();
         }
-        
+
         if (studentSchoolAssociationEntityResponse == null
                 || !(studentSchoolAssociationEntityResponse.getEntity() instanceof List)) {
             student.put(GRADE_LEVEL, mostRecentGradeLevel);
             return;
         }
-        
+
         List<Map<?, ?>> studentSchoolAssociationList = (List<Map<?, ?>>) studentSchoolAssociationEntityResponse
                 .getEntity();
-        
+
         // Variable initialization for date functions
         Date currentDate = new Date();
         Date mostRecentEntry = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         // Try catch to stifle unexpected exceptions, and log them.
         // Returns "Not Available" for gradeLevel, when an exception is caught.
         try {
             // Loop through studentSchoolAssociations
             for (Map<?, ?> studentSchoolAssociation : studentSchoolAssociationList) {
-                
+
                 // If student has an exitWithdrawDate earlier than today, continue searching for
                 // current grade
                 if (studentSchoolAssociation.containsKey(EXIT_WITHDRAW_DATE)) {
@@ -161,12 +161,12 @@ public class StudentResource extends DefaultCrudResource {
                         continue;
                     }
                 }
-                
+
                 // If student has no exitWithdrawDate, check for the latest entryDate
                 // Mark the entryGradeLevel with the most recent entryDate as the current grade
                 if (studentSchoolAssociation.containsKey(ENTRY_DATE)) {
                     Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(ENTRY_DATE));
-                    
+
                     if (mostRecentEntry == null) {
                         mostRecentEntry = ssaDate;
                         mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
@@ -186,14 +186,13 @@ public class StudentResource extends DefaultCrudResource {
             debug(exceptionMessage);
             mostRecentGradeLevel = "Not Available";
         }
-        
+
         student.put(GRADE_LEVEL, mostRecentGradeLevel);
         student.put("schoolId", mostRecentSchool);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
@@ -201,10 +200,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS + "/"
@@ -215,10 +213,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "studentId", studentId, "sectionId",
                 ResourceNames.SECTIONS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -226,10 +223,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/"
@@ -240,10 +236,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "studentId", studentId, "schoolId",
                 ResourceNames.SCHOOLS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
@@ -251,10 +246,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
@@ -265,10 +259,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "studentId", studentId, "assessmentId",
                 ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.ATTENDANCES)
@@ -276,10 +269,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.ATTENDANCES, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS)
@@ -287,10 +279,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS + "/"
@@ -301,10 +292,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "studentId", studentId, "courseId",
                 ResourceNames.COURSES, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
@@ -312,10 +302,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/"
@@ -326,10 +315,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "studentId", studentId, "parentId",
                 ResourceNames.PARENTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
@@ -339,10 +327,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId, headers,
                 uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS
@@ -353,10 +340,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "studentId", studentId,
                 "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
@@ -365,10 +351,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId, headers,
                 uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/"
@@ -379,10 +364,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentId,
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
@@ -390,10 +374,9 @@ public class StudentResource extends DefaultCrudResource {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/"
@@ -404,10 +387,9 @@ public class StudentResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "studentId", studentId, "programId",
                 ResourceNames.PROGRAMS, headers, uriInfo);
     }
-    
+
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.REPORT_CARDS)

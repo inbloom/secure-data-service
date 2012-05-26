@@ -25,7 +25,9 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 
 /**
- * Represents the association between a $$Staff$$ member a $$Cohort$$.
+ * Represents the association between a $$Staff$$ member and a $$Cohort$$.
+ *
+ * For more information, see the schema for $$StaffCohortAssociation$$ resources.
  *
  * For more information, see the schema for $$StaffCohortAssociation$$ resources.
  *

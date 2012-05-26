@@ -110,8 +110,9 @@ module ApprovalEngine
 
     if user[:status] == STATE_APPROVED
       # TODO: Below should not be hardcoded and should be configurable by admin.
+      # TODO: check that user[:emailAddress] is valid-ish email (regex?)
       email = {
-        :email_addr => user[:email],
+        :email_addr => user[:emailAddress],
         :name       => "#{user[:first]} #{user[:last]}"
       }
       if @@is_sandbox
@@ -185,7 +186,8 @@ module ApprovalEngine
 	#     :last => "Doe",
 	#     :email => "jdoe@example.com",
 	#     :password => "secret",
-	#     :vendor => "Acme Inc."
+	#     :vendor => "Acme Inc.",
+	#     :emailAddress => "jdoe@example.com"
 	# }
 	# 	#
 	def ApprovalEngine.add_disabled_user(user_info)

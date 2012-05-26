@@ -12,7 +12,30 @@ import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 
 public interface Uml2XsdPlugin {
-    QName getElementName(final PsmDocument<Type> classType);
+    /**
+     * Returns the W3C XML Schema name for the UML class, in the plural form.
+     */
+    QName getPluralTopLevelElementName(final PsmDocument<Type> classType);
+
+    /**
+     * Returns the W3C XML Schema name for the UML class, in the singular form.
+     */
+    QName getSingularTopLevelElementName(final PsmDocument<Type> classType);
+
+    /**
+     * Writes the top-level element appropriate for the schema usage.
+     *
+     * @param classType
+     *            The complex type of a single resource.
+     * @param model
+     *            The UML model index.
+     * @param xsw
+     *            The writer callback.
+     *
+     *            FIXME: The platform-specific aspects should come from the plug-in implementation.
+     *            This means that the interface should only know about the UML model and elements.
+     */
+    void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model, final Uml2XsdPluginWriter xsw);
 
     /**
      * Returns the name of an element to be used in the schema based upon the logical model name.

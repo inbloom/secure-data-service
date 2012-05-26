@@ -627,7 +627,7 @@ public class LiveAPIClient implements APIClient {
                 @Override
                 public int compare(Map<String, Object> a, Map<String, Object> b) {
                     return ((String) a.get(Constants.ATTR_COURSE_TITLE)).compareTo((String) b.get(Constants.ATTR_COURSE_TITLE));
-                }
+        }
             });
         }
 
@@ -1043,6 +1043,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+//            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return createEntityFromAPI(url.toString(), token);
@@ -1123,6 +1126,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+//            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         // get the entities
@@ -1155,6 +1161,9 @@ public class LiveAPIClient implements APIClient {
         if (!params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
+//            url.append("&limit=" + Constants.MAX_RESULTS);
+        } else {
+//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return url.toString();

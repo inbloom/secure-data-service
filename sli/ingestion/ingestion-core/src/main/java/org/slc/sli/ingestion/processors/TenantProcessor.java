@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
 import org.slc.sli.ingestion.tenant.TenantDA;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Processor for tenant collection polling
@@ -59,7 +60,7 @@ public class TenantProcessor implements Processor {
 
         } catch (Exception e) {
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_FAILURE);
-            LOG.error("Exception encountered adding tenant", e);
+            LogUtil.error(LOG, "Exception encountered adding tenant", e);
         }
     }
 

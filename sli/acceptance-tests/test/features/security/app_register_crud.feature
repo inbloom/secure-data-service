@@ -96,6 +96,7 @@ Scenario: Bootstrapping of apps
 	And the "SLC Data Browser" bootstrap app should exist
 
 
+
 @sandbox @wip @RALLY_DE387
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"

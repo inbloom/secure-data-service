@@ -13,21 +13,21 @@ import org.springframework.stereotype.Component;
 /**
  * Represents a teacher’s assignment, homework, or classroom assessment to be recorded in a
  * gradebook.
- * 
+ *
  * For more information, see the schema for $$GradebookEntry$$ resources.
  * 
  * @author kmyers
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
 public class GradebookEntryResource extends DefaultCrudResource {
-    
+
     @Autowired
-    public GradebookEntryResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.GRADEBOOK_ENTRIES);
+        public GradebookEntryResource(EntityDefinitionStore entityDefs) {
+            super(entityDefs, ResourceNames.GRADEBOOK_ENTRIES);
         debug("Initialized a new {}", GradebookEntryResource.class);
     }
-    
+
 }

@@ -2,13 +2,14 @@ package org.slc.sli.api.security.context;
 
 import java.util.Collection;
 
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
-import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
  * Stores context based permission resolvers.
@@ -16,8 +17,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ContextResolverStore implements ApplicationContextAware {
-    
-    private static final DenyAllContextResolver DENY_ALL_CONTEXT_RESOLVER = new DenyAllContextResolver();
+
+    @Autowired
+    private DenyAllContextResolver denyAllContextResolver;
     
     private Collection<EntityContextResolver> resolvers;
     
@@ -46,9 +48,7 @@ public class ContextResolverStore implements ApplicationContextAware {
         }
         
         if (found == null) {
-            // TODO enable
-            // found = denyAllContextResolver;
-            found = new AllowAllEntityContextResolver();
+            found = denyAllContextResolver;
             warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
         
