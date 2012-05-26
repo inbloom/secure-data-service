@@ -91,7 +91,7 @@ public class LogUtilTest {
         Assert.assertTrue(fileContents.contains("Caused by: java.lang.Exception: class java.lang.RuntimeException"));
         Assert.assertTrue(fileContents
                 .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:67) ~[test-classes/:na]"));
-        Assert.assertTrue(fileContents.contains("... 28 common frames omitted"));
+
         Assert.assertTrue(fileContents.contains("Caused by: java.lang.Exception: class java.rmi.RemoteException"));
         Assert.assertTrue(fileContents
                 .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:64) ~[test-classes/:na]"));
