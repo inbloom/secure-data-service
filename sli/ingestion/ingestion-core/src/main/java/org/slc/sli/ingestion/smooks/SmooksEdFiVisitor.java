@@ -31,7 +31,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
 
     /** Constant to write a log message every N records. */
-    private static final int LOG_INTERVAL = 1000;
+    private static final int LOG_INTERVAL = 100000;
 
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
