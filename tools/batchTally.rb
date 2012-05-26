@@ -97,6 +97,10 @@ puts "Total time spent (on all nodes): #{sum/1000} sec"
 puts "Transformed and Persist RPS (transformed per total time)  #{(transformed / wallClock )}"
 puts "Mongo calls (ALL): #{mongoCalls} took #{mongoTime/1000} secs"
 puts "Mongo calls (MAESTRO): #{maestroMongoCalls} took #{maestroMongoTime/1000} secs"
+puts "Job started: #{jobStart.getlocal}"
+if ! jobEnd.nil? 
+puts "Job ended: #{jobEnd.getlocal}"
+end 
 if  !jobTime.nil?  
 	puts "Job time #{jobTime} sec"
 	puts "Job RPS #{transformed / jobTime}" 
