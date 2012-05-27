@@ -7,6 +7,7 @@ Given I have an open web browser
 And I have a SMTP/Email server configured
 
 
+@sandbox
 Scenario: Developer is on-boarded in a sandbox enviornment
 Given I go to the sandbox account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
