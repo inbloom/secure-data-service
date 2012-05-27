@@ -29,8 +29,6 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
  *
  * For more information, see the schema for $$StaffCohortAssociation$$ resources.
  *
- * For more information, see the schema for $$StaffCohortAssociation$$ resources.
- *
  * @author kmyers
  * @author srichards
  *

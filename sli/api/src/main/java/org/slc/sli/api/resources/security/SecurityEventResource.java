@@ -143,16 +143,14 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
 //
 //    @DELETE
 //    @Path("{" + UUID + "}")
-    // public Response deleteSecurityEvent(@PathParam(UUID) String uuid, @Context HttpHeaders
-    // headers,
+//    public Response deleteSecurityEvent(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
 //            @Context final UriInfo uriInfo) {
 //        return Response.status(Status.FORBIDDEN).build();
 //    }
 //
 //    @PUT
 //    @Path("{" + UUID + "}")
-    // public Response updateSecurityEventn(@PathParam(UUID) String uuid, EntityBody app, @Context
-    // HttpHeaders headers,
+//    public Response updateSecurityEventn(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
 //            @Context final UriInfo uriInfo) {
 //        return Response.status(Status.FORBIDDEN).build();
 //    }

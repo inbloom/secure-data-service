@@ -13,7 +13,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "sections"                                   if human_readable_id == "SECTION URI"
   id = "sectionAssessmentAssociations"              if human_readable_id == "SECTION ASSESSMENT ASSOC URI"
   id = "studentSectionAssociations"                 if human_readable_id == "STUDENT SECTION ASSOC URI"
-  id = "studentAssessments"			                if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
+  id = "studentAssessments"			                    if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   
   #sections

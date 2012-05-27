@@ -266,22 +266,26 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
-  id = "test1234"                                                     if human_readable_id == "USER_PASS"
   id = "devldapuser@slidev.org"                                       if human_readable_id =="STATE_SUPER_ADMIN_USER"
   id = "test1234"                                                     if human_readable_id =="STATE_SUPER_ADMIN_PASS"
   id = "State Edorg"                                                  if human_readable_id =="STATE_ED_ORG"
-  id = "Loraine"                                                      if human_readable_id == "USER_FIRSTNAME"
-  id = "Plyler"                                                       if human_readable_id == "USER_LASTNAME"
+  id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
+  id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
   id = "Application Developer"                                        if human_readable_id == "APPLICATION_DEVELOPER"
   id = "Dashboard"                                                    if human_readable_id == "DASHBOARD_APP"
   id = "Admin Tool"                                                   if human_readable_id == "ADMIN_APP"
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
   id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
+  id = "mreynolds"                                                    if human_readable_id == "DISTRICT_ADMIN_USER"
+  id = "mreynolds1234"                                                if human_readable_id == "DISTRICT_ADMIN_PASS"
   #need to figure out what tenantId is for real user provision instead of sunsetadmin
   id = "devldapuser@slidev.org"                                   if human_readable_id == "Tenant_ID"
   #need to figure out what landing zone path is for real user provision instead of sunsetadmin
   id = "devldapuser@slidev.org"                                if human_readable_id == "Landing_zone_directory"
+  
+  id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
+  id = "mreynolds/StateEdorg"                                            if human_readable_id == "Prod_Landing_zone_directory"
   
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
@@ -315,6 +319,7 @@ Given /^I go to the sandbox account registration page$/ do
   url=@admin_url+"/user_account_registrations/new"
   @prod = false 
   initializeApprovalAndLDAP(@email_conf, @prod)
+  clear_users()
   @driver.get url
 end 
 
@@ -463,6 +468,7 @@ Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenan
   landingZones=tenant["body"]["landingZone"]
   found=false
   landingZones.each do |landingZone|
+    puts landingZone['path']
   if landingZone["path"].include?(landing_zone_path)
   found=true
   end
@@ -505,6 +511,7 @@ Given /^I go to the production account registration page$/ do
   url="#{@admin_url}/registration"
   @prod = true 
   initializeApprovalAndLDAP(@email_conf, @prod)
+  clear_users()
   @driver.get url
 end
 
@@ -529,10 +536,13 @@ end
 When /^the state super admin accesses the "([^"]*)"$/ do |link|
    @admin_url = PropLoader.getProps['admintools_server_url']
    url=@admin_url+"/"+link
+   @prod = true 
+   initializeApprovalAndLDAP(@email_conf, @prod)
    @driver.get url
 end
 
 Then /^the state super admin authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
+  @email = user
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
 
@@ -615,4 +625,8 @@ end
 def clear_tenant
    tenant_coll=@db["tenant"]
    tenant_coll.remove()
+end
+
+def clear_users
+  @ldap.delete_user('devldapuser@slidev.org')    
 end
