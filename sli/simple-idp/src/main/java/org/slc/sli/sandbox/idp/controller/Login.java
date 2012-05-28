@@ -63,7 +63,7 @@ public class Login {
     }
 
     void setSliAdminRealmName(String name) {
-        this.sliAdminRealmName = name;
+        sliAdminRealmName = name;
     }
 
     /**
@@ -198,6 +198,8 @@ public class Login {
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
+            event.setLogLevel(LogLevelType.TYPE_TRACE);
+            event.setLogMessage("Runtime exception: " + e.getLocalizedMessage() + " " + edOrg + " by " + userId + ".");
         }
 
         if (request != null) {

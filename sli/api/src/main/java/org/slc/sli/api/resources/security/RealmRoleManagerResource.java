@@ -26,7 +26,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -45,8 +44,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -64,8 +61,6 @@ public class RealmRoleManagerResource {
     private static final String UNKNOWN_SLI_REALM_NAME = "UnknownSLIRealmName";
     private static final String UNKNOWN_SLI_ROLE_NAME  = "UnknownSLIRoleName";
 
-    private static final Logger LOG = LoggerFactory.getLogger(RealmRoleManagerResource.class);
-    
     @Autowired
     private EntityDefinitionStore store;
 
@@ -175,10 +170,10 @@ public class RealmRoleManagerResource {
             Response validateResponse = validateMappings(mappings);
             Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
-                LOG.debug("On Realm create, role mappings aren't valid");
+                debug("On Realm create, role mappings aren't valid");
                 return validateResponse;
             } else if (validateUniqueness != null) {
-                LOG.debug("On realm create, uniqueId is not unique");
+                debug("On realm create, uniqueId is not unique");
                 return validateUniqueness;
             }
         }
@@ -219,7 +214,6 @@ public class RealmRoleManagerResource {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(100);
-
 
         List<EntityBody> result = new ArrayList<EntityBody>();
         Iterable<String> realmList = service.listIds(neutralQuery);
@@ -305,6 +299,7 @@ public class RealmRoleManagerResource {
 
     }
 
+    @SuppressWarnings("unchecked")
     private void logChanges(UriInfo uriInfo, EntityBody oldRealm, EntityBody newRealm) {
         Map<String, Object> oldMappings = null, newMappings = null;
         String oldRealmName = null, newRealmName = null;
@@ -341,6 +336,7 @@ public class RealmRoleManagerResource {
         logSecurityEvent(uriInfo, deletedMappings, false);
     }
 
+    @SuppressWarnings("unchecked")
     private Set<Pair<String, String>> getMappings(String realmName, List<Map<String, Object>> sliToClientRoles) {
         Set<Pair<String, String>> oldRoleMapList = new HashSet<Pair<String, String>>();
         if (realmName == null) {
@@ -364,7 +360,6 @@ public class RealmRoleManagerResource {
         }
         return oldRoleMapList;
     }
-
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> roleMapList, boolean added) {
         String [] addedDeleted = new String[] {"Added", "Deleted"};

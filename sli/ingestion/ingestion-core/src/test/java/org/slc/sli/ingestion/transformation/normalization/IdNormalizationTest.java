@@ -59,20 +59,25 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
-        Mockito.when(repoNull.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(null);
+        Mockito.when(
+                repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(
+                repoNull.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(null);
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
-
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
+                new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
         idNorm.setEntityRepository(repoNull);
 
         //Testing findByQuery returns null
-        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
+                new DummyErrorReport(), "");
 
         Assert.assertEquals(null, internalId);
     }
@@ -115,7 +120,9 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(
+                repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(Arrays.asList(expectedRecord));
 
         idNorm.setEntityRepository(repo);
 
@@ -173,12 +180,14 @@ public class IdNormalizationTest {
         records.add(secondRecord);
         records.add(thirdRecord);
 
-
-        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(records);
+        Mockito.when(
+                repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(records);
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
+                new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
     }
@@ -210,8 +219,6 @@ public class IdNormalizationTest {
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
 
-
-
         IdNormalizer idNorm = new IdNormalizer();
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
@@ -224,19 +231,25 @@ public class IdNormalizationTest {
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
 
-        Mockito.when(repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(expectedRecord));
+        Mockito.when(
+                repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(Arrays.asList(expectedRecord));
 
         Entity secondRecord = Mockito.mock(Entity.class);
         Mockito.when(secondRecord.getEntityId()).thenReturn("456");
-        Mockito.when(repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(Arrays.asList(secondRecord));
+        Mockito.when(
+                repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(Arrays.asList(secondRecord));
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
+                new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
-        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath", new DummyErrorReport(), "");
+        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath",
+                new DummyErrorReport(), "");
 
         Assert.assertEquals("456", secinternalId);
     }
@@ -290,7 +303,9 @@ public class IdNormalizationTest {
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         //mock the repo query note this doesn't test whether the query was constructed correctly
-        Mockito.when(repo.findByQuery(Mockito.eq(collectionName), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0))).thenReturn(expectedEntityList);
+        Mockito.when(
+                repo.findByQuery(Mockito.eq(collectionName), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(expectedEntityList);
 
         idNorm.setEntityRepository(repo);
 
