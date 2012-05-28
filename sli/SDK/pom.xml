@@ -7,8 +7,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
+  <groupId>org.slc.sli.client</groupId>
   <artifactId>SDK</artifactId>
   <packaging>pom</packaging>
+  <name>SDK</name>
   <description>Shared Learning Infrastructure SDK</description>
 
   <modules>

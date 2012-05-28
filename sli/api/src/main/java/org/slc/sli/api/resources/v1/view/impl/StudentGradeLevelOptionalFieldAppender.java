@@ -4,22 +4,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
-import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+
 /**
  * Adds current grade level and current school data to the student
- * 
  * @author dwu
- * 
+ *
  */
 @Component
 public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppender {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentGradeLevelOptionalFieldAppender.class);
     
     private static final String ENTRY_GRADE_LEVEL = "entryGradeLevel";
     private static final String ENTRY_DATE = "entryDate";
@@ -29,29 +33,29 @@ public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppe
     
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
-    
+
     public StudentGradeLevelOptionalFieldAppender() {
     }
-    
+
     @Override
     public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
-        
-        // get the student Ids
+
+        //get the student Ids
         List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
-        
-        // Retrieve studentSchoolAssociations
-        List<EntityBody> studentSchoolAssociationList = optionalFieldAppenderHelper.queryEntities(
-                ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, ParameterConstants.STUDENT_ID, studentIds);
+
+        //Retrieve studentSchoolAssociations
+        List<EntityBody> studentSchoolAssociationList = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
+                ParameterConstants.STUDENT_ID, studentIds);
         
         if (studentSchoolAssociationList == null) {
             return entities;
         }
         
-        // Variable initialization for date functions
+        //Variable initialization for date functions
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        // Loop through students
+        //Loop through students
         for (EntityBody student : entities) {
             
             // Most recent grade level, not available till found
@@ -59,32 +63,31 @@ public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppe
             String mostRecentSchool = "";
             Date mostRecentEntry = null;
             
-            // Try catch to stifle unexpected exceptions, and log them.
-            // Returns "Not Available" for gradeLevel, when an exception is caught.
+            //Try catch to stifle unexpected exceptions, and log them.
+            //Returns "Not Available" for gradeLevel, when an exception is caught.
             try {
-                
-                // Loop through studentSchoolAssociations
+                           
+                //Loop through studentSchoolAssociations
                 for (EntityBody studentSchoolAssociation : studentSchoolAssociationList) {
                     
-                    // If studentSchoolAssociation is not for this student, do nothing
+                    //If studentSchoolAssociation is not for this student, do nothing
                     if (!studentSchoolAssociation.get(ParameterConstants.STUDENT_ID).equals(student.get("id"))) {
                         continue;
                     }
                     
-                    // If student has an exitWithdrawDate earlier than today, continue searching for
-                    // current grade
+                    // If student has an exitWithdrawDate earlier than today, continue searching for current grade
                     if (studentSchoolAssociation.containsKey(EXIT_WITHDRAW_DATE)) {
                         Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(EXIT_WITHDRAW_DATE));
                         if (ssaDate.compareTo(currentDate) <= 0) {
                             continue;
                         }
                     }
-                    
-                    // If student has no exitWithdrawDate, check for the latest entryDate
+
+                    //If student has no exitWithdrawDate, check for the latest entryDate
                     // Mark the entryGradeLevel with the most recent entryDate as the current grade
                     if (studentSchoolAssociation.containsKey(ENTRY_DATE)) {
                         Date ssaDate = sdf.parse((String) studentSchoolAssociation.get(ENTRY_DATE));
-                        
+
                         if (mostRecentEntry == null) {
                             mostRecentEntry = ssaDate;
                             mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
@@ -98,18 +101,17 @@ public class StudentGradeLevelOptionalFieldAppender implements OptionalFieldAppe
                         }
                     }
                 }
-                
+
             } catch (Exception e) {
-                String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  "
-                        + student.get("id") + " Exception: " + e.getMessage();
-                debug(exceptionMessage);
+                String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  " + student.get("id") + " Exception: " + e.getMessage();
+                LOGGER.debug(exceptionMessage);
                 mostRecentGradeLevel = "Not Available";
             }
             
             student.put(GRADE_LEVEL, mostRecentGradeLevel);
             student.put(SCHOOL_ID, mostRecentSchool);
         }
-        
+     
         return entities;
     }
 }

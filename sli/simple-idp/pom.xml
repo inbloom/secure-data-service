@@ -27,6 +27,7 @@
     <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>common-encrypt</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- SLI - Domain -->

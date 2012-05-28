@@ -3,86 +3,88 @@ package org.slc.sli.api.client.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.util.Query;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.util.Query;
 
 /**
- * 
+ *
  * Simple class used to define a set of query parameters.
- * 
+ *
  * @author asaarela
  */
 public class BasicQuery implements Query {
-    
+
     /** Represents an empty query with no query parameters */
     public static final Query EMPTY_QUERY = Builder.create().build();
-    
+
     /** Represents a query with no query parameters that includes custom entities */
     public static final Query CUSTOM_ENTITY_QUERY = Builder.create().fullEntities().customEntities().build();
-    
+
+
     /** Represents a simple query that requests a response containing full entities. */
     public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
-    
+
     private Map<String, Object> params;
-    
+
     /**
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
     public static class Builder {
         private final Map<String, Object> params = new HashMap<String, Object>();
-        
+
         /**
          * Instantiate a new builder
-         * 
+         *
          * @return Builder instance.
          */
         public static Builder create() {
             return new Builder();
         }
-        
+
+
         /**
          * Indicate the results should be returned in ascending order.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder sortAscending() {
             params.put(ParameterConstants.SORT_ORDER, ParameterConstants.SORT_ASCENDING);
             return this;
         }
-        
+
         /**
          * Indicate the results should be returned in descending order.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder sortDescending() {
             params.put(ParameterConstants.SORT_ORDER, ParameterConstants.SORT_DESCENDING);
             return this;
         }
-        
+
         /**
          * Filter results where fieldName is equal to value.
-         * 
+         *
          * @param fieldName
          *            Field to filter on.
          * @param value
          *            The value to look for.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder filterEqual(final String fieldName, final String value) {
             params.put(fieldName, value);
             return this;
         }
-        
+
         /**
          * Apply pagination to the request results.
-         * 
+         *
          * @param startIndex
          *            Start of the result window.
          * @param maxResults
          *            Maximum number of results to return.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder paginate(final int startIndex, final int maxResults) {
@@ -90,20 +92,20 @@ public class BasicQuery implements Query {
             params.put(ParameterConstants.LIMIT, maxResults);
             return this;
         }
-        
+
         /**
          * Include custom entities in the query response. Defaults to 'false'.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder customEntities() {
             params.put(ParameterConstants.INCLUDE_CUSTOM, true);
             return this;
         }
-        
+
         /**
          * Construct a new BasicQuery instance.
-         * 
+         *
          * @return BasicQuery representing the values set on this builder.
          */
         public Query build() {
@@ -111,40 +113,40 @@ public class BasicQuery implements Query {
             rval.params = params;
             return rval;
         }
-        
+
         /**
          * @param sortField
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder sortBy(String sortField) {
             params.put(ParameterConstants.SORT_BY, sortField);
             return this;
         }
-        
+
         /**
          * @param startIndex
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder startIndex(int startIndex) {
             params.put(ParameterConstants.OFFSET, startIndex);
             return this;
         }
-        
+
         /**
          * Return full entities, not just links.
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder fullEntities() {
             params.put(ParameterConstants.INCLUDE_FIELDS, true);
             return this;
         }
-        
+
         /**
          * @param maxResults
-         * 
+         *
          * @return Updated Builder instance.
          */
         public Builder maxResults(int maxResults) {
@@ -152,7 +154,7 @@ public class BasicQuery implements Query {
             return this;
         }
     }
-    
+
     @Override
     public Map<String, Object> getParameters() {
         return params;

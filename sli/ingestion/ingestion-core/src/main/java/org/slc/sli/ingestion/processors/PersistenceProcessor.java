@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -177,9 +178,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
-                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1")
-                        + "\tEntity\t" + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t"
-                        + (String) neutralRecord.getLocalId() + "\n";
+                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1") + "\tEntity\t"
+                        + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
+                        + "\n";
 
                 if (transformedCollections.contains(neutralRecord.getRecordType())) {
 
@@ -235,8 +236,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
 
-                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity
-                                .getType());
+                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity.getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
                         if (errorReportForNrEntity.hasErrors()) {

@@ -77,9 +77,14 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
 
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  if ENV['DEBUG_MONGO']
+    devnull = ''
+  else
+    devnull = " > /dev/null 2>&1"
+  end
+  system '#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\" #{devnull}'
 
-  sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+  system '#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName} ${devnull}' do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
@@ -451,9 +456,9 @@ end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
-sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-  end
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+end
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
@@ -658,6 +663,7 @@ sli_idp_server_url     This property selects which running IDP should be used as
 sea_idp_server_url     This property selects which running IDP should be used as a mock State IDP (default http://devopenam1.slidev.com:8080/idp1)
 lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console
+DEBUG_MONGO            This property tells the test code to display mongo output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos

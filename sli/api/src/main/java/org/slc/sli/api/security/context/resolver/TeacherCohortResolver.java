@@ -2,7 +2,7 @@ package org.slc.sli.api.security.context.resolver;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 /**
  * Resolves which cohorts a given teacher is allowed to see
  *

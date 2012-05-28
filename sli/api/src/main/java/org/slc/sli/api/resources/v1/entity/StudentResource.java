@@ -16,15 +16,18 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityResponse;
-import org.slc.sli.api.resources.v1.DefaultCrudResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * This entity represents an individual for whom
@@ -49,6 +52,11 @@ public class StudentResource extends DefaultCrudResource {
     public static final String SEX = "sex";
     public static final String BIRTH_DATA = "birthData";
     public static final String HISPANIC_LATINO_ETHNICITY = "hispanicLatinoEthnicity";
+
+    /**
+     * Logging utility.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentResource.class);
 
     /*
      * Constants for readWithGrade
@@ -109,7 +117,7 @@ public class StudentResource extends DefaultCrudResource {
         Response studentResponse = read(studentId, headers, uriInfo);
         EntityResponse studentEntityResponse = (EntityResponse) studentResponse.getEntity();
 
-        if (studentEntityResponse == null || !(studentEntityResponse.getEntity() instanceof Map)) {
+        if ((studentEntityResponse == null) || !(studentEntityResponse.getEntity() instanceof Map)) {
             return studentResponse;
         }
 
@@ -133,7 +141,7 @@ public class StudentResource extends DefaultCrudResource {
             studentSchoolAssociationEntityResponse = (EntityResponse) studentSchoolAssociationsResponse.getEntity();
         }
 
-        if (studentSchoolAssociationEntityResponse == null
+        if ((studentSchoolAssociationEntityResponse == null)
                 || !(studentSchoolAssociationEntityResponse.getEntity() instanceof List)) {
             student.put(GRADE_LEVEL, mostRecentGradeLevel);
             return;
@@ -183,7 +191,7 @@ public class StudentResource extends DefaultCrudResource {
         } catch (Exception e) {
             String exceptionMessage = "Exception while retrieving current gradeLevel for student with id:  "
                     + studentId + " Exception: " + e.getMessage();
-            debug(exceptionMessage);
+            LOGGER.debug(exceptionMessage);
             mostRecentGradeLevel = "Not Available";
         }
 

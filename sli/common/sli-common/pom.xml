@@ -37,11 +37,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>client-api</artifactId>
-		</dependency>
 
 
 		<!-- AOP -->

@@ -53,12 +53,8 @@ public class SchemaValidator {
         for (File file : new File(xmlDir).listFiles()) {
             if (file.isFile()) {
                 String fname = file.getName();
-                String baseName = "";
-                for (String key : schemaMap.keySet()) {
-                    if (fname.contains(key) && fname.contains("xml")) {
-                        baseName = key;
-                    }
-                }
+                String baseName = fname.replace("Interchange", "").replace("-", "").replace("_", "")
+                        .replace(".xml", "");
                 if (schemaMap.get(baseName) != null) {
                     String schemaFile = schemaMap.get(baseName);
 

@@ -24,7 +24,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
@@ -33,6 +32,7 @@ import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource
 import org.slc.sli.api.resources.v1.association.StudentSchoolAssociationResource;
 import org.slc.sli.api.resources.v1.association.TeacherSchoolAssociationResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * JUnit for school resources

@@ -20,8 +20,12 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -33,17 +37,16 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.service.AssociationService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.service.query.SortOrder;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Jersey resource for all entities and associations.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 @Path("{type}")
 @Component
@@ -51,7 +54,7 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
         Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
 public class Resource {
-    
+
     private static final String TOTAL_COUNT_HEADER = "TotalCount";
     private static final String LINK_HEADER = "Link";
     private static final String MAX_RESULTS_PARAM = "limit";
@@ -65,9 +68,10 @@ public class Resource {
     public static final String SLC_JSON_MEDIA_TYPE = "application/vnd.slc+json";
     public static final String SLC_LONG_XML_MEDIA_TYPE = "application/vnd.slc.full+xml";
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     private final EntityDefinitionStore entityDefs;
-    
+
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception
@@ -76,17 +80,17 @@ public class Resource {
     private static interface ResourceLogic {
         Response run(EntityDefinition entityDef);
     }
-    
+
     @Autowired
     Resource(EntityDefinitionStore entityDefs) {
         this.entityDefs = entityDefs;
     }
-    
+
     /* REST methods */
-    
+
     /**
      * Reads all entities from a specific location or collection.
-     * 
+     *
      * @param collectionName
      *            where the entity should be located
      * @param headers
@@ -106,22 +110,22 @@ public class Resource {
             public Response run(final EntityDefinition entityDef) {
                 // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                
+
                 // loop for each entity returned by performing a list operation
                 for (EntityBody entityBody : entityDef.getService().list(new NeutralQuery())) {
-                    entityBody.put(ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(
+                            entityDefs, entityDef, entityBody, uriInfo));
                     results.add(entityBody);
                 }
-                
+
                 return Response.ok(results).build();
             }
         });
     }
-    
+
     /**
      * Create a new entity or association.
-     * 
+     *
      * @param typePath
      *            resourceUri for the entity
      * @param newEntityBody
@@ -144,12 +148,12 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Get a single entity or association unless the URI represents an association and the id
      * represents a
      * source entity for that association.
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -176,9 +180,9 @@ public class Resource {
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
-        return getEntityResponse(typePath, id, sortBy, sortOrder, skip, max, fullEntities, uriInfo);
+        return this.getEntityResponse(typePath, id, sortBy, sortOrder, skip, max, fullEntities, uriInfo);
     }
-    
+
     public Response getEntityResponse(final String typePath, final String id, final String sortBy,
             final SortOrder sortOrder, final int skip, final int max, final boolean fullEntities, final UriInfo uriInfo) {
         return handle(typePath, new ResourceLogic() {
@@ -196,14 +200,15 @@ public class Resource {
                             }
                         }
                     }
-                    
+
+
                     if (max != 0) {
                         neutralQuery.setLimit(max);
                     }
                     if (skip != 0) {
                         neutralQuery.setOffset(skip);
                     }
-                    
+
                     EntityBody entityBody = entityDef.getService().get(id, neutralQuery);
                     entityBody.put(ResourceConstants.LINKS, getLinks(uriInfo, entityDef, id, entityBody));
                     return Response.ok(entityBody).build();
@@ -214,10 +219,10 @@ public class Resource {
                 }
                 return Response.status(Status.NOT_FOUND).build();
             }
-            
+
         });
     }
-    
+
     @GET
     @Path("{id}/{associationName}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
@@ -238,12 +243,12 @@ public class Resource {
             }
         });
     }
-    
+
     private void setValues(NeutralQuery neutralQuery, String sortBy, SortOrder sortOrder, int skip, int max) {
         if (neutralQuery == null) {
             return;
         }
-        
+
         neutralQuery.setSortBy(sortBy);
         if (sortOrder == SortOrder.descending) {
             neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
@@ -252,9 +257,9 @@ public class Resource {
         }
         neutralQuery.setOffset(skip);
         neutralQuery.setLimit(max);
-        
+
     }
-    
+
     @GET
     @Path("{id}/{associationName}/{relatedType}")
     @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
@@ -269,7 +274,7 @@ public class Resource {
             @Context final UriInfo uriInfo) {
         return getHoppedRelatives(associationName, id, sortBy, sortOrder, skip, max, fullEntities, uriInfo);
     }
-    
+
     @GET
     @Path("{id}/{associationName}/{relatedType}")
     @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
@@ -279,16 +284,17 @@ public class Resource {
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
             @QueryParam(START_INDEX_PARAM) @DefaultValue("0") final int skip,
-            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
+            @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max,
+            @Context final UriInfo uriInfo) {
         return getHoppedRelatives(associationName, id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
-    
+
     private Response getAssociated(final String id, final String sortBy, final SortOrder sortOrder, final int skip,
             final int max, final boolean fullEntities, final UriInfo uriInfo,
             AssociationDefinition associationDefinition) {
         Iterable<String> associationIds = null;
         long totalCount = 0;
-        
+
         boolean checkAgainstSourceEntity = associationDefinition.getSourceEntity().isOfType(id);
         boolean checkAgainstTargetEntity = associationDefinition.getTargetEntity().isOfType(id);
         NeutralQuery neutralQuery = new ApiQuery(uriInfo);
@@ -302,18 +308,18 @@ public class Resource {
                 }
             }
         }
-        
+
         if (max != 0) {
             neutralQuery.setLimit(max);
         }
         if (skip != 0) {
             neutralQuery.setOffset(skip);
         }
-        
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.setLimit(0);
         localNeutralQuery.setOffset(0);
-        
+
         if (checkAgainstSourceEntity && checkAgainstTargetEntity) {
             associationIds = associationDefinition.getService().getAssociationsFor(id, neutralQuery);
             totalCount = associationDefinition.getService().countAssociationsFor(id, localNeutralQuery);
@@ -326,7 +332,7 @@ public class Resource {
         } else {
             return Response.status(Status.NOT_FOUND).build();
         }
-        
+
         ResponseBuilder response;
         if (fullEntities) {
             response = Response.ok(getFullEntities(associationIds, associationDefinition, uriInfo, sortBy, sortOrder));
@@ -334,10 +340,9 @@ public class Resource {
             CollectionResponse collection = getShortEntities(uriInfo, associationDefinition, associationIds);
             response = Response.ok(collection);
         }
-        return addPagingHeaders(response, associationDefinition.getType(), neutralQuery.getOffset(),
-                neutralQuery.getLimit(), totalCount, uriInfo).build();
+        return addPagingHeaders(response, associationDefinition.getType(), neutralQuery.getOffset(), neutralQuery.getLimit(), totalCount, uriInfo).build();
     }
-    
+
     private ResponseBuilder addPagingHeaders(ResponseBuilder resp, String type, int currentStart, int size, long total,
             UriInfo info) {
         int nextStart = currentStart + size;
@@ -356,7 +361,7 @@ public class Resource {
         resp.header(TOTAL_COUNT_HEADER, total);
         return resp;
     }
-    
+
     private CollectionResponse getShortEntities(final UriInfo uriInfo, EntityDefinition entityDef,
             Iterable<String> associationIds) {
         CollectionResponse collection = new CollectionResponse();
@@ -368,7 +373,7 @@ public class Resource {
         }
         return collection;
     }
-    
+
     private Iterable<EntityBody> getFullEntities(Iterable<String> associationIds, EntityDefinition entityDef,
             UriInfo uriInfo, String sortBy, SortOrder sortOrder) {
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -378,15 +383,15 @@ public class Resource {
         } else {
             neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
         }
-        
+
         Iterable<EntityBody> entityBodies = entityDef.getService().get(associationIds, neutralQuery);
         addLinksToEntities(entityBodies, entityDef, uriInfo);
         return entityBodies;
     }
-    
+
     /**
      * Get the full entities, not just links
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -410,11 +415,11 @@ public class Resource {
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getEntity(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
-    
+
     /**
      * Gets the target entities from an association when the source entity is specified for the
      * association.
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -454,19 +459,21 @@ public class Resource {
                     }
                 }
             }
-            
+
+
             if (max != 0) {
                 neutralQuery.setLimit(max);
             }
             if (skip != 0) {
                 neutralQuery.setOffset(skip);
             }
-            
+
+
         }
-        
+
         return this.getHoppedRelatives(typePath, id, neutralQuery, uriInfo, fullEntities);
     }
-    
+
     private Response getHoppedRelatives(final String typePath, final String id, final NeutralQuery neutralQuery,
             final UriInfo uriInfo, final boolean fullEntities) {
         return handle(typePath, new ResourceLogic() {
@@ -485,7 +492,8 @@ public class Resource {
                     } else {
                         return Response.status(Status.NOT_FOUND).build();
                     }
-                    
+
+
                     ResponseBuilder response;
                     if (fullEntities) {
                         response = Response.ok(getHoppedEntities(relatives, relative, uriInfo, neutralQuery));
@@ -499,10 +507,10 @@ public class Resource {
                     return Response.status(Status.NOT_FOUND).build();
                 }
             }
-            
+
         });
     }
-    
+
     private CollectionResponse getHoppedLinks(final UriInfo uriInfo, Iterable<String> relatives,
             EntityDefinition relative) {
         CollectionResponse collection = new CollectionResponse();
@@ -514,24 +522,24 @@ public class Resource {
         }
         return collection;
     }
-    
+
     private Iterable<EntityBody> getHoppedEntities(Iterable<String> relatives, EntityDefinition relativeDef,
             UriInfo uriInfo, NeutralQuery neutralQuery) {
         Iterable<EntityBody> entityBodies = relativeDef.getService().get(relatives, neutralQuery);
         addLinksToEntities(entityBodies, relativeDef, uriInfo);
         return entityBodies;
     }
-    
+
     private void addLinksToEntities(Iterable<EntityBody> entityBodies, EntityDefinition relativeDef, UriInfo uriInfo) {
         for (EntityBody entityBody : entityBodies) {
             entityBody.put(ResourceConstants.LINKS,
                     getLinks(uriInfo, relativeDef, (String) entityBody.get("id"), entityBody));
         }
     }
-    
+
     /**
      * Get the full entities, not just links
-     * 
+     *
      * @param typePath
      *            resrouceUri for the entity/association
      * @param id
@@ -555,10 +563,10 @@ public class Resource {
             @QueryParam(MAX_RESULTS_PARAM) @DefaultValue("50") final int max, @Context final UriInfo uriInfo) {
         return getHoppedRelatives(typePath, id, sortBy, sortOrder, skip, max, true, uriInfo);
     }
-    
+
     /**
      * Delete an entity or association
-     * 
+     *
      * @param typePath
      *            resourceUri of the entity
      * @param id
@@ -577,10 +585,10 @@ public class Resource {
             }
         });
     }
-    
+
     /**
      * Update an existing entity or association.
-     * 
+     *
      * @param typePath
      *            resourceUri for the entity
      * @param id
@@ -599,18 +607,18 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
-                // DE260: The log below is possibly a security hole!
-                // debug("updating entity {}", copy);
+//                DE260: The log below is possibly a security hole!
+//                LOG.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
-                // DE260: The log below is possibly a security hole!
-                // debug("updating entity {}", copy);
+//                DE260: The log below is possibly a security hole!
+//                LOG.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
     }
-    
+
     /* Utility methods */
-    
+
     /**
      * Handle preconditions and exceptions.
      */
@@ -622,18 +630,18 @@ public class Resource {
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                             "Invalid resource path: " + typePath)).build();
         }
-        
+
         try {
             return logic.run(entityDef);
         } catch (QueryParseException qpe) {
             return Response.status(Status.BAD_REQUEST).build();
         }
-        
+
     }
-    
+
     /**
      * Gets the links that should be included for the given resource
-     * 
+     *
      * @param uriInfo
      *            the uri info for the request
      * @param defn
@@ -655,7 +663,7 @@ public class Resource {
             links.add(new EmbeddedLink(assocDef.getTargetLink(), targetEntity.getType(), ResourceUtil.getURI(uriInfo,
                     targetEntity.getResourceName(), (String) entityBody.get(assocDef.getTargetKey())).toString()));
         } else {
-            links.addAll(ResourceUtil.getAssociationsLinks(entityDefs, defn, id, uriInfo));
+            links.addAll(ResourceUtil.getAssociationsLinks(this.entityDefs, defn, id, uriInfo));
         }
         return links;
     }

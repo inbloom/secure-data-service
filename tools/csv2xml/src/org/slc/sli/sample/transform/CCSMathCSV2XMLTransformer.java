@@ -16,15 +16,15 @@ import org.slc.sli.sample.transform.CcsCsv2XmlTransformer.LearningStandardResult
 
 /**
  * @author dliu
- *
+ * 
  *         Transform the Common Core Standard Math csv to edfi xml
  */
 public class CCSMathCSV2XMLTransformer {
     // input csv files
     private static final String ccsCSVFile = "data/CC_Standards_6.25.10-Math.csv";
-
+    
     // output Ed-Fi xml file
-    private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata-CCS-Math.xml";
+    private static final String interchangeCCSFile = "data/InterchangeAssessmentMetadata.xml";
     private static final String outputPath = "data/";
 
     private static String GRADE_LEVELS = "K12345678";
@@ -34,15 +34,11 @@ public class CCSMathCSV2XMLTransformer {
         learningStandardReader.setFileLocation(ccsCSVFile);
         learningStandardReader.setContainsCopyright(true);
         learningStandardReader.load();
-
+        
         CcsCsv2XmlTransformer transformer = new CcsCsv2XmlTransformer();
         transformer.setCcsCsvReader(learningStandardReader);
         transformer.setOutputLocation(interchangeCCSFile);
         transformer.setAcademicSubjectType(AcademicSubjectType.MATHEMATICS);
-
-        // TODO set the learningObjectiveGenerator to handle difference between math and english to
-        // build common core standard hierarchy, the code is the same as in english csv to xml
-        // transformer and no learningObjective hierarchy is created for now
         transformer.setLearningObjectiveGenerator(new CcsCsv2XmlTransformer.LearningObjectiveGenerator() {
             @Override
             Collection<LearningObjective> generateLearningObjectives(
@@ -58,7 +54,7 @@ public class CCSMathCSV2XMLTransformer {
                     learningStandardId.setIdentificationCode(CcsCsv2XmlTransformer.IdToGuidMapper.getInstance()
                             .getGuid(key));
                     learningObjective.setLearningObjectiveId(learningStandardId);
-
+                    
                     LearningStandardResult firstLearningStandardResult = learningStandardResults.iterator().next();
                     for (LearningStandardResult learningStandardResult : learningStandardResults) {
                         LearningStandardReferenceType learningStandardReferenceType = new LearningStandardReferenceType();

@@ -1,6 +1,6 @@
 @RALLY_US209
 @RALLY_US210
-Feature: As a teacher I want to get READ2 Composite Score and Reading Level
+Feature: As a teacher I want to get DIBELS Composite Score and Reading Level
 
 Background: None
 

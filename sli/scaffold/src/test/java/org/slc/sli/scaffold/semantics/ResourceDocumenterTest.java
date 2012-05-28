@@ -20,6 +20,7 @@ public class ResourceDocumenterTest {
     private ResourceDocumenter testResource = new ResourceDocumenter(); //class under test
     
     private static final String EXPECTED_OUTPUT = "This is my test";
+    private static final String LINK_HTML = "<a href=\"$LINK\">$TYPE</a>";
     
     @Before
     public void setup() {
