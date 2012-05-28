@@ -32,7 +32,8 @@ class LDAPStorage
 		:destinationIndicator => :status,
 		:homeDirectory        => :homedir,
 		:uidNumber            => :uidnumber, 
-		:gidNumber            => :gidnumber
+		:gidNumber            => :gidnumber,
+		:mail                 => :emailAddress
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -43,7 +44,8 @@ class LDAPStorage
 		:password,
 		:emailtoken,
 		:homedir, 
-		:status
+		:status,
+		:emailAddress
 	]
 
 	# some fields are stored in the description field as 
@@ -82,7 +84,8 @@ class LDAPStorage
 		:emailtoken,
 		:homedir,
 		:tenant,
-		:edorg
+		:edorg,
+		:emailAddress
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [

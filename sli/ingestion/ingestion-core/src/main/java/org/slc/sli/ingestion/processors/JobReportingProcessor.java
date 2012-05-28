@@ -47,6 +47,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -114,7 +115,7 @@ public class JobReportingProcessor implements Processor {
             writeBatchJobReportFile(job, hasErrors);
 
         } catch (Exception e) {
-            LOG.error("Exception encountered in JobReportingProcessor. ", e);
+            LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
             if ("true".equals(clearOnCompletion)) {
                 neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
@@ -376,14 +377,14 @@ public class JobReportingProcessor implements Processor {
             try {
                 lock.release();
             } catch (IOException e) {
-                LOG.error("unable to release FileLock.", e);
+                LogUtil.error(LOG, "unable to release FileLock.", e);
             }
         }
         if (channel != null) {
             try {
                 channel.close();
             } catch (IOException e) {
-                LOG.error("unable to close FileChannel.", e);
+                LogUtil.error(LOG, "unable to close FileChannel.", e);
             }
         }
     }
@@ -397,7 +398,7 @@ public class JobReportingProcessor implements Processor {
             ipAddr = addr.getAddress();
 
         } catch (UnknownHostException e) {
-            LOG.error("Error getting local host", e);
+            LogUtil.error(LOG, "Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')

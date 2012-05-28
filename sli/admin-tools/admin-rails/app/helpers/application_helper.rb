@@ -52,7 +52,7 @@ module ApplicationHelper
     user_email_info = get_email_info guid
     email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = "#{validate_base}/user_account_validation/#{email_token}"
+    userEmailValidationLink = "__URI__/user_account_validation/#{email_token}"
       
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
@@ -120,12 +120,13 @@ module ApplicationHelper
   # 
   def self.add_user(userAccountRegistration)
     new_user = {
-      :first      => userAccountRegistration.firstName,
-      :last       => userAccountRegistration.lastName,
-      :email      => userAccountRegistration.email,
-      :password   => userAccountRegistration.password,
-      :vendor     => userAccountRegistration.vendor,
-      :status     => "submitted"
+      :first           => userAccountRegistration.firstName,
+      :last            => userAccountRegistration.lastName,
+      :email           => userAccountRegistration.email,
+      :emailAddress    => userAccountRegistration.email,
+      :password        => userAccountRegistration.password,
+      :vendor          => userAccountRegistration.vendor,
+      :status          => "submitted"
     }
     ApprovalEngine.add_disabled_user(new_user)
   end
@@ -147,12 +148,13 @@ module ApplicationHelper
   #
   def self.update_user_info(userAccountRegistration)
     new_user = {
-      :first      => userAccountRegistration.firstName,
-      :last       => userAccountRegistration.lastName,
-      :email      => userAccountRegistration.email,
-      :password   => userAccountRegistration.password,
-      :vendor     => userAccountRegistration.vendor,
-      :status     => "submitted"
+      :first          => userAccountRegistration.firstName,
+      :last           => userAccountRegistration.lastName,
+      :email          => userAccountRegistration.email,
+      :emailAddress   => userAccountRegistration.email,
+      :password       => userAccountRegistration.password,
+      :vendor         => userAccountRegistration.vendor,
+      :status         => "submitted"
     }
     ApprovalEngine.update_user_info(new_user)
   end

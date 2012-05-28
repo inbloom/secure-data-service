@@ -336,6 +336,12 @@ task :v1BlacklistValidationTests => [:realmInit] do
   runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
 end
 
+desc "Run V1 SecurityEvent Tests"
+task :v1SecurityEventTests => [:realmInit] do
+  setFixture("securityEvent", "securityEvent_fixture.json")
+  runTests("test/features/apiV1/securityEvent/securityEvent.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################

@@ -163,7 +163,7 @@ public final class PsmConfigReader {
 
     private static final PsmCollection readCollection(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
-        assertName(PsmConfigElements.COLLECTION_NAME, reader);
+        assertName(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader);
         final StringBuilder sb = new StringBuilder();
         boolean done = false;
         while (!done && reader.hasNext()) {
@@ -173,7 +173,7 @@ public final class PsmConfigReader {
                     throw new AssertionError(reader.getLocalName());
                 }
                 case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.COLLECTION_NAME, reader);
+                    assertName(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader);
                     done = true;
                     break;
                 }
@@ -191,7 +191,7 @@ public final class PsmConfigReader {
 
     private static final PsmResource readResource(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
-        assertName(PsmConfigElements.RESOURCE_NAME, reader);
+        assertName(PsmConfigElements.PLURAL_RESOURCE_NAME, reader);
         final StringBuilder sb = new StringBuilder();
         boolean done = false;
         while (!done && reader.hasNext()) {
@@ -201,7 +201,7 @@ public final class PsmConfigReader {
                     throw new AssertionError(reader.getLocalName());
                 }
                 case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.RESOURCE_NAME, reader);
+                    assertName(PsmConfigElements.PLURAL_RESOURCE_NAME, reader);
                     done = true;
                     break;
                 }
@@ -242,9 +242,9 @@ public final class PsmConfigReader {
                         final String className = readClassName(PsmConfigElements.CLASS_TYPE, reader);
                         final Set<ModelElement> elements = modelIndex.lookupByName(new QName(className));
                         type = assertNotNull(resolveClass(elements, className));
-                    } else if (match(PsmConfigElements.RESOURCE_NAME, reader)) {
+                    } else if (match(PsmConfigElements.PLURAL_RESOURCE_NAME, reader)) {
                         resource = readResource(reader);
-                    } else if (match(PsmConfigElements.COLLECTION_NAME, reader)) {
+                    } else if (match(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader)) {
                         collection = readCollection(reader);
                     } else {
                         throw new AssertionError(reader.getLocalName());

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -66,7 +67,7 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
                 PropertyUtils.setProperty(nr, "attributes.refIncidentIdentifier", incidentIdentifier);
             }
         } catch (Exception e) {
-            LOG.error("Exception encountered resolving DisciplineIncidentAssociation reference:", e);
+            LogUtil.error(LOG, "Exception encountered resolving DisciplineIncidentAssociation reference:", e);
         }
     }
 

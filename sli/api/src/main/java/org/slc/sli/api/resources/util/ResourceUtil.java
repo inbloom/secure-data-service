@@ -190,7 +190,7 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
-            boolean bAddRefField=true;
+            boolean bAddRefField = true;
             // if the entity that has a reference to the defn parameter is an association
             if (definition instanceof AssociationDefinition) {
 
@@ -214,13 +214,12 @@ public class ResourceUtil {
                             uriInfo, PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getSourceEntity().getResourceName()).toString()));
-                }
-                else{
-                    bAddRefField=false;
+                } else {
+                    bAddRefField = false;
                 }
             }
 
-            if(bAddRefField){
+            if (bAddRefField) {
                 // loop through all reference fields, display as ? links
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
                     String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());

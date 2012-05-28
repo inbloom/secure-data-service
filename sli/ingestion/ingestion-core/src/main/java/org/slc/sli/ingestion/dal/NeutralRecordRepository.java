@@ -195,7 +195,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+                LOG.error("Failed to create mongo indexes");
             }
         }
     }

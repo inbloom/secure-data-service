@@ -45,6 +45,9 @@ public class ComplexSchemaTest {
 
     @Autowired
     DateTimeSchema dateTimeSchema;
+    
+    @Autowired
+    DateTimeSchema integerSchema;
 
     @Test
     public void testComplexValidation() throws IllegalArgumentException {
@@ -73,6 +76,47 @@ public class ComplexSchemaTest {
         complexEntity.put("tokenField", tokenEntity);
         complexEntity.put("dateTimeField", dateTimeEntity);
         assertTrue("Complex entity validation failed", schema.validate(complexEntity));
+    }
+    
+    @Test
+    public void testInputConversionPerFieldSchema() {
+        schema.clearFields();
+        schema.addField("booleanField", booleanSchema);
+        schema.addField("longField", longSchema);
+        schema.addField("doubleField", doubleSchema);
+        schema.addField("stringField", stringSchema);
+        schema.addField("tokenField", tokenSchema);
+        tokenSchema.getProperties().clear();
+        List<String> tokens = new ArrayList<String>();
+        tokens.add("validToken");
+        tokenSchema.getProperties().put(TokenSchema.TOKENS, tokens);
+        Map<String, Object> complexEntity = new HashMap<String, Object>();
+        
+        String booleanEntity = "true";
+        String longEntity = "0";
+        String doubleEntity = "0.0";
+        String stringEntity = "test";
+        String tokenEntity = "validToken";
+        
+        complexEntity.put("booleanField", booleanEntity);
+        complexEntity.put("longField", longEntity);
+        complexEntity.put("doubleField", doubleEntity);
+        complexEntity.put("stringField", stringEntity);
+        complexEntity.put("tokenField", tokenEntity);
+        
+        
+        assertTrue("Complex entity validation failed", 
+                schema.validate(complexEntity));
+        assertTrue("Failed to properly convert boolean input", 
+                complexEntity.get("booleanField") instanceof Boolean);
+        assertTrue("Failed to properly convert boolean input", 
+                complexEntity.get("longField") instanceof Long);
+        assertTrue("Failed to properly convert boolean input", 
+                complexEntity.get("doubleField") instanceof Double);
+        assertTrue("Failed to properly convert boolean input", 
+                complexEntity.get("stringField") instanceof String);
+        assertTrue("Failed to properly convert boolean input", 
+                complexEntity.get("tokenField") instanceof String);
     }
 
     @Test

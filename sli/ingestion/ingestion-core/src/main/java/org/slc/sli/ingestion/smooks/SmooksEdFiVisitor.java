@@ -76,7 +76,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error(terminationError.getMessage());
+            LOG.error("Error: Smooks validation failure at element " + element.getName().toString());
 
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);

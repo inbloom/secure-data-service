@@ -2,13 +2,16 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slf4j.Logger;
@@ -177,6 +180,17 @@ public class IdNormalizer {
      */
     public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport) {
+        int numRefInstances = 1;
+        try {
+            numRefInstances = getNumRefInstances(entity, refConfig);
+        } catch (Exception e) {
+            errorReport.error("Failed to get number of reference instances", this);
+        }
+        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport);
+    }
+    
+    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
+            String fieldPath, ErrorReport errorReport) {
         
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
         
@@ -184,8 +198,6 @@ public class IdNormalizer {
         String collection = refConfig.getCollectionName();
         
         try {
-            int numRefInstances = getNumRefInstances(entity, refConfig);
-            
             // if the reference is a list of references loop over all elements adding an 'or' query
             // statement for each
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
@@ -203,8 +215,8 @@ public class IdNormalizer {
                         
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
-                                        fieldPath, proxyErrorReport);
+                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
+                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
                                 if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
                                 }
@@ -225,7 +237,7 @@ public class IdNormalizer {
                                     
                                 } catch (Exception e) {
                                     LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
-                                            + entity.getType() + " ", e.getLocalizedMessage());
+                                            + entity.getType());
                                     String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
                                             + "       Entity " + entity.getType() + ": Reference to " + collection
                                             + " is incomplete because the following reference field is not resolved: "
@@ -250,7 +262,7 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            LOG.error("Error resolving reference to " + fieldPath + " in " + entity.getType(), e.getLocalizedMessage());
+            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collection + " unresolved";
             
@@ -260,7 +272,7 @@ public class IdNormalizer {
         if (proxyErrorReport.hasErrors() || queryOrList.size() == 0) {
             return null;
         }
-                
+        
         // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
@@ -304,11 +316,17 @@ public class IdNormalizer {
      * Returns the number of reference instances of a Ref object in a given entity
      */
     private int getNumRefInstances(Entity entity, Ref refConfig) throws Exception {
+        
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
-            numRefInstances = refValues.size();
+            Set<String> valueSet = new HashSet<String>();
+            for (Object entry : refValues) {
+                valueSet.add(entry.toString());
+            }
+            numRefInstances = valueSet.size();
         }
+        
         return numRefInstances;
     }
     

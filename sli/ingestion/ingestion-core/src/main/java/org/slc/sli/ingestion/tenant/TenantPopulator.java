@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class TenantPopulator implements ResourceLoaderAware {
             tenantDA.insertTenant(tenantRecord);
             
         } catch (Exception e) {
-            log.error("Exception adding tenant " + tenantRecord + " :", e);
+            LogUtil.error(log, "Exception adding tenant " + tenantRecord + " :", e);
             return false;
         }
         return true;
@@ -77,7 +78,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
-            log.error("Exception encountered populating default tenants:", e);
+            LogUtil.error(log, "Exception encountered populating default tenants:", e);
         }
     }
     
@@ -194,7 +195,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            log.error("Exception encountered loading tenant resource: ", e);
+            LogUtil.error(log, "Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }
