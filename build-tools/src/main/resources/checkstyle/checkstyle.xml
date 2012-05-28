@@ -88,7 +88,8 @@ SLI Checkstyle configuration.
       <property name="ignoreComments" value="true"/>
     </module>
     <module name="IllegalCatch"/>
-    <module name="ModifiedControlVariable">
+    <module name="ModifiedControlVariable">q
+
       <property name="severity" value="warning"/>
     </module>
     <module name="StringLiteralEquality">
@@ -97,7 +98,7 @@ SLI Checkstyle configuration.
     <module name="ImportControl">
       <metadata name="net.sf.eclipsecs.core.comment" value="These libraries are not allowed.  Check confluence for details."/>
       <property name="severity" value="error"/>
-      <property name="file" value="build-tools/src/main/resources/checkstyle/import-control.xml"/>
+      <property name="file" value="import-control.xml"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>
