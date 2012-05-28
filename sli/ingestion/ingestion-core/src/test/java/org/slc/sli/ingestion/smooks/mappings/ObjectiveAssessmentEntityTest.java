@@ -113,11 +113,15 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("20", assessmentPerformanceLevel.get("maximumScore").toString());
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> performanceLevel = (Map<String, Object>) assessmentPerformanceLevel.get("performanceLevelDescriptor");
+        List<Map<String, Object>> performanceLevelList = (List<Map<String, Object>>) assessmentPerformanceLevel.get("performanceLevelDescriptor");
+        Assert.assertTrue(performanceLevelList != null);
+        Map<String, Object> performanceLevel = performanceLevelList.get(0);
         Assert.assertTrue(performanceLevel != null);
         Assert.assertEquals("description", performanceLevel.get("description"));
+        performanceLevel = performanceLevelList.get(1);
+        Assert.assertTrue(performanceLevel != null);
         Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
-
+        
         List<?> subObjectiveAssessments = (List<?>) entity.get(ObjectiveAssessmentBuilder.SUB_OBJECTIVE_REFS);
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);

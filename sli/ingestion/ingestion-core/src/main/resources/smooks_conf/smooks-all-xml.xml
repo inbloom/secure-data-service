@@ -1065,30 +1065,41 @@
     <jb:value property="id" data="InterchangeAssessmentMetadata/ObjectiveAssessment/@id" />
     <jb:value property="identificationCode" data="InterchangeAssessmentMetadata/ObjectiveAssessment/IdentificationCode" />
     <jb:value property="maxRawScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/MaxRawScore" decoder="Integer" />
-    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="ObjectiveAssessmentPerformanceLevelTypeArray" />
+    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="objectiveAssessmentPerformanceLevelTypeArray" />
     <jb:value property="percentOfAssessment" data="InterchangeAssessmentMetadata/ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
     <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
   </jb:bean>
-
-  <jb:bean beanId="ObjectiveAssessmentPerformanceLevelTypeArray" class="java.util.ArrayList"
+  
+  <!-- Objective Assessments Performance Levels Type -->
+  <jb:bean beanId="objectiveAssessmentPerformanceLevelTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
-    <jb:wiring beanIdRef="ObjectiveAssessmentPerformanceLevelType" />
+    <jb:wiring beanIdRef="objectiveAssessmentPerformanceLevelType" />
   </jb:bean>
 
-  <jb:bean beanId="ObjectiveAssessmentPerformanceLevelType" class="java.util.HashMap"
+  <jb:bean beanId="objectiveAssessmentPerformanceLevelType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
-    <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorType" />
-    <jb:value property="assessmentReportingMethod" data="ObjectiveAssessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
-    <jb:value property="minimumScore" data="ObjectiveAssessment/AssessmentPerformanceLevel/MinimumScore" />
-    <jb:value property="maximumScore" data="ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
+    <jb:wiring property="performanceLevelDescriptor" beanIdRef="objectiveAssessmentPerformanceLevelDescriptorArray" />
+    <jb:value property="assessmentReportingMethod" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
+    <jb:value property="minimumScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/MinimumScore" />
+    <jb:value property="maximumScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
   </jb:bean>
 
-  <jb:bean beanId="PerformanceLevelDescriptorType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
-    <jb:value property="codeValue" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
-    <jb:value property="description" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
+  <jb:bean beanId="objectiveAssessmentPerformanceLevelDescriptorArray" class="java.util.ArrayList" 
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel">
+    <jb:wiring beanIdRef="objectiveAssessmentPerformanceDescriptorDescription" />
+    <jb:wiring beanIdRef="objectiveAssessmentPerformanceDescriptorCodeValue" />
+  </jb:bean>
+  
+  <jb:bean beanId="objectiveAssessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue">
+    <jb:value property="codeValue" data="AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
+  </jb:bean>
+  
+   <jb:bean beanId="objectiveAssessmentPerformanceDescriptorDescription" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description">
+    <jb:value property="description" data="AssessmentPerformanceLevel/PerformanceLevel/Description" />
   </jb:bean>
 
   <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
