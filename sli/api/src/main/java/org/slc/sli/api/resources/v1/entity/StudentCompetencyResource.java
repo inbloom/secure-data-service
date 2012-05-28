@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.v1.DefaultCrudResource;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the competency assessed or evaluated for the student against a specific Learning Objective.
+ * Represents the competency assessed or evaluated for the student against a specific Learning
+ * Objective.
  *
  * For detailed information, see the schema for $$StudentCompetency$$ resources.
  *
@@ -40,9 +41,10 @@ public class StudentCompetencyResource extends DefaultCrudResource {
      */
     @GET
     @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}" + "/" + PathConstants.REPORT_CARDS)
-    public Response getReportCards(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
-                                  @Context HttpHeaders headers,
-                                  @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.REPORT_CARDS, ParameterConstants.STUDENT_COMPETENCY_ID, studentCompetencyId, headers, uriInfo);
+    public Response getReportCards(
+            @PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.REPORT_CARDS, ParameterConstants.STUDENT_COMPETENCY_ID, studentCompetencyId,
+                headers, uriInfo);
     }
 }

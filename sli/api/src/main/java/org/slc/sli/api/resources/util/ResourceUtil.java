@@ -1,14 +1,14 @@
 package org.slc.sli.api.resources.util;
 
 import java.net.URI;
-import java.util.Map;
-import java.util.Set;
-import java.util.List;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
@@ -19,15 +19,15 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**
@@ -190,7 +190,7 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
-            boolean bAddRefField = true;
+            boolean bAddRefField=true;
             // if the entity that has a reference to the defn parameter is an association
             if (definition instanceof AssociationDefinition) {
 
@@ -215,11 +215,11 @@ public class ResourceUtil {
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getSourceEntity().getResourceName()).toString()));
                 } else {
-                    bAddRefField = false;
+                    bAddRefField=false;
                 }
             }
 
-            if (bAddRefField) {
+            if(bAddRefField){
                 // loop through all reference fields, display as ? links
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
                     String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());

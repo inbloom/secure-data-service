@@ -123,8 +123,10 @@ public class UserService {
 
     /**
      *
-     * @param realm The realm under which the user exists
-     * @param userId The id of the user
+     * @param realm
+     *            The realm under which the user exists
+     * @param userId
+     *            The id of the user
      * @return
      */
     public User getUser(String realm, String userId){
@@ -138,8 +140,10 @@ public class UserService {
 
     /**
      *
-     * @param realm The realm under which the user exists
-     * @param userId The id of the user
+     * @param realm
+     *            The realm under which the user exists
+     * @param userId
+     *            The id of the user
      * @return List of roles assigned to this user
      */
     public List<String> getUserGroups(String realm, String userId) {

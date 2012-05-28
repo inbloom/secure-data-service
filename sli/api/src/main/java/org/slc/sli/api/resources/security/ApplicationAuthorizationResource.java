@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.security;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +19,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -28,18 +29,17 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -68,7 +68,6 @@ public class ApplicationAuthorizationResource {
     private EntityService edOrgService;
 
     public static final String RESOURCE_NAME = "applicationAuthorization";
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationResource.class);
 
     public static final String UUID = "uuid";
     public static final String AUTH_ID = "authId";
@@ -87,13 +86,13 @@ public class ApplicationAuthorizationResource {
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-        this.service = def.getService();
+        service = def.getService();
 
         EntityDefinition appDef = store.lookupByResourceName(RESOURCE_APPLICATION);
-        this.applicationService = appDef.getService();
+        applicationService = appDef.getService();
 
         EntityDefinition edOrgDef = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS);
-        this.edOrgService = edOrgDef.getService();
+        edOrgService = edOrgDef.getService();
     }
 
     @GET
@@ -213,7 +212,7 @@ public class ApplicationAuthorizationResource {
             throw new AccessDeniedException("User can only access " + edOrg);
         }
     }
-
+    
     private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {
         String oldEdOrgId = "";
         String newEdOrgId = "";
@@ -267,14 +266,14 @@ public class ApplicationAuthorizationResource {
                     edOrg = edOrgService.get(edOrgId);
                 }
             } catch (AccessDeniedException e) {
-                LOG.info("No access to EdOrg[" + edOrgId + "].Omitting in Security Log.");
+                info("No access to EdOrg[" + edOrgId + "].Omitting in Security ");
             }
             try {
                 app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
-                LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
+                info("No access to Application[" + appId + "].Omitting in Security ");
             } catch (EntityNotFoundException e) {
-                LOG.info("Could not find application [" + appId + "]. Omitting in Security Log.");
+                info("Could not find application [" + appId + "]. Omitting in Security ");
             }
             String stateOrganizationId  = "";
             String nameOfInstitution    = "";

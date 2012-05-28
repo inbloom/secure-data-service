@@ -266,8 +266,9 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
-  id = "test1234"                                                     if human_readable_id == "USER_PASS"
-  id = "StateEdorg"                                                   if human_readable_id =="STATE_ED_ORG"
+  id = "devldapuser@slidev.org"                                       if human_readable_id =="STATE_SUPER_ADMIN_USER"
+  id = "test1234"                                                     if human_readable_id =="STATE_SUPER_ADMIN_PASS"
+  id = "State Edorg"                                                  if human_readable_id =="STATE_ED_ORG"
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
