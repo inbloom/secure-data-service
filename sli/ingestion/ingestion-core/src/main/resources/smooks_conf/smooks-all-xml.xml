@@ -1079,13 +1079,13 @@
 
   <jb:bean beanId="ObjectiveAssessmentPerformanceLevelType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
-    <jb:wiring property="performanceLevel" beanIdRef="PerformanceLevelType" />
+    <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorType" />
     <jb:value property="assessmentReportingMethod" data="ObjectiveAssessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
     <jb:value property="minimumScore" data="ObjectiveAssessment/AssessmentPerformanceLevel/MinimumScore" />
     <jb:value property="maximumScore" data="ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
   </jb:bean>
 
-  <jb:bean beanId="PerformanceLevelType" class="java.util.HashMap"
+  <jb:bean beanId="PerformanceLevelDescriptorType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
     <jb:value property="codeValue" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
     <jb:value property="description" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
