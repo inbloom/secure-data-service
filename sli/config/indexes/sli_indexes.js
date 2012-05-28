@@ -3,7 +3,7 @@ db["application"].ensureIndex({"body.client_secret":1,"body.client_id":1});
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});
 db["assessment"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1, "body.schoolId":1});
+db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1, "body.schoolId":1},{unique:true});
 db["attendance"].ensureIndex({"body.schoolId":1});
 db["attendance"].ensureIndex({"body.studentId":1,"body.schoolId":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1});
