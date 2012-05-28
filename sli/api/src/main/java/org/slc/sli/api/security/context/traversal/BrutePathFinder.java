@@ -130,7 +130,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.SESSION,
                 SecurityNodeBuilder.buildNode(EntityNames.SESSION)
                         .addConnection(EntityNames.COURSE_OFFERING, "sessionId")
-                        .addLocalReference(EntityNames.GRADING_PERIOD, "gradingPeriods").construct());
+                        .addConnection(EntityNames.GRADING_PERIOD, "gradingPeriods").construct());
         
         // Leaf Nodes are unconnected
         nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION,
