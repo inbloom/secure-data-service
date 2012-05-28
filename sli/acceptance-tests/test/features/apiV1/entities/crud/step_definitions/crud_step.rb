@@ -177,7 +177,8 @@ $entityData = {
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
-    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] 
+    "gradingPeriods" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
+    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2" 
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
