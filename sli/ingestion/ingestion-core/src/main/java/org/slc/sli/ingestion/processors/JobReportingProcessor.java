@@ -201,11 +201,17 @@ public class JobReportingProcessor implements Processor {
         try {
             Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
             LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
+
+            int countErrors = 0;
+            int countWarnings = 0;
+
             for (Error error : errors) {
                 String externalResourceId = error.getResourceId();
 
                 PrintWriter errorWriter = null;
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+
+                    countErrors++;
 
                     hasErrors = true;
                     errorWriter = getErrorWriter("error", job.getId(), externalResourceId, resourceToErrorMap,
@@ -218,6 +224,8 @@ public class JobReportingProcessor implements Processor {
                     }
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
+                    countWarnings++;
+
                     errorWriter = getErrorWriter("warn", job.getId(), externalResourceId, resourceToWarningMap,
                             landingZone);
 
@@ -227,6 +235,12 @@ public class JobReportingProcessor implements Processor {
                         LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                     }
                 }
+
+                if (countErrors > 1000 || countWarnings > 1000) {
+                    LOG.info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
+                    break;
+                }
+
             }
 
         } catch (IOException e) {
