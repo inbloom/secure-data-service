@@ -21,25 +21,6 @@
         }
     },
     {
-        "fieldPath" : "body.sessionId",
-        "ref" :
-        {
-	        "collectionName" : "session",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		                "path" : "body.sessionName",
-		                "values" :
-		                [{
-		                    "valueSource" : "body.SessionReference.SessionIdentity.SessionName"
-		                }]
-		            }
-	            ]
-	        ]
-        }
-    },
-    {
         "fieldPath" : "body.courseId",
         "ref" :
         {
@@ -52,6 +33,94 @@
 		                "values" : 
 		                [{
 			                "valueSource" : "body.courseId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.sessionId",
+        "ref" :
+        {
+	        "collectionName" : "session",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		                "path" : "body.sessionId",
+		                "values" :
+                        [{
+    
+    
+    
+    
+    
+    
+        "ref" : 
+        {
+            "collectionName" : "schoolSessionAssociation",
+            "choiceOfFields" :
+            [[
+                {
+                    "path" : "body.schoolId",
+                    "values" :
+                    [{
+                        "ref" :
+                        {
+                            "collectionName" : "educationOrganization",
+                    	    "choiceOfFields" :
+                    		[
+                    		    [
+                    		  	    {
+                    		  	        "path" : "body.stateOrganizationId",
+                    		  	        "values" : [{ "valueSource" : "body.SessionReference.SessionIdentity.StateOrganizationId" }]
+                    		  	    }
+                    		  	]
+                    	    ]
+                    	}
+                    }]
+                },
+                {
+                    "path" : "body.sessionId",
+                    "values" :
+                    [{
+                        "ref" :
+                        {
+                            "collectionName" : "session",
+                    	    "choiceOfFields" :
+                    		[
+                    		    [
+                    		  	    {
+                    		  	        "path" : "body.schoolYear",
+                    		  	        "values" : [{ "valueSource" : "body.SessionReference.SessionIdentity.SchoolYear" }]
+                    		  	    },
+                    		  	    {
+                    		  	        "path" : "body.term",
+                    		  	        "values" : [{ "valueSource" : "body.SessionReference.SessionIdentity.Term" }]
+                    		  	    }
+                    		    ],
+                    		    [
+                    		        {
+                    		            "path" : "body.sessionName",
+                    		  	        "values" : [{ "valueSource" : "body.SessionReference.SessionIdentity.SessionName" }]
+                    		  	    }
+                                ]
+                            ]
+                        }
+                    }]
+                }
+            ]]
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
 		                }]
 		            }
 	            ]
