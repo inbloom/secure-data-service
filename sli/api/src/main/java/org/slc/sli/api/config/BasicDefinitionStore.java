@@ -9,15 +9,16 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of the entity definition store
@@ -121,6 +122,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS)
                 .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
                 .buildAndRegister(this);
+        factory.makeEntity(EntityNames.WAITING_LIST_USER_ACCOUNT, ResourceNames.WAITING_LIST_USER_ACCOUNTS)
+        .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
+        .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
