@@ -448,6 +448,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
+    protected long count(final String collectionName) {
+        return getTotalCount(entityDefs.lookupByResourceName(collectionName).getService(), null);
+    }
+
     /**
      * Reads all entities from a specific location or collection.
      *

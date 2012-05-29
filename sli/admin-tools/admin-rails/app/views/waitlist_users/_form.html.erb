@@ -1,0 +1,21 @@
+<%= form_for(@waitlist_user) do |f| %>
+  <% if @waitlist_user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@waitlist_user.errors.count, "error") %> prohibited this waitlist_user from being saved:</h2>
+
+      <ul>
+      <% @waitlist_user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
