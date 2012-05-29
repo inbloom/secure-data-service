@@ -271,7 +271,7 @@ Daybreak, IL 75229
 """
 And I look at "Parent 2" Contact Info 
 # Defect on character set
-#And parent "Richard Lê" is his "Father"
+And parent "Richard Lê" is his "Father"
 And there are "1" phone numbers
 And the list of phone number includes "+33 (1) 45.23.35.48.12"
 And there are "1" addresses
