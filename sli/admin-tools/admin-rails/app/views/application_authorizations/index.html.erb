@@ -32,9 +32,11 @@
     $("select").change(function(){
         $("select option:selected").each(function(){
             $("table").hide();
+            $("h1").hide();
+            <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
+            $("h1:contains('" + $(this).text() + "')").show();
             $("#AuthorizedAppsTable_" + $(this).text()).show();
-
-       })  ;
+       });
      }).change();
 
 </script>
