@@ -47,6 +47,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
         | learningStandard            |
         | learningObjective           |
         | disciplineIncident          |
@@ -86,7 +88,9 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
-        | learningStandard            | 509    |
+        | studentCompetency           | 59    |
+        | studentCompetencyObjective  | 4     |
+        | learningStandard            | 509   |
         | learningObjective           | 65    |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
@@ -140,7 +144,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
-    And I should see "Processed 16553 records." in the resulting batch job file
+    And I should see "Processed 16616 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -160,8 +164,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records considered: 492" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 492" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 646" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 646" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 709" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 709" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-READ2.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-READ2.xml records ingested successfully: 2" in the resulting batch job file

@@ -26,6 +26,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/reportCard.xml" />
       </bean>
     </entry>
+    <entry key="studentCompetency">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCompetency.xml" />
+      </bean>
+    </entry>
     <entry key="studentTranscriptAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
@@ -220,5 +225,12 @@
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="reportCard" />
   </bean>
+
+  <bean id="studentCompetencyTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+          scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentCompetency" />
+  </bean>
+
 </beans>
 
