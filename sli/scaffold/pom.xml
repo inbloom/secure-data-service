@@ -7,14 +7,18 @@
   </parent>
   <artifactId>scaffold</artifactId>
   <name>Scaffold</name>
-  
+
+  <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
   <dependencies>
-  
+
 	<dependency>
 		<groupId>org.slc.sli.domain</groupId>
 		<artifactId>domain</artifactId>
 	</dependency>
-  
+
  	<!-- Spring Core dependency -->
 	<dependency>
        	<groupId>org.springframework</groupId>
