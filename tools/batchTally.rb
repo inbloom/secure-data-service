@@ -115,6 +115,7 @@ transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
+combinedProcessingTime = cpuProcessingTime/1000
 
 puts "---------------------------"
 puts "Total records for Transformation: #{transformedRecordCount}"
@@ -122,15 +123,15 @@ puts "Total records for Persistence: #{persistedRecordCount}"
 puts "Total wall-clock time: #{wallClockForPits}sec"
 
 puts ""
-puts "Total time spent (on all nodes): #{cpuProcessingTime/1000} sec"
-puts "Transformed and Persist RPS (transformed per total time)  #{(transformedRecordCount / wallClockForPits )}"
+puts "Combined processing time on all nodes: #{combinedProcessingTime} sec"
+puts "Pit RPS (transformed / wall-clock)  #{(transformedRecordCount / wallClockForPits )}"
 
 puts ""
 executionStats.each do |nodeType,functions|
   functions.each do |functionName,stats|
     callStats = stats["calls"]
     timeStats = stats["time"]
-    puts "(#{nodeType}) Mongo #{functionName} calls: #{callStats} took #{timeStats/1000} secs"
+    puts "(#{nodeType}) Mongo #{functionName} calls: #{callStats} took #{timeStats/1000} secs (#{timeStats/10/combinedProcessingTime}% of processing time)"
   end
 end
 
