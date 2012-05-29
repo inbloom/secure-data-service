@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.uml2Doc.cmdline;
+package org.slc.sli.modeling.docgen;
 
 public interface DocumentationAttributes {
     public static final String EMBEDDED = "embedded";

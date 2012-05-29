@@ -451,26 +451,14 @@ end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
-sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 end
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
-sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
 end
 
 

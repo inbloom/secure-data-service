@@ -42,6 +42,27 @@
 	
 	<ObjectiveAssessment id="ACTEnglish">
 		<IdentificationCode>ACT-English</IdentificationCode>
+		
+		 <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>act1</CodeValue>
+                <Description>American Literature I</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+
+		<AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>act2</CodeValue>
+                <Description>American Literature II</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+
 		<ObjectiveAssessmentReference ref="ACTEnglishUsage"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTEnglishRhetorical"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
@@ -56,6 +77,17 @@
 
 	<ObjectiveAssessment id="ACTMathematics">
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
+		
+		 <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Math110</CodeValue>
+                <Description>Mathematics I</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+		
 		<ObjectiveAssessmentReference ref="ACTMathematicsPreAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathemacticsAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathematicsPlaneGeometry"></ObjectiveAssessmentReference>
@@ -169,6 +201,17 @@
 
 	<ObjectiveAssessment id="ACTReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
+		
+		 <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>REA001</CodeValue>
+                <Description>Story Reading</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+		
 		<!--
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
@@ -208,10 +251,32 @@
 
 	<ObjectiveAssessment id="ACTScience">
 		<IdentificationCode>ACT-Science</IdentificationCode>
+		
+		 <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Sci001</CodeValue>
+                <Description>Computer Science</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+		
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTWriting">
 		<IdentificationCode>ACT-Writing</IdentificationCode>
+		
+		 <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>pld0</CodeValue>
+                <Description>pld0</Description>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+		
 	</ObjectiveAssessment>
 
 </InterchangeAssessmentMetadata>
