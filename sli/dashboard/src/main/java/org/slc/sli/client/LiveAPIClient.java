@@ -120,7 +120,7 @@ public class LiveAPIClient implements APIClient {
         String id = getId(token);
         GenericEntity staffEntity = createEntityFromAPI(getApiUrl() + STAFF_URL + id, token);
         List<GenericEntity> edOrgsList = createEntitiesFromAPI(getApiUrl() + STAFF_URL + id + STAFF_EDORG_ASSOC, token);
-        if (edOrgsList != null && edOrgsList.size() > 0) {
+        if ((edOrgsList != null) && (edOrgsList.size() > 0)) {
 
             // Processing only first EdOrg for now
             GenericEntity edOrgEntity = edOrgsList.get(0);
@@ -138,7 +138,8 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        CustomEntityWrapper jsonConfig = (CustomEntityWrapper) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, CustomEntityWrapper.class);
+        CustomEntityWrapper jsonConfig = (CustomEntityWrapper) createEntityFromAPI(getApiUrl() + EDORGS_URL + id
+                + CUSTOM_DATA, token, CustomEntityWrapper.class);
         return JsonConverter.fromJson(jsonConfig.value, ConfigMap.class);
     }
 
@@ -147,7 +148,8 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-        putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, new CustomEntityWrapper(JsonConverter.toJson(configMap)));
+        putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token,
+                new CustomEntityWrapper(JsonConverter.toJson(configMap)));
     }
 
     /**
@@ -384,8 +386,8 @@ public class LiveAPIClient implements APIClient {
         GenericEntity session = null;
         try {
             session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
-//            DE260 - Logging of possibly sensitive data
-//            LOGGER.debug("Session: {}", session);
+            // DE260 - Logging of possibly sensitive data
+            // LOGGER.debug("Session: {}", session);
         } catch (Exception e) {
             LOGGER.warn("Error occured while getting session", e);
             session = new GenericEntity();
@@ -419,7 +421,7 @@ public class LiveAPIClient implements APIClient {
         String returnValue = "";
         GenericEntity response = createEntityFromAPI(getApiUrl() + HOME_URL, token);
 
-        if(response == null) {
+        if (response == null) {
             return null;
         }
         for (Map link : (List<Map>) (response.get(Constants.ATTR_LINKS))) {
@@ -439,8 +441,8 @@ public class LiveAPIClient implements APIClient {
      */
     private String parseId(Map link) {
         String returnValue;
-        int index = ((String) link.get(Constants.ATTR_HREF)).lastIndexOf("/");
-        returnValue = ((String) link.get(Constants.ATTR_HREF)).substring(index + 1);
+        int index = ((String) (link.get(Constants.ATTR_HREF))).lastIndexOf("/");
+        returnValue = ((String) (link.get(Constants.ATTR_HREF))).substring(index + 1);
         return returnValue;
     }
 
@@ -453,7 +455,8 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSectionsForNonEducator(String token) {
 
         // call https://<IP address>/api/rest/<version>/sections
-        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + "?" + Constants.LIMIT + "="
+                + Constants.MAX_RESULTS, token);
 
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, sections);
@@ -626,8 +629,9 @@ public class LiveAPIClient implements APIClient {
             Collections.sort(courses, new Comparator<Map<String, Object>>() {
                 @Override
                 public int compare(Map<String, Object> a, Map<String, Object> b) {
-                    return ((String) a.get(Constants.ATTR_COURSE_TITLE)).compareTo((String) b.get(Constants.ATTR_COURSE_TITLE));
-        }
+                    return ((String) a.get(Constants.ATTR_COURSE_TITLE)).compareTo((String) b
+                            .get(Constants.ATTR_COURSE_TITLE));
+                }
             });
         }
 
@@ -878,8 +882,8 @@ public class LiveAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity createEntityFromAPI(String url, String token) {
-//        DE260 - Logging of possibly sensitive data
-//        LOGGER.info("Querying API: {}", url);
+        // DE260 - Logging of possibly sensitive data
+        // LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
         if (response == null) {
             return null;
@@ -905,9 +909,9 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
-//        DE260 - Logging of possibly sensitive data
+        // DE260 - Logging of possibly sensitive data
         // Parse JSON
-//        LOGGER.info("Querying API for list: {}", url);
+        // LOGGER.info("Querying API for list: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
         if (response == null) {
             return Collections.emptyList();
@@ -1250,7 +1254,8 @@ public class LiveAPIClient implements APIClient {
         String url = getApiUrl() + STUDENTS_URL;
 
         if (queryExists) {
-            // &limit=0 is the API syntax to return all results, not just the first 50 as per default
+            // &limit=0 is the API syntax to return all results, not just the first 50 as per
+            // default
             url += queryString + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         }
 
@@ -1286,7 +1291,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId) {
         return createEntitiesFromAPI(
-                buildStudentURI(studentId, STUDENT_PARENT_ASSOC + PARENTS, Collections.<String, String>emptyMap()),
+                buildStudentURI(studentId, STUDENT_PARENT_ASSOC + PARENTS, Collections.<String, String> emptyMap()),
                 token);
     }
 }

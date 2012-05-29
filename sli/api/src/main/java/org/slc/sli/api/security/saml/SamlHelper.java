@@ -219,8 +219,7 @@ public class SamlHelper {
         doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
-        doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "true"));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -288,8 +287,7 @@ public class SamlHelper {
         doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
-        doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", String.valueOf(forceAuthn)));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -336,9 +334,7 @@ public class SamlHelper {
      * ID="21B78E9C6C8ECF16F01E4A0F15AB2D46"
      * IssueInstant="2010-04-28T21:36:11.230Z"
      * Version="2.0">
-     * <saml:Issuer
-     * xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com
-     * </saml2:Issuer>
+     * <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com</saml2:Issuer>
      * <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
      * Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
      * NameQualifier="http://idp.ssocircle.com"
@@ -363,7 +359,7 @@ public class SamlHelper {
                 .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
-        
+
         Element issuer = new Element("Issuer", SAML_NS);
         issuer.addContent(issuerName);
         doc.getRootElement().addContent(issuer);
@@ -415,8 +411,7 @@ public class SamlHelper {
         String id = "sli-" + UUID.randomUUID().toString();
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
-        doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         

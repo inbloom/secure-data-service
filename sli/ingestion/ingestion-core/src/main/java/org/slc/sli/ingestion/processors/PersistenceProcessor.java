@@ -122,7 +122,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                     processAndMeasureResource(resource, newJob, stage);
                 } else {
-                    LOG.warn(String.format("The resource %s is not a neutral record format.", resource.getResourceName()));
+                    LOG.warn(String.format("The resource %s is not a neutral record format.",
+                            resource.getResourceName()));
                 }
             }
 
@@ -224,12 +225,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                     ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForTransformer);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForTransformer);
 
                     if (xformedEntities.isEmpty()) {
                         numFailed++;
 
-                        errorReportForNrFile.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+                        errorReportForNrFile.error(
+                                MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                                        neutralRecord.getRecordType()), this);
                     }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
@@ -268,7 +272,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             return defaultEdFi2SLITransformer;
         }
     }
-
 
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
@@ -370,7 +373,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         batchJobDAO.saveError(error);
     }
 
-    public void setEntityPersistHandlers(Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+    public void setEntityPersistHandlers(
+            Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
         this.entityPersistHandlers = entityPersistHandlers;
     }
 
@@ -398,7 +402,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
     }
 
-    public void setDefaultEntityPersistHandler(AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+    public void setDefaultEntityPersistHandler(
+            AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 

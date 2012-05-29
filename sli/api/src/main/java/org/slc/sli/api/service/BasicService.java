@@ -610,7 +610,9 @@ public class BasicService implements EntityService {
     
     private Collection<GrantedAuthority> getAuths() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SecurityUtil.ensureAuthenticated();
+        if (readRight != Right.ANONYMOUS_ACCESS) {
+            SecurityUtil.ensureAuthenticated();
+        }
         return auth.getAuthorities();
     }
     

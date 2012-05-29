@@ -1130,7 +1130,7 @@
 
     <jb:value property="maxRawScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/MaxRawScore" decoder="Integer" />
 
-    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
+    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="assessmentPerformanceLevelTypeArrayOA" />
 
     <jb:value property="percentOfAssessment" data="InterchangeAssessmentMetadata/ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
 
@@ -1336,22 +1336,32 @@
   </jb:bean>
 
   <!-- AssessmentPerformanceLevelsType -->
-  <jb:bean beanId="AssessmentPerformanceLevelTypeArray" class="java.util.ArrayList"
+  <jb:bean beanId="assessmentPerformanceLevelTypeArrayOA" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
-    <jb:wiring beanIdRef="AssessmentPerformanceLevelType" />
+    <jb:wiring beanIdRef="assessmentPerformanceLevelTypeOA" />
   </jb:bean>
 
-  <jb:bean beanId="AssessmentPerformanceLevelType" class="java.util.HashMap"
+  <jb:bean beanId="assessmentPerformanceLevelTypeOA" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel">
-    <jb:wiring property="performanceLevel" beanIdRef="PerformanceLevelType" />
+    <jb:wiring property="performanceLevelDescriptor" beanIdRef="assessmentPerformanceLevelDescriptorArrayOA" />
     <jb:value property="assessmentReportingMethod" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
     <jb:value property="minimumScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/MinimumScore" />
     <jb:value property="maximumScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
   </jb:bean>
 
-  <jb:bean beanId="PerformanceLevelType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
-    <jb:value property="codeValue" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
-    <jb:value property="description" data="ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
+  <jb:bean beanId="assessmentPerformanceLevelDescriptorArrayOA" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel">
+    <jb:wiring beanIdRef="assessmentPerformanceDescriptorCodeValueOA" />
+    <jb:wiring beanIdRef="assessmentPerformanceDescriptorDescriptionOA" />
+  </jb:bean>
+  
+  <jb:bean beanId="assessmentPerformanceDescriptorCodeValueOA" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue">
+    <jb:value property="codeValue" data="AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
+  </jb:bean>
+  
+   <jb:bean beanId="assessmentPerformanceDescriptorDescriptionOA" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description">
+    <jb:value property="description" data="AssessmentPerformanceLevel/PerformanceLevel/Description" />
   </jb:bean>
 
   <!-- AssessmentPeriodDescriptorType -->
@@ -3885,7 +3895,6 @@
   </jb:bean>
 
   <jb:bean beanId="ReportCard_StudentCompetencyReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
-
   </jb:bean>
 -->
   <jb:bean beanId="ReportCard_GradesReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
@@ -3901,3 +3910,4 @@
   <!-- End ReportCard mapping -->
 
 </smooks-resource-list>
+

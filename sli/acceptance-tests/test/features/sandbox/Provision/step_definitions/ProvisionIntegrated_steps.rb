@@ -25,12 +25,12 @@ Given /^LDAP server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
    @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
-  email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
+      email_conf = {
+       :host => 'mon.slidev.org',
+       :port => 3000,
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
-    }
+     }
   
   ApprovalEngine.init(@ldap,Emailer.new(email_conf),true)
 end

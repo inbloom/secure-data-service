@@ -163,7 +163,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      */
     private Iterable<String> getAssociations(final EntityDefinition type, final String id, final String key,
             final NeutralQuery neutralQuery) {
-        // debug("Getting assocations with {} from {} through {}", new Object[] { id, start,
+        // LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start,
         // numResults });
         return getAssociationsList(type, id, key, neutralQuery);
     }
@@ -197,8 +197,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      */
     private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key,
             final String otherEntityKey, final NeutralQuery neutralQuery) {
-        // debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start,
-        // numResults });
+        // LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id,
+        // start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, new NeutralQuery());

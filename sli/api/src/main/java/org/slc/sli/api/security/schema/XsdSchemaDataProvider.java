@@ -59,8 +59,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
             }
             
             @Override
-            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors,
-                    Repository<Entity> repo) {
+            protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
                 throw new UnsupportedOperationException("This instance is for accessing security rights only");
             }
         };

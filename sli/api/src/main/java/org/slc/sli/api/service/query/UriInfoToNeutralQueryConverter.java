@@ -104,12 +104,11 @@ public class UriInfoToNeutralQueryConverter {
                 try {
                     for (String criteriaString : queryString.split("&")) {
                         NeutralCriteria neutralCriteria = new NeutralCriteria(criteriaString);
-                        NeutralCriteriaImplementation nci = reservedQueryKeywordImplementations.get(neutralCriteria
-                                .getKey());
+                        NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                         if (nci == null) {
                             if (!neutralCriteria.getKey().equals("full-entities")
-                                    && !ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey())
-                                    && !ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey())) {
+                                    && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))) {
                                 neutralQuery.addCriteria(neutralCriteria);
                             }
                         } else {

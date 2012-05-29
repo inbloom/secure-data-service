@@ -111,8 +111,8 @@ public class RealmRoleManagerResource {
 
         EntityBody oldRealm = service.get(realmId);
 
-        if (!canEditCurrentRealm(updatedRealm) || oldRealm.get("edOrg") != null
-                && !oldRealm.get("edOrg").equals(SecurityUtil.getEdOrg())) {
+        if (!canEditCurrentRealm(updatedRealm)
+                || (oldRealm.get("edOrg") != null && !oldRealm.get("edOrg").equals(SecurityUtil.getEdOrg()))) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to update this realm.");
             return Response.status(Status.FORBIDDEN).entity(body).build();

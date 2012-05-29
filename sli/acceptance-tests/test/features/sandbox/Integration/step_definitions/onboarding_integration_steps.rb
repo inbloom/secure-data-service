@@ -266,9 +266,8 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
-  id = "devldapuser@slidev.org"                                       if human_readable_id =="STATE_SUPER_ADMIN_USER"
-  id = "test1234"                                                     if human_readable_id =="STATE_SUPER_ADMIN_PASS"
-  id = "State Edorg"                                                  if human_readable_id =="STATE_ED_ORG"
+  id = "test1234"                                                     if human_readable_id == "USER_PASS"
+  id = "StateEdorg"                                                   if human_readable_id =="STATE_ED_ORG"
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
   id = "Super_Admin"                                                  if human_readable_id == "SUPER_ADMIN"
@@ -446,11 +445,11 @@ Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "
     found=false
     ids=application["body"]["authorized_ed_orgs"]
     ids.each do |id|
-    if id==@edorgId
-    found=true
+      if id==@edorgId
+        found=true
+      end
     end
-    end
-     assert(found,"#{arg1} is not added in the application table")
+    assert(found,"#{arg1} is not added in the application table")
     end
                                                                                  
 end
@@ -469,9 +468,9 @@ Then /^a tenant entry with "([^"]*)" and "([^"]*)" is added to mongo$/ do |tenan
   found=false
   landingZones.each do |landingZone|
     puts landingZone['path']
-  if landingZone["path"].include?(landing_zone_path)
-  found=true
-  end
+    if landingZone["path"].include?(landing_zone_path)
+      found=true
+    end
   end
   assert(found,"landing zone path:#{landing_zone_path} is not added to mongo")
 end

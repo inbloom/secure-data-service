@@ -83,11 +83,11 @@ public class AuthController {
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
     public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri,
             @RequestParam(value = "Realm", required = false) final String realmUniqueId,
-            @RequestParam(value = "client_id", required = true) final String clientId,
-            @RequestParam(value = "state", required = false) final String state,
-            @CookieValue(value = "_tla", required = false) final String sessionId, final HttpServletResponse res,
-            final Model model) throws IOException {
-        
+            @RequestParam(value = "client_id", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state, 
+            @CookieValue(value = "_tla", required = false) final String sessionId,
+            final HttpServletResponse res, final Model model) throws IOException {
+
         if (sessionId != null) {
             String realmId = getRealmId(sessionId);
             if (realmId != null) {
@@ -112,8 +112,7 @@ public class AuthController {
                     if (realmUniqueId != null && realmUniqueId.length() > 0) {
                         if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
                             try {
-                                return ssoInit(node.get("id").toString(), sessionId, redirectUri, clientId, state, res,
-                                        model);
+                                return ssoInit(node.get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
                             } catch (IOException e) {
                                 error("Error initiating SSO", e);
                             }
@@ -145,18 +144,19 @@ public class AuthController {
     }
     
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode,
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, 
             @RequestParam("redirect_uri") String redirectUri,
             @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model)
-            throws BadCredentialsException {
+            @RequestParam("client_id") String clientId, 
+            @RequestParam("client_secret") String clientSecret, 
+            Model model) throws BadCredentialsException {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
         
         String token;
         try {
-            token = sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
+            token = this.sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
         } catch (OAuthAccessException e) {
             return handleAccessException(e);
         }
@@ -196,16 +196,16 @@ public class AuthController {
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex,
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex, 
             @RequestParam(value = "sessionId", required = false) final String sessionId,
-            @RequestParam(value = "redirect_uri", required = false) String redirectUri,
-            @RequestParam(value = "clientId", required = true) final String clientId,
-            @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model)
-            throws IOException {
-        
+            @RequestParam(value = "redirect_uri", required = false) String redirectUri, 
+            @RequestParam(value = "clientId", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state,
+            HttpServletResponse res, Model model) throws IOException {
+
         String realmId = getRealmId(sessionId);
-        boolean forceAuthn = sessionId != null && realmId != null ? false : true;
-        
+        boolean forceAuthn = (sessionId != null && realmId != null) ? false : true;
+
         EntityBody realmEnt = SecurityUtil.sudoRun(new SecurityTask<EntityBody>() {
             @Override
             public EntityBody execute() {
