@@ -1942,6 +1942,11 @@
 			<xs:enumeration value="Z-score" />
 			<xs:enumeration value="Other" />
 			<xs:enumeration value="Not applicable" />
+            <xs:enumeration value="Quantile Measure"/>
+            <xs:enumeration value="Lexile Measure"/>
+            <xs:enumeration value="Vertical Scale Score"/>
+            <xs:enumeration value="National College-Bound Percentile"/>
+            <xs:enumeration value="State College-Bound Percentile"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -2762,7 +2767,7 @@
 			<xs:enumeration value="Doctoral degree" />
 			<xs:enumeration value="Met state testing requirement" />
 			<xs:enumeration value="Special/alternative program completion" />
-			<xs:enumeration value=" Relevant experience" />
+			<xs:enumeration value="Relevant experience" />
 			<xs:enumeration
 				value="Credentials based on reciprocation with another state" />
 		</xs:restriction>

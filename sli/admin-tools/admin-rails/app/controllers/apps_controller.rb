@@ -8,7 +8,7 @@ class AppsController < ApplicationController
 
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
-  # It allows developers to create new apps. 
+  # It allows developers to create new apps.
   # It also allows slc operators approve an app for use in the SLC.
   def check_rights
     unless is_developer? or is_operator?

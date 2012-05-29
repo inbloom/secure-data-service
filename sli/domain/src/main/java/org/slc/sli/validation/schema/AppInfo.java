@@ -25,6 +25,7 @@ public class AppInfo extends Annotation {
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
     protected static final String RELAXEDBLACKLIST_ELEMENT_NAME = "RelaxedBlacklist";
     protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
+    protected static final String COLLECTION_TYPE_ELEMENT_NAME = "CollectionType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
 
@@ -159,6 +160,14 @@ public class AppInfo extends Annotation {
     public String getReferenceType() {
         if (values.containsKey(REFERENCE_TYPE_ELEMENT_NAME)) {
             return values.get(REFERENCE_TYPE_ELEMENT_NAME);
+        }
+
+        return null;
+    }
+
+    public String getCollectionType() {
+        if (values.containsKey(COLLECTION_TYPE_ELEMENT_NAME)) {
+            return values.get(COLLECTION_TYPE_ELEMENT_NAME);
         }
 
         return null;

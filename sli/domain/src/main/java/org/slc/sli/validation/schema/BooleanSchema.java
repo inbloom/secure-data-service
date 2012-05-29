@@ -41,7 +41,15 @@ public class BooleanSchema extends NeutralSchema {
         return NumberUtils.converterHelper(value, new NumberUtils.Converter() {
             @Override
             public Object convert(Object value) {
-                return Boolean.parseBoolean((String) value);
+                String stringValue = (String) value;
+                stringValue = stringValue.toLowerCase();
+                if (stringValue.equals("true")) {
+                    return Boolean.TRUE;
+                } else if (stringValue.equals("false")) {
+                    return Boolean.FALSE;
+                } else {
+                    throw new NumberFormatException(value + " is not a boolean");
+                }
             }
         });
     }

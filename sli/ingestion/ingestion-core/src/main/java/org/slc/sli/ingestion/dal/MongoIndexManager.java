@@ -103,7 +103,7 @@ public final class MongoIndexManager {
             try {
                 repository.ensureIndex(index, collection);
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+                LOG.error("Failed to create mongo indexes");
             }
         }
     }
