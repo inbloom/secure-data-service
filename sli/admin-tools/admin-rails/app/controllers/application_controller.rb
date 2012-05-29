@@ -12,10 +12,15 @@ class ApplicationController < ActionController::Base
     handle_oauth
   end
   
+  rescue_from ActiveResource::ResourceNotFound do |exception|
+    logger.info {"Resource not found."}
+    render_404
+  end
+  
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
     reset_session
-    raise exception
+    render_403
   end
   
   rescue_from ActiveResource::ServerError do |exception|

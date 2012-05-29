@@ -1,9 +1,6 @@
 include GeneralRealmHelper
 
 class RealmManagementController < ApplicationController
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
-  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
-
   # GET /realm_management
   # GET /realm_management.json
   def index
