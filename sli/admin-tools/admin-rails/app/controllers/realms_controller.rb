@@ -1,11 +1,6 @@
-include ActiveSupport::Rescuable
 include GeneralRealmHelper
 
 class RealmsController < ApplicationController
-
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
-  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
-
   # GET /realms
   # GET /realms.json
   def index

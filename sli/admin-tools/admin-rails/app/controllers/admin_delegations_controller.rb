@@ -1,10 +1,9 @@
 class AdminDelegationsController < ApplicationController
-
   before_filter :check_rights
 
   def check_rights
     unless is_lea_admin?
-      render_403
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 

@@ -1,9 +1,4 @@
-include ActiveSupport::Rescuable
-
 class AppsController < ApplicationController
-
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
-  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
   before_filter :check_rights
 
   # Let us add some docs to this confusing controller.
@@ -12,7 +7,7 @@ class AppsController < ApplicationController
   # It also allows slc operators approve an app for use in the SLC.
   def check_rights
     unless is_developer? or is_operator?
-      render_403
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 
