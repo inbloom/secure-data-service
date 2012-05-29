@@ -6,7 +6,7 @@ Feature: Student Transcript History Panel
     Given I have an open web browser
     Given the server is in "live" mode
     When I navigate to the Dashboard home page
-    When I select "Illinois Sunset School District 4526" and click go
+    When I select "Illinois Daybreak School District 4529" and click go
 
   @integration
   Scenario: View student's transcript history - Matt Sollars

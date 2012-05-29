@@ -7,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials  "linda.kim" "linda.kim1234" for the "Simple" login page
+ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"

@@ -31,7 +31,7 @@ And was redirected to the Realm page
 When I select "New York Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
-Then I am informed that "Authentication failed"
+Then I am informed that "Invalid User Name or password"
 
 @wip
 Scenario: Login with cookie

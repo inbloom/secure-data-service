@@ -71,7 +71,7 @@ And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
- When I submit the credentials  "manthony" "manthony1234" for the "Simple" login page
+ When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
 When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"

@@ -78,7 +78,7 @@ And "Carmen Ortiz" has no "SAT Writing.x"
 And "Carmen Ortiz" has no "SAT Writing.percentile"
 
 Scenario: Check empty StateTest assessments
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select course "8th Grade English"
