@@ -70,6 +70,8 @@
     <value>studentAcademicRecord</value>
     <value>studentAssessmentAssociation</value>
     <value>studentCohortAssociation</value>
+    <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncident</value>
     <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
@@ -81,5 +83,4 @@
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
   </util:set>
-
 </beans>

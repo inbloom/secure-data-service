@@ -57,4 +57,5 @@ public final class EntityNames {
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String USER_ACCOUNT = "userAccount";
+    public static final String WAITING_LIST_USER_ACCOUNT = "waitingListUserAccount";
 }

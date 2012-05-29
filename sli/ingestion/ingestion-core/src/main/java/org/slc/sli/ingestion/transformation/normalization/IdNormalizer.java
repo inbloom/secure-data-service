@@ -64,18 +64,16 @@ public class IdNormalizer {
                                             }
                                         }
                                     } catch (Exception e) {
-                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                + " for bean " + entity.getType() + " ", e.getLocalizedMessage());
-                                        String errorMessage = "ERROR: Failed to resolve a reference"
-                                                + "\n"
-                                                + "       Entity "
-                                                + entity.getType()
-                                                + ": Reference to "
-                                                + collectionName
-                                                + " is incomplete because the following reference field is not resolved: "
-                                                + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
-                                        
-                                        errorReport.error(errorMessage, this);
+                                        if (!reference.getRef().isOptional()) {
+                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                                    + " for bean " + entity.getType());
+                                            String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                                    + "       Entity " + entity.getType() + ": Reference to " + collectionName
+                                                    + " is incomplete because the following reference field is not resolved: "
+                                                    + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+
+                                            errorReport.error(errorMessage, this);
+                                        }
                                     }
                                 }
                             }
@@ -236,14 +234,16 @@ public class IdNormalizer {
                                     }
                                     
                                 } catch (Exception e) {
-                                    LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
-                                            + entity.getType());
-                                    String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
-                                            + "       Entity " + entity.getType() + ": Reference to " + collection
-                                            + " is incomplete because the following reference field is not resolved: "
-                                            + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
-                                    
-                                    errorReport.error(errorMessage, this);
+                                    if (!refConfig.isOptional()) {
+                                        LOG.error("Error accessing indexed bean property " + valueSourcePath + " for bean "
+                                                + entity.getType());
+                                        String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                                + "       Entity " + entity.getType() + ": Reference to " + collection
+                                                + " is incomplete because the following reference field is not resolved: "
+                                                + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+
+                                        errorReport.error(errorMessage, this);
+                                    }
                                 }
                             }
                         }

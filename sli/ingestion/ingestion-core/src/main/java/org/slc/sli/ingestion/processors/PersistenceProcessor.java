@@ -224,12 +224,21 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
                     
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
-                    
+
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForNrFile);
+
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(
+                                MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                                        neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
                         
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
-                        
+
                         AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity
                                 .getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
@@ -263,7 +272,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             return defaultEdFi2SLITransformer;
         }
     }
-    
+
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
         long numFailed = 0;
@@ -363,7 +372,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }
-    
+
     public void setEntityPersistHandlers(
             Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
         this.entityPersistHandlers = entityPersistHandlers;
@@ -392,7 +401,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
         this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
     }
-    
+
     public void setDefaultEntityPersistHandler(
             AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;

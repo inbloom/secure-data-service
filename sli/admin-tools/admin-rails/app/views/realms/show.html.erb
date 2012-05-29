@@ -13,5 +13,5 @@ var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
 <%= link_to 'Edit', edit_realm_path(@realm), :class => "btn" %>
 <!--
 don't need this since they'll just get redirected back here
-<%= link_to 'Back', realms_path %>
+<%= link_to 'Done', realms_path, :class=>"btn" %>
 -->
