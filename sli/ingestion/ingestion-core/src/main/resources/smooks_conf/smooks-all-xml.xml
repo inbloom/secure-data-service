@@ -3761,6 +3761,7 @@
 
   <jb:bean beanId="gradingPeriodAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <jb:value property="gradingPeriodId" data="InterchangeEducationOrgCalendar/GradingPeriod/@id" />
         <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriod_gradingPeriodIdentity" />
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
