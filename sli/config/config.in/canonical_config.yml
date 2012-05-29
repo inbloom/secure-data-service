@@ -113,7 +113,7 @@ default:
         sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
         sli.ingestion.queue.pit.keystorePassword:
-        sli.ingestion.splitChunkSize: 25000
+        sli.ingestion.splitChunkSize: 5000
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
