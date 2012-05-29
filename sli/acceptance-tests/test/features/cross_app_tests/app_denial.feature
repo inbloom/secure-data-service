@@ -7,7 +7,7 @@ Scenario: Can access the Sample App
   When I navigate to the sample app page
   And I was redirected to the realmchooser page
   And I selected the realm "Illinois Sunset School District 4526"
-  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+  When I submit the credentials "manthony" "manthony1234" for the "OpenAM" login page
   And I am redirected to the sample app home page
 
 Scenario: District admin denies access to sample app
@@ -32,7 +32,7 @@ Scenario: Can no longer access the sample app
   When I navigate to the sample app page
   And I was redirected to the realmchooser page
   And I selected the realm "Illinois Sunset School District 4526"
-  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+  When I submit the credentials "manthony" "manthony1234" for the "OpenAM" login page
   Then I am denied access to the sample app home page
 
 Scenario: District admin allows access to sample app
