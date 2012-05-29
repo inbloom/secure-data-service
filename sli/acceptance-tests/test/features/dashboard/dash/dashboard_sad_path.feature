@@ -15,16 +15,19 @@ When I select "New York Realm" and click go
 When I login as "mario.sanchez" "mario.sanchez1234"
 Then I am informed that "No data is available for you to view."
 
+@wip
 Scenario:  User has no ed-org
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "manthony" "manthony1234"
 Then I am informed that "No data is available for you to view."
 
+@wip
 Scenario: User has no schools
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "jdoe" "jdoe1234"
 Then I am informed that "No data is available for you to view."
 
+@wip
 Scenario: User has org, no school
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "ejane" "ejane1234"
@@ -39,6 +42,7 @@ When I look in the school drop-down
 Then I only see "East Daybreak Junior High"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
+@wip
 Scenario: No schools in district
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "jwashington" "jwashington1234"
@@ -72,6 +76,10 @@ And "Carmen Ortiz" has no "SAT Writing.percentile"
 Scenario: Check empty StateTest assessments
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I look in the school drop-down
+Then I only see "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
@@ -94,5 +102,8 @@ And "Alton Ausiello" has no "tardyRate"
 Scenario: Section without Student grades
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "rbraverman" "rbraverman1234"
-When I select section "Grade 1"
+When I select ed org "Daybreak School District 4529"
+When I select school "South Daybreak Elementary"
+When I select course "Reading Group"
+When I select section "Reading Group - Red"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
