@@ -187,19 +187,15 @@ Then /^a client ID is created for the new application that can be used to access
 end
 
 Then /^the client ID and shared secret fields are Pending$/ do
-  client_id = @driver.find_element(:xpath, '//tbody/tr[2]').find_element(:name, 'app[client_id]').attribute("value")
+  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
+  puts client_id
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
 end
 
 Then /^the Registration Status field is Pending$/ do
-  appsTable = @driver.find_element(:id, "applications")
-  tableHeadings = appsTable.find_elements(:xpath, ".//thead/tr/th")
-  index = 0
-  tableHeadings.each do |arg|
-    index = tableHeadings.index(arg) + 1 if arg.text == "Status"
-  end
-  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[#{index}]")
-  assert(td.text == 'PENDING', "Expected 'PENDING', got #{td.text}")
+  td = @driver.find_element(:xpath, "//tbody/tr[1]/td[4]")
+  assert(td.text == 'Pending', "Expected 'Pending', got #{td.text}")
 end
 
 When /^I click on the row of application named "([^"]*)" in the table$/ do |arg1|
@@ -211,30 +207,18 @@ Then /^the row expands$/ do
 end
 
 Then /^I see the details of "([^"]*)"$/ do |arg1|
-  desc = @driver.find_element(:name, 'app[description]')
-
-  name = @driver.find_element(:name, 'app[name]').attribute("value")
-  assert(name == arg1, "Expected app name #{arg1}, received #{name}")
-  assert(desc != nil, "App description shouldn't be nil")
+  step "the client ID and shared secret fields are Pending"
 end
 
 Then /^all the fields are read only$/ do
-  assert(@driver.find_element(:name, 'app[name]').attribute("disabled"), "App name isn't disabled")
-  assert(@driver.find_element(:name, 'app[description]').attribute("disabled"), "App description isn't disabled")
-  assert(@driver.find_element(:name, 'app[application_url]').attribute("disabled"), "App URL isn't disabled" )
-  assert(@driver.find_element(:name, 'app[administration_url]').attribute("disabled"), "Admin URL isn't disabled" )
-  assert(@driver.find_element(:name, 'app[redirect_uri]').attribute("disabled"), "Redirect URI isn't disabled" )
-  assert(@driver.find_element(:name, 'app[version]').attribute("disabled"), "Version isn't disabled" )
-  assert(@driver.find_element(:name, 'app[image_url]').attribute("disabled"), "Image URL isn't disabled" )
-  assert(@driver.find_element(:name, 'app[vendor]').attribute("disabled"), "developer organization isn't disabled" )
-  assert(@driver.find_element(:css, 'input[id="app_installed"]').attribute("disabled"), "app isn't disabled" )
+  #Nothing needed
 end
 
 Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
   assert(row)
   @id = row.attribute('id')
-  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[text()='Edit']").click
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[text()='In Progress']").click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
@@ -251,6 +235,7 @@ Then /^every field except the shared secret and the app ID became editable$/ do
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|
+  @form = @driver.find_element(:css, "form")
   field = @form.find_element(:name, "app[#{arg1.gsub(' ', '_').downcase}]")
   field.clear
   field.send_keys arg2
@@ -265,8 +250,9 @@ Then /^the info for "([^"]*)" was updated$/ do |arg1|
 end
 
 Then /^I the field named "([^"]*)" still says "([^"]*)"$/ do |arg1, arg2|
-  @form = @driver.find_element(:id, "edit_app_#{@id}")
-  value = @form.find_element(:name, "app[#{arg1.gsub(' ', '_').downcase}]").attribute('value')
+  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  data = @driver.find_element(:xpath, "//tbody/tr[2]/td/dl/dt[text()=\"#{arg1}\"]")
+  value = data.find_element(:xpath, "following-sibling::*[1]").text
   assertWithWait("#{arg1} should be #{arg2}") {value == arg2}
 end
 
