@@ -38,7 +38,6 @@
 		<springdata.version>1.2.0.M1</springdata.version>
 		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
 		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
-		<hsqldb.version>1.8.0.10</hsqldb.version>
 		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
 
@@ -642,13 +641,6 @@
 				<artifactId>commons-pool</artifactId>
 				<version>${commons.pool.version}</version>
 				<scope>compile</scope>
-			</dependency>
-
-			<!-- HSQLDB dependency -->
-			<dependency>
-				<groupId>hsqldb</groupId>
-				<artifactId>hsqldb</artifactId>
-				<version>${hsqldb.version}</version>
 			</dependency>
 
 			<!-- Testing Framework -->
