@@ -1,4 +1,4 @@
-@RALLY_1129
+@RALLY_US1129
 Feature: Test CRUD fuctionality of Custom Entities per application 
 Application is authorized using OAuth (there is an client_id and client_secret).  Custom entities are partitioned by application. Access control inherited from parent.
 

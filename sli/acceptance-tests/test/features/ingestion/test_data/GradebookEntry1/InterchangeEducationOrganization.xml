@@ -38,42 +38,6 @@
       </EducationOrgIdentificationCode>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
-
-  <Course>
-    <CourseTitle>8th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>8th Grade English</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-
-  <Course>
-    <CourseTitle>Algebra-11</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Algebra-11</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-
   <School>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
@@ -168,4 +132,50 @@
     </LocalEducationAgencyReference>
   </School>
 
+  <Course>
+    <CourseTitle>8th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>8th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>East Daybreak Junior High</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>Algebra-11</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-11</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>East Daybreak Junior High</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
 </InterchangeEducationOrganization>

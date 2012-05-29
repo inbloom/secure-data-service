@@ -2,6 +2,49 @@
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+
+    <!-- learning objectives for kindergartners -->
+    <StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+      <Objective>Phonemic Awareness</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+    <StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
+      <Objective>Phonics</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+    <StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-3</StudentCompetencyObjectiveId>
+      <Objective>Comprehension</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+    <StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-4</StudentCompetencyObjectiveId>
+      <Objective>Fluency</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+
     <!-- GradebookEntry objects for linda.kim's class -->
     <GradebookEntry id="GBE-8th_Grade_English-1">
       <GradebookEntryType>Assignment</GradebookEntryType>
@@ -11694,6 +11737,11 @@
           </LearningObjectiveId>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
+      <StudentCompetencyObjectiveReference>
+        <StudentCompetencyObjectiveIdentity>
+          <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+        </StudentCompetencyObjectiveIdentity>
+      </StudentCompetencyObjectiveReference>
       <CompetencyLevel>
         <CodeValue>3</CodeValue>
       </CompetencyLevel>
@@ -11717,6 +11765,11 @@
           </LearningObjectiveId>
         </LearningObjectiveIdentity>
       </LearningObjectiveReference>
+      <StudentCompetencyObjectiveReference>
+        <StudentCompetencyObjectiveIdentity>
+          <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
+        </StudentCompetencyObjectiveIdentity>
+      </StudentCompetencyObjectiveReference>
       <CompetencyLevel>
         <CodeValue>2</CodeValue>
       </CompetencyLevel>
@@ -12387,48 +12440,6 @@
         </GradingPeriodIdentity>
       </GradingPeriodReference>
     </ReportCard>
-
-    <!-- learning objectives for kindergartners -->
-    <StudentCompetencyObjective>
-      <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
-      <Objective>Phonemic Awareness</Objective>
-      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-      <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
-      <Objective>Phonics</Objective>
-      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-      <StudentCompetencyObjectiveId>SCO-K-3</StudentCompetencyObjectiveId>
-      <Objective>Comprehension</Objective>
-      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-    </StudentCompetencyObjective>
-    <StudentCompetencyObjective>
-      <StudentCompetencyObjectiveId>SCO-K-4</StudentCompetencyObjectiveId>
-      <Objective>Fluency</Objective>
-      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-    </StudentCompetencyObjective>
 
     <!-- grading history for Mi-Ha Tran. Refers to grades already earned in kindergarten. -->
     <StudentCompetency id="SC-100000017-1">
