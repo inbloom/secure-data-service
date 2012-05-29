@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * 
@@ -19,8 +20,26 @@ public class MongoTrackingAspect {
     
     private Map<String, Pair<AtomicLong, AtomicLong>> stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
     
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..))")
+    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
+        
+        MongoTemplate mt = (MongoTemplate) pjp.getTarget();
+        
+        String collection = "UNKNOWN";
+        Object[] args = pjp.getArgs();
+        if (args[0] instanceof String) {
+            collection = (String) args[0];
+        } else if (args.length > 1 && args[1] instanceof String) {
+            collection = (String) args[1];
+        } else if (args.length > 1 && args[2] instanceof String) {
+            collection = (String) args[2];
+        }
+        
+        if (collection.lastIndexOf("_") > -1) {
+            collection = collection.substring(0, collection.lastIndexOf("_"));
+        }
+        
+        String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
         
         if (stats.get(pjp.getSignature().getName()) == null) {
             stats.put(pjp.getSignature().getName(), Pair.of(new AtomicLong(0), new AtomicLong(0)));
