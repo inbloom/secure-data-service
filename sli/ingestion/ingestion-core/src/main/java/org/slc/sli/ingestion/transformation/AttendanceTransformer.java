@@ -11,19 +11,18 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of

@@ -451,9 +451,9 @@ end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-  runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-end
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  end
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do

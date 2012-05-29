@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.v1.DefaultCrudResource;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents the final record of a student's performance in their courses at the end of semester or school year.
+ * Represents the final record of a student's performance in their courses at the end of semester or
+ * school year.
  *
  * For more information, see the schema for $$StudentTranscriptAssociation$$ resources.
  *
@@ -46,7 +47,8 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", courseTranscriptId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", courseTranscriptId, "studentId",
+                ResourceNames.STUDENTS, headers, uriInfo);
     }
 
     /**
@@ -58,7 +60,8 @@ public class StudentTranscriptAssociationResource extends DefaultCrudResource {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", courseTranscriptId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", courseTranscriptId, "courseId",
+                ResourceNames.COURSES, headers, uriInfo);
     }
 
 }
