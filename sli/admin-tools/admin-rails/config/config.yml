@@ -113,4 +113,24 @@ test:
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
+    email_sender_address_user_reg_app: noreply@slidev.org    
+production:
+    api_base: https://ci.slidev.org/api/rest
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    redirect_uri: https://ci.slidev.org:2001/callback
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: Y;Gtf@w{
+    email_sender_name: SLI Administrator
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
+    email_host: mon.slidev.org
+    email_port: 3000
+    email_replace_uri: https://ci.slidev.org:2001
+    is_sandbox: false
+    admin_realm: Shared Learning Infrastructure
+    redirect_slc_url: http://www.slcedu.org
+    email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
