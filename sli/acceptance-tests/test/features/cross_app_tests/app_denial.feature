@@ -56,5 +56,5 @@ Scenario: Can access the Sample App
   When I navigate to the sample app page
   And I was redirected to the realmchooser page
   And I selected the realm "Illinois Sunset School District 4526"
-  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+  When I submit the credentials "manthony" "manthony1234" for the "OpenAM" login page
   And I am redirected to the sample app home page
