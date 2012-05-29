@@ -127,7 +127,7 @@ public class JobReportingProcessor implements Processor {
                         workNote.getBatchJobId());
             }
             if (job != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, job);
+                BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
             }
         }

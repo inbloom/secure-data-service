@@ -77,6 +77,11 @@ public class BatchJobUtils {
         }
     }
 
+    public static void completeStageAndJob(Stage stage, NewBatchJob job) {
+        job.stop();
+        stopStageAndAddToJob(stage, job);
+    }
+
     public static void stopStageAndAddToJob(Stage stage, NewBatchJob job) {
         stage.stopStage();
         job.addStage(stage);
@@ -85,7 +90,6 @@ public class BatchJobUtils {
     public static void stopStageChunkAndAddToJob(Stage stage, NewBatchJob job) {
         stage.stopStage();
         job.addStageChunk(stage);
-        job.stop();
     }
 
     public static ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
