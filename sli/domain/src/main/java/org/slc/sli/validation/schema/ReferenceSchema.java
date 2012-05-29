@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
@@ -19,19 +18,15 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  * @author srupasinghe
  *
  */
-@Scope("prototype")
-@Component
 public class ReferenceSchema extends NeutralSchema {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(ReferenceSchema.class);
 
-    // Constructors
-    public ReferenceSchema() {
-        this(NeutralSchemaType.REFERENCE.getName());
-    }
+    private SchemaRepository schemaRepository;
 
-    public ReferenceSchema(String xsdType) {
+    public ReferenceSchema(String xsdType, SchemaRepository schemaRepository) {
         super(xsdType);
+        this.schemaRepository = schemaRepository;
     }
 
     // Methods
@@ -46,7 +41,7 @@ public class ReferenceSchema extends NeutralSchema {
      * @return a collection/resource name this reference refers to
      */
     public String getResourceName() {
-        return super.getAppInfo().getReferenceType();
+        return getCollectionName();
     }
 
     @Override
@@ -76,10 +71,11 @@ public class ReferenceSchema extends NeutralSchema {
         }
 
         boolean found = false;
+        String collectionType = getCollectionName();
 
         try {
             // try to find an entity with the given id
-            found = repo.exists(getAppInfo().getReferenceType(), (String) entity);
+            found = repo.exists(collectionType, (String) entity);
         } catch (Exception e) {
             // repo.find is currently throwing multiple kinds of exceptions so we will catch all for
             // now, as we sort out what is thrown and why
@@ -96,4 +92,18 @@ public class ReferenceSchema extends NeutralSchema {
 
         return true;
     }
+
+    private String getCollectionName() {
+        String collectionName = getAppInfo().getReferenceType();
+
+        if (schemaRepository != null) {
+            if (schemaRepository.getSchema(collectionName).getAppInfo() != null
+                    && schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType() != null) {
+                collectionName = schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType();
+            }
+        }
+
+        return collectionName;
+    }
+
 }

@@ -19,6 +19,30 @@
                     ]
                 ]
             }
+    },
+    
+    
+    {
+        "fieldPath" : "body.gradingPeriodReference",
+        "ref" : {
+            "collectionName" : "gradingPeriod",
+            "isRefList" : true,
+            "refObjectPath" : "body.gradingPeriodReference",
+            "choiceOfFields" :
+                [
+                  [
+                       {
+                       "path" : "metaData.externalId",
+                       "values" :
+                         [
+                            { "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity" }
+                          ]
+                        }
+                    ]
+                ]
+            }
     }
+    
+    
   ]
 }

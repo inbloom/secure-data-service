@@ -13,14 +13,14 @@
     <SessionReference>
       <SessionIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
-        <SessionName>TestSession</SessionName>
+        <SessionName>Fall 2011 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <CourseCode IdentificationSystem="CSSC course code">
-        <ID>Geometry-12</ID>
-      </CourseCode>
+          <ID>Geometry-12</ID>
+        </CourseCode>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
@@ -37,14 +37,14 @@
     <SessionReference>
       <SessionIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
-        <SessionName>TestSession</SessionName>
+        <SessionName>Fall 2011 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
       <CourseIdentity>
         <CourseCode IdentificationSystem="CSSC course code">
-        <ID>Geometry-12</ID>
-      </CourseCode>
+          <ID>Geometry-12</ID>
+        </CourseCode>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>

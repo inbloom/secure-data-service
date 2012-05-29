@@ -1,3 +1,4 @@
+@RALLY_US1390 @RALLY_US632
 Feature: Transformed Assessment Ingestion Test
 
 Background: I have a landing zone route configured
@@ -20,7 +21,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard            | 6     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | DIBELS.DIBELS Next.DIBELS Next Kindergarten      | string |
+     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten      | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
@@ -30,6 +31,17 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
+   
+	| assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
+   
+    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue      | act1                         | string |
+    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.description    | American Literature I          | string |
+   
+   
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math             | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Critical Reading | string |

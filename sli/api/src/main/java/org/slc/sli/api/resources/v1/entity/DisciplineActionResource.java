@@ -25,8 +25,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * 
- * Represents the definition of a discipline action.  
+ * Represents the definition of a discipline action.
  * 
  * A discipline action is defined as an action taken by an
  * education organization after a disruptive event that
@@ -35,7 +34,6 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * For detailed information, see the schema for the $$DisciplineAction$$ entity.
  *
  * @author slee
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_ACTIONS)
 @Component
@@ -49,16 +47,6 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the requested collection of resource representations.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -70,17 +58,6 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Creates a new resource using the given resource data.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
      */
     @Override
     @POST
@@ -91,14 +68,6 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Returns the specified resource representation(s).
-     *
-     * @param disciplineActionId
-     *            The id of the entity
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
      */
     @Override
     @GET
@@ -110,15 +79,6 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Deletes the specified resource.
-     *
-     * @param disciplineActionId
-     *            The id of the entity
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     @Override
     @DELETE
@@ -130,17 +90,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Updates the specified resource using the given resource data.
-     *
-     * @param disciplineActionId
-     *            The id of the entity
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+
      */
     @Override
     @PUT

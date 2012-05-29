@@ -4,7 +4,7 @@
   <property file="${sli.conf}"/>	
 	
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <File>${log.path}/dashboard.log</File>
+    <File>${log.path}/dashboard/dashboard.log</File>
     <Append>true</Append>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />

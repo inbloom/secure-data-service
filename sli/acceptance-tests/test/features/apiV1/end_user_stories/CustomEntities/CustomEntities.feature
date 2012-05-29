@@ -1,3 +1,4 @@
+@RALLY_1129
 Feature: Test CRUD fuctionality of Custom Entities per application 
 Application is authorized using OAuth (there is an client_id and client_secret).  Custom entities are partitioned by application. Access control inherited from parent.
 
@@ -13,7 +14,7 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
    
     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" to the object
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 201
 	And I should receive a Location header for the custom entity
@@ -34,7 +35,7 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
     And the clientID is "demoClient"
     And I am authenticated on "IL"
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" in the result
+	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" in the result
 
 
 Scenario: As an IT Admin, I want to update custom entity associated with any core entity belonging to my application
@@ -45,7 +46,7 @@ Scenario: As an IT Admin, I want to update custom entity associated with any cor
     
     Given format "application/json" 
     And a valid entity json object for a "educationOrganizations"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Reading Results</DisplayName>" to the object
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 201
 
@@ -65,12 +66,12 @@ Scenario: As an IT Admin, I want to update custom entity associated with any cor
     
     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Writing Results</DisplayName>" to the object
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
 	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 204
 	
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
-	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>ISAT Writing Results</DisplayName>" in the result
+	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" in the result
 	
 	Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "SampleApplication"

@@ -38,7 +38,6 @@ import org.slc.sli.sandbox.idp.service.UserService.User;
 @Controller
 public class Login {
     private static final Logger LOG = LoggerFactory.getLogger(Login.class);
-
     private static final String USER_SESSION_KEY = "user_session_key";
 
     @Autowired
@@ -134,24 +133,22 @@ public class Login {
                 mav.addObject("is_sandbox", false);
             }
 
-            //if a user with this userId exists, get his info and roles/groups and
-            //log that information as a failed login attempt.
+            // if a user with this userId exists, get his info and roles/groups and
+            // log that information as a failed login attempt.
             String edOrg = "UnknownEdOrg";
             List<String> userRoles = Collections.emptyList();
             try {
                 User unauthenticatedUser = userService.getUser(realm, userId);
-                if( unauthenticatedUser != null) {
+                if (unauthenticatedUser != null) {
                     Map<String, String> attributes = unauthenticatedUser.getAttributes();
-                    if(attributes != null) {
+                    if (attributes != null) {
                         edOrg = attributes.get("edOrg");
                     }
                 }
                 userRoles = userService.getUserGroups(realm, userId);
-            }
-            catch(EmptyResultDataAccessException noMatchesException) {
+            } catch (EmptyResultDataAccessException noMatchesException) {
                 LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
-            }
-            catch(Exception exception) {
+            } catch (Exception exception) {
                 LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
             }
             writeLoginSecurityEvent(false, userId, userRoles, edOrg, request);
@@ -173,7 +170,7 @@ public class Login {
                 mav.addObject("roles", roleService.getAvailableRoles());
                 return mav;
             }
-             user.getAttributes().clear();
+            user.getAttributes().clear();
             user.getAttributes().put("tenant", tenant);
         }
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -189,7 +186,8 @@ public class Login {
 
     }
 
-    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg, HttpServletRequest request) {
+    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
+            HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
 
         event.setUser(userId);

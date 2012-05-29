@@ -1,6 +1,5 @@
 <div class="tabular">
     <table ><thead><tr><th></th><td class="contactInfoData"><h6>${singleContactName}</h6></td></tr></thead><tbody>
-    <tr><th></th><td></td></tr>
 	<!-- display telephone numbers for student -->
 		<#list singleContact.telephone as telephone>
 		<tr>
@@ -12,7 +11,6 @@
 				</td>
 			</tr>
 		</#list>
-	<tr><th></th><td></td></tr>
 		<#list singleContact.electronicMail as electronicMail>
 			<tr>
 				<th>
@@ -32,7 +30,6 @@
 				</td>
 			</tr>
 		</#list>
-	<tr><th></th><td></td></tr>
 		<#list singleContact.address as address>
 			<tr>
 				<th>

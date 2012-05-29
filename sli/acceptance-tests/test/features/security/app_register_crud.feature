@@ -2,6 +2,7 @@
 Feature: Application Registration Entity
 As an OAuth application developer for SLI, I want to create a registration entity in SLI so that it can authenticate with SLI
 
+@RALLY_DE387
 Scenario: CRUD operations on Applications
 
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
@@ -55,7 +56,7 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@sandbox
+@sandbox @RALLY_DE387
 Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I navigate to POST "/apps"
@@ -71,6 +72,7 @@ Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data
 
+@RALLY_DE387
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
 	When I navigate to POST "/apps"
@@ -94,7 +96,8 @@ Scenario: Bootstrapping of apps
 	And the "SLC Data Browser" bootstrap app should exist
 
 
-@sandbox @wip
+
+@sandbox @wip @RALLY_DE387
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
 	When I navigate to POST "/apps"

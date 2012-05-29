@@ -2,159 +2,42 @@
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
 
-    <Session>
-        <SessionName>Fall 2011 Able School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Fall Semester</Term>
-        <BeginDate>2011-09-06</BeginDate>
-        <EndDate>2011-12-16</EndDate>
-        <TotalInstructionalDays>75</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_1"/>
-    </Session>
-    <Session>
-        <SessionName>Fall 2011 Baker School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Fall Semester</Term>
-        <BeginDate>2011-09-06</BeginDate>
-        <EndDate>2011-12-16</EndDate>
-        <TotalInstructionalDays>75</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_2"/>
-        <GradingPeriodReference ref="GP_3"/>
-    </Session>
-    <Session>
-        <SessionName>Fall 2011 Charlie School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Fall Semester</Term>
-        <BeginDate>2011-09-06</BeginDate>
-        <EndDate>2011-12-16</EndDate>
-        <TotalInstructionalDays>75</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_4"/>
-        <GradingPeriodReference ref="GP_5"/>
-        <GradingPeriodReference ref="GP_6"/>
-    </Session>
-    <Session>
-        <SessionName>Fall 2011 Dog School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Fall Semester</Term>
-        <BeginDate>2011-09-06</BeginDate>
-        <EndDate>2011-12-16</EndDate>
-        <TotalInstructionalDays>75</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_7"/>
-        <GradingPeriodReference ref="GP_8"/>
-        <GradingPeriodReference ref="GP_9"/>
-        <GradingPeriodReference ref="GP_101"/>
-    </Session>
-    <Session>
-        <SessionName>Fall 2011 Echo School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Fall Semester</Term>
-        <BeginDate>2011-09-06</BeginDate>
-        <EndDate>2011-12-16</EndDate>
-        <TotalInstructionalDays>75</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_1"/>
-    </Session>
-    <Session>
-        <SessionName>Spring 2012 Able School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Spring Semester</Term>
-        <BeginDate>2012-01-02</BeginDate>
-        <EndDate>2010-06-22</EndDate>
-        <TotalInstructionalDays>125</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_2"/>
-        <GradingPeriodReference ref="GP_3"/>
-    </Session>
-    <Session>
-        <SessionName>Spring 2012 Baker School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Spring Semester</Term>
-        <BeginDate>2012-01-02</BeginDate>
-        <EndDate>2010-06-22</EndDate>
-        <TotalInstructionalDays>125</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_4"/>
-        <GradingPeriodReference ref="GP_5"/>
-        <GradingPeriodReference ref="GP_6"/>
-    </Session>
-    <Session>
-        <SessionName>Spring 2012 Charlie School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Spring Semester</Term>
-        <BeginDate>2012-01-02</BeginDate>
-        <EndDate>2010-06-22</EndDate>
-        <TotalInstructionalDays>125</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_7"/>
-        <GradingPeriodReference ref="GP_8"/>
-        <GradingPeriodReference ref="GP_9"/>
-        <GradingPeriodReference ref="GP_101"/>
-    </Session>
-    <Session>
-        <SessionName>Spring 2012 Dog School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Spring Semester</Term>
-        <BeginDate>2012-01-02</BeginDate>
-        <EndDate>2010-06-22</EndDate>
-        <TotalInstructionalDays>125</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_1"/>
-    </Session>
-    <Session>
-        <SessionName>Spring 2012 Echo School</SessionName>
-        <SchoolYear>2011-2012</SchoolYear>
-        <Term>Spring Semester</Term>
-        <BeginDate>2012-01-02</BeginDate>
-        <EndDate>2010-06-22</EndDate>
-        <TotalInstructionalDays>125</TotalInstructionalDays>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-        <GradingPeriodReference ref="GP_2"/>
-        <GradingPeriodReference ref="GP_3"/>
-    </Session>
+	<CalendarDate id="CD_1">
+		<Date>2010-09-02</Date>
+		<CalendarEvent>Instructional day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_2">
+		<Date>2010-09-03</Date>
+		<CalendarEvent>Teacher only day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_3">
+		<Date>2010-09-04</Date>
+		<CalendarEvent>Holiday</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_4">
+		<Date>2010-09-05</Date>
+		<CalendarEvent>Make-up day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_5">
+		<Date>2010-09-06</Date>
+		<CalendarEvent>Weather day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_6">
+		<Date>2010-09-07</Date>
+		<CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_7">
+		<Date>2010-09-08</Date>
+		<CalendarEvent>Emergency day</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_8">
+		<Date>2010-09-09</Date>
+		<CalendarEvent>Strike</CalendarEvent>
+	</CalendarDate>
+	<CalendarDate id="CD_9">
+		<Date>2010-09-10</Date>
+		<CalendarEvent>Other</CalendarEvent>
+	</CalendarDate>
 
 	<GradingPeriod id="GP_1">
 		<GradingPeriod>First Six Weeks</GradingPeriod>
@@ -220,41 +103,156 @@
 		<CalendarDateReference ref="CD_4"/>
 	</GradingPeriod>
 
-	<CalendarDate id="CD_1">
-		<Date>2010-09-02</Date>
-		<CalendarEvent>Instructional day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_2">
-		<Date>2010-09-03</Date>
-		<CalendarEvent>Teacher only day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_3">
-		<Date>2010-09-04</Date>
-		<CalendarEvent>Holiday</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_4">
-		<Date>2010-09-05</Date>
-		<CalendarEvent>Make-up day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_5">
-		<Date>2010-09-06</Date>
-		<CalendarEvent>Weather day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_6">
-		<Date>2010-09-07</Date>
-		<CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_7">
-		<Date>2010-09-08</Date>
-		<CalendarEvent>Emergency day</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_8">
-		<Date>2010-09-09</Date>
-		<CalendarEvent>Strike</CalendarEvent>
-	</CalendarDate>
-	<CalendarDate id="CD_9">
-		<Date>2010-09-10</Date>
-		<CalendarEvent>Other</CalendarEvent>
-	</CalendarDate>
+    <Session>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_1"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Baker School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Baker School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference ref="GP_3"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Charlie School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Charlie School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_4"/>
+        <GradingPeriodReference ref="GP_5"/>
+        <GradingPeriodReference ref="GP_6"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Dog School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Dog School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_7"/>
+        <GradingPeriodReference ref="GP_8"/>
+        <GradingPeriodReference ref="GP_9"/>
+    </Session>
+    <Session>
+        <SessionName>Fall 2011 Echo School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Fall Semester</Term>
+        <BeginDate>2011-09-06</BeginDate>
+        <EndDate>2011-12-16</EndDate>
+        <TotalInstructionalDays>75</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Echo School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_1"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Able School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Able School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference ref="GP_3"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Baker School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Baker School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_4"/>
+        <GradingPeriodReference ref="GP_5"/>
+        <GradingPeriodReference ref="GP_6"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Charlie School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Charlie School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_7"/>
+        <GradingPeriodReference ref="GP_8"/>
+        <GradingPeriodReference ref="GP_9"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Dog School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Dog School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_1"/>
+    </Session>
+    <Session>
+        <SessionName>Spring 2012 Echo School</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2010-06-22</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Echo School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference ref="GP_3"/>
+    </Session>
 
 </InterchangeEducationOrgCalendar>

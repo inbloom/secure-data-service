@@ -55,6 +55,7 @@ public class NeutralSchemaValidationTest {
     
     @Test
     public void testValidSession() throws Exception {
+        this.addDummyEntity("gradingPeriod", "12345678-1234-1234-1234-12345678012");
         readAndValidateFixtureData("src/test/resources/session_fixture_neutral.json", "session");
     }
     

@@ -29,27 +29,46 @@ DashboardProxy = {
 				this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
 			}
 		},
+		loadAll : function(dataConfigObj) {
+			jQuery.extend(this.data, dataConfigObj.data);
+			jQuery.extend(this.config, dataConfigObj.config);
+			this.loadWidgetConfig(dataConfigObj.widgetConfig);
+		},
 		load : function(componentId, id, callback) {
-			var prx = this;
+			var prx = this,
+				w_studentListLoader = $("<div></div>").loader();
+			
+			w_studentListLoader.show();
+						
 			$.ajax({
-				  url: contextRootPath + '/service/component/' + componentId + '/' + id,
+				  async: false,
+				  url: contextRootPath + '/service/component/' + componentId + '/' + (id ? id : ""),
 				  scope: this,
 				  success: function(panel){
-					  prx.data[componentId] = panel.data; 
-					  prx.config[componentId] = panel.viewConfig; 
-					  callback(panel);
+					  jQuery.extend(prx.data, panel.data);
+					  jQuery.extend(prx.config, panel.config);
+					  w_studentListLoader.remove();
+					  
+					  if (jQuery.isFunction(callback))
+					    callback(panel);
 			      },
 			      error: $("body").ajaxError( function(event, request, settings) {
+			    	  w_studentListLoader.remove();
 			    	  if (request.responseText == "") {
 			    		  $(location).attr('href',$(location).attr('href'));
 			    	  } else {
 			    		  $(location).attr('href', contextRootPath + "/exception");
 			    	  }
-			      }),
+			      })
 			});
 		},
 		getData: function(componentId) {
-			return this.data[componentId];
+			var config = this.getConfig(componentId);
+			if (config && config.data && config.data.cacheKey) {
+				return this.data[config.data.cacheKey];
+			}
+				
+			return {};
 		},
 		getConfig: function(componentId) {
 			return this.config[componentId];
@@ -100,7 +119,6 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 	
 	if(options === null || options === undefined || options.length == 0) {
-		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
                 DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 	} else {
 	    	if (options.length == 1 && autoSelect) {
@@ -181,6 +199,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 	            if (item1.align) {
 	            	colModelItem.align = item1.align;
 	            }
+	            if(item1.style) {
+	            	colModelItem.classes = item1.style;
+	            }
 	            colModel.push( colModelItem );
 	        }     
 	    }
@@ -189,7 +210,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
-      	  useColSpanStyle: false, 
+      	  useColSpanStyle: true, 
       	  groupHeaders:groupHeaders
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
@@ -206,28 +227,28 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     }
 }
 
-DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
-{
+DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options) {
 
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
 	}
 	gridOptions = { 
-	    	data: panelData,
-	        datatype: 'local', 
-	        height: 'auto',
-	        viewrecords: true,
-	        autoencode: true,
-	        rowNum: 10000};
+    	data: panelData,
+        datatype: 'local', 
+        height: 'auto',
+        viewrecords: true,
+        autoencode: true,
+        rowNum: 10000};
+
         if(panelData === null || panelData === undefined || panelData.length < 1) {
-            gridOptions["data"] = [];
             DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
-        }
-	if (options) {
-		gridOptions = jQuery.extend(gridOptions, options);
-	}
-	return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+        } else {
+	    if (options) {
+	    	gridOptions = jQuery.extend(gridOptions, options);
+	    }
+	    return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+    }
 };
 
 DashboardUtil.Grid = {};
@@ -303,7 +324,6 @@ DashboardUtil.Grid.Formatters = {
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
             if (value === undefined || value === null) {
-                //return "<span class='fuelGauge-perfLevel'></span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
                 return "<span class='fuelGauge-perfLevel'></span>";
             }
             
@@ -475,6 +495,20 @@ DashboardUtil.Grid.Sorters = {
                 return i ? parseInt(i) : -1;
             }
         },
+        
+        /**
+         * Sort by sortField provided in the params. The field must be int.
+         */
+        ProxyInt: function(params) {
+            var fieldArray = (params.sortField) ? params.sortField.split(".") : [];
+            var length = fieldArray.length;
+            return function(value, rowObject) {
+            	var ret = rowObject, i = 0;
+            	// find the field in the rowobject by its path "field.subfield.subsub" and return the value
+                while(i < length && (ret = ret[fieldArray[i ++]]));
+                return parseInt(ret);
+            }
+        },
 
         LetterGrade: function(params) {
             return function(semesterGrades, rowObject) {
@@ -574,14 +608,6 @@ DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
     if(XMLHttpRequest.status != 200) {
         window.location = requestUrl;
     }
-};
-
-/*
- * Display generic dashboard error page
- */
-DashboardUtil.displayErrorPage = function()
-{
-    window.location = "/dashboard/static/html/error.html";
 };
 
 // --- static helper function --- 
@@ -735,18 +761,13 @@ DashboardUtil.checkCondition = function(data, condition) {
 };
 
 DashboardUtil.displayErrorMessage = function (error){
-    var errors = document.getElementById("losError");
-    if(errors !== undefined && errors !== null ) {
-        errors.style.display = "block";
-        errors.innerHTML = error;
-    }
+    $("#losError").show();
+    $("#viewSelection").hide();
+    $("#losError").html(error);
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
-    var errors = document.getElementById("losError");
-    if(errors !== undefined && errors !== null ) {
-        errors.style.display = "none";
-    }
+    $("#losError").hide();
 }
 
 DashboardUtil.teardrop = {
@@ -838,3 +859,28 @@ DashboardUtil.teardrop = {
 };
 
 DashboardUtil.teardrop.init();
+
+// Loader widget
+$.widget( "SLI.loader", {
+	
+	options: {
+		message: "Loading..."
+	},
+	
+    _create: function() {
+        var message = this.options.message;
+        this.element
+            .addClass( "loader" )
+            .html("<div class='message'>" + message + "</div>")
+            .appendTo("body");
+    },
+    
+    message: function( message ) {
+        if ( message === undefined || typeof message !== "string" ) {
+            return this.options.message;
+        } else {
+            this.options.message = message;
+            this.element.find(".message").html(this.options.message);
+        }
+    },
+});

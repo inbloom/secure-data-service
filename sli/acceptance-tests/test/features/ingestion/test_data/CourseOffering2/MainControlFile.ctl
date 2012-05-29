@@ -1,2 +1,2 @@
-edfi-xml,MasterSchedule,CourseOffering2.xml,253e95f27fb727977bf1411b1b03925c
+edfi-xml,MasterSchedule,CourseOffering2.xml,BC08699F7F337D0091B238260627E8E7
 

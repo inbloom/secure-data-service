@@ -44,7 +44,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference ref="CO_3"/>
+    <CourseOfferingReference ref="CO_1"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Charlie School</StateOrganizationId>
@@ -64,13 +64,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>8th Grade English</LocalCourseCode>
+	    <LocalCourseCode>8th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -96,9 +96,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -120,13 +120,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>7th Grade English</ID>
+          <ID>8th Grade English</ID>
         </CourseCode>
         <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -148,13 +148,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>7th Grade Composition</LocalCourseCode>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>7th Grade Composition</ID>
+          <ID>8th Grade English</ID>
         </CourseCode>
         <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -174,17 +174,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Reading Group</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Reading Group</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
+    <CourseOfferingReference ref="CO_3"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Baker School</StateOrganizationId>
@@ -204,13 +194,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
+        <LocalCourseCode>Club/Team</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Special Elective:Debate Clinic</ID>
+          <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -232,13 +222,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <LocalCourseCode>Club/Team</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Writing about Government</ID>
+          <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -260,13 +250,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>7th Grade English</ID>
+          <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -288,13 +278,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <LocalCourseCode>Club/Team</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Reading Group</ID>
+          <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -316,13 +306,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>7th Grade English</ID>
+          <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -344,13 +334,13 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <LocalCourseCode>Club/Team</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Reading Group</ID>
+          <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -376,9 +366,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -388,36 +378,90 @@
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2012 Able School</SessionName>
+        <SessionName>Fall 2011 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
 
   <CourseOffering id="CO_1">
     <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>1st Grade Homeroom</ID>
-    </CourseCode>
-    <Term>First Trimester</Term>
-    <SchoolYear>2000-2001</SchoolYear>
-    <StateOrganizationId>1</StateOrganizationId>
+    <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+      <SessionIdentity>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
   </CourseOffering>
   <CourseOffering id="CO_2">
-     <LocalCourseCode>8th Grade English</LocalCourseCode>
-     <CourseCode IdentificationSystem="CSSC course code">
-       <ID>8th Grade English</ID>
-     </CourseCode>
-     <Term>First Trimester</Term>
-     <SchoolYear>2000-2001</SchoolYear>
-     <StateOrganizationId>1</StateOrganizationId>
+    <LocalCourseCode>8th Grade English</LocalCourseCode>
+    <LocalCourseTitle>8th Grade English</LocalCourseTitle>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+      <SessionIdentity>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
   </CourseOffering>
   <CourseOffering id="CO_3">
     <LocalCourseCode>Club/Team</LocalCourseCode>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Club/Team</ID>
-    </CourseCode>
-    <Term>First Trimester</Term>
-    <SchoolYear>2000-2001</SchoolYear>
-    <StateOrganizationId>1</StateOrganizationId>
+    <LocalCourseTitle>Club/Team</LocalCourseTitle>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Club/Team</ID>
+      </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+      <SessionIdentity>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
   </CourseOffering>
- </InterchangeMasterSchedule>
+</InterchangeMasterSchedule>

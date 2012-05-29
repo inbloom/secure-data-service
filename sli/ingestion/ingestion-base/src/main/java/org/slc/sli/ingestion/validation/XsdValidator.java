@@ -19,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -62,12 +63,11 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
         } catch (SAXException e) {
-            LOG.error("SAXException", e.getLocalizedMessage());
+            LOG.error("SAXException");
         } catch (RuntimeException e) {
             LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
-            LOG.error(e.getMessage());
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LogUtil.error(LOG, "Error processing file " + ingestionFileEntry.getFileName(), e);
         }
 
         return false;

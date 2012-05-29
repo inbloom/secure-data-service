@@ -35,6 +35,27 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         return (String) (get(key));
     }
 
+    @SuppressWarnings("unchecked")
+    /**
+     * Get object for dot notation based key
+     * @param key
+     * @return
+     */
+    public Object getNode(String key) {
+        if (key == null) {
+            return null;
+        }
+        String[] fieldArray = key.split("\\.");
+        Object node = this;
+        for (String field : fieldArray) {
+            if (node == null || !(node instanceof Map)) {
+                return null;
+            }
+            node = ((Map<String, Object>) node).get(field);
+        }
+        return node;
+    }
+
     @SuppressWarnings("rawtypes")
     public List getList(String key) {
         @SuppressWarnings("unchecked")

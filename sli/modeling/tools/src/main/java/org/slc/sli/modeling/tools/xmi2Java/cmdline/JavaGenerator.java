@@ -12,6 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.modeling.jgen.ClassTypeHelper;
+import org.slc.sli.modeling.jgen.JavaGenConfig;
+import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
+import org.slc.sli.modeling.jgen.JavaOutputFactory;
+import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.slc.sli.modeling.jgen.JavadocHelper;
+import org.slc.sli.modeling.jgen.JavaTypeHelper;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
@@ -31,9 +38,9 @@ public final class JavaGenerator {
             doModel("SLI.xmi",
                     "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja",
                     "org.slc.sli.modeling.ninja", config);
-            doModel("xmi-mapping.xmi",
-                    "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
-                    "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
+            // doModel("xmi-mapping.xmi",
+            // "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
+            // "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -87,7 +94,7 @@ public final class JavaGenerator {
                 JavadocHelper.writeJavadoc(dataType, model, jsw);
                 jsw.beginClass(dataType.getName(), null);
                 try {
-                    final String dataTypeBaseName = TypeHelper.getAttributePrimeTypeName(getDataTypeBase(dataType,
+                    final String dataTypeBaseName = JavaTypeHelper.getAttributePrimeTypeName(getDataTypeBase(dataType,
                             model));
                     final String baseName = "value";
 

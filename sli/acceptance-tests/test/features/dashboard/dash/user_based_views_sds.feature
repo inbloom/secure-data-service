@@ -39,10 +39,10 @@ Scenario: Check changing view changes table headings
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
   When I select view "Middle School ELA View"
-  Then I should see a table heading "ISAT Reading"
-    And I should see a table heading "ISAT Writing (most recent)"
+  Then I should see a table heading "StateTest Reading"
+    And I should see a table heading "StateTest Writing (most recent)"
     
- @integration
+ @integration @RALLY_US200
 Scenario: Different users have different views defined
   When I login as "rbraverman" "rbraverman1234"
   When I select <edOrg> "Daybreak School District 4529"

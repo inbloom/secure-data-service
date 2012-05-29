@@ -1,0 +1,61 @@
+{
+    "keyFields" : [ "body.sessionId", "body.localCourseCode"],
+	"references" :
+	[{
+        "fieldPath" : "body.schoolId",
+        "ref" :
+        {
+	        "collectionName" : "educationOrganization",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "body.stateOrganizationId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.sessionId",
+        "ref" :
+        {
+	        "collectionName" : "session",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		                "path" : "body.sessionName",
+		                "values" :
+		                [{
+		                    "valueSource" : "body.SessionReference.SessionIdentity.SessionName"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.courseId",
+        "ref" :
+        {
+	        "collectionName" : "course",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.courseId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

@@ -30,7 +30,6 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | courseOffering              | 1                   | body.localCourseCode        | ACC-TEST-COURSE-CODE-1  | string               |
      | courseOffering              | 1                   | body.localCourseCode        | ACC-TEST-COURSE-CODE-2  | string               |
-     | courseOffering              | 2                   | body.courseId               | Geometry-12             | string               |
   And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "CourseOffering1.xml records considered: 2" in the resulting batch job file
@@ -43,7 +42,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
 
-@wip
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "CourseOffering2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
@@ -55,7 +53,8 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue               | searchType           |
      | courseOffering              | 1                   | body.localCourseTitle       | ACC-TEST-COURSE-TITLE-2A  | string               |
-     | courseOffering              | 0                   | body.localCourseTitle       | ACC-TEST-COURSE-TITLE-2   | string               |
+     | courseOffering              | 1                   | body.localCourseTitle       | ACC-TEST-COURSE-TITLE-2   | string               |
+     | courseOffering              | 0                   | body.localCourseTitle       | ACC-TEST-COURSE-CODE-1    | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "CourseOffering2.xml records considered: 1" in the resulting batch job file

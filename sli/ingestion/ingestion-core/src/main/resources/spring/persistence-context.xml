@@ -79,6 +79,7 @@
     <value>gradingPeriod</value>
     <value>calendarDate</value>
     <value>reportCard</value>
+    <value>courseOffering</value>
   </util:set>
 
 </beans>

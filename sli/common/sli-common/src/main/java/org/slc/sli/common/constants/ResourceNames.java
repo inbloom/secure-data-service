@@ -19,7 +19,6 @@ public final class ResourceNames {
     public static final String ASSESSMENTS = "assessments";
     public static final String ASSESSMENT_FAMILIES = "assessmentFamilies";
     public static final String ATTENDANCES = "attendances";
-    public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
     public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
     public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
@@ -45,6 +44,7 @@ public final class ResourceNames {
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
     public static final String USER_ACCOUNTS = "userAccounts";
+    public static final String WAITING_LIST_USER_ACCOUNTS = "waitingListUserAccounts";
     public static final String GRADES = "grades";
 
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
@@ -101,7 +101,6 @@ public final class ResourceNames {
 
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
-        SINGULAR_LINK_NAMES.put(ResourceNames.BELL_SCHEDULES, "getBellSchedule");
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, ResourceNames.COHORT_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSES, "getCourse");
         SINGULAR_LINK_NAMES.put(ResourceNames.DISCIPLINE_INCIDENTS, "getDisciplineIncident");
@@ -123,6 +122,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.USER_ACCOUNTS, "getUserAccount");
+        SINGULAR_LINK_NAMES.put(ResourceNames.WAITING_LIST_USER_ACCOUNTS, "getWaitingListUserAccount");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
     }

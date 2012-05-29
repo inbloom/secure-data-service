@@ -1,3 +1,4 @@
+@RALLY_US2194
 Feature: Blacklist Validation Ingestion Testing
 
 Background: I have a landing zone route configured

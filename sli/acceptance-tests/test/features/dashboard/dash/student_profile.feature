@@ -5,6 +5,7 @@ As a teacher in a school district, I want to click on a student and be directed 
 Background:
 Given I have an open web browser
 
+@RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View student's profile 
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
@@ -44,6 +45,7 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 |<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 
+@RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
