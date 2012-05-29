@@ -12,7 +12,7 @@ class AppsController < ApplicationController
   # It also allows slc operators approve an app for use in the SLC.
   def check_rights
     unless is_developer? or is_operator?
-      render_403
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 
