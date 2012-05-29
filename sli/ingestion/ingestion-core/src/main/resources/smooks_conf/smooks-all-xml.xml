@@ -1544,17 +1544,18 @@
     <jb:value property="endDate" data="Session/EndDate" />
     <jb:value property="totalInstructionalDays" data="Session/TotalInstructionalDays" decoder="Integer" />
     <jb:value property="schoolId" data="Session/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId"/>
-    <jb:wiring property="gradingPeriods" beanIdRef="sessionGradingPeriodRefArray"/>
+    <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray"/>
   </jb:bean>
   
-  <jb:bean beanId="sessionGradingPeriodRefArray" class="java.util.ArrayList" 
+  <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList"
     createOnElement="InterchangeEducationOrgCalendar/Session">
-    <jb:wiring beanIdRef="sessionGradingPeriodRef"></jb:wiring>
+    <jb:wiring beanIdRef="session_gradingPeriodReference" />
   </jb:bean>
-
-  <jb:bean beanId="sessionGradingPeriodRef" class="java.util.HashMap" 
+  
+  <jb:bean beanId="session_gradingPeriodReference"
+    class="java.util.HashMap"
     createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-    <jb:value property="gradingPeriodId" data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/@ref"></jb:value>
+    <jb:value property="GradingPeriodIdentity" data="Session/GradingPeriodReference/@ref" />
   </jb:bean>
   
   <!-- Assessment family mapping -->
