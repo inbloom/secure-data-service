@@ -209,6 +209,10 @@ public class NewBatchJob implements Job {
         return jobStartTimestamp;
     }
 
+    public Date getJobStopTimestamp() {
+        return jobStopTimestamp;
+    }
+
     /*
     public List<Stage> getStages() {
         return stages;
