@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import org.slc.sli.ingestion.util.LogUtil;
+
 /**
  *
  */
@@ -77,7 +79,7 @@ public class NeutralRecordFileWriter {
             this.jsonObjectMapper = new ObjectMapper();
 
         } catch (FileNotFoundException fileNotFoundException) {
-            LOG.error(fileNotFoundException.toString());
+            LogUtil.error(LOG, "Error writing to Neutral Record file", fileNotFoundException);
         } finally {
             IOUtils.closeQuietly(is);
         }

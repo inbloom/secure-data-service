@@ -325,6 +325,7 @@ public final class XmiWriter {
             }
         } catch (final Exception e) {
             System.err.println("writeModelElementTaggedValues(" + element + ")");
+            e.printStackTrace();
         } finally {
             xsw.writeEndElement();
         }

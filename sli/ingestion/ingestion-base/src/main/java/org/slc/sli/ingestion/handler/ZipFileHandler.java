@@ -10,6 +10,7 @@ import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -37,7 +38,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
         } catch (IOException ex) {
 
             String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
-            LOG.error(message, ex);
+            LogUtil.error(LOG, message, ex);
             errorReport.error(message, this);
         }
 

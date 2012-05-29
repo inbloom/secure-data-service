@@ -26,6 +26,7 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transformer for Assessment Entities
@@ -240,7 +241,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             }
 
         } catch (IOException e) {
-            LOG.error("Exception occurred", e);
+            LogUtil.error(LOG, "Error persisting transformed data to storage", e);
         }
     }
 

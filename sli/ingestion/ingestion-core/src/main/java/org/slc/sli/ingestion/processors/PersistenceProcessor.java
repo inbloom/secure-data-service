@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -46,6 +45,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -122,7 +122,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                     processAndMeasureResource(resource, newJob, stage);
                 } else {
-                    LOG.warn(String.format("The resource %s is not a neutral record format.", resource.getResourceName()));
+                    LOG.warn(String.format("The resource %s is not a neutral record format.",
+                            resource.getResourceName()));
                 }
             }
 
@@ -177,9 +178,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
-                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1") + "\tEntity\t"
-                        + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
-                        + "\n";
+                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1")
+                        + "\tEntity\t" + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t"
+                        + (String) neutralRecord.getLocalId() + "\n";
 
                 if (transformedCollections.contains(neutralRecord.getRecordType())) {
 
@@ -192,7 +193,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             }
         } catch (Exception e) {
             errorReportForNrFile.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n");
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile, e);
         } finally {
             if (nrFileReader != null) {
                 nrFileReader.close();
@@ -224,18 +225,22 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                     ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForTransformer);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForTransformer);
 
                     if (xformedEntities.isEmpty()) {
                         numFailed++;
 
-                        errorReportForNrFile.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+                        errorReportForNrFile.error(
+                                MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                                        neutralRecord.getRecordType()), this);
                     }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
 
-                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity.getType());
+                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity
+                                .getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
                         if (errorReportForNrEntity.hasErrors()) {
@@ -267,7 +272,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             return defaultEdFi2SLITransformer;
         }
     }
-
 
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
@@ -369,7 +373,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         batchJobDAO.saveError(error);
     }
 
-    public void setEntityPersistHandlers(Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+    public void setEntityPersistHandlers(
+            Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
         this.entityPersistHandlers = entityPersistHandlers;
     }
 
@@ -397,7 +402,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
     }
 
-    public void setDefaultEntityPersistHandler(AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+    public void setDefaultEntityPersistHandler(
+            AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 

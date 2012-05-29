@@ -31,6 +31,7 @@ import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -149,7 +150,7 @@ public class ConcurrentEdFiProcessor implements Processor {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception Occured during EdFi data persistance.");
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
