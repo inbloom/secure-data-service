@@ -588,11 +588,11 @@ def verifyEmail
 end
 
 def getVerificationLink
-if @email_content.include? "http://"
-link="http://"+@email_content.split("http://")[-1]
-else 
-link="https://"+@email_content.split("https://")[-1]
-end
+  if @email_content.include? "http://"
+  link="http://"+@email_content.split("http://")[-1]
+  else 
+  link="https://"+@email_content.split("https://")[-1]
+  end
 end
 
 def removeUser(email)
