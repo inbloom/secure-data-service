@@ -1166,6 +1166,7 @@ nxteam-maestro:
         sli.ingestion.nodeType: maestro
     data-access:
         <<: *DATA-ACCESS-NXTEAM
+        sli.ingestion.staging.clearOnCompletion: transformed
     misc:
         <<: *MISC-NXTEAM
 
