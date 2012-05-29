@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -20,7 +21,7 @@ import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
-import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -29,8 +30,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -60,16 +61,20 @@ public class StagedDataPersistenceProcessor implements Processor {
     
     private static final Logger LOG = LoggerFactory.getLogger(StagedDataPersistenceProcessor.class);
     
-    @Autowired
-    SmooksEdFi2SLITransformer transformer;
+    private Map<String, EdFi2SLITransformer> transformers;
+    
+    private EdFi2SLITransformer defaultEdFi2SLITransformer;
     
     // spring-loaded list of supported collections
     private Set<String> persistedCollections;
     
-    private EntityPersistHandler entityPersistHandler;
+    private Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers;
+    
+    private AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler;
     
     private NeutralRecordEntityPersistHandler obsoletePersistHandler;
     
+    @Autowired
     private NeutralRecordReadConverter neutralRecordReadConverter;
     
     @Autowired
@@ -212,13 +217,28 @@ public class StagedDataPersistenceProcessor implements Processor {
         // must set tenantId here, it is used by upcoming transformer.
         neutralRecord.setSourceId(tenantId);
         
+        EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
         List<SimpleEntity> xformedEntities = transformer.handle(neutralRecord, errorReportForCollection);
+        
+//        for (SimpleEntity xformedEntity : xformedEntities) {
+//            
+//            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+//            
+//            LOG.debug("persisting simple entity: {}", xformedEntity);
+//            entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+//            
+//            if (errorReportForNrEntity.hasErrors()) {
+//                numFailed++;
+//            }
+//        }
+        
         for (SimpleEntity xformedEntity : xformedEntities) {
-            
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
             
-            LOG.debug("persisting simple entity: {}", xformedEntity);
-            entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+            AbstractIngestionHandler<SimpleEntity, Entity> entityPersistentHandler = findHandler(xformedEntity
+                    .getType());
+            
+            entityPersistentHandler.handle(xformedEntity, errorReportForNrEntity);
             
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
@@ -287,6 +307,22 @@ public class StagedDataPersistenceProcessor implements Processor {
         return currentMetric;
     }
     
+    private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
+        if (entityPersistHandlers.containsKey(type)) {
+            return entityPersistHandlers.get(type);
+        } else {
+            return defaultEntityPersistHandler;
+        }
+    }
+    
+    private EdFi2SLITransformer findTransformer(String type) {
+        if (transformers.containsKey(type)) {
+            return transformers.get(type);
+        } else {
+            return defaultEdFi2SLITransformer;
+        }
+    }
+    
     private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
         DatabaseLoggingErrorReport dbErrorReport = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
                 resourceId, batchJobDAO);
@@ -318,8 +354,9 @@ public class StagedDataPersistenceProcessor implements Processor {
         batchJobDAO.saveError(error);
     }
     
-    public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
-        this.entityPersistHandler = entityPersistHandler;
+    public void setEntityPersistHandlers(
+            Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+        this.entityPersistHandlers = entityPersistHandlers;
     }
     
     public NeutralRecordEntityPersistHandler getObsoletePersistHandler() {
@@ -336,6 +373,19 @@ public class StagedDataPersistenceProcessor implements Processor {
     
     public void setPersistedCollections(Set<String> persistedCollections) {
         this.persistedCollections = persistedCollections;
+    }
+    
+    public void setTransformers(Map<String, EdFi2SLITransformer> transformers) {
+        this.transformers = transformers;
+    }
+    
+    public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
+        this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
+    }
+    
+    public void setDefaultEntityPersistHandler(
+            AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+        this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
     
     public NeutralRecordReadConverter getNeutralRecordReadConverter() {
