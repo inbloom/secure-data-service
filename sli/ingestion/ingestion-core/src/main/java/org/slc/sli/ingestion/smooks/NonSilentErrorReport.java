@@ -91,13 +91,12 @@ public class NonSilentErrorReport implements ExecutionEventListener {
         } else if (event instanceof ResourceTargetingEvent) {
 
             ResourceTargetingEvent targetingEvent = (ResourceTargetingEvent) event;
-
             ElementState last = getLastElementState();
 
             if (last != null) {
                 String targetAttribute = targetingEvent.getResourceConfig().getTargetAttribute();
                 if (targetAttribute != null) {
-                    last.targetedAttributes.add(targetAttribute);
+                    last.targetedAttributes.add(targetAttribute.toLowerCase());
                 }
 
                 markAsProcessed(last);
@@ -190,7 +189,7 @@ public class NonSilentErrorReport implements ExecutionEventListener {
 
             if (!attribute.isEmpty()
                     && !filteredAttributes.contains(attribute)
-                    && !element.targetedAttributes.contains(attribute)) {
+                    && !element.targetedAttributes.contains(attribute.toLowerCase())) {
                 ignoredAttributes.add(attributes.getQName(i));
             }
         }

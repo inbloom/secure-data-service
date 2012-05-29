@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import junitx.util.PrivateAccessor;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +33,9 @@ public class NonSilentErrorReportTest {
 
     FaultsReport errorReport;
     MessageSource messageSource;
+    HashSet<String> warningMessages;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         Set<String> filteredAttributes = new HashSet<String>();
@@ -39,6 +43,8 @@ public class NonSilentErrorReportTest {
         messageSource = Mockito.mock(MessageSource.class);
         errorReport = new FaultsReport();
         nonSilentErrorReport = new NonSilentErrorReport(filteredAttributes, messageSource, errorReport);
+        warningMessages = (HashSet<String>) Mockito.spy(PrivateAccessor.getField(nonSilentErrorReport, "warningMessages"));
+        PrivateAccessor.setField(nonSilentErrorReport, "warningMessages", warningMessages);
     }
 
     @Test
@@ -100,7 +106,7 @@ public class NonSilentErrorReportTest {
         SAXElement secondElement = Mockito.mock(SAXElement.class);
         Mockito.when(secondElement.getParent()).thenReturn(null);
         Mockito.when(secondElement.getName()).thenReturn(new QName("ChildElement"));
-        Mockito.when(secondEvent.getElement()).thenReturn(element);
+        Mockito.when(secondEvent.getElement()).thenReturn(secondElement);
 
         nonSilentErrorReport.onEvent(secondEvent);
 
@@ -109,7 +115,7 @@ public class NonSilentErrorReportTest {
 
         nonSilentErrorReport.onEvent(lifecycleEvent);
 
-        Assert.assertEquals(2, errorReport.getFaults().size());
+        Mockito.verify(warningMessages, Mockito.times(2)).add(null);
     }
 
     @Test
@@ -133,7 +139,7 @@ public class NonSilentErrorReportTest {
         SAXElement secondElement = Mockito.mock(SAXElement.class);
         Mockito.when(secondElement.getParent()).thenReturn(null);
         Mockito.when(secondElement.getName()).thenReturn(new QName("ChildElement"));
-        Mockito.when(secondEvent.getElement()).thenReturn(element);
+        Mockito.when(secondEvent.getElement()).thenReturn(secondElement);
 
         nonSilentErrorReport.onEvent(secondEvent);
 
@@ -142,6 +148,6 @@ public class NonSilentErrorReportTest {
 
         nonSilentErrorReport.onEvent(lifecycleEvent);
 
-        Assert.assertEquals(3, errorReport.getFaults().size());
+        Mockito.verify(warningMessages, Mockito.times(3)).add(null);
     }
 }
