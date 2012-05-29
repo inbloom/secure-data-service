@@ -54,6 +54,6 @@ public class AllowAllEntityContextResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         // Only include allow-all resolver for specific entities that are supposed to be completely public
-        return EntityNames.USER_ACCOUNT.equals(toEntityType);
+        return EntityNames.USER_ACCOUNT.equals(toEntityType) || EntityNames.WAITING_LIST_USER_ACCOUNT.equals(toEntityType);
     }
 }

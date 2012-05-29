@@ -34,6 +34,7 @@
 
   <bean id="idNormalizer" class="org.slc.sli.ingestion.transformation.normalization.IdNormalizer" />
 
+  <bean id="neutralSchemaRepositoryProvider" class="org.slc.sli.validation.NeutralSchemaRepositoryProvider" />
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
   <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
   <bean id="repo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />

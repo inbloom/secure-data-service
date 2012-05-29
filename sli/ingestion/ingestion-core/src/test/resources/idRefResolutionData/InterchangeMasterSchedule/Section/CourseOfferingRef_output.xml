@@ -1,0 +1,20 @@
+<CourseOfferingIdentity>
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+            <CourseCode IdentificationSystem="CSSC course code">
+              <ID>1st Grade Homeroom</ID>
+            </CourseCode>
+            <CourseCode IdentificationSystem="CSSC course code">
+              <ID>8th Grade English</ID>
+            </CourseCode>
+            <Term>First Trimester</Term>
+            <SchoolYear>2000-2001</SchoolYear>
+            <StateOrganizationId>Able School</StateOrganizationId>
+            
+           <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+       
+    </CourseOfferingIdentity>

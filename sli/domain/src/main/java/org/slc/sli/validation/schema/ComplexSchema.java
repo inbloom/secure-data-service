@@ -48,8 +48,8 @@ public class ComplexSchema extends NeutralSchema {
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
      *
-     * @param fieldName
-     *            name of entity field being validated
+     * @param validateFieldName
+     *            name of entity field being validated. Not used by this class
      * @param entity
      *            being validated using this SLI Schema
      * @param errors
@@ -59,7 +59,7 @@ public class ComplexSchema extends NeutralSchema {
      * @return true if valid
      */
     @Override
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+    protected boolean validate(String validateFieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid = true;
 
         if (entity instanceof Map) {
@@ -79,27 +79,29 @@ public class ComplexSchema extends NeutralSchema {
             }
 
             for (Map.Entry<String, ?> entry : entityMap.entrySet()) {
-                String name = entry.getKey();
-                Object fieldEntity = entry.getValue();
+                String fieldName = entry.getKey();
+                Object rawFieldValue = entry.getValue();
 
-                NeutralSchema fieldSchema = getFields().get(name);
+                NeutralSchema fieldSchema = getFields().get(fieldName);
                 if (fieldSchema == null) {
-                    return addError(false, name, fieldEntity, "", ErrorType.UNKNOWN_FIELD, errors);
+                    return addError(false, fieldName, rawFieldValue, "", ErrorType.UNKNOWN_FIELD, errors);
                 }
 
                 AppInfo appInfo = fieldSchema.getAppInfo();
-                if (fieldEntity == null) {
+                if (rawFieldValue == null) {
                     if (appInfo != null && appInfo.isRequired()) {
-                        return addError(false, name, null, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
+                        return addError(false, fieldName, null, "", ErrorType.REQUIRED_FIELD_MISSING, errors);
                     }
                 } else {
-                    boolean isFieldValid = fieldSchema.validate(name, fieldEntity, errors, repo);
-                    if (!isFieldValid) {
-
-                        // Not valid since field failed, but continue gathering further field
-                        // validation info
+                    //validate raw field data against field's schema
+                    if (fieldSchema.validate(fieldName, rawFieldValue, errors, repo)) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> myEntityMap = (Map<String, Object>) entityMap;
+                        Object convertedFieldValue = fieldSchema.convert(rawFieldValue);
+                        myEntityMap.put(fieldName, convertedFieldValue);
+                    } else {
                         isValid = false;
-
+                        
                         // Return immediately since errors list was not indicated
                         if (errors == null) {
                             return false;
@@ -108,7 +110,7 @@ public class ComplexSchema extends NeutralSchema {
                 }
             }
         } else {
-            return addError(false, fieldName, entity, "Complex Map", ErrorType.INVALID_DATATYPE, errors);
+            return addError(false, validateFieldName, entity, "Complex Map", ErrorType.INVALID_DATATYPE, errors);
         }
 
         return isValid;
