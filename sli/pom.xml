@@ -751,7 +751,8 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>${maven.checkstyle.version}</version>
 					<configuration>
-						<configLocation>checkstyle/checkstyle.xml</configLocation>
+						<configLocation>${sli.home}/../build-tools/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+						<propertyExpansion>sli.home=${sli.home}</propertyExpansion>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
 						<linkXRef>false</linkXRef>
 						<failsOnError>false</failsOnError>

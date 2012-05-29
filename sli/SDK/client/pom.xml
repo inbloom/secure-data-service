@@ -10,12 +10,22 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
+  <properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+  </properties>
+
   <packaging>jar</packaging>
   <artifactId>client-api</artifactId>
   <name>client-api</name>
   <description>Client API for communicating with the SLI REST API</description>
 
   <dependencies>
+
+    <dependency>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>build-tools</artifactId>
+        <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>javax.ws.rs</groupId>

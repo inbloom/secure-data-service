@@ -13,6 +13,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
    <packaging>pom</packaging>
     <name>acceptance.tests</name>
 
+    <properties>
+          <sli.home>${project.parent.basedir}</sli.home>
+    </properties>
+
    <dependencies>
 
         <dependency>

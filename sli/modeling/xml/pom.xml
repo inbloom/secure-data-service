@@ -11,6 +11,10 @@
 	<artifactId>xml</artifactId>
 	<name>XML (XML Markup Language)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->
