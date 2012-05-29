@@ -1,7 +1,8 @@
-package org.slc.sli.modeling.tools.uml2Doc.cmdline;
+package org.slc.sli.modeling.docgen;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -330,6 +331,9 @@ public final class DocumentationWriter {
 
     public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
             final OutputStream outstream) {
+        if (outstream == null) {
+            throw new NullPointerException("outstream");
+        }
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
             final XMLStreamWriter xsw = new IndentingXMLStreamWriter(xof.createXMLStreamWriter(outstream, "UTF-8"));
@@ -348,8 +352,28 @@ public final class DocumentationWriter {
 
     public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
             final String fileName) {
+        if (fileName == null) {
+            throw new NullPointerException("fileName");
+        }
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
+            try {
+                writeDocument(documentation, model, outstream);
+            } finally {
+                closeQuiet(outstream);
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static final void writeDocument(final Documentation<Type> documentation, final ModelIndex model,
+            final File file) {
+        if (file == null) {
+            throw new NullPointerException("file");
+        }
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
                 writeDocument(documentation, model, outstream);
             } finally {

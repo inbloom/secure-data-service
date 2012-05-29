@@ -52,7 +52,7 @@ module ApplicationHelper
     user_email_info = get_email_info guid
     email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = "#{validate_base}/user_account_validation/#{email_token}"
+    userEmailValidationLink = "__URI__/user_account_validation/#{email_token}"
       
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
