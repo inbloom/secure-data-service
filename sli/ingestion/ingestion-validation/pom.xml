@@ -15,7 +15,8 @@
 	<name>Ingestion Validation</name>
 
 	<properties>
-		<maven.assembly.version>2.2-beta-5</maven.assembly.version>
+	  <maven.assembly.version>2.2-beta-5</maven.assembly.version>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
 	</properties>
 
 	<dependencies>
@@ -86,7 +87,7 @@
 					</lifecycleMappingMetadata>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

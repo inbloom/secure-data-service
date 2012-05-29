@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**

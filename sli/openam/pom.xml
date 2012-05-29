@@ -11,6 +11,7 @@
 
    <properties>
       <openam.version>954</openam.version>
+      <sli.home>${project.parent.basedir}</sli.home>
    </properties>
 
    <repositories>

@@ -11,6 +11,10 @@
 	<artifactId>xdm</artifactId>
 	<name>XDM (XQuery Data Model)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->
