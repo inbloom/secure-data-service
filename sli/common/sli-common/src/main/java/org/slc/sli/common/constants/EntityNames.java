@@ -31,6 +31,7 @@ public final class EntityNames {
     public static final String REALM = "realm";
     public static final String REPORT_CARD = "reportCard";
     public static final String SCHOOL = "school";
+    public static final String SCHOOL_SESSION_ASSOCIATION = "schoolSessionAssociation";
     public static final String SECTION = "section";
     public static final String SECTION_ASSESSMENT_ASSOCIATION = "sectionAssessmentAssociation";
     public static final String SESSION = "session";

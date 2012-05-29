@@ -38,17 +38,10 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Component
 @Scope("request")
 public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
-    /**
-     * Logging utility.
-     */
-//    private static final Logger LOGGER = LoggerFactory.getLogger(SchoolSessionAssociationResource.class);
 
     @Autowired
     public SchoolSessionAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS);
-
-//        DE260 - Logging of possibly sensitive data
-//        LOGGER.debug("New resource handler created ", this);
     }
 
     /**

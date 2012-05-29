@@ -20,12 +20,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -41,6 +35,9 @@ import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Jersey resource for all entities and associations.
@@ -69,7 +66,6 @@ public class Resource {
     public static final String SLC_LONG_XML_MEDIA_TYPE = "application/vnd.slc.full+xml";
     public static final String SLC_LONG_JSON_MEDIA_TYPE = "application/vnd.slc.full+json";
 
-    private static final Logger LOG = LoggerFactory.getLogger(Resource.class);
     private final EntityDefinitionStore entityDefs;
 
     /**
@@ -242,22 +238,6 @@ public class Resource {
                 return getAssociated(id, sortBy, sortOrder, skip, max, fullEntities, uriInfo, assocDefn);
             }
         });
-    }
-
-    private void setValues(NeutralQuery neutralQuery, String sortBy, SortOrder sortOrder, int skip, int max) {
-        if (neutralQuery == null) {
-            return;
-        }
-
-        neutralQuery.setSortBy(sortBy);
-        if (sortOrder == SortOrder.descending) {
-            neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
-        } else {
-            neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
-        }
-        neutralQuery.setOffset(skip);
-        neutralQuery.setLimit(max);
-
     }
 
     @GET
@@ -652,6 +632,7 @@ public class Resource {
      *            the entity making the links for
      * @return the list of links that the resource should include
      */
+    @SuppressWarnings("deprecation")
     private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
         List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, id, defn);
         if (defn instanceof AssociationDefinition) {

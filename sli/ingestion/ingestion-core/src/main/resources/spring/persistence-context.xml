@@ -19,6 +19,16 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
+  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SchoolSessionAssociationEntityPersistHandler" 
+    parent="entityPersistHandler">
+  </bean>
+
+  <util:map id="entityPersistHandlers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.handler.AbstractIngestionHandler">
+    <entry key="schoolSessionAssociation">
+      <ref local="schoolSessionAssociationEntityPersistHandler"/>
+    </entry>
+  </util:map>
+
   <bean id="obsoleteEntityPersistHandler" class="org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />
@@ -32,43 +42,43 @@
   <util:set id="persistedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
     <value>attendance</value>
-    <value>calendarDate</value>
-    <value>cohort</value>
-    <value>competencyLevelDescriptor</value>
     <value>course</value>
-    <value>disciplineAction</value>
-    <value>disciplineIncident</value>
     <value>educationOrganization</value>
     <value>grade</value>
     <value>gradebookEntry</value>
-    <value>gradingPeriod</value>
-    <value>graduationPlan</value>
-    <value>learningObjective</value>
-    <value>learningStandard</value>
     <value>parent</value>
-    <value>program</value>
-    <value>reportCard</value>
     <value>school</value>
     <value>section</value>
     <value>session</value>
-    <value>staff</value>
-    <value>staffCohortAssociation</value>
-    <value>staffEducationOrganizationAssociation</value>
-    <value>staffProgramAssociation</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
     <value>studentAssessmentAssociation</value>
-    <value>studentCohortAssociation</value>
-    <value>studentDisciplineIncident</value>
     <value>studentParentAssociation</value>
-    <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
     <value>studentSectionGradebookEntry</value>
     <value>studentTranscriptAssociation</value>
     <value>teacher</value>
+    <value>staff</value>
+    <value>staffEducationOrganizationAssociation</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>graduationPlan</value>
+    <value>program</value>
+    <value>studentProgramAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>cohort</value>
+    <value>studentCohortAssociation</value>
+    <value>staffCohortAssociation</value>
+    <value>learningObjective</value>
+    <value>learningStandard</value>
+    <value>disciplineIncident</value>
+    <value>disciplineAction</value>
+    <value>studentDisciplineIncident</value>
+    <value>competencyLevelDescriptor</value>
+    <value>gradingPeriod</value>
+    <value>calendarDate</value>
+    <value>reportCard</value>
   </util:set>
 
 </beans>
