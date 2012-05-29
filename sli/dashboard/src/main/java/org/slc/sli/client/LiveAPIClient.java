@@ -1067,7 +1067,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
         // get the entities
         List<GenericEntity> entities = createEntitiesFromAPI(
-                buildStudentURI(studentId, STUDENT_SECTION_ASSOC + SECTIONS, params), token);
+                buildStudentURI(studentId, STUDENT_SECTION_ASSOC + SECTIONS , params), token);
 
         return entities;
     }
@@ -1291,7 +1291,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId) {
         return createEntitiesFromAPI(
-                buildStudentURI(studentId, STUDENT_PARENT_ASSOC + PARENTS, Collections.<String, String> emptyMap()),
+                buildStudentURI(studentId, STUDENT_PARENT_ASSOC + PARENTS, Collections.<String, String>emptyMap()),
                 token);
     }
 }
