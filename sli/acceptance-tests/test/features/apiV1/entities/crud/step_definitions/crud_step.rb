@@ -103,6 +103,13 @@ $entityData = {
     "careerPathway" => "Hospitality and Tourism",
     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
+  "courseOffering" => { 
+    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
+    "localCourseCode" => "LCCMA1",  
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
+    "localCourseTitle" => "Math 1 - Intro to Mathematics", 
+    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
+  },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
     "disciplines" => [[
@@ -168,7 +175,7 @@ $entityData = {
     "populationServed" => "Regular Students",
     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
     "sessionId" => "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-    "courseId" => "53777181-3519-4111-9210-529350429899"
+    "courseOfferingId" => "9ff65bb1-ef8b-4588-83af-d58f39c1bf68"
   },
   "session" => {
     "sessionName" => "Spring 2012",
