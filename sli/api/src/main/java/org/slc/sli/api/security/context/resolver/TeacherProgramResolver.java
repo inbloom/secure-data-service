@@ -2,7 +2,7 @@ package org.slc.sli.api.security.context.resolver;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.client.constants.EntityNames;
 
 /**
  * Resolves which programs a given teacher is allowed to see

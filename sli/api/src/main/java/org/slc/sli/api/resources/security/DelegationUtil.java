@@ -3,9 +3,9 @@ package org.slc.sli.api.resources.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Common methods for classes that deal with delegation
- *
+ * 
  */
 @Component
 public class DelegationUtil {
@@ -37,12 +37,11 @@ public class DelegationUtil {
         }
         return null;
     }
-
     
     public List<String> getDelegateEdOrgs() {
         String edOrg = getUsersStateUniqueId();
-
-        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);        
+        
+        List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);
         List<String> delegateEdOrgs = new ArrayList<String>();
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();
@@ -55,5 +54,5 @@ public class DelegationUtil {
         debug("Ed orgs that I can delegate are {}", delegateEdOrgs);
         return delegateEdOrgs;
     }
-
+    
 }

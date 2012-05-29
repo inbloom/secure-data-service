@@ -12,6 +12,10 @@
   <name>Admin Tools</name>
   <description>Common Admin Tools</description>
 
+  <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
   <modules>
     <module>admin-rails</module>
   </modules>
