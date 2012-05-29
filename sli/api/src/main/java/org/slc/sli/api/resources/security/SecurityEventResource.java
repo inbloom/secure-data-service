@@ -23,6 +23,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -35,8 +37,6 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
@@ -96,12 +96,13 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
      * @param offset
      *           The starting position in the results to return to user, the default value is 0
      * @param limit
-     *           The maximum number of security events to return to user (starting from offset), the default value is ParameterConstants.DEFAULT_LIMIT (50)
+     *            The maximum number of security events to return to user (starting from offset),
+     *            the default value is ParameterConstants.DEFAULT_LIMIT (50)
      * @param headers
      *           HTTP Request Headers
      * @param uriInfo
      *           URI information including path and query parameters
-     * @return a list of security events that are sorted by time stamp in descending order
+     * @return a list of security events that are sorted by timestamp in descending order
      */
     @GET
     public Response getSecurityEvents(
@@ -153,7 +154,6 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
 //            @Context final UriInfo uriInfo) {
 //        return Response.status(Status.FORBIDDEN).build();
 //    }
-
 
     private Response retrieveEntities(final int offset, final int limit, final UriInfo uriInfo, SLIPrincipal principal,
             String role) {
