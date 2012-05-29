@@ -131,7 +131,7 @@ public class MongoEntity implements Entity, Serializable {
     public static MongoEntity fromDBObject(DBObject dbObj) {
         String type = (String) dbObj.get("type");
 
-        UUID uuid = (UUID) dbObj.get("_id");
+        String uuid = (String) dbObj.get("_id");
         String id = uuid.toString();
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
