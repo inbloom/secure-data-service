@@ -1,0 +1,15 @@
+This package contains the Java client library (nee SDK) release build script.  This script does the following:
+
+1) Copies the src from sample and client
+2) Copies over 3 new pom files that are self contained and not part of the SLI project
+3) Copies over dependencies (if desired) into the depends/external and depends/sli
+
+Running the script:
+1) cd sli/SDK
+2) mvn clean package
+3) cd sdk-release
+4) ./prepare-package.rb .. (path is to sli/SDK directory)
+5) tar czf sli-java-client-library.tgz sdk-release
+
+Since this has its own set of pom files, they may be out of date.  Make sure dependency changes get added to the pom-*.xml files if needed.
+
