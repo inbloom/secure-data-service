@@ -10,7 +10,8 @@ Feature: Student Transcript History Panel
 
   @integration
   Scenario: View student's transcript history - Matt Sollars
-    When I login as "linda.kim" "linda.kim1234"
+   And I was redirected to the "Simple" IDP Login page
+     When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
     And I select ed org "Daybreak School District 4529"
     And I select school "East Daybreak Junior High"
     And I select course "8th Grade English"
@@ -172,7 +173,8 @@ Feature: Student Transcript History Panel
 
   @integration
   Scenario: View student's transcript history - Carmen Ortiz
-    When I login as "cgray" "cgray1234"
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
     And I select ed org "Daybreak School District 4529"
     And I select school "Daybreak Central High"
     And I select course "American Literature"

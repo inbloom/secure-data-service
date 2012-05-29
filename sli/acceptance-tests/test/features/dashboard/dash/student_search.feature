@@ -3,11 +3,12 @@ Feature:  Simple Student Search
 Background:
 Given I have an open web browser
 Given the server is in "live" mode
-When I navigate to the Dashboard home page
-When I select "Illinois Daybreak School District 4529" and click go
+
 
 @integration @RALLY_US197
 Scenario: Search by First name
+When I navigate to the Dashboard home page
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Matt" into the "firstName" search box
@@ -27,6 +28,8 @@ And the search results has the following entries:
 
 @integration @RALLY_US197
 Scenario: Search by Last name
+When I navigate to the Dashboard home page
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Sollars" into the "lastName" search box
@@ -54,6 +57,8 @@ And the search results has the following entries:
 
 @integration @RALLY_US197
 Scenario:  Search by non-existing student
+When I navigate to the Dashboard home page
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Tran" into the "lastName" search box
@@ -63,6 +68,8 @@ Then "0" results are returned in the page
 
 @integration @RALLY_US197
 Scenario:  Empty Search
+When I navigate to the Dashboard home page
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter nothing into either field of student search
@@ -76,6 +83,8 @@ Then "0" results are returned in the page
 
 @integration @RALLY_US197
 Scenario:  Search with more than 1 results
+When I navigate to the Dashboard home page
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I enter "Gerardo" into the "firstName" search box
@@ -114,7 +123,7 @@ When I select "Illinois Sunset School District 4526" and click go
  When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
 When I enter "Matt" into the "firstName" search box
 And I click the search button
-Then I should be informed that "51" results are returned
+Then I should be informed that "53" results are returned
 And "50" results are returned in the page
 And I click on the next page
 And "3" results are returned in the page
