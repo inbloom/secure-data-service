@@ -27,6 +27,7 @@ Then I should see following map of entry counts in the corresponding collections
      | course                      | 1                   | body.courseTitle            | Remove Course Code      | string               |
      | course                      | 1                   | body.courseCode.ID          | Remove Course Code 1    | string               |
      | course                      | 1                   | body.courseCode.ID          | Remove Course Code 2    | string               |
+     | course                      | 0                   | body.courseTitle            | New Course              | string               |
      | course                      | 1                   | body.courseTitle            | Different EdOrg Code    | string               |
      | course                      | 1                   | body.courseCode.ID          | Different EdOrg Code 1  | string               |
   And I should see "Processed 7 records." in the resulting batch job file
@@ -46,13 +47,13 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | course                      | 1                   | body.courseCode.ID          | update field 1          | string               |
-     | course                      | 1                   | body.courseTitle            | Original Title          | string               |
-     | course                      | 0                   | body.courseTitle            | Updated Title           | string               |
-     | course                      | 1                   | body.dateCourseAdopted      | 2000-10-01              | string               |
-     | course                      | 0                   | body.dateCourseAdopted      | 2000-10-10              | string               |
+     | course                      | 0                   | body.courseTitle            | Original Title          | string               |
+     | course                      | 1                   | body.courseTitle            | Updated Title           | string               |
+     | course                      | 0                   | body.dateCourseAdopted      | 2000-10-01              | string               |
+     | course                      | 1                   | body.dateCourseAdopted      | 2000-10-10              | string               |
      | course                      | 1                   | body.courseTitle            | Add More Course Code    | string               |
      | course                      | 1                   | body.courseCode.ID          | Course Code 1           | string               |
-     | course                      | 0                   | body.courseCode.ID          | One More Course Code    | string               |
+     | course                      | 1                   | body.courseCode.ID          | One More Course Code    | string               |
      | course                      | 1                   | body.courseTitle            | Remove Course Code      | string               |
      | course                      | 1                   | body.courseCode.ID          | Remove Course Code 1    | string               |
      | course                      | 0                   | body.courseCode.ID          | Remove Course Code 2    | string               |
