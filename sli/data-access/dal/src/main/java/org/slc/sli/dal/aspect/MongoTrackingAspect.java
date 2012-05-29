@@ -27,11 +27,11 @@ public class MongoTrackingAspect {
         
         String collection = "UNKNOWN";
         Object[] args = pjp.getArgs();
-        if (args[0] instanceof String) {
+        if (args.length > 0 && args[0] instanceof String) {
             collection = (String) args[0];
         } else if (args.length > 1 && args[1] instanceof String) {
             collection = (String) args[1];
-        } else if (args.length > 1 && args[2] instanceof String) {
+        } else if (args.length > 2 && args[2] instanceof String) {
             collection = (String) args[2];
         }
         
