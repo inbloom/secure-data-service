@@ -8,17 +8,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.PathConstants;
+import org.slc.sli.api.client.util.URLBuilder;
 
 /**
  * Unit test for URL builder
- *
- *
+ * 
+ * 
  */
 public class URLBuilderTest {
-
+    
     @Test
     public void testIds() throws Exception {
         URLBuilder builder = URLBuilder.create("http://localhost");
@@ -28,7 +28,7 @@ public class URLBuilderTest {
         assertEquals("the URL should be http://localhost/api/rest/v1/students/1,2,3,4,5", "http://localhost/"
                 + PathConstants.API_SERVER_PATH + "/students/1,2,3,4,5", url.toString());
     }
-
+    
     @Test(expected = MalformedURLException.class)
     public void testBuildException() throws Exception {
         URLBuilder builder = URLBuilder.create("");
