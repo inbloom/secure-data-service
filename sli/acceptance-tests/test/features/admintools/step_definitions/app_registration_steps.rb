@@ -286,28 +286,26 @@ end
 
 Then /^I see the list of my registered applications only$/ do
   appsTable = @driver.find_element(:id, "applications")
-  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
+  trs = appsTable.find_elements(:xpath, ".//tbody/tr")
   assert(trs.length > 0, "Should see at least one of my apps")
 end
 
 Then /^the application is registered$/ do
   appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
+  trs  = appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='NewApp']")
+  trs.each do |tr|
+    assert(tr.find_element(:xpath, "../td[4]").text != "Pending", "App should be registered")
+  end
   assert(trs.length > 0, "No more pending applications")
 end
 
 Then /^I can see the client ID and shared secret$/ do
-  appsTable = @driver.find_element(:id, "applications")
-  app  = appsTable.find_element(:xpath, "//tr/td[text()='NewApp']/..")
-  id = app.attribute('id')
-  form = @driver.find_element(:id, "edit_app_#{id}")
-  assert("Client ID should be visible", form.find_element(:name, 'app[client_id]').attribute('value') != "Pending")
-  assert("Client Secret should be visible", form.find_element(:name, 'app[client_secret]').attribute('value') != "Pending")
+  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
+  assert(client_id != 'Pending', "Expected !'Pending', got #{client_id}")
 end
 
 Then /^the Registration Status field is Registered$/ do
-  appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
-  assert(trs.length > 0, "No more pending applications")
+  #Nothing to show anymore
 end
 
