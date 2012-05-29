@@ -30,37 +30,17 @@
     <table id="${id}"></table>
 </div>
     <script type="text/javascript">
-
-
-    var tableId = '${id}';
-    var panelConfig = DashboardProxy.getConfig("${gridId}");
-    var data = DashboardProxy.getData(panelConfig.data.cacheKey);
-
       <#-- make grid -->
-      DashboardUtil.makeGrid(tableId, panelConfig, data);
+      DashboardUtil.makeGrid('${id}', DashboardProxy.getConfig("${gridId}"), DashboardProxy.getData("${gridId}"));
 
     </script>
 
 </#macro>
 
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/js/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/raphael-min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/dashboardUtil.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/fuelGaugeWidget.js"></script>
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/css/ui.jqgrid.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
 <#noescape>
 <script>
-  DashboardProxy.loadData(${dataJson});
-  DashboardProxy.loadConfig(${viewConfigsJson});
-  var widgetConfigArray = ${widgetConfig};
-  DashboardProxy.loadWidgetConfig(widgetConfigArray);
   var contextRootPath = '${CONTEXT_ROOT_PATH}';
+  DashboardProxy.loadAll(${viewDataConfig});
 </script>
 </#noescape>
-<#include "layout_header.ftl">
 <#include "../panel/studentSearch.ftl">

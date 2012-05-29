@@ -5,6 +5,7 @@ As a secrutiy officer, I want the output strings to be HTML escaped.
 Background:
 Given I have an open web browser
 
+@RALLY_US200
 Scenario: Student Name Contains Special Character "<" and ">"
 
 Given the server is in "live" mode

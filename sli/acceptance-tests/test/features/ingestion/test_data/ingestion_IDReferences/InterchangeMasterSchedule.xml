@@ -44,7 +44,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference ref="CO_3"/>
+    <CourseOfferingReference ref="CO_1"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Charlie School</StateOrganizationId>
@@ -174,17 +174,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Club/Team</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Club/Team</ID>
-        </CourseCode>
-        <Term>Fall Semester</Term>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>Able School</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
+    <CourseOfferingReference ref="CO_3"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Baker School</StateOrganizationId>
@@ -405,6 +395,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
         <SessionName>Fall 2011 Able School</SessionName>
         <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>
@@ -412,6 +404,9 @@
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>
@@ -427,6 +422,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
         <SessionName>Fall 2011 Able School</SessionName>
         <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>
@@ -434,6 +431,9 @@
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>
@@ -449,13 +449,18 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 Baker School</SessionName>
-        <StateOrganizationId>Baker School</StateOrganizationId>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <SessionName>Fall 2011 Able School</SessionName>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>
     </SessionReference>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>

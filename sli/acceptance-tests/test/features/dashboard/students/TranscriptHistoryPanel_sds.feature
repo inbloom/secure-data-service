@@ -1,3 +1,4 @@
+@RALLY_US149
 Feature: Student Transcript History Panel
   As a teacher in a school district, I want to click on a student and look at his/her transcript history.
 
@@ -25,13 +26,10 @@ Feature: Student Transcript History Panel
     And the lozenges count is "1"
     And the lozenges include "ELL"
 
-    And there are "7" Tabs
+    And there are "4" Tabs
     And Tab has a title named "Middle School Overview"
     And Tab has a title named "Attendance and Discipline"
     And Tab has a title named "Assessments"
-    And Tab has a title named "Advanced Academics"
-    And Tab has a title named "Daybreak District"
-    And Tab has a title named "ELL"
     And Tab has a title named "Grades and Credits"
     And in "Grades and Credits" tab, there are "1" Panels
 
@@ -189,12 +187,10 @@ Feature: Student Transcript History Panel
     And the class is "!"
     And the lozenges count is "0"
 
-    And there are "6" Tabs
+    And there are "4" Tabs
     And Tab has a title named "High School Overview"
     And Tab has a title named "Attendance and Discipline"
     And Tab has a title named "Assessments"
-    And Tab has a title named "Advanced Academics"
-    And Tab has a title named "Daybreak District"
     And Tab has a title named "Grades and Credits"
     And in "Grades and Credits" tab, there are "1" Panels
 

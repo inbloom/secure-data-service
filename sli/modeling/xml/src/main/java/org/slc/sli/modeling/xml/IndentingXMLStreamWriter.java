@@ -9,39 +9,39 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public final class IndentingXMLStreamWriter implements XMLStreamWriter {
     private static final String NEWLINE = "\n";
-    
+
     /**
      * {@link State} is used to keep track of where we are in the document.
      */
     enum State {
         /**
-         * 
+         *
          */
         SEEN_NOTHING,
         /**
-         * 
+         *
          */
         SEEN_ELEMENT,
         /**
-         * 
+         *
          */
         SEEN_DATA;
     }
-    
+
     private State state = State.SEEN_NOTHING;
-    
+
     private final String indentStep = "  ";
     private int depth = 0;
-    
+
     private final XMLStreamWriter next;
-    
+
     public IndentingXMLStreamWriter(final XMLStreamWriter next) {
         if (next == null) {
             throw new NullPointerException("next");
         }
         this.next = next;
     }
-    
+
     private void onStartElement() throws XMLStreamException {
         // All start elements get put on a new line except for the first
         if (depth > 0) {
@@ -53,7 +53,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
         // Increment the depth for the next start element.
         depth++;
     }
-    
+
     private void onEndElement() throws XMLStreamException {
         // Decrement the depth for the end element.
         depth--;
@@ -65,7 +65,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
             state = State.SEEN_ELEMENT;
         }
     }
-    
+
     private void onEmptyElement() throws XMLStreamException {
         state = State.SEEN_ELEMENT;
         if (depth > 0) {
@@ -73,7 +73,7 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
         }
         doIndent();
     }
-    
+
     /**
      * Create indentation for the current level.
      */
@@ -84,176 +84,194 @@ public final class IndentingXMLStreamWriter implements XMLStreamWriter {
             }
         }
     }
-    
+
     @Override
     public void close() throws XMLStreamException {
         next.close();
     }
-    
+
     @Override
     public void flush() throws XMLStreamException {
         next.flush();
     }
-    
+
     @Override
     public NamespaceContext getNamespaceContext() {
         return next.getNamespaceContext();
     }
-    
+
     @Override
     public String getPrefix(final String uri) throws XMLStreamException {
         return next.getPrefix(uri);
     }
-    
+
     @Override
     public Object getProperty(final String name) throws IllegalArgumentException {
         return next.getProperty(name);
     }
-    
+
     @Override
     public void setDefaultNamespace(final String uri) throws XMLStreamException {
         next.setDefaultNamespace(uri);
     }
-    
+
     @Override
     public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException {
         next.setNamespaceContext(context);
     }
-    
+
     @Override
     public void setPrefix(final String prefix, final String uri) throws XMLStreamException {
         next.setPrefix(prefix, uri);
     }
-    
+
     @Override
     public void writeAttribute(final String localName, final String value) throws XMLStreamException {
+        if (localName == null) {
+            throw new NullPointerException("localName");
+        }
+        if (value == null) {
+            throw new NullPointerException("value");
+        }
         next.writeAttribute(localName, value);
     }
-    
+
     @Override
     public void writeAttribute(final String namespaceURI, final String localName, final String value)
             throws XMLStreamException {
         next.writeAttribute(namespaceURI, localName, value);
     }
-    
+
     @Override
     public void writeAttribute(final String prefix, final String namespaceURI, final String localName,
             final String value) throws XMLStreamException {
+        if (prefix == null) {
+            throw new NullPointerException("prefix");
+        }
+        if (namespaceURI == null) {
+            throw new NullPointerException("namespaceURI");
+        }
+        if (localName == null) {
+            throw new NullPointerException("localName");
+        }
+        if (value == null) {
+            throw new NullPointerException("value");
+        }
         next.writeAttribute(prefix, namespaceURI, localName, value);
     }
-    
+
     @Override
     public void writeCData(final String data) throws XMLStreamException {
         state = State.SEEN_DATA;
         next.writeCData(data);
     }
-    
+
     @Override
     public void writeCharacters(final String text) throws XMLStreamException {
         state = State.SEEN_DATA;
         next.writeCharacters(text);
     }
-    
+
     @Override
     public void writeCharacters(final char[] text, final int start, final int len) throws XMLStreamException {
         state = State.SEEN_DATA;
         next.writeCharacters(text, start, len);
     }
-    
+
     @Override
     public void writeComment(final String data) throws XMLStreamException {
         next.writeComment(data);
     }
-    
+
     @Override
     public void writeDTD(final String dtd) throws XMLStreamException {
         next.writeDTD(dtd);
     }
-    
+
     @Override
     public void writeDefaultNamespace(final String namespaceURI) throws XMLStreamException {
         next.writeDefaultNamespace(namespaceURI);
     }
-    
+
     @Override
     public void writeEmptyElement(final String localName) throws XMLStreamException {
         onEmptyElement();
         next.writeEmptyElement(localName);
     }
-    
+
     @Override
     public void writeEmptyElement(final String namespaceURI, final String localName) throws XMLStreamException {
         onEmptyElement();
         next.writeEmptyElement(namespaceURI, localName);
     }
-    
+
     @Override
     public void writeEmptyElement(final String prefix, final String localName, final String namespaceURI)
             throws XMLStreamException {
         onEmptyElement();
         next.writeEmptyElement(prefix, localName, namespaceURI);
     }
-    
+
     @Override
     public void writeEndDocument() throws XMLStreamException {
         next.writeEndDocument();
     }
-    
+
     @Override
     public void writeEndElement() throws XMLStreamException {
         onEndElement();
         next.writeEndElement();
     }
-    
+
     @Override
     public void writeEntityRef(final String name) throws XMLStreamException {
         next.writeEntityRef(name);
     }
-    
+
     @Override
     public void writeNamespace(final String prefix, final String namespaceURI) throws XMLStreamException {
         next.writeNamespace(prefix, namespaceURI);
     }
-    
+
     @Override
     public void writeProcessingInstruction(final String target) throws XMLStreamException {
         next.writeProcessingInstruction(target);
     }
-    
+
     @Override
     public void writeProcessingInstruction(final String target, final String data) throws XMLStreamException {
         next.writeProcessingInstruction(target, data);
     }
-    
+
     @Override
     public void writeStartDocument() throws XMLStreamException {
         next.writeStartDocument();
     }
-    
+
     @Override
     public void writeStartDocument(final String version) throws XMLStreamException {
         next.writeStartDocument(version);
         next.writeCharacters(NEWLINE);
     }
-    
+
     @Override
     public void writeStartDocument(final String encoding, final String version) throws XMLStreamException {
         next.writeStartDocument(encoding, version);
         next.writeCharacters(NEWLINE);
     }
-    
+
     @Override
     public void writeStartElement(final String localName) throws XMLStreamException {
         onStartElement();
         next.writeStartElement(localName);
     }
-    
+
     @Override
     public void writeStartElement(final String namespaceURI, final String localName) throws XMLStreamException {
         onStartElement();
         next.writeStartElement(namespaceURI, localName);
     }
-    
+
     @Override
     public void writeStartElement(final String prefix, final String localName, final String namespaceURI)
             throws XMLStreamException {

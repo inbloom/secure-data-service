@@ -1,5 +1,10 @@
 SLIAdmin::Application.routes.draw do
 
+  resources :waitlist_users do
+    get 'success', :on => :collection
+    get 'failed', :on => :collection
+  end
+
   resources :admin_delegations
 
   resources :realm_management

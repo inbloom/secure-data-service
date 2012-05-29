@@ -1,5 +1,8 @@
 package org.slc.sli.api.resources.v1.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -11,9 +14,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +30,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Represents list of $$userAccounts$$ (developer/vendor) and status of the
+ * Represents list of $$UserAccount$$ (developer/vendor) and status of the
  * account requested by them.
  *
  * @author jstokes
@@ -37,23 +42,20 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Scope("request")
 public class UserAccountResource extends DefaultCrudEndpoint {
 
+    //Use this to check if we're in sandbox mode
+    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
+    protected boolean isSandboxImpersonationEnabled;
+
+    @Value("${sli.useraccount.maximum}")
+    private int maximumNumberOfUserAccounts;
+
     @Autowired
     public UserAccountResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.USER_ACCOUNTS);
     }
 
     /**
-     * Returns all $$userAccounts$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns all $$UserAccount$$ entities for which the logged in User has permission and context.
      */
     @Override
     @GET
@@ -64,36 +66,58 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$userAccounts$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * Create a new $$UserAccount$$ entity.
      */
     @Override
     @POST
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        if (isSandboxImpersonationEnabled && maximumNumberOfUserAccounts >= 0) {
+            long count = count(ResourceNames.USER_ACCOUNTS);
+            if (count >= maximumNumberOfUserAccounts) {
+                return Response.status(Status.PRECONDITION_FAILED).entity(createMaximumReachedObject(count)).build();
+            }
+        }
         return super.create(newEntityBody, headers, uriInfo);
     }
 
+    private Map<String, String> createMaximumReachedObject(long count) {
+        Map<String, String> returnObject = new HashMap<String, String>();
+        returnObject.put("canCreate", "" + (!isSandboxImpersonationEnabled || maximumNumberOfUserAccounts < 0  || count < maximumNumberOfUserAccounts));
+        return returnObject;
+    }
+
     /**
-     * Get a single $$userAccounts$$ entity
+     * Check whether or not we can create more user accounts.
      *
-     * @param userAccountId
-     *            The Id of the $$userAccounts$$.
+     * @return result
+     */
+    @GET
+    @Path("createCheck")
+    public Response createCheck() {
+        return Response.status(Status.OK).entity(createMaximumReachedObject(count(ResourceNames.USER_ACCOUNTS))).build();
+    }
+
+    /**
+     * Put data into the waitingListUserAccount collection.
+     *
+     * @param newEntityBody
+     *          Entity Data
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$userAccounts$$ entity
+     * @return result
+     */
+    @POST
+    @Path("createWaitingListUser")
+    public Response createWaitingListUser(final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.create(ResourceNames.WAITING_LIST_USER_ACCOUNTS, newEntityBody, headers, uriInfo);
+    }
+
+    /**
+     * Get a single $$UserAccount$$ entity
      */
     @Override
     @GET
@@ -104,16 +128,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$userAccounts$$ entity
-     *
-     * @param userAccountId
-     *            The Id of the $$userAccounts$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Delete a $$UserAccount$$ entity
      */
     @Override
     @DELETE
@@ -124,18 +139,7 @@ public class UserAccountResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$userAccounts$$ entity.
-     *
-     * @param userAccountId
-     *            The id of the $$userAccounts$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Update an existing $$UserAccount$$ entity.
      */
     @Override
     @PUT

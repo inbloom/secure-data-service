@@ -1,3 +1,4 @@
+@RALLY_US149
 Feature: Gradebook Entry Ingestion Test
 
 Background: I have a landing zone route configured

@@ -83,12 +83,12 @@ public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
     }
 
     protected void addHeaderFooter(ModelMap model) {
-        String token = SecurityUtil.getToken();
-        String header = portalWSManager.getHeader(token);
+        boolean isAdmin = SecurityUtil.isAdmin();
+        String header = portalWSManager.getHeader(isAdmin);
         if (header != null) {
             header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
             model.addAttribute(Constants.ATTR_HEADER_STRING, header);
-            model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(token));
+            model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(isAdmin));
         }
     }
 

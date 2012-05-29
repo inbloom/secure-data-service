@@ -18,6 +18,7 @@ import com.mongodb.DBObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.validation.SchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,8 +39,11 @@ import org.slc.sli.validation.ValidationError;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ReferenceSchemaTest {
+
+    ReferenceSchema schema; //class under test
+
     @Autowired
-    ReferenceSchema schema;
+    SchemaRepository schemaRepository;
 
     private ReferenceSchema spySchema;
     private ValidationRepo repo = new ValidationRepo();
@@ -49,6 +53,8 @@ public class ReferenceSchemaTest {
 
     @Before
     public void setup() {
+        schema = new ReferenceSchema("school", schemaRepository);
+
         Entity entity = mock(Entity.class);
         when(entity.getEntityId()).thenReturn(UUID);
 
