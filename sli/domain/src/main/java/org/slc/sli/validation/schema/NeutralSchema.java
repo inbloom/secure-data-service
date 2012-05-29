@@ -86,7 +86,7 @@ public abstract class NeutralSchema {
     }
 
     public Object convert(Object value) {
-        throw new RuntimeException("Unsupported Neutral Schema Type: ");
+        return value;
     }
 
     public boolean isPii() {

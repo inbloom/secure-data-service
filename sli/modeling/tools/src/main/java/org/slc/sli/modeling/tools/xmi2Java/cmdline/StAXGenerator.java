@@ -11,6 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.modeling.jgen.ClassTypeHelper;
+import org.slc.sli.modeling.jgen.JavaFeature;
+import org.slc.sli.modeling.jgen.JavaGenConfig;
+import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
+import org.slc.sli.modeling.jgen.JavaOutputFactory;
+import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumType;

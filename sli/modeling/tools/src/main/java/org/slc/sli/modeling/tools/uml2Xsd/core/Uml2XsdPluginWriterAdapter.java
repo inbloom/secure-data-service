@@ -57,6 +57,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
         }
     }
 
+    @Override
     public void begin(final String prefix, final String localName, final String namespace) {
         try {
             xsw.writeStartElement(prefix, localName, namespace);
@@ -87,6 +88,15 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     public void comment(final String data) {
         try {
             xsw.writeComment(data);
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void complexType() {
+        try {
+            xsw.writeStartElement(prefix, "complexType", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -145,6 +155,15 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     public void name(final QName name) {
         try {
             xsw.writeAttribute("name", name.getLocalPart());
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void sequence() {
+        try {
+            xsw.writeStartElement(prefix, "sequence", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }

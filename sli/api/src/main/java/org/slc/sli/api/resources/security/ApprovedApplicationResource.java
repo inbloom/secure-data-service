@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -26,7 +25,10 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -46,20 +48,28 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApprovedApplicationResource {
 
-    public static final String RESOURCE_NAME = "application"; 
+    public static final String RESOURCE_NAME = "application";
+    public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description", 
  "name", "vendor", "version", "is_admin", "behavior", "endpoints"
     };
+    
 
     @Autowired
     private EntityDefinitionStore store;
 
     @Autowired
     private ApplicationAuthorizationValidator appValidator;
+    
+    @Autowired
+    private Repository<Entity> repo;
 
     private EntityService service;
+    
+    @Autowired
+    private DelegationUtil delegationUtil;
 
     @PostConstruct
     public void init() {
@@ -160,24 +170,43 @@ public class ApprovedApplicationResource {
      * @return
      */
     private boolean isHostedUser() {
-        List<String> userRoles = getUsersRoles();
-        return userRoles.contains(RoleInitializer.APP_DEVELOPER)
-                || userRoles.contains(RoleInitializer.LEA_ADMINISTRATOR)
-                || userRoles.contains(RoleInitializer.SEA_ADMINISTRATOR)
-                || userRoles.contains(RoleInitializer.SLC_OPERATOR)
-                || userRoles.contains(RoleInitializer.INGESTION_USER)
-                || userRoles.contains(RoleInitializer.REALM_ADMINISTRATOR);
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String realmId = principal.getRealm();
         
+        Entity entity = repo.findById("realm", realmId);
+        if (entity != null) {
+            Boolean admin = (Boolean) entity.getBody().get("admin");
+            return admin != null ? admin : false;
+        }
+        return false;
     }
     
     private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<String> userRoles = principal.getRoles();
-        return userRoles;
+        ArrayList<String> toReturn = new ArrayList(principal.getRoles());
+        
+        //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
+        if (hasAppAuthorizationRight()) {
+            toReturn.add(DELEGATED_ADMIN_PLACEHOLDER);
+        }
+        
+        return toReturn;
+    }
+
+    private boolean hasAppAuthorizationRight() {
+        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            //edorg authz users always have the right to authorize apps
+            return true;
+        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+            //We need to figure out if any districts have delegated to us
+            return delegationUtil.getDelegateEdOrgs().size() > 0;
+        }
+        return false;
     }
 
     private void filterEndpoints(List<Map<String, Object>> endpoints) {
         List<String> userRoles = getUsersRoles();
+        
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
             @SuppressWarnings("unchecked")

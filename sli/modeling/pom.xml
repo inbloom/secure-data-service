@@ -22,5 +22,9 @@
 		<module>rest</module>
 		<module>wadl</module>
 		<module>xdm</module>
+		<module>jgen</module>
+		<module>sdk</module>
+		<module>sdkgen</module>
+		<module>docgen</module>
 	</modules>
 </project>

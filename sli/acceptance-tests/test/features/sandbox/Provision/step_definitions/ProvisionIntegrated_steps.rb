@@ -50,6 +50,7 @@ sleep(1)
       :first => "Provision",
       :last => "test",
        :email => @email,
+       :emailAddress => @email,
        :password => "test1234",
        :emailtoken => "token",
        :vendor => @vendor,

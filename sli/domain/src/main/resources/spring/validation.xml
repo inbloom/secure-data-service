@@ -91,11 +91,11 @@
   <bean id="stringBlacklist" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <value>script</value>
-        <value>img</value>
-        <value>src</value>
-        <value>onload</value>
-        <value>onunload</value>
+        <value>\bscript\b</value>
+        <value>\bimg\b</value>
+        <value>\bsrc\b</value>
+        <value>\bonload\b</value>
+        <value>\bonunload\b</value>
       </list>
     </constructor-arg>
   </bean>
@@ -149,11 +149,11 @@
   <bean id="relaxedStringBlacklist" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <value>&lt;script</value>
-        <value>&lt;iframe</value>
-        <value>&lt;frame</value>
-        <value>&lt;embed</value>
-        <value>&lt;meta</value>
+        <value>&lt;script\b</value>
+        <value>&lt;iframe\b</value>
+        <value>&lt;frame\b</value>
+        <value>&lt;embed\b</value>
+        <value>&lt;meta\b</value>
       </list>
     </constructor-arg>
   </bean>

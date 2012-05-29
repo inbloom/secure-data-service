@@ -67,9 +67,14 @@ class RealmsController < ApplicationController
      logger.debug("Creating a new realm")
      @realm = Realm.new(params[:realm])
      @realm.saml = {} if @realm.saml == nil
-     @realm.mappings = {} if @realm.mappings == nil
+     if @realm.mappings == nil
+      @realm.mappings = {}
+      @realm.mappings["role"] = [{"sliRoleName" => "IT Administrator", "clientRoleName" => [ "IT Administrator" ] }, {"sliRoleName" => "Educator", "clientRoleName" => [ "Educator" ] }, {"sliRoleName" => "Aggregate Viewer", "clientRoleName" => [ "Aggregate Viewer" ] }, {"sliRoleName" => "Leader", "clientRoleName" => [ "Leader" ] }]
+     end
      @realm.admin = false
      @realm.edOrg = session[:edOrg]
+     #Default saml mapping
+     @realm.saml =  { "field" => [ { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" }, { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" }, { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } ] }
      logger.debug{"Creating realm #{@realm}"}
 
      respond_to do |format|
