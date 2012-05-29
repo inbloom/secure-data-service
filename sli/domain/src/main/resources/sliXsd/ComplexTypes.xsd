@@ -1450,27 +1450,20 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="gradingPeriods" type="reference" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>References to grading periods associated with the session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolId" type="reference">
-                <xs:annotation>
-                    <xs:documentation>Reference to the school associated with the session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="gradingPeriodReference" type="reference"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The grading periods that take place during
+						the session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-  
+
 	<xs:complexType name="courseOffering">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
@@ -1604,6 +1597,37 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="schoolSessionAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the association of a school
+				with all its sessions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the school associated with the
+						session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sessionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the session offered at the school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="scoreResult">
@@ -3964,6 +3988,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="gradeType" type="gradeType">
+				<xs:annotation>
+					<xs:documentation>The type of grade reported (e.g., Exam, Final,
+						Grading Period).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element minOccurs="0" name="performanceBaseConversion"
 				type="performanceBaseType">
 				<xs:annotation>
@@ -3974,7 +4005,8 @@
 			</xs:element>
 			<xs:element name="courseId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The course recorded in the Course transcript entry.
+					<xs:documentation>The course recorded in the Course transcript
+						entry,
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
@@ -3982,12 +4014,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference">
+			<xs:element name="studentId" type="reference">
 				<xs:annotation>
-					<xs:documentation>Association to the student academic record for the current course transcript.
+					<xs:documentation>The Student that took the reported instruction.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>studentAcademicRecord</sli:ReferenceType>
+						<sli:ReferenceType>student</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
