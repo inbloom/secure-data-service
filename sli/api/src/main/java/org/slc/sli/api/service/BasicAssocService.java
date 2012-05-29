@@ -213,7 +213,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
                     ids.add((String) other);
                 }
             } else {
-                error(String.format("Association had bad value of key {}: {}", otherEntityKey, other));
+                error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
             }
         }
         

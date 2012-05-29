@@ -155,6 +155,9 @@ public class BasicService implements EntityService {
     
     @Override
     public String create(EntityBody content) {
+        // DE260 - Logging of possibly sensitive data
+        // LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {
+        // collectionName, content });
         
         // if service does not allow anonymous write access, check user rights
         if (writeRight != Right.ANONYMOUS_ACCESS) {
@@ -166,6 +169,9 @@ public class BasicService implements EntityService {
     
     @Override
     public void delete(String id) {
+        // DE260 - Logging of possibly sensitive data
+        // LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+        
         checkAccess(writeRight, id);
         
         try {
@@ -183,7 +189,7 @@ public class BasicService implements EntityService {
     
     @Override
     public boolean update(String id, EntityBody content) {
-        debug("Updating {} in {}", (Object) new String[] { id, collectionName });
+        debug("Updating {} in {}", id, collectionName);
         
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkAccess(determineWriteAccess(content, ""), id);
@@ -380,7 +386,7 @@ public class BasicService implements EntityService {
         
         String clientId = getClientId();
         
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", (Object) new String[] {
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
                 getEntityDefinition().getType(), id, clientId });
         
         NeutralQuery query = new NeutralQuery();
@@ -418,7 +424,7 @@ public class BasicService implements EntityService {
         
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
         
-        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", (Object) new String[] {
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
     
@@ -440,20 +446,20 @@ public class BasicService implements EntityService {
         
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    (Object) new String[] { getEntityDefinition().getType(), id, clientId });
+                    new String[] { getEntityDefinition().getType(), id, clientId });
             return;
         }
         
         EntityBody clonedEntity = new EntityBody(customEntity);
         
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", (Object) new String[] {
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", (Object) new String[] {
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);

@@ -40,7 +40,7 @@ public class ContextResolverStore implements ApplicationContextAware {
     public EntityContextResolver findResolver(String fromEntityType, String toEntityType) throws IllegalStateException {
         
         EntityContextResolver found = null;
-        for (EntityContextResolver resolver : resolvers) {
+        for (EntityContextResolver resolver : this.resolvers) {
             if (resolver.canResolve(fromEntityType, toEntityType)) {
                 found = resolver;
                 break;
