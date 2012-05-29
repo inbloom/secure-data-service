@@ -101,18 +101,18 @@ public class MongoEntity implements Entity, Serializable {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
 
-        final UUID uid;
+        final String uid;
 
         if (entityId == null) {
             if (uuidGeneratorStrategy != null) {
                 uid = uuidGeneratorStrategy.randomUUID();
             } else {
                 log.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
-                uid = UUID.randomUUID();
+                uid = UUID.randomUUID().toString();
             }
             entityId = uid.toString();
         } else {
-            uid = UUID.fromString(entityId);
+            uid = entityId;
         }
 
         dbObj.put("_id", uid);
