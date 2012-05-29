@@ -601,7 +601,7 @@ task :importSandboxData do
 end
 
 desc "Import Unified Data Set"
-task :importUnifiedData do
+task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
     "attendance" => "unified_data/uds_attendance.json",
@@ -609,7 +609,6 @@ task :importUnifiedData do
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
-     "realm" => "unified_data/uds_realm.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
     "student" => "unified_data/uds_student.json",

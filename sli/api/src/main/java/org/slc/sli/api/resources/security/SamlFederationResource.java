@@ -230,18 +230,31 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
-
-
+        
         if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             //if we couldn't find an Entity for the user and this isn't an admin realm, then we have no valid user
+            debug("Attempted login by a user that does not exist and is not logging in from an admin realm");
             throw new RuntimeException("Invalid user");
         }
-        
+
+        if(principal.getRoles() == null || principal.getRoles().isEmpty()){
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            throw new RuntimeException("Invalid user. No roles specified for user.");
+        }
+
+
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+
+        if(principal.getSliRoles().isEmpty()){
+            debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+            throw new RuntimeException("Invalid user. No valid role mappings exist for the roles specified in the SAML Assertion.");
+        }
+
+
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
-                
+
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
