@@ -2,7 +2,6 @@
 "listOfStudents" :
 {
   id : "listOfStudents",
-  name: "SLI - List of Students",
   type : "PANEL",
   data :{
     lazy: true,

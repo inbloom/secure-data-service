@@ -77,8 +77,8 @@ DashboardProxy = {
 			return this.widgetConfig[widget];
 		},
 		
-		// The function returns the page title for the browser
-		getPageTitle: function () {
+		// The function returns the layout name
+		getLayoutName: function () {
 			var configObj = this.config,
 				key,
 				obj;
@@ -229,8 +229,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     	jQuery(this).jqGrid('setGroupHeaders', {
       	  useColSpanStyle: true, 
       	  groupHeaders:groupHeaders,
-          fixed: true,
-          shrinkToFit : false
+          fixed: true
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
     	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');

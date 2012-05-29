@@ -44,7 +44,7 @@
 		
 	DashboardProxy.loadAll(${viewDataConfig});
   
-	pageTitle = DashboardProxy.getPageTitle();
+	pageTitle = DashboardProxy.getLayoutName();
 	$("<title></title>").html(pageTitle).appendTo("head");
 </script>
 </#noescape>

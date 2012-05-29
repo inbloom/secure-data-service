@@ -50,7 +50,6 @@
 			<#list parentContact.electronicMail as electronicMail>
 					<tr>
 						<th>
-							<!-- show only once -->
 							<#if electronicMail.emailAddressType ??>
 							       ${electronicMail.emailAddressType}:
 						   <#else>
@@ -65,8 +64,11 @@
 			<#list parentContact.address as address>
 					<tr>
 						<th>
-						<!-- show only once -->
-							Address:
+							<#if address.addressType ??>
+								${address.addressType}:
+							<#else>
+								Address:
+							</#if>
 						</th>
 						<td class="contactInfoData">
 						    <div>
