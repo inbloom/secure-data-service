@@ -77,11 +77,11 @@ public class XmlFileProcessor implements Processor {
 
                     fe.setFile(new File(resource.getResourceName()));
 
-                    LOG.info( "Starting ID ref resolution for file entry: {} ", fe.getFileName() );
+                    LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
 
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
-                    LOG.info( "Finished ID ref resolution for file entry: {} ", fe.getFileName() );
+                    LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 } else {

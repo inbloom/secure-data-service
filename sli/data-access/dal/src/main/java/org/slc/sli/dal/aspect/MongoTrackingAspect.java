@@ -42,14 +42,14 @@ public class MongoTrackingAspect {
         String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
         
         if (stats.get(pjp.getSignature().getName()) == null) {
-            stats.put(key, Pair.of(new AtomicLong(0), new AtomicLong(0)));
+            stats.put(pjp.getSignature().getName(), Pair.of(new AtomicLong(0), new AtomicLong(0)));
         }
         
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
         
-        Pair<AtomicLong, AtomicLong> pair = stats.get(key);
+        Pair<AtomicLong, AtomicLong> pair = stats.get(pjp.getSignature().getName());
         pair.getLeft().incrementAndGet();
         pair.getRight().addAndGet(elapsed);
         
@@ -63,4 +63,5 @@ public class MongoTrackingAspect {
     public void reset() {
         this.stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
     }
+    
 }
