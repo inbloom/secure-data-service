@@ -8,9 +8,10 @@
  *= require dataTables/jquery.dataTables
  *= require_tree . 
 */
-#header { margin-bottom: 10px;padding-bottom:10px; border-bottom: 1px solid #999; height:50px;}
+#header { margin-bottom: 10px;padding-bottom:10px; border-bottom: 1px solid #999; height:70px;}
 div.left {float: left;}
 div.right {float: right;}
+i {color: #AAA;}
 /*div.details {display:none;}*/
 /*dt, dd { margin: 0; padding: 0; } dt { float: left; margin-right: 0.3em; }*/
 #content { clear:both; margin-top: 20px;}
