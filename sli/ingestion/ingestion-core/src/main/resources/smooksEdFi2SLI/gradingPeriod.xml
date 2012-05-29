@@ -26,12 +26,17 @@
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="gradingPeriodIdentity" data="attributes gradingPeriodIdentity" />
+        <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriodIdentity" />
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
         <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
     </jb:bean>
+
+   <jb:bean beanId="gradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
+     <jb:value property="schoolYear" data="attributes gradingPeriodIdentity schoolYear" />
+     <jb:value property="gradingPeriod" data="attributes gradingPeriodIdentity gradingPeriod" />
+   </jb:bean>
 
     <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes calendarDateReference element" />

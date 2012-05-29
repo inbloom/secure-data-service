@@ -3772,7 +3772,7 @@
         <jb:value property="gradingPeriod" data="GradingPeriodIdentity/GradingPeriod" />
         <jb:value property="schoolYear" data="GradingPeriodIdentity/SchoolYear" />
         <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
-        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="GradingPeriod_EdOrgReference" />
+        <!--<jb:wiring property="educationOrgIdentificationCode" beanIdRef="GradingPeriod_EdOrgReference" /> -->
   </jb:bean>
 
   <jb:bean beanId="calendarDateReference_reference_array" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
@@ -3792,10 +3792,11 @@
     <jb:wiring beanIdRef="GradingPeriod_EdOrgidentificationCode" />
   </jb:bean>
 
-  <jb:bean beanId="GradingPeriod_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrgIdentificationCode">
+<!--  <jb:bean beanId="GradingPeriod_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrgIdentificationCode">
     <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.ID" data="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrgIdentificationCode/ID" />
     <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.identificationSystem" data="InterchangeEducationOrgCalendar/GradingPeriod/EducationOrgIdentificationCode/@IdentificationSystem" />
   </jb:bean>
+  -->
   <!-- End gradingPeriod mapping -->
 
   <!-- Start calendarDate mapping -->
