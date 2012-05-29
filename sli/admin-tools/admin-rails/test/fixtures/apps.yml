@@ -9,6 +9,10 @@ admin:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    authorized_ed_orgs:
+      - 1234
+      - Something
+      - 1235
     registration:
         status: "APPROVED"
         request_date: 1330521193111
@@ -41,11 +45,15 @@ waffles:
     client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
-    image_url: http://placekitten.com/150/150                   apps.yml
+    image_url: http://placekitten.com/150/150
     name: Waffle Application (Deoployment)
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    authorized_ed_orgs:
+      - 1234
+      - Something
+      - 1235
     registration:
         status: "APPROVED"
         request_date: 1330521193111

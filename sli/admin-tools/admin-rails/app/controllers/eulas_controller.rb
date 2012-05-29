@@ -3,7 +3,7 @@ class EulasController < ApplicationController
   # GET /eula 
   def show
     if !Session.valid?(session)
-      # not_found
+      not_found
     end
     
     respond_to do |format|

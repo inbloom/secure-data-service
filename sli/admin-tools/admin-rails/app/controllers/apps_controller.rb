@@ -168,10 +168,6 @@ class AppsController < ApplicationController
     end
   end
 
-  def operator?
-    !session[:roles].include? "Application Developer"
-  end
-
   private
   def boolean_fix (parameter)
     case parameter

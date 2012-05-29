@@ -2,7 +2,7 @@
 	<%= notice %>
 </div>
 <div class="content">
-  <%= render "index_dev" unless controller.operator? %>
-  <%= render "index_op" if controller.operator? %>
+  <%= render "index_dev" unless controller.is_operator? %>
+  <%= render "index_op" if controller.is_operator? %>
 </div>
 

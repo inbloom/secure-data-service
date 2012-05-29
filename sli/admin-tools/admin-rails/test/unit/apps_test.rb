@@ -13,7 +13,7 @@ class AppTest < ActiveSupport::TestCase
   end
   
   test "apps can filter the admin app" do
-    full = App.new
+    full = App.all
     filtered = App.all_but_admin
     assert(full.size == filtered.size + 1, "We shouldn't have one less app")
     filtered.each do |app|
