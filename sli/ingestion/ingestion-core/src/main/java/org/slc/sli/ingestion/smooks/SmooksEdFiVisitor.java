@@ -71,7 +71,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
             this.recordsPerisisted++;
 
-            logRecordsPersisted( neutralRecord );
+            logRecordsPersisted(neutralRecord);
 
         } else {
 
@@ -88,8 +88,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private void logRecordsPersisted(NeutralRecord neutralRecord) {
 
-        if ( recordsPerisisted % LOG_INTERVAL == 0 ) {
-            LOG.info( "Persisted {} records of type {} ", recordsPerisisted, neutralRecord.getRecordType() );
+        if (recordsPerisisted % LOG_INTERVAL == 0) {
+            LOG.info("Persisted {} records of type {} ", recordsPerisisted, neutralRecord.getRecordType());
         }
 
     }
