@@ -76,7 +76,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
@@ -93,7 +99,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>ThisSpaceIs	
@@ -110,6 +122,12 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+   <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
   </Course>
 </InterchangeEducationOrganization>
