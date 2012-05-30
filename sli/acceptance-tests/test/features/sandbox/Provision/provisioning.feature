@@ -1,4 +1,4 @@
-@RALLY_US219 @RALLY_2170
+@RALLY_US219 @RALLY_US2170 @RALLY_US172
 Feature: Use the Provisioning REST interface to provision a new sandbox application developer
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials

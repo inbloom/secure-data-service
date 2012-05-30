@@ -34,7 +34,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.security.saml2.XmlSignatureHelper;
+import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

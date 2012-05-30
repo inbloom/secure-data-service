@@ -3,7 +3,7 @@ package org.slc.sli.ingestion.transformation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +63,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             Map<String, Object> attributes = neutralRecord.getAttributes();
             if (attributes.get("creditsAttempted") == null) {
                 attributes.remove("creditsAttempted");
+            }
+            
+            if (attributes.get("gradeType") == null) {
+                attributes.put("gradeType", "Final");
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());

@@ -13,8 +13,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.tools.SliUmlConstants;
-import org.slc.sli.modeling.tools.TagName;
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
+import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -311,13 +311,13 @@ public final class DocumentationWriter {
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(DocumentationElements.PROLOG.getLocalPart());
+            xsw.writeStartElement(DocumentationElements.PROgetLocalPart());
             try {
                 xsw.writeCharacters(diagram.getProlog());
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(DocumentationElements.EPILOG.getLocalPart());
+            xsw.writeStartElement(DocumentationElements.EPIgetLocalPart());
             try {
                 xsw.writeCharacters(diagram.getEpilog());
             } finally {

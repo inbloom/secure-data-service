@@ -22,8 +22,7 @@ public final class WxsGenerator {
             // The platform-specific model provides the implementation mappings.
             final PsmConfig<Type> psmConfig = PsmConfigReader.readConfig("../data/documents.xml", model);
 
-            Uml2XsdWriter.writeDocuments(psmConfig.getDocuments(), model, new PluginForJson(), "sli-api-json.xsd");
-            Uml2XsdWriter.writeDocuments(psmConfig.getDocuments(), model, new PluginForXml(), "sli-api-xml.xsd");
+            Uml2XsdWriter.writeDocuments(psmConfig.getDocuments(), model, new PluginForREST(), "sli-api.xsd");
             Uml2XsdWriter.writeDocuments(psmConfig.getDocuments(), model, new PluginForMongo(), "sli-mongo.xsd");
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);

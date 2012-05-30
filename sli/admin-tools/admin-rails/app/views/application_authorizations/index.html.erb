@@ -1,3 +1,6 @@
+<h1>Approve Applications</h1>
+<h6>Allow applications to access the platform</h6>
+
 <!-- application_authorizations -->
 
 <% names = @application_authorizations.map{|auth| auth.authId} %>
@@ -32,9 +35,11 @@
     $("select").change(function(){
         $("select option:selected").each(function(){
             $("table").hide();
+            $("h1").hide();
+            <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
+            $("h1:contains('" + $(this).text() + "')").show();
             $("#AuthorizedAppsTable_" + $(this).text()).show();
-
-       })  ;
+       });
      }).change();
 
 </script>

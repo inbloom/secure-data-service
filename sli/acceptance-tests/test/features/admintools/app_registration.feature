@@ -75,11 +75,10 @@ And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
-And every field except the shared secret and the app ID became editable
 And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-And I the field named "Image URL" still says "http://placekitten.com/100/100"
+And I the field named "Application Icon Url" still says "http://placekitten.com/100/100"
 And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request

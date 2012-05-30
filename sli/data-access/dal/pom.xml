@@ -14,14 +14,7 @@
 
 	<dependencies>
 
-		<!-- SLI Dependencies -->
-<!--		<dependency>
-			<groupId>org.slc.sli</groupId>
-			<artifactId>sli-configuration</artifactId>
-		</dependency> --> 
-
-		  <dependency> 
-
+    <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>sli-common</artifactId>
     </dependency>
@@ -69,12 +62,11 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>${commons.codec.version}</version>
 		</dependency>
 	</dependencies>
 
 	<properties>
-		<sli.home>${project.parent.basedir}/..</sli.home>
+		<sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
 	</properties>

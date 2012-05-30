@@ -28,6 +28,7 @@
         <jb:value property="finalLetterGradeEarned" data="attributes finalLetterGradeEarned"></jb:value>
         <jb:value property="finalNumericGradeEarned" data="attributes finalNumericGradeEarned" decoder="Integer"></jb:value>
         <jb:value property="courseRepeatCode" data="attributes courseRepeatCode"></jb:value>
+        <jb:value property="gradeType" data="attributes gradeType"></jb:value>
         <jb:value property="courseId" data="attributes courseId"></jb:value>
         <jb:value property="studentAcademicRecordId" data="attributes studentAcademicRecordId"></jb:value>
     </jb:bean>

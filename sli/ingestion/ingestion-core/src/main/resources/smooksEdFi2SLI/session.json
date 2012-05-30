@@ -1,14 +1,14 @@
 {
-    "keyFields" : ["body.term", "body.schoolYear", "body.schoolId", "body.sessionName"],
+    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
     "references" :
     [
         {
-            "fieldPath" : "body.gradingPeriods",
+            "fieldPath" : "body.gradingPeriodReference",
             "ref" :
             {
                 "collectionName" : "gradingPeriod",
                 "isRefList" : true,
-                "refObjectPath" : "body.gradingPeriods",
+                "refObjectPath" : "body.gradingPeriodReference",
                 "choiceOfFields" :
                 [
                     [
@@ -16,7 +16,7 @@
                             "path" : "metaData.externalId",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriods.gradingPeriodId"
+                                "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity"
                             }]
                         }
                     ]

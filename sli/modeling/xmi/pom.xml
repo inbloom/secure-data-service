@@ -11,6 +11,10 @@
 	<artifactId>xmi</artifactId>
 	<name>XMI (XML Metadata Interchange)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->

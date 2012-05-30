@@ -39,6 +39,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -192,7 +193,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             }
         } catch (Exception e) {
             errorReportForNrFile.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile, e);
         } finally {
             if (nrFileReader != null) {
                 nrFileReader.close();
@@ -223,12 +224,21 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
                     
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
-                    
+
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForNrFile);
+
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(
+                                MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                                        neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
                         
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
-                        
+
                         AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity
                                 .getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
@@ -262,7 +272,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             return defaultEdFi2SLITransformer;
         }
     }
-    
+
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
         long numFailed = 0;
@@ -356,13 +366,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LOG.error("Exception: ", exception);
         
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }
-    
+
     public void setEntityPersistHandlers(
             Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
         this.entityPersistHandlers = entityPersistHandlers;
@@ -391,7 +401,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
         this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
     }
-    
+
     public void setDefaultEntityPersistHandler(
             AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;

@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -66,7 +66,7 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
                 PropertyUtils.setProperty(nr, "attributes.refIncidentIdentifier", incidentIdentifier);
             }
         } catch (Exception e) {
-            LOG.error("Exception encountered resolving DisciplineIncidentAssociation reference:", e);
+            LogUtil.error(LOG, "Exception encountered resolving DisciplineIncidentAssociation reference:", e);
         }
     }
 

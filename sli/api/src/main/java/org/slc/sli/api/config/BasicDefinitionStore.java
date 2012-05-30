@@ -9,15 +9,14 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ResourceNames;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of the entity definition store
@@ -47,7 +46,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BasicDefinitionStore implements EntityDefinitionStore {
-    private static final Logger LOG = LoggerFactory.getLogger(BasicDefinitionStore.class);
 
     private Map<String, EntityDefinition> mapping = new HashMap<String, EntityDefinition>();
 
@@ -121,6 +119,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS)
                 .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
                 .buildAndRegister(this);
+        factory.makeEntity(EntityNames.WAITING_LIST_USER_ACCOUNT, ResourceNames.WAITING_LIST_USER_ACCOUNTS)
+        .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
+        .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
@@ -190,6 +191,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         "educationOrganizationChildId").calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addDefinition(educationOrganizationAssociation);
+
+        AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation", "schoolSessionAssociations")
+                .exposeAs(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).storeAs("schoolSessionAssociation")
+                .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
+                .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
+                .build();
+        addDefinition(schoolSessionAssociation);
 
         AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
                 .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")
@@ -275,7 +283,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     private void registerDirectReferences() {
 
         //
-        LOG.debug("Registering direct entity references");
+        debug("Registering direct entity references");
 
         int referencesLoaded = 0;
 
@@ -291,8 +299,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                     continue;
                 }
                 for (String resource : resources) {
-                    EntityDefinition referencedEntity = this.mapping.get(resource);
-                    LOG.debug(
+                    EntityDefinition referencedEntity = mapping.get(resource);
+                    debug(
                             "* New reference: {}.{} -> {}._id",
                             new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
                                     schema.getResourceName() });
@@ -302,7 +310,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         referencedEntity.addReferencingEntity(referringDefinition);
                         referencesLoaded++;
                     } else {
-                        LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
+                        warn("* Failed to add, null entity: {}.{} -> {}._id",
                             new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
                                     schema.getResourceName() });
                     }
@@ -311,11 +319,11 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         }
 
         // print stats
-        LOG.debug("{} direct references loaded.", referencesLoaded);
+        debug("{} direct references loaded.", referencesLoaded);
     }
 
     public void addDefinition(EntityDefinition defn) {
-        LOG.debug("adding definition for {}", defn.getResourceName());
+        debug("adding definition for {}", defn.getResourceName());
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
 
         if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {
@@ -325,6 +333,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
             list.add(defn.getResourceName());
             ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getStoredCollectionName(), list);
         }
-        this.mapping.put(defn.getResourceName(), defn);
+        mapping.put(defn.getResourceName(), defn);
     }
 }

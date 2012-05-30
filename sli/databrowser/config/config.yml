@@ -10,6 +10,11 @@ team:
     client_id: G9tjgDx1aL
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     redirect_uri: https://ci.slidev.org:2000/callback
+production:
+    api_base: https://ci.slidev.org/api/rest/v1
+    client_id: G9tjgDx1aL
+    client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+    redirect_uri: https://ci.slidev.org:2000/callback
 test:
     api_base: https://devapp1.slidev.org/api/rest/v1
 local-acceptance-tests:

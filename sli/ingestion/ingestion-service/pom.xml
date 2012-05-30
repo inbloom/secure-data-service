@@ -22,11 +22,11 @@
     </dependency>
 
   </dependencies>
-  
-  <properties>
-  	<sli.home>${project.parent.basedir}/..</sli.home>
-  </properties>
 
+  <properties>
+  	<sli.home>${project..parent.parent.basedir}</sli.home>
+  </properties>
+  
   <build>
     <finalName>ingestion-service</finalName>
 
@@ -72,11 +72,9 @@
           </connectors>
         </configuration>
       </plugin>
-
     </plugins>
-
   </build>
-
+  
   <profiles>
     <profile>
       <id>Custom Configuration</id>
@@ -108,5 +106,4 @@
       </dependencies>
     </profile>
   </profiles>
-
 </project>

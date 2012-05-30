@@ -38,24 +38,33 @@ class LandingZone
     rescue => e
       Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end 
-
-    # TODO: move this out to a template and not hardcode
-    email = {
-      :email_addr => user_info[:email],
-      :name       => "#{user_info[:first]} #{user_info[:last]}",
-      :subject    => "Landing Zone Provisioned",
-      :content    => "Welcome!\n\n" <<
-        "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
-        "Ed-Org: #{edorg_id}\n" <<
-        "Server: #{result.attributes[:serverName]}\n" <<
-        "LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
-        "Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
-        "Thank you,\n" <<
-        "SLC Operator\n"
-    }
-
-    APP_EMAILER.send_approval_email email
-    {:landingzone => @landingzone, :server => @server}
+    
+    # TODO: also check email address for being valid
+    if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
+      # TODO: move this out to a template and not hardcode
+      email = {
+        :email_addr => user_info[:emailAddress],
+        :name       => "#{user_info[:first]} #{user_info[:last]}",
+        :subject    => "Landing Zone Provisioned",
+        :content    => "Welcome!\n\n" <<
+          "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
+          "Ed-Org: #{edorg_id}\n" <<
+          "Server: #{result.attributes[:serverName]}\n" <<
+          "LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
+          "Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
+          "Thank you,\n" <<
+          "SLC Operator\n"
+      }
+  
+      APP_EMAILER.send_approval_email email
+      @emailWarningMessage = ""
+    else
+      @emailWarningMessage = "Unfortunately, your account does not have an email address and " << 
+                             "therefore we cannot send an email to you.  Please use this page " <<
+                             "as reference or contact the SLC Operator for your landing zone details."
+    end
+    
+    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage}
   end
 
 end

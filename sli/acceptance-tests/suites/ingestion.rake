@@ -202,6 +202,16 @@ task :ingestionEmptyControlFileTest do
   runTests("test/features/ingestion/features/ingestion_emptyCtlFile.feature")
 end
 
+desc "Run Dry Run Test"
+task :ingestionDryRunTest do
+  runTests("test/features/ingestion/features/ingestion_dry_run.feature")
+end
+
+desc "Run Course Update Test"
+task :ingestionCourseUpdateTest do
+  runTests("test/features/ingestion/features/ingestion_courseUpdate.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

@@ -33,7 +33,8 @@ Given /^there are accounts in requests pending in the system$/ do
        :status => "pending",
        :homedir => "test",
        :uidnumber => "500",
-       :gidnumber => "500"
+       :gidnumber => "500",
+       :emailAddress => @email
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -148,7 +149,8 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
        :status => "approved",
        :homedir => "test",
        :uidnumber => "500",
-       :gidnumber => "500"
+       :gidnumber => "500",
+       :emailAddress => @email
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -167,7 +169,8 @@ def create_account(status, vendor)
        :status => status,
        :homedir => "test",
        :uidnumber => "500",
-       :gidnumber => "500"
+       :gidnumber => "500",
+       :emailAddress => @email
    }
   @ldap.create_user(user_info)
   sleep(1)

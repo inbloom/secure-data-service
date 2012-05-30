@@ -20,6 +20,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.util.LogUtil;
+
 /**
  *
  */
@@ -121,9 +123,7 @@ public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
         try {
             neutralRecord = getNeutralRecord((Record) this.reader.next());
         } catch (IOException e) {
-//            DE260 - commenting out possibly sensitive data
-//            LOG.error("Could not decode NeutralRecord {}", e);
-            LOG.error("Could not decode NeutralRecord");
+            LogUtil.error(LOG, "Could not decode NeutralRecord", e);
         }
         return neutralRecord;
     }

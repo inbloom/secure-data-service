@@ -12,7 +12,11 @@
    <artifactId>ingestion</artifactId>
    <packaging>pom</packaging>
 
-   <name>SLI - Ingestion</name>
+  <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
+  <name>SLI - Ingestion</name>
 
    <modules>
       <module>ingestion-base</module>

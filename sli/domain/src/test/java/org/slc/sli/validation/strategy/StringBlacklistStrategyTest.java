@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -27,28 +26,26 @@ public class StringBlacklistStrategyTest {
 
     @Autowired
     private AbstractBlacklistStrategy stringBlacklistStrategy;
+    
+    @Autowired
+    private AbstractBlacklistStrategy relaxedStringBlacklistStrategy;
 
     @Test
-    public void testSpringGetValid() {
-        List<String> springBadStringList = createSpringBadStringList();
-        runTestLoop(springBadStringList, stringBlacklistStrategy, false);
+    public void testBlacklisting() {
+        List<String> badStringList = createBadRelaxedStringList();
+        runTestLoop(badStringList, relaxedStringBlacklistStrategy, false);
+
+        List<String> goodStringList = createGoodStringList();
+        runTestLoop(goodStringList, relaxedStringBlacklistStrategy, true);
+    }
+    
+    @Test
+    public void testRelaxedBlacklisting() {
+        List<String> badStringList = createBadStringList();
+        runTestLoop(badStringList, stringBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
         runTestLoop(goodStringList, stringBlacklistStrategy, true);
-    }
-
-    @Test
-    public void testGetValid() {
-        AbstractBlacklistStrategy strategy = new StringBlacklistStrategy();
-        List<String> badStringList = createBadStringList();
-
-        strategy.setInputCollection(badStringList);
-        strategy.init();
-
-        runTestLoop(badStringList, strategy, false);
-
-        List<String> goodStringList = createGoodStringList();
-        runTestLoop(goodStringList, strategy, true);
     }
 
     private void runTestLoop(List<String> inputList, AbstractBlacklistStrategy strategy, boolean shouldPass) {
@@ -63,18 +60,19 @@ public class StringBlacklistStrategyTest {
         }
     }
 
-    private List<String> createSpringBadStringList() {
-        Collection<String> inputCollection = stringBlacklistStrategy.getInputCollection();
-        return new ArrayList<String>(inputCollection);
-    }
-
     private List<String> createBadStringList() {
         List<String> stringList = new ArrayList<String>();
         stringList.add("script");
         stringList.add("img");
         stringList.add("src");
-        stringList.add("onload");
-        stringList.add("onunload");
+        return stringList;
+    }
+    
+    private List<String> createBadRelaxedStringList() {
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("<script");
+        stringList.add("<iframe");
+        stringList.add("<frame");
         return stringList;
     }
 

@@ -23,7 +23,7 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                | 5      |
      | educationOrganization       | 6      |
      | gradingPeriod               | 6      |
-     | schoolSessionAssociation    | 0      |
+     | schoolSessionAssociation    | 10     |
      | session                     | 10     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue             | searchType           |

@@ -1308,7 +1308,7 @@
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -1450,27 +1450,20 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name="gradingPeriods" type="reference" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>References to grading periods associated with the session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolId" type="reference">
-                <xs:annotation>
-                    <xs:documentation>Reference to the school associated with the session.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+			<xs:element name="gradingPeriodReference" type="reference"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The grading periods that take place during
+						the session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-  
+
 	<xs:complexType name="courseOffering">
 		<xs:annotation>
 			<xs:documentation>This entity represents the association of a course
@@ -1520,6 +1513,10 @@
 				that includes staff and students who participate in classes and
 				educational activity groups.
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
+                <sli:CollectionType>educationOrganization</sli:CollectionType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
@@ -1600,6 +1597,37 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="schoolSessionAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the association of a school
+				with all its sessions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the school associated with the
+						session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sessionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the session offered at the school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+						<sli:naturalKey>true</sli:naturalKey>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="scoreResult">
@@ -3552,7 +3580,7 @@
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -3960,6 +3988,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="gradeType" type="gradeType">
+				<xs:annotation>
+					<xs:documentation>The type of grade reported (e.g., Exam, Final,
+						Grading Period).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element minOccurs="0" name="performanceBaseConversion"
 				type="performanceBaseType">
 				<xs:annotation>
@@ -3970,7 +4005,8 @@
 			</xs:element>
 			<xs:element name="courseId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The course recorded in the Course transcript entry.
+					<xs:documentation>The course recorded in the Course transcript
+						entry,
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
@@ -3998,6 +4034,9 @@
 				model, a teacher entity is a staff member with additional
 				properties.
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>staff</sli:CollectionType>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="staff">
@@ -4048,7 +4087,7 @@
 					<xs:documentation>The teacher providing services to the school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
+						<sli:ReferenceType>teacher</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4058,7 +4097,7 @@
 					<xs:documentation>The school where the teacher provides services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4110,7 +4149,7 @@
 					<xs:documentation>The teacher assigned to the section.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>staff</sli:ReferenceType>
+						<sli:ReferenceType>teacher</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4352,7 +4391,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -4364,7 +4403,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6129,7 +6168,7 @@
 						often the LEA or school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6288,17 +6327,17 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>
-						The school associated with this attendance.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
+            <xs:element name="schoolId" type="reference">
+              <xs:annotation>
+                <xs:documentation>
+                  The school associated with this attendance.
+                </xs:documentation>
+                <xs:appinfo>
+                  <sli:ReferenceType>school</sli:ReferenceType>
+			 	  <sli:naturalKey>true</sli:naturalKey>
+			 	</xs:appinfo>
+              </xs:annotation>
+            </xs:element>
 			<xs:element name="schoolYearAttendance" type="schoolYearAttendanceType"
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
@@ -6576,7 +6615,7 @@
 					<xs:documentation>School where incident occurred
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>

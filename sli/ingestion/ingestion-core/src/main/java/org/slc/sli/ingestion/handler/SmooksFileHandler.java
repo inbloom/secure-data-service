@@ -47,10 +47,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
             
         } catch (IOException e) {
-            LOG.error("IOException", e.getLocalizedMessage());
+            LOG.error("IOException: Could not instantiate smooks, unable to read configuration file");
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
+            LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file");
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
