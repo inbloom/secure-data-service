@@ -111,10 +111,10 @@ $entityData = {
         {"description" => "Long disciplinary Action 3"}
     ]],
     "disciplineDate" => "2012-01-28",
-    "disciplineIncidentId" => ["0e26de79-22aa-5d67-9201-5113ad50a03b"],
-    "studentId" => ["7a86a6a7-1f80-4581-b037-4a9328b9b650"],
-    "responsibilitySchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
-    "assignmentSchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
+    "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4"],
+    "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
