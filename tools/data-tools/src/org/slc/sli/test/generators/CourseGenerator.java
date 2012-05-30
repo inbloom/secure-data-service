@@ -261,6 +261,7 @@ public class CourseGenerator {
 
 	        courseCount--;
 	        course.setId(courseId);
+	        course.setCourseTitle(courseId);
 	        CourseCode cc = new CourseCode();
 	        cc.setID(courseId + courseCount);
 	        //cc.setID(course.getId() + courseCount);
