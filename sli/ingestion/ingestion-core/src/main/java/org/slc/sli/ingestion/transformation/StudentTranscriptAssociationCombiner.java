@@ -3,7 +3,7 @@ package org.slc.sli.ingestion.transformation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
