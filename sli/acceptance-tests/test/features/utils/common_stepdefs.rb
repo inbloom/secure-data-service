@@ -10,7 +10,7 @@ Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |use
 end
 
 Given /^format "([^\"]*)"$/ do |fmt|
-  ["application/json", "application/json; charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json"].should include(fmt)
+  ["application/json", "application/json;charset=utf-8", "application/xml", "text/plain", "application/vnd.slc.full+json", "application/vnd.slc+json", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].should include(fmt)
   @format = fmt
 end
 
@@ -35,7 +35,7 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res)
-  jsonTypes = ["application/json", "application/json; charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
+  jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
