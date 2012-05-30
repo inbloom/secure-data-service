@@ -5793,7 +5793,7 @@
       </xs:element>
       <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
         <xs:annotation>
-          <xs:documentation>The identifier for the school year.</xs:documentation>
+          <xs:documentation>The identifier for the educational organization.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>

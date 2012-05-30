@@ -7,39 +7,63 @@
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
-    <json:reader rootName="json" />
+  <json:reader rootName="json" />
 
-    <jb:bean beanId="gradingPeriods" class="java.util.ArrayList" createOnElement="#document">
-        <jb:wiring beanIdRef="gradingPeriod" />
-    </jb:bean>
+  <jb:bean beanId="gradingPeriods" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="gradingPeriod" />
+  </jb:bean>
 
-    <!-- Start GradingPeriod mapping -->
-    <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'gradingPeriod'</jb:expression>
-        <jb:wiring property="metaData" beanIdRef="gradingPeriodMeta" />
-        <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
-    </jb:bean>
+  <!-- Start GradingPeriod mapping -->
+  <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'gradingPeriod'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="gradingPeriodMeta" />
+    <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
+  </jb:bean>
 
-    <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes gradingPeriodId" />
-    </jb:bean>
+  <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="externalId" data="attributes gradingPeriodId" />
+  </jb:bean>
 
-    <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
-             createOnElement="attributes">
-        <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriodIdentity" />
-        <jb:value property="beginDate" data="attributes beginDate" />
-        <jb:value property="endDate" data="attributes endDate" />
-        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
-        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
-    </jb:bean>
+  <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
+           createOnElement="attributes">
+    <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriodIdentity" />
+    <jb:value property="beginDate" data="attributes beginDate" />
+    <jb:value property="endDate" data="attributes endDate" />
+    <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
+    <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
+  </jb:bean>
 
-   <jb:bean beanId="gradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
-     <jb:value property="schoolYear" data="attributes gradingPeriodIdentity schoolYear" />
-     <jb:value property="gradingPeriod" data="attributes gradingPeriodIdentity gradingPeriod" />
-   </jb:bean>
+  <jb:bean beanId="gradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="schoolYear" data="attributes gradingPeriodIdentity schoolYear" />
+    <jb:value property="gradingPeriod" data="attributes gradingPeriodIdentity gradingPeriod" />
+    <jb:wiring property="educationalOrgIdentity" beanIdRef="educationalOrgIdentity_Array" />
+  </jb:bean>
 
-    <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes calendarDateReference element" />
-    </jb:bean>
+  <jb:bean beanId="educationalOrgIdentity_Array" class="java.util.ArrayList"
+           createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity">
+    <jb:wiring beanIdRef="educationalOrgIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="educationalOrgIdentity" class="java.util.HashMap"
+           createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity element">
+    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCode_Array" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrgIdentificationCode_Array" class="java.util.ArrayList"
+           createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode">
+    <jb:wiring beanIdRef="educationOrgIdentificationCode" />
+  </jb:bean>
+
+  <jb:bean beanId="educationOrgIdentificationCode" class="java.util.HashMap"
+           createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element">
+    <jb:value property="ID"
+              data="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element ID" />
+    <jb:value property="identificationSystem"
+              data="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element identificationSystem" />
+  </jb:bean>
+
+  <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:value data="attributes calendarDateReference element" />
+  </jb:bean>
 
 </smooks-resource-list>
