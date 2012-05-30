@@ -2230,14 +2230,14 @@
 	</CalendarDate>
 	
 
-  	<GradingPeriod id="GRDP_20100823">
-      <GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-        <GradingPeriod>First Six Weeks</GradingPeriod>
-        <SchoolYear>2010-2011</SchoolYear>
-      </GradingPeriodIdentity>
+	<GradingPeriod id="GRDP_20100823">
+		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
+			<GradingPeriod>First Six Weeks</GradingPeriod>
+			<SchoolYear>2010-2011</SchoolYear>
+		</GradingPeriodIdentity>
 		<BeginDate>2010-08-23</BeginDate>
 		<EndDate>2010-10-03</EndDate>
 		<TotalInstructionalDays>29</TotalInstructionalDays>
@@ -2287,12 +2287,12 @@
 
 	<GradingPeriod id="GRDP_20101004">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
+<!--			<StateOrganizationId>East Daybreak Junior High</StateOrganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2010-10-04</BeginDate>
 		<EndDate>2010-11-07</EndDate>
@@ -2333,14 +2333,15 @@
 		<CalendarDateReference ref="CLND_20101106Holiday"/>
 		<CalendarDateReference ref="CLND_20101107Holiday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20101108">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Third Six Weeks</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2010-11-08</BeginDate>
 		<EndDate>2011-01-09</EndDate>
@@ -2395,14 +2396,15 @@
 		<CalendarDateReference ref="CLND_20110108Holiday"/>
 		<CalendarDateReference ref="CLND_20110109Holiday"/>
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20110110">
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20110110">
 		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2011-01-10</BeginDate>
 		<EndDate>2011-02-20</EndDate>
@@ -2450,12 +2452,12 @@
 		<CalendarDateReference ref="CLND_20110219Holiday"/>
 		<CalendarDateReference ref="CLND_20110220Holiday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20110221">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2512,12 +2514,12 @@
 		<CalendarDateReference ref="CLND_20110409Holiday"/>
 		<CalendarDateReference ref="CLND_20110410Holiday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20110411">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2572,12 +2574,12 @@
 		<CalendarDateReference ref="CLND_20110526Instructionalday"/>
 		<CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20110527">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2586,54 +2588,57 @@
 		<TotalInstructionalDays>0</TotalInstructionalDays>
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20100527">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
 			<SchoolYear>2010-2011</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2010-05-27</BeginDate>
 		<EndDate>2010-05-27</EndDate>
 		<TotalInstructionalDays>0</TotalInstructionalDays>
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20090527">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
 			<SchoolYear>2009-2010</SchoolYear>
+<!--			<StateOrganizationId>East Daybreak Junior High</StateOrganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2009-05-27</BeginDate>
 		<EndDate>2009-05-27</EndDate>
 		<TotalInstructionalDays>0</TotalInstructionalDays>
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20080527">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
 			<SchoolYear>2008-2009</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2008-05-27</BeginDate>
 		<EndDate>2008-05-27</EndDate>
 		<TotalInstructionalDays>0</TotalInstructionalDays>
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
+
 	<GradingPeriod id="GRDP_20070527">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
 			<SchoolYear>2007-2008</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2643,15 +2648,15 @@
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>	
 
-    <!-- GradingPeriods for the 2011-2012 school year -->
-  	<GradingPeriod id="GRDP_20110822">
+	<!-- GradingPeriods for the 2011-2012 school year -->
+	<GradingPeriod id="GRDP_20110822">
 		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
@@ -2706,14 +2711,15 @@
 		<CalendarDateReference ref="CLND_20111008Holiday"/>
 		<CalendarDateReference ref="CLND_20111009Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20111010">
-		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20111010">
+		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+<!--			<StateOrganizationId>East Daybreak Junior High</StateOrganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
@@ -2768,14 +2774,15 @@
 		<CalendarDateReference ref="CLND_20111126Holiday"/>
 		<CalendarDateReference ref="CLND_20111127Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20111128">
-		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20111128">
+		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Third Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+<!--			<stateorganizationId>East Daybreak Junior High</stateorganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
@@ -2837,14 +2844,12 @@
 		<CalendarDateReference ref="CLND_20120121Holiday"/>
 		<CalendarDateReference ref="CLND_20120122Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20120123">
-		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20120123">
+		<GradingPeriodIdentity>
 			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+<!--			<StateOrganizationId>East Daybreak Junior High</StateOrganizationId> -->
 		</GradingPeriodIdentity>
 		<BeginDate>2012-01-23</BeginDate>
 		<EndDate>2012-03-04</EndDate>
@@ -2892,12 +2897,12 @@
 		<CalendarDateReference ref="CLND_20120303Holiday"/>
 		<CalendarDateReference ref="CLND_20120304Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20120305">
-		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20120305">
+		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2947,12 +2952,12 @@
 		<CalendarDateReference ref="CLND_20120414Holiday"/>
 		<CalendarDateReference ref="CLND_20120415Holiday"/>
 	</GradingPeriod>
-  	<GradingPeriod id="GRDP_20120416">
-		<GradingPeriodIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
 
+	<GradingPeriod id="GRDP_20120416">
+		<GradingPeriodIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>South Daybreak Elementary</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>

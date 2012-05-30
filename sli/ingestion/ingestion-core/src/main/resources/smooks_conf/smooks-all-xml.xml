@@ -3779,12 +3779,13 @@
 
   <jb:bean beanId="gradingPeriod_educationalOrgIdentity_array" class="java.util.ArrayList"
            createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
-    <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentity" />
+        <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
+  <jb:bean beanId="gradingPeriod_educationalOrgIdentity" class="java.util.HashMap" 
            createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
-    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="gradingPeriod_educationalOrgIdentificationCode_Array" />
+        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
+        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="gradingPeriod_educationalOrgIdentificationCode_Array" />
   </jb:bean>
 
   <jb:bean beanId="gradingPeriod_educationalOrgIdentificationCode_Array" class="java.util.ArrayList"
