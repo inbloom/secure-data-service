@@ -110,7 +110,7 @@
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
-  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor">
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="transformers" ref="transformers"/>
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
@@ -119,7 +119,7 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
-  
+
   <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />

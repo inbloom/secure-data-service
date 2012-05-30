@@ -110,7 +110,7 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor">
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="transformers" ref="transformers"/>
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />

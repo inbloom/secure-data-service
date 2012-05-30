@@ -114,7 +114,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "       Entity     student" in the resulting error log file
