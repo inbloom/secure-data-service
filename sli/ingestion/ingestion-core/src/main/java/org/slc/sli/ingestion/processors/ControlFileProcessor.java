@@ -14,6 +14,7 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -40,10 +41,6 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-
-    private static final String PURGE = "purge";
-
-    private static final String DRYRUN = "dry-run";
 
     @Autowired
     private ControlFileValidator validator;
@@ -131,13 +128,13 @@ public class ControlFileProcessor implements Processor {
         if (errorReport.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        } else if (newJob.getProperty(PURGE) != null) {
+        } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
-        if (newJob.getProperty(DRYRUN) != null) {
-            exchange.getIn().setHeader(DRYRUN, true);
+        if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
+            exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         }
     }
 

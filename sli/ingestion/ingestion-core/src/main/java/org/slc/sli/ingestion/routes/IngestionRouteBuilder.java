@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
@@ -151,7 +152,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder implements Initial
         from("direct:persist")
                 .routeId("persistencePipeline")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-                .log("persist: jobId: " + header("jobId").toString()).choice().when(header("dry-run").isEqualTo(true))
+                .log("persist: jobId: " + header("jobId").toString()).choice().when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
                 .log("job has errors or dry-run specified; data will not be published").to("direct:stop").otherwise()
                 .log("publishing data now!").process(persistenceProcessor).to("direct:stop");
 
