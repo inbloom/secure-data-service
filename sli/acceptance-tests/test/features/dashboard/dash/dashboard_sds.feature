@@ -17,6 +17,7 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
+And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order
 And I click on "Student" header to sort a "string" column in "descending" order
 And I click on "StateTest Reading Performance Level" header to sort an integer column in "ascending" order based on "title"
