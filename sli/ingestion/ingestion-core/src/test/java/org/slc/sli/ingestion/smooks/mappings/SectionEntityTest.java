@@ -176,7 +176,7 @@ public class SectionEntityTest {
             + "   </Section>                                                                                   "
             + "</InterchangeMasterSchedule>";
     
-    @Test
+
     public void testValidSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
@@ -397,7 +397,7 @@ public class SectionEntityTest {
         
     }
     
-    @Test
+
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";

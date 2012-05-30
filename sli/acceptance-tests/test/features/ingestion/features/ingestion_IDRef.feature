@@ -20,7 +20,6 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
      | schoolSessionAssociation     |
      | section                      |
      | session                      |
-     | gradingPeriod                |
      | calendarDate                 |
      | student                      |
      | courseOffering               |
@@ -34,7 +33,6 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective            |   2     |
      | learningStandard             |   6     |
      | schoolSessionAssociation     |  10     |
-     | section                      |   9     |
      | session                      |  10     |
      | student                      |  11     |
      | courseOffering               |   2     |
