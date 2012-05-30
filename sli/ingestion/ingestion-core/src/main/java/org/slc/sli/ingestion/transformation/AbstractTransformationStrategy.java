@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -12,8 +16,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Base TransformationStrategy.
@@ -32,7 +34,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
@@ -117,14 +119,21 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         Iterable<NeutralRecord> data;
         int max = 0;
         int skip = 0;
+
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
             max = (note.getRangeMaximum() - note.getRangeMinimum() + 1);
             skip = note.getRangeMinimum();
+
+            Criteria limiter = Criteria.where("locationInSourceFile").gte(note.getRangeMinimum());
+            Criteria maximum = Criteria.where("locationInSourceFile").lte(note.getRangeMaximum());
+            query.addCriteria(limiter);
+            query.addCriteria(maximum);
         }
 
-        data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, query, getJob().getId(), skip, max);
+        data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query, getJob().getId());
+
+        //data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query, getJob().getId(), skip, max);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;

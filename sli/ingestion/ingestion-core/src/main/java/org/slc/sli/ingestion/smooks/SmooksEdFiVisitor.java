@@ -105,10 +105,10 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         if (this.occurences.containsKey(neutralRecord.getRecordType())) {
             int temp = this.occurences.get(neutralRecord.getRecordType()).intValue() + 1;
             this.occurences.put(neutralRecord.getRecordType(), temp);
-            neutralRecord.setLocationInSourceFile("" + temp);
+            neutralRecord.setLocationInSourceFile(temp);
         } else {
             this.occurences.put(neutralRecord.getRecordType(), 0);
-            neutralRecord.setLocationInSourceFile("0");
+            neutralRecord.setLocationInSourceFile(0);
         }
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV

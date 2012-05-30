@@ -94,7 +94,7 @@ public class NeutralRecord {
     /**
      * The location in source file of the record
      */
-    private String locationInSourceFile;
+    private int locationInSourceFile;
 
     /**
      * Default constructor
@@ -268,11 +268,11 @@ public class NeutralRecord {
         this.sourceFile = sourceFile;
     }
 
-    public String getLocationInSourceFile() {
+    public int getLocationInSourceFile() {
         return locationInSourceFile;
     }
 
-    public void setLocationInSourceFile(String locationInSourceFile) {
+    public void setLocationInSourceFile(int locationInSourceFile) {
         this.locationInSourceFile = locationInSourceFile;
     }
 
