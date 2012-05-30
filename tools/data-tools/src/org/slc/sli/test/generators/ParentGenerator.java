@@ -21,30 +21,25 @@ public class ParentGenerator {
 
     static AddressGenerator ag;
     static NameGenerator nameGenerator;
-    static Parent p;
+//    static Parent p;
     static Random random;
-    
-	
 
-     
-     static {
-		  try {
-			  p = new Parent();
-			  random = new Random();
-			  nameGenerator =  new NameGenerator();
-			  ag = new AddressGenerator(StateAbbreviationType.NY);
-		  } catch (Exception e) {
-			  e.printStackTrace();
-		  }
-	  }
-     
-     
-     
+    static {
+        try {
+//            p = new Parent();
+            random = new Random();
+            nameGenerator = new NameGenerator();
+            ag = new AddressGenerator(StateAbbreviationType.NY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public ParentGenerator() {
-            }
+    }
 
     public ParentGenerator(StateAbbreviationType state) {
-    	this.setState(state);
+        this.setState(state);
     }
 
     public void setState(StateAbbreviationType state) {
@@ -56,13 +51,12 @@ public class ParentGenerator {
         }
     }
 
-    public static ParentReferenceType getParentReferenceType(String parentId)
-    {
-    	ParentReferenceType prt = new ParentReferenceType();
-    	ParentIdentityType pit = new ParentIdentityType();
-    	prt.setParentIdentity(pit);
+    public static ParentReferenceType getParentReferenceType(String parentId) {
+        ParentReferenceType prt = new ParentReferenceType();
+        ParentIdentityType pit = new ParentIdentityType();
+        prt.setParentIdentity(pit);
         pit.setParentUniqueStateId(parentId);
-    	return prt;
+        return prt;
     }
 
     private static void setAddresses(Parent Parent) {
@@ -73,47 +67,47 @@ public class ParentGenerator {
     }
 
     public static Parent generateMediumFi(String parentId, boolean isMale) throws Exception {
-//    	 Parent p = new Parent();
-//         Random random = new Random();
-//         nameGenerator =  new NameGenerator();
-//         ag = new AddressGenerator(StateAbbreviationType.NY);
-         p.setParentUniqueStateId(parentId);
-         p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
+        Parent p = new Parent();
+        // Random random = new Random();
+        // nameGenerator = new NameGenerator();
+        // ag = new AddressGenerator(StateAbbreviationType.NY);
+        p.setParentUniqueStateId(parentId);
+        p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
 
-         if (p.getSex().equals(SexType.MALE)) {
-             p.setName(nameGenerator.getMaleName());
-         p.getOtherName().add(nameGenerator.getMaleOtherName());
-         p.getOtherName().add(nameGenerator.getMaleOtherName());
-     } else {
-             p.setName(nameGenerator.getFemaleName());
-         p.getOtherName().add(nameGenerator.getFemaleOtherName());
-         p.getOtherName().add(nameGenerator.getFemaleOtherName());
-     }
-     
-     p.getAddress().add(ag.getRandomAddress());
-     if (random.nextBoolean())
-         p.getAddress().add(ag.getRandomAddress());
+        if (p.getSex().equals(SexType.MALE)) {
+            p.setName(nameGenerator.getMaleName());
+            p.getOtherName().add(nameGenerator.getMaleOtherName());
+            p.getOtherName().add(nameGenerator.getMaleOtherName());
+        } else {
+            p.setName(nameGenerator.getFemaleName());
+            p.getOtherName().add(nameGenerator.getFemaleOtherName());
+            p.getOtherName().add(nameGenerator.getFemaleOtherName());
+        }
 
+        p.getAddress().add(ag.getRandomAddress());
+        if (random.nextBoolean())
+            p.getAddress().add(ag.getRandomAddress());
 
-         TelephoneGenerator telephonegen = new TelephoneGenerator();
-     	try {
- 			p.getTelephone().add(telephonegen.getTelephone());
-         	p.getTelephone().add(telephonegen.getTelephone());
- 		} catch (Exception e1) {
- 			// TODO Auto-generated catch block
- 			e1.printStackTrace();
- 		}
+        TelephoneGenerator telephonegen = new TelephoneGenerator();
+        try {
+            p.getTelephone().add(telephonegen.getTelephone());
+            p.getTelephone().add(telephonegen.getTelephone());
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
-     	ElectronicMail em = new ElectronicMail();
-     	em.setEmailAddress("parent.test@gmail.com");
-     	em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
-     	p.getElectronicMail().add(em);
+        ElectronicMail em = new ElectronicMail();
+        em.setEmailAddress("parent.test@gmail.com");
+        em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
+        p.getElectronicMail().add(em);
 
-         p.setLoginId("ParenttLoginID");
+        p.setLoginId("ParenttLoginID");
 
-         return p;
-    	
+        return p;
+
     }
+
     public static Parent generate(String parentId, boolean isMale) {
         Parent p = new Parent();
         Random random = new Random();
@@ -124,26 +118,24 @@ public class ParentGenerator {
         p.setName(getFastName());
         p.getOtherName().add(getFastOtherName());
 
-
         TelephoneGenerator telephonegen = new TelephoneGenerator();
-    	try {
-			p.getTelephone().add(telephonegen.getTelephone());
-        	p.getTelephone().add(telephonegen.getTelephone());
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        try {
+            p.getTelephone().add(telephonegen.getTelephone());
+            p.getTelephone().add(telephonegen.getTelephone());
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
-    	ElectronicMail em = new ElectronicMail();
-    	em.setEmailAddress("parent.test@gmail.com");
-    	em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
-    	p.getElectronicMail().add(em);
+        ElectronicMail em = new ElectronicMail();
+        em.setEmailAddress("parent.test@gmail.com");
+        em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
+        p.getElectronicMail().add(em);
 
         p.setLoginId("ParenttLoginID");
 
         return p;
     }
-
 
     public static Name getFastName() {
         Name name = new Name();
