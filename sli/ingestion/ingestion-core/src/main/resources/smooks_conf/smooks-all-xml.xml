@@ -3790,7 +3790,7 @@
   </jb:bean>
 
   <jb:bean beanId="gradingPeriod_educationalOrgIdentificationCode_Array" class="java.util.ArrayList"
-           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity/EducationOrgIdentificationCode" >
+           createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity" >
     <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentificationCode" />
   </jb:bean>
 
