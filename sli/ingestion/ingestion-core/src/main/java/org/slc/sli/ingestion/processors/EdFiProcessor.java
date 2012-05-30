@@ -84,9 +84,6 @@ public class EdFiProcessor implements Processor {
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
-            // prepare staging database
-            setupStagingDatabase(batchJobId);
-
             boolean anyErrorsProcessingFiles = false;
 
             if (fileEntryList.size() > 0) {

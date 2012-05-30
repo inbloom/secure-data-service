@@ -1,5 +1,5 @@
 {
-    "collection": "attendance",
+    "collection": "studentSchoolAssociation",
     "indexFields":
     [
         {"name" : "locationInSourceFile" , "order" : "1"}

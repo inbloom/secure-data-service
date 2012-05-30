@@ -1,5 +1,5 @@
 {
-    "collection": "attendance",
+    "collection": "gradebookEntry",
     "indexFields":
     [
         {"name" : "locationInSourceFile" , "order" : "1"}

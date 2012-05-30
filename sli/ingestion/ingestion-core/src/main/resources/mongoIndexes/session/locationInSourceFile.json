@@ -1,5 +1,5 @@
 {
-    "collection": "attendance",
+    "collection": "session",
     "indexFields":
     [
         {"name" : "locationInSourceFile" , "order" : "1"}
