@@ -51,6 +51,7 @@ public class InterchangeStudentEnrollmentGenerator {
     }
 
     private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    	
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;

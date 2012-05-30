@@ -36,6 +36,7 @@ public class CourseGenerator {
     private List<Course> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;
+   //private Course course;
     private static int counter =0;
     private static CourseGenerator cg;
 
@@ -251,21 +252,29 @@ public class CourseGenerator {
     }
 
     public Course getCourse(String courseId, String schoolId) {
-        Course course = courses.remove(0);
-        courseCount--;
-        course.setId(courseId);
-        CourseCode cc = new CourseCode();
-        cc.setID(courseId);
-		cc.setAssigningOrganizationCode( "200" );
-		cc.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
-        course.getCourseCode().add(cc);
-
-        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
-        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
-        course.setEducationOrganizationReference(schoolRef);
+    	Course course = null;
+    	//if(courseCount >= 1) {
+    	if (courses.size() > 0) {
+	    	course = courses.remove(0);
+	    	
+	        courseCount--;
+	        course.setId(courseId);
+	        CourseCode cc = new CourseCode();
+	        cc.setID(courseId + courseCount);
+	        //cc.setID(course.getId() + courseCount);
+	        
+			cc.setAssigningOrganizationCode( "200" );
+			cc.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+	        course.getCourseCode().add(cc);
+	
+	        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+	        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+	
+	        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+	        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+	        course.setEducationOrganizationReference(schoolRef);
+    	}
+       // courses.add(course);        
         return course;
     }
 

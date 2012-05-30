@@ -24,6 +24,16 @@ public class StaffGenerator {
     static LevelOfEducationType[] levelOfEducationTypes = LevelOfEducationType.values();
     static OldEthnicityType[] oldEthnicityTypes = OldEthnicityType.values();
 
+  static {
+	  try {
+		  ag =  new AddressGenerator(StateAbbreviationType.NY);
+		  ng = new NameGenerator();
+		  tg =new TelephoneGenerator(); 
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
+  }
+    
     public StaffGenerator(StateAbbreviationType state, boolean optional) {
         try {
             ng = new NameGenerator();
@@ -53,9 +63,6 @@ public class StaffGenerator {
     }
 
     protected static void populateFields(Staff staff, String staffId) throws Exception {
-    	 ag = new AddressGenerator(StateAbbreviationType.NY);
-    	 ng = new NameGenerator();
-    	 tg = new TelephoneGenerator();
     	 
         try {
             staff.setId(staffId);

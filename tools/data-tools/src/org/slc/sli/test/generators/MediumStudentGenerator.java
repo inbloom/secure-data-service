@@ -33,6 +33,21 @@ import org.slc.sli.test.edfi.entities.Telephone;
 
 public class MediumStudentGenerator {
 
+   static NameGenerator nameGenerator; //to be research?
+   static AddressGenerator ag;
+   static Random random;
+      
+   static {
+		  try {
+			  nameGenerator = new NameGenerator();
+			  ag = new AddressGenerator(StateAbbreviationType.NY);
+			  random = new Random();
+		  } catch (Exception e) {
+			  e.printStackTrace();
+		  }
+	  }
+   
+   
 	 public static final Calendar RIGHT_NOW = Calendar.getInstance();
 	    
 	 	MediumStudentGenerator () throws Exception {	
@@ -41,9 +56,9 @@ public class MediumStudentGenerator {
 	   
 	    public static Student generateMediumFi(String studentId) throws Exception {
 	    	
-	        NameGenerator nameGenerator = new NameGenerator(); //to be research?
-	        AddressGenerator ag = new AddressGenerator(StateAbbreviationType.NY);
-	        Random random = new Random();
+//	        NameGenerator nameGenerator = new NameGenerator(); //to be research?
+//	        AddressGenerator ag = new AddressGenerator(StateAbbreviationType.NY);
+//	        Random random = new Random();
 
 	        Student student = new Student();
 

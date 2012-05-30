@@ -83,7 +83,7 @@ public class InterchangeStaffAssociationGenerator {
      */
     private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) throws Exception {
         long startTime = System.currentTimeMillis();
-
+        
         for (TeacherMeta teacherMeta : teacherMetas) {
 
             Teacher teacher;

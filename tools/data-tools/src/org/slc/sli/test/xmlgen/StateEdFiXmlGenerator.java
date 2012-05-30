@@ -109,7 +109,7 @@ public class StateEdFiXmlGenerator {
        staffAssociation();
 
        studentParent();
-
+       System.out.println("will the studentParend be ended!)");
        studentEnrollment();
 
        studentProgram();
@@ -233,6 +233,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
+    	System.out.println("start to student enrollment");
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
 

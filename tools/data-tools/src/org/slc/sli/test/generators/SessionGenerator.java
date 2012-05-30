@@ -147,7 +147,7 @@ public class SessionGenerator {
     public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
         Session session = new Session();
         Random random = new Random();
-        int roll = random.nextInt(31) + 1;
+        int roll = random.nextInt(30) + 1;
         session.setSessionName(id);
         session.setSchoolYear("2011-2012");
         session.setTerm(TermType.SPRING_SEMESTER);

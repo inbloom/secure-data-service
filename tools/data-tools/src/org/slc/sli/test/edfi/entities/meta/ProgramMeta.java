@@ -10,7 +10,7 @@ public class ProgramMeta {
 
     public Set<String> cohortIds;
 
-    public String schoolId; // this is used in generating studentProgram associations
+    public String orgId; // this is used in generating studentProgram associations
     
     public final String id;
 
@@ -22,7 +22,7 @@ public class ProgramMeta {
 
         cohortIds = new HashSet<String>();
 
-        schoolId = schoolMeta.id;
+        orgId = schoolMeta.id;
     }
     
     
@@ -34,7 +34,7 @@ public class ProgramMeta {
 
         cohortIds = new HashSet<String>();
 
-        schoolId = seaMeta.id;
+        orgId = seaMeta.id;
     }
 
     @Override

@@ -39,7 +39,7 @@ public class StudentProgramAssociationGenerator {
     public static List<StudentProgramAssociation> generateLowFi(ProgramMeta programMeta) {
         Set<String> studentIds = programMeta.studentIds;
         String programId = programMeta.id;
-        String schoolId = programMeta.schoolId;
+        String schoolId = programMeta.orgId;
         
         List<StudentProgramAssociation> list = new ArrayList<StudentProgramAssociation>(studentIds.size());
         

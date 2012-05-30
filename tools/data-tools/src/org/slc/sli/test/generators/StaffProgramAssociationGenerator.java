@@ -37,7 +37,7 @@ public class StaffProgramAssociationGenerator {
     public static StaffProgramAssociation generateLowFi(ProgramMeta programMeta) {
         Set<String> staffIds = programMeta.staffIds;
         String programId = programMeta.id;
-        String schoolId = programMeta.schoolId;
+        String schoolId = programMeta.orgId;
 
         StaffProgramAssociation staffProgram = new StaffProgramAssociation();
         

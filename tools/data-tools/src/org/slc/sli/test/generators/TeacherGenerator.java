@@ -5,6 +5,7 @@ import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.Teacher;
 
 public class TeacherGenerator extends StaffGenerator {
+	public static int counter = 0;
 
     public TeacherGenerator(StateAbbreviationType state, boolean optional) {
         super(state, optional);

@@ -46,7 +46,7 @@ public class InterchangeStudentParentGenerator {
         List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
-
+        
         return interchange;
     }
 

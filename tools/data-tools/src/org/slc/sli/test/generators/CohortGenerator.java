@@ -32,7 +32,7 @@ public class CohortGenerator {
     public static Cohort generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String programId = cohortMeta.programMeta==null ? null : cohortMeta.programMeta.id;
-        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
+        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         
         return programId==null ? generateLowFi(cohortId, schoolId) : generateLowFi(cohortId, programId, schoolId);
     }

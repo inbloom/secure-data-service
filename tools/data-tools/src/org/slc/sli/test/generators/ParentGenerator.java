@@ -21,7 +21,25 @@ public class ParentGenerator {
 
     static AddressGenerator ag;
     static NameGenerator nameGenerator;
+    static Parent p;
+    static Random random;
+    
+	
 
+     
+     static {
+		  try {
+			  p = new Parent();
+			  random = new Random();
+			  nameGenerator =  new NameGenerator();
+			  ag = new AddressGenerator(StateAbbreviationType.NY);
+		  } catch (Exception e) {
+			  e.printStackTrace();
+		  }
+	  }
+     
+     
+     
     public ParentGenerator() {
             }
 
@@ -55,10 +73,10 @@ public class ParentGenerator {
     }
 
     public static Parent generateMediumFi(String parentId, boolean isMale) throws Exception {
-    	 Parent p = new Parent();
-         Random random = new Random();
-         nameGenerator =  new NameGenerator();
-         ag = new AddressGenerator(StateAbbreviationType.NY);
+//    	 Parent p = new Parent();
+//         Random random = new Random();
+//         nameGenerator =  new NameGenerator();
+//         ag = new AddressGenerator(StateAbbreviationType.NY);
          p.setParentUniqueStateId(parentId);
          p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
 
