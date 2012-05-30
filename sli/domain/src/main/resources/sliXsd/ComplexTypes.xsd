@@ -4014,13 +4014,12 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="studentAcademicRecordId" type="reference">
 				<xs:annotation>
-					<xs:documentation>The Student that took the reported instruction.
+					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
+						<sli:ReferenceType>studentAcademicRecord</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
