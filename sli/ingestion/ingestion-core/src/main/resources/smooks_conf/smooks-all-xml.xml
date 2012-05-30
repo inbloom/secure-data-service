@@ -1805,7 +1805,7 @@
     <jb:value property="GradeLevelAssessed"
       data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />
     <jb:value property="Version"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" />
+      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" decoder="Integer" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentificationCodeArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity">
