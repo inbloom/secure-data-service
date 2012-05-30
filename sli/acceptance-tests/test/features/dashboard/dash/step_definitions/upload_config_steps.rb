@@ -261,5 +261,9 @@ def putTextForConfigUpload(uploadText)
   textArea = @driver.find_element(:id, textBoxId)
   #this clears the text area
   textArea.clear()
-  putTextToField(uploadText, textBoxId ,"id")
+
+  # On slower machines, the old send_keys method would timeout after a minute.
+  # This is an attempt to set it through javascript to speed up execution and prevent timeout
+  uploadText = uploadText.gsub(/\r/,"\\n").gsub(/\n/,"\\n").gsub(/\"/,'\\\"')
+  @driver.execute_script("document.getElementById('jsonText').value = \"#{uploadText}\";")
 end

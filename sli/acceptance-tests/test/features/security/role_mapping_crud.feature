@@ -41,7 +41,7 @@ Scenario: Read a list of realms
 Scenario: Read an existing realm
 
 Given I am logged in using "sunsetrealmadmin" "sunsetrealmadmin1234" to realm "SLI"
-When I GET a specific realm "SLI"
+When I GET a specific realm "IL-Sunset"
 Then I should receive a return code of 200
 And I should see a valid object returned
 
