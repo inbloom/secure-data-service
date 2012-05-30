@@ -795,7 +795,7 @@
   </jb:bean>
 
   <jb:bean beanId="sectionLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
-    <jb:wiring property="Course" beanIdRef="Section_CourseOfferingReference" />
+    <jb:wiring property="CourseOffering" beanIdRef="Section_CourseOfferingReference" />
     <jb:wiring property="educationOrganization#schoolId" beanIdRef="Section_SchoolReference" />
     <jb:wiring property="Session" beanIdRef="Section_SessionReference" />
     <jb:wiring property="program#programReference" beanIdRef="section_ProgramReferenceArray" />
