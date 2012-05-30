@@ -64,6 +64,10 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             if (attributes.get("creditsAttempted") == null) {
                 attributes.remove("creditsAttempted");
             }
+            
+            if (attributes.get("gradeType") == null) {
+                attributes.put("gradeType", "Final");
+            }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
