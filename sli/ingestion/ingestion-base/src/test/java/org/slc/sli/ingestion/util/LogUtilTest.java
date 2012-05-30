@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,23 +62,26 @@ public class LogUtilTest {
             String logContents = baos.toString(); // e.g. ISO-8859-1
 
             // Verify log file does NOT contain exception local message.
-            if ((logContents.contains("*** SENSITIVE DATA THREE!!! ***"))
-                    || (logContents.contains("*** SENSITIVE DATA TWO!!! ***"))
-                    || (logContents.contains("*** SENSITIVE DATA ONE!!! ***"))) {
+            if (logContents.contains("*** SENSITIVE DATA THREE!!! ***")
+                    || logContents.contains("*** SENSITIVE DATA TWO!!! ***")
+                    || logContents.contains("*** SENSITIVE DATA ONE!!! ***")) {
                 return false;
             }
 
+            Pattern p = Pattern.compile(".*\\.\\.\\. [\\d]* more.*", Pattern.DOTALL);
+            
             // Verify log file DOES contain error message with nested exception types and stack
             // traces.
-            if ((!logContents.contains("java.lang.Exception: class java.rmi.AccessException"))
-                    || (!logContents
-                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:38)"))
-                    || (!logContents.contains("Caused by: java.lang.Exception: class java.lang.RuntimeException"))
-                    || (!logContents
-                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:35)"))
-                    || (!logContents.contains("Caused by: java.lang.Exception: class java.rmi.RemoteException"))
-                    || (!logContents
-                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:32)"))) {
+            if (!logContents.contains("java.lang.Exception: class java.rmi.AccessException")
+                    || !logContents
+                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:39)")
+                    || !logContents.contains("Caused by: java.lang.Exception: class java.lang.RuntimeException")
+                    || !logContents
+                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:36)")
+                    || !p.matcher(logContents).matches()
+                    || !logContents.contains("Caused by: java.lang.Exception: class java.rmi.RemoteException")
+                    || !logContents
+                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:33)")) {
                 return false;
             }
 
