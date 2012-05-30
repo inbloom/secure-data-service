@@ -248,7 +248,7 @@ public class IdNormalizer {
                             }
                         }
                         if (filterValues.size() > 0) {
-                            LOG.info("adding criteria where {} is $in: {}", field.getPath(), filterValues);
+                            LOG.debug("adding criteria where {} is $in: {}", field.getPath(), filterValues);
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }
