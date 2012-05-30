@@ -116,16 +116,16 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to update this realm.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+        Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
+        if (validateUniqueness != null) {
+            return validateUniqueness;
+        }
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm
                 .get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
-            } else if (validateUniqueness != null) {
-                return validateUniqueness;
             }
         }
         

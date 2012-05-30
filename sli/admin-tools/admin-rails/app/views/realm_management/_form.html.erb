@@ -1,17 +1,14 @@
-<%= form_for(@realm) do |f| %>
-    <style type="text/css">
-        label{
-        float:left;
-        width: 5000px;
-        }
-    </style>
-
-  <% if @realm.errors.any? %>
+<%= form_for(@realm, :url => realm_management_path(@realm)) do |f| %>
+  
+  <% if @realm.errors.any? or @realm.idp.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@realm.errors.count, "error") %> prohibited this realm_editor from being saved:</h2>
+      <h2><%= pluralize(@realm.errors.count + @realm.idp.errors.count, "error") %> prohibited this Realm from being saved:</h2>
 
       <ul>
       <% @realm.errors.full_messages.each do |msg| %>
+        <li><%= msg.gsub /Uniqueidentifier/, "Realm Identifier" %></li>
+      <% end %>
+      <% @realm.idp.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
