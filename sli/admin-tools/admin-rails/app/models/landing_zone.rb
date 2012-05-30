@@ -45,15 +45,19 @@ class LandingZone
       email = {
         :email_addr => user_info[:emailAddress],
         :name       => "#{user_info[:first]} #{user_info[:last]}",
-        :subject    => "Landing Zone Provisioned",
-        :content    => "Welcome!\n\n" <<
-          "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
-          "Ed-Org: #{edorg_id}\n" <<
+        :subject    => "SLC Sandbox Developer - Data Setup",
+        :content    => "Welcome #{user_info[:first]}!\n\n" <<
+          "You have selected the sample data set for your SLC sandbox.\n\n" <<
+          "If you elected to use sample data provided by the SLC, it can be accessed at the server below." <<
+          " You will need to sftp to the directory below and upload the data file in order for it to be ingested by the system.\n\n" <<
+          "If you elected to use your own data you will need to sftp to the directory below and upload the data file you created in order for it to be ingested by the system.\n\n"<<
           "Server: #{result.attributes[:serverName]}\n" <<
-          "LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
-          "Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
+          "Ed-Org: #{edorg_id}\n\n\n" <<
+          
+          #"LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
+          #"Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
           "Thank you,\n" <<
-          "SLC Operator\n"
+          "The Shared Learning Collaborative\n"
       }
       begin
       APP_EMAILER.send_approval_email email

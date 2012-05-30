@@ -99,7 +99,7 @@ $entityData = {
     }],
     "courseLevel" => "Basic or remedial",
     "courseLevelCharacteristics" => ["Advanced Placement"],
-    "gradesOffered" => "Eighth grade",
+    "gradesOffered" => ["Eighth grade"],
     "subjectArea" => "Foreign Language and Literature",
     "courseDescription" => "Intro to Chinese",
     "dateCourseAdopted" => "2001-01-01",
