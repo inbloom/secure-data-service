@@ -62,15 +62,6 @@ Then I should see a table heading "Final Grades"
 And I click on student "Matt Sollars"
 And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
-And I logout
-When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
-When I login as "manthony" "manthony1234"
-When I select ed org "Sunset School District 4526"
-When I select school "Sunset Central High School"
-When I select course "A.P. Calculus"
-When I select section "A.P. Calculus Sec 201"
-Then I should only see one view named "Default View"
 
 @integration @RALLY_US2276
 Scenario:  Non-District IT admin upload
@@ -83,3 +74,28 @@ When I select "Illinois Sunset School District 4526" and click go
 When I login as "akopel" "akopel1234"
 When I enter the Configuration Area
 Then I am unauthorized to the Configuration Area
+
+@integration @RALLY_US2276
+Scenario: Upload for hide panel based on condition
+When I login as "jwashington" "jwashington1234"
+When I enter the Configuration Area
+Then I am authorized to the Configuration Area
+And I paste configuration to hide csi panel
+And click Save
+Then I should be shown a success message
+When I navigate to the Dashboard home page
+When I select ed org "Sunset School District 4526"
+When I select school "Sunset Central High School"
+When I select course "A.P. Calculus"
+When I select section "A.P. Calculus Sec 201"
+Then I should only see one view named "Default View"
+And I click on student "Matt Forker"
+And I view its student profile
+And their name shown in profile is "Matt Forker"
+And I click on the browser back button
+And I click on student "Betty Davis"
+And I cannot see csi panel in student profile
+When I enter the Configuration Area
+And I reset custom config
+And click Save
+Then I should be shown a success message

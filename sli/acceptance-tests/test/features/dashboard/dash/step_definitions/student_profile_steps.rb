@@ -25,6 +25,16 @@ When /^I view its student profile$/ do
   end
 end
 
+Then /^I cannot see csi panel in student profile$/ do
+  begin
+    #ensure we're on student profile page
+    @explicitWait.until{@driver.find_element(:id, "tabs")}
+    csiContent = @driver.find_element(:class, "csi")
+  rescue
+    assert(csiContent == nil, "csi panel was found")
+  end
+end
+
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
    containsName = @info["Name"] == expectedStudentName
    assert(containsName, "Actual name is :" + @info["Name"]) 
