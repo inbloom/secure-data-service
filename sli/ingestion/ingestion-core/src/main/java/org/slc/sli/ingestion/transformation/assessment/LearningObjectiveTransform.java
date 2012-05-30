@@ -59,14 +59,13 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
-                LearningObjectiveId learningObjectiveId = new LearningObjectiveId(objectiveId, contentStandard);
-                if (learningObjectiveIdMap.containsKey(learningObjectiveId)) {
+                if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
                     super.getErrorReport(lo.getSourceFile()).error(
                             "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
                                     + objectiveId + ", ContentStandardName" + contentStandard, this);
                     continue;
                 }
-                learningObjectiveIdMap.put(learningObjectiveId, lo);
+                learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
             }
             allLearningObjectives.add(lo);
         }
