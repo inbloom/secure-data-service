@@ -117,7 +117,7 @@ public class StagedDataPersistenceProcessor implements Processor, MessageSourceA
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-            LOG.info("processing persistence: {}", newJob);
+            LOG.debug("processing persistence: {}", newJob);
             
             processWorkNote(workNote, newJob, stage);
             
@@ -311,10 +311,10 @@ public class StagedDataPersistenceProcessor implements Processor, MessageSourceA
     
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
         if (entityPersistHandlers.containsKey(type)) {
-            LOG.info("Found special transformer for entity of type: {}", type);
+            LOG.debug("Found special transformer for entity of type: {}", type);
             return entityPersistHandlers.get(type);
         } else {
-            LOG.info("Using default transformer for entity of type: {}", type);
+            LOG.debug("Using default transformer for entity of type: {}", type);
             return defaultEntityPersistHandler;
         }
     }
