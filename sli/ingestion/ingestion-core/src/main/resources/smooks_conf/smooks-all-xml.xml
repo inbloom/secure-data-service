@@ -3782,7 +3782,7 @@
         <jb:wiring beanIdRef="gradingPeriod_educationalOrgIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="gradingPeriod_educationalOrgIdentity" class="java.util.HashMap" 
+  <jb:bean beanId="gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
            createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
         <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
         <jb:wiring property="educationOrgIdentificationCode" beanIdRef="gradingPeriod_educationalOrgIdentificationCode_Array" />
@@ -3820,7 +3820,7 @@
 
   <jb:bean beanId="calendarDateAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
-        <!--<jb:value property="calendarDateId" data="InterchangeEducationOrgCalendar/CalendarDate/@id" />-->
+        <jb:value property="calendarDateId" data="InterchangeEducationOrgCalendar/CalendarDate/@id" />
         <jb:value property="date" data="Date" />
         <jb:value property="calendarEvent" data="CalendarEvent" />
   </jb:bean>
@@ -3925,7 +3925,9 @@
     </jb:bean>
 
     <jb:bean beanId="ReportCard_StudentCompetencyReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
-        <jb:value property="studentCompetencyId" data="StudentCompetencyReference/StudentCompetencyIdentity" />
+        <jb:value property="studentCompetencyId" data="StudentCompetencyReference/StudentCompetencyIdentity/Id" />
+        <jb:value property="sectionId" data="StudentCompetencyReference/StudentCompetencyIdentity/Section" />
+        <jb:value property="studentId" data="StudentCompetencyReference/StudentCompetencyIdentity/Student" />
     </jb:bean>
 
     <jb:bean beanId="ReportCard_GradesReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">

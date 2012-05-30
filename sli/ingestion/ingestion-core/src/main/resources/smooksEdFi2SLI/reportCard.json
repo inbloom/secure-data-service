@@ -58,6 +58,20 @@
                                                     [{
                                                         "valueSource" : "body.studentCompetencyReference.studentCompetencyId"
                                                     }]
+                                        },
+                                        {
+                                            "path" : "metaData.studentUniqueStateId",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.studentCompetencyReference.studentId" }
+                                                    ]
+                                        },
+                                        {
+                                            "path" : "metaData.uniqueSectionCode",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.studentCompetencyReference.sectionId" }
+                                                    ]
                                         }
                                     ]
                                 ]
