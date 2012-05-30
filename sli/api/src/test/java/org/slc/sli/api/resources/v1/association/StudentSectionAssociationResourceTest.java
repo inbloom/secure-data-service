@@ -15,13 +15,16 @@ import javax.ws.rs.core.UriInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.entity.SectionResource;
+import org.slc.sli.api.resources.v1.entity.StudentCompetencyResource;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -45,6 +48,7 @@ public class StudentSectionAssociationResourceTest {
     private final String studentResourceName = "StudentResource";
     private final String sectionResourceName = "SectionResource";
     private final String studentSectionAssociationResourceName = "StudentSectionAssociationResource";
+    private final String studentCompetencyResourceName = "StudentCompetencyResource";
 
     @Autowired
     private SecurityContextInjector injector;
@@ -54,6 +58,8 @@ public class StudentSectionAssociationResourceTest {
     private SectionResource sectionResource;
     @Autowired
     private StudentSectionAssociationResource studentSectionAssociationResource;
+    @Autowired
+    private StudentCompetencyResource studentCompetencyResource;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -112,4 +118,20 @@ public class StudentSectionAssociationResourceTest {
         assertEquals("Entity type should match", "student", body.get("entityType"));
         assertEquals("ID should match", studentId, body.get("id"));
     }
+
+    @Test
+    public void testGetStudentCompetencies() {
+        Response createResponse = studentSectionAssociationResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(studentSectionAssociationResourceName)), httpHeaders, uriInfo);
+        String studentSecId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity(studentCompetencyResourceName);
+        map.put(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, studentSecId);
+
+        studentCompetencyResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentSectionAssociationResource.getStudentCompetencies(studentSecId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals(studentSecId, body.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
+    }
+
 }

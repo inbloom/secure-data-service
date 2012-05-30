@@ -1,14 +1,13 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,63 +26,38 @@ public class StringBlacklistStrategyTest {
 
     @Autowired
     private AbstractBlacklistStrategy stringBlacklistStrategy;
+    
+    @Autowired
+    private AbstractBlacklistStrategy relaxedStringBlacklistStrategy;
 
     @Test
-    public void testSpringGetValid() {
-        List<String> springBadStringList = createSpringBadStringList();
-        for (String s : springBadStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                stringBlacklistStrategy.getValid("StringBlacklistStrategyTest", input);
-                fail("Invalid string passed validation: " + s);
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+    public void testBlacklisting() {
+        List<String> badStringList = createBadRelaxedStringList();
+        runTestLoop(badStringList, relaxedStringBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
-        for (String s : goodStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                stringBlacklistStrategy.getValid("StringBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid string did not pass validation: " + s);
-            }
-        }
+        runTestLoop(goodStringList, relaxedStringBlacklistStrategy, true);
     }
-
+    
     @Test
-    public void testGetValid() {
-        AbstractBlacklistStrategy strategy = new StringBlacklistStrategy();
+    public void testRelaxedBlacklisting() {
         List<String> badStringList = createBadStringList();
-
-        strategy.setInputCollection(badStringList);
-        strategy.init();
-
-        for (String s : badStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                strategy.getValid("StringBlacklistStrategyTest", input);
-                fail("Invalid string passed validation: " + s);
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+        runTestLoop(badStringList, stringBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
-        for (String s : goodStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                strategy.getValid("StringBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid string did not pass validation: " + s);
-            }
-        }
+        runTestLoop(goodStringList, stringBlacklistStrategy, true);
     }
 
-    private List<String> createSpringBadStringList() {
-        Collection<String> inputCollection = stringBlacklistStrategy.getInputCollection();
-        return new ArrayList<String>(inputCollection);
+    private void runTestLoop(List<String> inputList, AbstractBlacklistStrategy strategy, boolean shouldPass) {
+        for (String s : inputList) {
+            String input = PREFIX + s + SUFFIX;
+            boolean isValid = strategy.isValid("CharacterBlacklistStrategyTest", input);
+            if (shouldPass) {
+                assertTrue("Valid string did not pass validation: " + s, isValid);
+            } else {
+                assertFalse("Invalid string passed validation: " + s, isValid);
+            }
+        }
     }
 
     private List<String> createBadStringList() {
@@ -91,8 +65,14 @@ public class StringBlacklistStrategyTest {
         stringList.add("script");
         stringList.add("img");
         stringList.add("src");
-        stringList.add("onload");
-        stringList.add("onunload");
+        return stringList;
+    }
+    
+    private List<String> createBadRelaxedStringList() {
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("<script");
+        stringList.add("<iframe");
+        stringList.add("<frame");
         return stringList;
     }
 

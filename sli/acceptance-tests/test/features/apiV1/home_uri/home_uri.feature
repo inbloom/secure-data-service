@@ -1,3 +1,4 @@
+@RALLY_US209
 Feature: In order to provide base information
 	As a client application using SLI
 	I want to know what links are available to a user based on their user type.
@@ -15,13 +16,13 @@ Scenario: Home URI returns valid links for user 'lindakim'
     And I should receive a link named "getSchools" with URI "/v1/teachers/<'linda.kim' ID>/teacherSchoolAssociations/schools"
 
 Scenario: Home URI returns valid links for user 'demo'
-  Given I am logged in using "demo" "demo1234" to realm "SLI"
+  Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And format "application/json"
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
-    And I should receive a link named "self" with URI "/v1/staff/<'demo' ID>"
-    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/v1/staff/<'demo' ID>/staffEducationOrgAssignmentAssociations"
-    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'demo' ID>/staffEducationOrgAssignmentAssociations/educationOrganizations"
+    And I should receive a link named "self" with URI "/v1/staff/<'amy kopel' ID>"
+    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/v1/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations"
+    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'amy kopel' ID>/staffEducationOrgAssignmentAssociations/educationOrganizations"
     
  @wip
 Scenario: Home URI returns valid links for user 'aggregator'

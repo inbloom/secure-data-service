@@ -1,5 +1,6 @@
 require "selenium-webdriver"
 require "json"
+require 'approval'
 
 require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
@@ -11,6 +12,24 @@ CUSTOM_DATA_SET_CHOICE = "custom"
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
+  ldap_base=PropLoader.getProps['ldap_base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  found = @ldap.read_user("sunsetadmin")
+  if !found
+    user_info = {
+      :first      => "Sunset",
+      :last       => "Admin", 
+      :email      => "sunsetadmin",
+      :password   => "secret", 
+      :vendor     => vendor,
+      :emailtoken => "0102030405060708090A0B0C0D0E0F",
+      :status     => "submitted",
+      :homedir    => 'test',
+      :uidnumber  => '456',
+      :gidnumber  => '123'
+    }
+    @ldap.create_user(user_info)
+  end
 end
 
 When /^I go to the provisioning application$/ do

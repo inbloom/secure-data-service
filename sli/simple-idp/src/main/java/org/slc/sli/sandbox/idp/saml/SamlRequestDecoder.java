@@ -23,20 +23,20 @@ import org.xml.sax.SAXException;
 
 /**
  * Decodes SAMLRequests and parses out the relevant information.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 @Component
 public class SamlRequestDecoder {
-    
+
     // private static final Logger LOG = LoggerFactory.getLogger(SamlRequestDecoder.class);
-    
+
     @Value("${sli.simple-idp.cot}")
     private String cotString;
-    
+
     private Map<String, String> cot;
-    
+
     @SuppressWarnings("unused")
     @PostConstruct
     void initialize() {
@@ -47,7 +47,7 @@ public class SamlRequestDecoder {
             cot.put(trustedIssuer[0], trustedIssuer[1]);
         }
     }
-    
+
     /**
      * Holds saml request info
      */
@@ -56,39 +56,45 @@ public class SamlRequestDecoder {
         private final String id;
         private final String idpDestination;
         private final boolean forceAuthn;
-        
+
         SamlRequest(String spDestination, String idpDestination, String id, boolean forceAuthn) {
             this.spDestination = spDestination;
             this.idpDestination = idpDestination;
             this.id = id;
             this.forceAuthn = forceAuthn;
         }
-        
+
         public String getIdpDestination() {
             return idpDestination;
         }
-        
+
         public String getSpDestination() {
             return spDestination;
         }
-        
+
         public String getId() {
             return id;
         }
-        public boolean isForceAuthn(){
+
+        public boolean isForceAuthn() {
             return forceAuthn;
         }
     }
-    
+
     public SamlRequest decode(String encodedSamlRequest) {
         byte[] decodedCompressed = Base64.decodeBase64(encodedSamlRequest);
         Inflater inflater = new Inflater(true);
         InflaterInputStream xmlInputStream = new InflaterInputStream(new ByteArrayInputStream(decodedCompressed),
                 inflater);
         Document doc;
-        
+
         try {
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            DocumentBuilder docBuilder = factory.newDocumentBuilder();
+            
             doc = docBuilder.parse(xmlInputStream);
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
@@ -109,7 +115,7 @@ public class SamlRequestDecoder {
         } else {
             throw new IllegalArgumentException("No Issuer element on AuthnRequest");
         }
-        
+
         if (id == null) {
             throw new IllegalArgumentException("No ID attribute on AuthnRequest.");
         }
@@ -117,12 +123,12 @@ public class SamlRequestDecoder {
         if (responseDestination == null) {
             throw new IllegalArgumentException("Issuer of AuthnRequest is unknown.");
         }
-        
+
         return new SamlRequest(responseDestination, simpleIDPDestination, id, forceAuthn);
     }
-    
+
     public void setCotString(String cotString) {
         this.cotString = cotString;
     }
-    
+
 }

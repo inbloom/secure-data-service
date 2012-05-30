@@ -1,3 +1,4 @@
+@RALLY_US2194 @DE609
 Feature: As an SLI application, I want to be able to delete an entity and trigger a cascade deletion
     This means any entity referencing the deleted entity should also be deleted
 
@@ -48,7 +49,7 @@ Scenario: Create entities which contain invalid text in relaxed validation
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
  
-   Given an entity with the text '<script' in the description field for a "<ENTITY TYPE>"
+   Given an entity with the text ' <script' in the description field for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
  

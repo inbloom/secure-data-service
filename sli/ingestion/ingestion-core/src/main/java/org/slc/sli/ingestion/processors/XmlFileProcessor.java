@@ -22,6 +22,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
@@ -79,6 +80,8 @@ public class XmlFileProcessor implements Processor {
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
+                } else {
+                    LOG.warn("Warning: ", String.format("The resource %s is not an EDFI format.", resource.getResourceName()));
                 }
             }
 
@@ -100,7 +103,7 @@ public class XmlFileProcessor implements Processor {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
                 null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
         batchJobDAO.saveError(error);

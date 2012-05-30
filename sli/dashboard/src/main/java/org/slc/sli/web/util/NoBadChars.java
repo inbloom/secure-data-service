@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * simple blacklist validator
+ * Simple blacklist validator
  * @author agrebneva
  *
  */
@@ -20,7 +20,9 @@ import javax.validation.Payload;
 @Constraint(validatedBy = NoBadCharsValidator.class)
 public @interface NoBadChars {
     String message() default "The object contains a string with blacklisted chars";
+    // default blacklist pattern
     String regexp() default "['<>%$+]";
+    // default validation depth limit
     int depth() default 10;
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };

@@ -17,18 +17,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Defines the means to process Session entities,
- * and retrieve their associated school and course entities.
+ * Represents the session resource. A session is the prescribed span of time
+ * when an education institution is open, instruction is provided, and
+ * students are under the direction and guidance of teachers and/or
+ * education institution administration. A session may be interrupted
+ * by one or more vacations.
  *
- * Prototype new api end points and versioning
+ * For detailed information, see the schema for $$Session$$ resources.
  *
  * @author jstokes
  *
@@ -44,17 +47,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$sessions$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -65,18 +58,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$sessions$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -86,15 +68,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$sessions$$ entity
-     *
-     * @param sessionId
-     *            The Id of the $$sessions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single session entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -105,16 +79,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$sessions$$ entity
-     *
-     * @param sessionId
-     *            The Id of the $$sessions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -125,18 +90,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$sessions$$ entity.
-     *
-     * @param sessionId
-     *            The id of the $$sessions$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
      */
     @Override
     @PUT
@@ -149,22 +103,7 @@ public class SessionResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$schoolSessionAssociations$$ that
-     * references the given $$schools$$
-     *
-     * @param sessionId
-     *            The id of the $$sessions$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
@@ -176,16 +115,7 @@ public class SessionResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$schools$$ associated to the given session through
-     * a $$schoolSessionAssociations$$
-     *
-     * @param sessionId
-     *            The id of the $$sessions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
@@ -196,50 +126,26 @@ public class SessionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$sessionCourseAssociations$$ that
-     * references the given $$sessions$$
-     *
-     * @param sessionId
-     *            The id of the $$sessions$$.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
-    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
-    public Response getSessionCourseAssociations(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS)
+    public Response getCourseOfferings(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "sessionId", sessionId, headers, uriInfo);
     }
 
 
     /**
-     * Returns each $$courses$$ associated to the given session through
-     * a $$sessionCourseAssociations$$
-     *
-     * @param sessionId
-     *            The id of the $$sessions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
-    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.COURSES)
-    public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
+    @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.COURSE_OFFERINGS + "/" + PathConstants.COURSES)
+    public Response getCourseOfferingCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
+        return super.read(ResourceNames.COURSE_OFFERINGS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
 
 }

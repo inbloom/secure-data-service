@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Subresource for custom entities
@@ -30,7 +30,7 @@ public class CustomEntityResource {
     }
 
     /**
-     * Read the contents of the custom resource for the given entity
+     * Read the contents of the custom resource for the given entity.
      *
      * @return the response to the GET request
      */
@@ -48,7 +48,7 @@ public class CustomEntityResource {
     }
 
     /**
-     * Set the contents of the custom resource for the given entity
+     * Set the contents of the custom resource for the given entity.
      *
      * @param customEntity
      *            the new entity to set
@@ -65,8 +65,7 @@ public class CustomEntityResource {
     }
 
     /**
-     * Set the contents of the custom resource for the given entity. This is effectively an alias
-     * for PUT
+     * Set the contents of the custom resource for the given entity.
      *
      * @param customEntity
      *            the new entity to set

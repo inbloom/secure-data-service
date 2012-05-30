@@ -7,9 +7,10 @@ Background:
   Given I have an open web browser
   Given the server is in "live" mode
 
-Scenario: Displaying simple ISAT reading and writing results for all students
+ @RALLY_US200
+Scenario: Displaying simple StateTest reading and writing results for all students
     When I navigate to the Dashboard home page
-    When I select "Sunset School District 4526" and click go
+    When I select "Illinois Sunset School District 4526" and click go
     When I login as "linda.kim" "linda.kim1234"
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "East Daybreak Junior High"
@@ -17,8 +18,9 @@ Scenario: Displaying simple ISAT reading and writing results for all students
         And I select <section> "8th Grade English - Sec 6"
       And I select view "Middle School ELA View"
 	
-	 #Most recent reading
-     And the scale score for assessment "ISAT Reading" for student "Matt Sollars" is "350"
-     #Highest ever writing 
-     And the scale score for assessment "ISAT Writing" for student "Matt Sollars" is "220"
+	#The test now runs against SDS data
+	 #Highest Ever reading
+     And the scale score for assessment "StateTest Reading" for student "Matt Sollars" is "199"
+     #Most recent writing 
+     And the scale score for assessment "StateTest Writing" for student "Matt Sollars" is "1"
      

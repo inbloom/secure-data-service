@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Fix for 3.0 spring to validate @requestbody and @requestparam
+ * Aspect provides validation for requestmapping annotated methods since Spring 3.0 provides modelattribute validation only
  * @author agrebneva
  *
  */
@@ -44,12 +45,22 @@ public class ControllerInputValidatorAspect {
 
     private Validator validator;
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    /**
+     * All methods annotation with RequestMapping
+     */
+    @Pointcut("execution(@org.springframework.web.bind.annotation.RequestMapping * *(..))")
     @SuppressWarnings("unused")
-    private void controllerInvocation() {
+    private void controllerMethodInvocation() {
     }
 
-    @Around("controllerInvocation()")
+
+    /**
+     * Around for poincut defined by controllerMethodInvocation
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
+    @Around("controllerMethodInvocation()")
     public Object aroundController(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Annotation[][] annotations = methodSignature.getMethod().getParameterAnnotations();
@@ -64,6 +75,11 @@ public class ControllerInputValidatorAspect {
         return joinPoint.proceed(args);
     }
 
+    /**
+     * Find params to validate using annotations
+     * @param paramAnnotations - annotations for method args
+     * @return if marked to be validated
+     */
     private boolean checkAnnotations(Annotation[] paramAnnotations) {
         boolean isValidate = false, isNonModelParam = false;
         for (Annotation annotation : paramAnnotations) {
@@ -78,6 +94,11 @@ public class ControllerInputValidatorAspect {
         return isValidate && isNonModelParam;
     }
 
+    /**
+     * Validate param using param specific validator and validate all strings using a blacklist validator
+     * @param arg
+     * @param argName
+     */
     private void validateArg(Object arg, String argName) {
         BindingResult result = new BeanPropertyBindingResult(arg, argName);
         ValidationUtils.invokeValidator(getValidator(), arg, result);

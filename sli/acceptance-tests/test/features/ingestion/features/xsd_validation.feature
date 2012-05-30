@@ -1,3 +1,5 @@
+@RALLY_US1706
+@RALLY_US1970
 Feature: Ed-Fi XSD Verification
 
 Background: I have a landing zone route configured
@@ -42,4 +44,42 @@ Scenario: Student Ed-Fi XSD Validation
     And I should see "cvc-type.3.1.3: The value '' of element 'LimitedEnglishProficiency' is not valid." in the resulting warning log file
 
     And I should not see an error log file created
- 
+
+Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> under <StudentGradebookEntry>
+
+    Given I post "StudentGradeXsdValidation.zip" file as the payload of the ingestion job
+    And the following collections are empty in datastore:
+      | collectionName              |
+      | student                     |
+      | course                      |
+      | educationOrganization       |
+      | gradebookEntry              |
+      | schoolSessionAssociation    |
+      | section                     |
+      | session                     |
+      | studentSectionGradebookEntry|
+    When zip file is scp to ingestion landing zone
+    And a batch job log has been created
+
+    Then I should see following map of entry counts in the corresponding collections:
+      | collectionName              | count |
+      | student                     | 1     |
+      | course                      | 1     |
+      | educationOrganization       | 3     |
+      | gradebookEntry              | 1     |
+      | schoolSessionAssociation    | 1     |
+      | section                     | 1     |
+      | session                     | 1     |
+      | studentSectionGradebookEntry| 1     |
+    And I check to find if record is in collection:
+      | collectionName              | expectedRecordCount | searchParameter                    | searchValue           | searchType        |
+      | student                     | 1                   | body.studentUniqueStateId          | 100000000             | string            |
+      | student                     | 1                   | body.schoolFoodServicesEligibility | Reduced price         | string            |
+      | studentSectionGradebookEntry| 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
+
+    Then I should see "Processed 290 records." in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
+
+    And I should not see an error log file created

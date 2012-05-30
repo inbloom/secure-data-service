@@ -1,3 +1,7 @@
+
+Dir.glob('suites/*.rake').each { |r| import r }
+
+
 ###################################################
 # Section to setup necessary env vars and overrides
 
@@ -39,7 +43,9 @@ $collectionSet = ["student",
                   "attendance",
                   "program",
                   "studentAcademicRecord",
-                  "grade"]
+                  "grade",
+                  "studentCompetency",
+                  "reportCard"]
 
 #######################################################################################################
 # Helper defs
@@ -146,9 +152,18 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
-# Run a whole series of acceptance tests
+# Run a whole series of acceptance and integration tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [:production, :simpleIDPAuthTests, :sandboxTests, :provisioningTests, :dashboardTests, :JavaSDKTests, :integrationTests] do
+task :fullSuite => [
+  :production,
+  :dashboardTests,
+  :ingestionTests,
+  :integrationTests,
+  :JavaSDKTests,
+  :sandboxTests,
+  :adminSandboxTests,
+  :apiSeleniumTests] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -160,7 +175,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -168,6 +183,7 @@ task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTe
     raise "Tests have failed"
   end
 end
+
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
 # It is needed so that it fails the build if there are any failures based on the
@@ -194,34 +210,9 @@ end
  # end
 #end
 
-###########################################################
-#SLI Liferay testing
-###########################################################
 
-#desc "Run the testing for life ray SLI for admin"
-#task :liferayTest do
-#  runTests("test/features/liferay/SLI_admin.feature")
-#  runTests("test/features/liferay/SLI_normal_user.feature")
-#  runTests("test/features/liferay/NY_Realm_EULA_agree.feature")
- # runTests("test/features/liferay/report_problem.feature")
-
-# runTests("test/features/liferay/IL_Realm_EULA_agree.feature")
-
-#end
-
-
-
-
-############################################################
-# Ingestion tests start
-############################################################
-desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
+desc "Run all sandbox tests"
+task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :provisionSandboxUserAccountLimitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -229,200 +220,6 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
     raise "Tests have failed"
   end
 end
-
-desc "Run Common Core Standards Tests"
-task :ingestionCommonCoreTest do
-  runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
-end
-
-desc "Run Ingestion Demo Tests"
-task :ingestionDemoDataTest do
-  runTests("test/features/ingestion/features/ingestion_demo.feature")
-end
-
-desc "Run Ingestion Acceptance SDS Tests"
-task :ingestionAcceptanceSdsTest do
-  runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
-end
-
-desc "Run Ingestion Tenant Test"
-task :ingestionTenantTest do
-  runTests("test/features/ingestion/features/ingestion_tenant.feature")
-end
-
-desc "Run Ingestion Session Test"
-task :ingestionSessionTest do
-  runTests("test/features/ingestion/features/ingestion_session.feature")
-end
-
-desc "Run Ingestion Program Test"
-task :ingestionProgramTest do
-  runTests("test/features/ingestion/features/ingestion_program.feature")
-end
-
-desc "Run Ingestion StudentProgramAssociation Test"
-task :ingestionStudentProgramAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentProgramAssociation.feature")
-end
-
-desc "Run Ingestion StaffProgramAssociation Test"
-task :ingestionStaffProgramAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StaffProgramAssociation.feature")
-end
-
-desc "Run Ingestion Cohort Test"
-task :ingestionCohortTest do
-  runTests("test/features/ingestion/features/ingestion_cohort.feature")
-end
-
-desc "Run Ingestion StudentCohortAssociation Test"
-task :ingestionStudentCohortAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentCohortAssociation.feature")
-end
-
-desc "Run Ingestion StaffCohortAssociation Test"
-task :ingestionStaffCohortAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StaffCohortAssociation.feature")
-end
-
-desc "Run Ingestion DisciplineIncident Test"
-task :ingestionDisciplineIncidentTest do
-  runTests("test/features/ingestion/features/ingestion_disciplineIncident.feature")
-end
-
-desc desc "Run Ingestion DisciplineAction Test"
-task :ingestionDisciplineActionTest do
-  runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
-end
-
-desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
-task :ingestionStudentDisciplineIncidentAssociationTest do
-  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
-end
-
-"Run Ingestion Negative Tests"
-task :ingestionNegativeTests do
-  runTests("test/features/ingestion/features/negative_testing.feature")
-end
-
-desc "Run Ingestion Smooks Verification Tests"
-task :ingestionSmooksVerificationTests do
-  runTests("test/features/ingestion/features/smooks_verification.feature")
-end
-
-desc "Run Ingestion Encryption Tests"
-task :ingestionEncryptionTests do
-  runTests("test/features/ingestion/features/encryption_testing.feature")
-end
-
-desc "Run Ingestion Daily Attendance Tests"
-task :ingestionAttendanceTests do
-  runTests("test/features/ingestion/features/ingestion_daily_attendance.feature")
-end
-
-desc "Run Ingestion Assessment Tests"
-task :ingestionAssessmentTests do
-  runTests("test/features/ingestion/features/ingestion_assessment_metadata.feature")
-end
-
-desc "Run Student Parents Tests"
-task :ingestionStudentParentsTests do
-  runTests("test/features/ingestion/features/ingestion_student_parents.feature")
-end
-
-desc "Run Student Transcript Association Test"
-task :ingestionStudentTranscriptAssociationTests do
-  runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
-end
-
-desc "Run idNamespace Test"
-task :ingestionidNamespaceTest do
-  runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
-end
-
-desc "Run Ingestion Gradebook Entry Test"
-task :ingestionGradebookEntryTests do
-  runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
-end
-
-desc "Run Ingestion Batch Job Tests"
-task :ingestionBatchJobTest do
-  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
-end
-
-desc "Run Ingestion XSD Validation Test"
-task :ingestionXsdValidationTest do
-  runTests("test/features/ingestion/features/xsd_validation.feature")
-end
-
-desc "Run Ingestion AP Assessment and StudentAssessment Tests"
-task :ingestionAPAssessmentTests do
-  runTests("test/features/ingestion/features/apAssessment.feature")
-end
-
-desc "Run Ingestion ACT Assessment Tests"
-task :ingestionACTAssessmentTests do
-  runTests("test/features/ingestion/features/ACTAssessment.feature")
-end
-
-desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
-task :ingestionIDReferenceResolutionTest do
-  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
-end
-
-# This task SHOULD NOT BE ADDED to the general ingestion test suite
-desc "Run Ingestion Performance Tests"
-task :ingestionPerformanceTest do
-  runTests("test/features/ingestion/features/performance_testing.feature")
-end
-
-desc "Run Ingestion Database Performance Tests"
-task :ingestionMongoDBPerformanceTest do
-  runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
-end
-
-desc "Run Ingestion Index Tests"
-task :ingestionIndexTest do
- runTests("test/features/ingestion/features/index_testing.feature")
-end
-
-desc "Run Ingestion Parallel Job Tests"
-task :ingestionParallelTests do
- runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
-end
-
-desc "Run Ingestion for Dashboard Sad Path Tests"
-task :ingestionDashboardSadPathTest do
-  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
-end
-
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc "Run Ingestion Offline Tool Acceptances Tests"
-task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run Ingestion Offline Tool Simple Test"
-task :ingestionOfflineSimpleTest do
-  runTests("test/features/ingestion/features/offline_validation.feature")
-end
-
-desc "Run Tenant Purge Test"
-task :ingestionTenantPurgeTests do
-  runTests("test/features/ingestion/features/tenant_purge.feature")
-end
-
-########
-############################################################
-# Ingestion tests end
-############################################################
 
 ############################################################
 # API V1 tests start
@@ -430,6 +227,7 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
+                     :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
@@ -445,15 +243,9 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
-#                     :v1BlacklistValidationTests,
+                     :v1BlacklistValidationTests,
                      :v1XMLTests] do
   displayFailureReport()
-end
-
-
-task :apiV1EntityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/crud")
 end
 
 task :apiV1EntitySecurityTests do
@@ -470,7 +262,7 @@ end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1SectionAssessmentAssociationTests,
-                                :v1SessionCourseAssociationTests,
+                                :v1CourseOfferingTests,
                                 :v1StaffEdOrgAssociationTests,
                                 :v1StaffProgramAssociationTests,
                                 :v1StudentProgramAssociationTests,
@@ -487,367 +279,9 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
   # Repair the damage that was done during the tests
   Rake::Task["importSandboxData"].execute
 end
-
-desc "Run V1 XML Tests"
-task :v1XMLTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("attendance", "attendance_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
-  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
-  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
-  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
-  runTests("test/features/apiV1/xml/xml.feature")
-end
-
-desc "Run V1 Program Security Tests"
-task :v1ProgramSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/program/program_security.feature")
-end
-
-desc "Run V1 Discipline Incident Security Tests"
-task :v1DisciplineIncidentSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/disciplineIncident/disciplineIncident_security.feature")
-end
-
-desc "Run V1 Discipline Action Secuity Tests"
-task :v1DisciplineActionSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/disciplineAction/disciplineAction_security.feature")
-end
-
-desc "Run V1 Parent Security Tests"
-task :v1ParentSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/parent/parent_security.feature")
-end
-
-desc "Run V1 Attendance Security Tests"
-task :v1AttendanceSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
-end
-
-desc "Run V1 Cohort Security Tests"
-task :v1CohortSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
-end
-
-desc "Run V1 Student Discipline Incident Association Tests"
-task :v1StudentDisciplineIncidentAssociationTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  setFixture("studentDisciplineIncidentAssociation", "studentDisciplineIncidentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentDisciplineIncidentAssociation")
-end
-
-desc "Run V1 Cascade Deletion Tests"
-task :v1CascadeDeletionTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/cascadeDeletion")
-end
-
-desc "Run V1 Direct References Tests"
-task :v1DirectReferencesTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferences")
-end
-
-desc "Run V1 Direct Reference Collections Tests"
-task :v1DirectReferenceCollectionsTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/associations/directReferenceCollections")
-end
-
-desc "Run V1 Student Parent Association Tests"
-task :v1StudentParentAssociationTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("parent", "parent_fixture.json")
-  setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentParentAssociation")
-end
-
-desc "Run V1 Student Transcript Association Tests"
-task :v1StudentTranscriptAssociationTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
-end
-
-desc "Run V1 Teacher School Association Tests"
-task :v1TeacherSchoolAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/teacherSchoolAssociation")
-end
-
-desc "Run V1 Teacher Section Association Tests"
-task :v1TeacherSectionAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("section", "section_fixture.json")
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "smallville_teacher_sections_fixture.json", "test/data/smallville", false)
-  runTests("test/features/apiV1/associations/teacherSectionAssociation")
-end
-
-desc "Run V1 Section Assessment Association Tests"
-task :v1SectionAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("section", "section_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
-  setFixture("sectionAssessmentAssociation", "smallville_section_assessment_fixture.json", "test/data/smallville", false)
-  #run test
-  runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
-end
-
-desc "Run V1 Student Assessment Association Tests"
-task :v1StudentAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("student", "student_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
-  setFixture("studentAssessmentAssociation", "smallville_student_assessment_fixture.json", "test/data/smallville", false)
-  #run test
-  runTests("test/features/apiV1/associations/studentAssessmentAssociation")
-end
-
-desc "Run V1 Student Section Association Tests"
-task :v1StudentSectionAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("studentSectionAssociation", "smallville_student_section_association_fixture.json", "test/data/smallville", false)
-  #run test
-  runTests("test/features/apiV1/associations/studentSectionAssociation")
-end
-
-desc "Run V1 Staff Education Organization Association Tests"
-task :v1StaffEdOrgAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/staffEducationOrganizationAssociation")
-end
-
-desc "Run V1 Staff Program Association Tests"
-task :v1StaffProgramAssociationTests => [:realmInit] do
-  setFixture("staff", "staff_fixture.json")
-  setFixture("program", "program_fixture.json")
-  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/staffProgramAssociation")
-end
-
-desc "Run V1 Student Program Association Tests"
-task :v1StudentProgramAssociationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("program", "program_fixture.json")
-  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
-  setFixture("studentProgramAssociation", "studentProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentProgramAssociation")
-end
-
-desc "Run V1 School Session Association Tests"
-task :v1SchoolSessionAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("schoolSessionAssociation", "schoolSessionAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("session", "smallville_sessions_fixture.json", "test/data/smallville", false)
-  setFixture("schoolSessionAssociation", "smallville_school_session_association_fixture.json", "test/data/smallville", false)
-  #run test
-  runTests("test/features/apiV1/associations/schoolSessionAssociation")
-end
-
-desc "Run V1 Student School Association Tests"
-task :v1StudentSchoolAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("studentSchoolAssociation", "smallville_student_school_association_fixture.json", "test/data/smallville", false)
-  #run test
-  runTests("test/features/apiV1/associations/studentSchoolAssociation")
-end
-
-desc "Run V1 Session Course Association Tests"
-task :v1SessionCourseAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/sessionCourseAssociation")
-end
-
-desc "Run V1 Staff Cohort Association Tests"
-task :v1StaffCohortAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("staff", "staff_fixture.json")
-  setFixture("cohort", "cohort_fixture.json")
-  setFixture("staffCohortAssociation", "staffCohortAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/staffCohortAssociation")
-end
-
-desc "Run V1 Student Cohort Association Tests"
-task :v1StudentCohortAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  Rake::Task["importSandboxData"].execute
-  #run test
-  runTests("test/features/apiV1/associations/studentCohortAssociation")
-end
-
-desc "Run V1 Common Core Standards reference traversal Tests"
-task :v1CCSTests => [:realmInit] do
-  setFixture("learningStandard", "learningStandard_fixture.json")
-  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
-end
-
-desc "Run V1 Home URI Tests"
-task :v1homeUriTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/home_uri")
-end
-
-desc "Run V1 Hierachy Traversal Tests"
-task :v1HierarchyTraversalTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/hierarchyTraversal")
-end
-
-desc "Run V1 Validation Tests"
-task :v1ValidationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("staff", "staff_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/validation")
-end
-
-desc "Run Sorting and Paging Tests"
-task :v1SortingAndPagingTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/sorting_paging")
-end
-
-desc "Run Encryption Tests"
-task :v1EncryptionTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/encryption")
-end
-
-desc "Run Target Tests"
-task :v1TargetTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/targets")
-end
-
-desc "Run List Tests"
-task :v1ListTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/lists")
-end
-
-desc "Run V1 Assessment User Story Tests"
-task :v1EndUserStoryAssessmentTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/assessment.feature")
-end
-
-desc "Run V1 Custom entity User Story Tests"
-task :v1EndUserStoryCustomEntityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/end_user_stories/CustomEntities/CustomEntities.feature")
-end
-
-desc "Run V1 Student Optional Fields Tests"
-task :v1StudentOptionalFieldsTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
-end
-
-desc "Run V1 Single Student View Tests"
-task :v1SingleStudentViewTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/optional_fields/single_student_view.feature")
-end
-
-desc "Run V1 Simple CRUD Test"
-task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud_rc")
-end
-
-desc "Run V1 Blacklist/Whitelist input Tests"
-task :v1BlacklistValidationTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
-end
-
-desc "Run Account Approval Tests"
-task :accountApprovalTests do
-  runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
-end
-
 ############################################################
 # API V1 tests end
 ############################################################
-
-
-############################################################
-# API Sandbox Tests
-############################################################
-desc "Run Sandbox mode Tests"
-task :adminSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["adminToolsTests"].invoke
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
-end
-
-desc "Run Sandbox API tests"
-task :apiSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["securityTests"].invoke
-end
-
-desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
 
 ############################################################
 # API Selenium tests start
@@ -867,8 +301,9 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests] do
   Rake::Task["importSandboxData"].execute
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
   displayFailureReport()
@@ -879,17 +314,12 @@ task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApp
   end
 end
 
-task :adminRightsTests do
-  runTests("test/features/admintools/sli_admin_authorization.feature")
-end
-
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
-  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -897,56 +327,6 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
-
-desc "Run IDP Authentication Selenium Tests"
-task :idpAuthTests => [:realmInit] do
-  runTests("test/features/databrowser/idp_authentication.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run Sandbox Simple IDP Authentication Selenium Tests"
-task :simpleIDPAuthTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/simple-idp")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-############################################################
-# API Selenium tests end
-############################################################
-
-############################################################
-# Security tests start
-############################################################
-desc "Run Security Tests"
-task :securityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/security")
-end
-############################################################
-# Security tests end
-############################################################
-
-############################################################
-# Onboarding tests start
-############################################################
-desc "Run Onboarding Tests"
-task :onboardingTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/onboarding")
-end
-############################################################
-# Onboarding tests end
-############################################################
 
 ############################################################
 # Dashboard tests start
@@ -959,11 +339,11 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardIntegratedTests,
                          :dashboardLoginTests,
                          :dashboardStudentProfileTests,
-                         :dashboardAssessmentTests,
                          :dashboardAttendance,
                          :dashboardStudentHistoricalDataTests,
                          :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests] do
+                         :dashboardStudentGradebookEntryTests,
+                         :dashboardHTMLEscapeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -972,95 +352,18 @@ task :dashboardTests => [:dashboardPopWidgetTests,
   end
 
 end
+############################################################
+# Dashboard tests end
+############################################################
 
-desc "Run Dashboard population widget Tests"
-task :dashboardPopWidgetTests do
-  runTests("test/features/dashboard/dash/population_widget.feature")
-end
-
-desc "Run Dashboard K-3 view Tests"
-task :dashboardK3ViewTests do
-  runTests("test/features/dashboard/dash/k3view.feature")
-end
-
-desc "Run Dashboard High School view Tests"
-task :dashboardHSViewTests do
-  runTests("test/features/dashboard/dash/high_school_view.feature")
-end
-
-desc "Run Dashboard user based view selection tests"
-task :dashboardUserBasedViewTests do
-  runTests("test/features/dashboard/dash/user_based_views.feature")
-end
-
-desc "Run Dashboard integration acceptance tests"
-task :dashboardIntegratedTests do
-    runTests("test/features/dashboard/dash/dashboard_api_integration.feature")
-end
-
-
-desc "Run Dashboard login acceptance tests"
-task :dashboardLoginTests do
-    runTests("test/features/dashboard/dash/dashboard_login.feature")
-end
-
-desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests do
-    runTests("test/features/dashboard/dash/assessments.feature")
-end
-
-desc "Run Dashboard most recent result acceptance tests"
-task :MostRecentResultTests do
-    runTests("test/features/dashboard/dash/MostRecent.feature")
-end
-
-desc "Run Dashboard highest ever result acceptance tests"
-task :HighestEverResultTests do
-    runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
-end
-
-desc "Run Dashboard performance level acceptance tests"
-task :PerformanceLevels do
-    runTests("test/features/dashboard/assessments/PerformanceLevels_MostRecentWindow.feature")
-end
-
-desc "Run dashboard attendance related tests"
-task :dashboardAttendance do
-  runTests("test/features/dashboard/dash/attendance.feature")
-end
-
-desc "Run dashboard student profile tests"
-task :dashboardStudentProfileTests do
-  runTests("test/features/dashboard/dash/student_profile.feature")
-end
-
-desc "Run dashboard student historical data tests"
-task :dashboardStudentHistoricalDataTests do
-  runTests("test/features/dashboard/students/HistoricalData.feature")
-end
-
-desc "Run dashboard student contact info live tests"
-task :dashboardStudentContactInfoLiveTests do
-  runTests("test/features/dashboard/dash/contact_info_live.feature")
-end
-
-desc "Run dashboard sad path tests"
-task :dashboardSadPathTests do
-  runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
-end
-
-desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
-task :localDashboardTests do
-  Rake::Task["realmInitNoPeople"].invoke
-  Rake::Task["importUnifiedData"].invoke
-  Rake::Task["dashboardTests"].invoke
-end
-
+############################################################
+# Dashboard SDS tests start
+############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+                         :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
-                         :dashboardSdsURLValidationTests,
                          :dashboardSdsHSViewTests,
                          :dashboardSdsK3ViewTests,
                          :dashboardSdsPopWidgetTests,
@@ -1069,7 +372,7 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardSdsUploadConfigTests] do
+                         :dashboardAssessmentTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1077,85 +380,37 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
     raise "Tests have failed"
   end
 end
+############################################################
+# Dashboard SDS tests end
+############################################################
 
-desc "Run dashboard integration tests"
-task :dashboardSdsCoreStudentsTests do
-  runTests("test/features/dashboard/dash/dashboard_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Student Contact info"
-task :dashboardSdsContactInfoTests do
-  runTests("test/features/dashboard/dash/contact_info_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Login Tests"
-task :dashboardSdsLoginTests do
-  runTests("test/features/dashboard/dash/dashboard_login_sds.feature")
-end
-
-desc "Run Dashboard URL Validation tests"
-task :dashboardSdsURLValidationTests do
-    runTests("test/features/dashboard/dash/dashboard_url_validation_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - High School View Tests"
-task :dashboardSdsHSViewTests do
-  runTests("test/features/dashboard/dash/high_school_view_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - K3 View Tests"
-task :dashboardSdsK3ViewTests do
-  runTests("test/features/dashboard/dash/k3view_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Population Widget Tests"
-task :dashboardSdsPopWidgetTests do
-  runTests("test/features/dashboard/dash/population_widget_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Student Profile Tests"
-task :dashboardSdsStudentProfileTests do
-  runTests("test/features/dashboard/dash/student_profile_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - User Based Views Tests"
-task :dashboardSdsUserBasedViewsTests do
-  runTests("test/features/dashboard/dash/user_based_views_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Attendance Tests"
-task :dashboardSdsAttendanceTests do
-  runTests("test/features/dashboard/dash/attendance_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Transcript History Panel"
-task :dashboardSdsTranscriptPanelTests do
-  runTests("test/features/dashboard/students/TranscriptHistoryPanel_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Simple Search Tests"
-task :dashboardStudentSearchTests do
-  runTests("test/features/dashboard/dash/student_search.feature")
-end
-
-desc "Run dashboard integrated Tests - Upload Config"
-task :dashboardSdsUploadConfigTests do
-  runTests("test/features/dashboard/dash/upload_config_sds.feature")
-end
-
-desc "Run dashboard student gradebook entry tests"
-task :dashboardStudentGradebookEntryTests do
-  runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
-end
 
 ############################################################
-# Dashboard tests end
+# Ingestion tests start
 ############################################################
+desc "Run Ingestion Acceptances Tests"
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
+                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest, :ingestionDryRunTest ] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Ingestion tests end
+############################################################
+
 
 ############################################################
 # Integration Tests start
 ############################################################
-
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
@@ -1169,28 +424,13 @@ task :integrationTests => [:realmInitNoPeople] do
     raise "Tests have failed"
   end
 end
-
 ############################################################
 # Integration Tests end
 ############################################################
 
 ############################################################
-# Cross App Tests start
+# SDK Tests start
 ############################################################
-
-desc "Run cross application testing"
-task :crossAppTests do
-  runTests("test/features/cross_app_tests")
-end
-
-############################################################
-# Cross App Tests end
-############################################################
-
-############################################################
-# SDK Tests
-############################################################
-
 desc "Run JavaSDK acceptance tests"
 task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
     displayFailureReport()
@@ -1200,41 +440,36 @@ task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
     raise "Tests have failed"
   end
 end
-
-desc "Run Account Approval acceptance tests"
-task :accountApprovalInterfaceTests => [:realmInitNoPeople] do
-    runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
-end
-
-desc "Run Account Approval Sandbox acceptance tests"
-task :accountApprovalSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
-end
-
-desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
-    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
-end
-
-desc "Run JavaSDK CRUD acceptance tests"
-task :JavaSDKCRUDTest => [:realmInitNoPeople,:importStoriedData] do
-    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
-end
-
 ############################################################
 # SDK Tests end
 ############################################################
 
-
 ############################################################
-# Ondboarding / Provisioning Tests start
+# Onboarding Integration Tests start
 ############################################################
 
-desc "Run Ondboarding / Provisioning acceptance tests"
-task :onboardingTests => [:provisioningTests] do
-    displayFailureReport()
+
+desc "Run Onboarding Integration Tests"
+task :onboardingIntegrationTests do
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  end
+
+desc "Run Provisioning Integration Tests"
+task :provisionIntegrationTests do
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run Provisioning User Account Limit Tests"
+task :provisionSandboxUserAccountLimitTests do
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.waitingListUserAccount.drop()\""
+  @tags = ["~@wip", "@sandbox"]
+  runTests("test/features/sandbox/Provision/limit_number_accounts.feature")
+  displayFailureReport()
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.waitingListUserAccount.drop()\""
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -1242,15 +477,45 @@ task :onboardingTests => [:provisioningTests] do
   end
 end
 
-desc "Run Sandbox Developer Provisioning acceptance tests"
-task :provisioningTests => [:importSandboxData, :realmInit] do
-    runTests("test/features/sandbox/provisioning.feature")
+############################################################
+# Onboarding Integration Tests end
+############################################################
+
+
+
+
+
+############################################################
+# User Registration App Tests
+############################################################
+
+desc "Run User Registration App Tests"
+task :userRegistrationTests => [:userRegistrationProdTests, :userRegistrationSbTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run User Registration App Tests - Production"
+task :userRegistrationProdTests do
+  @tags = ["~@wip", "@production"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/admintools/accountRequest.feature")
+end
+
+desc "Run User Registration App Tests - Sandbox"
+task :userRegistrationSbTests do
+  @tags = ["~@wip", "@sandbox"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/admintools/accountRequest.feature")
 end
 
 ############################################################
-# Ondboarding / Provisioning Tests end
+# User Registration App Tests end
 ############################################################
-
 
 desc "Export Storied Test Data"
 task :exportStoriedData do
@@ -1303,7 +568,7 @@ task :importSandboxData do
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
-    "sessionCourseAssociation" => "sessionCourseAssociation_fixture.json",
+    "courseOffering" => "sessionCourseAssociation_fixture.json",
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
@@ -1319,8 +584,11 @@ task :importSandboxData do
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
-    "userAccount" => "userAccount_fixture.json",
-    "grade" => "grade_fixture.json"
+    "grade" => "grade_fixture.json",
+    "studentCompetency" => "studentCompetency_fixture.json",
+    "adminDelegation" => "adminDelegation_fixture.json",
+    "gradingPeriod" => "gradingPeriod_fixture.json",
+    "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
@@ -1328,7 +596,7 @@ task :importSandboxData do
     "assessment" => "smallville_assessment_fixture.json",
     "course" => "smallville_courses_fixture.json",
     "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
-    "sessionCourseAssociation" => "smallville_course_session_association_fixture.json",
+    "courseOffering" => "smallville_course_session_association_fixture.json",
     "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
     "educationOrganization" => "smallville_edOrg_fixture.json",
     "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",
@@ -1409,4 +677,14 @@ CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines 
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos
 
+end
+
+desc "Get a list of all available tasks"
+task :tasks do
+    puts "The following are all the available tasks:"
+
+    tasks = Rake.application.tasks
+    tasks.each do |t|
+      puts ":" + t.to_s
+    end
 end

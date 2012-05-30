@@ -8,7 +8,11 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>UML (Unified Modeling Language)</name>
+	<name>Modeling Tools</name>
+
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
 
 	<dependencies>
 
@@ -56,6 +60,21 @@
 		<dependency>
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>xsd</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>wadl</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>rest</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slc.sli.modeling</groupId>
+			<artifactId>jgen</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

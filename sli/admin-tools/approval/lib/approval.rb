@@ -3,8 +3,6 @@ require 'digest'
 require 'ldapstorage'
 require 'emailer'
 
-#equire 'approval/storage'
-
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
 	STATE_SUBMITTED = "submitted"
@@ -13,61 +11,62 @@ module ApprovalEngine
 	STATE_APPROVED  = "approved"
 	STATE_DISABLED  = "disabled"
 
-	# define all possible actions of the state machine 
+	# define all possible actions of the state machine
 	ACTION_VERIFY_EMAIL = "verify_email"
 	ACTION_APPROVE      = "approve"
 	ACTION_REJECT       = "reject"
 	ACTION_DISABLE      = "disable"
 	ACTION_ENABLE       = "enable"
 
-	# define the FSM 
-	# for each state we define a set of transitions. Each transition has 
-	# a tuple associated with it: 
+	# define the FSM
+	# for each state we define a set of transitions. Each transition has
+	# a tuple associated with it:
 	#  - target state : the next state
-	#  - function     : a Proc that nees to be executed to get to the target state 
-	# 
+	#  - function     : a Proc that nees to be executed to get to the target state
+	#
 	FSM = {
 		STATE_SUBMITTED => {ACTION_VERIFY_EMAIL => STATE_PENDING},
-		STATE_PENDING   => {ACTION_APPROVE => STATE_APPROVED, 
+		STATE_PENDING   => {ACTION_APPROVE => STATE_APPROVED,
 			                ACTION_REJECT => STATE_REJECTED },
 		STATE_REJECTED  => {ACTION_APPROVE => STATE_APPROVED },
-		STATE_APPROVED  => {ACTION_DISABLE => STATE_DISABLED }, 
+		STATE_APPROVED  => {ACTION_DISABLE => STATE_DISABLED },
 		STATE_DISABLED  => {ACTION_ENABLE  => STATE_APPROVED }
 	}
 
-	# Roles to set in sandbox mode 
+	# Roles to set in sandbox mode
 	SANDBOX_ROLES = [
-		"Super_Admin"
+		"Application Developer",
+		"Ingestion User"
 	]
 
-	# Roles to set in production mode 
+	# Roles to set in production mode
 	PRODUCTION_ROLES = [
-		"Vendor_Admin"
+		"Application Developer"
 	]
 
-	## backend storage 
-	@@storage      = nil 
-	@@emailer      = nil 
-	@@is_sandbox   = false 
+	## backend storage
+	@@storage      = nil
+	@@emailer      = nil
+	@@is_sandbox   = false
 	@@email_secret = ""
-	@@roles        = [] 
+	@@roles        = []
 
-	# initialize the storage 
+	# initialize the storage
 	def ApprovalEngine.init(storage, emailer, is_sandbox)
 		@@storage = storage
-		@@emailer = emailer 
+		@@emailer = emailer
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
 		@@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
 	end
 
-	# Update the status of a user. 
+	# Update the status of a user.
 	#
 	# Input parameter:
 	#
-	# email_address: Identifies a previosly added user that has verified their email address. 
-	# transition:    A transition identifier previously returned by the "get_users" method. 
-	# 
+	# email_address: Identifies a previosly added user that has verified their email address.
+	# transition:    A transition identifier previously returned by the "get_users" method.
+	#
 	def ApprovalEngine.change_user_status(email_address, transition, email_verified=false)
 		user = @@storage.read_user(email_address)
 		status = user[:status]
@@ -79,21 +78,20 @@ module ApprovalEngine
 
 		# make sure that the email is verified if this is transitioning: submitted->pending
 		if (status==STATE_SUBMITTED) && !email_verified
-			raise "Cannot transition directly from state #{status}" 
+			raise "Cannot transition directly from state #{status}"
 		end
 
-		# set the new user status 
+		# set the new user status
 		user[:status] = target[transition]
 		case [status, target[transition]]
 			when [STATE_SUBMITTED, STATE_PENDING]
 				@@storage.update_status(user)
 			when [STATE_PENDING, STATE_APPROVED]
-				# update the status, set the roles and send an email 
+				# update the status, set the roles and send an email
 				@@storage.update_status(user)
 				set_roles(user[:email])
-			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
-				# upate the status and clear the roles 
+				# update the status and clear the roles
 				@@storage.update_status(user)
 				clear_roles(user[:email])
 			when [STATE_REJECTED, STATE_APPROVED]
@@ -107,8 +105,37 @@ module ApprovalEngine
 				@@storage.update_status(user)
 				set_roles(user[:email])
 			else
-				raise "Unknow state transition #{status} => #{target[transition]}."
-			end
+				raise "Unknown state transition #{status} => #{target[transition]}."
+		end
+
+    if user[:status] == STATE_APPROVED
+      # TODO: Below should not be hardcoded and should be configurable by admin.
+      # TODO: check that user[:emailAddress] is valid-ish email (regex?)
+      email = {
+        :email_addr => user[:emailAddress],
+        :name       => "#{user[:first]} #{user[:last]}"
+      }
+      if @@is_sandbox
+        email[:subject] = "Welcome to the SLC Developer Sandbox"
+        email[:content] = "#{user[:first]},\n\n" <<
+          "Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
+          "First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by following this link:\n" <<
+          "__URI__/landing_zone\n\n" <<
+          "Second, after you have selected a data source, register your sandbox applications here:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" <<
+          "SLC Operator"
+      else
+        email[:subject] = "Welcome to the SLC Developer Program"
+        email[:content] = "#{user[:first]},\n\n" <<
+          "Your request for developer account has been approved. Get started by registering your applications with the Shared Learning Collaborative.\n\n" <<
+          "To register your applications go to:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" <<
+          "SLC Operator"
+      end
+      @@emailer.send_approval_email email
+    end
 
 		# if this is a sandbox and the new status is pending then move to status approved
 		if @@is_sandbox && (user[:status] == STATE_PENDING)
@@ -116,54 +143,55 @@ module ApprovalEngine
 		end
 	end
 
-	# Verify the email address against the backend. 
-	# 
+	# Verify the email address against the backend.
+	#
 	# Input Parameter:
-	# 
-	# email_hash : The email hash that was previously returned by the add_user 
+	#
+	# email_hash : The email hash that was previously returned by the add_user
 	# and included in a click through link that the user received in an email (as a query parameter).
 	#
 	def ApprovalEngine.verify_email(emailtoken)
 		user = @@storage.read_user_emailtoken(emailtoken)
 		raise "Could not find user for email id #{emailtoken}." if !user
 
-		# update to pending state 
+		# update to pending state
 		change_user_status(user[:email], ACTION_VERIFY_EMAIL, true)
 	end
 
 
-	# Check whether a user with the given email address exists. 
-	# The email address serves as the unique userid. 
+	# Check whether a user with the given email address exists.
+	# The email address serves as the unique userid.
 	def ApprovalEngine.user_exists?(email_address)
 		@@storage.user_exists?(email_address)
 	end
 
-	# Add all relevant information for a new user to the backend. 
-	# 
-	# Input Parameters: 
+	# Add all relevant information for a new user to the backend.
 	#
-	# user_info is a hash with the following fields: 
+	# Input Parameters:
+	#
+	# user_info is a hash with the following fields:
 	#   - first : first name
-	#   - last  : last name 
+	#   - last  : last name
 	#   - email : email address (also serves as the userid)
 	#   - password : password used to log in
-	#   - vendor : optional vendor name 
+	#   - vendor : optional vendor name
 	#
 	# Returns: A hash string that has to be used for email verification
-	# by embedding a link into a confirmation email. 
-	# 
-	# Input Example: 
-	#  
+	# by embedding a link into a confirmation email.
+	#
+	# Input Example:
+	#
 	# user_info = {
 	#     :first => "John",
-	#     :last => "Doe", 
+	#     :last => "Doe",
 	#     :email => "jdoe@example.com",
-	#     :password => "secret", 
-	#     :vendor => "Acme Inc."
+	#     :password => "secret",
+	#     :vendor => "Acme Inc.",
+	#     :emailAddress => "jdoe@example.com"
 	# }
 	# 	#
 	def ApprovalEngine.add_disabled_user(user_info)
-		new_user_info = user_info.clone 
+		new_user_info = user_info.clone
 		new_user_info[:emailtoken] = Digest::MD5.hexdigest(@@email_secret+user_info[:email]+user_info[:first]+user_info[:last])
 		new_user_info[:status]     = STATE_SUBMITTED
 		@@storage.create_user(new_user_info)
@@ -171,63 +199,68 @@ module ApprovalEngine
 	end
 
 	# Returns a list of users and their states. If a target state is provided
-	# all users in that state will be returned. 
-	# 
-	# Optional input Parameter: 
+	# all users in that state will be returned.
 	#
-	# state : Target state. Only retrieve user records for this state. 
+	# Optional input Parameter:
+	#
+	# state : Target state. Only retrieve user records for this state.
 	#
 	# user_info = {
 	#     :first => "John",
-	#     :last => "Doe", 
+	#     :last => "Doe",
 	#     :email => "jdoe@example.com",
-	#     :password => "secret", 
+	#     :password => "secret",
 	#     :vendor => "Acme Inc.",
 	#     :status => "pending",
-	#     :transitions => ["approve", "reject"], 
+	#     :transitions => ["approve", "reject"],
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
-		return @@storage.read_users(status).select {|u| !!u[:status] }.map do |user| 
+		return @@storage.read_users(status).select {|u| !!u[:status] }.map do |user|
 			user[:transitions] = FSM[user[:status]].keys
 			user
 		end
-	end 
+	end
 
-	# Returns an individual user via their email address or nil if the user does not exist. 
+	# Returns an individual user via their email address or nil if the user does not exist.
 	def ApprovalEngine.get_user(email_address)
-		return @@storage.read_users(email_address)
-	end 
+		return @@storage.read_user(email_address)
+	end
 
-	# Update the user information that was submitted via the add_user method. 
+	# Returns an individual user via their email token or nil if the user does not exist.
+    	def ApprovalEngine.get_user_emailtoken(email_token)
+    		return @@storage.read_user_emailtoken(email_token)
+	end
+
+	# Update the user information that was submitted via the add_user method.
 	#
-	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
-	# 
+	# Input parameter: A subset of the "user_info" submitted to the "add_user" method.
+	#
 	def ApprovalEngine.update_user_info(user_info)
 		@@storage.update_user_info(user_info)
 	end
 
-	# Removes a user from the backend entirely.  
+	# Removes a user from the backend entirely.
 	#
 	# Input parameters:
-	# 
-	# email_address: Previously added email_address identifying a user. 
+	#
+	# email_address: Previously added email_address identifying a user.
 	def ApprovalEngine.remove_user(email_address)
 		user = @@storage.read_user(email_address)
 		clear_roles(email_address)
 		@@storage.delete_user(email_address)
 	end
 
-	def ApprovalEngine.clear_roles(email_address)		
-		@@roles.each do |role| 
+	def ApprovalEngine.clear_roles(email_address)
+		@@roles.each do |role|
 		 	@@storage.remove_user_group(email_address, role)
 		end
 	end
 
 	def ApprovalEngine.set_roles(email_address)
-		@@roles.each do |role| 
+		@@roles.each do |role|
 		 	@@storage.add_user_group(email_address, role)
 		end
-	end 
+	end
 
 	def ApprovalEngine.get_roles(email_address)
 		@@storage.get_user_groups(email_address)

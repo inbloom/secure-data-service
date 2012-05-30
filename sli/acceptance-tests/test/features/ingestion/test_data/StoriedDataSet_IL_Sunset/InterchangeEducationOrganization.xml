@@ -68,6 +68,12 @@
 		<MaximumAvailableCredit>
 			<Credit>5</Credit>
 		</MaximumAvailableCredit>
-		<EducationOrganizationReference/>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Sunset Central High School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
 	</Course>
 </InterchangeEducationOrganization>

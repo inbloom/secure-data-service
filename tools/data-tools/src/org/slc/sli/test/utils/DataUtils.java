@@ -22,13 +22,14 @@ import org.apache.commons.io.FilenameUtils;
 
 public class DataUtils {
     static final int BUFFER = 1024*4;
+    public static final String ZIP_FILE_NAME = "output.zip";
 
     /*
      * Takes *.xml or *.ctl files at path and zips them to an output.zip
      *
      * @path path where *.xml input files are and where output.zip will be written
      */
-	public static final void zipIngestionData(String path) {
+	public static final boolean zipIngestionData(String path) {
 
 		final class OnlyIngestionFiles implements FilenameFilter {
 			public boolean accept(File dir, String name) {
@@ -36,34 +37,67 @@ public class DataUtils {
 			}
 		}
 
-		try {
-			BufferedInputStream origin = null;
-			FileOutputStream dest = new FileOutputStream(path + "\\output.zip");
-			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
-					dest));
-			// out.setMethod(ZipOutputStream.DEFLATED);
-			byte data[] = new byte[BUFFER];
-			// get a list of files from the path
-			File f = new File(path);
-			String files[] = f.list(new OnlyIngestionFiles());
+		File pathDir = new File(path);
+        File output = new File(pathDir, ZIP_FILE_NAME);
+        if (output.exists()) {
+            output.delete();
+        }
 
-			for (String basename : files) {
-				String filename = path + "\\" + basename;
-				System.out.println("Adding: " + filename);
-				FileInputStream fi = new FileInputStream(filename);
-				origin = new BufferedInputStream(fi, BUFFER);
-				ZipEntry entry = new ZipEntry(basename);
-				out.putNextEntry(entry);
-				int count;
-				while ((count = origin.read(data, 0, BUFFER)) != -1) {
-					out.write(data, 0, count);
-				}
-				origin.close();
+		try {
+            File zipFile = new File(pathDir, ZIP_FILE_NAME);
+            FileOutputStream dest = null;
+            try {
+                dest = new FileOutputStream(zipFile);
+    			ZipOutputStream out = null;
+    			try {
+        			out = new ZipOutputStream(new BufferedOutputStream(
+        					dest));
+        			// out.setMethod(ZipOutputStream.DEFLATED);
+        			byte data[] = new byte[BUFFER];
+        			// get a list of files from the path
+        			String files[] = pathDir.list(new OnlyIngestionFiles());
+        
+                    BufferedInputStream origin = null;
+        			for (String basename : files) {
+        				File filename = new File(pathDir, basename);
+                        System.out.println("Adding: " + filename.getPath());
+        				FileInputStream fi = null;
+        				try {
+            				fi = new FileInputStream(filename);
+            				try {
+                				origin = new BufferedInputStream(fi, BUFFER);
+                				ZipEntry entry = new ZipEntry(basename);
+                				out.putNextEntry(entry);
+                				int count;
+                				while ((count = origin.read(data, 0, BUFFER)) != -1) {
+                					out.write(data, 0, count);
+                				}
+            				} finally {
+            				    if (null != origin) {
+            				        origin.close();
+            				    }
+            				}
+        				} finally {
+        				    if (null != fi) {
+        				        fi.close();
+        				    }
+        				}
+            		}
+    			} finally {
+    			    if (null != out) {
+            			out.close();
+    			    }
+    			}
+    			return true;
+			} finally {
+			    if (null != dest) {
+			        dest.close();
+			    }
 			}
-			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
     public static final String createMd5ForFile(String file) {
@@ -130,34 +164,48 @@ public class DataUtils {
             if (controlFile.exists()) {
                 String writeBack = "";
                 boolean foundMatchingLine = false;
-                BufferedReader read = new BufferedReader(new FileReader(controlFile));
-                for (String line = read.readLine(); line != null; line = read.readLine()) {
-                    Pattern p = Pattern.compile("edfi.xml[,]" + interchange + "[,]" + interchangeFile.getName()
-                            + "[,]\\w+");
-                    Matcher m = p.matcher(line);
-                    if (m.find()) {
-                        foundMatchingLine = true;
-                        writeBack += m.replaceAll("edfi-xml," + interchange + "," + interchangeFile.getName() + ","
-                                + md5HashWord)
-                                + "\n";
-                    } else {
-                        writeBack += line + "\n";
+                BufferedReader read = null;
+                try {
+                    read = new BufferedReader(new FileReader(controlFile));
+                    for (String line = read.readLine(); line != null; line = read.readLine()) {
+                        Pattern p = Pattern.compile("edfi.xml[,]" + interchange + "[,]" + interchangeFile.getName()
+                                + "[,]\\w+");
+                        Matcher m = p.matcher(line);
+                        if (m.find()) {
+                            foundMatchingLine = true;
+                            writeBack += m.replaceAll("edfi-xml," + interchange + "," + interchangeFile.getName() + ","
+                                    + md5HashWord)
+                                    + "\n";
+                        } else {
+                            writeBack += line + "\n";
+                        }
                     }
+                } finally {
+                    if (null != read)
+                        read.close();
                 }
-                read.close();
-                BufferedWriter writer = new BufferedWriter(new FileWriter(fileToWrite));
-                writer.write(writeBack);
-                if (!foundMatchingLine) {
-                    writer.write("edfi-xml," + interchange + "," + interchangeFile.getName() + "," + md5HashWord);
-                    writer.close();
-                    success = true;
+                BufferedWriter writer = null;
+                try {
+                    writer = new BufferedWriter(new FileWriter(fileToWrite));
+                    writer.write(writeBack);
+                    if (!foundMatchingLine) {
+                        writer.write("edfi-xml," + interchange + "," + interchangeFile.getName() + "," + md5HashWord);
+                        success = true;
+                    }
+                } finally {
+                    if (null != writer)
+                        writer.close();
                 }
-                writer.close();
                 success = true;
             } else {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(fileToWrite));
-                writer.write("edfi-xml," + interchange + "," + interchangeFile.getName() + "," + md5HashWord);
-                writer.close();
+                BufferedWriter writer = null;
+                try {
+                    writer = new BufferedWriter(new FileWriter(fileToWrite));
+                    writer.write("edfi-xml," + interchange + "," + interchangeFile.getName() + "," + md5HashWord);
+                } finally {
+                    if (null != writer)
+                        writer.close();
+                }
                 success = true;
             }
         } catch (Exception e) {

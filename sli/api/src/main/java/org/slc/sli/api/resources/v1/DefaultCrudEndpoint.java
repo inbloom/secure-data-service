@@ -19,10 +19,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -31,17 +30,19 @@ import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Prototype new api end points and versioning base class
@@ -53,7 +54,8 @@ import org.slc.sli.domain.Repository;
 @Component
 @Scope("request")
 @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML,
+        HypermediaType.VENDOR_SLC_XML })
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
@@ -71,14 +73,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     private final String resourceName;
 
-    /* Logger utility to use to output debug, warning, or other messages to the "console" */
-//    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
-
     @Autowired
     private OptionalFieldAppenderFactory factory;
 
     @Autowired
     private Repository<Entity> repo;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -121,7 +123,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response create(final String resourceName, final EntityBody newEntityBody, final HttpHeaders headers,
             final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -151,7 +153,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String key, final String value, final HttpHeaders headers,
             final UriInfo uriInfo) {
         // /v1/entity/{id}/associations
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
 //                DE260 - Logging of possibly sensitive data
@@ -186,8 +188,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
-                            results)), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
+                            pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -217,7 +219,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String key, final String value, final String idKey,
             final String resolutionResourceName, final HttpHeaders headers, final UriInfo uriInfo) {
         // /v1/entity/{id}/associations/entity
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 // look up information on association
@@ -225,9 +227,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource1 = entityDef.getStoredCollectionName();
 //                String resource2 = endpointEntity.getStoredCollectionName();
 
-//                DE260 - Logging of possibly sensitive data
-                // write some information to debug
-//                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
+//                 DE260 - Logging of possibly sensitive data
+//                 write some information to debug
+                // LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] {
+                // resource1, key, value });
 //                LOGGER.debug("Then for each result, ");
 //                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
 //                        new Object[] { resource2, resource1, idKey });
@@ -268,14 +271,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                         if (associations.get(result.get("id")) != null) {
-
                             // direct self reference dont need to include association in reponse
                             if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
                                 result.put(resource1, associations.get(result.get("id")));
                             }
                         }
 
-                        result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
+                        result.put(
+                                ResourceConstants.LINKS,
+                                ResourceUtil.getLinks(entityDefs,
                                 entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                         finalResults.add(result);
                     }
@@ -291,8 +295,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(),
-                            finalResults)), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(), finalResults)),
+                            pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -315,7 +319,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response read(final String resourceName, final String idList, final HttpHeaders headers,
             final UriInfo uriInfo) {
         // /v1/entity/{id}
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 int idLength = idList.split(",").length;
@@ -368,15 +372,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (finalResults.isEmpty()) {
                     return Response
                             .status(Status.NOT_FOUND)
-                            .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
-                                    "Entity not found: " + resourceName + "=" + idList)).build();
+                            .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND
+                                    .getReasonPhrase(), "Entity not found: " + resourceName + "=" + idList)).build();
                 } else if (finalResults.size() == 1) {
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
-                            finalResults.get(0))), 1, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
+                            1, uriInfo).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
-                            finalResults)), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
+                            pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -397,7 +401,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     @Override
     public Response delete(final String resourceName, final String id, final HttpHeaders headers, final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
                 entityDef.getService().delete(id);
@@ -424,7 +428,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response update(final String resourceName, final String id, final EntityBody newEntityBody,
             final HttpHeaders headers, final UriInfo uriInfo) {
-        return handle(resourceName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
@@ -441,6 +445,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
+    protected long count(final String collectionName) {
+        return getTotalCount(entityDefs.lookupByResourceName(collectionName).getService(), null);
+    }
+
     /**
      * Reads all entities from a specific location or collection.
      *
@@ -452,8 +460,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            URI information including path and query parameters
      * @return requested information or error status
      */
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo, final boolean returnAll) {
-        return handle(collectionName, entityDefs, new ResourceLogic() {
+    @Override
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
+        return handle(collectionName, entityDefs, uriInfo, new ResourceLogic() {
             // v1/entity
             @Override
             public Response run(final EntityDefinition entityDef) {
@@ -466,7 +475,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (extraCriteria != null) {
                     query.addCriteria(extraCriteria);
                 }
-                if (returnAll) {
+                if (shouldReadAll()) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
 
                         @Override
@@ -499,9 +508,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    @Override
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
-        return this.readAll(collectionName, headers, uriInfo, false);
+    protected boolean shouldReadAll() {
+        return false;
     }
 
     /**
@@ -514,7 +522,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Override
     public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(this.resourceName);
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         return new CustomEntityResource(id, entityDef);
     }
 
@@ -558,7 +566,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Handle preconditions and exceptions.
      */
-    private static Response handle(final String resourceName, final EntityDefinitionStore entityDefs,
+    private Response handle(final String resourceName, final EntityDefinitionStore entityDefs, final UriInfo uriInfo,
             final ResourceLogic logic) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         if (entityDef == null) {
@@ -567,6 +575,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                             "Invalid resource path: " + resourceName)).build();
         }
+
+        // log if entity is restricted.
+        if (entityDef.isRestrictedForLogging()) {
+            if (securityEventBuilder != null) {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+                audit(event);
+            } else {
+                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
+                        + "\" is accessed.");
+            }
+        }
+
         return logic.run(entityDef);
     }
 
@@ -581,8 +602,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param includeField
      * @return
      */
-    private NeutralQuery createAssociationNeutralQuery(String key, String value,
-            String includeField) {
+    private NeutralQuery createAssociationNeutralQuery(String key, String value, String includeField) {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, list));
@@ -605,15 +625,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             return entities;
         }
 
-        List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+        List<String> optionalFields = getOptionalFields(info);
 
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
                     Map<String, String> values = extractOptionalFieldParams(appenderType);
 
-                    OptionalFieldAppender appender = factory
-                            .getOptionalFieldAppender(baseEndpoint + "_" + values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+                    OptionalFieldAppender appender = factory.getOptionalFieldAppender(baseEndpoint + "_"
+                            + values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
 
                     if (appender != null) {
                         entities = appender.applyOptionalField(entities,
@@ -627,9 +647,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return entities;
     }
 
+    protected List<String> getOptionalFields(UriInfo info) {
+        return info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
+    }
+
     /**
      * Extract the parameters from the optional field value
-     * @param optionalFieldValue The optional field value
+     * 
+     * @param optionalFieldValue
+     *            The optional field value
      * @return
      */
     protected Map<String, String> extractOptionalFieldParams(String optionalFieldValue) {
@@ -644,8 +670,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             while (st.hasMoreTokens()) {
                 token = st.nextToken();
                 switch(index) {
-                    case 0: appender = token; break;
-                    case 1: params = token; break;
+                    case 0:
+                        appender = token;
+                        break;
+                    case 1:
+                        params = token;
+                        break;
                 }
                 ++index;
             }
@@ -662,16 +692,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Add the type criteria to a given query if the stored collection of the
      * resource is different from its type
-     * @param entityDefinition The entity definition for the resource
-     * @param query The query to append the criteria
+     * 
+     * @param entityDefinition
+     *            The entity definition for the resource
+     * @param query
+     *            The query to append the criteria
      * @return The modified query
      */
     protected NeutralQuery addTypeCriteria(EntityDefinition entityDefinition, NeutralQuery query) {
 
         if (query != null && entityDefinition != null
                 && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
-            query.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN,
-                    Arrays.asList(entityDefinition.getType()), false));
+            query.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition
+                    .getType()), false));
         }
 
         return query;

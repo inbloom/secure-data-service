@@ -1,3 +1,4 @@
+@RALLY_US209
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
@@ -56,6 +57,9 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
+| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
@@ -72,7 +76,7 @@ Examples:
      Then I should receive a return code of 404
     
 Examples:
-| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                 |
+| Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "schoolYearAttendance"   | "[]"                                         |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
@@ -95,6 +99,9 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
+| "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
@@ -123,8 +130,11 @@ Examples:
 | "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 17 |
 | "student"                      | "students"                | 82 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 7 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | 3 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
 | "userAccount"                  | "userAccounts"            | 2 |
 | "grade"                        | "grades"                  | 2 |
+| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "gradingPeriod"                | "gradingPeriods"          | 2 |
+| "reportCard"                   | "reportCards"             | 2 |

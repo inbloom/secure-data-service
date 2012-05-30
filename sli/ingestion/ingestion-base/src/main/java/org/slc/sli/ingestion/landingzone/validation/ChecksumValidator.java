@@ -39,7 +39,7 @@ public class ChecksumValidator extends IngestionFileValidator {
             actualMd5Hex = null;
         }
 
-        if (StringUtils.isBlank(actualMd5Hex) || !actualMd5Hex.equals(fe.getChecksum())) {
+        if (!checksumsMatch(actualMd5Hex.toLowerCase(), fe.getChecksum().toLowerCase())) {
 
             if (log.isDebugEnabled()) {
                 String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
@@ -52,6 +52,10 @@ public class ChecksumValidator extends IngestionFileValidator {
         }
 
         return true;
+    }
+
+    protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
+        return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
     }
 
 }

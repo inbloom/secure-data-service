@@ -5,98 +5,152 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+  <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
+      <!--Interchange StudentAssessmenet -->
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
+          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
+
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
+          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
+
+      <!--End of Interchange StudentAssment -->
+
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl" />
+
+    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference.ftl" />
+
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.ftl" />
+
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.ftl" />
+
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.ftl" />
+
+
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference.ftl" />
+
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference.ftl" />
+    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.ftl" />
+
+    <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.ftl" />
+
+    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference.ftl" />
+
+    <!-- Interchange StaffAssociation -->
+    <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference"
+          value="idRefResolution/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference.ftl" />
+
+    <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference"
+          value="idRefResolution/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference.ftl" />
+
+     <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference.ftl" />
+
+    <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference.ftl" />
+
+    <!-- end of interchange StaffAssociation -->
+
+    <!--interchange StudentDiscipline -->
+    <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference"
+          value="idRefResolution/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference.ftl" />
+    <!-- end of interchange StaffAssociation>= -->
+
+    <!--interchange EducationOrgCalendar -->
+    <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference"
+          value="idRefResolution/InterchangeEducationOrgCalendar/Session/GradingPeriodReference.ftl" />
+    <!-- end of interchange EducationOrgCalendar>= -->
+
+    <!-- Interchange StudentParent -->
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference"
+          value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/ParentReference.ftl" />
+
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference"
+          value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.ftl" />
+
+    <!-- end of interchange StudentParent -->
+
+    <!-- Interchange EducationOrganization -->
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/ProgramReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/EducationOrganizationPeerReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/LocalEducationAgencyReference.ftl" />
+
+     <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference"
+          value="idRefResolution/InterchangeEducationOrganization/Course/EducationOrganizationReference.ftl" />
+
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/ProgramReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference.ftl" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference.ftl" />
+
+    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference"
+           value="idRefResolution/InterchangeStudentGrade/ReportCard/GradeReference.ftl" />
+
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.ftl" />
+
+    <!-- end of Interchange EducationOrganization -->
+
+    <!-- Interchange MasterSchedule -->
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference"
+          value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.ftl" />
+    <!-- end of Interchange MasterSchedule -->
+
+    <!-- Interchange StudentCohort -->
+    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference"
+          value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
+    <!-- end of Interchange StudentCohort -->
+
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference"
+           value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.ftl" />
+
+    <!-- Interchange StudentGrade -->
+    <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference"
+           value="idRefResolution/InterchangeStudentGrade/StudentTranscriptAssociation/StudentAcademicRecordReference.ftl" />
+    <!-- end of Interchange StudentGrade -->
+
+  </util:map>
 
   <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-
-    <!--
-    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.xml" />
-      </bean>
-    </entry>
-    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference.xml" />
-      </bean>
-    </entry>
-    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.xml" />
-      </bean>
-    </entry>
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.xml" />
-      </bean>
-    </entry>
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.xml" />
-      </bean>
-    </entry>
-
-    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference.xml" />
-      </bean>
-    </entry>
-    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference.xml" />
-      </bean>
-    </entry>
-
-
-    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.xml" />
-      </bean>
-    </entry>
-
-     <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.xml" />
-      </bean>
-    </entry>
-
-    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference.xml" />
-      </bean>
-    </entry>
-
-    -->
-
-    <!--Iterchange StudentAssessmenet -->
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml" />
-      </bean>
-    </entry>
-
-        <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.xml" />
-      </bean>
-    </entry>
-
+    <!--<entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+        <bean class="org.milyn.Smooks">
+          <constructor-arg type="java.lang.String"
+            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.xml" />
+        </bean>
+    </entry>-->
 
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
     <property name="idRefConfigs" ref="idRefConfigs" />
+ </bean>
+
+  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver">
+    <property name="idRefConfigs" ref="ftlIdRefConfigs" />
   </bean>
 
   <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler">
@@ -112,37 +166,68 @@
   <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
 
   <util:map id="strategyConfig">
-  <!--  <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
-    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" /> -->
+    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
+    <!-- <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="smooksExtendedReferenceResolver" /> -->
 
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
-   <!--  <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="freeMarkerExtendedReferenceResolver" />
+
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
+    <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
-    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />-->
+    <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="freeMarkerExtendedReferenceResolver" />
+
+    <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference" value-ref="freeMarkerExtendedReferenceResolver" />
+
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/AssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference" value-ref="freeMarkerExtendedReferenceResolver" />
+
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrgCalendar/Session/CalendarDateReference" value-ref="simpleReferenceResolver" />
   </util:map>
 </beans>

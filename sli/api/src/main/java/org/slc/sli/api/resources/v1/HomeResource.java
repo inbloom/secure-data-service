@@ -18,20 +18,22 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
 
 /**
- * HomeResource
  *
- * Provides initial information for a user.
+ * Provides initial information for a user. This includes providing different links to self and associated
+ * resources.
+ *
+ * @author pghosh
  *
  */
 @Path(PathConstants.V1 + "/" + "home")
@@ -49,11 +51,8 @@ public class HomeResource {
 
     /**
      * Provides a set of initial information when a user logs in. This
-     * includes a self link and links to entities with which the user
+     * includes a self link and links to resources with which the user
      * is associated.
-     *
-     * @param uriInfo URI information including path and query parameters
-     * @return A list of links applicable to the user currently logged in.
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {

@@ -1,31 +1,33 @@
-Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, score|
+Then /^the cutpoints for "([^"]*)" is "([^"]*)"$/ do |testName, cutPoints|
+  if (@cutPointMapping == nil)
+    @cutPointMapping = Hash.new
+  end
+  @cutPointMapping[testName] = cutPoints
+end
+
+Then /^the fuel gauge for "([^"]*)" in "([^"]*)" column "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, column, score|
   studentCell = getStudentCell(studentName)
-  td = getTdBasedOnAttribute(studentCell, assessment)
+  td = getTdBasedOnAttribute(studentCell, assessment + "." + column)
+  setCutPoints(assessment)
   testFuelGauge(td, score)
 end
 
+def setCutPoints(assessmentName)
+  if (@cutPointMapping[assessmentName] != nil)
+    @currentCutPoints = @cutPointMapping[assessmentName]
+  else
+    assert(false, "CutPoints are not defined for " + assessmentName)
+  end
+end
+
 def testFuelGauge(td, score)
-  title = td.attribute("title")
-  #puts "widget info:" + title
+
   cutpoints = []
-  #dashboardUtil.js
   colorCode = ["#eeeeee","#b40610", "#e58829","#dfc836", "#7fc124","#438746"]
   scoreValue = nil
-  #Expected text in the form:
-  #var cutpoints = new Array(6,15,21,28,33)
-  if ( title =~ /cutPoints(.*)new Array\((\d+), (\d+), (\d+), (\d+), (\d+)/ )
-    cutpoints[0] = $2
-    cutpoints[1] = $3
-    cutpoints[2] = $4
-    cutpoints[3] = $5
-    cutpoints[4] = $6
-  end
-  #Expected text in the form:
-  # FuelGaugeWidget ('ISATWriting5', 1, cutpoints)
-  if ( title =~ /FuelGaugeWidget \((.*), (\d+),/ )
-    scoreValue = $2
-  end
-  
+  cutpoints = @currentCutPoints.split(',')
+
+  scoreValue = td.attribute("title")
   assert(score == scoreValue, "Expected: " + score + " but found: " + scoreValue)
   
   rects = td.find_elements(:tag_name,"rect")

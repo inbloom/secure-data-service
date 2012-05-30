@@ -1,39 +1,8 @@
-<% @district_hierarchy = get_district_hierarchy() %>
-
 <div id="notice">
 	<%= notice %>
 </div>
-<%= render "index_dev" unless controller.operator? %>
-<%= render "index_op" if controller.operator? %>
+<div class="content">
+  <%= render "index_dev" unless controller.is_operator? %>
+  <%= render "index_op" if controller.is_operator? %>
+</div>
 
-<script type="text/javascript" charset="utf-8">
-	jQuery(document).ready(function() {
-		jQuery.noConflict();
-		jQuery(':input:enabled').not('.approve-button').not('.unregister-button').attr('disabled', true);
-		jQuery("a.edit-link").click(function() {
-			//Enable input on this form.
-			var set = null;
-			set = jQuery(this).closest("tr").next().find(':input:not(.read_only):disabled');
-			if(set.length == 0) {
-                                jQuery(this).closest("tr").next().slideUp()
-			jQuery(this).closest("tr").next().find(':input:not(.read_only):enabled').attr('disabled', true);
-			}
-			else {
-				set.removeAttr('disabled');
-                                jQuery(this).closest("tr").next().slideDown()
-			}
-
-		});
-		jQuery("#applications tr:odd").addClass("odd");
-		        jQuery("#applications tr:not(.odd)").hide();
-		        jQuery("#applications tr:first-child").show();
-		        
-		        jQuery("#applications tr.odd td").click(function(){
-                            if(jQuery(this).attr("class") != "rowAction") {
-                              //we give the tds contain action links/buttons a "rowAction" class so they won't cause a toggle
-		              jQuery(this).parent().next("tr").slideToggle();
-                            }
-		            // $(this).find(".arrow").toggleClass("up");
-		        });
-	});
-</script>

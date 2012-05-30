@@ -5,13 +5,13 @@ require_relative '../../utils/sli_utils.rb'
 
 
 Given /^I am a valid SLC Operator$/ do
-  @user = 'sunsetoperator' # an :operator
-  @pass = 'sunsetoperator1234'
+  @user = 'slcoperator' # an :operator
+  @pass = 'slcoperator1234'
 end
 
 Given /^I am a valid Super Administrator$/ do
-  @user = 'sunsetadmin' # a :super_admin
-  @pass = 'sunsetadmin1234'
+  @user = 'daybreaknorealmadmin' # a :super_admin
+  @pass = 'daybreaknorealmadmin1234'
 end
 
 When /^I try to authenticate on the Application Approval Tool$/ do
@@ -36,7 +36,7 @@ When /^I try to authenticate on the Role Mapping Tool$/ do
 end
 
 And /^I login$/ do
-  step "I get redirected to the IDP login page"
-  step "I authenticate with username \"#@user\" and password \"#@pass\""
+  step "I was redirected to the \"Simple\" IDP Login page"
+  step "I submit the credentials \"#@user\" \"#@pass\" for the \"Simple\" login page"
 end
 

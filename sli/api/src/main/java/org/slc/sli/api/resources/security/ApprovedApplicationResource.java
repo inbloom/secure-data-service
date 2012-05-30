@@ -15,13 +15,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -32,7 +25,16 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -46,20 +48,28 @@ import org.slc.sli.domain.NeutralQuery;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApprovedApplicationResource {
 
-    public static final String RESOURCE_NAME = "application"; 
+    public static final String RESOURCE_NAME = "application";
+    public static final String DELEGATED_ADMIN_PLACEHOLDER = "DELEGATED_ADMIN";
 
     private static final String[] ALLOWED_ATTRIBUTES = new String[] {
         "application_url", "administration_url", "image_url", "description", 
-        "name", "developer_info", "version", "is_admin", "behavior", "endpoints"
+ "name", "vendor", "version", "is_admin", "behavior", "endpoints"
     };
+    
 
     @Autowired
     private EntityDefinitionStore store;
 
     @Autowired
     private ApplicationAuthorizationValidator appValidator;
+    
+    @Autowired
+    private Repository<Entity> repo;
 
     private EntityService service;
+    
+    @Autowired
+    private DelegationUtil delegationUtil;
 
     @PostConstruct
     public void init() {
@@ -91,42 +101,112 @@ public class ApprovedApplicationResource {
 
 
             if (result != null) {
-                if (result.containsKey("endpoints")) {
-                    filterEndpoints((List<Map<String, Object>>) result.get("endpoints"));
+                
+                if (!shouldFilterApp(result, adminFilter)) {
+
+                    filterAttributes(result);
+                    results.add(result);
                 }
-
-                boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
-
-                //is_admin query param specified
-                if (!adminFilter.equals("")) {
-                    boolean adminFilterVal = Boolean.valueOf(adminFilter);
-
-                    //non-admin app, but is_admin == true
-                    if (!isAdminApp && adminFilterVal) {
-                        continue;
-                    }
-
-                    //admin app, but is_admin == false
-                    if (isAdminApp && !adminFilterVal) {
-                        continue;
-                    }
-                }
-
-                //don't allow disabled apps
-                if (result.get("enabled") == null || !(Boolean) result.get("enabled")) {
-                    continue;
-                }
-
-                filterAttributes(result);
-                results.add(result);
             }
         }
         return Response.status(Status.OK).entity(results).build();
     }
+    
+    private boolean shouldFilterApp(EntityBody result, String adminFilter) {
+        if (result.containsKey("endpoints")) {
+            List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
+            filterEndpoints(endpoints);
+            
+            //we ended up filtering out all the endpoints - no reason to display the app
+            if (endpoints.size() == 0) {
+                return true;
+            }
+        }
+        
+        boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
+
+        //is_admin query param specified
+        if (!adminFilter.equals("")) {
+            boolean adminFilterVal = Boolean.valueOf(adminFilter);
+
+            //non-admin app, but is_admin == true
+            if (!isAdminApp && adminFilterVal) {
+                return true;
+            }
+
+            //admin app, but is_admin == false
+            if (isAdminApp && !adminFilterVal) {
+                return true;
+            }
+        }
+
+        // don't allow "installed" apps
+        if (result.get("installed") == null || (Boolean) result.get("installed")) {
+            return true;
+        }
+        
+        //make sure hosted SLI users can only see admin and portal
+        if (isHostedUser()) {
+            String name = (String) result.get("name");
+            String dev = (String) result.get("created_by");
+            if (dev != null && dev.equals("slcdeveloper")) {
+                if (!name.startsWith("Admin") && !name.startsWith("Portal")) {
+                    //somewhat quick and dirty way of checking for admin/portal
+                    //maybe we should add special flag to the app instead
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Host users are those who are hosted in the SLI's IDP.
+     * 
+     * They only have access to admin tools and portal.
+     * 
+     * @return
+     */
+    private boolean isHostedUser() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String realmId = principal.getRealm();
+        
+        Entity entity = repo.findById("realm", realmId);
+        if (entity != null) {
+            Boolean admin = (Boolean) entity.getBody().get("admin");
+            return admin != null ? admin : false;
+        }
+        return false;
+    }
+    
+    private List<String> getUsersRoles() {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ArrayList<String> toReturn = new ArrayList(principal.getRoles());
+        
+        //This is a fake role we use mean that a user is either an LEA admin or an SEA admin with delegated rights
+        if (hasAppAuthorizationRight()) {
+            toReturn.add(DELEGATED_ADMIN_PLACEHOLDER);
+        }
+        
+        return toReturn;
+    }
+
+    private boolean hasAppAuthorizationRight() {
+        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            //edorg authz users always have the right to authorize apps
+            return true;
+        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
+            //We need to figure out if any districts have delegated to us
+            return delegationUtil.getDelegateEdOrgs().size() > 0;
+        }
+        return false;
+    }
 
     private void filterEndpoints(List<Map<String, Object>> endpoints) {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<String> userRoles = principal.getRoles();
+        List<String> userRoles = getUsersRoles();
+        
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
             @SuppressWarnings("unchecked")

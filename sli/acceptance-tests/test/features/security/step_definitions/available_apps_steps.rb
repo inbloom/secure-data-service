@@ -37,7 +37,7 @@ And /^the object includes an app URL, admin URL, image URL, description, title, 
 	assert(@result[0]["image_url"] != nil, "Contains is image URL")
 	assert(@result[0]["description"] != nil, "Contains description")
 	assert(@result[0]["name"] != nil, "Contains title")
-	assert(@result[0]["developer_info"]["organization"] != nil, "Contains vendor")
+	assert(@result[0]["vendor"] != nil, "Contains vendor")
 	assert(@result[0]["version"] != nil, "Contains version")
 	assert(@result[0]["behavior"] != nil, "Contains display method")
 	assert(@result[0]["is_admin"] != nil, "Contains is admin app")
@@ -46,17 +46,17 @@ end
 
 And /^the list contains the admin app$/ do
 	@result.each do |app|
-		if app["name"] == "Admin Tool"
+		if app["name"] == "Admin Apps"
 			@admin_app = app
 		end
 	end
 	assert(@admin_app != nil, "Admin app found")
 end
 
-And /^the admin app endpoints only contains SLI admin endpoints$/ do
+And /^the admin app endpoints only contains SLI operator endpoints$/ do
 	assert(@admin_app["endpoints"] != nil)
 	@admin_app["endpoints"].each do |endpoint|
-		assert(endpoint["roles"].include? "SLI Administrator")
+		assert(endpoint["roles"].include? "SLC Operator")
 	end
 end
 

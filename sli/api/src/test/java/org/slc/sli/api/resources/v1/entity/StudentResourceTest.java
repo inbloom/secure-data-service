@@ -22,6 +22,9 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +38,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StudentAssessmentAssociationResource;
-import org.slc.sli.api.resources.v1.association.StudentCohortAssociation;
+import org.slc.sli.api.resources.v1.association.StudentCohortAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentParentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentProgramAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentSchoolAssociationResource;
@@ -43,9 +46,6 @@ import org.slc.sli.api.resources.v1.association.StudentSectionAssociationResourc
 import org.slc.sli.api.resources.v1.association.StudentTranscriptAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Unit tests for the resource representing a Student
@@ -62,10 +62,13 @@ public class StudentResourceTest {
     StudentResource studentResource; //class under test
 
     @Autowired
+    ReportCardResource reportCardResource;
+
+    @Autowired
     CohortResource cohortResource;
 
     @Autowired
-    StudentCohortAssociation studentCohortAssn;
+    StudentCohortAssociationResource studentCohortAssn;
 
     @Autowired
     ProgramResource programResource;
@@ -179,7 +182,7 @@ public class StudentResourceTest {
     private Map<String, Object> createTestCohortAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, cohortAssociationId);
-        entity.put(StudentCohortAssociation.BEGIN_DATE, cohortAssnBeginDate);
+        entity.put(StudentCohortAssociationResource.BEGIN_DATE, cohortAssnBeginDate);
         return entity;
     }
 
@@ -343,7 +346,7 @@ public class StudentResourceTest {
         }
 
         assertNotNull("Should return an entity", body);
-        assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + cohortAssnBeginDate, cohortAssnBeginDate, body.get(StudentCohortAssociation.BEGIN_DATE));
+        assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + cohortAssnBeginDate, cohortAssnBeginDate, body.get(StudentCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -689,6 +692,22 @@ public class StudentResourceTest {
         Response response = studentResource.readWithGrade(studentId, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);
         assertEquals("Grade level should match", "First grade", body.get("gradeLevel"));
+    }
+
+    @Test
+    public void testGetReportCards() {
+        final String studentResourceName = "StudentResource";
+        final String reportCardResourceName = "ReportCardResource";
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(studentResourceName)), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity(reportCardResourceName);
+        map.put(ParameterConstants.STUDENT_ID, studentId);
+        reportCardResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getReportCards(studentId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals(studentId, body.get(ParameterConstants.STUDENT_ID));
     }
 
     private String getIDList(String resource) {

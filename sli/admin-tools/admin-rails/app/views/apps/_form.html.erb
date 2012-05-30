@@ -1,97 +1,82 @@
 <%= form_for(app) do |f| %>
-<div class = "field">
-	<%= f.label :name, "Name" %>
+  <% if app.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(app.errors.count, "error") %> prohibited this application from being saved:</h2>
+      <ul>
+      <% app.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <%end%>
+
+<div class = "field well">
+	<%= f.label :name, "Name", :class => "required" %>
 	<%= f.text_field :name %>
 </div>
-<div class = "field">
-	<%= f.label :description, "Description" %>
+<div class = "field well">
+	<%= f.label :description, "Description", :class => "required" %>
 	<%= f.text_area :description %>
 </div>
-<div class = "field">
-	<%= f.label :version, "Version" %>
-	<%= f.text_field :version %>
+<div class = "field well">
+	<%= f.label :version, "Version", :class => "required" %>
+	<%= f.text_field :version, :placeholder => "1.0" %>
+	<span class="help-inline">The current version of your application (1.0)</span>
 </div>
-<div class = "client">
+<div class = "client well">
 	<%= f.label :client_id, "Client Id" %>
 	<%= f.text_field :client_id, :disabled => true, :class => :read_only, :value => client_field_value(app, :client_id) %>
 </div>
-<div class = "client">
+<div class = "client well">
 	<%= f.label :client_secret, "Shared Secret" %>
 	<%= f.text_field :client_secret, :disabled => true, :class => :read_only, :value => client_field_value(app, :client_secret) %>
 </div>
-
-<%= f.fields_for :developer_info, app.developer_info do |dev| %>
-	<div class = "field">
-		<%= dev.label :organization, "Vendor" %>
-		<%= dev.text_field :organization %>
-	</div>
-<% end %>
-
-<div class = "field">
-	<%= f.label :application_url, "Url" %>
-	<%= f.text_field :application_url, :placeholder => 'https://' %>
+<div class = "field well">
+	<%= f.label :vendor, "Vendor", :class => "required" %>
+	<%= f.text_field :vendor %>
+	<span class="help-inline"> Your company Name</span>
 </div>
-<div class = "field">
+
+<div class = "field well">
+	<%= f.label :application_url, "Url", :class => "required" %>
+	<%= f.text_field :application_url, :placeholder => 'https://' %>
+	<span class="help-inline">The URL used to access your application</span>
+</div>
+<div class = "field well">
 	<%= f.label :administration_url, "Admin Url" %>
 	<%= f.text_field :administration_url, :placeholder => 'https://' %>
+	<span class="help-inline">Where you can go to administer your application (Optional)</span>
 </div>
-<div class = "field">
+<div class = "field well">
 	<%= f.label :is_admin, "Admin Application" %>
 	<%= f.check_box :is_admin %>
+	<span class="help-inline">Is this an administrative application?</span>
 </div>
-<div class = "field">
+<div class = "field well">
 	<%= f.label :behavior, "Display Method" %>
 	<%= select_tag(:app_behavior, options_for_select(['Iframe App', 'Wsrp App', 'Full Window App'], app.behavior))%>
+	<span class="help-inline">How does this application behave, can it be put into an IFrame, behave as a portlet, or stand alone?</span>
 </div>
-<div class = "field">
-	<%= f.label :redirect_uri, "Redirect Url" %>
+<div class = "field well">
+	<%= f.label :redirect_uri, "Redirect Url", :class => "required" %>
 	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
+	<span class="help-inline">Where OAuth will redirect to after authentication.</span>
 </div>
-<div class = "field">
-	<%= f.label :enabled, "Enabled" %>
-	<%= f.check_box :enabled %>
+<div class = "field well">
+	<%= f.label :installed, "Installed" %>
+	<%= f.check_box :installed %>
+	<span class="help-inline">This is used for applications that aren't web-based (Mobile).</span>
 </div>
 
 
-<div class = "field">
+<div class = "field well">
 	<!--<%= image_tag app.image_url, :title => "Image", :class => "app-image" %>-->
 	<%= f.label :image_url, "Image Url" %>
 	<%= f.text_field :image_url %>
-</div>
-
-<div class = "field">
-  <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
-  <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% isNew = @district_hierarchy == nil %>
-  <% isPending = client_field_value(app, :client_id) == "Pending"%>
-  <% @district_hierarchy = {} if isNew or isPending %>
-  <% @district_hierarchy.keys.each do |district| %>
-      <%=
-          if app.authorized_ed_orgs != nil
-              check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"]))
-          else
-              check_box_tag(check_box_name, district["id"])
-          end
-      %>
-
-         <%= district["name"] %>    <br />
-    <% @district_hierarchy[district].each do |child_district| %>
-            &#160;&#160;
-            <%=
-                if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
-                else
-                    check_box_tag(check_box_name, child_district["id"])
-                end
-            %>
-            <%= child_district["name"] %> <br />
-    <% end %>
-  <% end %>
-  <%= button_to_function("Enable All", 'changeCheck("' + check_box_name + '", 1)')  if !isNew and !isPending%>
-  <%= button_to_function("Disable All", 'changeCheck("' + check_box_name + '", 0)')  if !isNew and !isPending%>
-
+	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
 <div class = "actions">
-	<%= f.submit "Submit", :disable_with => 'Submitting...' %>
+	<%= f.submit "Register", :disable_with => 'Submitting...', :class => "btn" %>
+	<%= link_to "Cancel", :back %>
 </div>
 <% end %>

@@ -1,0 +1,100 @@
+{
+    "keyFields" : ["metaData.externalId", "body.studentSectionAssociationId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.learningObjectiveId",
+            "ref" :
+            {
+                "collectionName" : "learningObjective",
+                "optional" : true,
+                "choiceOfFields" :
+                [
+                    [
+                        { 
+                            "path" : "body.learningObjectiveId.identificationCode",
+                            "values" : 
+                            [{
+                                "valueSource" : "body.learningObjectiveReference"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.studentCompetencyObjectiveId",
+            "ref" :
+            {
+                "collectionName" : "studentCompetencyObjective",
+                "optional" : true,
+                "choiceOfFields" :
+                [
+                    [
+                        { 
+                            "path" : "metaData.externalId",
+                            "values" : 
+                            [{
+                                "valueSource" : "body.studentCompetencyObjectiveReference.StudentCompetencyObjectiveIdentity.StudentCompetencyObjectiveId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.studentSectionAssociationId",
+            "ref" :
+            {
+                "collectionName" : "studentSectionAssociation",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.studentId",
+                            "values" :
+                            [{
+                                 "ref":
+                                 {
+                                     "collectionName" : "student",
+                                     "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                                  "path" : "metaData.externalId",
+                                                  "values" :
+                                                   [{
+                                                         "valueSource" : "body.studentId"
+                                                   }]
+                                              }
+                                          ]
+                                      ]
+                                 }
+                            }]
+                        },
+                        {
+                            "path" : "body.sectionId",
+                            "values" :
+                             [{
+                                 "ref":
+                                 {
+                                     "collectionName" : "section",
+                                     "choiceOfFields" :
+                                      [
+                                          [{
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                   "valueSource" : "body.uniqueSectionCode"
+                                               }]
+                                          }]
+                                      ]
+                                 }
+                             }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

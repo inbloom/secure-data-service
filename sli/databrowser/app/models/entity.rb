@@ -1,5 +1,6 @@
 class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
+  add_response_method :http_response
   
   def self.get_simple_and_complex(parameters)
     base = get("", parameters)

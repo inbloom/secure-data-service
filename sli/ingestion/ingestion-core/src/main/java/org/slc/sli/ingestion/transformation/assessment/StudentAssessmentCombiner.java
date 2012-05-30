@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transformer for StudentAssessment entities
@@ -40,6 +41,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
     public static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
     public static final String XML_ID_FIELD = "xmlId";
+    public static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -56,7 +58,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fe.getNeutralRecordFile());
                 try {
                     for (DBObject studentAssessment : cursor) {
-                        LOG.debug("Transforming student assessment {}", studentAssessment);
+                        LOG.debug("Transforming student assessment");
                         Map<String, Object> body = ((DBObject) studentAssessment.get("body")).toMap();
                         String id = (String) body.get(XML_ID_FIELD);
                         body.remove(XML_ID_FIELD);
@@ -65,12 +67,19 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                                 SOA_EDFI_COLLECTION_NAME, getBatchJobId(), new NeutralQuery(new NeutralCriteria(
                                         STUDENT_ASSESSMENT_REFERENCE, "=", id)));
 
-                        LOG.debug("related SOAs are {}", studentObjectAssessmentsRefs);
+//                        LOG.debug("related SOAs are {}", studentObjectAssessmentsRefs);
                         List<Map<String, Object>> soas = new ArrayList<Map<String, Object>>();
                         for (NeutralRecord ref : studentObjectAssessmentsRefs) {
                             soas.add(resolveSoa(ref, oas));
                         }
                         body.put("studentObjectiveAssessments", soas);
+
+                        List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
+                        addStudentAssessmentItems(id, studentAssessmentItems);
+                        if (studentAssessmentItems.size() > 0) {
+                            body.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
+                        }
+
                         Map<String, Object> localParentIds = (Map<String, Object>) body.get("parents");
                         body.remove("parents");
                         Map<String, Object> localId = ((DBObject) studentAssessment.get("localId")).toMap();
@@ -85,7 +94,43 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     writer.close();
                 }
             } catch (IOException e) {
-                LOG.error("Exception occurred while writing transformed student assessments", e);
+                LogUtil.error(LOG, "Exception occurred while writing transformed student assessments", e);
+            }
+        }
+    }
+
+    private void addStudentAssessmentItems(String studentAssessmentId, List<Map<String, Object>> list) {
+        Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
+        studentAssessmentItemSearchPaths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+
+        Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());
+
+        if (sassItems != null) {
+            for (NeutralRecord sai : sassItems) {
+                String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
+                if (assessmentId != null) {
+                    Map<String, String> assessmentSearchPath = new HashMap<String, String>();
+                    assessmentSearchPath.put("body.identificationCode", assessmentId);
+
+                    Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
+                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
+
+                    if (assessmentItems.iterator().hasNext()) {
+                        NeutralRecord assessmentItem = assessmentItems.iterator().next();
+                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                    } else {
+                        super.getErrorReport(sai.getSourceFile()).error(
+                                "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
+                                        + assessmentId, this);
+                    }
+                } else {
+                    super.getErrorReport(sai.getSourceFile())
+                            .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
+                                    this);
+                }
+
+                list.add(sai.getAttributes());
             }
         }
     }

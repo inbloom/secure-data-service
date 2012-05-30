@@ -3,15 +3,15 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
-
-import com.googlecode.ehcache.annotations.Cacheable;
 
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
@@ -19,6 +19,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -30,6 +32,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
     private static final String USER_SCHOOLS_CACHE = "user.schools";
     private static final String USER_ED_ORG_CACHE = "user.district";
+    private static final String USER_HIERARCHY_CACHE = "user.hierarchy";
 
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
@@ -37,6 +40,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
     private List<GenericEntity> getParentEducationalOrganizations(String token, List<GenericEntity> edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganizations(token, edOrgOrSchool);
+    }
+
+    protected boolean isEducator() {
+        return !SecurityUtil.isNotEducator();
     }
 
     /**
@@ -52,22 +59,61 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrgKey != null) {
             return edOrgKey;
         }
-        // get list of school
-        List<GenericEntity> schools = getSchools(token);
 
-        if (schools != null && !schools.isEmpty()) {
+        GenericEntity edOrg = null;
 
-            // read first school
-            GenericEntity school = schools.get(0);
+        // For state-level ed-org - need to take default config, so keep state
+        // ed org
+        if (!isEducator()) {
 
-            // read parent organization
-            GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
+            GenericEntity staff = getApiClient().getStaffInfo(token);
+            if (staff != null) {
+
+                GenericEntity staffEdOrg = (GenericEntity) staff.get(Constants.ATTR_ED_ORG);
+                if (staffEdOrg != null) {
+
+                    @SuppressWarnings("unchecked")
+                    List<String> edOrgCategories = (List<String>) staffEdOrg.get(Constants.ATTR_ORG_CATEGORIES);
+                    if (edOrgCategories != null && !edOrgCategories.isEmpty()) {
+
+                        for (String edOrgCategory : edOrgCategories) {
+                            if (edOrgCategory.equals(Constants.STATE_EDUCATION_AGENCY)) {
+                                edOrg = staffEdOrg;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // otherwise get school's parent ed-org
+        if (edOrg == null) {
+
+           // get list of school
+           List<GenericEntity> schools = getSchools(token);
+
+            if (schools != null && !schools.isEmpty()) {
+
+                // read first school
+                GenericEntity school = schools.get(0);
+
+                // read parent organization
+                edOrg = getParentEducationalOrganization(getToken(), school);
+                if(edOrg == null) {
+                    throw new DashboardException(
+                            "No data is available for you to view. Please contact your IT administrator.");
+                }
+            }
+        }
+
+        // create ed-org key and save to cache
+        if (edOrg != null) {
             @SuppressWarnings("unchecked")
-            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
-                    .get(Constants.METADATA);
+            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
             if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), parentEdOrg.getId());
+                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
                     putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
                     return edOrgKey;
                 }
@@ -106,9 +152,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return
      */
     @Override
-    @Cacheable(cacheName = "user.hierarchy")
     public List<GenericEntity> getUserInstHierarchy(String token) {
-
+        List<GenericEntity> hierarchy = getFromCache(USER_HIERARCHY_CACHE, token);
+        if (hierarchy != null) {
+            return hierarchy;
+        }
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
         if (schools == null) {
@@ -166,12 +214,22 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             GenericEntity obj = new GenericEntity();
             try {
                 GenericEntity edOrgEntity = edOrgIdMap.get(edOrgId);
-                // if edOrgEntity is null, it may be API could not return entity because of error
+                // if edOrgEntity is null, it may be API could not return entity
+                // because of error
                 // code 403.
                 if (edOrgEntity != null) {
                     obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
-                    // convert school ids to the school object array
-                    Set<GenericEntity> reachableSchools = schoolReachableFromEdOrg.get(edOrgId);
+                    // convert school ids to the school object array and sort based on the name of
+                    // the institution
+                    Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(
+                            new Comparator<Map<String, Object>>() {
+                                @Override
+                                public int compare(Map<String, Object> a, Map<String, Object> b) {
+                                    return ((String) a.get(Constants.ATTR_NAME_OF_INST)).compareTo((String) b
+                                            .get(Constants.ATTR_NAME_OF_INST));
+                                }
+                            });
+                    reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
                     obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                     retVal.add(obj);
                 }
@@ -182,9 +240,18 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         Collection<GenericEntity> orphanSchools = findOrphanSchools(schools, schoolReachableFromEdOrg);
         // Temporary: insert a dummy edorg for all orphan schools.
-        if (orphanSchools.size() > 0) {
+        if (!orphanSchools.isEmpty()) {
             insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
         }
+        putToCache(USER_HIERARCHY_CACHE, token, retVal);
+        //Sort the Districts based on the District Name
+        Collections.sort(retVal, new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> a, Map<String, Object> b) {
+                return ((String) a.get(Constants.ATTR_NAME)).compareTo((String) b.get(Constants.ATTR_NAME));
+            }
+        });
+
         return retVal;
     }
 
@@ -233,19 +300,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
         // Dashboard expects return one GenericEntity.
-        entity.put("root", entities);
+        entity.put(Constants.ATTR_ROOT, entities);
         if (key != null) {
             // TODO: a better way of searching should be implemented.
             for (GenericEntity org : entities) {
-                HashSet schools = ((HashSet) org.get("schools"));
+                Set schools = ((Set) org.get(Constants.ATTR_SCHOOLS));
                 for (Object school : schools) {
-                    for (Object course : ((GenericEntity) school).getList("courses")) {
-                        for (Object section : ((GenericEntity) course).getList("sections")) {
+                    for (Object course : ((GenericEntity) school).getList(Constants.ATTR_COURSES)) {
+                        for (Object section : ((GenericEntity) course).getList(Constants.ATTR_SECTIONS)) {
                             if (((GenericEntity) section).getId().equals(key)) {
                                 GenericEntity selectedOrg = new GenericEntity();
-                                selectedOrg.put("name", org.get("name"));
-                                selectedOrg.put("section", section);
-                                entity.put("selectedPopulation", selectedOrg);
+                                selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                                selectedOrg.put(Constants.ATTR_SECTION, section);
+                                entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                                return entity;
                             }
                         }
                     }
@@ -259,30 +327,24 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
-        staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, false);
-        // TODO: refactored out of ConfigController. is this complex code the only way to determine
-        // admin flag?
-        if (staffEntity != null) {
-            List<Object> credentialsList = (List<Object>) staffEntity.get(Constants.ATTR_CREDENTIALS_LIST_ATTRIBUTE);
-            if ((credentialsList != null) && (credentialsList.size() > 0)) {
-                Map<String, Object> credentials = (Map<String, Object>) credentialsList.get(0);
-                if (credentials != null) {
-                    List<Map<String, Object>> credentialFieldsList = (List<Map<String, Object>>) credentials
-                            .get(Constants.ATTR_CREDENTIAL_FIELD_ATTRIBUTE);
-                    if ((credentialFieldsList != null) && (credentialFieldsList.size() > 0)) {
-                        for (Map<String, Object> credentialField : credentialFieldsList) {
-                            String credentialCode = (String) credentialField
-                                    .get(Constants.ATTR_CREDENTIAL_CODE_ATTRIBUTE);
-                            if ((credentialCode != null)
-                                    && (credentialCode.equalsIgnoreCase(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN))) {
-                                staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
+        if (staffEntity == null) {
+            staffEntity = new GenericEntity();
+        }
+
+        // temporary Generic Entity Element to indicate he/she is district level user or not
+        staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, false);
+        GenericEntity edOrg = (GenericEntity) staffEntity.get(Constants.ATTR_ED_ORG);
+        if (edOrg != null) {
+            List<String> organizationCategories = (List<String>) edOrg.get(Constants.ATTR_ORG_CATEGORIES);
+            if (organizationCategories != null && !organizationCategories.isEmpty()) {
+                for (String educationAgency : organizationCategories) {
+                    if (educationAgency != null && educationAgency.equals(Constants.LOCAL_EDUCATION_AGENCY)) {
+                        staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, true);
                                 break;
                             }
                         }
                     }
                 }
-            }
-        }
         return staffEntity;
     }
 }

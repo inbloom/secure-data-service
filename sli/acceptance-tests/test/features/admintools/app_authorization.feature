@@ -1,3 +1,6 @@
+@RALLY_US187
+@RALLY_US185
+@RALLY_US103
 Feature: Application Authorization Tool
 As an SEA or LEA  Administrator / Operator, I want to be able to allow specific applications access to my district(s) data
 
@@ -6,10 +9,9 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 	Given I have an open web browser
 	Given I am a valid District Super Administrator for "Sunset School District"
 	When I hit the Admin Application Authorization Tool
-	And I was redirected to the "OpenAM" IDP Login page
-	When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "OpenAM" login page
+	And I was redirected to the "Simple" IDP Login page
+	When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
-	And in the upper right corner I see my name
 	And I see a label in the middle "IL-SUNSET"
 	And I see the list of all available apps on SLI
 	And the authorized apps for my district are colored green
@@ -20,7 +22,7 @@ As an SEA or LEA  Administrator / Operator, I want to be able to allow specific 
 Scenario: Non SLI-hosted valid user tries to access the Application Authorization Tool
 	Given I have an open web browser
 	When I hit the Admin Application Authorization Tool
-     And I submit the credentials "administrator" "administrator1234" for the "OpenAM" login page
+     And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
 	Then I should get a message that I am not authorized to access the page
 	And I am not logged into the application
 

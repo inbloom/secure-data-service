@@ -16,6 +16,21 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/grade.xml" />
       </bean>
     </entry>
+      <entry key="gradingPeriod">
+          <bean class="org.milyn.Smooks">
+              <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradingPeriod.xml" />
+          </bean>
+      </entry>
+    <entry key="reportCard">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/reportCard.xml" />
+      </bean>
+    </entry>
+    <entry key="studentCompetency">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCompetency.xml" />
+      </bean>
+    </entry>
     <entry key="studentTranscriptAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
@@ -81,6 +96,16 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSectionGradebookEntry.xml" />
       </bean>
     </entry>
+    <entry key="course">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/course.xml" />
+      </bean>
+    </entry>
+    <entry key="section">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/section.xml" />
+      </bean>
+    </entry>
   </util:map>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -98,9 +123,23 @@
     parent="smooksEdFi2SLITransformer">
   </bean>
 
+  <bean id="courseEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.CourseEdFi2SLITransformer"
+    parent="smooksEdFi2SLITransformer">
+  </bean>
+
+  <bean id="sectionEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SectionEdFi2SLITransformer"
+    parent="smooksEdFi2SLITransformer">
+  </bean>
+
   <util:map id="transformers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.transformation.EdFi2SLITransformer">
     <entry key="session">
       <ref local="sessionEdFi2SLITransformer"/>
+    </entry>
+    <entry key="course">
+      <ref local="courseEdFi2SLITransformer"/>
+    </entry>
+    <entry key="section">
+      <ref local="sectionEdFi2SLITransformer"/>
     </entry>
   </util:map>
 
@@ -192,5 +231,42 @@
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="grade" />
   </bean>
+
+  <bean id="calendarDateTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+          scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="calendarDate" />
+  </bean>
+
+  <bean id="gradingPeriodTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+          scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="gradingPeriod" />
+  </bean>
+
+  <bean id="reportCardTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+        scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="reportCard" />
+  </bean>
+
+  <bean id="studentCompetencyTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+          scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentCompetency" />
+  </bean>
+  
+  <bean id="courseTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="course" />
+  </bean>
+
+  <bean id="sectionTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="section" />
+  </bean>
+
 </beans>
 

@@ -17,19 +17,18 @@ end
 
 Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
   expected = Integer(expectedNumTeachers)
-  table = @driver.find_element(:id, "simple")
+  table = @driver.find_element(:id, "simple-table")
   rows = table.find_elements(:xpath, ".//tr")
-  total = 0
+  #-1 because of thead
+  total = -1
   rows.each do |row|
     total += 1
   end
-  #Total is calculated this way because 1 row is for the headings and there are 2 rows per user
-  total = (total - 1) / 2
   assert(total == expected, "Expected #{expectedNumTeachers}, found #{total}")
 end
 
 Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
-  table = @driver.find_element(:id, "simple")
+  table = @driver.find_element(:id, "simple-table")
   rows = table.find_elements(:xpath, ".//tr")
   headings = rows[0].find_elements(:xpath, ".//th")
   idIndex = 0
@@ -50,7 +49,7 @@ end
 
 Given /^I remove the application authorizations in sunset$/ do
   coll()
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+  @sunset = "IL-SUNSET"
   $oldSunsetAuth = @coll.find_one({"body.authId" => @sunset})
   newSunsetAuth = @coll.find_one({"body.authId" => @sunset})
   @coll.remove({"body.authId" => @sunset})
@@ -59,7 +58,7 @@ Given /^I remove the application authorizations in sunset$/ do
 end
 
 Then /^I put back the application authorizations in sunset$/ do
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+  @sunset = "IL-SUNSET"
   coll()
   @coll.remove({"body.authId" => @sunset})
   @coll.insert($oldSunsetAuth)

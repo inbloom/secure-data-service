@@ -3,11 +3,18 @@ package org.slc.sli.validation.schema;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.validation.schema.Annotation.AnnotationType;
+import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
 
 /**
  * JUnits for StringSchema
@@ -21,7 +28,7 @@ public class StringSchemaTest {
 
     @Before
     public void setup() {
-    schema = new StringSchema();
+        schema = new StringSchema();
     }
 
     @Test
@@ -65,17 +72,78 @@ public class StringSchemaTest {
     }
 
     @Test
-    public void testBlacklist() {
-//      List<String> blacklistPatterns = new ArrayList<String>();
-//      blacklistPatterns.add("testPattern1");
-//      blacklistPatterns.add("testPattern2");
-//      blacklistPatterns.add("testPattern3");
-//
-//      StringSchema blacklistSchema = new StringSchema(blacklistPatterns);
-//
-//        assertTrue(blacklistSchema.validate("This doesn't have the right testPattern and so is valid"));
-//        assertFalse(blacklistSchema.validate("This fails due to the testPattern1 pattern"));
-//        assertFalse(blacklistSchema.validate("This fails due to the case-insensitive TeStPatTeRn2 pattern"));
+    public void testStrictBlacklist() {
+        AppInfo info = Mockito.mock(AppInfo.class);
+        Mockito.when(info.isRelaxedBlacklisted()).thenReturn(false);
+        Mockito.when(info.getType()).thenReturn(AnnotationType.APPINFO);
+
+        // strict strategy allows input1, fails on input 2
+        // relaxed strategy allows input2, fails on input 1
+        AbstractBlacklistStrategy mockStrictStrategy = Mockito.mock(AbstractBlacklistStrategy.class);
+        Mockito.when(mockStrictStrategy.isValid(Mockito.anyString(), Mockito.eq("input1"))).thenReturn(true);
+        Mockito.when(mockStrictStrategy.isValid(Mockito.anyString(), Mockito.eq("input2"))).thenReturn(false);
+
+        AbstractBlacklistStrategy mockRelaxedStrategy = Mockito.mock(AbstractBlacklistStrategy.class);
+        Mockito.when(mockRelaxedStrategy.isValid(Mockito.anyString(), Mockito.eq("input2"))).thenReturn(true);
+        Mockito.when(mockRelaxedStrategy.isValid(Mockito.anyString(), Mockito.eq("input1"))).thenReturn(false);
+
+        List<AbstractBlacklistStrategy> strictList = new ArrayList<AbstractBlacklistStrategy>();
+        strictList.add(mockStrictStrategy);
+
+        List<AbstractBlacklistStrategy> relaxedList = new ArrayList<AbstractBlacklistStrategy>();
+        relaxedList.add(mockRelaxedStrategy);
+
+        StringSchema testSchema = new StringSchema("string", strictList, relaxedList);
+        testSchema.addAnnotation(info);
+
+        assertFalse("Error in setup, schema should not be relax-blacklisted", testSchema.isRelaxedBlacklisted());
+
+        boolean isValid = testSchema.validate("input1");
+        assertTrue("Based on strict strategy, input1 should have passed validation", isValid);
+
+        isValid = testSchema.validate("input2");
+        assertFalse("Based on strict strategy, input2 should have failed validation", isValid);
+
+        // the relaxed strategy should be used, the strict strategy should not be used
+        Mockito.verify(mockRelaxedStrategy, Mockito.times(0)).isValid(Mockito.anyString(), Mockito.anyString());
+        Mockito.verify(mockStrictStrategy, Mockito.times(2)).isValid(Mockito.anyString(), Mockito.anyString());
     }
 
+    @Test
+    public void testRelaxedBlacklist() {
+        AppInfo info = Mockito.mock(AppInfo.class);
+        Mockito.when(info.isRelaxedBlacklisted()).thenReturn(true);
+        Mockito.when(info.getType()).thenReturn(AnnotationType.APPINFO);
+
+        // strict strategy allows input1, fails on input 2
+        // relaxed strategy allows input2, fails on input 1
+        AbstractBlacklistStrategy mockStrictStrategy = Mockito.mock(AbstractBlacklistStrategy.class);
+        Mockito.when(mockStrictStrategy.isValid(Mockito.anyString(), Mockito.eq("input1"))).thenReturn(true);
+        Mockito.when(mockStrictStrategy.isValid(Mockito.anyString(), Mockito.eq("input2"))).thenReturn(false);
+
+        AbstractBlacklistStrategy mockRelaxedStrategy = Mockito.mock(AbstractBlacklistStrategy.class);
+        Mockito.when(mockRelaxedStrategy.isValid(Mockito.anyString(), Mockito.eq("input2"))).thenReturn(true);
+        Mockito.when(mockRelaxedStrategy.isValid(Mockito.anyString(), Mockito.eq("input1"))).thenReturn(false);
+
+        List<AbstractBlacklistStrategy> strictList = new ArrayList<AbstractBlacklistStrategy>();
+        strictList.add(mockStrictStrategy);
+
+        List<AbstractBlacklistStrategy> relaxedList = new ArrayList<AbstractBlacklistStrategy>();
+        relaxedList.add(mockRelaxedStrategy);
+
+        StringSchema testSchema = new StringSchema("string", strictList, relaxedList);
+        testSchema.addAnnotation(info);
+
+        assertTrue("Error in setup, schema should be relax-blacklisted", testSchema.isRelaxedBlacklisted());
+
+        boolean isValid = testSchema.validate("input1");
+        assertFalse("Based on relaxed strategy, input1 should have failed validation", isValid);
+
+        isValid = testSchema.validate("input2");
+        assertTrue("Based on relaxed strategy, input2 should have passed validation", isValid);
+
+        // the relaxed strategy should be used, the strict strategy should not be used
+        Mockito.verify(mockRelaxedStrategy, Mockito.times(2)).isValid(Mockito.anyString(), Mockito.anyString());
+        Mockito.verify(mockStrictStrategy, Mockito.times(0)).isValid(Mockito.anyString(), Mockito.anyString());
+    }
 }

@@ -1,0 +1,28 @@
+<StudentIdentity>
+  <StudentUniqueStateId>100000000</StudentUniqueStateId >
+  <StudentIdentificationCode IdentificationSystem="Local">
+     <IdentificationCode>372</IdentificationCode>
+</StudentIdentificationCode>
+<StudentIdentificationCode IdentificationSystem="SSN">
+    <IdentificationCode>1122336502</IdentificationCode>
+</StudentIdentificationCode>
+<Name>
+    <FirstName>Bennie</FirstName>
+    <LastSurname>Cimmino</LastSurname>
+</Name>
+        <OtherName>
+    <FirstName>Bennie</FirstName>
+    <LastSurname>Cimmino</LastSurname>
+</OtherName>
+        <OtherName>
+    <FirstName>Bennie</FirstName>
+    <LastSurname>Cimmino</LastSurname>
+</OtherName>
+    <BirthDate>2005-07-02</BirthDate>
+<Sex>Male</Sex>
+<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+<Race>
+    <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+    <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+</Race>
+</StudentIdentity>

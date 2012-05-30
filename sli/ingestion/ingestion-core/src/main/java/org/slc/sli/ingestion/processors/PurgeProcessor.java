@@ -9,6 +9,8 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,6 +25,8 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Performs purging of data in mongodb based on the tenant id.
@@ -31,7 +35,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  *
  */
 @Component
-public class PurgeProcessor implements Processor {
+public class PurgeProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
     private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
@@ -48,6 +52,8 @@ public class PurgeProcessor implements Processor {
 
     private List<String> excludeCollections;
 
+    private MessageSource messageSource;
+
     public MongoTemplate getMongoTemplate() {
         return mongoTemplate;
     }
@@ -62,6 +68,11 @@ public class PurgeProcessor implements Processor {
 
     public void setExcludeCollections(List<String> excludeCollections) {
         this.excludeCollections = excludeCollections;
+    }
+
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -129,7 +140,7 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleNoTenantId(String batchJobId) {
-        String noTenantMessage = "TenantId missing. No purge operation performed.";
+        String noTenantMessage = MessageSourceHelper.getMessage(messageSource, "PURGEPROC_ERR_MSG1");
         logger.info(noTenantMessage);
 
         Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
@@ -141,7 +152,7 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Purge process complete.");
-        logger.error("Exception:", exception);
+        LogUtil.error(logger, "Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
@@ -159,5 +170,4 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         logger.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
-
 }

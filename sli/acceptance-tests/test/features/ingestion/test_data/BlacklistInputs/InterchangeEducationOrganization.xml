@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+
+  <StateEducationAgency>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </StateEducationAgency>
+
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="SEA">
+        <ID>IL</ID>
+      </EducationOrgIdentificationCode>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+    <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Charter</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="SEA">
+        <ID>IL</ID>
+      </EducationOrgIdentificationCode>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+
+  <Course>
+    <CourseTitle>Club/Team onload</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <CourseDescription>ddd</CourseDescription>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <CourseDescription>onload</CourseDescription>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>ThisSpaceIs	
+AControlCharacter</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+   <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+   <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+</InterchangeEducationOrganization>

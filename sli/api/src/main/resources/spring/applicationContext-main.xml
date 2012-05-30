@@ -30,10 +30,6 @@
          </list>
       </property>
    </bean>
-   
-   <!-- This allows us to access the properties as a java.util.Properties, and look up key/values arbitrarily 
-   rather than wiring individual properties based on keys -->
-   <util:properties id="sliProperties" location="file:${sli.conf}"/>
+  
 
-	
 </beans>

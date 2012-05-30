@@ -1,0 +1,10 @@
+<StudentCompetencyObjective>
+      <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+      <Objective>Phonemic Awareness</Objective>
+      <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </StudentCompetencyObjective>

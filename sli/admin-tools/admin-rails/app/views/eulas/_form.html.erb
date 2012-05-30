@@ -1,0 +1,10 @@
+<h1>Terms of Use</h1>
+<%= form_for(:eula) do |f| %>  
+    <pre class="pre-scrollable">
+        <%= render :file => '../../public/license.txt' %>
+    </pre>
+    <%= f.submit "Accept", 
+      :id => "acceptEulaButton", :class => "btn" %>
+    <%= f.submit "Reject", 
+      :id => "rejectEulaButton", :class => "btn btn-danger" %>
+<% end %>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+>
+    <mvc:annotation-driven validator="validator" />
+    <context:component-scan base-package="org.slc.sli.web.controller"/>
+    <context:annotation-config />
+    <aop:aspectj-autoproxy/>
+	<!-- Creates the JSR-303 Validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    
+    <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
+        <property name="validator" ref="validator" />
+    </bean>
+
+    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
+    <qualifier value="googleAnalyticsTrackerId" />
+    <constructor-arg value="${dashboard.google_analytics.id}" />
+    </bean>
+
+</beans>

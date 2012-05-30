@@ -87,7 +87,7 @@ public class EntityDefinitionTest {
     }
 
     private ReferenceSchema getReferenceSchema(String xsdType) {
-        return new ReferenceSchema(xsdType);
+        return new ReferenceSchema(xsdType, null);
     }
 
     private ListSchema getListSchema(String xsdType) {

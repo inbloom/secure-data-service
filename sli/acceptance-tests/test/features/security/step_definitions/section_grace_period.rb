@@ -3,7 +3,7 @@ require_relative '../../utils/sli_utils.rb'
 Before do
   @gracePeriod = 2000
   time = Time.new
-  @currentDate = time.month.to_s + "/" + time.day.to_s + "/" + time.year.to_s
+  @currentDate = time.day.to_s + "/" + time.month.to_s + "/" + time.year.to_s
 end
 
 ###############################################################################

@@ -1,0 +1,33 @@
+{
+    "keyFields" : [ "metaData.externalId", "body.gradingPeriod", "body.beginDate", "body.endDate" ],
+    "references" :
+            [
+                {
+                    "fieldPath" : "body.calendarDateReference",
+                    "ref" : {
+                        "collectionName" : "calendarDate",
+                        "isRefList" : true,
+                        "refObjectPath" : "body.calendarDateReference",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.date",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.calendarDateReference.date" }
+                                                    ]
+                                        },
+                                        {
+                                            "path" : "body.calendarEvent",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.calendarDateReference.calendarEvent" }
+                                                    ]
+                                        }
+                                    ]
+                                ]
+                    }
+                }
+            ]
+}

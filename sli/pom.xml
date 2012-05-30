@@ -38,7 +38,6 @@
 		<springdata.version>1.2.0.M1</springdata.version>
 		<springdata.jpa.version>1.1.0.M1</springdata.jpa.version>
 		<springdata-mongodb-version>1.0.0.M4</springdata-mongodb-version>
-		<hsqldb.version>1.8.0.10</hsqldb.version>
 		<bean.validator.version>4.2.0.Final</bean.validator.version>
 
 
@@ -58,11 +57,12 @@
 		<avro.version>1.6.1</avro.version>
 		<commons.schema.version>1.4.7</commons.schema.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
+        <commons.collections.version>3.2.1</commons.collections.version>
 
 
 		<!-- Rest Services (JAX-RS) Framework Versions -->
 		<jersey.version>1.9.1</jersey.version>
-		<jackson.version>1.8.5</jackson.version>
+		<jackson.version>1.9.1</jackson.version>
 
 		<!-- Persistence Framework Versions -->
 		<commons.dbcp.version>20030825.184428</commons.dbcp.version>
@@ -80,12 +80,12 @@
 		<gson.version>2.1</gson.version>
         <sli.home>${project.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf> 
-		
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+
 		<!-- Signing Artifacts -->
 		<sli.sign.keystore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
 		<sli.sign.storepass>dalKey</sli.sign.storepass>
-		
+
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -180,7 +180,7 @@
             <properties>
                 <sli.env>sandbox</sli.env>
 <!--                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
-                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> --> 
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> -->
 				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
 				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
             </properties>
@@ -191,14 +191,14 @@
 	</profiles>
 
 	<modules>
-		<!-- <module>sli-configuration</module> --> 
+        <module>SDK</module>
 		<module>common</module>
 		<module>domain</module>
 		<module>data-access</module>
 		<module>api</module>
+		<module>scaffold</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
-        <module>SDK</module>
 		<module>simple-idp</module>
         </modules>
 
@@ -206,6 +206,12 @@
 		<dependencies>
 
 			<!-- WGEN dependencies -->
+			<dependency>
+				<groupId>org.slc.sli</groupId>
+				<artifactId>client-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
 				<artifactId>common</artifactId>
@@ -291,12 +297,6 @@
 				<artifactId>cucumber-tests</artifactId>
 				<version>${project.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slc.sli</groupId>
-				<artifactId>SDK</artifactId>
-				<version>${project.version}</version>
 			</dependency>
 
 
@@ -643,13 +643,6 @@
 				<scope>compile</scope>
 			</dependency>
 
-			<!-- HSQLDB dependency -->
-			<dependency>
-				<groupId>hsqldb</groupId>
-				<artifactId>hsqldb</artifactId>
-				<version>${hsqldb.version}</version>
-			</dependency>
-
 			<!-- Testing Framework -->
 
 			<!-- JUnit dependency -->
@@ -669,11 +662,6 @@
 			</dependency>
 
         <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -705,10 +693,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -750,7 +734,8 @@
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>${maven.checkstyle.version}</version>
 					<configuration>
-						<configLocation>checkstyle/checkstyle.xml</configLocation>
+						<configLocation>${sli.home}/../build-tools/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+						<propertyExpansion>sli.home=${sli.home}</propertyExpansion>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
 						<linkXRef>false</linkXRef>
 						<failsOnError>false</failsOnError>
@@ -816,7 +801,7 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.0-beta-3</version>
 				</plugin>
-				
+
 		      <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-jarsigner-plugin</artifactId>
@@ -835,7 +820,7 @@
 					<storepass>${sli.sign.storepass}</storepass>
 				</configuration>
 		      </plugin>
-		
+
 			</plugins>
 		</pluginManagement>
 
@@ -1047,7 +1032,7 @@
           <name>Maven2 repo1 repository</name>
           <url>http://repo1.maven.org/maven2</url>
         </repository>
-	
+
         <repository>
           <id>repository.jboss.org-public</id>
           <name>JBoss.org Maven repository</name>

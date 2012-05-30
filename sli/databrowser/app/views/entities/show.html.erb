@@ -1,7 +1,12 @@
+<% @tableFields = get_table_fields(@entities) %>
+
 <h2>Viewing information for <%= params[:other] %>
-<p><%= link_to 'Back', :back %></p>
-<% if @entities.size == 1 %>
-	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
-<%else%>
-	<%= render :partial => "multi_record_table", :locals => {:entities => @entities} %>
-<% end %>
+<p><%= link_to 'Back to Listings', :back %></p>
+<div id='entities'>
+  <% if @entities.size == 1 %>
+  	<%= render :partial => "single_record_details", :locals => {:entity => @entities.first} %>
+  <%else%>
+  	<%= render :partial => "multi_record_table", :locals => {:page => @page} %>
+  <% end %>
+</div>
+<%= render 'paginate'%>

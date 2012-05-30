@@ -9,16 +9,8 @@ When /^I hit the Admin Application Authorization Tool$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/application_authorizations/")
 end
 
-When /^I was redirected to the "([^"]*)" IDP Login page$/ do |arg1|
-  assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
-end
-
 Then /^I am redirected to the Admin Application Authorization Tool$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("application_authorizations") != nil}
-end
-
-Then /^in the upper right corner I see my name$/ do
-  assertWithWait("Failed to find name in upper right corner") {@driver.page_source.index("Sunset Admin") != nil}
 end
 
 Then /^I see a label in the middle "([^"]*)"/ do |arg1|
@@ -27,34 +19,34 @@ Then /^I see a label in the middle "([^"]*)"/ do |arg1|
 end
 
 Then /^I see the list of all available apps on SLI$/ do
-  @appsTable = @driver.find_element(:id, "Authorized Apps Table")
+  @appsTable = @driver.find_element(:class, "AuthorizedAppsTable")
   assert(@appsTable != nil  )
 end
 
 Then /^the authorized apps for my district are colored green$/ do
-  approved = @appsTable.find_elements(:xpath, ".//tr/td[text()='Approved']")
+  approved = @appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='Approved']")
   approved.each do |currentStatus|
     assert(currentStatus.attribute(:id) == "approvedStatus", "App is not the right color, should be green")
   end
 end
 
 Then /^the unauthorized are colored red$/ do
-  notApproved = @appsTable.find_elements(:xpath, ".//tr/td[text()='Not Approved']")
+  notApproved = @appsTable.find_elements(:xpath, ".//tbody/tr/td[text()='Not Approved']")
   notApproved.each do |currentStatus|
     assert(currentStatus.attribute(:id) == "notApprovedStatus", "App is not the right color, should be red")
   end
 end
 
 Then /^are sorted by 'Status'$/ do
-  tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
+  tableHeadings = @appsTable.find_elements(:xpath, ".//thead/tr/th")
   index = 0
   tableHeadings.each do |arg|
     index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
   end
-  rows = @appsTable.find_elements(:xpath, ".//tr/..")
+  rows = @appsTable.find_elements(:xpath, ".//tbody/tr")
   inApprovedSection = true
   rows.each do |curRow| 
-    td = curRow.find_element(:xpath, ".//td[#{index}]")
+    td = curRow.find_element(:xpath, "//td[#{index}]")
     assert(inApprovedSection || (!inApprovedSection && td.text != "Approved"), "Encountered an app with a 'Approved' status after one with a 'Not Approved' status")
     if td.text == "Not Approved"
       inApprovedSection = false
@@ -67,7 +59,10 @@ Then /^I see the Name, Version, Vendor and Status of the apps$/ do
   tableHeadings = @appsTable.find_elements(:xpath, ".//tr/th")
   actualHeadings = []
   tableHeadings.each do |heading|
-    actualHeadings.push(heading.text)
+    if (heading.text.index("District") != 0)
+      #The first th will contain the district's name
+      actualHeadings.push(heading.text)
+    end
   end    
   assert(expectedHeadings.sort == actualHeadings.sort, "Headings are different, found #{actualHeadings.inspect} but expected #{expectedHeadings.inspect}")
 end
@@ -88,14 +83,14 @@ When /^I pass my valid username and password$/ do
 end
 
 Then /^I get message that I am not authorized$/ do
-  isForbidden = @driver.find_element(:xpath, './/body/title[text()="Not Authorized (403)"]')
+  isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
   assert(isForbidden != nil)
 end
 
 Then /^I do not get message that I am not authorized$/ do
   isForbidden = nil
   begin
-    isForbidden = @driver.find_element(:xpath, './/body/title[text()="Not Authorized (403)"]')
+    isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
   rescue Exception => e
     #expected
     assert(isForbidden == nil)
@@ -114,21 +109,15 @@ end
 
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
   @appName = arg1
-  apps = @driver.find_elements(:xpath, ".//tr/td[text()='#{arg1}']/..")
+  apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
   assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
-  headings = @driver.find_elements(:xpath, ".//tr/th")
-  index = 0
-  headings.each do |heading|
-    if heading.text == "Status"
-      index = headings.index(heading) + 1
-    end
-  end
-  
-  @appRow = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
-  actualStatus = @appRow.find_element(:xpath, ".//td[#{index}]").text
+  statusIndex = 4
+    
+  @appRow = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
+  actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
   assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus}")
 end
 
@@ -154,12 +143,12 @@ When /^I click on Ok$/ do
 end
 
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)
 end
 
 Then /^is put on the top of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tr/td/..")
+  @row = @driver.find_element(:xpath, ".//tbody/tr/td/..")
   assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 
@@ -206,12 +195,12 @@ Given /^I am asked 'Do you really want deny access to this application of the di
 end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)
 end
 
 Then /^it is put on the bottom of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tr/td[text()='#{@appName}']/..")
+  @row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
 end
 
 Then /^the Approve button next to it is enabled$/ do
@@ -251,8 +240,8 @@ end
 Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |arg1|
   step "I have an open web browser"
   step "I hit the Admin Application Authorization Tool"
-  step "I was redirected to the \"OpenAM\" IDP Login page"
-  step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"OpenAM\" login page"
+  step "I was redirected to the \"Simple\" IDP Login page"
+  step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
 end
 

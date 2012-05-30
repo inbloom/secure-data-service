@@ -17,20 +17,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * This event entity represents actions taken by an
+ * Represents the definition of a discipline action.
+ * 
+ * A discipline action is defined as an action taken by an
  * education organization after a disruptive event that
  * is recorded as a discipline incident.
+ * 
+ * For detailed information, see the schema for the $$DisciplineAction$$ entity.
  *
  * @author slee
- *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_ACTIONS)
 @Component
@@ -43,17 +46,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$disciplineActions$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -64,18 +57,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$disciplineActions$$ entity.
-     *
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -85,15 +67,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$disciplineActions$$ entity.
-     *
-     * @param disciplineActionId
-     *            The Id of the $$disciplineActions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single disciplineIncident entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -104,16 +78,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$disciplineActions$$ entity.
-     *
-     * @param disciplineActionId
-     *            The Id of the $$disciplineActions$$.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -124,18 +89,8 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$disciplineActions$$ entity.
-     *
-     * @param disciplineActionId
-     *            The id of the $$disciplineActions$$.
-     * @param newEntityBody
-     *            entity data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
+
      */
     @Override
     @PUT

@@ -1,9 +1,10 @@
-Then /^I click on "([^"]*)" header to sort a string column in "([^"]*)" order$/ do |columnName, order|
-  sortColumn(columnName, false, isAscendingOrder(order))
+#attributeToCompare is the attribute inside the td that we can use as the value to sort by (ex. in perf level, "title" holds the score)
+Then /^I click on "([^"]*)" header to sort an integer column in "([^"]*)" order based on "([^"]*)"$/ do |columnName, order, attributeToCompare|
+  sortColumn(columnName, ColumnType.getType("integer"), isAscendingOrder(order), attributeToCompare)
 end
 
-Then /^I click on "([^"]*)" header to sort an integer column in "([^"]*)" order$/ do |columnName, order|
-  sortColumn(columnName, true, isAscendingOrder(order))
+Then /^I click on "([^"]*)" header to sort a "([^"]*)" column in "([^"]*)" order$/ do |columnName, columnType, order|
+   sortColumn(columnName, ColumnType.getType(columnType), isAscendingOrder(order))
 end
 
 # returns all trs of a grid in a particular panel
@@ -26,6 +27,13 @@ def getTdsBasedOnAttribute(tr,attribute)
   searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
   tds = tr.find_elements(:xpath, searchText)
   return tds
+end
+
+def getAttributeByName(tr, attribute, name)
+  assert(!tr.nil?, "Row is empty")
+  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
+  td = tr.find_element(:xpath, searchText)
+  return td.attribute(name)
 end
 
 def getAttribute(tr, attribute)
@@ -52,7 +60,7 @@ end
 
 #Checks against entries in a grid
 #use <empty> for empty cells
-def checkGridEntries(panel, table, mapping)
+def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
   table.headers.each do |current|
     if (mapping[current] == nil)
       puts "Warning: No mapping found for header: " + current
@@ -61,7 +69,9 @@ def checkGridEntries(panel, table, mapping)
   end
   
   grid = getGrid(panel)
-  assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
+  if (isExactRowsMatch)
+    assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
+  end
   table.hashes.each do |row|
     found = false
     grid.each do |tr|  
@@ -71,7 +81,7 @@ def checkGridEntries(panel, table, mapping)
            td = getTdBasedOnAttribute(tr,mapping[header][0])
            value = row[header]
            verifier = mapping[header][1].downcase
-           
+
            if (verifier == "fuelgauge")
             testFuelGauge(td, value)
            end
@@ -111,7 +121,7 @@ def isAscendingOrder(order)
   return (order.downcase == "ascending")
 end
 
-def sortColumn(columnName, isInt, isAscending)
+def sortColumn(columnName, columnType, isAscending, attributeToCompare = nil)
   hTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-htable")}
   returnedName = getColumnLookupName(columnName)
   searchText = ".//div[contains(@id,'" + returnedName + "')]"
@@ -121,9 +131,15 @@ def sortColumn(columnName, isInt, isAscending)
   
   unsorted = []
   all_trs.each do |tr|
-    value = getAttribute(tr, returnedName)
-    if (isInt)
+    if (attributeToCompare == nil)
+      value = getAttribute(tr, returnedName)
+    else
+      value = getAttributeByName(tr, returnedName, attributeToCompare)
+    end
+    if (columnType == ColumnType::INTEGER)
       value = value.to_i
+    elsif (columnType == ColumnType::LETTERGRADE)
+      value = letterGradeMapping(value)
     end
     unsorted = unsorted + [value]
   end
@@ -136,12 +152,39 @@ def sortColumn(columnName, isInt, isAscending)
   else
     unsorted = unsorted.sort   
   end
-
   all_trs = getStudentGrid()
   i  = 0
   all_trs.each do |tr|
-    value = getAttribute(tr, returnedName)
+    if (attributeToCompare == nil)
+      value = getAttribute(tr, returnedName)
+    else
+      value = getAttributeByName(tr, returnedName, attributeToCompare)
+    end
+    
+    if (columnType == ColumnType::LETTERGRADE)
+      value = letterGradeMapping(value).to_s
+    end
     assert(value == unsorted[i].to_s, "sort order is wrong")
     i +=1
   end     
+end
+
+module ColumnType
+  STRING = 0
+  INTEGER = 1
+  LETTERGRADE = 2
+  UNDEFINED = -1
+  
+  def ColumnType.getType(name)
+    name.downcase!
+    if (name == "string")
+      return ColumnType::STRING
+    elsif (name == "integer")
+      return ColumnType::INTEGER
+    elsif (name == "lettergrade")
+      return  ColumnType::LETTERGRADE
+    else
+      return ColumnType::UNDEFINED
+    end
+  end
 end

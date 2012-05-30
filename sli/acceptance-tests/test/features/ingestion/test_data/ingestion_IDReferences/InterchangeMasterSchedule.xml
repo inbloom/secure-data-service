@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
+
+  <Section id="S_1">
+    <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference ref="CO_1"/>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Able School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_2">
+    <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference ref="CO_2"/>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Baker School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Baker School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_3">
+    <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference ref="CO_3"/>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Charlie School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Charlie School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_4">
+    <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
+    <SequenceOfCourse>2</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Dog School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Dog School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_5">
+    <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>8th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Echo School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Echo School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_6">
+    <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Foxtrot School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Foxtrot School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_7">
+    <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade Composition</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade Composition</ID>
+        </CourseCode>
+        <Term>Spring Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Able School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_8">
+    <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
+    <SequenceOfCourse>4</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Baker School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Baker School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_9">
+    <UniqueSectionCode>Special Elective:Debate Clinic</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Special Elective:Debate Clinic</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Charlie School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Charlie School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_10">
+    <UniqueSectionCode>Sec 923</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Writing about Government</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Dog School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Dog School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_11">
+    <UniqueSectionCode>7th Grade English - Sec. 3</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Echo School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Echo School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_12">
+    <UniqueSectionCode>Reading Group - Red</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Foxtrot School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Foxtrot School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_13">
+    <UniqueSectionCode>7th Grade English - Sec. 2</UniqueSectionCode>
+    <SequenceOfCourse>2</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Able School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_14">
+    <UniqueSectionCode>Reading Group - Blue</UniqueSectionCode>
+    <SequenceOfCourse>2</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>Reading Group</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2012 Able School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section id="S_15">
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+        <Term>First Trimester</Term>
+        <SchoolYear>2000-2001</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2012 Able School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <CourseOffering id="CO_1">
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <CourseReference>
+        <CourseIdentity>
+            <CourseCode IdentificationSystem="CSSC course code">
+              <ID>1st Grade Homeroom</ID>
+            </CourseCode>
+        </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+        <SessionIdentity>
+            <Term>First Trimester</Term>
+            <SchoolYear>2000-2001</SchoolYear>
+            <StateOrganizationId>1</StateOrganizationId>
+        </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </CourseOffering>
+  <CourseOffering id="CO_2">
+     <LocalCourseCode>8th Grade English</LocalCourseCode>
+    <CourseReference>
+        <CourseIdentity>
+            <CourseCode IdentificationSystem="CSSC course code">
+              <ID>8th Grade English</ID>
+            </CourseCode>
+        </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+        <SessionIdentity>
+            <Term>First Trimester</Term>
+            <SchoolYear>2000-2001</SchoolYear>
+            <StateOrganizationId>1</StateOrganizationId>
+        </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </CourseOffering>
+  <CourseOffering id="CO_3">
+    <LocalCourseCode>Club/Team</LocalCourseCode>
+    <CourseReference>
+        <CourseIdentity>
+            <CourseCode IdentificationSystem="CSSC course code">
+              <ID>Club/Team</ID>
+            </CourseCode>
+        </CourseIdentity>
+    </CourseReference>
+    <SessionReference>
+        <SessionIdentity>
+            <Term>First Trimester</Term>
+            <SchoolYear>2000-2001</SchoolYear>
+            <StateOrganizationId>1</StateOrganizationId>
+        </SessionIdentity>
+    </SessionReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Able School</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Able School</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </CourseOffering>
+ </InterchangeMasterSchedule>

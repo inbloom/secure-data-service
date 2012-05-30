@@ -1,8 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false"%>
 <html>
 <head>
-<title>Mock IDP</title>
+<title>Simple IDP</title>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -41,7 +42,7 @@
 							SLI Sandbox IDP
 						</c:when>
 						<c:otherwise>
-							SLI Mock IDP for ${realm}
+							SLI Mock IDP for ${fn:escapeXml(realm)}
 						</c:otherwise>
 					</c:choose>
 				</span>
@@ -53,8 +54,8 @@
 				<div class="error-message"><c:out value="${msg}"/></div>
 			</c:if>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
-				<input type="hidden" name="realm" value="${realm}"/>
-				<input type="hidden" name="SAMLRequest" value="${SAMLRequest}"/>
+				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
+				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">User Name:</label>

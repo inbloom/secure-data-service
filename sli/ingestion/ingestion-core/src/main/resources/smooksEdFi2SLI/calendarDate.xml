@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="calendarDates" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="calendarDate" />
+    </jb:bean>
+
+    <!-- Start GradingPeriod mapping -->
+    <jb:bean beanId="calendarDate" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'grade'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="calendarDateMeta" />
+        <jb:wiring property="body" beanIdRef="calendarDateBody" />
+    </jb:bean>
+
+    <jb:bean beanId="calendarDateMeta" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="localId" />
+    </jb:bean>
+
+    <jb:bean beanId="calendarDateBody" class="java.util.HashMap"
+             createOnElement="attributes">
+        <jb:value property="date" data="attributes date" />
+        <jb:value property="calendarEvent" data="attributes calendarEvent" />
+    </jb:bean>
+
+</smooks-resource-list>

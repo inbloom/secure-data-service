@@ -12,9 +12,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -59,6 +59,30 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
         toReturn.addAll(parents);
         return new ArrayList<String>(toReturn);
     }
+
+    /**
+     * Finds all the child ed orgs immediately under a SEA.
+     * @param parentEdOrgStateId - the stateOrganizationId of the SEA
+     * @return 
+     */
+    public List<String> getChildEducationOrganizations(String parentEdOrgStateId) {
+        NeutralQuery stateQuery = new NeutralQuery();
+        stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", parentEdOrgStateId));
+        
+        Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
+        
+        NeutralQuery childrenQuery = new NeutralQuery();
+        childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg.getEntityId()));
+        Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
+
+        List<String> myEdOrgsIds = new ArrayList<String>();
+        for (Entity cur : myEdOrgs) {
+            String stateOrgId = (String) cur.getBody().get("stateOrganizationId");
+            myEdOrgsIds.add(stateOrgId);
+        }
+        return myEdOrgsIds;
+    }
+
 
     private Set<String> fetchParents(Set<String> ids) {
         Set<String> returned = new HashSet<String>(ids);
@@ -107,7 +131,11 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
             Entity appAuth = i.next();
             List<String> appIdArray = (List<String>) appAuth.getBody().get("appIds");
             if (!appIdArray.contains(appId)) {
-                blacklist.add((String) appAuth.getBody().get("authId"));
+                Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
+                        new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, (String) appAuth.getBody().get("authId"))));
+                if (edorgEntity != null) {
+                    blacklist.add(edorgEntity.getEntityId());
+                }
             }
         }
 

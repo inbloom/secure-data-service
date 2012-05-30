@@ -1,13 +1,8 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -18,24 +13,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 
 /**
- * Represents a tool, instrument, process, or exhibit that is used 
- * to assess student performance.
- * 
+ * Represents a tool, instrument, process, or exhibition composed of a systematic sampling of
+ * behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can
+ * be used to measure differences in individuals or groups and changes in performance from one
+ * occasion to the next.
+ *
+ * For more information, see the schema for $$Assessment$$ resources.
+ *
  * @author jstokes
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ASSESSMENTS)
 @Component
 @Scope("request")
-public class AssessmentResource extends DefaultCrudEndpoint {
+public class AssessmentResource extends DefaultCrudResource {
 
     @Autowired
     public AssessmentResource(EntityDefinitionStore entityDefs) {
@@ -43,118 +41,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$assessments$$ entities for which the logged in user has permission to see.
-     *
-     * @param offset
-     *            starting position in results to return to user
-     * @param limit
-     *            maximum number of results to return to user (starting from offset)
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     */
-    @Override
-    @GET
-    public Response readAll(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
-    }
-
-    /**
-     * Create a new $$assessments$$ entity.
-     *
-     * @param newEntityBody
-     *            assessment data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
-     */
-    @Override
-    @POST
-    public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * Get a single $$assessments$$ entity
-     *
-     * @param assessmentId
-     *            The comma separated list of ids of $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return A single assessment entity
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(assessmentId, headers, uriInfo);
-    }
-
-    /**
-     * Delete an $$assessments$$
-     *
-     * @param assessmentId
-     *            The id of the $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(assessmentId, headers, uriInfo);
-    }
-
-    /**
-     * Update an existing $$assessments$$
-     *
-     * @param assessmentId
-     *            The id of the $$assessments$$
-     * @param newEntityBody
-     *            assessment data
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
-            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(assessmentId, newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * Returns all the $$studentAssessmentAssociations$$ for the given $$assessments$$
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$ entities
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
@@ -166,16 +54,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$students$$ entities associated to the given assessment through
-     * a $$studentAssessmentAssociations$$
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
@@ -188,22 +68,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$sectionAssessmentAssociations$$ entities that
-     * references the given $$assessments$$
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
@@ -215,16 +81,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns each $$sections$$ entity associated to the given $$assessments$$ through
-     * a $$sectionAssessmentAssociations$$
-     *
-     * @param assessmentId
-     *            Comma separated list of ids of the $$assessments$$
-     * @param headers
-     *            HTTP Request Headers
-     * @param uriInfo
-     *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
@@ -237,11 +95,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a map of the objective assessment ids to $$learningStandards$$ entities for the given $$assessments$$.
-     *
-     * @param id
-     *            the id of the assessment
-     * @return the learning standards
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
@@ -250,18 +105,13 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a map of the objective assessment ids and assessmentItem ids to $$learningObjectives$$ entities for the given $$assessments$$.
-     *
-     * @param id
-     *            the id of the assessment
-     * @return the learning objectives
+     * Returns the requested collection of resources that are associated with the specified
+     * resource.
      */
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
     public Response getLearningObjectives(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
         return Response.status(Status.NOT_FOUND).build();
     }
-
-
 
 }

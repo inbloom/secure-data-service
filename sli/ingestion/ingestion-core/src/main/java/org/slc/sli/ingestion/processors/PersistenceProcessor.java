@@ -15,12 +15,13 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -44,6 +45,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -56,7 +59,7 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
  *
  */
 @Component
-public class PersistenceProcessor implements Processor {
+public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
 
@@ -82,6 +85,8 @@ public class PersistenceProcessor implements Processor {
 
     /** The names of Mongo collections of documents that have been transformed. */
     private Collection<String> transformedCollections;
+
+    private MessageSource messageSource;
 
     /**
      * Camel Exchange process callback method
@@ -116,6 +121,9 @@ public class PersistenceProcessor implements Processor {
                 if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
                     processAndMeasureResource(resource, newJob, stage);
+                } else {
+                    LOG.warn(String.format("The resource %s is not a neutral record format.",
+                            resource.getResourceName()));
                 }
             }
 
@@ -159,7 +167,7 @@ public class PersistenceProcessor implements Processor {
         ErrorReport errorReportForNrFile = createDbErrorReport(job.getId(), neutralRecordsFile.getName());
 
         NeutralRecordFileReader nrFileReader = null;
-        String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
+        String fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1");
         try {
             Set<String> encounteredStgCollections = new HashSet<String>();
 
@@ -170,9 +178,9 @@ public class PersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
 
-                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
-                        + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
-                        + "\n";
+                fatalErrorMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_FATAL_MSG1")
+                        + "\tEntity\t" + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t"
+                        + (String) neutralRecord.getLocalId() + "\n";
 
                 if (transformedCollections.contains(neutralRecord.getRecordType())) {
 
@@ -185,7 +193,7 @@ public class PersistenceProcessor implements Processor {
             }
         } catch (Exception e) {
             errorReportForNrFile.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile, e);
         } finally {
             if (nrFileReader != null) {
                 nrFileReader.close();
@@ -215,15 +223,24 @@ public class PersistenceProcessor implements Processor {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
-
+                    ErrorReport errorReportForTransformer = new ProxyErrorReport(errorReportForNrFile);
                     EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForTransformer);
 
+                    if (xformedEntities.isEmpty()) {
+                        numFailed++;
+
+                        errorReportForNrFile.error(
+                                MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG4",
+                                        neutralRecord.getRecordType()), this);
+                    }
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
 
-                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity.getType());
+                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity
+                                .getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
                         if (errorReportForNrEntity.hasErrors()) {
@@ -256,14 +273,13 @@ public class PersistenceProcessor implements Processor {
         }
     }
 
-
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
         long numFailed = 0;
 
         // only persist if it's in the spring-loaded list of supported record types
         if (persistedCollections.contains(neutralRecord.getRecordType())) {
-            LOG.debug("processing old-style neutral record: {}", neutralRecord);
+            LOG.debug("processing old-style neutral record");
 
             NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
             nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
@@ -286,19 +302,11 @@ public class PersistenceProcessor implements Processor {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
 
-        if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
-            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
+        stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
 
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-        } else {
+        encounteredStgCollections.add(neutralRecord.getRecordType());
 
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-
-            encounteredStgCollections.add(neutralRecord.getRecordType());
-        }
         return stagedNeutralRecords;
     }
 
@@ -358,14 +366,15 @@ public class PersistenceProcessor implements Processor {
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LOG.error("Exception encountered in PersistenceProcessor. ");
 
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }
 
-    public void setEntityPersistHandlers(Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+    public void setEntityPersistHandlers(
+            Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
         this.entityPersistHandlers = entityPersistHandlers;
     }
 
@@ -393,8 +402,13 @@ public class PersistenceProcessor implements Processor {
         this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
     }
 
-    public void setDefaultEntityPersistHandler(AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+    public void setDefaultEntityPersistHandler(
+            AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
         this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }

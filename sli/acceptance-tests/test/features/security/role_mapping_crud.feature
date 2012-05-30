@@ -1,3 +1,5 @@
+@RALLY_US176
+@RALLY_US174
 Feature: Custom Role Mapping functions and Realm Listing functions
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 As any SLI application, I can access an API resource that only returns a list of realms, even while unauthenticated
@@ -29,13 +31,6 @@ Scenario: Deny access to users using SLI Administrator credentials from non-SLI 
 	When I try to access the URI "/realm" with operation "GET"
 	Then I should be denied access
 
-Scenario: Create a new realm
-
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I POST a new realm
-	Then I should receive a return code of 201
-     And I should receive a new ID for my new realm
-    
 Scenario: Read a list of realms
 
 	Given I am logged in using "sunsetrealmadmin" "sunsetrealmadmin1234" to realm "SLI"
@@ -61,6 +56,13 @@ Scenario: Delete an existing realm
 	Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
 	When I DELETE the realm "Another Fake Realm"
 	Then I should receive a return code of 204
+	
+Scenario: Create a new realm
+
+  Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
+  When I POST a new realm
+  Then I should receive a return code of 201
+     And I should receive a new ID for my new realm
 
 Scenario: Deny mappings from non-SLI Default roles to custom roles
 

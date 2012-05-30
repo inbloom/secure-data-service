@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <jb:bean beanId="gradingPeriods" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="gradingPeriod" />
+    </jb:bean>
+
+    <!-- Start GradingPeriod mapping -->
+    <jb:bean beanId="gradingPeriod" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'gradingPeriod'</jb:expression>
+        <jb:wiring property="metaData" beanIdRef="gradingPeriodMeta" />
+        <jb:wiring property="body" beanIdRef="gradingPeriodBody" />
+    </jb:bean>
+
+    <jb:bean beanId="gradingPeriodMeta" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="externalId" data="attributes gradingPeriodId" />
+    </jb:bean>
+
+    <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
+             createOnElement="attributes">
+        <jb:value property="gradingPeriod" data="attributes gradingPeriod" />
+        <jb:value property="beginDate" data="attributes beginDate" />
+        <jb:value property="endDate" data="attributes endDate" />
+        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
+        <!--<jb:value property="calendarDateReference" data="attributes calendarDateReference" />-->
+        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
+    </jb:bean>
+
+    <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes calendarDateReference element" />
+    </jb:bean>
+
+</smooks-resource-list>

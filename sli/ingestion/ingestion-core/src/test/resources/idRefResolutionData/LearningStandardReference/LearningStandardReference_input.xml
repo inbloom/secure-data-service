@@ -1,0 +1,9 @@
+    <LearningStandard id="LS-001">
+        <LearningStandardId ContentStandardName="CSID">
+            <IdentificationCode>RI.11-12.1</IdentificationCode>
+        </LearningStandardId>
+        <Description>Cite strong and thorough textual evidence to support analysis of what the text says explicitly as well as inferences drawn from the text, including determining where the text leaves matters uncertain.</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Twelfth grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+    </LearningStandard>

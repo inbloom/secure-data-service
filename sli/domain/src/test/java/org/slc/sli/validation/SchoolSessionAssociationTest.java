@@ -50,8 +50,6 @@ public class SchoolSessionAssociationTest {
         gradingPeriod.put("endDate", "2011-10-31");
         gradingPeriod.put("totalInstructionalDays", 45);
 
-        goodAssociation.put("gradingPeriod", gradingPeriod);
-
         return new Entity() {
 
             @Override

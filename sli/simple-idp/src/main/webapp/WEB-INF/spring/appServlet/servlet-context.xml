@@ -9,16 +9,6 @@
 
   <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
-  <beans:bean id="idpProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <beans:property name="ignoreUnresolvablePlaceholders" value="true" />
-    <beans:property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-    <beans:property name="locations">
-      <beans:list>
-        <beans:value>file:${sli.conf}</beans:value>
-      </beans:list>
-    </beans:property>
-  </beans:bean>
-
   <!-- Enables the Spring MVC @Controller programming model -->
   <annotation-driven />
 
@@ -31,6 +21,22 @@
     <beans:property name="prefix" value="/WEB-INF/views/" />
     <beans:property name="suffix" value=".jsp" />
   </beans:bean>
+
+  <!-- Include resources from DAL -->
+  <beans:import resource="classpath:/spring/db.xml" />
+  <beans:import resource="classpath:/spring/validation.xml" />
+
+  <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect"
+    factory-method="aspectOf">
+  </beans:bean>
+
+<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<beans:property name="exceptionMappings">
+	<beans:props>
+		<beans:prop key="java.lang.Exception">error</beans:prop>
+	</beans:props>
+	</beans:property>
+</beans:bean>
 
   <context:component-scan base-package="org.slc.sli" />
 

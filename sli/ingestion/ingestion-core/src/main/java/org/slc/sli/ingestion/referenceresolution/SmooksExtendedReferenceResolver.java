@@ -54,6 +54,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             return null;
         }
 
+
         File convertedContent = null;
         BufferedInputStream in = null;
         BufferedOutputStream out = null;

@@ -29,27 +29,46 @@ DashboardProxy = {
 				this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
 			}
 		},
+		loadAll : function(dataConfigObj) {
+			jQuery.extend(this.data, dataConfigObj.data);
+			jQuery.extend(this.config, dataConfigObj.config);
+			this.loadWidgetConfig(dataConfigObj.widgetConfig);
+		},
 		load : function(componentId, id, callback) {
-			var prx = this;
+			var prx = this,
+				w_studentListLoader = $("<div></div>").loader();
+			
+			w_studentListLoader.show();
+						
 			$.ajax({
-				  url: contextRootPath + '/service/component/' + componentId + '/' + id,
+				  async: false,
+				  url: contextRootPath + '/service/component/' + componentId + '/' + (id ? id : ""),
 				  scope: this,
 				  success: function(panel){
-					  prx.data[componentId] = panel.data; 
-					  prx.config[componentId] = panel.viewConfig; 
-					  callback(panel);
+					  jQuery.extend(prx.data, panel.data);
+					  jQuery.extend(prx.config, panel.config);
+					  w_studentListLoader.remove();
+					  
+					  if (jQuery.isFunction(callback))
+					    callback(panel);
 			      },
 			      error: $("body").ajaxError( function(event, request, settings) {
+			    	  w_studentListLoader.remove();
 			    	  if (request.responseText == "") {
 			    		  $(location).attr('href',$(location).attr('href'));
 			    	  } else {
 			    		  $(location).attr('href', contextRootPath + "/exception");
 			    	  }
-			      }),
+			      })
 			});
 		},
 		getData: function(componentId) {
-			return this.data[componentId];
+			var config = this.getConfig(componentId);
+			if (config && config.data && config.data.cacheKey) {
+				return this.data[config.data.cacheKey];
+			}
+				
+			return {};
 		},
 		getConfig: function(componentId) {
 			return this.config[componentId];
@@ -92,6 +111,62 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
+	var select =  "";
+	
+	$("#"+name).find("dropdown-menu").html(select);
+	var autoSelectOption = -1;
+	
+	
+	if(options === null || options === undefined || options.length == 0) {
+                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
+	} else {
+	    	if (options.length == 1 && autoSelect) {
+			autoSelectOption = 0;
+	    	}
+		if (defaultOptions != undefined && defaultOptions != null) {
+			jQuery.each(defaultOptions, function(val, displayText) {
+				select += "    <li class=\"\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" + displayText + "</a>" +
+				"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
+			});
+		}
+		for(var index = 0; index < options.length; index++) {
+			var selected = index == autoSelectOption ? "selected" : "";
+			select += "    <li class=\"" + selected + "\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" +$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
+	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
+		}
+		
+		$("#"+name + "SelectMenu").find(".optionText").html("Choose one");
+	}
+	
+	$("#"+name + "SelectMenu .dropdown-menu").html(select);
+	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
+	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
+		$("#"+name + "SelectMenu .selected").removeClass("selected");
+		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
+		$("#"+name + "Select").val($(this).find("#selectionValue").val());
+		$(this).addClass("selected");
+		callback();
+	});
+  
+	$("#"+name + "SelectMenu .selected").click();
+	
+};
+
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
+	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
+		if (optionValue == $(this).find("#selectionValue").val()) {
+			$(this).addClass("selected");
+			if (doClick) {
+				$(this).click();
+			} else {
+				$("#" + name + "Select").val(optionValue);
+				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
+			}
+		}
+	});
+};
+
 jQuery.fn.sliGrid = function(panelConfig, options) {
 	var colNames = [];
     var colModel = [];
@@ -124,6 +199,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 	            if (item1.align) {
 	            	colModelItem.align = item1.align;
 	            }
+	            if(item1.style) {
+	            	colModelItem.classes = item1.style;
+	            }
 	            colModel.push( colModelItem );
 	        }     
 	    }
@@ -132,7 +210,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
-      	  useColSpanStyle: false, 
+      	  useColSpanStyle: true, 
       	  groupHeaders:groupHeaders
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
@@ -149,22 +227,28 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     }
 }
 
-DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
-{
+DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options) {
+
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
 	}
 	gridOptions = { 
-	    	data: panelData,
-	        datatype: 'local', 
-	        height: 'auto',
-	        viewrecords: true,
-	        rowNum: 10000};
-	if (options) {
-		gridOptions = jQuery.extend(gridOptions, options);
-	}
-	return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+    	data: panelData,
+        datatype: 'local', 
+        height: 'auto',
+        viewrecords: true,
+        autoencode: true,
+        rowNum: 10000};
+
+        if(panelData === null || panelData === undefined || panelData.length < 1) {
+            DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
+        } else {
+	    if (options) {
+	    	gridOptions = jQuery.extend(gridOptions, options);
+	    }
+	    return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+    }
 };
 
 DashboardUtil.Grid = {};
@@ -239,8 +323,8 @@ DashboardUtil.Grid.Formatters = {
             
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
-            if (value == undefined || value == null) {
-                "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            if (value === undefined || value === null) {
+                return "<span class='fuelGauge-perfLevel'></span>";
             }
             
             if (!assessments || assessments == undefined) {
@@ -275,7 +359,7 @@ DashboardUtil.Grid.Formatters = {
             options.colModel.formatoptions["perfLevel"] = perfLevel;
             options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
             
-            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + $.jgrid.htmlEncode(value) + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
         },
         
         FuelGauge: function(value, options, rowObject) {
@@ -319,6 +403,7 @@ DashboardUtil.Grid.Formatters = {
             var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
             returnValue += "<script>";
             returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+            returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
             returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
             
             var width = options.colModel.formatoptions["fuelGaugeWidth"];
@@ -359,7 +444,7 @@ DashboardUtil.Grid.Formatters = {
                     styleClass = "numericGradeColumn"; 
                 }
             } 
-            return div + styleClass + closeDiv + innerHtml + endDiv;
+            return div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
@@ -380,7 +465,7 @@ DashboardUtil.Grid.Formatters = {
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
                     innerHtml = course.letterGrade;
                     styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
-                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
+                    divs = divs + div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
                 }
             }
             return divs;
@@ -391,7 +476,7 @@ DashboardUtil.Grid.Formatters = {
           var link = options.colModel.formatoptions.link;
           if(typeof link == 'string')
           {
-            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
+            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
           }else{
             return value;
           }
@@ -408,6 +493,20 @@ DashboardUtil.Grid.Sorters = {
             return function(value, rowObject) {
                 var i = enumHash[value];
                 return i ? parseInt(i) : -1;
+            }
+        },
+        
+        /**
+         * Sort by sortField provided in the params. The field must be int.
+         */
+        ProxyInt: function(params) {
+            var fieldArray = (params.sortField) ? params.sortField.split(".") : [];
+            var length = fieldArray.length;
+            return function(value, rowObject) {
+            	var ret = rowObject, i = 0;
+            	// find the field in the rowobject by its path "field.subfield.subsub" and return the value
+                while(i < length && (ret = ret[fieldArray[i ++]]));
+                return parseInt(ret);
             }
         },
 
@@ -511,14 +610,6 @@ DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
     }
 };
 
-/*
- * Display generic dashboard error page
- */
-DashboardUtil.displayErrorPage = function()
-{
-    window.location = "/dashboard/static/html/error.html";
-};
-
 // --- static helper function --- 
 // Gets the style object for the element where we're drawing the fuel gauge.
 // Returns a CSSStyleDeclaration object 
@@ -543,7 +634,7 @@ DashboardUtil.renderLozenges = function(student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
+					lozenges += '<span class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
@@ -669,6 +760,16 @@ DashboardUtil.checkCondition = function(data, condition) {
     return false;
 };
 
+DashboardUtil.displayErrorMessage = function (error){
+    $("#losError").show();
+    $("#viewSelection").hide();
+    $("#losError").html(error);
+}
+
+DashboardUtil.hideErrorMessage = function ( ){
+    $("#losError").hide();
+}
+
 DashboardUtil.teardrop = {
     GRADE_TREND_CODES: {},
     GRADE_COLOR_CODES: {},
@@ -758,3 +859,28 @@ DashboardUtil.teardrop = {
 };
 
 DashboardUtil.teardrop.init();
+
+// Loader widget
+$.widget( "SLI.loader", {
+	
+	options: {
+		message: "Loading..."
+	},
+	
+    _create: function() {
+        var message = this.options.message;
+        this.element
+            .addClass( "loader" )
+            .html("<div class='message'>" + message + "</div>")
+            .appendTo("body");
+    },
+    
+    message: function( message ) {
+        if ( message === undefined || typeof message !== "string" ) {
+            return this.options.message;
+        } else {
+            this.options.message = message;
+            this.element.find(".message").html(this.options.message);
+        }
+    },
+});

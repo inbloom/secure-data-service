@@ -3,14 +3,15 @@
 var rMap = getTableData(<%= @realm.mappings.to_json.html_safe %>);
 </script>
 <%=javascript_tag "$(document).ready(function() {drawTable(rMap, false);});"%>
-<h2>Role mappings for <%=@realm.name%></h2>
-<table>
-        <thead><tr><th id="crole" style="text-decoration: underline">Client Role</th><th id="srole" style="text-decoration: underline">SLI Role</th></tr></thead>
+<h2>Map Roles for <%=@realm.name%></h2>
+<h4>Assign your client roles to the appropriate SLC roles</h4>
+<table class="table table-striped">
+        <thead><tr><th id="crole">Client Role</th><th id="srole">SLC Role</th></tr></thead>
         <tbody id="mTable"></tbody>
 </table>
 
-<%= link_to 'Edit', edit_realm_path(@realm) %>
+<%= link_to 'Edit', edit_realm_path(@realm), :class => "btn" %>
 <!--
 don't need this since they'll just get redirected back here
-<%= link_to 'Back', realms_path %>
+<%= link_to 'Done', realms_path, :class=>"btn" %>
 -->

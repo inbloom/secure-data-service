@@ -13,6 +13,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
    <packaging>pom</packaging>
     <name>acceptance.tests</name>
 
+    <properties>
+          <sli.home>${project.parent.basedir}</sli.home>
+    </properties>
+
    <dependencies>
 
         <dependency>
@@ -35,21 +39,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
         <dependency>
             <groupId>org.slc.sli.client.sample</groupId>
             <artifactId>sample</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
         <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>simple-idp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-		
+
    </dependencies>
 
    <build>
@@ -88,7 +92,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 						<url>http://mirrors.ibiblio.org/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
 						<downloadDir>target/tomcat7x/downloads</downloadDir>
 						<extractDir>target/tomcat7x/extracts</extractDir>
-						</zipUrlInstaller>                    
+						</zipUrlInstaller>
 					</container>
 
                     <configuration>
@@ -141,7 +145,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                                     <context>/sample</context>
                                 </properties>
                             </deployable>
-							
+
                         </deployables>
                     </configuration>
                 </configuration>
@@ -153,121 +157,35 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>1.2.1</version>
 
             <executions>
-            
-               <execution>
-                  <id>install admin-ps  gems</id>
-                  <phase>pre-integration-test</phase>
-                   <configuration>
-                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
-                       <executable>bundle</executable>
-                       <arguments>
-                           <argument>install</argument>
-                       </arguments>
-                   </configuration>
-                  <goals>
-                     <goal>exec</goal>
-                  </goals>
-               </execution>
-            
-               <execution>
-  	               <id>start-admin-rails-app</id>
-                   <phase>pre-integration-test</phase>
-                   <configuration>
-                       <executable>bundle</executable>
-                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
-                       <arguments>
-                           <argument>exec</argument>
-                           <argument>thin</argument>
-                           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2000</argument>
-                           <argument>-e</argument>
-                           <argument>local-acceptance-tests</argument>                           
-                           <argument>start</argument>
-                       </arguments>
-                   </configuration>
-                   <goals>
-                       <goal>exec</goal>
-                   </goals>
-               </execution>
-               
+
                <execution>
                    <id>stop-admin-rails-app</id>
                    <phase>post-integration-test</phase>
                    <configuration>
-                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
-                       <executable>bundle</executable>
+                       <executable>stop-rails</executable>
 	                   <arguments>
-    	                   <argument>exec</argument>
-        	               <argument>thin</argument>
-            	           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2000</argument>
-                	       <argument>stop</argument>
-					   </arguments>                   
-                   </configuration>                   
+                           <argument>admin-rails</argument>
+					   </arguments>
+                   </configuration>
                    <goals>
                        <goal>exec</goal>
                    </goals>
               </execution>
-            
+
                <execution>
-                  <id>install databrowser gems</id>
-                  <phase>pre-integration-test</phase>
-                   <configuration>
-                       <workingDirectory>../databrowser</workingDirectory>
-                       <executable>bundle</executable>
-                       <arguments>
-                           <argument>install</argument>
-                       </arguments>
-                   </configuration>
-                  <goals>
-                     <goal>exec</goal>
-                  </goals>
-               </execution>
-            
-               <execution>
-  	               <id>start-databrowser-app</id>
-                   <phase>pre-integration-test</phase>
-                   <configuration>
-                       <executable>bundle</executable>
-                       <workingDirectory>../databrowser</workingDirectory>
-                       <arguments>
-                           <argument>exec</argument>
-                           <argument>thin</argument>
-                           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2001</argument>
-                           <argument>-e</argument>
-                           <argument>local-acceptance-tests</argument>
-                           <argument>start</argument>
-                       </arguments>
-                   </configuration>
-                   <goals>
-                       <goal>exec</goal>
-                   </goals>
-               </execution>
-               
-               <execution>
-                   <id>stop-databrowser-app</id>
+                   <id>stop-databrowswer-app</id>
                    <phase>post-integration-test</phase>
                    <configuration>
-                   <executable>bundle</executable>
-                       <workingDirectory>../databrowser</workingDirectory>
+                       <executable>stop-rails</executable>
                        <arguments>
-                           <argument>exec</argument>
-                           <argument>thin</argument>
-                           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2001</argument>
-                           <argument>stop</argument>
-                       </arguments>                   
+                           <argument>databrowser</argument>
+                       </arguments>
                    </configuration>
                    <goals>
                        <goal>exec</goal>
                    </goals>
-              </execution>  
-                        
+              </execution>
+
                <execution>
                   <id>install gems</id>
                   <phase>integration-test</phase>
@@ -281,7 +199,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                        </arguments>
                    </configuration>
                </execution>
-               
+
                 <execution>
                     <id>run tests</id>
                     <phase>integration-test</phase>
@@ -293,9 +211,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <arguments>
                             <argument>exec</argument>
                             <argument>rake</argument>
+                            <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
+                            <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
+                            <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
                             <argument>admintools_server_url=http://local.slidev.org:2000</argument>
+                            <argument>api_server_url=http://local.slidev.org:8080</argument>
                             <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
-						    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
+						    <argument>simpleIDP_login_url=http://local.slidev.org:8080/simple-idp</argument>
 						    <argument>simpleIDP_realm_suffix=local</argument>
 						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
                             <argument>${TESTS_TO_RUN}</argument>

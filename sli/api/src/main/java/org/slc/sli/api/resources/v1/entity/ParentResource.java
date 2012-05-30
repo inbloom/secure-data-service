@@ -17,16 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- *
+ * Represents a parent or guardian of a student.  
+ * 
+ * For detailed information, see the schema for $$Parent$$ resources.
+ * 
  * @author jstokes
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PARENTS)
@@ -40,13 +42,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$parents$$ entities for which the logged in User has permission and context.
-     *
-     * @param offset  starting position in results to return to user
-     * @param limit   maximum number of results to return to user (starting from offset)
-     * @param headers HTTP Request Headers
-     * @param uriInfo URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resource representations.
      */
     @Override
     @GET
@@ -57,15 +53,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$parents$$ entity.
-     *
-     * @param newEntityBody entity data
-     * @param headers       HTTP Request Headers
-     * @param uriInfo       URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     * {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     * item is accessible.}
+     * Creates a new resource using the given resource data.
      */
     @Override
     @POST
@@ -75,12 +63,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$parents$$ entity
-     *
-     * @param parentId The Id of the $$parents$$.
-     * @param headers  HTTP Request Headers
-     * @param uriInfo  URI information including path and query parameters
-     * @return A single parent entity
+     * Returns the specified resource representation(s).
      */
     @Override
     @GET
@@ -91,13 +74,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Delete a $$parents$$ entity
-     *
-     * @param parentId The Id of the $$parents$$.
-     * @param headers  HTTP Request Headers
-     * @param uriInfo  URI information including path and query parameters
-     * @return Returns a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Deletes the specified resource.
      */
     @Override
     @DELETE
@@ -108,14 +85,7 @@ public class ParentResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Update an existing $$parents$$ entity.
-     *
-     * @param parentId      The id of the $$parents$$.
-     * @param newEntityBody entity data
-     * @param headers       HTTP Request Headers
-     * @param uriInfo       URI information including path and query parameters
-     * @return Response with a NOT_CONTENT status code
-     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     * Updates the specified resource using the given resource data.
      */
     @Override
     @PUT
@@ -128,13 +98,7 @@ public class ParentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * Returns each $$studentParentAssociations$$ that
-     * references the given $$students$$
-     *
-     * @param parentId The Id of the parent.
-     * @param headers   HTTP Request Headers
-     * @param uriInfo   URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PARENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
@@ -146,12 +110,7 @@ public class ParentResource extends DefaultCrudEndpoint {
 
 
     /**
-     * $$studentParentAssociations$$ - student lookup
-     *
-     * @param parentId The Id of the Parent.
-     * @param headers   HTTP Request Headers
-     * @param uriInfo   URI information including path and query parameters
-     * @return result of CRUD operation
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.PARENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)

@@ -1,17 +1,15 @@
 package org.slc.sli.scaffold;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Properties;
 
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,7 +27,14 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 /**
  * This class handles the document manipulation tasks
@@ -37,6 +42,7 @@ import javax.xml.xpath.XPathFactory;
  * @author srupasinghe
  */
 public class DocumentManipulator {
+    private static final String WADL_NS = "http://wadl.dev.java.net/2009/02";
     private DocumentBuilderFactory docFactory;
     private XPathFactory xPathFactory;
     
@@ -50,7 +56,7 @@ public class DocumentManipulator {
     /**
      * Parse a xml document
      * 
-     * @param fileName
+     * @param file
      * @throws ScaffoldException
      */
     protected Document parseDocument(File file) throws DocumentManipulatorException {
@@ -178,6 +184,7 @@ public class DocumentManipulator {
      */
     private void serialize(Document document, StreamResult stream, Source source, Properties props)
             throws DocumentManipulatorException {
+        
         TransformerFactory factory = null;
         Transformer transformer = null;
         
@@ -195,7 +202,7 @@ public class DocumentManipulator {
             // set the properties
             transformer.setOutputProperties(props);
             // perform the transformation
-            transformer.transform(new DOMSource(document), stream);
+            transformer.transform(new DOMSource(addDefaultDocs(document)), stream);
             
         } catch (TransformerConfigurationException e) {
             throw new DocumentManipulatorException(e);
@@ -203,6 +210,80 @@ public class DocumentManipulator {
             throw new DocumentManipulatorException(e);
         } catch (TransformerException e) {
             throw new DocumentManipulatorException(e);
+        } catch (XPathExpressionException e) {
+            throw new DocumentManipulatorException(e);
         }
+    }
+    
+    private Document addDefaultDocs(Document doc) throws XPathExpressionException {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        xPath.setNamespaceContext(new NamespaceContext() {
+            
+            @Override
+            public Iterator<?> getPrefixes(String namespaceURI) {
+                return null;
+            }
+            
+            @Override
+            public String getPrefix(String namespaceURI) {
+                return null;
+            }
+            
+            @Override
+            public String getNamespaceURI(String prefix) {
+                if ("wadl".equals(prefix)) {
+                    return WADL_NS;
+                }
+                return null;
+            }
+        });
+        XPathExpression exp = xPath.compile("//wadl:method[not(wadl:doc)]");
+        NodeList nl = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node item = nl.item(i);
+            String id = item.getAttributes().getNamedItem("id").getNodeValue();
+            Node docElem = doc.createElementNS(WADL_NS, "doc");
+            String defaultDoc = null;
+            if ("readAll".equals(id)) {
+                defaultDoc = "Returns the requested collection of resource representations.";
+            } else if ("read".equals(id)) {
+                defaultDoc = "Returns the specified resource representation(s).";
+            } else if ("create".equals(id)) {
+                defaultDoc = "Creates a new resource using the given resource data.";
+            } else if ("delete".equals(id)) {
+                defaultDoc = "Deletes the specified resource.";
+            } else if ("update".equals(id)) {
+                defaultDoc = "Updates the specified resource using the given resource data.";
+            }
+            if (defaultDoc != null) {
+                Text text = doc.createTextNode(defaultDoc);
+                docElem.appendChild(text);
+                item.appendChild(docElem);
+            }
+        }
+
+        // "//ns2:param[@name='id']"
+        XPathExpression idDelExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template']/wadl:doc");
+        NodeList idDelNl = (NodeList) idDelExp.evaluate(doc, XPathConstants.NODESET);
+        for (int i = 0; i < idDelNl.getLength(); i++) {
+            Node item = idDelNl.item(i);
+            item.getParentNode().removeChild(item);
+        }
+
+        // "//ns2:param[@name='id']"
+        XPathExpression idExp = xPath.compile("//wadl:param[contains(@name, 'id') or contains(@name, 'Id')][@style='template'][not(wadl:doc)]");
+        NodeList idNl = (NodeList) idExp.evaluate(doc, XPathConstants.NODESET);
+        for (int i = 0; i < idNl.getLength(); i++) {
+            Node item = idNl.item(i);
+            Node docElem = doc.createElementNS(WADL_NS, "doc");
+            String defaultDoc = "A comma-separated list of resource IDs.";
+            if (defaultDoc != null) {
+                Text text = doc.createTextNode(defaultDoc);
+                docElem.appendChild(text);
+                item.appendChild(docElem);
+            }
+        }
+
+        return doc;
     }
 }

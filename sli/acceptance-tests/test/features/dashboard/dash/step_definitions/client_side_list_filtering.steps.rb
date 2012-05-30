@@ -7,7 +7,6 @@ end
 
 When /^I select filter "([^"]*)"$/ do |filter|
   select_by_id(filter, "filterSelect")
-  sleep(5)
 end
 
 Then /^I should see a student named "([^"]*)"$/ do |student|
@@ -18,10 +17,11 @@ Then /^I should see a student named "([^"]*)"$/ do |student|
 end
 
 def get_all_elements
-  options = @selector.find_elements(:tag_name, "option")
+  options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
   arr = []
   options.each do |option|
-    arr << option.text
+    link = option.find_element(:tag_name, "a").attribute("text")
+    arr << link
   end
   arr
 end

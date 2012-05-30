@@ -1,0 +1,60 @@
+<Student>
+        <StudentUniqueStateId>100000000</StudentUniqueStateId>
+        <StudentIdentificationCode IdentificationSystem="Local">
+            <IdentificationCode>372</IdentificationCode>
+        </StudentIdentificationCode>
+        <StudentIdentificationCode IdentificationSystem="SSN">
+            <IdentificationCode>1122336502</IdentificationCode>
+        </StudentIdentificationCode>
+        <Name>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </Name>
+                <OtherName>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </OtherName>
+                <OtherName>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </OtherName>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-07-02</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>351</BuildingSiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Work">
+            <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+            <City>Toronto</City>
+            <StateAbbreviation>WA</StateAbbreviation>
+            <PostalCode>A1B 2C3</PostalCode>
+            <CountryCode>CA</CountryCode>
+        </Address>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Bennie.C@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>B.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>

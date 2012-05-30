@@ -34,51 +34,51 @@ import org.slc.sli.validation.schema.StringSchema;
 
 /**
  * JUnit for XsdToNeturalSchema
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdToNeutralSchemaTest {
-    
+
     ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(
             new String[] { "spring/applicationContext-test.xml" });
-    
+
     @Test
     public void testSimpleType() throws IOException {
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema baseSimpleType = repo.getSchema("BaseSimpleType");
         assertNotNull(baseSimpleType);
         assertEquals("BaseSimpleType", baseSimpleType.getType());
     }
-    
+
     @Test
     public void testSchemaDocumentation() throws IOException {
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema simpleDoc = repo.getSchema("TestDocumentationSimple");
         assertNotNull(simpleDoc);
         Documentation doc = simpleDoc.getDocumentation();
         assertEquals("Test documentation.", doc.toString());
-        
+
         NeutralSchema complexDoc = repo.getSchema("TestDocumentationComplex");
         assertNotNull(complexDoc);
         doc = complexDoc.getDocumentation();
         assertEquals("Test complex documentation.", doc.toString());
-        
+
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-            
+
             // base1 has no documentation
             if (entry.getKey().equals("base1")) {
                 assertNull(entry.getValue().getDocumentation());
             }
-            
+
             // simple does
             if (entry.getKey().equals("simple")) {
                 doc = entry.getValue().getDocumentation();
@@ -87,63 +87,63 @@ public class XsdToNeutralSchemaTest {
             }
         }
     }
-    
+
     /**
     * Test non-RelaxedBlacklist annotations within a simple string documentation.
-    * 
-    * 
+    *
+    *
     */
     @Test
     public void testNonRelaxedBlacklistStringType() throws IOException {
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema simpleDoc = repo.getSchema("TestNonRelaxedBlacklistString");
         assertNotNull(simpleDoc);
         assertEquals("TestNonRelaxedBlacklistString", simpleDoc.getType());
         assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !simpleDoc.isRelaxedBlacklisted());
     }
-    
+
     /**
     * Test RelaxedBlacklist annotations within a simple string documentation.
-    * 
-    * 
+    *
+    *
     */
     @Test
     public void testRelaxedBlacklistStringType() throws IOException {
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema simpleDoc = repo.getSchema("TestRelaxedBlacklistString");
         assertNotNull(simpleDoc);
         assertEquals("TestRelaxedBlacklistString", simpleDoc.getType());
         assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", simpleDoc.isRelaxedBlacklisted());
     }
-    
+
     /**
     * Test RelaxedBlacklist annotations within a complex string documentation sequence.
-    * 
+    *
     */
     @Test
     public void testTestRelaxedBlacklistSequenceComplex() throws IOException {
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistSequenceComplex");
         assertNotNull(complexDoc);
-        
+
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-            
+
             // base1 has TestRelaxedBlacklistString documentation
             if (entry.getKey().equals("white")) {
                 assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
                 assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
             }
-            
+
             // simple has TestNonRelaxedBlacklistString documentation
             if (entry.getKey().equals("nonwhite")) {
                 assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
@@ -151,29 +151,29 @@ public class XsdToNeutralSchemaTest {
             }
         }
     }
-    
+
     /**
     * Test RelaxedBlacklist annotations within a complex string documentation choice.
-    * 
+    *
     */
     @Test
     public void testTestRelaxedBlacklistChoiceComplex() throws IOException {
-        
+
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistChoiceComplex");
         assertNotNull(complexDoc);
-        
+
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
-            
+
             // base1 has TestRelaxedBlacklistString documentation
             if (entry.getKey().equals("white")) {
                 assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
                 assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
             }
-            
+
             // simple has TestNonRelaxedBlacklistString documentation
             if (entry.getKey().equals("nonwhite")) {
                 assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
@@ -181,32 +181,32 @@ public class XsdToNeutralSchemaTest {
             }
         }
     }
-    
+
     /**
      * Certain annotations are inheritable when the type is contained within another type.
      * For example, the annotation for personally identifiable information (PII) is inheritable.
      * If a complex type is marked as PII, all of its elements are automatically marked PII.
-     * 
+     *
      * For security / restricted access annotations, we choose the most restrictive value.
      */
     @Test
     public void testInheritableAnnotations() throws IOException {
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         // Not marked PII
         NeutralSchema simpleDoc = repo.getSchema("TestDocumentationSimple");
         assertNotNull(simpleDoc);
         AppInfo appInfo = simpleDoc.getAppInfo();
         assertNull(appInfo);
-        
+
         // Simple type marked PII
         simpleDoc = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
         assertNotNull(simpleDoc);
         appInfo = simpleDoc.getAppInfo();
         assertNotNull(appInfo);
         assertTrue(appInfo.isPersonallyIdentifiableInfo());
-        
+
         // All fields in a complex type marked PII are marked as PII unless explicitly set.
         NeutralSchema complexDoc = repo.getSchema("TestPersonallyIdentifiableInfoComplex");
         assertNotNull(complexDoc);
@@ -217,59 +217,83 @@ public class XsdToNeutralSchemaTest {
             appInfo = entry.getValue().getAppInfo();
             assertTrue(appInfo.isPersonallyIdentifiableInfo());
         }
-        
+
         // Fields in a complex type not marked PII use their type annotations.
         complexDoc = repo.getSchema("TestNotPersonallyIdentifiableInfoComplex");
         assertNotNull(complexDoc);
         appInfo = complexDoc.getAppInfo();
         assertNull(appInfo);
         fields = complexDoc.getFields();
-        
+
         // expecting only one field
         assertTrue(fields.size() == 1);
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
             appInfo = entry.getValue().getAppInfo();
             assertTrue(appInfo.isPersonallyIdentifiableInfo());
         }
-        
+
         simpleDoc = repo.getSchema("TestSecuritySimple");
         assertNotNull(simpleDoc);
         appInfo = simpleDoc.getAppInfo();
         assertNotNull(appInfo.getReadAuthority());
         assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
-        
+
         complexDoc = repo.getSchema("TestSecurityComplex");
         assertNotNull(complexDoc);
         appInfo = complexDoc.getAppInfo();
         assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
-        
+
         // attributes with more restrictive rights should maintain those rights.
         fields = complexDoc.getFields();
-        
+
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
             appInfo = entry.getValue().getAppInfo();
-            
+
             if (entry.getKey().equals("security")) {
                 assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
-                
+
             } else {
                 assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
             }
         }
     }
-    
+
+
+    /**
+     * Certain annotations with restrictedForLogging flag
+     */
+    @Test
+    public void testRestrictedForLogging() throws IOException {
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+
+        // no restrictedForLogging flag
+        NeutralSchema complexDoc = repo.getSchema("TestNotRestrictedForLoggingComplex");
+        assertNotNull(complexDoc);
+        AppInfo appInfo = complexDoc.getAppInfo();
+        assertNotNull(appInfo);
+        assertFalse(appInfo.isRestrictedFieldForLogging());
+
+        // has restrictedForLogging flag set
+        complexDoc = repo.getSchema("TestRestrictedForLoggingComplex");
+        assertNotNull(complexDoc);
+        appInfo = complexDoc.getAppInfo();
+        assertNotNull(appInfo);
+        assertTrue(appInfo.isRestrictedFieldForLogging());
+    }
+
     @Test
     public void testChoiceSchema() throws IOException {
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
-        
+
         ChoiceSchema choiceSchema = (ChoiceSchema) repo.getSchema("TestChoiceNoMinOccurs");
         assertNotNull(choiceSchema);
-        
+
         assertTrue(choiceSchema.getMinOccurs() == 0);
         assertTrue(choiceSchema.getMaxOccurs() == ChoiceSchema.UNBOUNDED);
     }
-    
+
     @Test
     public void testSchema() throws IOException {
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("testSchemas", new NeutralSchemaFactory());
@@ -279,31 +303,31 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(schema);
         assertEquals("TestComplexType", schema.getType());
         assertEquals(ComplexSchema.class.getCanonicalName(), schema.getValidatorClass());
-        
+
         NeutralSchema testStringSchema = schema.getFields().get("testString");
         assertNotNull(testStringSchema);
         assertEquals(NeutralSchemaType.STRING.getName(), testStringSchema.getType());
         assertEquals(StringSchema.class.getCanonicalName(), testStringSchema.getValidatorClass());
-        
+
         NeutralSchema testSimpleReferenceSchema = schema.getFields().get("testSimpleReference");
         assertNotNull(testSimpleReferenceSchema);
         assertEquals("BaseSimpleType", testSimpleReferenceSchema.getType());
         assertEquals(StringSchema.class.getCanonicalName(), testSimpleReferenceSchema.getValidatorClass());
         assertEquals("1", testSimpleReferenceSchema.getProperties().get(Restriction.MIN_LENGTH.getValue()));
         assertEquals("30", testSimpleReferenceSchema.getProperties().get(Restriction.MAX_LENGTH.getValue()));
-        
+
         NeutralSchema testDateSchema = schema.getFields().get("testDate");
         assertNotNull(testDateSchema);
         assertEquals("date", testDateSchema.getType());
         assertEquals(DateSchema.class.getCanonicalName(), testDateSchema.getValidatorClass());
-        
+
         NeutralSchema anonSchema = schema.getFields().get("testAnonymousSimpleType");
         assertNotNull(anonSchema);
         assertEquals("testAnonymousSimpleType1", anonSchema.getType());
         assertEquals(IntegerSchema.class.getCanonicalName(), anonSchema.getValidatorClass());
         assertEquals("1", anonSchema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
         assertEquals("2", anonSchema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
-        
+
         NeutralSchema extSchema = schema.getFields().get("testComplexContentExtension");
         assertNotNull(extSchema);
         assertEquals("testComplexContentExtension", extSchema.getType());
@@ -323,14 +347,14 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(extField3);
         assertEquals("BaseSimpleType", extField3.getType());
         assertEquals(StringSchema.class.getCanonicalName(), extField3.getValidatorClass());
-        
+
         NeutralSchema cycleSchema = schema.getFields().get("WeeksInCycle");
         assertNotNull(cycleSchema);
         assertEquals("WeeksInCycle1", cycleSchema.getType());
         assertEquals(IntegerSchema.class.getCanonicalName(), cycleSchema.getValidatorClass());
         assertEquals("1", cycleSchema.getProperties().get(Restriction.MIN_INCLUSIVE.getValue()));
         assertEquals("52", cycleSchema.getProperties().get(Restriction.MAX_INCLUSIVE.getValue()));
-        
+
         NeutralSchema schema2 = repo.getSchema("TestComplexType2");
         assertNotNull(schema2);
         NeutralSchema cycle2Schema = schema2.getFields().get("WeeksInCycle");
@@ -343,12 +367,12 @@ public class XsdToNeutralSchemaTest {
         assertNotNull(testDoubleSchema);
         assertEquals("double", testDoubleSchema.getType());
         assertEquals(DoubleSchema.class.getCanonicalName(), testDoubleSchema.getValidatorClass());
-        
+
         NeutralSchema testFloatSchema = schema.getFields().get("testFloat");
         assertNotNull(testFloatSchema);
         assertEquals("float", testFloatSchema.getType());
         assertEquals(DoubleSchema.class.getCanonicalName(), testFloatSchema.getValidatorClass());
-        
+
         NeutralSchema schema3 = repo.getSchema("TestComplexType3");
         assertNotNull(schema3);
         NeutralSchema simpleRestriction = schema3.getFields().get("SimpleTypeRestriction");
@@ -358,7 +382,7 @@ public class XsdToNeutralSchemaTest {
         assertEquals("40", simpleRestriction.getProperties().get(Restriction.MAX_LENGTH.getValue()));
         assertEquals("1", simpleRestriction.getProperties().get(Restriction.MIN_LENGTH.getValue()));
     }
-    
+
     @Test
     public void testInvalidSchemas() throws IOException {
         try {
@@ -370,7 +394,7 @@ public class XsdToNeutralSchemaTest {
             assertTrue(true);
         }
     }
-    
+
     @Test
     public void testEqualsHashCode() {
         // If someone were to override equals/hashCode, it could break the XSD parser.

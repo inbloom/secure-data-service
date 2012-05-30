@@ -1,3 +1,6 @@
+@RALLY_US209
+@RALLY_US1804
+@RALLY_US1961
 Feature: As an SLI application, I want to be able to manage cohort entities
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.

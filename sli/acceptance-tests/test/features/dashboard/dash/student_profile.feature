@@ -5,6 +5,7 @@ As a teacher in a school district, I want to click on a student and be directed 
 Background:
 Given I have an open web browser
 
+@RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View student's profile 
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
@@ -32,22 +33,19 @@ And the lozenges include "ELL"
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 #Check Enrollment
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
 |<empty>|East Daybreak Junior High  |8 |2012-01-01 |<empty>        |<empty>  |<empty>      |<empty>          |
-|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
-|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
+|<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
+|<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 
+@RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
@@ -61,7 +59,7 @@ And I click on student "Marvin Miller"
 And I view its student profile
 And their name shown in profile is "Marvin Miller Jr"
 And their id shown in proflie is "453827070"
-And their grade is "!"
+And their grade is "O"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "0"
@@ -70,11 +68,9 @@ And the lozenges count is "0"
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "High School Overview"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 #Check Enrollment
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
-|<empty>|East Daybreak Junior High  |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
-|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
+|<empty>|East Daybreak Junior High  |O |2012-01-01 |<empty>        |<empty>  |2012-06-02   |<empty>          |
+|<empty>|<empty>                    |O |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 	

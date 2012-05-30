@@ -27,9 +27,27 @@
     <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>common-encrypt</artifactId>
-      <version>${project.version}</version>
     </dependency>
-    
+
+    <!-- SLI - Domain -->
+    <dependency>
+      <groupId>org.slc.sli.domain</groupId>
+      <artifactId>domain</artifactId>
+    </dependency>
+
+    <!-- SLI - DAL -->
+    <dependency>
+      <groupId>org.slc.sli.dal</groupId>
+      <artifactId>dal</artifactId>
+
+      <exclusions>
+        <exclusion>
+          <groupId>org.slc.sli</groupId>
+          <artifactId>sli-configuration</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -102,6 +120,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- spring data mongodb dependency -->
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-mongodb</artifactId>
+        <version>${springdata-mongodb-version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -125,7 +150,7 @@
             </systemProperty>
             <systemProperty>
               <name>sli.encryption.keyStore</name>
-              <value>${sli.encryption.keyStore}</value>
+              <value>${sli.home}/data-access/dal/keyStore/localKeyStore.jks</value>
             </systemProperty>
             <systemProperty>
               <name>sli.encryption.properties</name>

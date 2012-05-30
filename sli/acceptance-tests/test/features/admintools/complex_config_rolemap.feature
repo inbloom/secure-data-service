@@ -1,75 +1,19 @@
-
+@RALLY_US176
+@RALLY_US174
 Feature:  Complex-Configurable Role Mapping Tool
  
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to the SLI Default Roles.
  
 #Admin Scenarios
  
-Scenario: Go to Complex-Configurable Role Mapping Page when not authenticated to SLI IDP
- 
-Given I have an open web browser
-And I am not authenticated to SLI IDP
-When I navigate to the Complex-Configurable Role Mapping Page
-Then I was redirected to the SLI IDP Login page
-#Then I should be directed to the Realm page
- 
- @wip
-Scenario: Go to Complex-Configurable Role Mapping Page when authenticated to IDP other than SLI
- 
-Given I have an open web browser
-And I am authenticated to "Realm" IDP
-When I navigate to the Complex-Configurable Role Mapping Page
-Then I should get a message that I am not authorized
- 
-Scenario: Go to Complex-Configurable Role Mapping Page when authenticated to SLI IDP, when having a role other than Super Administrator
- 
-Given I have an open web browser
-And I am authenticated to SLI IDP as user "leader" with pass "leader1234"
-And I am not a Super Administrator
-When I navigate to the Complex-Configurable Role Mapping Page
-Then I should get a message that I am not authorized to access the page
- 
-Scenario: Go to Complex-Configurable Role Mapping Page when authenticated to SLI IDP, when having a role  Super Administrator
- 
-Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I am a Super Administrator for "SLI"
-When I navigate to the Complex-Configurable Role Mapping Page
-Then I should be redirected to the Complex-Configurable Role Mapping Page for "SLI"
- 
-Scenario: Valid SLI IDP user (State Super Administrator) login to Complex-Configurable Role Mapping Page
- 
-Given I have an open web browser
-And I am not authenticated to SLI IDP
-And I have tried to access the Complex-Configurable Role Mapping Page
-#And I was redirected to the Realm page
-#And I choose realm "Shared Learning Infrastructure" in the drop-down list
-#And I click on the page Go button
-And I was redirected to the SLI IDP Login page
-And I am user "fakerealmadmin"
-And "fakerealmadmin" is valid "SLI IDP" user
-And I have a Role attribute equal to "SLI IT Administrator"
-When I enter "fakerealmadmin" in the username text field
-And I enter "fakerealmadmin1234" in the password text field
-And I click the Go button
-Then I am now authenticated to SLI IDP
-And I am redirected to the Complex-Configurable Role Mapping Page
- 
- @wip
-Scenario:  Complex-Configurable Role Mapping Page logout
- 
-Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
-When I click on the Logout link
-Then I am not authenticated to SLI IDP
- 
 Scenario: Reset the mapping to default mappings
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
-When I click on the Reset Mapping button
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
+ When I click on the Reset Mapping button
 And I got warning message saying 'Are you sure you want to reset the role mappings?'
 When I click 'OK'
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
@@ -77,13 +21,15 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 Scenario Outline: Creating correct mappings for roles 
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
 Then the custom role <Custom Role> is mapped to the default role <Role> 
-And The user <Username> who is a <Custom Role> can now log in to SLI as a <Role> from my realm "SLI"
+And The user <Username> who is a <Custom Role> can now log in to SLI as a <Role> from my realm "IL"
 Examples:
 | Role               | Custom Role | Username  |
 | "Educator"         | "Teacher"   | "teacher" |
@@ -93,11 +39,13 @@ Examples:
  
  Scenario Outline: Removing mappings from roles
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the remove button between role <Role> and custom role <Custom Role>
 Then the custom role <Custom Role> is no longer mapped to the default role <Role> 
-And The user <Username> who is a <Custom Role> can not access SLI as a <Role> from my realm "SLI"
+And The user <Username> who is a <Custom Role> can not access SLI as a <Role> from my realm "IL"
 Examples:
 | Role               | Custom Role | Username  |
 | "Educator"         | "Teacher"   | "teacher" |
@@ -108,8 +56,10 @@ Examples:
 Scenario Outline: Creating duplicated mappings for different roles
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <First Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
@@ -125,9 +75,11 @@ Examples:
 
 Scenario Outline: Click Save in case of repeating values for same roles
  
- Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+Given I have an open web browser
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
@@ -144,8 +96,10 @@ Examples:
  Scenario Outline: Try to save incorrect values for roles
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Bad Text> in the text field
 And I click the add button
@@ -159,8 +113,10 @@ Examples:
 Scenario: Reset the mapping to default mappings when previous mappings exist
  
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-And I have navigated to my Complex-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Complex-Configurable Role Mapping Page
 And I see pre-existing mappings
 When I click on the Reset Mapping button
 And I got warning message saying 'Are you sure you want to reset the role mappings?'

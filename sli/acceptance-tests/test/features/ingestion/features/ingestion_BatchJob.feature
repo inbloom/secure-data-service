@@ -1,3 +1,4 @@
+@RALLY_US2033
 Feature: Batchjob Datamodel Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -10,6 +11,9 @@ Given I post "BatchJob.zip" file as the payload of the ingestion job
         | collectionName              |
         | newBatchJob                 |
         | error                       |
+    And the following collections are empty in datastore:
+        | collectionName              |
+        | securityEvent               |
 
 When zip file is scp to ingestion landing zone
   And a batch job log has been created

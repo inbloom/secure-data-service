@@ -176,7 +176,7 @@ public class SectionEntityTest {
     + "   </Section>                                                                                   "
     + "</InterchangeMasterSchedule>";
 
-    @Test
+
     public void testValidSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
@@ -344,38 +344,6 @@ public class SectionEntityTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void testInvalidSectionMissingSessionReference() throws Exception {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeMasterSchedule/Section";
-
-        String invalidXmlMissingSessionReference = "<InterchangeMasterSchedule xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-EducationOrganization.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
-                + "<Section> "
-                + "<UniqueSectionCode>A-ELA4</UniqueSectionCode>"
-                + "<SequenceOfCourse>1</SequenceOfCourse>"
-                + "<CourseOfferingReference>"
-                +    "<CourseOfferingIdentity>"
-                +       "<LocalCourseCode>ELA4</LocalCourseCode>"
-                +    "</CourseOfferingIdentity>"
-                + "</CourseOfferingReference>"
-                + "<SchoolReference>"
-                +    "<EducationalOrgIdentity>"
-                +       "<StateOrganizationId>152901001</StateOrganizationId>"
-                +    "</EducationalOrgIdentity>"
-                + "</SchoolReference>"
-            + "</Section>"
-        + "</InterchangeMasterSchedule>";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, invalidXmlMissingSessionReference);
-
-        Entity e = mock(Entity.class);
-        when(e.getBody()).thenReturn(neutralRecord.getAttributes());
-        when(e.getType()).thenReturn("section");
-
-        validator.validate(e);
-
-    }
-
-    @Test(expected = EntityValidationException.class)
     public void testInvalidSectionIncorrectEnum() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
@@ -428,7 +396,7 @@ public class SectionEntityTest {
 
     }
 
-    @Test
+
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";

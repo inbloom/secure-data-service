@@ -6,15 +6,14 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -26,17 +25,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RoleInitializer {
-    public static final String  EDUCATOR          = "Educator";
-    public static final String  AGGREGATE_VIEWER  = "Aggregate Viewer";
-    public static final String  IT_ADMINISTRATOR  = "IT Administrator";
-    public static final String  LEADER            = "Leader";
-    public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
-    public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
+    public static final String EDUCATOR = "Educator";
+    public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
+    public static final String IT_ADMINISTRATOR = "IT Administrator";
+    public static final String LEADER = "Leader";
+    public static final String SLI_ADMINISTRATOR = "SLI Administrator";
+    public static final String LEA_ADMINISTRATOR = "LEA Administrator";
+    public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
     public static final String SLC_OPERATOR = "SLC Operator";
     public static final String REALM_ADMINISTRATOR = "Realm Administrator";
-
-    private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
+    public static final String INGESTION_USER = "Ingestion User";
     public static final String  ROLES             = "roles";
 
     @Autowired
@@ -65,6 +64,8 @@ public class RoleInitializer {
         boolean hasAppDeveloper = false;
         boolean hasSLCOperator = false;
         boolean hasRealmAdmin = false;
+        boolean hasSEAAdmin = false;
+        boolean hasIngestionUser = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -86,6 +87,8 @@ public class RoleInitializer {
                 hasSLCOperator = true;
             } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
                 hasRealmAdmin = true;
+            } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
+                hasSEAAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -115,6 +118,12 @@ public class RoleInitializer {
         if (!hasRealmAdmin) {
             createdRoles.add(buildRealmAdmin());
         }
+        if (!hasSEAAdmin) {
+            createdRoles.add(buildSEAAdmin());
+        }
+        if (!hasIngestionUser) {
+            createdRoles.add(buildIngestionUser());
+        }
 
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
@@ -123,60 +132,70 @@ public class RoleInitializer {
 
     }
 
+    private Role buildIngestionUser() {
+        info("Building Ingestion User default role.");
+        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).setAdmin(true).build();
+    }
+
     private Role buildRealmAdmin() {
-        LOG.info("Building Realm Administrator default role.");
+        info("Building Realm Administrator default role.");
         return RoleBuilder
                 .makeRole(REALM_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     private Role buildAggregate() {
-        LOG.info("Building Aggregate Viewer default role.");
+        info("Building Aggregate Viewer default role.");
         return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
     }
 
     private Role buildSLCOperator() {
-        LOG.info("Building SLC Operator role.");
+        info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     //TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
     private Role buildAppDeveloper() {
-        LOG.info("Building Application Developer default role.");
+        info("Building Application Developer default role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC })
-                .setAdmin(true).build();
+                        .setAdmin(true).build();
     }
 
     private Role buildEducator() {
-        LOG.info("Building Educator default role.");
+        info("Building Educator default role.");
         return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
     }
 
     private Role buildLeader() {
-        LOG.info("Building Leader default role.");
+        info("Building Leader default role.");
         return RoleBuilder.makeRole(LEADER).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }).build();
     }
 
     private Role buildIT() {
-        LOG.info("Building IT Administrator default role.");
+        info("Building IT Administrator default role.");
         return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
     }
 
     private Role buildSLIAdmin() {
-        LOG.info("Building SLI Administrator default role.");
+        info("Building SLI Administrator default role.");
         return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
 
     private Role buildLEAAdmin() {
-        LOG.info("Building LEA Administrator default role.");
+        info("Building LEA Administrator default role.");
         return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC }).setAdmin(true).build();
+    }
+
+    private Role buildSEAAdmin() {
+        info("Building SEA Administrator default role.");
+        return RoleBuilder.makeRole(SEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC }).setAdmin(true).build();
     }
 
     public void setRepository(Repository repo) {

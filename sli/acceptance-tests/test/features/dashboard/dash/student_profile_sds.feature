@@ -8,7 +8,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student profile with no homeroom, teacher
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -19,8 +19,6 @@ When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;Felipe Cianciolo"
 # Lozenges check on LOS
 Then there is no lozenges for student "Tomasa Cleaveland"
-And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
 And I click on student "Alton Maultsby"
 And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
@@ -29,26 +27,18 @@ And their grade is "8"
 And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
-And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
 #Display hide tabs based on grades
-And there are "7" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
-#Check the District tab
-And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
-And in "Advanced Academics" tab, there are "0" Panels
-And in "ELL" tab, there are "0" Panels
 
-@integration
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
 When I login as "manthony" "manthony1234"
 When I select ed org "Sunset School District 4526"
@@ -57,15 +47,14 @@ When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
 And I click on student "Roberta Jones"
 And I view its student profile
-And their name shown in profile is "Roberta Jones"
-And their nickname shown in profile is "( Robbie Jones )"
+And their name shown in profile is "Roberta Jones (Robbie Jones)"
 And their id shown in proflie is "1000000000"
 And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
-And there are "6" Tabs
+And there are "4" Tabs
 
-@integration 
+@integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
 When I login as "manthony" "manthony1234"
 When I select ed org "Sunset School District 4526"

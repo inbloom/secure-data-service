@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email:</b>
+  <%= @user_account_registration.email %>
+</p>
+
+<p>
+  <b>Firstname:</b>
+  <%= @user_account_registration.firstName %>
+</p>
+
+<p>
+  <b>Lastname:</b>
+  <%= @user_account_registration.lastName %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%= @user_account_registration.password %>
+</p>
+
+<p>
+  <b>Vendor:</b>
+  <%= @user_account_registration.vendor %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_account_registration_path(@user_account_registration) %> |
+<%= link_to 'Done', user_account_registrations_path, :class=>"btn" %>

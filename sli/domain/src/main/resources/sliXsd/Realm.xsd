@@ -50,8 +50,10 @@
     <xs:complexType name="idpEndpoints">
         <xs:sequence>
             <xs:element name="id" type="xs:string" minOccurs="1" />
+            <xs:element name="idpType" type="xs:string" minOccurs="0" />
             <xs:element name="redirectEndpoint" type="xs:string"
                 minOccurs="1" />
+                
         </xs:sequence>
     </xs:complexType>
 

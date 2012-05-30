@@ -1,3 +1,10 @@
+When /^"([^"]*)" has no "([^"]*)"$/ do |student, attr|
+  studentCell = getStudentCell(student)
+  td = getAttribute(studentCell, attr).strip
+  assert(td.length == 0, "Non-empty value found" + td)
+end
+
+
 # This will return all the TRs of the a grid, 1 for each student
 def getStudentGrid()
    return getGrid(@driver)
@@ -23,7 +30,9 @@ def getStudentName(studentTr)
 end
 
 def getStudentProgramParticipation(studentTr)
-  return getAttributes(studentTr, getStudentProgramParticipationColumnName())
+  td = getTdBasedOnAttribute(studentTr, getStudentProgramParticipationColumnName())
+  programParticipations = td.find_elements(:tag_name, "span")
+  return programParticipations
 end
 
 #returns an array of grades
@@ -38,8 +47,14 @@ def getColumnLookupName(headerName)
     return getStudentColumnName()
   elsif (headerName == "absence count")
     return getAbsenceCountColumnName()
+  elsif (headerName == "statetest reading performance level") 
+    return "StateTest Reading.perfLevel"
+  elsif (headerName == "statetest writing performance level") 
+    return "StateTest Writing.perfLevel"
+  elsif (headerName == "unit test 1")
+    return "FallSemester2011-2012"
   else
-    assert(true, "unknown header name: " + headerName)
+    assert(false, "unknown header name: " + headerName)
   end
 end
 
@@ -54,3 +69,4 @@ end
 def getAbsenceCountColumnName()
   return "absenceCount"
 end
+

@@ -22,6 +22,9 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,9 +41,6 @@ import org.slc.sli.api.resources.v1.entity.CohortResource;
 import org.slc.sli.api.resources.v1.entity.StaffResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Unit tests for the resource representing a cohort
@@ -54,7 +54,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 public class StaffCohortAssociationTest {
 
     @Autowired
-    StaffCohortAssociation staffCohortAssn; //class under test
+    StaffCohortAssociationResource staffCohortAssn; //class under test
     @Autowired
     StaffResource staffResource;
     @Autowired
@@ -91,7 +91,7 @@ public class StaffCohortAssociationTest {
     private Map<String, Object> createTestAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, assnId);
-        entity.put(StaffCohortAssociation.BEGIN_DATE, firstBeginDate);
+        entity.put(StaffCohortAssociationResource.BEGIN_DATE, firstBeginDate);
         entity.put(ParameterConstants.STAFF_ID, staffId);
         entity.put(ParameterConstants.COHORT_ID, cohortId);
         return entity;
@@ -100,7 +100,7 @@ public class StaffCohortAssociationTest {
     private Map<String, Object> createTestUpdateAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, assnId);
-        entity.put(StaffCohortAssociation.BEGIN_DATE, updatedBeginDate);
+        entity.put(StaffCohortAssociationResource.BEGIN_DATE, updatedBeginDate);
         entity.put(ParameterConstants.STAFF_ID, staffId);
         entity.put(ParameterConstants.COHORT_ID, cohortId);
         return entity;
@@ -109,7 +109,7 @@ public class StaffCohortAssociationTest {
     private Map<String, Object> createTestSecondaryAssociation() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, "4567");
-        entity.put(StaffCohortAssociation.BEGIN_DATE, secondBeginDate);
+        entity.put(StaffCohortAssociationResource.BEGIN_DATE, secondBeginDate);
         entity.put(ParameterConstants.STAFF_ID, "5678");
         entity.put(ParameterConstants.COHORT_ID, "6789");
         return entity;
@@ -188,7 +188,7 @@ public class StaffCohortAssociationTest {
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + updatedBeginDate, updatedBeginDate, body.get(StaffCohortAssociation.BEGIN_DATE));
+        assertEquals(StaffCohortAssociationResource.BEGIN_DATE + " should be " + updatedBeginDate, updatedBeginDate, body.get(StaffCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -221,12 +221,12 @@ public class StaffCohortAssociationTest {
 
         EntityBody body1 = results.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + firstBeginDate, firstBeginDate, body1.get(StaffCohortAssociation.BEGIN_DATE));
+        assertEquals(StaffCohortAssociationResource.BEGIN_DATE + " should be " + firstBeginDate, firstBeginDate, body1.get(StaffCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
 
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
-        assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StaffCohortAssociation.BEGIN_DATE));
+        assertEquals(StaffCohortAssociationResource.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StaffCohortAssociationResource.BEGIN_DATE));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
 

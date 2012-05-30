@@ -1,6 +1,12 @@
 package org.slc.sli.common.util.logging;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * class to represent a security event for logging
@@ -40,12 +46,14 @@ public class SecurityEvent {
 
     private String logMessage; // Alpha MH
 
+    private List<String> roles;
+
     public SecurityEvent() {
     }
 
     public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri,
             String appId, String origin, String executedOn, String credential, String userOrigin,
-            Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, String logMessage) {
+            Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, List<String> roles, String logMessage) {
         this.tenantId = tenantId;
         this.user = user;
         this.targetEdOrg = targetEdOrg;
@@ -60,6 +68,7 @@ public class SecurityEvent {
         this.className = className;
         this.logLevel = logLevel;
         this.logMessage = logMessage;
+        this.roles = roles;
     }
 
     public String getTenantId() {
@@ -174,6 +183,14 @@ public class SecurityEvent {
         this.logMessage = logMessage;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         String message;
@@ -191,9 +208,61 @@ public class SecurityEvent {
                 + ((credential == null) ? "" : credential) + DELIMITER
                 + ((actionUri == null) ? "" : actionUri) + DELIMITER
                 + ((origin == null) ? "" : origin) + DELIMITER
+                + ((roles == null) ? "" : roles) + DELIMITER
                 + ((logMessage == null) ? "" : logMessage);
 
         return message;
     }
 
+    public Map<String, Object> getProperties() {
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        if (tenantId != null) {
+            dataMap.put("tenantId", tenantId);
+        }
+        if (user != null) {
+            dataMap.put("user", user);
+        }
+        if (targetEdOrg != null) {
+            dataMap.put("targetEdOrg", targetEdOrg);
+        }
+        if (actionUri != null) {
+            dataMap.put("actionUri", actionUri);
+        }
+        if (appId != null) {
+            dataMap.put("appId", appId);
+        }
+        if (origin != null) {
+            dataMap.put("origin", origin);
+        }
+        if (executedOn != null) {
+            dataMap.put("executedOn", executedOn);
+        }
+        if (credential != null) {
+            dataMap.put("credential", credential);
+        }
+        if (userOrigin != null) {
+            dataMap.put("userOrigin", userOrigin);
+        }
+        if (timeStamp != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(timeStamp);
+            dataMap.put("timeStamp", DatatypeConverter.printDateTime(cal));
+        }
+        if (processNameOrId != null) {
+            dataMap.put("processNameOrId", processNameOrId);
+        }
+        if (className != null) {
+            dataMap.put("className", className);
+        }
+        if (logLevel != null) {
+            dataMap.put("logLevel", logLevel.toString());
+        }
+        if (logMessage != null) {
+            dataMap.put("logMessage", logMessage);
+        }
+        if (roles != null) {
+            dataMap.put("roles", roles);
+        }
+        return dataMap;
+    }
 }

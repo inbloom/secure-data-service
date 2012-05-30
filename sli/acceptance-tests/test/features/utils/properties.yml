@@ -18,7 +18,9 @@ lea_idp_server_url: "https://devopenam1.slidev.org:80/idp2/"
 ingestion_db: "localhost"
 ingestion_database_name: "sli"
 ingestion_batchjob_database_name: "ingestion_batch_job"
-ingestion_server_url: "testing1.slidev.org"
+ingestion_server_url: "devpantheon.slidev.org"
+ingestion_username: "ingestion"
+ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
 
@@ -28,9 +30,16 @@ api_database_name : "sli"
 sampleApp_server_address: "http://local.slidev.org:8081/"
 
 simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
-simpleIDP_realm_params: "response_type=code&client_id=fm67sH6vZZ&redirect_uri=http://local.slidev.org:8081/sample/callback"
+simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8081/sample/callback"
 simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap.hostname: ldap.slidev.org
+ldap_hostname: ldap.slidev.org
+ldap_base: "ou=SLIAdmin,dc=slidev,dc=org"
+
+user_registration_app_production_url: "http://local.slidev.org:3000"
+user_registration_app_sandbox_url: "http://local.slidev.org:3001"
+user_registration_app_host_url: "slcedu.org"
+registration_app_suffix: "/registration"
+validation_base_suffix: "/user_account_validation"

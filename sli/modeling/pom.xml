@@ -12,6 +12,10 @@
 	<name>Modeling</name>
 	<description>Modeling</description>
 
+	<properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+	</properties>
+
 	<modules>
 		<module>psm</module>
 		<module>xmi</module>
@@ -19,5 +23,12 @@
 		<module>xsd</module>
 		<module>uml</module>
 		<module>tools</module>
+		<module>rest</module>
+		<module>wadl</module>
+		<module>xdm</module>
+		<module>jgen</module>
+		<module>sdk</module>
+		<module>sdkgen</module>
+		<module>docgen</module>
 	</modules>
 </project>

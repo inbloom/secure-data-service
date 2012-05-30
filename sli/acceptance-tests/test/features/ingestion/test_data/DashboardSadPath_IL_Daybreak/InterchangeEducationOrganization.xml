@@ -232,6 +232,29 @@
     </EducationOrganizationReference>
   </Course-->
   <Course>
+    <CourseTitle>7th Grade Adv. English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade English</ID>
+    </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+  <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">

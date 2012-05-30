@@ -14,6 +14,7 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -26,6 +27,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Control file processor.
@@ -39,8 +41,6 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-
-    private static final String PURGE = "purge";
 
     @Autowired
     private ControlFileValidator validator;
@@ -116,7 +116,7 @@ public class ControlFileProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -128,10 +128,13 @@ public class ControlFileProcessor implements Processor {
         if (errorReport.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        } else if (newJob.getProperty(PURGE) != null) {
+        } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+        }
+        if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
+            exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         }
     }
 

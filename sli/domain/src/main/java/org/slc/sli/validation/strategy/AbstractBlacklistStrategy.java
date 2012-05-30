@@ -2,15 +2,12 @@ package org.slc.sli.validation.strategy;
 
 import java.util.Collection;
 
-import org.owasp.esapi.reference.validation.BaseValidationRule;
-
 /**
- * Extension of BaseValidationRule to use a Collection of input Strings to
- * build the validation model
+ * Use a Collection of input Strings to build the validation model
  *
  * @author vmcglaughlin
  */
-public abstract class AbstractBlacklistStrategy extends BaseValidationRule {
+public abstract class AbstractBlacklistStrategy {
 
     /**
     * Collection of Strings from which the validation model will be built
@@ -18,11 +15,16 @@ public abstract class AbstractBlacklistStrategy extends BaseValidationRule {
     protected Collection<String> inputCollection;
 
     /**
-     * Constructor with specified typeName
+     *
+     */
+    protected String identifier;
+
+    /**
+     * Constructor with specified identifier
      * @param typeName
      */
-    public AbstractBlacklistStrategy(String typeName) {
-        super(typeName);
+    public AbstractBlacklistStrategy(String identifier) {
+        this.identifier = identifier;
     }
 
     /**
@@ -46,4 +48,28 @@ public abstract class AbstractBlacklistStrategy extends BaseValidationRule {
     public void setInputCollection(Collection<String> inputCollection) {
         this.inputCollection = inputCollection;
     }
+
+    /**
+     * Get the identifier associated with the strategy
+     * @return
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    /**
+     * Set the identifier associated with the strategy
+     * @param identifier
+     */
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    /**
+     * Based on the strategy and context, return true if the input is valid, false otherwise
+     * @param context
+     * @param input
+     * @return
+     */
+    public abstract boolean isValid(String context, String input);
 }

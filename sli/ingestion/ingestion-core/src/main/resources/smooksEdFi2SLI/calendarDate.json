@@ -1,0 +1,3 @@
+{
+    "keyFields" : [ "metaData.externalId", "body.date", "body.calendarEvent" ]
+}
