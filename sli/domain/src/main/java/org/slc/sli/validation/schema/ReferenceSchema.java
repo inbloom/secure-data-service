@@ -2,13 +2,13 @@ package org.slc.sli.validation.schema;
 
 import java.util.List;
 
-import org.slc.sli.validation.SchemaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 
@@ -18,7 +18,7 @@ import org.slc.sli.validation.ValidationError.ErrorType;
  * @author srupasinghe
  *
  */
-public class ReferenceSchema extends NeutralSchema  {
+public class ReferenceSchema extends NeutralSchema {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(ReferenceSchema.class);
 
@@ -97,14 +97,13 @@ public class ReferenceSchema extends NeutralSchema  {
         String collectionName = getAppInfo().getReferenceType();
 
         if (schemaRepository != null) {
-            if (schemaRepository.getSchema(collectionName).getAppInfo() != null &&
-                    schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType() != null) {
+            if (schemaRepository.getSchema(collectionName).getAppInfo() != null
+                    && schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType() != null) {
                 collectionName = schemaRepository.getSchema(collectionName).getAppInfo().getCollectionType();
             }
         }
 
         return collectionName;
     }
-
 
 }

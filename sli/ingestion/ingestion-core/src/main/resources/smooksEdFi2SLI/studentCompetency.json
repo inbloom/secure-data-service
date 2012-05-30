@@ -7,6 +7,7 @@
             "ref" :
             {
                 "collectionName" : "learningObjective",
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [
@@ -26,6 +27,7 @@
             "ref" :
             {
                 "collectionName" : "studentCompetencyObjective",
+                "optional" : true,
                 "choiceOfFields" :
                 [
                     [

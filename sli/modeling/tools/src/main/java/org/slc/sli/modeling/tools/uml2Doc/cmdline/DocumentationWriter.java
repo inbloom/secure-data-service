@@ -311,13 +311,13 @@ public final class DocumentationWriter {
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(DocumentationElements.PROLOG.getLocalPart());
+            xsw.writeStartElement(DocumentationElements.PROgetLocalPart());
             try {
                 xsw.writeCharacters(diagram.getProlog());
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(DocumentationElements.EPILOG.getLocalPart());
+            xsw.writeStartElement(DocumentationElements.EPIgetLocalPart());
             try {
                 xsw.writeCharacters(diagram.getEpilog());
             } finally {

@@ -79,6 +79,8 @@
     <value>gradingPeriod</value>
     <value>calendarDate</value>
     <value>reportCard</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentCompetency</value>
   </util:set>
 
 </beans>

@@ -11,6 +11,10 @@
 	<artifactId>jgen</artifactId>
 	<name>Java Code Generation</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->

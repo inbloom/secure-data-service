@@ -243,7 +243,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
-#                     :v1BlacklistValidationTests,
+                     :v1BlacklistValidationTests,
                      :v1XMLTests] do
   displayFailureReport()
 end
@@ -453,18 +453,19 @@ desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
 sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
 runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
   end
-end
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run Provisioning User Account Limit Tests"
+task :provisionSandboxUserAccountLimitTests do
 sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.waitingListUserAccount.drop()\""
+runTests("test/features/sandbox/Provision/limit_number_accounts.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -472,7 +473,6 @@ runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
     raise "Tests have failed"
   end
 end
-
 
 ############################################################
 # Onboarding Integration Tests end
