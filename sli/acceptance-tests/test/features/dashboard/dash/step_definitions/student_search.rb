@@ -53,7 +53,7 @@ When /^I send the enter key$/ do
 end
 
 Then /^I should be informed that "([^"]*)" results are returned$/ do |numResults|
-  assertWithWait("Current URL doesn't seem to be the expected search results page: " + @driver.current_url)  {@driver.page_source.include?("Search Results")}
+  @explicitWait.until{@driver.current_url.include?("studentSearchPage") == true}
   expectedText = "returned " + numResults + " results"
   if (numResults.to_i == 1)
     expectedText = "returned " + numResults + " result"

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLOutputFactory;
@@ -49,7 +50,10 @@ public final class WadlWriter {
 
     private static final String SCHEMA_LOCATION_VALUE = "http://wadl.dev.java.net/2009/02 http://www.w3.org/Submission/wadl/wadl.xsd";
     private static final String SCHEMA_NS = "http://www.w3.org/2001/XMLSchema";
-    private static final String WADL_PREFIX = "";
+    private static final String WADL_PREFIX = "wadl";
+
+    // private static final String ELEMENT_NS = "http://www.slcedu.org/api/v1";
+    // private static final String ELEMENT_PREFIX = "sli";
 
     private static final void closeQuiet(final Closeable closeable) {
         try {
@@ -76,14 +80,17 @@ public final class WadlWriter {
         }
     }
 
-    private static final void writeApplication(final Application app, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void writeApplication(final Application app, final Map<String, String> prefixMappings,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.APPLICATION.getLocalName(), WadlSyntax.NAMESPACE);
         try {
             xsw.writeNamespace(WADL_PREFIX, WadlSyntax.NAMESPACE);
             xsw.writeNamespace("xsi", SCHEMA_INSTANCE_NS);
             xsw.writeAttribute("xsi", SCHEMA_INSTANCE_NS, "schemaLocation", SCHEMA_LOCATION_VALUE);
             xsw.writeNamespace("xs", SCHEMA_NS);
+            for (final String prefix : prefixMappings.keySet()) {
+                xsw.writeNamespace(prefix, prefixMappings.get(prefix));
+            }
             writeDocumentation(app, xsw);
             writeGrammars(app.getGrammars(), xsw);
             writeResources(app.getResources(), xsw);
@@ -126,13 +133,14 @@ public final class WadlWriter {
         }
     }
 
-    public static final void writeDocument(final Application app, final OutputStream outstream) {
+    public static final void writeDocument(final Application app, final Map<String, String> prefixMappings,
+            final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
             final XMLStreamWriter xsw = new IndentingXMLStreamWriter(xof.createXMLStreamWriter(outstream, "UTF-8"));
             xsw.writeStartDocument("UTF-8", "1.0");
             try {
-                writeApplication(app, xsw);
+                writeApplication(app, prefixMappings, xsw);
             } finally {
                 xsw.writeEndDocument();
             }
@@ -142,11 +150,12 @@ public final class WadlWriter {
         }
     }
 
-    public static final void writeDocument(final Application app, final String fileName) {
+    public static final void writeDocument(final Application app, final Map<String, String> prefixMappings,
+            final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
             try {
-                writeDocument(app, outstream);
+                writeDocument(app, prefixMappings, outstream);
             } finally {
                 closeQuiet(outstream);
             }
