@@ -31,7 +31,7 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
         <jb:wiring property="courseCode" beanIdRef="courseCodeTypeArray" />
         <jb:value property="courseLevel" data="attributes courseLevel" />
         <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
-        <jb:value property="gradesOffered" data="attributes gradesOffered" />
+        <jb:wiring property="gradesOffered" beanIdRef="gradesOfferedArray" />
         <jb:value property="subjectArea" data="attributes subjectArea" />
         <jb:value property="courseDescription" data="attributes courseDescription" />
         <jb:value property="dateCourseAdopted" data="attributes dateCourseAdopted" />
@@ -43,8 +43,11 @@ http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks
         <jb:value property="careerPathway" data="attributes careerPathway" />
         <jb:value property="schoolId" data="attributes schoolId" />
     </jb:bean>
-    
-    
+	
+    <jb:bean beanId="gradesOfferedArray" class="java.util.ArrayList" createOnElement="attributes gradesOffered">
+      <jb:value data="attributes gradesOffered element" />
+    </jb:bean>
+	
     <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="courseCodeType" />
     </jb:bean>
