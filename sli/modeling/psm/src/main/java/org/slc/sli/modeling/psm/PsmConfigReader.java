@@ -4,6 +4,7 @@ import static org.slc.sli.modeling.xml.XMLStreamReaderTools.skipElement;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,6 +39,16 @@ public final class PsmConfigReader {
     public static final PsmConfig<Type> readConfig(final String fileName, final ModelIndex mapper)
             throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
+        try {
+            return readConfig(istream, mapper);
+        } finally {
+            closeQuiet(istream);
+        }
+    }
+
+    public static final PsmConfig<Type> readConfig(final File file, final ModelIndex mapper)
+            throws FileNotFoundException {
+        final InputStream istream = new BufferedInputStream(new FileInputStream(file));
         try {
             return readConfig(istream, mapper);
         } finally {
@@ -240,6 +251,7 @@ public final class PsmConfigReader {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(PsmConfigElements.CLASS_TYPE, reader)) {
                         final String className = readClassName(PsmConfigElements.CLASS_TYPE, reader);
+                        @SuppressWarnings("deprecation")
                         final Set<ModelElement> elements = modelIndex.lookupByName(new QName(className));
                         type = assertNotNull(resolveClass(elements, className));
                     } else if (match(PsmConfigElements.PLURAL_RESOURCE_NAME, reader)) {

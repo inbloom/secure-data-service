@@ -123,6 +123,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                <value>${smooks.targetselector.xml.studentCompetencyObjective}</value>
                 <value>${smooks.targetselector.xml.student.gradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
@@ -130,6 +131,7 @@
                 <value>${smooks.targetselector.xml.student.studentAcademicRecordTemp}</value>
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
+                <value>${smooks.targetselector.xml.studentCompetency}</value>
               </list>
             </constructor-arg>
           </bean>

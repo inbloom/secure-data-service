@@ -1,40 +1,10 @@
-<head>
-    <style>
-        .preStyle {
-             white-space: pre-wrap;
-             word-wrap: break-word;
-             width: 400px;
-             height: 400px;
-             overflow: auto;
-             overflow-y; scroll;
-             background-color: #FFFFFF;
-             border: 1px solid;
-             padding: 15px;
-        }
-    </style>
-</head>
-
-<%= form_for(:eula) do |f| %>
-  <h1>Terms of Use</h1>
-  <div class="actions">
-
-    <table>
-      <tr>
-        <td>
-          <pre class="preStyle">
-              <%= render :file => '../../public/license.txt' %>
-          </pre>
-        </td>
-      </tr>
-      <tr>
-        <td align="right" style="padding: 10px">
-          <%= f.submit "Accept", 
-            :id => "acceptEulaButton", :class => "btn" %>
-          <%= f.submit "Reject", 
-            :id => "rejectEulaButton", :class => "btn" %>
-        </td>
-      </tr>
-    </table>
-
-  </div>
+<h1>Terms of Use</h1>
+<%= form_for(:eula) do |f| %>  
+    <pre class="pre-scrollable">
+        <%= render :file => '../../public/license.txt' %>
+    </pre>
+    <%= f.submit "Accept", 
+      :id => "acceptEulaButton", :class => "btn" %>
+    <%= f.submit "Reject", 
+      :id => "rejectEulaButton", :class => "btn btn-danger" %>
 <% end %>

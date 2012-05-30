@@ -12,6 +12,10 @@
   <name>Common Projects</name>
   <description>Common Stuff</description>
 
+  <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
   <modules>
     <module>common-test-data</module>
     <module>common-encrypt</module>

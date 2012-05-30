@@ -62,6 +62,9 @@
     "piiFields" : {
         "StudentReference" : {
             "StudentIdentity" : {
+               "studentIdentificationCode" : {
+                    "identificationCode" : true
+                  },
                 "Name" : {
                     "Verification" : true,
                     "FirstName" : true,

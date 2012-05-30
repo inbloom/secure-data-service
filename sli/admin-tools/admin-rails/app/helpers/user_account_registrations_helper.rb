@@ -49,7 +49,7 @@ module UserAccountRegistrationsHelper
                 "lastName" => user_account_registration.lastName,
                 "vendor" => user_account_registration.vendor,
                 "validated" => "false",
-                "environment" =>  APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
+                "environment" =>  APP_CONFIG["is_sandbox"]? "Sandbox": "Production"
             }
         success=false
         if isPost == true

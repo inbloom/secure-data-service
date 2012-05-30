@@ -14,6 +14,8 @@
       <SessionIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
         <SessionName>Fall 2011 Able School</SessionName>
+        <SchoolYear>1999-2000</SchoolYear>
+        <Term>Fall Semester</Term>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>
@@ -38,6 +40,8 @@
       <SessionIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
         <SessionName>Fall 2011 Able School</SessionName>
+        <SchoolYear>1999-2000</SchoolYear>
+        <Term>Fall Semester</Term>
       </SessionIdentity>
     </SessionReference>
     <CourseReference>

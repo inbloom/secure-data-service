@@ -1,0 +1,23 @@
+{
+    "keyFields": ["body.schoolId"],
+    "references": [
+        {
+            "fieldPath": "body.schoolId",
+            "ref": {
+                "collectionName": "educationOrganization",
+                "choiceOfFields": [
+                    [
+                        {
+                            "path": "body.stateOrganizationId",
+                            "values": [
+                                {
+                                    "valueSource": "body.schoolId"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}
