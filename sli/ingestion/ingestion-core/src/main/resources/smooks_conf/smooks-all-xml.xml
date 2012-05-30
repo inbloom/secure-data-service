@@ -3944,6 +3944,7 @@
         <jb:value property="schoolYear" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
         <jb:value property="edOrgId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/ID" />
         <jb:value property="edOrgIdentCode" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+        <jb:value property="stateOrgId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
     </jb:bean>
     <!-- End ReportCard mapping -->
 

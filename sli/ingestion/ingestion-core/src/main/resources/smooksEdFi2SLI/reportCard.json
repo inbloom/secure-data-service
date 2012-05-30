@@ -113,6 +113,13 @@
                                                     [{
                                                         "valueSource" : "body.gradingPeriodId.edOrgIdentCode"
                                                     }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.stateOrganizationId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.stateOrgId"
+                                                    }]
                                         }
                                     ]
                                 ]
