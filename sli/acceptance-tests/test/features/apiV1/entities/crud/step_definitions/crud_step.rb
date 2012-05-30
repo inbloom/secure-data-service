@@ -53,8 +53,8 @@ $entityData = {
     }]
   },
   "studentAcademicRecord" => {
-    "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
+    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4", 
+    "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904"
   },
   "student" => {
     "birthData" => {
