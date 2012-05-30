@@ -13,6 +13,10 @@
   <name>Mock Data Access Layer</name>
   <description>Mock Data Access Layer</description>
 
+  <properties>
+    <sli.home>${project.parent.parent.basedir}</sli.home>
+  </properties>
+
   <dependencies>
 
     <dependency>

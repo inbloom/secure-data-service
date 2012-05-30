@@ -24,7 +24,7 @@
     <aspectj.maven.version>1.4</aspectj.maven.version>
     <aspectjweaver.version>1.6.12</aspectjweaver.version>
     <freemarker.version>2.3.14</freemarker.version>
-  	<sli.home>${project.parent.basedir}/..</sli.home>
+  	<sli.home>${project.parent..parent.basedir}</sli.home>
     <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
     <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
   </properties>
@@ -147,7 +147,7 @@
       <artifactId>camel-quartz</artifactId>
       <version>${camel.version}</version>
     </dependency>
-    
+
     <!-- Apache Hadoop Core -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -305,7 +305,7 @@
         </property>
       </activation>
       <dependencies>
-        <!-- 
+        <!--
         <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
