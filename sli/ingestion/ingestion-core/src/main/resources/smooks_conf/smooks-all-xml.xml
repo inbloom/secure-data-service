@@ -795,7 +795,7 @@
   </jb:bean>
 
   <jb:bean beanId="sectionLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
-    <jb:wiring property="Course" beanIdRef="Section_CourseReference" />
+    <jb:wiring property="Course" beanIdRef="Section_CourseOfferingReference" />
     <jb:wiring property="educationOrganization#schoolId" beanIdRef="Section_SchoolReference" />
     <jb:wiring property="Session" beanIdRef="Section_SessionReference" />
     <jb:wiring property="program#programReference" beanIdRef="section_ProgramReferenceArray" />
@@ -809,17 +809,8 @@
     <jb:value property="program#metaData.externalId" data="Section/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
-  <jb:bean beanId="Section_CourseReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
-    <jb:value property="Course#metaData.externalId" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
-    <jb:wiring property="Course#body.courseCode" beanIdRef="Section_CourseReference_CourseCodeArray" />
-  </jb:bean>
-  <jb:bean beanId="Section_CourseReference_CourseCodeArray" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
-    <jb:wiring beanIdRef="Section_CourseReference_CourseCode" />
-  </jb:bean>
-  <jb:bean beanId="Section_CourseReference_CourseCode" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode">
-    <jb:value property="Course#body.courseCode.ID" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/ID" />
-    <jb:value property="Course#body.courseCode.identificationSystem" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/@IdentificationSystem" />
-    <jb:value property="Course#body.courseCode.assigningOrganizationCode" data="Section/CourseOfferingReference/CourseOfferingIdentity/CourseCode/@AssigningOrganizationCode" />
+  <jb:bean beanId="Section_CourseOfferingReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
+    <jb:value property="CourseOffering#body.localCourseCode" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
   </jb:bean>
 
   <jb:bean beanId="Section_SchoolReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
