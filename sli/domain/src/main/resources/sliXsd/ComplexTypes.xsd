@@ -3586,7 +3586,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="entryDate" type="xs:date" minOccurs="0">
+			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The value of the school year for the school.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entryDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an individual
 						enters and
