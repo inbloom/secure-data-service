@@ -44,7 +44,7 @@ rcStage={
   "EdFiProcessor" => 0, "TransformationProcessor" => 0,  "PersistenceProcessor"=>0
 }
 
-cpuProcessingTime=0
+maestroProcessingTime=0
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
     # Pit nodes
@@ -66,7 +66,7 @@ job["stages"].each do |stage|
     jobProcessingEndTime = stage["chunks"][0]["stopTimestamp"].to_i
   else
     # Maestro processing nodes - currently single threaded so add all stage time
-    cpuProcessingTime += stage["chunks"][0]["elapsedTime"].to_i
+    maestroProcessingTime += stage["chunks"][0]["elapsedTime"].to_i
 
     # Record counts for Maestro processing nodes
     stage["chunks"].each do |chunk|
@@ -77,11 +77,12 @@ job["stages"].each do |stage|
   end
 end
 
+pitProcessingTime = 0
 pitElapsedPerResource.each do |key,value|
   rps = "N/A"
   rps = rcPerResource[key] / (value / 1000.0) unless value == 0
   puts "[\e[31m#{rcPerResource[key]}\e[0m] #{key} => \e[32m#{value}\e[0m ms (\e[35m#{rps.round() unless rps=="N/A"}\e[0m rps)"
-  cpuProcessingTime+=value
+  pitProcessingTime+=value
 end
 
 executionStats = {}
@@ -114,23 +115,37 @@ end
 transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
+
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
+combinedProcessingTime = (maestroProcessingTime + pitProcessingTime)/1000
+totalPitProcessingTime = pitProcessingTime/1000
 
 puts "---------------------------"
 puts "Total records for Transformation: #{transformedRecordCount}"
 puts "Total records for Persistence: #{persistedRecordCount}"
-puts "Total wall-clock time: #{wallClockForPits}sec"
+puts "Total pit wall-clock time: #{wallClockForPits}sec"
 
 puts ""
-puts "Total time spent (on all nodes): #{cpuProcessingTime/1000} sec"
-puts "Transformed and Persist RPS (transformed per total time)  #{(transformedRecordCount / wallClockForPits )}"
+puts "Combined processing time on all nodes: #{combinedProcessingTime} sec"
+puts "Total PIT processing time across nodes: #{totalPitProcessingTime} sec"
+puts "PIT RPS (transformed / pit wall-clock)  #{(transformedRecordCount / wallClockForPits )}"
 
 puts ""
+puts "Time spent waiting on Mongo operations:"
+
+smallPad = "        "
+largePad = "                 "
 executionStats.each do |nodeType,functions|
   functions.each do |functionName,stats|
     callStats = stats["calls"]
-    timeStats = stats["time"]
-    puts "(#{nodeType}) Mongo #{functionName} calls: #{callStats} took #{timeStats/1000} secs"
+    timeStats = stats["time"]/1000
+
+    nodePad = smallPad[0..(smallPad.length-nodeType.length)]
+    functionPad = largePad[0..(largePad.length-functionName.length)]
+    callPad = smallPad[0..(smallPad.length-callStats.to_s.length)]
+    timePad = smallPad[0..(smallPad.length-timeStats.to_s.length)]
+
+    puts "(#{nodeType})#{nodePad}#{functionName}#{functionPad}count(\e[31m#{callStats}\e[0m)#{callPad}\e[32m#{timeStats}\e[0m sec#{timePad}(\e[35m#{100*timeStats/combinedProcessingTime}%\e[0m of processing time)"
   end
 end
 
