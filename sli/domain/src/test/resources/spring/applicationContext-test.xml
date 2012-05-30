@@ -91,9 +91,22 @@
   <bean id="stringBlacklist" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <value>script</value>
-        <value>img</value>
-        <value>src</value>
+        <value>\bscript\b</value>
+        <value>\bimg\b</value>
+        <value>\bsrc\b</value>
+      </list>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="relaxedStringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
+    <property name="inputCollection" ref="relaxedStringBlacklist" />
+  </bean>
+  <bean id="relaxedStringBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>&lt;script\b</value>
+        <value>&lt;iframe\b</value>
+        <value>&lt;frame\b</value>
       </list>
     </constructor-arg>
   </bean>
