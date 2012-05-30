@@ -20,7 +20,6 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
      | schoolSessionAssociation     |
      | section                      |
      | session                      |
-     | gradingPeriod                |
      | calendarDate                 |
      | student                      |
 When zip file is scp to ingestion landing zone
