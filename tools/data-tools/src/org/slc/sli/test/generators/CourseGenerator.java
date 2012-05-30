@@ -23,6 +23,8 @@ import org.slc.sli.test.edfi.entities.CourseLevelType;
 import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -256,33 +258,36 @@ public class CourseGenerator {
     	//if(courseCount >= 1) {
     	if (courses.size() > 0) {
 	    	course = courses.remove(0);
-	    	
+
 	        courseCount--;
 	        course.setId(courseId);
 	        CourseCode cc = new CourseCode();
 	        cc.setID(courseId + courseCount);
 	        //cc.setID(course.getId() + courseCount);
-	        
+
 			cc.setAssigningOrganizationCode( "200" );
 			cc.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
 	        course.getCourseCode().add(cc);
-	
+
 	        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-	        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-	
+	        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+	        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+	        eoic.setID(schoolId);
+	        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(eoic);
+
 	        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
 	        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
 	        course.setEducationOrganizationReference(schoolRef);
     	}
-       // courses.add(course);        
+       // courses.add(course);
         return course;
     }
 
     public int getCourseCount() {
         return courseCount;
     }
-    
-    
+
+
     public static CourseReferenceType getCourseReferenceType(Course course)
     {
     	CourseReferenceType crt = new CourseReferenceType();
@@ -291,17 +296,17 @@ public class CourseGenerator {
     	ci.getCourseCode().addAll(course.getCourseCode());
     	return crt;
     }
-    
-  
-    
-    
+
+
+
+
     public static Course generateLowFi(String id, String schoolId) throws Exception {
-   
-    	
+
+
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
-        
+
 		CourseCode CourseCode = new CourseCode();
 		CourseCode.setID(id);
 		CourseCode.setIdentificationSystem( CourseCodeSystemType.CSSC_COURSE_CODE );

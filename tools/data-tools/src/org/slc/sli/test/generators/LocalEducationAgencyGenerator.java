@@ -18,9 +18,9 @@ public class LocalEducationAgencyGenerator {
         //grammar, middle, high, indenpend study programm
 //        localEducationAgency.setNameOfInstitution("Institution name " + id);
 //        localEducationAgency.setShortNameOfInstitution("Institution " + id);
-        
-        localEducationAgency.setNameOfInstitution( id + "-HIGH-SCHOOL");
-        localEducationAgency.setShortNameOfInstitution(id + "-HIGH-SCH");
+
+        localEducationAgency.setNameOfInstitution(id);
+        localEducationAgency.setShortNameOfInstitution(id);
 
         EducationOrganizationCategoriesType category = new EducationOrganizationCategoriesType();
         category.getOrganizationCategory().add(EducationOrganizationCategoryType.LOCAL_EDUCATION_AGENCY);
