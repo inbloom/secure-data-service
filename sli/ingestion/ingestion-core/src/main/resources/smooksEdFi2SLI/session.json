@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.term", "body.schoolYear", "body.schoolId", "body.sessionName"],
+    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
     "references" :
     [
         {

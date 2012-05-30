@@ -1,35 +1,53 @@
-{"keyFields" : ["metaData.externalId" , "metaData.localId", "body.studentId"] ,
-"references" : [{ "fieldPath" : "" ,
-                "ref" :
-                                         { "collectionName" : "schoolSessionAssociation" ,
-                                           "choiceOfFields" :
-                                           [
-                                             [
-                                               {"path" : "body.schoolId" ,
-                                                "values" : [{"valueSource" : "body.schoolId"
-                                                }]
-                                               } ,
-                                               {"path" : "body.sessionId" ,
-                                                "values" : [{"valueSource" : "",
-                                                           "ref" :
-                                                            { "collectionName" : "session" ,
-                                                              "choiceOfFields" :
-                                                              [
-                                                               [
-                                                                {"path" : "body.schoolYear" ,
-                                                                 "values" : [{"valueSource" : "body.session.body.schoolYear"}]
-                                                                } ,
-                                                                {"path" : "body.term" ,
-                                                                 "values" : [{"valueSource" : "body.session.body.term"}]
-                                                                }
-                                                               ]
-                                                              ]
-                                                             }
-                                                            }]
-                                               }
-                                             ]
-                                           ]
+{
+    "keyFields" : ["metaData.externalId" , "body.studentId", "body.sessionId"],
+    "references" : 
+    [{ 
+        "fieldPath" : "" ,
+        "ref" :
+        { 
+            "collectionName" : "schoolSessionAssociation",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.schoolId",
+                        "values" : 
+                        [{
+                            "valueSource" : "body.schoolId"
+                        }]
+                    },
+                    {
+                        "path" : "body.sessionId",
+                        "values" : 
+                        [{
+                            "valueSource" : "",
+                            "ref" :
+                            { 
+                                "collectionName" : "session",
+                                "choiceOfFields" :
+                                [
+                                    [
+                                         {
+                                             "path" : "body.schoolYear" ,
+                                             "values" : 
+                                              [{
+                                                 "valueSource" : "body.session.body.schoolYear"
+                                              }]
+                                         },
+                                         {
+                                              "path" : "body.term",
+                                              "values" : 
+                                              [{
+                                                  "valueSource" : "body.session.body.term"
+                                              }]
                                          }
-       }
-]
+                                    ]
+                                ]
+                            }
+                        }]
+                    }
+                ]
+            ]
+        }
+   }]
 }

@@ -65,7 +65,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
             for (SimpleEntity entity : transformed) {
 
-                   if (entity.getMetaData() == null) {
+                if (entity.getMetaData() == null) {
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
@@ -106,55 +106,22 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        if (entity.getType().equals("schoolSessionAssociation")) {
-            matchSchoolSessionAssociation(entity, errorReport);
-        } else {
+        Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 
-            Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
-
-            if (errorReport.hasErrors()) {
-                return;
-            }
-
-            @SuppressWarnings("deprecation")
-            Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
-            //change this to use a query which is filled by createEntityLookupFilter
-
-
-            if (match != null && match.iterator().hasNext()) {
-                // Entity exists in data store.
-                Entity matched = match.iterator().next();
-                entity.setEntityId(matched.getEntityId());
-                entity.getMetaData().putAll(matched.getMetaData());
-            }
-        }
-    }
-
-    public void matchSchoolSessionAssociation(SimpleEntity entity, ErrorReport errorReport) {
-        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
-
-        if (entityConfig.getReferences().isEmpty()) {
-            LOG.warn("Cannot find complex reference configuration file");
+        if (errorReport.hasErrors()) {
             return;
         }
-        List<String> ids = idNormalizer.resolveReferenceInternalIds((Entity) entity, (String) entity.getMetaData().get("tenantId"), entityConfig.getReferences().get(0).getRef(), "", errorReport);
 
-        SimpleEntity session = (SimpleEntity) entity.getBody().get("session");
-        if (ids != null  && ids.size() > 0) {
-            Entity matchSSA = entityRepository.findById(entity.getType(), ids.get(0));
-            entity.setEntityId(matchSSA.getEntityId());
-            entity.getMetaData().putAll(matchSSA.getMetaData());
+        @SuppressWarnings("deprecation")
+        Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
 
-            Entity matchedSession = entityRepository.findById("session", (String) matchSSA.getBody().get("sessionId"));
-            session.setEntityId(matchedSession.getEntityId());
-            session.getMetaData().putAll((matchedSession.getMetaData()));
-            session.getMetaData().put(EntityMetadataKey.EXTERNAL_ID.getKey(), session.getBody().get("sessionName"));
-        } else {
-            session.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()));
-            session.getMetaData().put(EntityMetadataKey.EXTERNAL_ID.getKey(), session.getBody().get("sessionName"));
+        if (match != null && match.iterator().hasNext()) {
+            // Entity exists in data store.
+            Entity matched = match.iterator().next();
+            entity.setEntityId(matched.getEntityId());
+            entity.getMetaData().putAll(matched.getMetaData());
         }
-       entity.getBody().put("session", session);
-    }
+     }
 
     /**
      * Create entity lookup query from EntityConfig fields

@@ -33,12 +33,15 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.Bytes;
@@ -53,9 +56,12 @@ import com.mongodb.DBObject;
  * persistence behavior.
  * Persists data from Staged Database.
  * 
+ * @author ifaybyshev
+ * @author dduran
+ * @author shalka
  */
 @Component
-public class StagedDataPersistenceProcessor implements Processor {
+public class StagedDataPersistenceProcessor implements Processor, MessageSourceAware {
     
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
     
@@ -82,6 +88,8 @@ public class StagedDataPersistenceProcessor implements Processor {
     
     @Autowired
     private BatchJobDAO batchJobDAO;
+    
+    private MessageSource messageSource;
     
     /**
      * Camel Exchange process callback method
@@ -220,17 +228,11 @@ public class StagedDataPersistenceProcessor implements Processor {
         EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
         List<SimpleEntity> xformedEntities = transformer.handle(neutralRecord, errorReportForCollection);
         
-//        for (SimpleEntity xformedEntity : xformedEntities) {
-//            
-//            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
-//            
-//            LOG.debug("persisting simple entity: {}", xformedEntity);
-//            entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
-//            
-//            if (errorReportForNrEntity.hasErrors()) {
-//                numFailed++;
-//            }
-//        }
+        if (xformedEntities.isEmpty()) {
+            numFailed++;
+            errorReportForCollection.error(MessageSourceHelper.getMessage(
+                    messageSource, "PERSISTPROC_ERR_MSG4", neutralRecord.getRecordType()), this);
+        }
         
         for (SimpleEntity xformedEntity : xformedEntities) {
             ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
@@ -309,8 +311,10 @@ public class StagedDataPersistenceProcessor implements Processor {
     
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
         if (entityPersistHandlers.containsKey(type)) {
+            LOG.info("Found special transformer for entity of type: {}", type);
             return entityPersistHandlers.get(type);
         } else {
+            LOG.info("Using default transformer for entity of type: {}", type);
             return defaultEntityPersistHandler;
         }
     }
@@ -405,5 +409,10 @@ public class StagedDataPersistenceProcessor implements Processor {
         dbcursor.skip(workNote.getRangeMinimum());
         
         return dbcursor;
+    }
+    
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 }
