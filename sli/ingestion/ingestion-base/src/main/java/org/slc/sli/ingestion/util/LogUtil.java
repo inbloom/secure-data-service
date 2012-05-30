@@ -22,8 +22,10 @@ public class LogUtil {
      */
     public static void trace(Logger log, String message, Exception exception) {
         // Log the error with a message-safe exception.
-        Exception loggingException = createLoggingException(exception);
-        log.trace(message, loggingException);
+        if (log.isTraceEnabled()) {
+            Exception loggingException = createLoggingException(exception);
+            log.trace(message, loggingException);
+        }
     }
 
     /**
@@ -38,8 +40,10 @@ public class LogUtil {
      */
     public static void debug(Logger log, String message, Exception exception) {
         // Log the error with a message-safe exception.
-        Exception loggingException = createLoggingException(exception);
-        log.debug(message, loggingException);
+        if (log.isDebugEnabled()) {
+            Exception loggingException = createLoggingException(exception);
+            log.debug(message, loggingException);
+        }
     }
 
     /**
@@ -54,8 +58,10 @@ public class LogUtil {
      */
     public static void info(Logger log, String message, Exception exception) {
         // Log the error with a message-safe exception.
-        Exception loggingException = createLoggingException(exception);
-        log.info(message, loggingException);
+        if (log.isInfoEnabled()) {
+            Exception loggingException = createLoggingException(exception);
+            log.info(message, loggingException);
+        }
     }
 
     /**
@@ -70,8 +76,10 @@ public class LogUtil {
      */
     public static void warn(Logger log, String message, Exception exception) {
         // Log the error with a message-safe exception.
-        Exception loggingException = createLoggingException(exception);
-        log.warn(message, loggingException);
+        if (log.isWarnEnabled()) {
+            Exception loggingException = createLoggingException(exception);
+            log.warn(message, loggingException);
+        }
     }
 
     /**
@@ -86,8 +94,10 @@ public class LogUtil {
      */
     public static void error(Logger log, String message, Exception exception) {
         // Log the error with a message-safe exception.
-        Exception loggingException = createLoggingException(exception);
-        log.error(message, loggingException);
+        if (log.isErrorEnabled()) {
+            Exception loggingException = createLoggingException(exception);
+            log.error(message, loggingException);
+        }
     }
 
     /**
