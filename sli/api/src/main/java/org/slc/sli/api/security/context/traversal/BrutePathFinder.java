@@ -8,13 +8,13 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ResourceNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

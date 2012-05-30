@@ -973,7 +973,9 @@
 
     <!-- Use courseCode so that every instance of a same-titled course will be stored -->
     <jb:value property="localId" data="InterchangeEducationOrganization/Course/CourseTitle" />
+<!--
     <jb:wiring property="localParentIds" beanIdRef="courseLocalParentIds" />
+-->
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
   </jb:bean>
@@ -1015,18 +1017,18 @@
     <jb:value property="assigningOrganizationCode" data="Course/CourseCode/@AssigningOrganizationCode" />
   </jb:bean>
 
-  <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
+  <jb:bean beanId="CourseLevelCharacteristicsArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course/CourseLevelCharacteristics">
     <jb:value data="Course/CourseLevelCharacteristics/CourseLevelCharacteristic" />
   </jb:bean>
 
-  <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
+  <jb:bean beanId="MinimumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course/MinimumAvailableCredit">
 
     <jb:value property="credit" data="Course/MinimumAvailableCredit/Credit" decoder="Double" />
     <jb:value property="creditType" data="Course/MinimumAvailableCredit/@CreditType" />
     <jb:value property="creditConversion" data="Course/MinimumAvailableCredit/@CreditConversion" decoder="Double" />
   </jb:bean>
 
-  <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
+  <jb:bean beanId="MaximumAvailableCreditType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course/MaximumAvailableCredit">
     <jb:value property="credit" data="Course/MaximumAvailableCredit/Credit" decoder="Double"/>
     <jb:value property="creditType" data="Course/MaximumAvailableCredit/@CreditType" />
     <jb:value property="creditConversion" data="Course/MaximumAvailableCredit/@CreditConversion" decoder="Double"/>
