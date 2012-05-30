@@ -9,10 +9,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 And I should see my available links labeled
  
@@ -23,8 +21,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the "OpenAM" IDP Login page
-When I submit the credentials "jdoe" "jdoe1234" for the "OpenAM" login page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 When I click on the Logout link
 #Then I am redirected to a page that informs me that I have signed out
@@ -37,10 +35,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I have navigated to the <Page> page of the Data Browser
 When I click on the "Home" link
 Then I should be redirected to the Data Browser home page
@@ -57,10 +53,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I click on the "Teacher to Section List" link
 Then I am redirected to the associations list page
 And I see a table displaying the associations in a list
@@ -73,10 +67,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I have navigated to the "My Sections" page of the Data Browser
 When I click on the row containing "FHS-Science101"
 Then the row expands below listing the rest of the attributes for the item
@@ -90,10 +82,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I have navigated to the <Page> page of the Data Browser
 When I click on the row containing <Text>
 And I click on the <Link> of any of the associating entities
@@ -111,10 +101,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I have navigated to the "My Schools" page of the Data Browser
 When I click on the "Teacher to School List" link
 Then I am redirected to the particular associations Simple View
@@ -125,10 +113,8 @@ And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
-And I was redirected to the SLI IDP Login page
-When I enter "jdoe" in the username text field
-And I enter "jdoe1234" in the password text field
-And I click the IDP page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 And I have navigated to the "My Schools" page of the Data Browser
 When I click on the "Me" link
 Then I am redirected to the particular entity Detail View

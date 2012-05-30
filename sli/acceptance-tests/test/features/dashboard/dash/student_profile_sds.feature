@@ -6,11 +6,12 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student profile with no homeroom, teacher
-When I login as "linda.kim" "linda.kim1234"
+When I select "Illinois Daybreak School District 4529" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -40,7 +41,9 @@ And in "Grades and Credits" tab, there are "1" Panels
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
-When I login as "manthony" "manthony1234"
+When I select "Illinois Sunset School District 4526" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
 When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
@@ -56,7 +59,9 @@ And there are "4" Tabs
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
-When I login as "manthony" "manthony1234"
+When I select "Illinois Sunset School District 4526" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
 When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
@@ -67,4 +72,4 @@ And I view its student profile
 And their grade is "!"
 
 
-	
+
