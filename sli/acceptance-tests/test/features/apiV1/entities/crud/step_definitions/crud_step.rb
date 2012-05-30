@@ -125,7 +125,7 @@ $entityData = {
         {"shortDescription" => "Behavior 012 description"},
         {"codeValue" => "BEHAVIOR 012"}
     ]],
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
