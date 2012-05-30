@@ -76,7 +76,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         neutralRecord.setAttributes(body);
         neutralRecord.setBatchJobId(batchJobId);
         neutralRecord.setSourceFile((String) map.get("sourceFile"));
-        neutralRecord.setLocationInSourceFile((String) map.get("locationInSourceFile"));
+        neutralRecord.setLocationInSourceFile(((Integer) map.get("locationInSourceFile")).intValue());
         neutralRecord.setLocalParentIds(localParentIds);
         neutralRecord.setAssociation(isAssociation);
         return neutralRecord;
