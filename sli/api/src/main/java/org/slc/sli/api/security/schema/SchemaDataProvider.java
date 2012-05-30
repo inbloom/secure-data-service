@@ -14,4 +14,6 @@ public interface SchemaDataProvider {
     public Right getRequiredWriteLevel(String entityType, String fieldPath);
 
     public String getDataSphere(String entityType);
+    
+    public String getReferencingEntity(String entityType, String fieldPath);
 }

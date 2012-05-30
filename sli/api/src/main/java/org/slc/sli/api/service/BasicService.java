@@ -164,6 +164,8 @@ public class BasicService implements EntityService {
             checkRights(determineWriteAccess(content, ""));
         }
         
+        checkReferences(content);
+        
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
     
@@ -467,6 +469,31 @@ public class BasicService implements EntityService {
             getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
+    
+    private void checkReferences(EntityBody eb) {
+        for (Map.Entry<String, Object> entry : eb.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            
+            String fieldPath = fieldName;
+            String entityType = provider.getReferencingEntity(defn.getType(), fieldPath);
+            if (entityType != null) {
+                debug("Field {} is referencing {}", fieldPath, entityType);
+                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                        .getPrincipal();
+                EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(),
+                        entityType);
+                List<String> accessible = resolver.findAccessible(principal.getEntity());
+                if (!accessible.contains(value)) {
+                    debug("{} in {} is not accessible", value, entityType);
+                    throw new AccessDeniedException(
+                            "Cannot create an association to an entity you don't have access to");
+                }
+                
+            }
+        }
+    }
+        
     
     private String getClientId() {
         String clientId = clientInfo.getClientId();

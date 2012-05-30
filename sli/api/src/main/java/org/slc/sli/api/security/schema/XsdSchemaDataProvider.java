@@ -102,6 +102,18 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         return auth;
     }
     
+    @Override
+    public String getReferencingEntity(String entityType, String fieldPath) {
+        NeutralSchema schema = traverse(entityType, fieldPath);
+        if (schema != null) {
+            AppInfo info = schema.getAppInfo();
+            if (info != null) {
+                return info.getReferenceType();
+            }
+        }
+        return null;
+    }
+    
     private NeutralSchema traverse(String entityType, String fieldPath) {
         NeutralSchema schema = repo.getSchema(entityType);
         
