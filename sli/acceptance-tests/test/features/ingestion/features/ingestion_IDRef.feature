@@ -32,14 +32,12 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective            |   2     |
      | learningStandard             |   6     |
      | schoolSessionAssociation     |  10     |
-     | section                      |   9     |
      | session                      |  10     |
      | student                      |  11     |
-  And I should see "Processed 112 records." in the resulting batch job file
+  And I should see "Processed 98 records." in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 8" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 13" in the resulting batch job file
-  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeStudentGrade.xml records ingested successfully: 20" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
