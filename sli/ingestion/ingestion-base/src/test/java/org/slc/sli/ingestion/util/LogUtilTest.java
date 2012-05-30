@@ -75,7 +75,6 @@ public class LogUtilTest {
                     || (!logContents.contains("Caused by: java.lang.Exception: class java.lang.RuntimeException"))
                     || (!logContents
                             .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:35)"))
-                    || (!logContents.contains("... 28 "))
                     || (!logContents.contains("Caused by: java.lang.Exception: class java.rmi.RemoteException"))
                     || (!logContents
                             .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:32)"))) {
