@@ -12,6 +12,7 @@ Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And the title of the page is "SLC - List of Students"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -87,6 +88,7 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And the title of the page is "SLC - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"

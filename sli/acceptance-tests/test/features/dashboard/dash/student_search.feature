@@ -13,6 +13,7 @@ When I enter "Matt" into the "firstName" search box
 And I click the search button
 Then I should be informed that "1" results are returned 
 Then "1" results are returned in the page
+And the title of the page is "SLC - Search"
 And the search results has the following entries:
   |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
