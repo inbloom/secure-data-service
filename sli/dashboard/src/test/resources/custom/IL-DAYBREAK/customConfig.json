@@ -90,7 +90,7 @@
 "studentProfile" :
 {
   id : "studentProfile",
-  name: "SLI - Student Profile",
+  name: "SLC - Student Profile",
   type: "LAYOUT",
   data :{
     entity: "student",

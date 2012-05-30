@@ -1,7 +1,7 @@
 {
   id : "studentProfile",
   type: "LAYOUT",
-  name: "SLI - Student Profile",
+  name: "SLC - Student Profile",
   data :{
     entity: "student",
     cacheKey: "student"

@@ -90,7 +90,7 @@ DashboardProxy = {
 				}
 			}
 			
-			return "SLI";
+			return "SLC";
 		}
 };
 

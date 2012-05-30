@@ -1,7 +1,7 @@
 {
   id : "listOfStudentsPage",
   type: "LAYOUT",
-  name: "SLI - List of Students",
+  name: "SLC - List of Students",
   items: [
     {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
     {id : "listOfStudents", name: "List of Student Grid", type: "PANEL"}
