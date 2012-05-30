@@ -3939,6 +3939,10 @@
     </jb:bean>
 
     <jb:bean beanId="ReportCard_GradingPeriodReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard">
+        <jb:value property="gradingPeriod" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
+        <jb:value property="schoolYear" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
+        <jb:value property="edOrgId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/ID" />
+        <jb:value property="edOrgIdentCode" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
     </jb:bean>
     <!-- End ReportCard mapping -->
 
