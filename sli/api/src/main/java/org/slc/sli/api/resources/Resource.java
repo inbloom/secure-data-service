@@ -48,8 +48,8 @@ import org.springframework.stereotype.Component;
 @Path("{type}")
 @Component
 @Scope("request")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE,
-        Resource.SLC_JSON_MEDIA_TYPE, Resource.SLC_LONG_JSON_MEDIA_TYPE, Resource.SLC_LONG_XML_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.XML_MEDIA_TYPE+";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE+";charset=utf-8",
+        Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_LONG_JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_LONG_XML_MEDIA_TYPE+";charset=utf-8" })
 public class Resource {
     
     private static final String TOTAL_COUNT_HEADER = "TotalCount";
@@ -96,7 +96,7 @@ public class Resource {
      * @return requested information or error status
      */
     @GET
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response readAll(@PathParam("type") final String typePath,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -168,7 +168,7 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getEntity(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
@@ -220,7 +220,7 @@ public class Resource {
     
     @GET
     @Path("{id}/{associationName}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getAssociationsUnder(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @PathParam("associationName") final String associationName,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
@@ -257,7 +257,7 @@ public class Resource {
     
     @GET
     @Path("{id}/{associationName}/{relatedType}")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getAssociatedEntitiesUnder(@PathParam("type") final String typePath,
             @PathParam("id") final String id, @PathParam("associationName") final String associationName,
             @PathParam("relatedType") final String relatedType,
@@ -272,7 +272,7 @@ public class Resource {
     
     @GET
     @Path("{id}/{associationName}/{relatedType}")
-    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
+    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getFullAssociatedEntitiesUnder(@PathParam("type") final String typePath,
             @PathParam("id") final String id, @PathParam("associationName") final String associationName,
             @PathParam("relatedType") final String relatedType,
@@ -402,7 +402,7 @@ public class Resource {
      */
     @GET
     @Path("{id}")
-    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
+    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getFullEntities(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
@@ -433,7 +433,7 @@ public class Resource {
      */
     @GET
     @Path("{id}/targets")
-    @Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+    @Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,
@@ -547,7 +547,7 @@ public class Resource {
      */
     @GET
     @Path("{id}/targets")
-    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE })
+    @Produces({ Resource.SLC_LONG_JSON_MEDIA_TYPE+";charset=utf-8" })
     public Response getFullHoppedRelatives(@PathParam("type") final String typePath, @PathParam("id") final String id,
             @QueryParam(SORT_BY_PARAM) @DefaultValue("") final String sortBy,
             @QueryParam(SORT_ORDER_PARAM) @DefaultValue("ascending") final SortOrder sortOrder,

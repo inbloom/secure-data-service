@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Path("/admin")
 @Component
 @Scope("request")
-@Produces("application/json")
+@Produces("application/json;charset=utf-8")
 public class RolesAndPermissionsResource {
     
     public static final int NUM_RESULTS = 100;
