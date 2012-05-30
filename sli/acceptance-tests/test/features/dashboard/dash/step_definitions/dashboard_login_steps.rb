@@ -27,7 +27,8 @@ end
 
 Then /^I should be redirected to the Dashboard landing page$/ do
   @expected_url = getBaseUrl() + PropLoader.getProps['dashboard_landing_page'];
-  assert(@driver.current_url == @expected_url, "Failed to navigate to "+@expected_url)
+  @explicitWait.until{@driver.current_url == @expected_url}
+  assert(@driver.current_url == @expected_url, "Failed to navigate to "+@expected_url + " actual url " + @driver.current_url)
 end
 
 Given /^was redirected to the Realm page$/ do
