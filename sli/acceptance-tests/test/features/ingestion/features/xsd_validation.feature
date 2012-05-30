@@ -67,7 +67,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | course                      | 1     |
       | educationOrganization       | 3     |
       | gradebookEntry              | 1     |
-      | schoolSessionAssociation    | 0     |
+      | schoolSessionAssociation    | 1     |
       | section                     | 1     |
       | session                     | 1     |
       | studentSectionGradebookEntry| 1     |

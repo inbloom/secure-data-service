@@ -36,7 +36,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradingPeriod                |   9     |
      | learningObjective            |   5     |
      | learningStandard             |   6     |
-     | schoolSessionAssociation     |   0     |
+     | schoolSessionAssociation     |  10     |
      | section                      |   9     |
      | session                      |  10     |
      | student                      |  11     |
