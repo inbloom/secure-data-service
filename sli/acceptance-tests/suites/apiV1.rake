@@ -221,6 +221,8 @@ task :v1CourseOfferingTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
+  setFixture("section", "section_fixture.json")
+  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   #run test
   runTests("test/features/apiV1/associations/courseOffering")
 end
