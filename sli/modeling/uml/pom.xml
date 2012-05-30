@@ -11,6 +11,10 @@
 	<artifactId>uml</artifactId>
 	<name>UML (Unified Modeling Language)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->

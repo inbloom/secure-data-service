@@ -1,45 +1,1 @@
-{ "_id" : { "$binary" : "ZUUkF5b+S1rhPG55sBOGUQ==", "$type" : "03" },
-  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/simple-idp?tenant=SLI",
-      "redirectEndpoint" : "http://local.slidev.org:8082/simple-idp?tenant=SLI" },
-    "mappings" : { "role" : [ 
-        { "sliRoleName" : "SLI Administrator",
-          "clientRoleName" : [ 
-            "SLI Administrator" ] }, 
-        { "sliRoleName" : "LEA Administrator",
-          "clientRoleName" : [ 
-            "LEA Administrator" ] }, 
-        { "sliRoleName" : "IT Administrator",
-          "clientRoleName" : [ 
-            "IT Administrator" ] }, 
-        { "sliRoleName" : "Educator",
-          "clientRoleName" : [ 
-            "Educator" ] }, 
-        { "sliRoleName" : "Aggregate Viewer",
-          "clientRoleName" : [ 
-            "Aggregate Viewer" ] }, 
-        { "sliRoleName" : "Leader",
-          "clientRoleName" : [ 
-            "Leader" ] } ] },
-    "name" : "Simple IDP - localhost (SLI)",
-    "saml" : { "field" : [ 
-        { "clientName" : "roles",
-          "sliName" : "roles",
-          "transform" : "(.+)" }, 
-        { "clientName" : "authRealm",
-          "sliName" : "authRealm",
-          "transform" : "(.+)" }, 
-        { "clientName" : "adminRealm",
-          "sliName" : "adminRealm",
-          "transform" : "(.+)" }, 
-        { "clientName" : "edOrg",
-          "sliName" : "edOrg",
-          "transform" : "(.+)" }, 
-        { "clientName" : "userId",
-          "sliName" : "userId",
-          "transform" : "(.+)" }, 
-        { "clientName" : "userName",
-          "sliName" : "userName",
-          "transform" : "(.+)" } ] },
-    "tenantId" : "SLI" },
-  "metadata" : {},
-  "type" : "realm" }
+{ "_id" : { "$binary" : "ZUUkF5b+S1rhPG55sBOGUQ==", "$type" : "03" },  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/simple-idp?tenant=SLI",      "redirectEndpoint" : "http://local.slidev.org:8082/simple-idp?tenant=SLI" },    "mappings" : { "role" : [         { "sliRoleName" : "SLI Administrator",          "clientRoleName" : [             "SLI Administrator" ] },         { "sliRoleName" : "LEA Administrator",          "clientRoleName" : [             "LEA Administrator" ] },         { "sliRoleName" : "IT Administrator",          "clientRoleName" : [             "IT Administrator" ] },         { "sliRoleName" : "Educator",          "clientRoleName" : [             "Educator" ] },         { "sliRoleName" : "Aggregate Viewer",          "clientRoleName" : [             "Aggregate Viewer" ] },         { "sliRoleName" : "Leader",          "clientRoleName" : [             "Leader" ] } ] },    "name" : "Simple IDP - localhost (SLI)",    "saml" : { "field" : [         { "clientName" : "roles",          "sliName" : "roles",          "transform" : "(.+)" },         { "clientName" : "authRealm",          "sliName" : "authRealm",          "transform" : "(.+)" },         { "clientName" : "adminRealm",          "sliName" : "adminRealm",          "transform" : "(.+)" },         { "clientName" : "edOrg",          "sliName" : "edOrg",          "transform" : "(.+)" },         { "clientName" : "userId",          "sliName" : "userId",          "transform" : "(.+)" },         { "clientName" : "userName",          "sliName" : "userName",          "transform" : "(.+)" } ] },    "tenantId" : "SLI" },  "metadata" : {},  "type" : "realm" }

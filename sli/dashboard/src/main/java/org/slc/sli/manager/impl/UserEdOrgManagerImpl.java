@@ -90,8 +90,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // otherwise get school's parent ed-org
         if (edOrg == null) {
 
-            // get list of school
-            List<GenericEntity> schools = getSchools(token);
+           // get list of school
+           List<GenericEntity> schools = getSchools(token);
 
             if (schools != null && !schools.isEmpty()) {
 
@@ -100,7 +100,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
                 // read parent organization
                 edOrg = getParentEducationalOrganization(getToken(), school);
-                if (edOrg == null) {
+                if(edOrg == null) {
                     throw new DashboardException(
                             "No data is available for you to view. Please contact your IT administrator.");
                 }
@@ -340,11 +340,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 for (String educationAgency : organizationCategories) {
                     if (educationAgency != null && educationAgency.equals(Constants.LOCAL_EDUCATION_AGENCY)) {
                         staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, true);
-                        break;
+                                break;
+                            }
+                        }
                     }
                 }
-            }
-        }
         return staffEntity;
     }
 }
