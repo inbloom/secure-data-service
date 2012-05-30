@@ -55,8 +55,12 @@ class LandingZone
           "Thank you,\n" <<
           "SLC Operator\n"
       }
-  
+      begin
       APP_EMAILER.send_approval_email email
+      rescue => e
+      Rails.logger.error "Could not send email to #{email[:email_addr]}."
+      end
+      
       @emailWarningMessage = ""
     else
       @emailWarningMessage = "Unfortunately, your account does not have an email address and " << 
