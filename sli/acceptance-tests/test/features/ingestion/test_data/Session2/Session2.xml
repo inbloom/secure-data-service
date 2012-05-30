@@ -26,6 +26,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>255901001</StateOrganizationId>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
@@ -36,6 +37,9 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>255901001</ID>
+        </EducationOrgIdentificationCode>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
@@ -46,6 +50,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>255901001</StateOrganizationId>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
@@ -56,6 +61,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>255901044</StateOrganizationId>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
@@ -66,6 +72,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>255901044</StateOrganizationId>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>
@@ -76,6 +83,9 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>255901044</ID>
+        </EducationOrgIdentificationCode>
       </GradingPeriodIdentity>
         <BeginDate>2010-10-04</BeginDate>
         <EndDate>2010-11-07</EndDate>

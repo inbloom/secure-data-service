@@ -1120,6 +1120,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>First Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </GradingPeriodIdentity>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
@@ -1178,6 +1179,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </GradingPeriodIdentity>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
@@ -1236,6 +1238,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>Third Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </GradingPeriodIdentity>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
