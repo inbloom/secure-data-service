@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &lt;element name="EducationalEnvironment" type="{http://ed-fi.org/0100}EducationalEnvironmentType" minOccurs="0"/>
  *         &lt;element name="StudentReference" type="{http://ed-fi.org/0100}StudentReferenceType"/>
  *         &lt;element name="SectionReference" type="{http://ed-fi.org/0100}SectionReferenceType" minOccurs="0"/>
+ *         &lt;element name="SchoolReference" type="{http://ed-fi.org/0100}EducationalOrgReferenceType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -51,7 +52,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "attendanceEventReason",
     "educationalEnvironment",
     "studentReference",
-    "sectionReference"
+    "sectionReference",
+    "schoolReference"
 })
 public class AttendanceEvent
     extends ComplexObjectType
@@ -73,6 +75,8 @@ public class AttendanceEvent
     protected StudentReferenceType studentReference;
     @XmlElement(name = "SectionReference")
     protected SectionReferenceType sectionReference;
+    @XmlElement(name = "SchoolReference")
+    protected EducationalOrgReferenceType schoolReference;
 
     /**
      * Gets the value of the eventDate property.
@@ -240,6 +244,30 @@ public class AttendanceEvent
      */
     public void setSectionReference(SectionReferenceType value) {
         this.sectionReference = value;
+    }
+
+    /**
+     * Gets the value of the schoolReference property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link SchoolReferenceType }
+     *     
+     */
+    public EducationalOrgReferenceType getSchoolReference() {
+        return schoolReference;
+    }
+
+    /**
+     * Sets the value of the schoolReference property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link SchoolReferenceType }
+     *     
+     */
+    public void setSchoolReference(EducationalOrgReferenceType value) {
+        this.schoolReference = value;
     }
 
 }
