@@ -38,7 +38,6 @@ class RealmsController < ApplicationController
      respond_to do |format|
        success = false
        errorMsg = ""
-
        begin
          success =  @realm.update_attributes(params[:realm])
        rescue ActiveResource::BadRequest => error
