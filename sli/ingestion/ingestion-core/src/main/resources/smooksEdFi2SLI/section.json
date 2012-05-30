@@ -1,0 +1,80 @@
+{
+"keyFields" : ["body.uniqueSectionCode", "body.schoolId", "body.term", "body.schoolYear"],
+"references" :
+ [
+    {
+     "fieldPath" : "body.schoolId",
+     "ref" : {
+            "collectionName" : "school",
+            "choiceOfFields" :
+                [ [
+                       {
+                       "path" : "metaData.externalId",
+                       "values" :
+                         [ { "valueSource" : "body.schoolId" } ]
+                        }
+                  ] ]
+            }
+     },
+    {
+    "fieldPath" : "body.ssaId" ,
+    "ref" : {
+              "collectionName" : "schoolSessionAssociation",
+              "choiceOfFields" :
+               [ [
+                   {
+                     "path" : "body.schoolId",
+                     "values" :
+                       [ { "valueSource" : "body.schoolId"  } ]
+                     },
+                     {
+                       "path" : "body.sessionId",
+                       "values" :
+                         [ {
+                             "ref" :
+                             {
+                     		     "collectionName" : "session",
+                     		     "choiceOfFields" :
+                     		  	  [
+                     		  	    [
+                     		  	       {
+                     		  	          "path" : "body.schoolYear",
+                     		  	          "values" :
+                     		  	           [ { "valueSource" : "body.sessionReference.SchoolYear" } ]
+                     		  	        },
+                     		  	        {
+                     		  	           "path" : "body.term",
+                     		  	           "values" :
+                     		  	           [ { "valueSource" : "body.sessionReference.Term" } ]
+                     		  	        }
+                     		  	      ],
+                     		  	      [
+                     		  	        {
+                     		     	       "path" : "body.sessionName",
+                     		  	           "values" :
+                     		  	            [ { "valueSource" : "body.sessionReference.SessionName" } ]
+                     		  	         }
+                                       ]
+                     		  	    ]
+                                 }
+                            }  ]
+                     }
+                ] ]
+          }
+       },
+       {
+       "fieldPath" : "body.courseId",
+       "ref" : {
+       			"collectionName" : "course",
+       			"choiceOfFields" :
+       			[[
+       			   {
+       			   	 "path":"metaData.externalId",
+       			   	 "values" :
+       			   	 [{ "valueSource" : "body.LocalCourseCode" }]
+       			   }
+       			 ]]
+        }
+       }
+    ]
+}

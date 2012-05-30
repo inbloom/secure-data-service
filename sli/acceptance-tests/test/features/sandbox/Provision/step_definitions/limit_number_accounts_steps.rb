@@ -55,9 +55,3 @@ end
 Then /^I get a success message$/ do
   (@driver.current_url).should == (PropLoader.getProps['admintools_server_url'] + "/waitlist_users/success")
 end
-
-def loadSliProperties
-  props = JavaProperties::Properties.new("../config/properties/sli.properties")
-  @user_account_maximum = props["sli.useraccount.maximum"]
-  puts @user_account_maximum
-end
