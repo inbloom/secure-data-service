@@ -136,7 +136,7 @@ $entityData = {
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
     "dateAssigned" => "2012-02-14", 
-    "sectionId" => "58c9ef19-c172-4798-8e6e-c73e68ffb5a3"
+    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
