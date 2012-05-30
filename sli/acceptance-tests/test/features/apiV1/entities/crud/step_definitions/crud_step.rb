@@ -166,9 +166,9 @@ $entityData = {
     "educationalEnvironment" => "Off-school center",
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
-    "sessionId" => "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-    "courseId" => "53777181-3519-4111-9210-529350429899"
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
+    "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41"
   },
   "session" => {
     "sessionName" => "Spring 2012",
