@@ -87,10 +87,10 @@ Scenario: Applying optional fields
   Then I should find 3 "<studentGradebookEntries>" under "<student><studentGradebookEntries>"
   And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
   And I should see "<letterGradeEarned>" is "A" for the one at position 1
-  And I should see "<dateFulfilled>" is "2012-02-07" for the one at position 1
+  And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
   And I should find "<gradebookEntries>" under "<student><studentGradebookEntries><studentGradebookEntries>"
   And I should see "<student><studentGradebookEntries><studentGradebookEntries><gradebookEntries><entityType>" is "gradebookEntry"
-  And I should see "<student><studentGradebookEntries><studentGradebookEntries><gradebookEntries><dateAssigned>" is "2012-02-07"
+  And I should see "<student><studentGradebookEntries><studentGradebookEntries><gradebookEntries><dateAssigned>" is "2012-01-31"
 
   # transcript
   Then I should find "<transcript>" under "<student>"
@@ -136,10 +136,10 @@ Scenario: Applying optional fields - single student view
   Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
   And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
   And I should see "<letterGradeEarned>" is "A" for the one at position 1
-  And I should see "<dateFulfilled>" is "2012-02-07" for the one at position 1
+  And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
   And I should find 1 "<gradebookEntries>" under "<studentGradebookEntries><studentGradebookEntries>"
   And I should see "<entityType>" is "gradebookEntry" for the one at position 1
-  And I should see "<dateAssigned>" is "2012-02-07" for the one at position 1
+  And I should see "<dateAssigned>" is "2012-01-31" for the one at position 1
 
   # transcript
   Then I should find "<transcript>" under "/"
