@@ -2,6 +2,7 @@ package org.slc.sli.modeling.xmi.writer;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -220,6 +221,19 @@ public final class XmiWriter {
     public static final void writeDocument(final Model model, final ModelIndex mapper, final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
+            try {
+                writeDocument(model, mapper, outstream);
+            } finally {
+                closeQuiet(outstream);
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static final void writeDocument(final Model model, final ModelIndex mapper, final File file) {
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
                 writeDocument(model, mapper, outstream);
             } finally {

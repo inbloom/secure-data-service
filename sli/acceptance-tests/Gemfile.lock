@@ -25,7 +25,10 @@ GEM
     faraday (0.8.1)
       multipart-post (~> 1.1)
     ffi (1.0.9)
+    ffi (1.0.9-x86-mingw32)
     gherkin (2.10.0)
+      json (>= 1.4.6)
+    gherkin (2.10.0-x86-mingw32)
       json (>= 1.4.6)
     httpauth (0.1)
     i18n (0.6.0)
@@ -79,6 +82,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   active_support
