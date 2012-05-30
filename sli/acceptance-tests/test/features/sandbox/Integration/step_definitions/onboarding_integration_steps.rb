@@ -371,7 +371,7 @@ end
 When /^the developer click link in verification email$/ do
   sleep(1)
   url=getVerificationLink()
-  #puts url
+  puts url
   @driver.get url
 end
 
@@ -589,9 +589,9 @@ end
 
 def getVerificationLink
   if @email_content.include? "http://"
-  link="http://"+@email_content.split("http://")[-1]
+  link="http://"+@email_content.split("http://")[-1].split("\n")[0]
   else 
-  link="https://"+@email_content.split("https://")[-1]
+  link="https://"+@email_content.split("https://")[-1].split("\n")[0]
   end
 end
 
