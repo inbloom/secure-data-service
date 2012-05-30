@@ -75,7 +75,7 @@ $entityData = {
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07",
+    "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
     "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
@@ -101,7 +101,7 @@ $entityData = {
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
