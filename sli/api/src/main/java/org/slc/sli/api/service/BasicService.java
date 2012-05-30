@@ -484,10 +484,21 @@ public class BasicService implements EntityService {
                 EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(),
                         entityType);
                 List<String> accessible = resolver.findAccessible(principal.getEntity());
-                if (!accessible.contains(value)) {
-                    debug("{} in {} is not accessible", value, entityType);
-                    throw new AccessDeniedException(
-                            "Cannot create an association to an entity you don't have access to");
+                if (value instanceof List) {
+                    List<String> valuesList = (List<String>) value;
+                    for (String cur : valuesList) {
+                        if (!accessible.contains(cur)) {
+                            debug("{} in {} is not accessible", value, entityType);
+                            throw new AccessDeniedException(
+                                    "Cannot create an association to an entity you don't have access to");
+                        }
+                    }
+                } else {
+                    if (!accessible.contains(value)) {
+                        debug("{} in {} is not accessible", value, entityType);
+                        throw new AccessDeniedException(
+                                "Cannot create an association to an entity you don't have access to");
+                    }
                 }
                 
             }

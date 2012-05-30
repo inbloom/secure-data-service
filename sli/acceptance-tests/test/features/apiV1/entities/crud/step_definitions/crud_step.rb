@@ -75,8 +75,8 @@ $entityData = {
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "9f5cb095-8e99-49a9-b130-bedfa20639d2",
-    "programId" => ["cb292c7d-3503-414a-92a2-dc76a1585d79"]
+    "educationOrgId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07",
+    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
     "courseTitle" => "Chinese 1",
