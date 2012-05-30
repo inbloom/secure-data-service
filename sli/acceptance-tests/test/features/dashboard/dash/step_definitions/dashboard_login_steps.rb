@@ -16,8 +16,7 @@ When /^I navigate to the Dashboard home page$/ do
 end
 
 Then /^I should be redirected to the Realm page$/ do
-  assert(@driver.current_url.start_with?(PropLoader.getProps['realm_page_url']))
-
+  assertWithWait("Failed to navigate to Realm page")  { @driver.title.index("Choose your realm") }
 end
 
 #TODO this should support both live and test mode
