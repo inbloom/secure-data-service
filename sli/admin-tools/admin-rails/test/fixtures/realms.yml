@@ -8,6 +8,7 @@ one:
     id: "1"
     name: Shared Learning Initiative
     regionId: http://slidev.org
+    uniqueIdentifier: realm-one
     idp:
       id: http://slidev.org
       redirectEndpoint: http://slidev.org/endpoint
@@ -20,6 +21,7 @@ two:
     id: "2"
     name: Tardis
     regionId: http://timelords.com 
+    uniqueIdentifier: realm-two
     idp: 
       id: http://timelords.com
       redirectEndpoint: http://timelords.com/gallifrey
