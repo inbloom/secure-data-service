@@ -1,7 +1,7 @@
 require 'mongo'
 require 'json'
 
-connection = Mongo::Connection.new("localhost", 27017)
+connection = Mongo::Connection.new("nxmongo3.slidev.org", 27017)
 db = connection.db("ingestion_batch_job")
 coll = db.collection("newBatchJob")
 
