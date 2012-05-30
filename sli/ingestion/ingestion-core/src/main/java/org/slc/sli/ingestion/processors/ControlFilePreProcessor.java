@@ -38,6 +38,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -112,7 +113,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 ipAddr = addr.getAddress();
 
             } catch (UnknownHostException e) {
-                LOG.error("Error getting local host", e);
+                LogUtil.error(LOG, "Error getting local host", e);
             }
             List<String> userRoles = Collections.emptyList();
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
@@ -149,7 +150,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -161,7 +162,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.getMessage());

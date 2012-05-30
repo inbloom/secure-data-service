@@ -61,251 +61,6 @@
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
-  <Course>
-    <CourseTitle>Club/Team</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Club/Team</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Senior Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Senior Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Writing about Government</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Writing about Government</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Honors American Literature</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Honors American Literature</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>American Literature</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>American Literature</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Special Elective:Debate Clinic</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>7th Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>7th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade English</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>7th Grade Composition</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade Composition</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>8th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>8th Grade English</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Reading Group</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Reading Group</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>1st Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>1st Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-
-  <Course>
-    <CourseTitle>Algebra-11</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Algebra-11</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Algebra-10</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Algebra-10</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Geometry-10</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Geometry-10</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
-  </Course>
-
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
@@ -536,4 +291,340 @@
       </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
+
+
+  <Course>
+    <CourseTitle>Club/Team</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>Sunset Central High School</ID> 
+		</EducationOrgIdentificationCode>
+	</EducationalOrgIdentity>
+	</EducationOrganizationReference>		
+  </Course>
+  <Course>
+    <CourseTitle>Senior Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Senior Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+	</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Writing about Government</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Writing about Government</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Honors American Literature</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Honors American Literature</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>American Literature</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>American Literature</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Special Elective:Debate Clinic</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>7th Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>7th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>7th Grade Composition</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade Composition</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Illinois PS145</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>8th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>8th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Reading Group</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Reading Group</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>1st Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>1st Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>Algebra-11</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-11</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Algebra-10</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-10</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
+  <Course>
+    <CourseTitle>Geometry-10</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Geometry-10</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+	<EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>Sunset Central High School</ID> 
+			</EducationOrgIdentificationCode>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+  </Course>
 </InterchangeEducationOrganization>

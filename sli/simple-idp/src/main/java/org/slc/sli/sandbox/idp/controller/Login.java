@@ -63,7 +63,7 @@ public class Login {
     }
 
     void setSliAdminRealmName(String name) {
-        this.sliAdminRealmName = name;
+        sliAdminRealmName = name;
     }
 
     /**
@@ -77,7 +77,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
 
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        
+
         if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -133,24 +133,22 @@ public class Login {
                 mav.addObject("is_sandbox", false);
             }
 
-            //if a user with this userId exists, get his info and roles/groups and
-            //log that information as a failed login attempt.
+            // if a user with this userId exists, get his info and roles/groups and
+            // log that information as a failed login attempt.
             String edOrg = "UnknownEdOrg";
             List<String> userRoles = Collections.emptyList();
             try {
                 User unauthenticatedUser = userService.getUser(realm, userId);
-                if( unauthenticatedUser != null) {
+                if (unauthenticatedUser != null) {
                     Map<String, String> attributes = unauthenticatedUser.getAttributes();
-                    if(attributes != null) {
+                    if (attributes != null) {
                         edOrg = attributes.get("edOrg");
                     }
                 }
                 userRoles = userService.getUserGroups(realm, userId);
-            }
-            catch(EmptyResultDataAccessException noMatchesException) {
+            } catch (EmptyResultDataAccessException noMatchesException) {
                 LOG.info(userId + " failed to login into realm [" + realm + "]. User does not exist.");
-            }
-            catch(Exception exception) {
+            } catch (Exception exception) {
                 LOG.info(userId + " failed to login into realm [" + realm + "]. " + exception.getMessage());
             }
             writeLoginSecurityEvent(false, userId, userRoles, edOrg, request);
@@ -172,7 +170,7 @@ public class Login {
                 mav.addObject("roles", roleService.getAvailableRoles());
                 return mav;
             }
-             user.getAttributes().clear();
+            user.getAttributes().clear();
             user.getAttributes().put("tenant", tenant);
         }
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
@@ -181,14 +179,15 @@ public class Login {
         writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
 
         httpSession.setAttribute(USER_SESSION_KEY, user);
-        
+
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
 
     }
 
-    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg, HttpServletRequest request) {
+    private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
+            HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
 
         event.setUser(userId);
@@ -198,6 +197,8 @@ public class Login {
         try {
             event.setExecutedOn(LoggingUtils.getCanonicalHostName());
         } catch (RuntimeException e) {
+            event.setLogLevel(LogLevelType.TYPE_TRACE);
+            event.setLogMessage("Runtime exception: " + e.getLocalizedMessage() + " " + edOrg + " by " + userId + ".");
         }
 
         if (request != null) {

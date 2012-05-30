@@ -33,8 +33,10 @@ Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, s
   intializaApprovalEngineAndLDAP(@email_conf, @prod)
   if @mode
     @userinfo[:email] = "devldapuser@slidev.org"
+    @userinfo[:emailAddress] = "devldapuser@slidev.org"
   else
     @userinfo[:email] = email
+    @userinfo[:emailAddress] = email
   end
 
   @userinfo[:password] = "1234"

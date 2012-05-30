@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.concurrent.Callable;
 
@@ -34,6 +33,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -114,10 +114,13 @@ public class SmooksCallable implements Callable<Boolean> {
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
-            LOG.error("IOException", e);
+            LogUtil.error(LOG,
+                    "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
+                    e);
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
+            LOG.error("Could not instantiate smooks, problem parsing configuration file");
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
@@ -147,9 +150,8 @@ public class SmooksCallable implements Callable<Boolean> {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
         } catch (SmooksException se) {
-            LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n"
-                    + Arrays.toString(se.getStackTrace()));
+            LogUtil.error(LOG, "smooks exception encountered converting " + ingestionFileEntry.getFile().getName()
+                    + " to " + neutralRecordOutFile.getName(), se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

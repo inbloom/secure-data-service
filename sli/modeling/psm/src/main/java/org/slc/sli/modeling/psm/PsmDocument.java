@@ -2,22 +2,22 @@ package org.slc.sli.modeling.psm;
 
 public final class PsmDocument<TYPE> {
     private final TYPE type;
-    private final PsmResource resource;
-    private final PsmCollection collection;
+    private final PsmResource pluralResourceName;
+    private final PsmCollection singularResourceName;
 
-    public PsmDocument(final TYPE type, final PsmResource resource, final PsmCollection collection) {
+    public PsmDocument(final TYPE type, final PsmResource pluralResourceName, final PsmCollection singularResourceName) {
         if (type == null) {
             throw new NullPointerException("type");
         }
-        if (resource == null) {
+        if (pluralResourceName == null) {
             throw new NullPointerException("resource");
         }
-        if (collection == null) {
+        if (singularResourceName == null) {
             throw new NullPointerException("collection");
         }
         this.type = type;
-        this.resource = resource;
-        this.collection = collection;
+        this.pluralResourceName = pluralResourceName;
+        this.singularResourceName = singularResourceName;
     }
 
     @Override
@@ -26,9 +26,9 @@ public final class PsmDocument<TYPE> {
         sb.append("{");
         sb.append("type : \"").append(type).append("\"");
         sb.append(", ");
-        sb.append("resource : \"").append(resource).append("\"");
+        sb.append("pluralResourceName : \"").append(pluralResourceName).append("\"");
         sb.append(", ");
-        sb.append("collection : \"").append(collection).append("\"");
+        sb.append("singularResourceName : \"").append(singularResourceName).append("\"");
         sb.append("}");
         return sb.toString();
     }
@@ -37,11 +37,11 @@ public final class PsmDocument<TYPE> {
         return type;
     }
 
-    public PsmResource getResource() {
-        return resource;
+    public PsmResource getPluralResourceName() {
+        return pluralResourceName;
     }
 
-    public PsmCollection getCollection() {
-        return collection;
+    public PsmCollection getSingularResourceName() {
+        return singularResourceName;
     }
 }

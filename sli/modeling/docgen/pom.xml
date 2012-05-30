@@ -11,6 +11,10 @@
 	<artifactId>docgen</artifactId>
 	<name>docgen (Documentation Generator)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.slc.sli.modeling</groupId>

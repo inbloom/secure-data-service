@@ -26,7 +26,7 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
     @Override
     @PostConstruct
     protected void init() {
-        String regex = "\\b(";
+        String regex = "(";
 
         if (inputCollection != null) {
             for (String entry : inputCollection) {
@@ -38,7 +38,7 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
             regex = regex.substring(0, regex.length() - 1);
         }
 
-        regex += ")\\b";
+        regex += ")";
 
         pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
     }

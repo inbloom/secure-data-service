@@ -6,14 +6,16 @@ class UserAccountRegistrationsController < ActionController::Base
   # GET /user_account_registrations/new
   # GET /user_account_registrations/new.json
   def new
-    @user_account_registration = UserAccountRegistration.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @user_account_registration }
+    if (APP_CONFIG["is_sandbox"] && user_limit_reached?)
+      redirect_to(:controller => "waitlist_users", :action => "new")
+    else
+      @user_account_registration = UserAccountRegistration.new
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @user_account_registration }
+      end
     end
   end
-
 
   # POST /user_account_registrations
   # POST /user_account_registrations.json
@@ -51,6 +53,17 @@ class UserAccountRegistrationsController < ActionController::Base
   end
 
 private
+
+  URL_HEADER = {
+    "Content-Type" => "application/json",
+    "content_type" => "json",
+    "accept" => "application/json"
+  }
+      
+  def user_limit_reached?
+    res = RestClient.get(APP_CONFIG['api_base']+"/v1/userAccounts/createCheck", URL_HEADER){|response, request, result| response }
+    "false" == JSON.parse(res)['canCreate']
+  end
 
     #redirect cancel
    def check_for_cancel
