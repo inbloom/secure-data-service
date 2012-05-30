@@ -47,7 +47,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 13" in the resulting batch job file
   And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 2" in the resulting batch job file
-  And I should see "InterchangeStudentGrade.xml records ingested successfully: 28" in the resulting batch job file
+  And I should see "InterchangeStudentGrade.xml records ingested successfully: 20" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "Unable to resolve a reference with ref=[LS_101]: No matching element with id=[LS_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
   And I should see "Unable to resolve a reference with ref=[LO_101]: No matching element with id=[LO_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
