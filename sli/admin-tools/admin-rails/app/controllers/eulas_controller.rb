@@ -1,5 +1,5 @@
-class EulasController < ActionController::Base
-  
+class EulasController < ApplicationController
+  skip_before_filter :handle_oauth
   # GET /eula 
   def show
     if !Session.valid?(session)

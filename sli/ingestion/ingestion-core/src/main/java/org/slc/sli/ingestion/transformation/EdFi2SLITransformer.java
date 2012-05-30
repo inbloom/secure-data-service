@@ -33,7 +33,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
 
-    private static final String METADATA_BLOCK = "metaData";
+    protected static final String METADATA_BLOCK = "metaData";
 
     private IdNormalizer idNormalizer;
 

@@ -11,6 +11,10 @@
 	<artifactId>sdk</artifactId>
 	<name>SDK (Java)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->

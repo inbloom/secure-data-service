@@ -22,9 +22,9 @@
     </dependency>
 
   </dependencies>
-  
+
   <properties>
-  	<sli.home>${project.parent.basedir}/..</sli.home>
+  	<sli.home>${project..parent.parent.basedir}</sli.home>
   </properties>
 
 

@@ -21,42 +21,7 @@
         }
     },
     {
-        "fieldPath" : "body.courseId",
-        "ref" :
-        {
-	        "collectionName" : "course",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.courseId"
-		                }]
-		            }
-	            ]
-	        ]
-        }
-    },
-    {
-        "fieldPath" : "body.sessionId",
-        "ref" :
-        {
-	        "collectionName" : "session",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		                "path" : "body.sessionId",
-		                "values" :
-                        [{
-    
-    
-    
-    
-    
-    
+        "fieldPath" : "body.ssaId",
         "ref" : 
         {
             "collectionName" : "schoolSessionAssociation",
@@ -112,15 +77,20 @@
                 }
             ]]
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    },
+    {
+        "fieldPath" : "body.courseId",
+        "ref" :
+        {
+	        "collectionName" : "course",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.courseId"
 		                }]
 		            }
 	            ]

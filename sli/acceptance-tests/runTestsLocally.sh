@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# wip
-
 if [ -z "$SLI_ROOT" ]; then
     echo "Need to set SLI_ROOT to the fully qualified path of your local SLI git source tree."
     echo "Example: export SLI_ROOT=/users/chung/Documents/workspace/sli/sli"
@@ -33,11 +31,11 @@ fi
 echo "Starting rails apps..."
 cd ${ADMIN_RAILS_DIR}
 bundle install
-bundle exec rails server -d -p 2000 -e local-integration-tests
+bundle exec rails server -d -p 2000 -e local-acceptance-tests -P ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
 
 cd ${DATABROWSER_DIR}
 bundle install
-bundle exec rails server -d -p 2001 -e local-integration-tests
+bundle exec rails server -d -p 2001 -e local-acceptance-tests -P ${DATABROWSER_DIR}/target/pids/databrowser.pid
 
 cd ${SLI_ROOT}/acceptance-tests
 
@@ -46,12 +44,12 @@ mvn integration-test
 
 echo "Stopping rails apps..."
 echo "Shutting down databrowser and admin-rails..."
-if [ -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid ]; then
-	kill -9 < ${SLI_ROOT}/databrowser/tmp/pids/server.pid
-	rm -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid
+if [ -f ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid ]; then
+	kill -9 < cat ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
+	rm -f ${ADMIN_RAILS_DIR}/target/pids/admin-rails.pid
 fi
 
-if [ -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid ]; then
-	kill -9 < ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
-	rm -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
+if [ -f ${DATABROWSER_DIR}/target/pids/databrowser.pid ]; then
+	kill -9 < cat ${DATABROWSER_DIR}/target/pids/databrowser.pid
+	rm -f ${DATABROWSER_DIR}/target/pids/databrowser.pid
 fi
