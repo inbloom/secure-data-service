@@ -48,7 +48,7 @@ And I am not authenticated to SLI IDP
 And I have tried to access the SLI Default Roles Admin Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "leader" "leader1234" for the "Simple" login page
-Then I should get a message that I am not authorized
+Then the api should generate a 500 error
 And I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | securityEvent               | 1     |
