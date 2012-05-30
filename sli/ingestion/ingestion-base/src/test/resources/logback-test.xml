@@ -18,6 +18,6 @@
 
 <configuration scan="true" debug="false">
 
-   <root level="ON" />
+   <root level="OFF" />
 
 </configuration>
