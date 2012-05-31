@@ -494,7 +494,7 @@ public class BasicService implements EntityService {
                         }
                     }
                 } else {
-                    if (!accessible.contains(value) && repo.findById(entityType, (String) value) != null) {
+                    if (value != null && !accessible.contains(value) && repo.findById(entityType, (String) value) != null) {
                         debug("{} in {} is not accessible", value, entityType);
                         throw new AccessDeniedException(
                                 "Cannot create an association to an entity you don't have access to");
