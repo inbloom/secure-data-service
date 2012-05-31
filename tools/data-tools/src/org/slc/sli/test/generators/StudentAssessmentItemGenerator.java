@@ -28,7 +28,8 @@ public class StudentAssessmentItemGenerator {
 
             //TODO: StudentTestAssessmentReference
             if (studentTestAssessmentReference != null) {
-                sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
+//                sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
+                sai.setStudentAssessmentReference(studentTestAssessmentReference);
             }
 
             //TODO: StudentObjectiveAssessmentReference
