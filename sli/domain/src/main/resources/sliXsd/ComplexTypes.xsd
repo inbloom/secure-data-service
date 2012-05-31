@@ -1461,6 +1461,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="schoolId" type="reference" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The education organization referenced by this session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

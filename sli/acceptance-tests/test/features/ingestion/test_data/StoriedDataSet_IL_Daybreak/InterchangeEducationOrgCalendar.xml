@@ -3000,24 +3000,6 @@
 	<GradingPeriodReference ref="GRDP_20111010"/>
   </Session>
 
-
-  <Session>
-    <SessionName>Fall 2011 Sunset Central High School</SessionName>
-    <SchoolYear>2011-2012</SchoolYear>
-    <Term>Fall Semester</Term>
-    <BeginDate>2011-09-06</BeginDate>
-    <EndDate>2011-12-16</EndDate>
-    <TotalInstructionalDays>75</TotalInstructionalDays>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-	<GradingPeriodReference ref="GRDP_20110822"/>
-	<GradingPeriodReference ref="GRDP_20111128"/>
-	<GradingPeriodReference ref="GRDP_20111010"/>
-  </Session>
-
   <Session>
     <SessionName>Fall 2011 Daybreak Central High</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
