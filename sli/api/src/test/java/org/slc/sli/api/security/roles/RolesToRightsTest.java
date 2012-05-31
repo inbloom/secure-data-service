@@ -17,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -87,10 +86,7 @@ public class RolesToRightsTest {
                 mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR,
                         SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
                                 Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
-        when(mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR))).thenReturn(Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
-        when(mockRoleManager.resolveRoles(ADMIN_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR))).thenReturn(Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
         when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
-        when(mockAccess.getDefaultRole(RoleInitializer.SLI_ADMINISTRATOR)).thenReturn(buildAdminRole());
         when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
         when(mockAccess.getDefaultRole("bad")).thenReturn(null);
         when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
@@ -102,9 +98,6 @@ public class RolesToRightsTest {
         return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
     
-    private Role buildAdminRole() {
-        return RoleBuilder.makeRole(RoleInitializer.SLI_ADMINISTRATOR).addRight(Right.ADMIN_ACCESS).setAdmin(true).build();
-    }
 
     @Test
     public void testMappedRoles() throws Exception {
@@ -120,18 +113,6 @@ public class RolesToRightsTest {
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
     
-    @Test
-    public void testAdminRoleInAdminSli() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(ADMIN_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
-        Assert.assertTrue("Authorities must contain SLI admin", authorities.size() == 1);
-    }
-    
-    @Test
-    public void testAdminRoleInNonAdminSli() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR));
-        Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
-    }
-
     @Test
     public void testMixedRoles() throws Exception {
         Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(
