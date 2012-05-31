@@ -77,7 +77,8 @@ public class GraduationPlanGenerator {
 
             for (String edOrg : edOrgs) {
                 EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-                eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
+//                eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
+                eoit.setStateOrganizationId(edOrg);
                 EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
                 eort.setEducationalOrgIdentity(eoit);
                 gp.getEducationOrganizationReference().add(eort);
