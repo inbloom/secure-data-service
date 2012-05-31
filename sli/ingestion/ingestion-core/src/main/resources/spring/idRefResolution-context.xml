@@ -110,6 +110,9 @@
     <entry key="/InterchangeStudentGrade/ReportCard/GradeReference"
            value="idRefResolution/InterchangeStudentGrade/ReportCard/GradeReference.ftl" />
 
+    <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference"
+           value="idRefResolution/InterchangeStudentGrade/ReportCard/StudentCompetencyReference.ftl" />
+
     <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference"
           value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.ftl" />
 
@@ -183,7 +186,7 @@
     <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />

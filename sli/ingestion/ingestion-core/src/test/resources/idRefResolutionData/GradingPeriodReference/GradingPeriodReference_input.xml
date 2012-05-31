@@ -1,5 +1,8 @@
     <GradingPeriod id="GRDP_20101108">
+      <GradingPeriodIdentity>
         <GradingPeriod>Third Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
         <BeginDate>2010-11-08</BeginDate>
         <EndDate>2011-01-09</EndDate>
         <TotalInstructionalDays>27</TotalInstructionalDays>

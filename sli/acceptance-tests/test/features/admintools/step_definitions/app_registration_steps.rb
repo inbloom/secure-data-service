@@ -18,7 +18,7 @@ When /^I hit the Application Registration Tool URL$/ do
 end
 
 Then /^I am redirected to the Application Approval Tool page$/ do
-  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Management") != nil}
+  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Approve Applications") != nil}
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do
@@ -218,7 +218,7 @@ Then /^I clicked on the button Edit for the application "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
   assert(row)
   @id = row.attribute('id')
-  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[text()='In Progress']").click
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/../td/a[contains(@class, 'btn')]").click
 end
 
 Then /^the row of the app "([^"]*)" expanded$/ do |arg1|
