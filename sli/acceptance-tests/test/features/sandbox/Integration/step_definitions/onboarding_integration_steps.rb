@@ -582,7 +582,7 @@ def verifyEmail
     email = @message_observer.messages.first
     assert(email != nil, "email was not received")
     assert(email.to[0] == @email, "email address was incorrect")
-    assert(email.subject.include?("SLI Account Verification Request"), "email did not have correct subject")
+    assert(email.subject.include?("SLC Account Verification Request"), "email did not have correct subject")
     @email_content = email.body.to_s
   end
 end
