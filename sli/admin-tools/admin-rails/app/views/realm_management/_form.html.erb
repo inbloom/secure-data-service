@@ -1,5 +1,3 @@
-<%= form_for(@realm, :url => realm_management_path(@realm)) do |f| %>
-  
   <% if @realm.errors.any? or @realm.idp.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@realm.errors.count + @realm.idp.errors.count, "error") %> prohibited this Realm from being saved:</h2>
@@ -42,4 +40,4 @@
   <div class="actions">
     <%= f.submit :value => "Save", :class=>"btn" %>
   </div>
-<% end %>
+
