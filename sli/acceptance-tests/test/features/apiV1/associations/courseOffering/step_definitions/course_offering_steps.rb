@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #course offering data
   id = 64                                        if human_readable_id == "ASSOCIATION COUNT"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"

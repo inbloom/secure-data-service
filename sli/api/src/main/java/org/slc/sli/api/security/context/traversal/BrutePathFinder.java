@@ -124,14 +124,16 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.PROGRAM, "programReference") // TODO: fix XSD
                         .addConnection(EntityNames.SECTION, "schoolId").construct());
         
-        nodeMap.put(EntityNames.COURSE_OFFERING, SecurityNodeBuilder.buildNode(EntityNames.COURSE_OFFERING)
-                .addConnection(EntityNames.COURSE, "courseId", EntityNames.COURSE_OFFERING).construct());
+        nodeMap.put(
+                EntityNames.COURSE_OFFERING,
+                SecurityNodeBuilder.buildNode(EntityNames.COURSE_OFFERING)
+                        .addConnection(EntityNames.COURSE, "courseId", EntityNames.COURSE_OFFERING)
+                        .addConnection(EntityNames.SESSION, "sessionId", EntityNames.COURSE_OFFERING).construct());
         
         nodeMap.put(
                 EntityNames.SESSION,
                 SecurityNodeBuilder.buildNode(EntityNames.SESSION)
-                        .addConnection(EntityNames.SCHOOL_SESSION_ASSOCIATION, "sessionId")
-                        .addConnection(EntityNames.COURSE_OFFERING, "sessionId").construct());
+                        .addConnection(EntityNames.SCHOOL_SESSION_ASSOCIATION, "sessionId").construct());
         
         // Leaf Nodes are unconnected
         nodeMap.put(EntityNames.SCHOOL_SESSION_ASSOCIATION,
