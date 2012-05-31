@@ -350,7 +350,7 @@ end
 
 Then /^the developer is redirected to a page with terms and conditions$/ do
    assert(@driver.current_url.include?("#{@admin_url}/eula"))
-   assertText("Terms of Use")
+   assertText("Terms and Conditions")
 end
 
 When /^the developer click "([^"]*)"$/ do |button|
@@ -358,9 +358,8 @@ When /^the developer click "([^"]*)"$/ do |button|
 end
 
 Then /^the developer is directed to an acknowledgement page\.$/ do
-  assertText("Your request was submitted.")
-  assertText("You will receive an email asking you to verify your email address, " +
-             "and then provide you with the next steps in the process.")
+  assertText("Thank You")
+  assertText("Be on the lookout for a confirmation email.")
 end
 
 Then /^a verification email is sent to "([^"]*)"$/ do |email_address|

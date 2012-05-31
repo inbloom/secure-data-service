@@ -4,7 +4,7 @@ When /^I enter the Configuration Area$/ do
 end
 
 Then /^I am authorized to the Configuration Area$/ do
-  assert(@driver.current_url.include?("/service/config"), "User is not on the service/config page")
+  assertWithWait("User is not on the service/config page") {@driver.page_source.include?("Save Config")}
 end
 
 Then /^I am unauthorized to the Configuration Area$/ do
@@ -261,5 +261,9 @@ def putTextForConfigUpload(uploadText)
   textArea = @driver.find_element(:id, textBoxId)
   #this clears the text area
   textArea.clear()
-  putTextToField(uploadText, textBoxId ,"id")
+
+  # On slower machines, the old send_keys method would timeout after a minute.
+  # This is an attempt to set it through javascript to speed up execution and prevent timeout
+  uploadText = uploadText.gsub(/\r/,"\\n").gsub(/\n/,"\\n").gsub(/\"/,'\\\"')
+  @driver.execute_script("document.getElementById('jsonText').value = \"#{uploadText}\";")
 end

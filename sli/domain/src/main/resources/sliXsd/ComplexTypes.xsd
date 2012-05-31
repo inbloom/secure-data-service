@@ -5723,7 +5723,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriodType">
+			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
 				<xs:annotation>
 					<xs:documentation>
 						The name of the period for which grades are
@@ -5782,6 +5782,29 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+  <xs:complexType name="gradingPeriodIdentityType">
+    <xs:annotation>
+      <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="gradingPeriod" type="gradingPeriodType">
+        <xs:annotation>
+          <xs:documentation>The name of the period for which grades are reported</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="schoolYear" type="schoolYearType">
+        <xs:annotation>
+          <xs:documentation>The identifier for the school year.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
+        <xs:annotation>
+          <xs:documentation>The identifier for the educational organization.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
 	<xs:complexType name="graduationPlan">
 		<xs:annotation>
@@ -6090,7 +6113,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="gradesOffered" type="gradeLevelType">
+			<xs:element  maxOccurs="unbounded" minOccurs="0" name="gradesOffered" type="gradeLevelType">
 				<xs:annotation>
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>
