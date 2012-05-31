@@ -115,7 +115,7 @@ end
 
 Then /^I am redirected to a page with terms and conditions$/ do
   assert(@driver.current_url.include?("#{@baseUrl}/eula"))
-  assertText("Terms of Use")
+  assertText("Terms and Conditions")
 end
 
 Then /^I receive an error that the account already exists$/ do
@@ -127,9 +127,8 @@ Then /^I am redirected to the hosting website$/ do
 end
 
 Then /^I am directed to an acknowledgement page.$/ do
-  assertText("Your request was submitted.")
-  assertText("You will receive an email asking you to verify your email address, " +
-                 "and then provide you with the next steps in the process.")
+  assertText("Thank You")
+  assertText("Be on the lookout for a confirmation email.")
 end
 
 Then /^I get (\d+) record for "([^\"]*)"$/ do |count, email|
