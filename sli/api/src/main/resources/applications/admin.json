@@ -25,7 +25,15 @@
          "description":"Register an application that can access SLC API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
-            "SLC Operator", "Application Developer"
+            "Application Developer"
+         ]
+      },
+      {
+         "name":"Application Approval",
+         "description":"Approve applications that can access the platform.",
+         "url":"${bootstrap.app.admin.url}/apps",
+         "roles":[
+            "SLC Operator"
          ]
       },
       {
