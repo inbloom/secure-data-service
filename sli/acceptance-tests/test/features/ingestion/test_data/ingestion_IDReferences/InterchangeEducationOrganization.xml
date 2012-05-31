@@ -243,9 +243,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Able School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
@@ -265,9 +263,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Baker School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
@@ -287,9 +283,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Charlie School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
@@ -309,9 +303,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Dog School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Dog School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <CompetencyLevels id="CL-G1-1">
@@ -348,9 +340,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Echo School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
@@ -371,9 +361,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">  
-		 <ID>Foxtrot School</ID>
-        </EducationOrgIdentificationCode>
+        <StateOrganizationId>Foxtrot School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>

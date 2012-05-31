@@ -34,9 +34,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="SEA">
-				<ID>IL</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>IL</StateOrganizationId> 
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -58,9 +56,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="SEA">
-				<ID>IL</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>IL</StateOrganizationId> 
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>

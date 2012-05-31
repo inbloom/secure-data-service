@@ -78,9 +78,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode>
-				<ID>IL-DAYBREAK</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -101,15 +99,13 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode>
-				<ID>IL-DAYBREAK</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>ThisSpaceIs	
-AControlCharacter</CourseTitle>
+AControlCharacter</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
    <CourseCode IdentificationSystem="CSSC course code">
       <ID>Club/Team</ID>
@@ -124,9 +120,7 @@
     </MaximumAvailableCredit>
    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode>
-				<ID>IL-DAYBREAK</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
