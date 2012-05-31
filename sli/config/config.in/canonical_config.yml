@@ -52,7 +52,7 @@ default:
         sli.landingZone.server: devpantheon.slidev.org
         
         # User a negative number for unlimited
-        sli.useraccount.maximum: 100
+        sli.useraccount.maximum: 300
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)

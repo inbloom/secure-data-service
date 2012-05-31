@@ -1521,7 +1521,8 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered"
+					<xs:element maxOccurs="unbounded" minOccurs="0" 
+                        name="gradesOffered"
 						type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
@@ -6091,7 +6092,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="gradesOffered" type="gradeLevelType">
+			<xs:element  maxOccurs="unbounded" minOccurs="0" name="gradesOffered" type="gradeLevelType">
 				<xs:annotation>
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>

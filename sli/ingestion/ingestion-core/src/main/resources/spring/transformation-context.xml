@@ -96,6 +96,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/course.xml" />
       </bean>
     </entry>
+    <entry key="section">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/section.xml" />
+      </bean>
+    </entry>
   </util:map>
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -120,12 +125,19 @@
     parent="smooksEdFi2SLITransformer">
   </bean>
 
+  <bean id="sectionEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SectionEdFi2SLITransformer"
+    parent="smooksEdFi2SLITransformer">
+  </bean>
+
   <util:map id="transformers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.transformation.EdFi2SLITransformer">
     <entry key="session">
       <ref local="sessionEdFi2SLITransformer"/>
     </entry>
     <entry key="course">
       <ref local="courseEdFi2SLITransformer"/>
+    </entry>
+    <entry key="section">
+      <ref local="sectionEdFi2SLITransformer"/>
     </entry>
   </util:map>
 
@@ -243,6 +255,12 @@
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="course" />
+  </bean>
+
+  <bean id="sectionTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="section" />
   </bean>
 
 </beans>
