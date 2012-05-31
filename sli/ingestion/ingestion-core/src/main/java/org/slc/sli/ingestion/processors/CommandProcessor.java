@@ -50,6 +50,8 @@ public class CommandProcessor {
             update.set("executionStats." + hostName, stats);
             
             LOG.info("Dumping runtime stats to db...");
+            LOG.info(stats.toString());
+            
             mongo.updateFirst(new Query(Criteria.where("_id").is(batchId)), update, "newBatchJob");
             MongoTrackingAspect.aspectOf().reset();
             LOG.info("Runtime stats are now cleared.");
