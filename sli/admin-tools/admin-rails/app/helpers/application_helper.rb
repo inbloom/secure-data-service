@@ -2,7 +2,9 @@ require 'approval'
 
 module ApplicationHelper
 
-  EMAIL_SUBJECT = "SLI Account Verification Request"
+  EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
+  EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer Account - Email Confirmation"
+  
 
   REST_HEADER = {
     "Content-Type" => "application/json",
@@ -54,18 +56,23 @@ module ApplicationHelper
     
     userEmailValidationLink = "__URI__/user_account_validation/#{email_token}"
       
-    email_message = "Your SLI account has been created pending email verification.\n" <<
-      "\n\nPlease visit the following link to confirm your account:\n" <<
-      "\n\n#{userEmailValidationLink}\n\n"
-      
+    email_message_prod = "#{user_email_info['first_name']},\n\nThank you for registering for a developer account with the Shared Learning Collaborative.\n\n" <<
+      "Please follow this link to confirm that this is your email address.\n\n" <<
+      "#{userEmailValidationLink}\n\n" <<
+      "*Note* - After you have confirmed your email address, your account must be approved by an SLC Administrator. For any issues, please email supportemail@slidev.org" <<
+      "\n\nThanks,\n\nThe Shared Learning Collaborative."
+    email_message_sandbox = "#{user_email_info['first_name']},\n\nThank you for registering for a developer account with the Shared Learning Collaborative." <<
+      "\n\nPlease follow this link to confirm that this is your email address." <<
+      "\n\n#{userEmailValidationLink}\n\n" <<
+      "Thanks,\n\nThe Shared Learning Collaborative."
     if (email_token.nil?)
       return false
     end
     APP_EMAILER.send_approval_email({
       :email_addr => user_email_info["email_address"],
       :name       => user_email_info["first_name"]+" "+user_email_info["last_name"],
-      :subject    => EMAIL_SUBJECT,
-      :content    => email_message
+      :subject    => (APP_CONFIG["is_sandbox"]?EMAIL_SUBJECT_SANDBOX : EMAIL_SUBJECT_PROD),
+      :content    => (APP_CONFIG["is_sandbox"]?email_message_sandbox : email_message_prod)
     })
     true
   end

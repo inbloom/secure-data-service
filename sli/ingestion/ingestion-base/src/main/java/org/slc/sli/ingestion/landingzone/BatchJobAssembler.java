@@ -19,7 +19,6 @@ public class BatchJobAssembler {
 
     @Autowired
     private ControlFileValidator validator;
-    private static final String PURGE = "purge";
 
     /**
      * Attempt to generate a new BatchJob based on data found in the
@@ -73,7 +72,7 @@ public class BatchJobAssembler {
             job.setProperty(key, controlFile.configProperties.getProperty(key));
         }
 
-        if (job.getProperty(PURGE) == null) {
+        if (job.getProperty(AttributeType.PURGE.getName()) == null) {
             if (validator.isValid(fileDesc, ((BatchJob) job).getFaultsReport())) {
                 for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                     if (entry.getFile() != null) {

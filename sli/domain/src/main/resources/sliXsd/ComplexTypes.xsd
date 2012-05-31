@@ -1521,7 +1521,8 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered"
+					<xs:element maxOccurs="unbounded" minOccurs="0" 
+                        name="gradesOffered"
 						type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
@@ -4014,7 +4015,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference">
+			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
@@ -4023,6 +4024,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentId" type="reference" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Association to a student for the current course transcript.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6082,7 +6092,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="gradesOffered" type="gradeLevelType">
+			<xs:element  maxOccurs="unbounded" minOccurs="0" name="gradesOffered" type="gradeLevelType">
 				<xs:annotation>
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>

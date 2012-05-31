@@ -33,13 +33,27 @@
 		<div class="realm-name">
 			<h1>
 				<span class="heading">
-					<img src="resources/${realm}.png"/>
 					<c:choose>
 						<c:when test ="${realm=='SLIAdmin'}">
-							SLI Admin IDP
+							<img src="resources/SLIAdmin.png"/>
 						</c:when>
 						<c:when test="${is_sandbox}">
-							SLI Sandbox IDP
+							<img src="resources/sandbox.png"/>
+						</c:when>
+						<c:when test="${realm!=null}">
+							<img src="resources/${fn:escapeXml(realm)}.png"/>
+						</c:when>
+						<c:otherwise>
+							<img src="resources/default.png"/>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test ="${realm=='SLIAdmin'}">
+							Shared Learning Collaborative
+						</c:when>
+						<c:when test="${is_sandbox}">
+							SLI Sandbox Environment
 						</c:when>
 						<c:otherwise>
 							SLI Mock IDP for ${fn:escapeXml(realm)}

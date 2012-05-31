@@ -19,9 +19,9 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
      | learningObjective            |
      | learningStandard             |
      | schoolSessionAssociation     |
+     | gradingPeriod                |
      | section                      |
      | session                      |
-     | gradingPeriod                |
      | calendarDate                 |
      | student                      |
      | studentSectionAssociation    |
@@ -37,8 +37,8 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective            |   5     |
      | learningStandard             |   6     |
      | schoolSessionAssociation     |  10     |
-     | section                      |   9     |
      | session                      |  10     |
+     | section                      |   9     |
      | student                      |  11     |
      | studentSectionAssociation    |   2     |
   And I should see "Processed 130 records." in the resulting batch job file
