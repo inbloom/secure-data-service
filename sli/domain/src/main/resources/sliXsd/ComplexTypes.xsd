@@ -4014,7 +4014,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentAcademicRecordId" type="reference">
+			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
@@ -4023,6 +4023,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentId" type="reference" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Association to a student for the current course transcript.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
