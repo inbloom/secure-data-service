@@ -261,7 +261,6 @@ public class CourseGenerator {
 
 	        courseCount--;
 	        course.setId(courseId);
-	        course.setCourseTitle(courseId);
 	        CourseCode cc = new CourseCode();
 	        cc.setID(courseId + courseCount);
 	        //cc.setID(course.getId() + courseCount);
@@ -269,6 +268,9 @@ public class CourseGenerator {
 			cc.setAssigningOrganizationCode( "200" );
 			cc.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
 	        course.getCourseCode().add(cc);
+
+	        // TODO remove this once DE608 is resolved
+	        course.setCourseTitle(cc.getID());
 
 	        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
 	        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
