@@ -38,6 +38,7 @@
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
         <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
+        <jb:value property="schoolId" data="attributes schoolId" />
     </jb:bean>
 
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
