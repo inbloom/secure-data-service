@@ -33,7 +33,7 @@
 
     <jb:wiring property="courseLevelCharacteristics" beanIdRef="CourseLevelCharacteristicsArray" />
 
-    <jb:value property="gradesOffered" data="csv-record/GradesOffered" />
+	<jb:wiring property="gradesOffered" beanIdRef="CourseCSV_gradesOfferedArray" />
 
     <jb:value property="subjectArea" data="csv-record/SubjectArea" />
     <jb:value property="courseDescription" data="csv-record/CourseDescription" />
@@ -50,6 +50,10 @@
 
     <jb:value property="careerPathway" data="csv-record/CareerPathway" />
 
+  </jb:bean>
+  
+  <jb:bean beanId="CourseCSV_gradesOfferedArray" class="java.util.ArrayList" createOnElement="csv-record">
+    <jb:value data="GradesOffered" />
   </jb:bean>
 
   <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
