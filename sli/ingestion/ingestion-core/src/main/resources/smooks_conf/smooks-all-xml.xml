@@ -974,13 +974,13 @@
     <jb:wiring property="educationOrgReference" beanIdRef="Course_EducationOrgReference" />
     <!-- this schoolId field is added to pass validation unit test: CourseEntityTest
          the parent id is resolved correctly during ingestion -->
-    <jb:value property="schoolId" data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
+    <jb:value property="schoolId" data="Course/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="Course_gradesOfferedArray" class="java.util.ArrayList" createOnElement="Course/GradesOffered">
     <jb:value data="Course/GradesOffered/GradeLevel" />
   </jb:bean>
-  
+
   <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
     <jb:wiring beanIdRef="courseCodeType" />
   </jb:bean>
@@ -1053,7 +1053,7 @@
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
     <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
   </jb:bean>
-  
+
   <!-- Objective Assessments Performance Levels Type -->
   <jb:bean beanId="objectiveAssessmentPerformanceLevelTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
@@ -1068,17 +1068,17 @@
     <jb:value property="maximumScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/MaximumScore" />
   </jb:bean>
 
-  <jb:bean beanId="objectiveAssessmentPerformanceLevelDescriptorArray" class="java.util.ArrayList" 
+  <jb:bean beanId="objectiveAssessmentPerformanceLevelDescriptorArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel">
     <jb:wiring beanIdRef="objectiveAssessmentPerformanceDescriptorDescription" />
     <jb:wiring beanIdRef="objectiveAssessmentPerformanceDescriptorCodeValue" />
   </jb:bean>
-  
+
   <jb:bean beanId="objectiveAssessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue">
     <jb:value property="codeValue" data="AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
   </jb:bean>
-  
+
    <jb:bean beanId="objectiveAssessmentPerformanceDescriptorDescription" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentPerformanceLevel/PerformanceLevel/Description">
     <jb:value property="description" data="AssessmentPerformanceLevel/PerformanceLevel/Description" />
@@ -1087,9 +1087,9 @@
   <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
     <jb:value data="ObjectiveAssessment/ObjectiveAssessmentReference/@ref"/>
   </jb:bean>
-  
+
   <!-- AssessmentItemReferenceType -->
-  <jb:bean beanId="SubObjectiveAssessmentItemReferenceTypeArray" class="java.util.ArrayList" 
+  <jb:bean beanId="SubObjectiveAssessmentItemReferenceTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
     <jb:wiring beanIdRef="SubObjectiveAssessmentItemReferenceType" />
   </jb:bean>
@@ -1166,7 +1166,7 @@
     <jb:wiring property="learningObjectiveRefs" beanIdRef="learningObjectiveReferenceArrayLO" />
   </jb:bean>
 
-  <jb:bean beanId="learningStandardReferenceArrayLO" class="java.util.ArrayList" 
+  <jb:bean beanId="learningStandardReferenceArrayLO" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/LearningObjective">
     <jb:wiring beanIdRef="learningStandardReference" />
   </jb:bean>
