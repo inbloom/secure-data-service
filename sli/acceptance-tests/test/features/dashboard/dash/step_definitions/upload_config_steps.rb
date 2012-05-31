@@ -4,7 +4,7 @@ When /^I enter the Configuration Area$/ do
 end
 
 Then /^I am authorized to the Configuration Area$/ do
-  assert(@driver.current_url.include?("/service/config"), "User is not on the service/config page")
+  assertWithWait("User is not on the service/config page") {@driver.page_source.include?("Save Config")}
 end
 
 Then /^I am unauthorized to the Configuration Area$/ do
