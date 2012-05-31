@@ -40,8 +40,10 @@ public class SessionGenerator {
         session.setTotalInstructionalDays(roll);
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
+        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
         for (String stateOrgId : stateOrgIds)
-            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
+            eoic.setID(stateOrgId);
+            eoit.getEducationOrgIdentificationCode().add(eoic);
         EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         eort.setEducationalOrgIdentity(eoit);
         session.setEducationOrganizationReference(eort);
@@ -173,7 +175,7 @@ public class SessionGenerator {
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentityType.setStateOrganizationId(schoolId);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
@@ -224,7 +226,7 @@ public class SessionGenerator {
                 + ",\n"
                 + "getEducationalOrgIdentity : "
                 + s.getEducationOrganizationReference().getEducationalOrgIdentity()
-                        .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
+                        .getEducationOrgIdentificationCode().size();
         System.out.println(sessionString + ",\n");
 
         Session s1 = sg.sessionGenerator(stateOrgIdss2);
@@ -252,7 +254,7 @@ public class SessionGenerator {
                 + ",\n"
                 + "getEducationalOrgIdentity : "
                 + s1.getEducationOrganizationReference().getEducationalOrgIdentity()
-                        .getStateOrganizationIdOrEducationOrgIdentificationCode().size();
+                        .getEducationOrgIdentificationCode().size();
         System.out.println(sessionString1);
 
     	SessionReferenceType sessionRef = SessionGenerator.getSessionReferenceType("stateOrganizationId",
@@ -273,7 +275,7 @@ public class SessionGenerator {
         identity.setTerm(session.getTerm());
 
         identity.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(
-        		session.getEducationOrganizationReference().getEducationalOrgIdentity().getStateOrganizationIdOrEducationOrgIdentificationCode());
+        		session.getEducationOrganizationReference().getEducationalOrgIdentity().getEducationOrgIdentificationCode());
         return ref;
     }
 
