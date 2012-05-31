@@ -35,8 +35,8 @@ rcPerResource = {}
 #total job time
 jobStart = job["jobStartTimestamp"]
 jobEnd = job["jobStopTimestamp" ]
-if ! jobEnd.nil? && !jobStart.nil?  
-	totalJobTime = jobEnd-jobStart
+if ! jobEnd.nil? && !jobStart.nil?
+  totalJobTime = jobEnd-jobStart
 end
 # Record Counts for stage
 rcStage={
@@ -60,7 +60,7 @@ job["stages"].each do |stage|
 
         rcStage[stage["stageName"]]+=metric["recordCount"]
       end
-    end 
+    end
   elsif stage["stageName"]=="JobReportingProcessor"
     # Job reporting
     jobProcessingEndTime = stage["chunks"][0]["stopTimestamp"].to_i
@@ -87,8 +87,12 @@ end
 
 executionStats = {}
 
-if !job["executionStats"].nil? 
-  job["executionStats"].each do |hostName,value| 
+dbs={}
+functions={}
+collections={}
+
+if !job["executionStats"].nil?
+  job["executionStats"].each do |hostName,value|
     nodeType = "pit"
     if hostName=="nxmaestro"
       nodeType = "maestro"
@@ -133,32 +137,24 @@ puts "PIT RPS (transformed / pit wall-clock)  #{(transformedRecordCount / wallCl
 puts ""
 puts "Time spent waiting on Mongo operations:"
 
-smallPad = "        "
-largePad = "                 "
+
 executionStats.each do |nodeType,functions|
-  functions.each do |functionName,stats|
+  functions.each do |path,stats|
     callStats = stats["calls"]
     timeStats = stats["time"]/1000
 
-    nodePad = smallPad[0..(smallPad.length-nodeType.length)]
-    functionPad = largePad[0..(largePad.length-functionName.length)]
-    callPad = smallPad[0..(smallPad.length-callStats.to_s.length)]
-    timePad = smallPad[0..(smallPad.length-timeStats.to_s.length)]
-
-    puts "(#{nodeType})#{nodePad}#{functionName}#{functionPad}count(\e[31m#{callStats}\e[0m)#{callPad}\e[32m#{timeStats}\e[0m sec#{timePad}(\e[35m#{100*timeStats/combinedProcessingTime}%\e[0m of processing time)"
+    printf "%-10s%-75s count:\e[31m%10d\e[0m\e[32m%10d\e[0msec\e[35m%10d%%\e[0m of processing time\n",nodeType,path,callStats,timeStats,100*timeStats/combinedProcessingTime
   end
 end
 
-#puts "Mongo calls (ALL): #{mongoCalls} took #{mongoTime/1000} secs"
-
 puts ""
 puts "Job started: #{jobStart.getlocal}"
-if ! jobEnd.nil? 
-puts "Job ended: #{jobEnd.getlocal}"
-end 
-if  !totalJobTime.nil?  
-	puts "Total Job time #{totalJobTime} sec"
-	puts "Job RPS #{edfiRecordCount / totalJobTime}" 
+if ! jobEnd.nil?
+  puts "Job ended: #{jobEnd.getlocal}"
+end
+if  !totalJobTime.nil?
+  puts "Total Job time #{totalJobTime} sec"
+  puts "Job RPS #{edfiRecordCount / totalJobTime}"
 end
 
 puts "ALL DONE"
