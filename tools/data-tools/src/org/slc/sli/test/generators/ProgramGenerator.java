@@ -64,8 +64,9 @@ public class ProgramGenerator {
         for(ServiceDescriptor serviceDescriptor : ServiceDescriptor.values()) {
             if (rand.nextDouble() < probForServiceInAProgram) {
                 ServiceDescriptorType serviceDescriptorType = new ServiceDescriptorType();
-                JAXBElement<String> serviceDescriptorCode =  factory.createServiceDescriptorTypeCodeValue(serviceDescriptor.codeValue);
-                serviceDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(serviceDescriptorCode);
+               // JAXBElement<String> serviceDescriptorCode =  factory.createServiceDescriptorTypeCodeValue(serviceDescriptor.codeValue);
+               // serviceDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(serviceDescriptorCode);
+                serviceDescriptorType.setCodeValue(serviceDescriptor.codeValue);
                 services.add(serviceDescriptorType);
             }
         }
