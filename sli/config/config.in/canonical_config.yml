@@ -1163,8 +1163,8 @@ nxteam:
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: nxmongo3.slidev.org
-        sli.ingestion.staging.mongodb.host: nxmongo3.slidev.org
-        sli.ingestion.batchjob.mongodb.host: nxmongo3.slidev.org
+        sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
+        sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
