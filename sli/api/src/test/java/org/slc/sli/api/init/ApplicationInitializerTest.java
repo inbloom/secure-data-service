@@ -2,9 +2,11 @@ package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertEquals;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -20,7 +22,9 @@ import org.mockito.stubbing.Answer;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+
+import com.mongodb.util.JSON;
 
 /**
  * 
@@ -34,31 +38,44 @@ public class ApplicationInitializerTest {
     @Mock
     private Repository<Entity> mockRepo = null;
     
-    Properties props = new Properties();
+    static Properties props = new Properties();
     
     @Before
     public void setUp() throws Exception {
         appInit = new ApplicationInitializer();
         MockitoAnnotations.initMocks(this);
-        
         props.put("bootstrap.app.keys", "admin,dashboard");
-        props.put("bootstrap.app.dashboard.template", "applications/dashboard.json");
+        props.put("bootstrap.app.dashboard.template", createTemplate("dashboard"));
         props.put("bootstrap.app.dashboard.url", "https://dashboard");
         props.put("bootstrap.app.dashboard.client_id", "XXXXXXXX");
         props.put("bootstrap.app.dashboard.client_secret", "YYYYYYYYYYYY");
-        props.put("bootstrap.app.admin.template", "applications/admin.json");
+        props.put("bootstrap.app.admin.template", createTemplate("admin"));
         props.put("bootstrap.app.admin.url", "https://admin");
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
         saveProps();
-
-
+    }
+    
+    static String createTemplate(String appKey) throws IOException {
+        File templateFile = File.createTempFile("template", ".json");
+        templateFile.deleteOnExit();
+        HashMap values = new HashMap();
+        values.put("application_url", "${bootstrap.app." + appKey + ".url}");
+        values.put("client_id", "${bootstrap.app." + appKey + ".client_id}");
+        values.put("client_secret", "${bootstrap.app." + appKey + ".client_secret}");
+        String json = JSON.serialize(values);
+        FileOutputStream fos = new FileOutputStream(templateFile);
+        fos.write(json.getBytes());
+        fos.close();
+        return templateFile.getName();
     }
 
     private void saveProps() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        props.store(baos, "");
-        appInit.bootstrapProperties = new ByteArrayResource(baos.toByteArray());
+        File tmpProps = File.createTempFile("bootstrap", ".properties");
+        FileOutputStream fos = new FileOutputStream(tmpProps);
+        props.store(fos, "");
+        appInit.bootstrapProperties = new FileSystemResource(tmpProps);
+        tmpProps.deleteOnExit();
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -106,6 +123,7 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.keys", "admin");
         saveProps();
         Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("some-id");
         Mockito.when(mockRepo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
         
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
