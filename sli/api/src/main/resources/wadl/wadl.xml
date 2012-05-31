@@ -2,9 +2,9 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://www.w3.org/Submission/wadl/wadl.xsd"
 	xmlns="http://wadl.dev.java.net/2009/02">
-	<doc xml:lang="en" title="SLI REST API Reference">This document provides a reference to the
+	<doc xml:lang="en" title="SLC REST API Reference">This document provides a reference to the
 		entities and
-		associated methods within the SLI REST API. Scroll the
+		associated methods within the SLC REST API. Scroll the
 		list of entities on the left, and click a linked entity
 		from that list
 		to view its associated details on the right.

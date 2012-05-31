@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "metaData.externalId", "body.gradingPeriod", "body.beginDate", "body.endDate" ],
+    "keyFields" : [ "metaData.externalId", "body.gradingPeriodIdentity", "body.beginDate", "body.endDate" ],
     "references" :
             [
                 {
@@ -23,6 +23,25 @@
                                             "values" :
                                                     [
                                                         { "valueSource" : "body.calendarDateReference.calendarEvent" }
+                                                    ]
+                                        }
+                                    ]
+                                ]
+                    }
+                },
+                {
+                    "fieldPath" : "body.gradingPeriodIdentity",
+                    "ref" : {
+                        "collectionName" : "educationOrganization",
+                        "optional" : true,
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.educationOrgIdentificationCode",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.gradingPeriodIdentity.educationOrgIdentificationCode" }
                                                     ]
                                         }
                                     ]

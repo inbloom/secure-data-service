@@ -1229,7 +1229,10 @@
 	</CalendarDate>
 	<!-- GradingPeriods for the 2011-2012 school year -->
 	<GradingPeriod id="GRDP_20110822">
-		<GradingPeriod>First Six Weeks</GradingPeriod>
+    <GradingPeriodIdentity>
+      <GradingPeriod>First Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
 		<TotalInstructionalDays>34</TotalInstructionalDays>
@@ -1284,7 +1287,10 @@
 		<CalendarDateReference ref="CLND_20111009Holiday"/>
 	</GradingPeriod>
 	<GradingPeriod id="GRDP_20111010">
-		<GradingPeriod>Second Six Weeks</GradingPeriod>
+    <GradingPeriodIdentity>
+      <GradingPeriod>Second Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
 		<TotalInstructionalDays>33</TotalInstructionalDays>
@@ -1339,7 +1345,10 @@
 		<CalendarDateReference ref="CLND_20111127Holiday"/>
 	</GradingPeriod>
 	<GradingPeriod id="GRDP_20111128">
-		<GradingPeriod>Third Six Weeks</GradingPeriod>
+    <GradingPeriodIdentity>
+      <GradingPeriod>Third Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
 		<TotalInstructionalDays>31</TotalInstructionalDays>
@@ -1400,10 +1409,13 @@
 		<CalendarDateReference ref="CLND_20120121Holiday"/>
 		<CalendarDateReference ref="CLND_20120122Holiday"/>
 	</GradingPeriod>
-	<GradingPeriod id="GRDP_20120123">
-		<GradingPeriod>Fourth Six Weeks</GradingPeriod>
-		<BeginDate>2012-01-23</BeginDate>
-		<EndDate>2012-03-04</EndDate>
+  <GradingPeriod id="GRDP_20120123">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-01-23</BeginDate>
+    <EndDate>2012-03-04</EndDate>
 		<TotalInstructionalDays>30</TotalInstructionalDays>
 		<CalendarDateReference ref="CLND_20120123Instructionalday"/>
 		<CalendarDateReference ref="CLND_20120124Instructionalday"/>
@@ -1449,7 +1461,10 @@
 		<CalendarDateReference ref="CLND_20120304Holiday"/>
 	</GradingPeriod>
 	<GradingPeriod id="GRDP_20120124">
-		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
+    <GradingPeriodIdentity>
+      <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
 		<BeginDate>2012-03-05</BeginDate>
 		<EndDate>2012-04-15</EndDate>
 		<TotalInstructionalDays>30</TotalInstructionalDays>
@@ -1497,7 +1512,10 @@
 		<CalendarDateReference ref="CLND_20120415Holiday"/>
 	</GradingPeriod>
 	<GradingPeriod id="GRDP_20120125">
-		<GradingPeriod>Sixth Six Weeks</GradingPeriod>
+    <GradingPeriodIdentity>
+      <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
 		<BeginDate>2012-04-16</BeginDate>
 		<EndDate>2012-05-25</EndDate>
 		<TotalInstructionalDays>30</TotalInstructionalDays>

@@ -22,6 +22,8 @@
 
   <jb:bean beanId="studentCompetencyMeta" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="externalId" data="attributes studentCompetencyId" />
+    <jb:value property="studentUniqueStateId" data="attributes studentId" />
+    <jb:value property="uniqueSectionCode" data="attributes uniqueSectionCode" />
   </jb:bean>
 
   <jb:bean beanId="studentCompetencyBody" class="java.util.HashMap" createOnElement="attributes">

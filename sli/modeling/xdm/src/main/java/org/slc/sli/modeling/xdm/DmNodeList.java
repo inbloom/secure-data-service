@@ -6,6 +6,7 @@ import java.util.List;
 
 public final class DmNodeList implements DmNodeSequence {
 
+    @SuppressWarnings("unused")
     private final List<DmNode> nodes;
 
     public DmNodeList(final List<? extends DmNode> nodes) {

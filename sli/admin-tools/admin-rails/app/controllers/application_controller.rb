@@ -91,10 +91,6 @@ class ApplicationController < ActionController::Base
     session[:roles].include? "LEA Administrator"
   end
 
-  def is_slc_admin?
-    session[:roles].include? "SLI Administrator"
-  end
-
   def is_sea_admin?
     session[:roles].include? "SEA Administrator"
   end

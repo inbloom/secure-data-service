@@ -58,7 +58,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
@@ -100,7 +100,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "gradingPeriod"                | "gradingPeriods"          | "beginDate"              | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities

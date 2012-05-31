@@ -305,6 +305,21 @@
 		<CourseCode IdentificationSystem="CSSC course code">
 			<ID>Mason201</ID>
 		</CourseCode>
+		<GradesOffered>
+		  <GradeLevel>Kindergarten</GradeLevel>
+		  <GradeLevel>First grade</GradeLevel>
+		  <GradeLevel>Second grade</GradeLevel>
+		  <GradeLevel>Third grade</GradeLevel>
+		  <GradeLevel>Fourth grade</GradeLevel>
+		  <GradeLevel>Fifth grade</GradeLevel>
+		  <GradeLevel>Sixth grade</GradeLevel>
+		  <GradeLevel>Seventh grade</GradeLevel>
+		  <GradeLevel>Eighth grade</GradeLevel>
+		  <GradeLevel>Ninth grade</GradeLevel>
+		  <GradeLevel>Tenth grade</GradeLevel>
+		  <GradeLevel>Eleventh grade</GradeLevel>
+		  <GradeLevel>Twelfth grade</GradeLevel>
+		</GradesOffered>
 		<CourseDescription>Advanced Masonry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
