@@ -22,7 +22,8 @@ public class SectionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
         idNormalizer = getIdNormalizer();
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
-
+        if (errorReport.hasErrors())
+        	return;
         String ssaid = (String) item.getAttributes().get("ssaId");
         Entity matchedSSA = getEntityRepository().findById("schoolSessionAssociation", ssaid);
         Object sessionIdVal = matchedSSA.getBody().get("sessionId");
