@@ -20,7 +20,8 @@ public class StudentSchoolAssociationGenerator {
         ssa.setStudentReference(srt);
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+//        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        eoit.setStateOrganizationId(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         ssa.setSchoolReference(eor);

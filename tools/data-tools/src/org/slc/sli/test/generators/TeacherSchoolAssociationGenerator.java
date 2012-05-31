@@ -23,7 +23,8 @@ public class TeacherSchoolAssociationGenerator {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
 
         for (String stateOrgId : stateOrgIds) {
-            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
+//            eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(stateOrgId);
+            eoit.setStateOrganizationId(stateOrgId);
         }
 
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
@@ -48,7 +49,8 @@ public class TeacherSchoolAssociationGenerator {
 
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
-        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+//        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentity.setStateOrganizationId(schoolId);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
