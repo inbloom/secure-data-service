@@ -33,7 +33,7 @@ public class LocalEducationAgencyGenerator {
 
         // construct and add the SEA reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(seaId);
+        edOrgIdentityType.setStateOrganizationId(seaId);
 
         EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
         seaRef.setEducationalOrgIdentity(edOrgIdentityType);
