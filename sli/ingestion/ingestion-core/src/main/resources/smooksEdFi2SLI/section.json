@@ -63,18 +63,18 @@
           }
        },
        {
-       "fieldPath" : "body.courseId",
+       "fieldPath" : "body.courseOfferingId",
        "ref" : {
-       			"collectionName" : "course",
-       			"choiceOfFields" :
-       			[[
-       			   {
-       			   	 "path":"metaData.externalId",
-       			   	 "values" :
-       			   	 [{ "valueSource" : "body.LocalCourseCode" }]
-       			   }
-       			 ]]
-        }
+                "collectionName" : "courseOffering",
+                "choiceOfFields" :
+                [[
+                    {
+                        "path":"body.localCourseCode",
+                        "values" :
+                        [{ "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.LocalCourseCode" }]
+                    }
+                ]]
+               }
        }
     ]
 }
