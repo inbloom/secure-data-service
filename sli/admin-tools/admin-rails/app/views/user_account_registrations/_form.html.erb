@@ -8,7 +8,7 @@
   <div class="field">
     <table>
         <tr class="field">
-            <td><%= f.label :firstName ,"First Name"%><span style="color:red"> *</span><br />
+            <td class="form-inline"><%= f.label :firstName ,"First Name"%><span style="color:red"> *</span><br />
                 <%= f.text_field :firstName %>
             </td>
             <% if @user_account_registration.errors[:firstName].any? %>
@@ -22,7 +22,7 @@
             <%end%>
         </tr>
         <tr class="field">
-            <td><%= f.label :lastName ,"Last Name"%><span style="color:red"> *</span><br />
+            <td class="form-inline"><%= f.label :lastName ,"Last Name"%><span style="color:red"> *</span><br />
                 <%= f.text_field :lastName %>
             </td>
             <% if @user_account_registration.errors[:lastName].any? %>
@@ -36,7 +36,7 @@
             <%end%>
         </tr>
         <tr class="field">
-            <td><%= f.label :vendor %><br/>
+            <td class="form-inline"><%= f.label :vendor %><br/>
                 <%= f.text_field :vendor %>
              </td>
              <% if @user_account_registration.errors[:vendor].any? %>
@@ -50,7 +50,7 @@
             <%end%>
         </tr>
         <tr class="field">
-            <td><%= f.label :email,"Email" %><span style="color:red"> *</span> This is your login ID<br />
+            <td class="form-inline"><%= f.label :email,"Email" %><span style="color:red"> *</span> This is your login ID<br />
                 <%= f.text_field :email %>
             </td>
             <% if @user_account_registration.errors[:email].any? %>
@@ -64,7 +64,7 @@
             <%end%>
         </tr>
         <tr class="field">
-            <td><%= f.label :password %><span style="color:red"> *</span><br />
+            <td class="form-inline"><%= f.label :password %><span style="color:red"> *</span><br />
                 <%= f.password_field :password %>
             </td>
             <% if @user_account_registration.errors[:password].any? %>
@@ -78,7 +78,7 @@
             <%end%>
         </tr>
          <tr class="field">
-            <td><%= f.label :confirmation %><span style="color:red"> *</span><br />
+            <td class="form-inline"><%= f.label :confirmation %><span style="color:red"> *</span><br />
                 <%= f.password_field :password_confirmation %>
             </td>
             <% if @user_account_registration.errors[:confirmation].any? %>
