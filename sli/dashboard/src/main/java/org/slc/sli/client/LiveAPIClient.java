@@ -71,6 +71,8 @@ public class LiveAPIClient implements APIClient {
     private static final String CUSTOM_DATA = "/custom";
     private static final String STUDENT_PARENT_ASSOC = "/studentParentAssociations";
     private static final String PARENTS = "/parents";
+    private static final String SCHOOLS = "/schools";
+    private static final String TEACHER_SCHOOL_ASSOC = "/teacherSchoolAssociations";
 
     // link names
     private static final String ED_ORG_LINK = "getEducationOrganization";
@@ -179,9 +181,12 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
 
         List<GenericEntity> schools = null;
+        String teacherId = getId(token);
+        schools = createEntitiesFromAPI(getApiUrl()
+                + TEACHERS_URL + teacherId + TEACHER_SCHOOL_ASSOC + SCHOOLS, token);
 
         // get schools
-        schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL, token);
+        //schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL, token);
 
         // get sections
         List<GenericEntity> sections = null;
@@ -189,7 +194,6 @@ public class LiveAPIClient implements APIClient {
             sections = getSectionsForNonEducator(token);
         } else {
             // TODO: (sivan) check if a simple /section will work for teachers as well
-            String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token);
         }
 
