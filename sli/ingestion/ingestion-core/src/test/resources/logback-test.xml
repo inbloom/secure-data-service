@@ -50,6 +50,9 @@
   <logger name="ch.qos" level="OFF"/>
   <logger name="org.slf4j" level="OFF"/>
 
+  <!-- Do not pollute our logs with awful Smooks / groovy warnings -->
+  <logger name="org.milyn.delivery" level="ERROR" />
+
   <!-- Core Loggers -->
   <!-- <logger name="org.slc.sli.ingestion.processors.IngestionProcessor" level="DEBUG" /> -->
 

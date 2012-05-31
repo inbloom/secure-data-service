@@ -2,6 +2,7 @@ package org.slc.sli.common.util.uuid;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.uuid.EthernetAddress;
@@ -15,6 +16,7 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
  *
  */
 @Component
+@Qualifier("type1UUIDGeneratorStrategy")
 public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
 
     private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
@@ -26,5 +28,4 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     public UUID randomUUID() {
         return generator.generate();
     }
-
 }

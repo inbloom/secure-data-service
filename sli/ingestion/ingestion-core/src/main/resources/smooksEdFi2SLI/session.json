@@ -1,48 +1,46 @@
 {
-"keyFields" : ["body.term", "body.schoolYear", "body.schoolId"],
-"references" :
- [
-{
-    "fieldPath" : "body.schoolId",
-    "ref" : {
-            "collectionName" : "school",
-            "choiceOfFields" :
+    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.gradingPeriodReference",
+            "ref" :
+            {
+                "collectionName" : "gradingPeriod",
+                "isRefList" : true,
+                "refObjectPath" : "body.gradingPeriodReference",
+                "choiceOfFields" :
                 [
-                  [
-                       {
-                       "path" : "metaData.externalId",
-                       "values" :
-                         [
-                            { "valueSource" : "body.schoolId" }
-                          ]
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity"
+                            }]
                         }
                     ]
                 ]
             }
-    },
-    
-    
-    {
-        "fieldPath" : "body.gradingPeriodReference",
-        "ref" : {
-            "collectionName" : "gradingPeriod",
-            "isRefList" : true,
-            "refObjectPath" : "body.gradingPeriodReference",
-            "choiceOfFields" :
+        },
+        {
+            "fieldPath" : "body.schoolId",
+            "ref" :
+            {
+                "collectionName" : "school",
+                "choiceOfFields" :
                 [
-                  [
-                       {
-                       "path" : "metaData.externalId",
-                       "values" :
-                         [
-                            { "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity" }
-                          ]
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.schoolId"
+                            }]
                         }
                     ]
                 ]
             }
-    }
-    
-    
-  ]
+        }
+    ]
 }

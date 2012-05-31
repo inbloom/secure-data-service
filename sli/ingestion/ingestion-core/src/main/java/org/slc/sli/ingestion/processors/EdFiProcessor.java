@@ -18,6 +18,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -62,19 +63,21 @@ public class EdFiProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
+        if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
-
-            processEdFi(exchange, batchJobId);
+            processEdFi(workNote, exchange);
         }
     }
 
-    private void processEdFi(Exchange exchange, String batchJobId) {
+    private void processEdFi(WorkNote workNote, Exchange exchange) {
+        LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -90,7 +93,7 @@ public class EdFiProcessor implements Processor {
 
             for (IngestionFileEntry fe : fileEntryList) {
 
-                Metrics metrics = Metrics.createAndStart(fe.getFileName());
+                Metrics metrics = Metrics.newInstance(fe.getFileName());
                 stage.getMetrics().add(metrics);
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
@@ -109,8 +112,6 @@ public class EdFiProcessor implements Processor {
 
                 ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
                 newJob.getResourceEntries().add(resource);
-
-                metrics.stopMetric();
             }
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
@@ -130,9 +131,11 @@ public class EdFiProcessor implements Processor {
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
+                LOG.info("Processing file: {}", fe.getFile().getPath());
 
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
 
+                LOG.info("Done processing file: {}", fe.getFile().getPath());
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
             }
@@ -197,8 +200,6 @@ public class EdFiProcessor implements Processor {
         if (hasError) {
             exchange.getIn().setHeader("hasErrors", hasError);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
         }
     }
 
