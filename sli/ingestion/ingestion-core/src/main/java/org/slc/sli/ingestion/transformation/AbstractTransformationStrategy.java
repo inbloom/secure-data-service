@@ -117,13 +117,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         Query query = new Query();
 
         Iterable<NeutralRecord> data;
-        int max = 0;
-        int skip = 0;
 
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
-            max = (note.getRangeMaximum() - note.getRangeMinimum() + 1);
-            skip = note.getRangeMinimum();
 
             Criteria limiter = Criteria.where("locationInSourceFile").gte(note.getRangeMinimum());
             Criteria maximum = Criteria.where("locationInSourceFile").lte(note.getRangeMaximum());
@@ -132,8 +128,6 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         }
 
         data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query, getJob().getId());
-
-        //data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query, getJob().getId(), skip, max);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
