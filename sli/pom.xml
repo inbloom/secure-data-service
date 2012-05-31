@@ -922,6 +922,8 @@
 					<findbugsXmlOutput>true</findbugsXmlOutput>
 					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
 					<xmlOutput>true</xmlOutput>
+					<effort>Max</effort>
+					<failOnError>false</failOnError>
 				</configuration>
 			</plugin>
 
