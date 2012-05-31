@@ -45,7 +45,7 @@ public class SectionGenerator {
         s.setCourseOfferingReference(corft);
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        eoit.setStateOrganizationId(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
 
@@ -64,7 +64,7 @@ public class SectionGenerator {
          section.setSequenceOfCourse(1);
          // construct and add the school reference
          EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-         edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+         edOrgIdentityType.setStateOrganizationId(schoolId);
 
          EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
          schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
@@ -106,7 +106,7 @@ public class SectionGenerator {
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentityType.setStateOrganizationId(schoolId);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
