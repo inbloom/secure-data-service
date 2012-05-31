@@ -35,7 +35,8 @@ public class StudentObjectiveAssessmentGenerator {
             soa.getScoreResults().add(sr);
         }
 
-        soa.setStudentTestAssessmentReference(studentTestAssessmentReference);
+//        soa.setStudentTestAssessmentReference(studentTestAssessmentReference);
+        soa.setStudentAssessmentReference(studentTestAssessmentReference);
 
         soa.setObjectiveAssessmentReference(objectiveAssessmentReference);
 
@@ -64,7 +65,8 @@ public class StudentObjectiveAssessmentGenerator {
         // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
         studentAssessmentReference.setRef(studentAssessment);
-        soa.setStudentTestAssessmentReference(studentAssessmentReference);
+//        soa.setStudentTestAssessmentReference(studentAssessmentReference);
+        soa.setStudentAssessmentReference(studentAssessmentReference);
 
         // objective assessment
         String randomObjAssessCode = AssessmentMetaRelations.getRandomObjectiveAssessmentMeta().id;
