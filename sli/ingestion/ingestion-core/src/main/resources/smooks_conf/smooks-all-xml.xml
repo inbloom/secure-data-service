@@ -389,6 +389,9 @@
     <!-- School Id -->
     <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
 
+    <!--School Year-->
+    <jb:value property="schoolYear" data="StudentSchoolAssociation/SchoolYear" />
+
     <!-- EntryDate -->
     <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
 
