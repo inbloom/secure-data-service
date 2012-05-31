@@ -34,25 +34,24 @@
 	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
 	  </ProgramIdentity>
 	</ProgramReference>
-  </Cohort>
+  </Cohort>  
   <Cohort>
     <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-	<CohortDescription>District-wide academic intervention cohort for Social Studies</CohortDescription>
-	<CohortType>Academic Intervention</CohortType>
-	<CohortScope>District</CohortScope>
-	<AcademicSubject>Social Studies</AcademicSubject>
-	<EducationOrgReference>
-	  <EducationalOrgIdentity>
-	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </EducationalOrgIdentity>
-	</EducationOrgReference>
-	<ProgramReference>
-	  <ProgramIdentity>
-	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-	  </ProgramIdentity>
-	</ProgramReference>
+  <CohortDescription>District-wide academic intervention cohort for Social Studies</CohortDescription>
+  <CohortType>Academic Intervention</CohortType>
+  <CohortScope>District</CohortScope>
+  <AcademicSubject>Social Studies</AcademicSubject>
+  <EducationOrgReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>IL</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrgReference>
+  <ProgramReference>
+    <ProgramIdentity>
+      <ProgramId>ACC-TEST-PROG-1</ProgramId>
+    </ProgramIdentity>
+  </ProgramReference>
   </Cohort>
-  
   
   <StudentCohortAssociation>
     <StudentReference>
@@ -140,96 +139,52 @@
 	<BeginDate>2011-04-01</BeginDate>
 	<EndDate>2012-01-15</EndDate>
   </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-	  <StudentIdentity>
-	    <StudentUniqueStateId>900000015</StudentUniqueStateId>
-	  </StudentIdentity>
-	</StudentReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
-	<BeginDate>2011-05-01</BeginDate>
-  </StudentCohortAssociation>
-    <StudentCohortAssociation>
-    <StudentReference>
-	  <StudentIdentity>
-	    <StudentUniqueStateId>900000016</StudentUniqueStateId>
-	  </StudentIdentity>
-	</StudentReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
-	<BeginDate>2011-05-15</BeginDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-	  <StudentIdentity>
-	    <StudentUniqueStateId>900000017</StudentUniqueStateId>
-	  </StudentIdentity>
-	</StudentReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
-	<BeginDate>2011-06-01</BeginDate>
-	<EndDate>2012-02-15</EndDate>
-  </StudentCohortAssociation>
-  
   
   <StaffCohortAssociation>
     <StaffReference>
-	  <StaffIdentity>
-	    <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
-	  </StaffIdentity>
-	</StaffReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
-		<StateOrganizationId>IL</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
+    <StaffIdentity>
+      <StaffUniqueStateId>mgonzales</StaffUniqueStateId>
+    </StaffIdentity>
+  </StaffReference>
+  <CohortReference>
+    <CohortIdentity>
+      <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+    <StateOrganizationId>IL</StateOrganizationId>
+    </CohortIdentity>
+  </CohortReference>
     <BeginDate>2011-01-01</BeginDate>
-	<EndDate>2012-02-15</EndDate>
-	<StudentRecordAccess>true</StudentRecordAccess>
+  <EndDate>2012-02-15</EndDate>
+  <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
     <StaffReference>
-	  <StaffIdentity>
-	    <StaffUniqueStateId>sbantu</StaffUniqueStateId>
-	  </StaffIdentity>
-	</StaffReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
-		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
+    <StaffIdentity>
+      <StaffUniqueStateId>msmith</StaffUniqueStateId>
+    </StaffIdentity>
+  </StaffReference>
+  <CohortReference>
+    <CohortIdentity>
+      <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    </CohortIdentity>
+  </CohortReference>
     <BeginDate>2010-01-15</BeginDate>
-	<StudentRecordAccess>true</StudentRecordAccess>
+  <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
   <StaffCohortAssociation>
     <StaffReference>
-	  <StaffIdentity>
-	    <StaffUniqueStateId>ckoch</StaffUniqueStateId>
-	  </StaffIdentity>
-	</StaffReference>
-	<CohortReference>
-	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </CohortIdentity>
-	</CohortReference>
+    <StaffIdentity>
+      <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+    </StaffIdentity>
+  </StaffReference>
+  <CohortReference>
+    <CohortIdentity>
+      <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
+    <StateOrganizationId>IL</StateOrganizationId>
+    </CohortIdentity>
+  </CohortReference>
     <BeginDate>2011-07-01</BeginDate>
-	<StudentRecordAccess>true</StudentRecordAccess>
+  <StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
 
 </InterchangeStudentCohort>
