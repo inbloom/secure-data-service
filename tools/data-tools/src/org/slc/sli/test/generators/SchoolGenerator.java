@@ -84,7 +84,7 @@ public class SchoolGenerator {
 
     public static EducationalOrgReferenceType getEducationalOrgReferenceType(String schoolId) {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        eoit.setStateOrganizationId(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         return eor;
@@ -166,7 +166,7 @@ public class SchoolGenerator {
             EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
             code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
             code.setID("SchoolId");
-            edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(code);
+            edOrgIdenType.getEducationOrgIdentificationCode().add(code);
             
             EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
@@ -179,7 +179,7 @@ public class SchoolGenerator {
     public static EducationalOrgReferenceType getEducationalOrgReferenceType(School school)
     {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
+        eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
     	return eor;
