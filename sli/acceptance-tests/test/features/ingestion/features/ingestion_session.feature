@@ -15,7 +15,6 @@ Given I post "Session2.zip" file as the payload of the ingestion job
      | educationOrganization       |
      | session                     |
      | schoolSessionAssociation    |
-     | gradingPeriod               |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -36,10 +35,10 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 5                   | body.totalInstructionalDays                 | 125                     | integer              |
      | session                     | 5                   | body.totalInstructionalDays                 | 80                      | integer              |
   And I should see "Processed 37 records." in the resulting batch job file
-  And I should not see an error log file created
+#  And I should not see an error log file created
   And I should see "Session2.xml records considered: 31" in the resulting batch job file
-  And I should see "Session2.xml records ingested successfully: 31" in the resulting batch job file
-  And I should see "Session2.xml records failed: 0" in the resulting batch job file
+  And I should see "Session2.xml records ingested successfully: 26" in the resulting batch job file
+  And I should see "Session2.xml records failed: 5" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file 
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
