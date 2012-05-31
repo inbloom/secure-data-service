@@ -21,8 +21,9 @@ Scenario: Check K-3 Student Name in Live
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Sunset School District 4526" and click go
-When I login as "rbraverman" "rbraverman1234"
+When I select "Illinois Daybreak School District 4529" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
@@ -42,7 +43,8 @@ Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
-When I login as "rbraverman" "rbraverman1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
