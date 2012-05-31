@@ -5,7 +5,6 @@ class RealmManagementController < ApplicationController
   # GET /realm_management.json
   def index
     userRealm = session[:edOrg]
-    Check.get("")
     realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
     logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil? and session[:roles] != nil and session[:roles].member?("Realm Administrator")
@@ -19,14 +18,14 @@ class RealmManagementController < ApplicationController
 
   ## GET /realm_management/1
   ## GET /realm_management/1.json
-  # def show
-  #  @realm = Realm.find(params[:id])
-  # 
-  #  respond_to do |format|
-  #    format.html # show.html.erb
-  #    format.json { render json: @realm }
-  #  end
-  # end
+  def show
+   @realm = Realm.find(params[:id])
+  
+   respond_to do |format|
+     format.html # show.html.erb
+     format.json { render json: @realm }
+   end
+  end
 
   # GET /realm_management/new
   # GET /realm_management/new.json
@@ -43,24 +42,26 @@ class RealmManagementController < ApplicationController
   # POST /realm_management
   # POST /realm_management.json
   def create
-   @realm = Realm.new(params[:realm])
-  
-   respond_to do |format|
-     success = false
-     begin
-       @realm.save
-       success = true if @realm.valid? and @realm.idp.valid?
-     rescue ActiveResource::BadRequest => error
-       @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
-     end
-     if success
-       format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully created.' }
-       format.json { render json: @realm, status: :created, location: @realm }
-     else
-       format.html { render action: "new" }
-       format.json { render json: @realm.errors, status: :unprocessable_entity }
-     end
-   end
+    @realm = Realm.new(params[:realm])
+    @realm.edOrg = session[:edOrg]
+    respond_to do |format|
+      success = false
+      begin
+        @realm.save
+        success = true if @realm.valid? and @realm.idp.valid?
+        flash[:notice] = 'Realm was successfully created.'
+      rescue ActiveResource::BadRequest => error
+        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+      end
+      if success
+        @realm = Realm.find(@realm.id)
+        format.html { redirect_to edit_realm_management_path(@realm),  notice: 'Realm was successfully created.' }
+        format.json { render json: @realm, status: :created, location: @realm }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @realm.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PUT /realm_management/1
