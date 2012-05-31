@@ -825,6 +825,7 @@ end
 
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
+  old_db = @db
   @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
   @entity_collection = @db.collection("newBatchJob")
 
@@ -837,7 +838,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   found = false
   if (INGESTION_MODE == 'remote')
     iters.times do |i|
-      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "stages" => {"$elemMatch" => {"chunks.0.stageName" => "JobReportingProcessor"}}}).count().to_s
+      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -851,7 +852,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
     sleep(5) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
 
-      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "stages" => {"$elemMatch" => {"chunks.0.stageName" => "JobReportingProcessor"}}}).count().to_s
+      @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
@@ -868,6 +869,8 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
+
+  @db = old_db
 end
 
 When /^two batch job logs have been created$/ do
