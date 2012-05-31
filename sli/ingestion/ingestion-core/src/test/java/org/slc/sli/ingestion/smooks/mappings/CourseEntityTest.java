@@ -100,23 +100,6 @@ public class CourseEntityTest {
     }
 
     @Test
-    public void csvCourseTest() throws Exception {
-
-        String smooksConfig = "smooks_conf/smooks-course-csv.xml";
-
-        String targetSelector = "csv-record";
-
-        String courseCsv = "Science7,8,LEA course code,orgCode,science7,Honors,Advanced,Seventh grade,Science,"
-                + "A seventh grade science course,2012-02-01,true,Applicable,LEA,1.0,Carnegie unit,1.0,2.0,Carnegie unit,1.0,"
-                + "Science Technology Engineering and Mathematics";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                courseCsv);
-
-        checkValidCourseNeutralRecord(neutralRecord);
-    }
-
-    @Test
     public void edfiXmlCourseTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
@@ -141,6 +124,7 @@ public class CourseEntityTest {
                 + "    </CourseLevelCharacteristics>"
                 + "    <GradesOffered>"
                 + "        <GradeLevel>Seventh grade</GradeLevel>"
+                + "        <GradeLevel>Eighth grade</GradeLevel>"
                 + "    </GradesOffered>"
                 + "    <SubjectArea>Science</SubjectArea>"
                 + "    <CourseDescription>A seventh grade science course</CourseDescription>"
@@ -200,11 +184,13 @@ public class CourseEntityTest {
         List courseLevelCharacteristicList = (List) neutralRecord.getAttributes().get("courseLevelCharacteristics");
         assertEquals(1, courseLevelCharacteristicList.size());
         assertEquals("Advanced", courseLevelCharacteristicList.get(0));
-
-        assertEquals("Seventh grade", neutralRecord.getAttributes().get("gradesOffered"));
-//        String gradesOfferedList = neutralRecord.getAttributes().get("gradesOffered");
-//        assertEquals(1, gradesOfferedList.size());
-//        assertEquals("Seventh grade", gradesOfferedList.get(0));
+        
+        //check that all grades offered are reflected in entity
+        List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
+        assertEquals(gradesOfferedList.size(), 2);
+        assertEquals("Seventh grade", gradesOfferedList.get(0));
+        assertEquals("Eighth grade", gradesOfferedList.get(1));
+        
 
         assertEquals("Science", neutralRecord.getAttributes().get("subjectArea"));
 
