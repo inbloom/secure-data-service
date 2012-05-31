@@ -29,7 +29,6 @@ public class RoleInitializer {
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
     public static final String LEADER = "Leader";
-    public static final String SLI_ADMINISTRATOR = "SLI Administrator";
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
@@ -59,7 +58,6 @@ public class RoleInitializer {
         boolean hasLeader = false;
         boolean hasIT = false;
         boolean hasAggregate = false;
-        boolean hasSLIAdmin = false;
         boolean hasLEAAdmin = false;
         boolean hasAppDeveloper = false;
         boolean hasSLCOperator = false;
@@ -77,8 +75,6 @@ public class RoleInitializer {
                 hasIT = true;
             } else if (body.get("name").equals(LEADER)) {
                 hasLeader = true;
-            } else if (body.get("name").equals(SLI_ADMINISTRATOR)) {
-                hasSLIAdmin = true;
             } else if (body.get("name").equals(LEA_ADMINISTRATOR)) {
                 hasLEAAdmin = true;
             } else if (body.get("name").equals(APP_DEVELOPER)) {
@@ -102,9 +98,6 @@ public class RoleInitializer {
         }
         if (!hasEducator) {
             createdRoles.add(buildEducator());
-        }
-        if (!hasSLIAdmin) {
-            createdRoles.add(buildSLIAdmin());
         }
         if (!hasLEAAdmin) {
             createdRoles.add(buildLEAAdmin());
@@ -181,11 +174,6 @@ public class RoleInitializer {
     private Role buildIT() {
         info("Building IT Administrator default role.");
         return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
-    }
-
-    private Role buildSLIAdmin() {
-        info("Building SLI Administrator default role.");
-        return RoleBuilder.makeRole(SLI_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS }).setAdmin(true).build();
     }
 
     private Role buildLEAAdmin() {
