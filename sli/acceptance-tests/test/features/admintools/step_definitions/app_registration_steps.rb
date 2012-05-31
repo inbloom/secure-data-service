@@ -18,7 +18,7 @@ When /^I hit the Application Registration Tool URL$/ do
 end
 
 Then /^I am redirected to the Application Approval Tool page$/ do
-  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Management") != nil}
+  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Approve Applications") != nil}
 end
 
 Then /^I am redirected to the Application Registration Tool page$/ do

@@ -52,9 +52,8 @@ class LandingZone
           " You will need to sftp to the directory below and upload the data file in order for it to be ingested by the system.\n\n" <<
           "If you elected to use your own data you will need to sftp to the directory below and upload the data file you created in order for it to be ingested by the system.\n\n"<<
           "Server: #{result.attributes[:serverName]}\n" <<
-          "Ed-Org: #{edorg_id}\n\n\n" <<
-          
-          #"LZ Directory: #{result.attributes[:landingZone]}\n\n" <<
+          "Ed-Org: #{edorg_id}\n" <<
+          "LZ Directory: #{result.attributes[:landingZone]}\n\n\n" <<
           #"Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
           "Thank you,\n" <<
           "The Shared Learning Collaborative\n"
