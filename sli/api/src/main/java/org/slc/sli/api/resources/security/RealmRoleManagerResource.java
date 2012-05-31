@@ -170,7 +170,7 @@ public class RealmRoleManagerResource {
         }
         Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
         if (validateUniqueness != null) {
-            LOG.debug("On realm create, uniqueId is not unique");
+            debug("On realm create, uniqueId is not unique");
             return validateUniqueness;
         }
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm
