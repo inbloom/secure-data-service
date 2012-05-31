@@ -83,8 +83,9 @@ When /^I pass my valid username and password$/ do
 end
 
 Then /^I get message that I am not authorized$/ do
-  isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
-  assert(isForbidden != nil)
+  isForbidden = @driver.find_element(:xpath, '//title[text()="Action Controller: Exception caught"]')
+  isForbidden2 = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
+  assert(isForbidden != nil || isForbidden2 != nil)
 end
 
 Then /^I do not get message that I am not authorized$/ do
