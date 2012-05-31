@@ -121,10 +121,8 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
 
-            Criteria limiter = Criteria.where("locationInSourceFile").gte(note.getRangeMinimum());
-            Criteria maximum = Criteria.where("locationInSourceFile").lte(note.getRangeMaximum());
+            Criteria limiter = Criteria.where("locationInSourceFile").gte(note.getRangeMinimum()).lte(note.getRangeMaximum());
             query.addCriteria(limiter);
-            query.addCriteria(maximum);
         }
 
         data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query, getJob().getId());
