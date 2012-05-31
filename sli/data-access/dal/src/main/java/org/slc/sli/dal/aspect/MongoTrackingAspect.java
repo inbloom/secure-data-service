@@ -41,7 +41,7 @@ public class MongoTrackingAspect {
         
         String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
         
-        if (stats.get(pjp.getSignature().getName()) == null) {
+        if (stats.get(key) == null) {
             stats.put(key, Pair.of(new AtomicLong(0), new AtomicLong(0)));
         }
         
