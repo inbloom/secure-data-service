@@ -1,0 +1,13 @@
+<StudentCompetencyReference>
+    <StudentCompetencyIdentity>
+        <Id>
+        ${StudentCompetency.@id}
+        </Id>
+        <Section>
+        ${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.SectionIdentity.UniqueSectionCode}
+        </Section>
+        <Student>
+        ${StudentCompetency.StudentSectionAssociationReference.StudentSectionAssociationIdentity.StudentIdentity.StudentUniqueStateId}
+        </Student>
+    </StudentCompetencyIdentity>
+</StudentCompetencyReference>

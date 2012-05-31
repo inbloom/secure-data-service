@@ -1282,7 +1282,7 @@ Representative of visiting school
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="GradingPeriod" type="GradingPeriodType">
+					<xs:element name="GradingPeriodIdentity" type="GradingPeriodIdentityType">
 						<xs:annotation>
 							<xs:documentation>The name of the period for which grades are reported
 </xs:documentation>
@@ -4474,7 +4474,7 @@ Second grade
 	</xs:complexType>
 	<xs:complexType name="GradingPeriodReferenceType">
 		<xs:annotation>
-			<xs:documentation>Provides alternative references for grading periodss. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
+			<xs:documentation>Provides alternative references for grading periods. Use XML IDREF to reference a program record that is included in the interchange</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">

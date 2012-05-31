@@ -10,5 +10,5 @@ When /^I access the API resource "([^"]*)" with no authorization headers present
 end
 
 Then /^I should see a message that I am forbidden$/ do
-  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("Invalid user")!= nil}
+  assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("error")!= nil}
 end

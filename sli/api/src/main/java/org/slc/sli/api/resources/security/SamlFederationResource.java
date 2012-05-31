@@ -27,6 +27,12 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
@@ -39,11 +45,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -157,7 +158,7 @@ public class SamlFederationResource {
         }
         org.jdom.Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
         org.jdom.Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
-        
+
         org.jdom.Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
         if (conditions != null) {
             String notBefore = conditions.getAttributeValue("NotBefore");
@@ -168,15 +169,15 @@ public class SamlFederationResource {
         try {
             org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS).getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
             String recipient = subjConfirmationData.getAttributeValue("Recipient");
-            
+
             if (!uriInfo.getRequestUri().toString().equals(recipient)) {
                 throw new SecurityException("SAML Recipient was invalid, was " + recipient);
             }
-            
+
         } catch (NullPointerException e) {
             debug("NullPointer trying to confirm the recipient of the SAML response");
         }
-        
+
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -234,11 +235,11 @@ public class SamlFederationResource {
             // have no valid user
             throw new RuntimeException("Invalid user");
         }
-        
+
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
-                
+
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = sessionManager.composeRedirect(inResponseTo, principal);
 
@@ -295,16 +296,16 @@ public class SamlFederationResource {
         return Response.status(Response.Status.NOT_FOUND).build();
 
     }
-    
+
     private void verifyTime(String notBefore, String notOnOrAfter) throws SecurityException {
         Calendar currentTime = Calendar.getInstance();
         Calendar calNotBefore = DatatypeConverter.parseDateTime(notBefore);
         Calendar calNotOnOrAfter = DatatypeConverter.parseDateTime(notOnOrAfter);
-        
+
         if (currentTime.compareTo(calNotBefore) < 0 || currentTime.compareTo(calNotOnOrAfter) >= 0) {
             throw new SecurityException("SAML Conditions not met, the time is not within " + notBefore + " - "
                     + notOnOrAfter);
         }
     }
-    
+
 }
