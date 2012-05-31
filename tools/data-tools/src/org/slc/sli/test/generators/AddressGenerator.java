@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.Address;
 import org.slc.sli.test.edfi.entities.AddressType;
 import org.slc.sli.test.edfi.entities.CountryCodeType;
+import org.slc.sli.test.edfi.entities.CountryType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 
 public class AddressGenerator {
@@ -96,7 +97,7 @@ public class AddressGenerator {
     	 Address add = new Address();
 
     try {
-    	 
+
         int selectedCity   =  getRand() % cityCount;
         int selectedStreet =  getRand() % streetCount;
 
@@ -113,7 +114,7 @@ public class AddressGenerator {
         //String streetName = "myaddress";
         String streetName = selStreet[0];
         String bldgNumber = selStreet[1];
-  
+
         add.setStreetNumberName(streetName);
         add.setApartmentRoomSuiteNumber(String.valueOf(getRand()  % 500));
         add.setBuildingSiteNumber(bldgNumber);
@@ -122,16 +123,16 @@ public class AddressGenerator {
         add.setPostalCode(postalCode);
         add.setNameOfCounty(county);
         add.setCountyFIPSCode("    ");
-        add.setCountryCode(CountryCodeType.US);
+        add.setCountry(CountryType.UNITED_STATES);
         add.setLatitude(String.valueOf(getRand() % 90));
         add.setLongitude(String.valueOf(getRand() % 180));
         add.setBeginDate(yearAgo);
         add.setEndDate(yearHence);
         add.setAddressType(AddressType.HOME);
     } catch (ArithmeticException  e) {
-    	
-    	log.info("Division by zero.");  	
-    	
+
+    	log.info("Division by zero.");
+
     }
         return add;
     }
@@ -147,7 +148,7 @@ public class AddressGenerator {
         add.setPostalCode("12345");
         add.setNameOfCounty("County");
         add.setCountyFIPSCode("FIPS");
-        add.setCountryCode(CountryCodeType.US);
+        add.setCountry(CountryType.UNITED_STATES);
         add.setLatitude("latitiude");
         add.setLongitude("longitude");
         add.setBeginDate(RIGHT_NOW);
@@ -177,7 +178,7 @@ public class AddressGenerator {
                         "PostalCode : " + address.getPostalCode() + ",\n" +
                         "NameOfCounty : " + address.getNameOfCounty() + ",\n" +
                         "CountyFIPSCode : " + address.getCountyFIPSCode() + ",\n" +
-                        "CountryCode : " + address.getCountryCode() + ",\n" +
+                        "CountryCode : " + address.getCountry() + ",\n" +
                         "Latitude : " + address.getLatitude() + ",\n" +
                         "Longitude : " + address.getLongitude() + ",\n" +
                         "BeginDate : " + address.getBeginDate() + ",\n" +

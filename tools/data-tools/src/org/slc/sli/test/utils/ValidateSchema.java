@@ -11,11 +11,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
 
-    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
+    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd1/";
 
     private static final String SCHEMAS[] = {
             "Interchange-AssessmentMetadata.xsd",
@@ -58,6 +60,29 @@ public class ValidateSchema {
                     Source source = new StreamSource(file);
 
                     try {
+
+                        validator.setErrorHandler(new ErrorHandler() {
+
+                            @Override
+                            public void warning(SAXParseException exception) throws SAXException {
+                                // TODO Auto-generated method stub
+                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>" + exception.getMessage() + "  ");
+
+                            }
+
+                            @Override
+                            public void fatalError(SAXParseException exception) throws SAXException {
+                                // TODO Auto-generated method stub
+                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>"+ exception.getMessage() + "  ");
+
+                            }
+
+                            @Override
+                            public void error(SAXParseException exception) throws SAXException {
+                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>"+ exception.getMessage() + "  ");
+
+                            }
+                        });
                         validator.validate(source);
                         System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
                         System.out.println("");
