@@ -101,7 +101,11 @@ Then /^my password is shown as a series of dots$/ do
 end
 
 Then /^when I click "([^\"]*)"$/ do |button|
-  @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  if button == 'Cancel'
+    @driver.find_element(:xpath, "//a[text()=\"#{button}\"]").click
+  else
+    @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
+  end
 end
 
 Then /^my field entries are validated$/ do
