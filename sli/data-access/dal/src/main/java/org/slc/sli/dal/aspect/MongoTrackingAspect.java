@@ -35,7 +35,7 @@ public class MongoTrackingAspect {
             collection = (String) args[2];
         }
 
-        if(pjp.getSignature().equals("executeCommand")) {
+        if(pjp.getSignature().getName().equals("executeCommand")) {
             collection="EXEC-UNKNOWN";
         }
 
