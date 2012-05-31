@@ -29,7 +29,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     private EntityEncryption encryptor;
 
     @Autowired
-    @Qualifier("type4UUIDGeneratorStrategy")
+    @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public EntityEncryption getStagingEncryptor() {

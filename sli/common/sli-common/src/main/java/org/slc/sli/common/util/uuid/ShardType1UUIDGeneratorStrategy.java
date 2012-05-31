@@ -6,6 +6,7 @@ import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @author wscott
  */
 @Component
+@Qualifier("shardType1UUIDGeneratorStrategy")
 public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
 
     private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
