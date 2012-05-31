@@ -40,63 +40,103 @@
 	</CalendarDate>
 
 	<GradingPeriod id="GP_1">
-		<GradingPeriod>First Six Weeks</GradingPeriod>
+        <GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Charlie School</StateOrganizationId>
+        </GradingPeriodIdentity>
 		<BeginDate>2010-09-01</BeginDate>
 		<EndDate>2010-12-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_1"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_2">
-		<GradingPeriod>Second Six Weeks</GradingPeriod>
-		<BeginDate>2011-01-01</BeginDate>
+    		<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+            <EducationOrgIdentificationCode IdentificationSystem="School">
+                <ID>Charlie School</ID>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    <BeginDate>2011-01-01</BeginDate>
 		<EndDate>2011-04-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_2"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_3">
-		<GradingPeriod>Third Six Weeks</GradingPeriod>
-		<BeginDate>2011-09-01</BeginDate>
+    	<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Dog School</StateOrganizationId>
+        </GradingPeriodIdentity>
+    <BeginDate>2011-09-01</BeginDate>
 		<EndDate>2011-12-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_3"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_4">
-		<GradingPeriod>Fourth Six Weeks</GradingPeriod>
-		<BeginDate>2012-09-01</BeginDate>
+    	<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+            <EducationOrgIdentificationCode IdentificationSystem="School">
+                <ID>Dog School</ID>
+            </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+    <BeginDate>2012-09-01</BeginDate>
 		<EndDate>2012-12-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_4"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_5">
-		<GradingPeriod>Fifth Six Weeks</GradingPeriod>
-		<BeginDate>2013-01-01</BeginDate>
+    		<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Echo School</StateOrganizationId>
+        </GradingPeriodIdentity>
+    <BeginDate>2013-01-01</BeginDate>
 		<EndDate>2013-04-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_101"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_6">
-		<GradingPeriod>Sixth Six Weeks</GradingPeriod>
-		<BeginDate>2013-09-01</BeginDate>
+    		<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Echo School</StateOrganizationId>
+        </GradingPeriodIdentity>
+    <BeginDate>2013-09-01</BeginDate>
 		<EndDate>2013-12-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_1"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_7">
-		<GradingPeriod>First Summer Session</GradingPeriod>
-		<BeginDate>2010-05-01</BeginDate>
+        <GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Able School</StateOrganizationId>
+        </GradingPeriodIdentity>
+    <BeginDate>2010-05-01</BeginDate>
 		<EndDate>2010-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_2"/>
 	</GradingPeriod>
-	<GradingPeriod id="GP_8">
-		<GradingPeriod>Second Summer Session</GradingPeriod>
+    	<GradingPeriod id="GP_8">
+    		<GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Able School</StateOrganizationId>
+        </GradingPeriodIdentity>
 		<BeginDate>2011-05-01</BeginDate>
 		<EndDate>2011-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>
 		<CalendarDateReference ref="CD_3"/>
 	</GradingPeriod>
 	<GradingPeriod id="GP_9">
-		<GradingPeriod>Third Summer Session</GradingPeriod>
+        <GradingPeriodIdentity>
+          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <SchoolYear>2011-2012</SchoolYear>
+          <StateOrganizationId>Baker School</StateOrganizationId>
+        </GradingPeriodIdentity>
 		<BeginDate>2012-05-01</BeginDate>
 		<EndDate>2012-08-01</EndDate>
 		<TotalInstructionalDays>90</TotalInstructionalDays>

@@ -26,12 +26,40 @@
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="gradingPeriod" data="attributes gradingPeriod" />
+        <jb:wiring property="gradingPeriodIdentity" beanIdRef="gradingPeriodIdentity" />
         <jb:value property="beginDate" data="attributes beginDate" />
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
-        <!--<jb:value property="calendarDateReference" data="attributes calendarDateReference" />-->
         <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_Array" />
+    </jb:bean>
+
+    <jb:bean beanId="gradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="schoolYear" data="attributes gradingPeriodIdentity schoolYear" />
+        <jb:value property="gradingPeriod" data="attributes gradingPeriodIdentity gradingPeriod" />
+        <jb:wiring property="educationalOrgIdentity" beanIdRef="educationalOrgIdentity_array" />
+    </jb:bean>
+
+    <jb:bean beanId="educationalOrgIdentity_array" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="educationalOrgIdentityType" />
+    </jb:bean>
+
+    <jb:bean beanId="educationalOrgIdentityType" class="java.util.HashMap" 
+             createOnElement="gradingPeriodIdentity educationalOrgIdentity element">
+        <jb:value property="stateOrganizationId" data="gradingPeriodIdentity educationalOrgIdentity element stateOrganizationId" />
+        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="educationOrgIdentificationCode_Array" />
+    </jb:bean>
+
+    <jb:bean beanId="educationOrgIdentificationCode_Array" class="java.util.ArrayList"
+             createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode">
+        <jb:wiring beanIdRef="educationOrgIdentificationCode" />
+    </jb:bean>
+
+    <jb:bean beanId="educationOrgIdentificationCode" class="java.util.HashMap"
+             createOnElement="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element">
+        <jb:value property="ID"
+                  data="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element ID" />
+        <jb:value property="identificationSystem"
+                  data="attributes gradingPeriodIdentity educationalOrgIdentity element educationOrgIdentificationCode element identificationSystem" />
     </jb:bean>
 
     <jb:bean beanId="calendarDateReference_Array" class="java.util.ArrayList" createOnElement="attributes">

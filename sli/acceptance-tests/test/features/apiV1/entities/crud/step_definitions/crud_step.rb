@@ -28,7 +28,18 @@ end
 
 $entityData = {
   "gradingPeriod" => {
-    "gradingPeriod" => "Summer Semester", 
+    "gradingPeriodIdentity" => {
+      "educationalOrgIdentity" => [{
+        "educationOrgIdentificationCode" => [
+          {
+              "ID" => "Daybreak Elementary School",
+              "identificationSystem" => "School"
+          }
+        ]
+      }],
+      "gradingPeriod" => "First Six Weeks",
+      "schoolYear" => "2011-2012"
+    },
     "beginDate" => "2012-07-01",
     "endDate" => "2012-07-31",
     "totalInstructionalDays" => 20

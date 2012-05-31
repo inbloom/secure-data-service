@@ -11,11 +11,16 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/grade.xml" />
       </bean>
     </entry>
-      <entry key="gradingPeriod">
-          <bean class="org.milyn.Smooks">
-              <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradingPeriod.xml" />
-          </bean>
-      </entry>
+    <entry key="gradingPeriod">
+        <bean class="org.milyn.Smooks">
+            <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/gradingPeriod.xml" />
+        </bean>
+    </entry>
+    <entry key="calendarDate">
+        <bean class="org.milyn.Smooks">
+            <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/calendarDate.xml" />
+        </bean>
+    </entry>
     <entry key="reportCard">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/reportCard.xml" />
