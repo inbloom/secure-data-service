@@ -28,7 +28,8 @@ public class PerformanceLevelDescriptorGenerator {
         PerformanceLevelDescriptorType perfLevelDescType = new PerformanceLevelDescriptorType();
 
         perfLevelDescType.setCodeValue(perfLevelDescCodeValue);
-        perfLevelDescType.setDescription(perfLevelDescCodeValue);
+//        perfLevelDescType.setDescription(perfLevelDescCodeValue);
+        perfLevelDescType.setPerformanceLevelMet(true);
         return perfLevelDescType;
     }
 }
