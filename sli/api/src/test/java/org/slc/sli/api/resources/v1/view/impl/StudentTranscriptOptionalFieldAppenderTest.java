@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.v1.view.impl;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
@@ -31,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
  * @author srupasinghe
  *
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
