@@ -12,16 +12,11 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.entity.SchoolResource;
-import org.slc.sli.api.resources.v1.entity.SessionResource;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -29,7 +24,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.entity.SchoolResource;
+import org.slc.sli.api.resources.v1.entity.SessionResource;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.mock.MockAllowAllContextResolver;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * JUnit tests for SchoolSessionAssociationResource
@@ -54,6 +57,10 @@ public class SchoolSessionAssociationResourceTest {
     private SessionResource sessionResource;
     @Autowired
     private SchoolSessionAssociationResource schoolSessionAssociationResource;
+    @Autowired
+    private ContextResolverStore contextResolverStore;
+
+    
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -71,6 +78,8 @@ public class SchoolSessionAssociationResourceTest {
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+        
+        MockAllowAllContextResolver.injectThis(contextResolverStore);
     }
 
     @Test
