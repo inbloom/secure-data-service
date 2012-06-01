@@ -17,12 +17,16 @@ import org.slc.sli.domain.Entity;
 @Component
 public class TeacherToStudentSchoolAssociationResolver implements
         EntityContextResolver {
+    private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
 
     @Autowired
     private AssociativeContextHelper helper;
 
     @Autowired
-    private StudentGracePeriodNodeFilter graceFilter;
+    private NodeDateFilter graceFilter;
+
+    @Value("${sli.security.gracePeriod}")
+    private String gracePeriod;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -31,6 +35,7 @@ public class TeacherToStudentSchoolAssociationResolver implements
 
     @Override
     public List<String> findAccessible(Entity principal) {
+        graceFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID,gracePeriod,EXIT_WITHDRAW_DATE);
         List<String> studentIds = graceFilter.filterIds(helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "studentId", studentIds);

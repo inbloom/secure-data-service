@@ -18,8 +18,13 @@ import org.slc.sli.domain.Entity;
 @Component
 public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
 
+    private static final String END_DATE = "endDate";
+
     @Autowired
     private AssociativeContextHelper helper;
+
+    @Autowired
+    private NodeDateFilter nodeDateFilter;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -28,8 +33,9 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,ParameterConstants.STUDENT_ID,"0",END_DATE);
+        List<String> studentIds =nodeDateFilter.filterIds( helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
 
         return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId", studentIds);
     }

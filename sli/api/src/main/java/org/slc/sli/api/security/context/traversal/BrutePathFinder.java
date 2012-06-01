@@ -36,6 +36,9 @@ public class BrutePathFinder implements SecurityPathFinder {
     @Autowired
     private NodeFilter studentGracePeriodNodeFilter;
 
+    @Autowired
+    private NodeFilter studentSectionEndDateFilter;
+
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
@@ -64,7 +67,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "sectionId")
-                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS, studentSectionEndDateFilter)
                         .addConnection(EntityNames.STUDENT_SECTION_ASSOCIATION, "sectionId")
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
