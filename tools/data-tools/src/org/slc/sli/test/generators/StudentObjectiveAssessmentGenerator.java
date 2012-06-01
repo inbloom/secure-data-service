@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
@@ -59,9 +60,14 @@ public class StudentObjectiveAssessmentGenerator {
 
         // performance levels
         String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
-        soa.getPerformanceLevels().add(
-                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
-
+//        soa.getPerformanceLevels().add(
+//                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
+        PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
+        pldt.setPerformanceLevelMet(true);
+        pldt.setCodeValue(randomPerfLevelDescId);
+//        pldt.setDescription(randomPerfLevelDescId);
+        soa.getPerformanceLevels().add(pldt);
+        
         // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
         studentAssessmentReference.setRef(studentAssessment);

@@ -5,6 +5,7 @@ import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentIdentityType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 
 public class ObjectiveAssessmentGenerator {
@@ -19,8 +20,12 @@ public class ObjectiveAssessmentGenerator {
         for (String plDescString : objAssessMeta.performanceLevelDescriptorIds) {
             AssessmentPerformanceLevel apLevel = new AssessmentPerformanceLevel();
 
-            apLevel.setPerformanceLevel(PerformanceLevelDescriptorGenerator
-                    .getPerformanceLevelDescriptorType(plDescString));
+//            apLevel.setPerformanceLevel(PerformanceLevelDescriptorGenerator
+//                    .getPerformanceLevelDescriptorType(plDescString));
+            PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
+            pldt.setPerformanceLevelMet(true);
+            pldt.setCodeValue(plDescString);
+            apLevel.setPerformanceLevel(pldt);
 
             apLevel.setAssessmentReportingMethod(AssessmentReportingMethodType.ADAPTIVE_SCALE_SCORE);
             apLevel.setMinimumScore(0);

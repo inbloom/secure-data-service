@@ -17,7 +17,7 @@ import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
 
-    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd1/";
+    private static final String SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd/";
 
     private static final String SCHEMAS[] = {
             "Interchange-AssessmentMetadata.xsd",

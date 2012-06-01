@@ -27,6 +27,8 @@ public class StudentSchoolAssociationGenerator {
         ssa.setSchoolReference(eor);
 
         ssa.setEntryGradeLevel(GradeLevelType.FIFTH_GRADE);
+        ssa.setSchoolYear("2011-2012");
+        ssa.setEntryDate("2011-09-01");
 
         return ssa;
     }

@@ -85,8 +85,8 @@ public class DisciplineIncidentGenerator {
                 // behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorShortDescription);
                 // behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorDescription);
                 behaviorDescriptorType.setCodeValue(behaviorDescriptor.codeValue);
-                behaviorDescriptorType.setShortDescription(behaviorDescriptor.shortDescription);
-                behaviorDescriptorType.setDescription(behaviorDescriptor.description);
+//                behaviorDescriptorType.setShortDescription(behaviorDescriptor.shortDescription);
+//                behaviorDescriptorType.setDescription(behaviorDescriptor.description);
                 incident.getBehaviors().add(behaviorDescriptorType);
                 break;
             }

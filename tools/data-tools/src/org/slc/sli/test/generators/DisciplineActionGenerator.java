@@ -227,8 +227,8 @@ public class DisciplineActionGenerator {
                 // disciplineDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(disciplineDescriptorDescription);
 
                 disciplineDescriptorType.setCodeValue(behaviorDescriptor.codeValue);
-                disciplineDescriptorType.setShortDescription(behaviorDescriptor.shortDescription);
-                disciplineDescriptorType.setDescription(behaviorDescriptor.description);
+//                disciplineDescriptorType.setShortDescription(behaviorDescriptor.shortDescription);
+//                disciplineDescriptorType.setDescription(behaviorDescriptor.description);
                 action.getDisciplines().add(disciplineDescriptorType);
                 break;
             }
