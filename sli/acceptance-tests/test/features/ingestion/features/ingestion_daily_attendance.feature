@@ -30,23 +30,24 @@ Then I should see following map of entry counts in the corresponding collections
      | section                     | 25    |
      | session                     | 8     |
      | studentSectionAssociation   | 210   |
-     | attendance                  | 86    |
+     | attendance                  | 38    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-     | attendance                  | 86                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
-     | attendance                  | 83                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
+     | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
+     | attendance                  | 35                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
+     | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
+     | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
 
-  And I should see "Processed 16472 records." in the resulting batch job file
+  And I should see "Processed 526 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentAttendanceEvents.xml records considered: 15984" in the resulting batch job file
-  And I should see "StudentAttendanceEvents.xml records ingested successfully: 15984" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records considered: 38" in the resulting batch job file
+  And I should see "StudentAttendanceEvents.xml records ingested successfully: 38" in the resulting batch job file
   And I should see "StudentAttendanceEvents.xml records failed: 0" in the resulting batch job file
+
 
 @wip
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
@@ -55,7 +56,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | attendance                  | 86    |
+     | attendance                  | 38    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue     |
      | attendance                  | 16056               | body.educationalEnvironment   | Classroom       |

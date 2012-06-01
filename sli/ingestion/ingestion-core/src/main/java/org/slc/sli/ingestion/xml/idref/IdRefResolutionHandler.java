@@ -25,12 +25,6 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.util.StopWatch;
-
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -38,6 +32,11 @@ import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.util.StopWatch;
 
 /**
  * @author okrook
@@ -99,7 +98,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug(sw.prettyPrint());
+            LOG.debug("ID Ref time {}", sw.prettyPrint());
+        } else {
+            LOG.info("ID Ref time {}", sw.shortSummary());
         }
 
         if (semiResolvedXml == null) {

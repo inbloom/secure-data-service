@@ -58,15 +58,11 @@ public class CourseOfferingResourceTest {
     @Autowired
     private CourseOfferingResource courseOfferingResource;
     
-    @Autowired
-    private ContextResolverStore contextResolverStore;
-
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
 
     @Before
     public void setup() throws Exception {
-        MockAllowAllContextResolver.injectThis(contextResolverStore);
 
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 

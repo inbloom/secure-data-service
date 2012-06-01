@@ -53,10 +53,10 @@
 							Shared Learning Collaborative
 						</c:when>
 						<c:when test="${is_sandbox}">
-							SLI Sandbox Environment
+							SLC Sandbox Environment
 						</c:when>
 						<c:otherwise>
-							SLI Mock IDP for ${fn:escapeXml(realm)}
+							SLC Mock IDP for ${fn:escapeXml(realm)}
 						</c:otherwise>
 					</c:choose>
 				</span>
@@ -93,7 +93,7 @@
 									<option value="${role.id}">${role.name}</option>
 								</c:forEach>
 							</select>
-							<p class="help-block">Select one or more roles using Ctl/Apple+Click</p>
+							<p class="help-block">Select one or more roles using Ctrl/Apple+Click</p>
 						</div>
 					</div>
 					</c:if>

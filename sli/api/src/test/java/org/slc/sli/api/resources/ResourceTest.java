@@ -42,8 +42,6 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.CollectionResponse.EntityReference;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.mock.MockAllowAllContextResolver;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -65,12 +63,6 @@ public class ResourceTest {
     @Autowired
     private SecurityContextInjector injector;
     
-    @Autowired
-    private ContextResolverStore contextResolverStore;
-
-    
-    // post some data
-    // Map of <type, id> pair to entity location.
     /**
      * Track an object type/id.
      */
@@ -91,7 +83,6 @@ public class ResourceTest {
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
     private static final String SCHOOL_SESSION_ASSOCIATION_URI = "school-session-associations";
     private static final String COURSE_OFFERING_URI = "courseOfferings";
-    private static final String COURSE_SECTION_ASSOCIATION_URI = "course-section-associations";
     private static final String STUDENT_URI = "students";
     
     @Autowired
@@ -192,9 +183,6 @@ public class ResourceTest {
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
         uriInfo = buildMockUriInfo(null);
-        
-        MockAllowAllContextResolver.injectThis(contextResolverStore);
-
     }
     
     @After

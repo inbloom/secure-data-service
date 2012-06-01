@@ -8,9 +8,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
@@ -18,6 +15,8 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Basic brute force path finding implementation.
@@ -181,6 +180,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
 
+
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
@@ -293,7 +293,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return newPath;
             }
         }
-        debug("NO PATH FOUND FROM {} to {}", new String[]{ from, to });
+        debug("NO PATH FOUND FROM {} to {}", new Object[]{ from, to });
         path.remove(current);
         return null;
     }
@@ -312,10 +312,6 @@ public class BrutePathFinder implements SecurityPathFinder {
             return prePath.get(from + to);
         }
         return new ArrayList<SecurityNode>();
-    }
-
-    private boolean checkForFinalNode(String to, SecurityNode temp) {
-        return temp.getName().equals(to);
     }
 
     public void setNodeMap(Map<String, SecurityNode> nodeMap) {

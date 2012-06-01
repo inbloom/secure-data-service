@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SLI Data Browser</title>
+    <title>SLC Data Browser</title>
 	<%= stylesheet_link_tag    "application" %>
  	<%= javascript_include_tag "application" %>
 	<%= csrf_meta_tags %>
@@ -10,8 +10,8 @@
     <div class="container">
       <div id="header">
   			<div class="left">
-  				<h1>The SLI Data Browser</h1>
-          <span><i>Navigate your data through the SLI API.</i></span>
+  				<h1>The SLC Data Browser</h1>
+          <span><i>Navigate your data through the SLC API.</i></span>
   			</div>
   			<div class="right">
   				<h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>

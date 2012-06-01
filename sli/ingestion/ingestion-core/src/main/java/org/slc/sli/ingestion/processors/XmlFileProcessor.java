@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -46,19 +47,19 @@ public class XmlFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        String batchJobId = getBatchJobId(exchange);
-        if (batchJobId != null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
-            processXmlFile(exchange, batchJobId);
-        } else {
-
+        if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
+        } else {
+            processXmlFile(workNote, exchange);
         }
     }
 
-    private void processXmlFile(Exchange exchange, String batchJobId) {
+    private void processXmlFile(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -77,11 +78,15 @@ public class XmlFileProcessor implements Processor {
 
                     fe.setFile(new File(resource.getResourceName()));
 
+                    LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
+
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
+
+                    LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 } else {
-                    LOG.warn("Warning: ", String.format("The resource %s is not an EDFI format.", resource.getResourceName()));
+                    LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
                 }
             }
 
@@ -132,10 +137,6 @@ public class XmlFileProcessor implements Processor {
     public void setIdRefResolutionHandler(
             IdRefResolutionHandler idRefResolutionHandler) {
         this.idRefResolutionHandler = idRefResolutionHandler;
-    }
-
-    private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
