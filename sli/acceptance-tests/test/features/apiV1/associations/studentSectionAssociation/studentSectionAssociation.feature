@@ -1,3 +1,4 @@
+@RALLY_DE87
 Feature: As an SLI application, I want to be able to manage student section associations.
 This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
