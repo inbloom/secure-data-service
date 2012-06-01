@@ -120,4 +120,8 @@ public class SchoolResource extends DefaultCrudResource {
                 ResourceNames.SESSIONS, headers, uriInfo);
     }
 
+    @Override
+    public boolean shouldReadAll() {
+        return true;
+    }
 }
