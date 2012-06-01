@@ -30,8 +30,6 @@ import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.entity.CourseResource;
 import org.slc.sli.api.resources.v1.entity.SessionResource;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.mock.MockAllowAllContextResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
