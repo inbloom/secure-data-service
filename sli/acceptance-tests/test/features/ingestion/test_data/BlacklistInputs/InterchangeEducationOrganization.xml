@@ -33,31 +33,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <LocalEducationAgency>
-    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-    <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <LEACategory>Charter</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
@@ -78,7 +53,9 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -86,7 +63,7 @@
     <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Club/Team</ID>
+      <ID>Club/Team relaxed</ID>
     </CourseCode>
     <CourseDescription>onload</CourseDescription>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
@@ -99,7 +76,9 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			<EducationOrgIdentificationCode>
+				<ID>IL-DAYBREAK</ID> 
+			</EducationOrgIdentificationCode>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>

@@ -11,26 +11,30 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
-import org.xml.sax.SAXException;
-
+import org.milyn.payload.StringSource;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
+import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -39,7 +43,9 @@ import org.slc.sli.validation.ValidationError;
  */
 public class EntityTestUtils {
 
-    @SuppressWarnings("unchecked")
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+    
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException, SmooksException {
 
@@ -117,7 +123,34 @@ public class EntityTestUtils {
         return neutralRecord;        
     }
 
-    public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+    @SuppressWarnings("unchecked")
+	public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
+			throws IOException, SAXException {
+
+        JavaResult result = new JavaResult();
+        Smooks smooks = new Smooks(smooksConfigPath);
+        List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+        try {
+            StringSource source = new StringSource(MAPPER.writeValueAsString(item));
+
+            smooks.filterSource(source, result);
+
+
+            for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
+                if (resEntry.getValue() instanceof List) {
+                    List<?> list = (List<?>) resEntry.getValue();
+                    if (list.size() != 0 && list.get(0) instanceof SimpleEntity) {
+                        entityList = (List<SimpleEntity>) list;
+                        break;
+                    }
+                }
+            }
+            return entityList.get(0);
+        } catch (IOException e) {
+            entityList = Collections.emptyList();
+        }
+        return null;
+    }
 
     /**
      * Reads the entire contents of a resource file found on the classpath and returns it as a

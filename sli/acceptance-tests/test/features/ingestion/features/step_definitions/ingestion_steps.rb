@@ -849,7 +849,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    sleep(5) # waiting to poll job file removes race condition (windows-specific)
+    sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
 
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
@@ -871,12 +871,13 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   end
 
   @db = old_db
+  sleep(10)    # waiting to poll job file removes race condition in AWS (slow writes to file)   
 end
 
 When /^two batch job logs have been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 240
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote') # TODO this needs testing for remote
@@ -903,7 +904,7 @@ When /^two batch job logs have been created$/ do
   end
 
   if found
-    sleep(2) # give JobReportingProcessor time to finish the job
+    sleep(5) # give JobReportingProcessor time to finish the job (increased to 5 for AWS)
     assert(true, "")
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")

@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.routes;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
@@ -400,5 +402,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 "quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval="
                         + tenantPollingRepeatInterval).setBody()
                 .simple("TenantPollingTimer fired: ${header.firedTime}").process(tenantProcessor);
+    }
+    
+    @PostConstruct
+    public void post() throws Exception {
+        this.addRoutesToCamelContext(camelContext);
     }
 }
