@@ -32,7 +32,6 @@ import static org.junit.Assert.assertNotNull;
  * @author srupasinghe
  *
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -70,8 +69,10 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId1));
         repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId2));
 
-        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId1));
-        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId2));
+        String sarID = repo.create("studentAcademicRecord", createAcademicRecord(studentId)).getEntityId();
+        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId1, sarID));
+        repo.create("studentTranscriptAssociation", createStudentTranscript(studentId, courseId2, sarID));
+
     }
 
     @After
@@ -138,11 +139,12 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createStudentTranscript(String studentId, String courseId) {
+    private Map<String, Object> createStudentTranscript(String studentId, String courseId, String sarID) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("courseId", courseId);
         entity.put("letterGradeEarned", "A");
+        entity.put("studentAcademicRecordId", sarID);
 
         return entity;
     }
@@ -161,4 +163,9 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         return entity;
     }
 
+    private Map<String, Object> createAcademicRecord(String studentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("studentId", studentId);
+        return entity;
+    }
 }
