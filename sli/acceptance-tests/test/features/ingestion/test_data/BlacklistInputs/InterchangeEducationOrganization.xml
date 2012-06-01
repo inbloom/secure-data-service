@@ -53,9 +53,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode>
-				<ID>IL-DAYBREAK</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -76,9 +74,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode>
-				<ID>IL-DAYBREAK</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
