@@ -52,7 +52,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
     # Transcript
     And inside "transcript"
-    And I should find "2" "studentSectionAssociations" in it
+    And I should find "3" "studentSectionAssociations" in it
     And I should find "sections" expanded in each of them
     When I look at the first one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
