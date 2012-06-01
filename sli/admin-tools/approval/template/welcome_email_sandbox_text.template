@@ -1,0 +1,14 @@
+<%= firstName %>
+ 
+Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.
+ 
+First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by following this link:
+<%= landingZoneLink %>
+
+Second, after you have selected a data source, register your sandbox applications here:
+<%= appsLink %>
+
+
+Thank you,
+SLC Operator
+
