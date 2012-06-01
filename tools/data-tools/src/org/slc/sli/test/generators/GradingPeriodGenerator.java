@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
+import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
 
 public class GradingPeriodGenerator {
@@ -12,9 +13,15 @@ public class GradingPeriodGenerator {
     private String endDate = null;
     Random generator = new Random();
 
-    public GradingPeriod getGradingPeriod () {
+    public GradingPeriod getGradingPeriod (String orgId) {
+        GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+        gpit.setGradingPeriod(getGradingPeriodType());
+        gpit.setSchoolYear("2011-2012");
+//        String orgId = new String("Test");
+        gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) orgId);
         GradingPeriod gp = new GradingPeriod ();
-        gp.setGradingPeriod(getGradingPeriodType());
+//        gp.setGradingPeriod(getGradingPeriodType());
+        gp.setGradingPeriodIdentity(gpit);
         beginDate = "2011-03-04";
         endDate = "2012-03-04";
         gp.setBeginDate(beginDate);
@@ -74,9 +81,9 @@ public class GradingPeriodGenerator {
     public static void main(String args[]) {
         GradingPeriodGenerator gpg = new GradingPeriodGenerator();
         for(int i = 0; i < 5; i++ ){
-            GradingPeriod gp = gpg.getGradingPeriod();
+            GradingPeriod gp = gpg.getGradingPeriod(i+"");
 
-            log.info("GradingPeriodType = " + gp.getGradingPeriod() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
+            log.info("GradingPeriodType = " + gp.getGradingPeriodIdentity() + ",\n" +  "beginDate = " + gp.getBeginDate() + ",\n" +
                      "endDate = " + gp.getEndDate() + ",\n" + "totalInstructionDays = " + gp.getTotalInstructionalDays() + ",\n");
 
         }

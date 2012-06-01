@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "GradingPeriod", propOrder = {
-    "gradingPeriod",
+    "gradingPeriodIdentity",
     "beginDate",
     "endDate",
     "totalInstructionalDays",
@@ -61,8 +61,8 @@ public class GradingPeriod
     extends ComplexObjectType
 {
 
-    @XmlElement(name = "GradingPeriod", required = true)
-    protected GradingPeriodType gradingPeriod;
+    @XmlElement(name = "GradingPeriodIdentity", required = true)
+    protected GradingPeriodIdentityType gradingPeriodIdentity;
     @XmlElement(name = "BeginDate", required = true)
     @XmlJavaTypeAdapter(Adapter2 .class)
     @XmlSchemaType(name = "date")
@@ -84,8 +84,8 @@ public class GradingPeriod
      *     {@link GradingPeriodType }
      *     
      */
-    public GradingPeriodType getGradingPeriod() {
-        return gradingPeriod;
+    public GradingPeriodIdentityType getGradingPeriodIdentity() {
+        return gradingPeriodIdentity;
     }
 
     /**
@@ -96,8 +96,8 @@ public class GradingPeriod
      *     {@link GradingPeriodType }
      *     
      */
-    public void setGradingPeriod(GradingPeriodType value) {
-        this.gradingPeriod = value;
+    public void setGradingPeriodIdentity(GradingPeriodIdentityType value) {
+        this.gradingPeriodIdentity = value;
     }
 
     /**

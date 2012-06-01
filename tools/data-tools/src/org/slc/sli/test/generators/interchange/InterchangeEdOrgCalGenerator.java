@@ -69,15 +69,18 @@ public class InterchangeEdOrgCalGenerator {
 		
 		for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
 
-			GradingPeriod gradingPeriod;
+			GradingPeriod gradingPeriod = null;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
 				gradingPeriod = null;
 			} else {
 				// calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
-				gradingPeriod = gpg.getGradingPeriod();
+//				gradingPeriod = gpg.getGradingPeriod();
 				
 				for (String calendarId : gradingPeriodMeta.calendars) {
+                    String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
+                    orgId = orgId.substring(0, orgId.lastIndexOf("-"));
+				    gradingPeriod = gpg.getGradingPeriod(orgId);
 					ReferenceType calRef = new ReferenceType();
 					calRef.setRef(new Ref(calendarId));
 					gradingPeriod.getCalendarDateReference().add(calRef);
