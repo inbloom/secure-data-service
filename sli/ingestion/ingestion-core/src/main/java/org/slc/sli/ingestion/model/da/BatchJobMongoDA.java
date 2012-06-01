@@ -6,6 +6,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
 
 import org.springframework.data.mongodb.core.CursorPreparer;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 
 /**
  *
@@ -23,6 +25,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
+    private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
+
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
 
     private MongoTemplate batchJobMongoTemplate;
@@ -32,6 +36,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
         if (job != null) {
             batchJobMongoTemplate.save(job);
         }
+    }
+
+    @Override
+    public void saveBatchJobStageSeparatelly(String batchJobId, Stage stage) {
+        stage.setJobId(batchJobId);
+        batchJobMongoTemplate.save(stage, BATCHJOB_STAGE_SEPARATE_COLLECTION);
+    }
+
+    @Override
+    public List<Stage> getBatchStagesStoredSeperatelly(String batchJobId) {
+        return batchJobMongoTemplate.find(query(where("jobId").is(batchJobId)), Stage.class, BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
 
     @Override
@@ -101,10 +116,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
             private ErrorIterator(String jobId, int queryResultLimit) {
                 this.jobId = jobId;
                 this.cursorPreparer = new LimitedCursorPreparer(queryResultLimit);
-                this.remainingResults = batchJobMongoTemplate.getCollection(BATCHJOB_ERROR_COLLECTION)
-                        .count(query(where(BATCHJOBID_FIELDNAME).is(jobId)).getQueryObject());
+                this.remainingResults = batchJobMongoTemplate.getCollection(BATCHJOB_ERROR_COLLECTION).count(query(where(BATCHJOBID_FIELDNAME).is(jobId)).getQueryObject());
                 // TODO use the following rather than the previous line when we upgrade to mongotemplate 1.0.0.M5 or above
-//              this.remainingResults = batchJobMongoTemplate.count(query(where(BATCHJOBID_FIELDNAME).is(jobId)), BATCHJOB_ERROR_COLLECTION);
+                // this.remainingResults = batchJobMongoTemplate.count(query(where(BATCHJOBID_FIELDNAME).is(jobId)), BATCHJOB_ERROR_COLLECTION);
                 this.currentIterator = getNextList();
             }
 
@@ -127,8 +141,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             }
 
             private Iterator<Error> getNextList() {
-                List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)),
-                        Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
+                List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
                 remainingResults -= errors.size();
                 return errors.iterator();
             }
@@ -160,9 +173,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
                 cursorToUse = cursorToUse.skip(position);
                 cursorToUse = cursorToUse.limit(limit);
-                cursorToUse = cursorToUse.batchSize(limit);
+                cursorToUse.batchSize(1000);
 
                 position += limit;
+
+                cursorToUse.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
 
                 return cursorToUse;
             }

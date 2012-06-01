@@ -203,6 +203,7 @@
         <GradingPeriodReference ref="GP_7"/>
         <GradingPeriodReference ref="GP_8"/>
         <GradingPeriodReference ref="GP_9"/>
+        <GradingPeriodReference ref="GP_1"/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Echo School</SessionName>
@@ -264,6 +265,7 @@
         <GradingPeriodReference ref="GP_7"/>
         <GradingPeriodReference ref="GP_8"/>
         <GradingPeriodReference ref="GP_9"/>
+        <GradingPeriodReference ref="GP_1"/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Dog School</SessionName>
@@ -294,5 +296,4 @@
         <GradingPeriodReference ref="GP_2"/>
         <GradingPeriodReference ref="GP_3"/>
     </Session>
-
 </InterchangeEducationOrgCalendar>

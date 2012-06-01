@@ -128,32 +128,6 @@ public class SchoolEntityTest {
         EntityTestUtils.mapValidation(attributes, "school", validator);
     }
 
-    /*
-     * TODO: Rewrite csv unit test after csv strategy spike
-     *
-     * @Test
-     * public void csvSchoolTest() throws Exception {
-     *
-     * String smooksConfig = "smooks_conf/smooks-school-csv.xml";
-     *
-     * String targetSelector = "csv-record";
-     *
-     * String schoolCsv =
-     * "152901001,School,9777,Apple Alternative Elementary School,Apple,School,Physical,123 Main Street,1A,"
-     * +
-     * "building site number,Lebanon,KS,66952,Smith County,US123,US,245,432,1969-01-01,2012-12-12,Main,(785) 667-6006,www.a.com,Active,"
-     * +
-     * "first rating,A,2012-01-01,rating org,rating program,program reference,Third grade,Elementary School,Alternative,School Charter,Not designated as a Title I Part A school,All students participate,Public School"
-     * ;
-     *
-     * NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-     * targetSelector,
-     * schoolCsv);
-     *
-     * checkValidSchoolNeutralRecord(neutralRecord, false);
-     * }
-     */
-
     @Test
     public void edfiXmlSchoolTest() throws IOException, SAXException {
 

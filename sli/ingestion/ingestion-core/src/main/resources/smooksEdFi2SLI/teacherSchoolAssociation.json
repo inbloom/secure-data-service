@@ -1,0 +1,40 @@
+{
+    "keyFields" : ["body.schoolId", "body.teacherId"],
+	"references" :
+	[{
+        "fieldPath" : "body.schoolId","ref" :
+        {
+	        "collectionName" : "school",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.schoolId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.teacherId","ref" :
+        {
+	        "collectionName" : "staff",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.teacherId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

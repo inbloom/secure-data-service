@@ -1,4 +1,42 @@
 {
+    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
+    "references" :
+    [{
+        "fieldPath" : "body.assessmentId","ref" :
+        {
+            "collectionName" : "assessment",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "metaData.externalId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId","ref" :
+        {
+            "collectionName" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "metaData.externalId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.studentId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }],
     "piiFields" : {
         "StudentReference" : {
             "StudentIdentity" : {
@@ -21,7 +59,7 @@
                     "FirstName" : true,
                     "MiddleName" : true,
                     "LastSurname" : true,
-                    "GenerationCodeSuffix" : true 
+                    "GenerationCodeSuffix" : true
                   },
                 "BirthDate" : true,
                 "Sex" : true

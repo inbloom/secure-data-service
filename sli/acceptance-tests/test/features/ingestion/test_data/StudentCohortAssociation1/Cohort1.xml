@@ -43,7 +43,7 @@
 	<AcademicSubject>Social Studies</AcademicSubject>
 	<EducationOrgReference>
 	  <EducationalOrgIdentity>
-	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </EducationalOrgIdentity>
 	</EducationOrgReference>
 	<ProgramReference>
@@ -78,7 +78,7 @@
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-05-15</BeginDate>

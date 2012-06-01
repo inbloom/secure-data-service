@@ -114,7 +114,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
         | student                     |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
+  And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "       Entity     student" in the resulting error log file
@@ -137,10 +137,10 @@ Scenario: Post a zip file where the the edfi input is malformed XML
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file was malformed" in the resulting error log file
-  And I should see "Processed 0 records." in the resulting batch job file
+  And I should see "Processed 1 records." in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "student.xml records considered: 0" in the resulting batch job file
-  And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
+  And I should see "student.xml records considered: 1" in the resulting batch job file
+  And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
 
 #not sure if this is a valid failure or not
@@ -312,6 +312,6 @@ Scenario: Post an zip file where the control file has extra properties
         | collectionName              |
         | session                     |
   When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-  And I should see "Invalid control file entry at line number [1]" in the resulting batch job error file
+  And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
+  And I should see "ERROR  Invalid control file entry at line number" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
