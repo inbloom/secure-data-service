@@ -14,13 +14,14 @@ end
 When /^click Save$/ do
   clickButton("saveButton","id")
   begin
-    #@driver.switch_to.alert.accept
-    alert = @driver.switch_to.alert
+    alert = nil
+    @explicitWait.until{ (alert = isAlertPresent()) != nil}
     @alertMessage = alert.text
-    puts @alertMessage
+    puts "Alert: " + @alertMessage
     alert.accept
   rescue
   end
+  assert(@alertMessage != nil, "Alert Pop-up message was not found")
 end
 
 When /^I paste Invalid json config into the text box$/ do
@@ -366,4 +367,14 @@ def putTextForConfigUpload(uploadText)
   # This is an attempt to set it through javascript to speed up execution and prevent timeout
   uploadText = uploadText.gsub(/\r/,"\\n").gsub(/\n/,"\\n").gsub(/\"/,'\\\"')
   @driver.execute_script("document.getElementById('jsonText').value = \"#{uploadText}\";")
+end
+
+def isAlertPresent()
+ begin
+    return @driver.switch_to.alert
+  rescue Selenium::WebDriver::Error::NoAlertPresentError => e  
+     puts e.message  
+     return nil
+  end 
+  
 end
