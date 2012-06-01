@@ -51,7 +51,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Then I am informed that "No data is available for you to view."
 
 Scenario: Upload Config
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 When I enter the Configuration Area
