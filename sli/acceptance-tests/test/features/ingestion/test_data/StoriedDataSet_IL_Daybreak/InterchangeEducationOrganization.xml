@@ -35,25 +35,6 @@
       </EducationalOrgIdentity>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
-  <LocalEducationAgency>
-    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-    <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <LEACategory>Charter</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
 
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -155,40 +136,6 @@
     <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
-    <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>Sunset Central High School</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Sunset Central High School</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave C</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>10098</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0216</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>

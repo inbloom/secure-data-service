@@ -454,21 +454,6 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-	<StaffEducationOrgAssignmentAssociation>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>sampleUser</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<StaffClassification>LEA Administrator</StaffClassification>
-		<PositionTitle>IT Admin</PositionTitle>
-		<BeginDate>1999-01-01</BeginDate>
-	</StaffEducationOrgAssignmentAssociation>
 	<!--Maria Gonzales principal (Leader) South Daybreak Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>mgonzales</StaffUniqueStateId>

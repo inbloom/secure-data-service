@@ -11,8 +11,10 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -51,41 +53,59 @@ public class TransformationProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) {
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
         } else {
-            processTransformations(exchange, batchJobId);
+            processTransformations(workNote, exchange);
         }
     }
 
-    private void processTransformations(Exchange exchange, String batchJobId) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+    private void processTransformations(WorkNote workNote, Exchange exchange) {
+        Stage stage = initializeStage(workNote);
 
+        Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
+
+        // FIXME: transformation needs to actually count processed records and errors
+        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum() + 1);
+        stage.getMetrics().add(metrics);
+
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            performDataTransformations(newJob);
+            performDataTransformations(workNote, newJob);
 
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
-            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-            batchJobDAO.saveBatchJob(newJob);
+            BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
+            batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
         }
+    }
+
+    private Stage initializeStage(WorkNote workNote) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        stage.setProcessingInformation("stagedEntity="
+                + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
+                + workNote.getRangeMinimum() + ", rangeMax=" + workNote.getRangeMaximum() + ", batchSize="
+                + workNote.getBatchSize());
+        return stage;
     }
 
     /**
      * Invokes transformations strategies
      *
+     * @param workNote
+     *            TODO
      * @param job
      */
-    void performDataTransformations(Job job) {
+    void performDataTransformations(WorkNote workNote, Job job) {
         LOG.info("performing data transformation BatchJob: {}", job);
 
-        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(job);
+        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
         transmogrifier.executeTransformations();
 

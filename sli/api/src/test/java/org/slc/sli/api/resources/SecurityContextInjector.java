@@ -191,7 +191,7 @@ public class SecurityContextInjector {
     public void setDemoContext() {
         String user = "demo";
         String fullName = "demo";
-        List<String> roles = Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR, RoleInitializer.IT_ADMINISTRATOR);
+        List<String> roles = Arrays.asList(RoleInitializer.IT_ADMINISTRATOR);
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);

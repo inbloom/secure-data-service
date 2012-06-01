@@ -25,7 +25,6 @@
 
   <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="sessionId" data="attributes sessionId" />
-
     <jb:value property="schoolId" data="attributes schoolId" />
     <jb:value property="courseId" data="attributes courseId" />
     <jb:wiring property="availableCredit" beanIdRef="availableCreditValue" />

@@ -8,9 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.WordUtils;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
@@ -22,6 +19,8 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Handles the persisting of Entity objects
@@ -34,11 +33,7 @@ import org.slc.sli.validation.ValidationError;
  */
 public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> {
 
-    // private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
-
     private static final String METADATA_BLOCK = "metaData";
-
-    // Hard-code region ID here for now, until it is set for real!
 
     private Repository<Entity> entityRepository;
 
@@ -64,7 +59,6 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         } catch (DuplicateKeyException ex) {
             reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
         }
-
         return null;
     }
 

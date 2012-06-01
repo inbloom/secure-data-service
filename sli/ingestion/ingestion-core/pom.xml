@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -31,6 +31,22 @@
 
   <dependencies>
 
+    <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>activemq-core</artifactId>
+         <version>5.5.1</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>activemq-camel</artifactId>
+         <version>5.5.1</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-collections</groupId>
+         <artifactId>commons-collections</artifactId>
+         <version>3.2.1</version>
+      </dependency>
+      
     <!-- Ingestion Base -->
     <dependency>
       <groupId>org.slc.sli.ingestion</groupId>
@@ -147,8 +163,8 @@
       <artifactId>camel-quartz</artifactId>
       <version>${camel.version}</version>
     </dependency>
-
-    <!-- Apache Hadoop Core -->
+    
+        <!-- Apache Hadoop Core -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-core</artifactId>
@@ -177,7 +193,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-
+    
     <!-- Apache Commons IO dependency -->
     <dependency>
       <groupId>commons-io</groupId>
@@ -314,5 +330,4 @@
       </dependencies>
     </profile>
   </profiles>
-
 </project>

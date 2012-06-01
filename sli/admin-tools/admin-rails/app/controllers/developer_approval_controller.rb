@@ -15,7 +15,7 @@ class DeveloperApprovalController < ApplicationController
         "accept" => "application/json"
     }
 
-    EMAIL_SUBJECT = "SLI Account Verification Request"
+    EMAIL_SUBJECT = "SLC Account Verification Request"
 
     #
     # Check if the provided user exists.

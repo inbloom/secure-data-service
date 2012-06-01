@@ -27,9 +27,9 @@
     <jb:bean beanId="sessionType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'session'</jb:expression>
         <jb:wiring property="body" beanIdRef="sessionBody" />
-        <jb:wiring property="metaData" beanIdRef="metaData" />
+        <jb:wiring property="metaData" beanIdRef="sessionMetaData" />
     </jb:bean>
-    <jb:bean beanId="metaData" class="java.util.HashMap" createOnElement="attributes"/>
+    <jb:bean beanId="sessionMetaData" class="java.util.HashMap" createOnElement="attributes" />
     <jb:bean beanId="sessionBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="sessionName" data="attributes sessionName" />
         <jb:value property="schoolYear" data="attributes schoolYear" />
@@ -38,6 +38,7 @@
         <jb:value property="endDate" data="attributes endDate" />
         <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
         <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
+        <jb:value property="schoolId" data="attributes schoolId" />
     </jb:bean>
 
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">

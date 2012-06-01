@@ -78,10 +78,17 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
+    @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findByQueryForJob(String collectionName, Query query, String jobId, int skip, int max) {
         return findByQuery(toStagingCollectionName(collectionName, jobId), query, skip, max);
     }
 
+    @SuppressWarnings("deprecation")
+    public Iterable<NeutralRecord> findByQueryForJob(String collectionName, Query query, String jobId) {
+        return findByQuery(toStagingCollectionName(collectionName, jobId), query);
+    }
+
+    @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         return findByPaths(toStagingCollectionName(collectionName, jobId), paths);
     }
@@ -102,6 +109,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         createCollection(toStagingCollectionName(collectionName, jobId));
     }
 
+    public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        return count(toStagingCollectionName(collectionName, jobId), neutralQuery);
+    }
+
     public Set<String> getCollectionNamesForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
 
@@ -113,7 +124,11 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
                 int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
                 if (jobPatternIndex != -1) {
-                    collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
+                    // creating indexes seems to create the collections.
+                    // only add collections with count > 0
+                    if (this.count(currentCollection, new NeutralQuery()) > 0) {
+                        collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
+                    }
                 }
             }
         }
@@ -141,14 +156,24 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void deleteCollectionsForJob(String batchJobId) {
         if (batchJobId != null) {
             String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
+        }
+    }
 
-            Set<String> allCollectionNames = getTemplate().getCollectionNames();
-            for (String currentCollection : allCollectionNames) {
+    public void deleteTransformedCollectionsForJob(String batchJobId) {
+        if (batchJobId != null) {
+            String jobIdPattern = "_transformed_" + toMongoCleanId(batchJobId);
+            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
+        }
+    }
 
-                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
-                if (jobPatternIndex != -1) {
-                    getTemplate().dropCollection(currentCollection);
-                }
+    private void deleteTypedCollectionForJob(String batchJobId, String jobIdPattern) {
+        Set<String> allCollectionNames = getTemplate().getCollectionNames();
+        for (String currentCollection : allCollectionNames) {
+
+            int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
+            if (jobPatternIndex != -1) {
+                getTemplate().dropCollection(currentCollection);
             }
         }
     }
@@ -175,9 +200,13 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes");
+                LOG.error("Failed to create mongo indexes: {}", e);
             }
         }
+    }
+
+    public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+        update(query, update, toStagingCollectionName(collectionName, jobId));
     }
 
     @Override

@@ -1,10 +1,12 @@
-<h1>Terms of Use</h1>
+<h1>Terms and Conditions</h1>
+<p>In order to begin developing for the SLC you will need to agree to our Terms and Conditions.</p>
+<p><b>Step 2 of 3</b></p>
 <%= form_for(:eula) do |f| %>  
     <pre class="pre-scrollable">
         <%= render :file => '../../public/license.txt' %>
     </pre>
-    <%= f.submit "Accept", 
+    <%= f.submit "I Accept", 
       :id => "acceptEulaButton", :class => "btn" %>
-    <%= f.submit "Reject", 
+    <%= f.submit "I Decline", 
       :id => "rejectEulaButton", :class => "btn btn-danger" %>
 <% end %>
