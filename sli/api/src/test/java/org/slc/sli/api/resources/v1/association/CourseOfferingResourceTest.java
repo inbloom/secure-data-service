@@ -67,7 +67,7 @@ public class CourseOfferingResourceTest {
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setAccessAllAdminContextWithElevatedRights();
 
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);

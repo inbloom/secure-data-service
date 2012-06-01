@@ -43,6 +43,19 @@ public class SecurityContextInjector {
         setSecurityContext(principal);
     }
     
+    public void setAccessAllAdminContext() {
+        String user = "administrator";
+        String fullName = "IT Administrator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("access-all-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg(ED_ORG_ID);
+        setSecurityContext(principal);
+    }
+
+    
     public void setDeveloperContext() {
         String user = "developer";
         String fullName = "App Developer";
@@ -157,6 +170,18 @@ public class SecurityContextInjector {
         
     }
     
+    public void setAccessAllAdminContextWithElevatedRights() {
+        setAccessAllAdminContext();
+        
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(Right.FULL_ACCESS));
+        
+        debug("elevating rights to {}", Right.FULL_ACCESS);
+        SecurityContextHolder.getContext().setAuthentication(token);
+        
+    }
+
     public void setResolver(RolesToRightsResolver resolver) {
         this.resolver = resolver;
     }

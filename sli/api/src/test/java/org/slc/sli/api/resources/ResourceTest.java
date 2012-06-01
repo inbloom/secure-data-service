@@ -181,7 +181,7 @@ public class ResourceTest {
     @Before
     public void setUp() throws Exception {
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setAccessAllAdminContextWithElevatedRights();
         uriInfo = buildMockUriInfo(null);
     }
     
