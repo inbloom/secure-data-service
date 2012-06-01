@@ -1,10 +1,13 @@
 require 'mongo'
 require 'json'
 
+
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
-    printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m\n",name,stat["calls"],stat["time"]/1000
+    if stat["time"]>100000 # ignore entries less than 100 seconds
+      printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m\n",name,stat["calls"],stat["time"]/1000
+    end
   end
   puts "--------------------"
 end
@@ -140,10 +143,10 @@ puts "Total pit wall-clock time: #{wallClockForPits}sec"
 puts ""
 puts "Combined processing time on all nodes: #{combinedProcessingTime} sec"
 puts "Total PIT processing time across nodes: #{totalPitProcessingTime} sec"
-puts "PIT RPS (transformed / pit wall-clock)  #{(transformedRecordCount / wallClockForPits )}"
+puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{(transformedRecordCount / wallClockForPits )}\e[0m"
 
 puts ""
-puts "Time spent waiting on Mongo operations:"
+puts "\e[4mTime spent waiting on Mongo operations:\e[0m"
 
 puts ""
 printStats(dbs)
@@ -157,7 +160,7 @@ if ! jobEnd.nil?
 end
 if  !totalJobTime.nil?
   puts "Total Job time #{totalJobTime} sec"
-  puts "Job RPS #{edfiRecordCount / totalJobTime}"
+  puts "Job RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
 end
 
 puts "ALL DONE"
