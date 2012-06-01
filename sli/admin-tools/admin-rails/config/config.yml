@@ -110,6 +110,7 @@ test:
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
