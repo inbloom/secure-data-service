@@ -16,18 +16,30 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class MongoIndexConfig {
     private String collection;
     private List<Map<String, String>> indexFields;
-
+    private Map<String, String> options;
+    
     public String getCollection() {
         return collection;
     }
+    
     public void setCollection(String collection) {
         this.collection = collection;
     }
+    
     public List<Map<String, String>> getIndexFields() {
         return indexFields;
     }
+    
     public void setIndexFields(List<Map<String, String>> indexFields) {
         this.indexFields = indexFields;
+    }
+    
+    public Map<String, String> getOptions() {
+        return options;
+    }
+    
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
     }
 
     public static MongoIndexConfig parse(InputStream inputStream) throws IOException {

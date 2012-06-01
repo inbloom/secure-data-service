@@ -1,17 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.slc.sli</groupId>
-    <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+   <parent>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>sli</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
 
-  <groupId>org.slc.sli.ingestion</groupId>
-  <artifactId>ingestion</artifactId>
-  <packaging>pom</packaging>
+   <groupId>org.slc.sli.ingestion</groupId>
+   <artifactId>ingestion</artifactId>
+   <packaging>pom</packaging>
 
   <properties>
       <sli.home>${project.parent.basedir}</sli.home>
@@ -19,30 +18,38 @@
 
   <name>SLI - Ingestion</name>
 
-  <modules>
-    <module>ingestion-base</module>
-    <module>ingestion-core</module>
-    <module>ingestion-service</module>
-    <module>ingestion-validation</module>
-  </modules>
+   <modules>
+      <module>ingestion-base</module>
+      <module>ingestion-core</module>
+      <module>ingestion-service</module>
+      <module>ingestion-validation</module>
+   </modules>
 
-  <dependencyManagement>
+   <dependencyManagement>
 
-    <dependencies>
-	  <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-base</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+      <dependencies>
+         <dependency>
+            <groupId>org.slc.sli.ingestion</groupId>
+            <artifactId>ingestion-base</artifactId>
+            <version>${project.version}</version>
+         </dependency>
 
+         <dependency>
+            <groupId>org.slc.sli.ingestion</groupId>
+            <artifactId>ingestion-core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+
+      </dependencies>
+
+   </dependencyManagement>
+
+   <dependencies>
       <dependency>
-        <groupId>org.slc.sli.ingestion</groupId>
-        <artifactId>ingestion-core</artifactId>
-        <version>${project.version}</version>
+         <groupId>org.apache.xbean</groupId>
+         <artifactId>xbean-spring</artifactId>
+         <version>3.10</version>
       </dependency>
-
-    </dependencies>
-
-  </dependencyManagement>
+   </dependencies>
 
 </project>

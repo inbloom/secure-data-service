@@ -15,6 +15,8 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -79,7 +81,7 @@ public class ZipFileProcessor implements Processor {
 
             setExchangeHeaders(exchange, errorReport, newJob);
 
-            setExchangeBody(exchange, ctlFile, errorReport);
+            setExchangeBody(exchange, ctlFile, errorReport, batchJobId);
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, exception);
@@ -118,9 +120,12 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport) {
+    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport, String batchJobId) {
         if (!errorReport.hasErrors() && ctlFile != null) {
             exchange.getIn().setBody(ctlFile, File.class);
+        } else {
+            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
 

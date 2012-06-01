@@ -644,6 +644,7 @@ public class Resource {
      *            the entity making the links for
      * @return the list of links that the resource should include
      */
+    @SuppressWarnings("deprecation")
     private List<EmbeddedLink> getLinks(UriInfo uriInfo, EntityDefinition defn, String id, EntityBody entityBody) {
         List<EmbeddedLink> links = ResourceUtil.getSelfLink(uriInfo, id, defn);
         if (defn instanceof AssociationDefinition) {

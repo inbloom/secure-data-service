@@ -68,6 +68,7 @@ default:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -87,6 +88,9 @@ default:
         # logging path
         logging.path: C:/lz/logs
 
+        # ingestion command topic
+        sli.ingestion.topic.command: seda:ingestion
+
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -95,6 +99,25 @@ default:
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
 
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestro.host:
+        sli.ingestion.queue.maestro.port:
+        sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions:
+        sli.ingestion.queue.maestro.keystore:
+        sli.ingestion.queue.maestro.keystorePassword:
+
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host:
+        sli.ingestion.queue.pit.port:
+        sli.ingestion.queue.pit.queueURI: seda:IngestionPit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions:
+        sli.ingestion.queue.pit.keystore:
+        sli.ingestion.queue.pit.keystorePassword:
+        sli.ingestion.splitChunkSize: 5000
+        sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
@@ -216,6 +239,254 @@ default:
         sli.sample.clientId: fm67sH6vZZ
         sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
 
+acceptance-tests:
+    api:
+        <<: *API-DEFAULT
+        # acceptance-tests/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        # Security
+        sli.security.noSession.landing.url: https://nxbuild.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://nxbuild.slidev.org
+
+        #Support Email
+        sli.support.email: sli@example.com
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # acceptance-tests/data-access/db.properties
+        #
+        # Set of substitution filters used for acceptance test builds
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: sli
+        sli.mongodb.host: nxbuild.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        sli.ingestion.staging.mongodb.database: is
+        sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user:
+        sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
+
+        # Ingestion BatchJob DB
+        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        sli.ingestion.batchjob.mongodb.host: nxbuild.slidev.org
+        sli.ingestion.batchjob.mongodb.port: 27017
+        sli.ingestion.batchjob.mongodb.user:
+        sli.ingestion.batchjob.mongodb.pass:
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # acceptance-tests/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: devmq1.slidev.org
+        sli.ingestion.queue.workItem.port: 5445
+        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+
+        # TODO - need maestroPit queue config
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestro.host: devmq1.slidev.org
+        sli.ingestion.queue.maestro.port: 5445
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
+        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
+
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host: devmq1.slidev.org
+        sli.ingestion.queue.pit.port: 5445
+        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
+        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
+
+
+
+
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+
+
+    misc:
+        <<: *MISC-DEFAULT
+
+ci:
+    api:
+        <<: *API-DEFAULT
+        # ci/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        # Security
+        sli.security.noSession.landing.url: https://testapi1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://testapi1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@example.com
+
+        api.perf.log.path:
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # ci/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Mongo DB Options
+
+        sli.mongodb.database: sli
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: is
+        sli.ingestion.staging.mongodb.host: testdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user:
+        sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
+
+        # Ingestion BatchJob DB
+        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        sli.ingestion.batchjob.mongodb.host: testdal1.slidev.org
+        sli.ingestion.batchjob.mongodb.port: 27017
+        sli.ingestion.batchjob.mongodb.user:
+        sli.ingestion.batchjob.mongodb.pass:
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # ci/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # ci/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: devmq1.slidev.org
+        sli.ingestion.queue.workItem.port: 5445
+        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemAccept
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://testapi1.slidev.org/
+        security.server.url: https://testapi1.slidev.org/
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        log.level: warn
+        oauth.client.id: jlEb45f55i
+        oauth.client.secret: GjkljHiogHiodgiovbJat3U848J8934479p234r89y234r89
+        oauth.redirect: https://testdash1.slidev.org/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
+    misc:
+        <<: *MISC-DEFAULT
+        log.path: ${user.home}/logs/
+
+dev:
+    api:
+        <<: *API-DEFAULT
+        # dev/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Security
+        sli.security.noSession.landing.url: https://devapi1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://devapi1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@example.com
+
+        api.perf.log.path: /home/api/logs/
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # dev/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        sli.mongodb.database: sli
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: is
+        sli.ingestion.staging.mongodb.host: devdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user:
+        sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
+
+        # Ingestion BatchJob DB
+        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        sli.ingestion.batchjob.mongodb.host: devdal1.slidev.org
+        sli.ingestion.batchjob.mongodb.port: 27017
+        sli.ingestion.batchjob.mongodb.user:
+        sli.ingestion.batchjob.mongodb.pass:
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # dev/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # dev/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host:
+        sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore:
+        sli.ingestion.queue.workItem.keystorePassword:
+
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://devjuggernauts.slidev.org/
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        log.level: debug
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
+        panel.data.use.cache: true
+
+    misc:
+        <<: *MISC-DEFAULT
+        log.path: ${user.home}/logs
 
 devjuggernauts:
     api:
@@ -256,6 +527,7 @@ devjuggernauts:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -301,7 +573,66 @@ devjuggernauts:
         <<: *MISC-DEFAULT
         log.path: /var/logs
 
+devapp1:
+    api:
+        <<: *API-DEFAULT
+        # devapp1/api/security/security.properties
+        #
+        # Set of substitution filters used for devapp1 builds
+        #
 
+        # Security
+        sli.security.noSession.landing.url: https://devapp1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://devapp1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@example.com
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # devapp1/data-access/db.properties
+        #
+        # Set of substitution filters used for devapp1 builds
+        #
+        # Mongo DB Options
+        sli.mongodb.database: devapp1
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+        sli.ingestion.staging.mongodb.database: is
+        sli.ingestion.staging.mongodb.host: devdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user:
+        sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
+
+        # Ingestion BatchJob DB
+        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        sli.ingestion.batchjob.mongodb.host: devdal1.slidev.org
+        sli.ingestion.batchjob.mongodb.port: 27017
+        sli.ingestion.batchjob.mongodb.user:
+        sli.ingestion.batchjob.mongodb.pass:
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # devapp1/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # devapp1/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host:
+        sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore:
+        sli.ingestion.queue.workItem.keystorePassword:
+
+    misc:
+        <<: *MISC-DEFAULT
 
 local:
     api: &API-LOCAL
@@ -353,6 +684,7 @@ local:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -369,8 +701,8 @@ local:
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host:
-        sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.host: localhost
+        sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -473,7 +805,13 @@ local-acceptance-tests:
 
     misc:
         <<: *MISC-LOCAL
-
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: is
+        sli.ingestion.staging.mongodb.host: nxbuild2.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user:
+        sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
 #
 # Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
@@ -486,8 +824,12 @@ local-acceptance-tests:
         <<: *DATA-ACCESS-LOCAL
 
     ingestion:
-        <<: *INGESTION-LOCAL
-        sli.ingestion.tenant.loadDefaultTenants: true
+        <<: *INGESTION-DEFAULT
+        # nxbuild2/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: localhost
+        sli.ingestion.queue.workItem.port: 61616
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -560,6 +902,7 @@ team:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -573,16 +916,37 @@ team:
         # team/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
+        
+        # Command topic
+        sli.ingestion.topic.command: activemq:topic:ingestion.command
+    
         # team/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: localhost
-        sli.ingestion.queue.workItem.port: 5445
-        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemAccept
+        sli.ingestion.queue.workItem.port: 61616
+        sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestro.host: localhost
+        sli.ingestion.queue.maestro.port: 61616
+        sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
+        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
+
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host: localhost
+        sli.ingestion.queue.pit.port: 61616
+        sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
+        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
+
         sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -651,6 +1015,7 @@ perf:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -727,6 +1092,8 @@ test-team:
         logging.path: /home/ingestion/logs
 
         # team/ingestion/test.properties
+        
+        ## TODO - these should be the embedded ActiveMQ broker
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
@@ -779,3 +1146,53 @@ sandbox:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
+        
+# Properties for systems being used by Team Hermod for ingestion performance
+# These are Amazon west instances
+nxteam:
+    api: &API-NXTEAM
+        <<: *API-TEAM
+    dashboard: &DASHBOARD-NXTEAM
+        <<: *DASHBOARD-TEAM
+    ingestion: &INGESTION-NXTEAM
+        <<: *INGESTION-TEAM
+        sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
+        sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
+        sli.ingestion.queue.pit.host: nxmaestro.slidev.org
+        sli.ingestion.tenant.loadDefaultTenants: true
+    data-access: &DATA-ACCESS-NXTEAM
+        <<: *DATA-ACCESS-TEAM
+        sli.mongodb.host: nxmongo3.slidev.org
+        sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
+        sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
+    misc: &MISC-NXTEAM
+        <<: *MISC-TEAM
+
+
+nxteam-maestro:
+    api:
+        <<: *API-NXTEAM
+    dashboard:
+        <<: *DASHBOARD-NXTEAM
+    ingestion:
+        <<: *INGESTION-NXTEAM
+        sli.ingestion.nodeType: maestro
+    data-access:
+        <<: *DATA-ACCESS-NXTEAM
+        sli.ingestion.staging.clearOnCompletion: transformed
+    misc:
+        <<: *MISC-NXTEAM
+
+
+nxteam-pit:
+    api:
+        <<: *API-NXTEAM
+    dashboard:
+        <<: *DASHBOARD-NXTEAM
+    ingestion:
+        <<: *INGESTION-NXTEAM
+        sli.ingestion.nodeType: pit
+    data-access:
+        <<: *DATA-ACCESS-NXTEAM
+    misc:
+        <<: *MISC-NXTEAM

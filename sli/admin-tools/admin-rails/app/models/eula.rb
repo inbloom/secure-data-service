@@ -1,7 +1,7 @@
 class Eula
   
   def self.accepted?(params)
-    if params[:commit] == "Accept"
+    if params[:commit] == "I Accept"
       true
     else 
       false

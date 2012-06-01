@@ -58,4 +58,17 @@ public class SimpleEntity implements Entity {
     public void setRecordNumber(long recordNumber) {
         this.recordNumber = recordNumber;
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder entity = new StringBuilder();
+        entity.append("[ Simple Entity: ");
+        entity.append("{type: ").append(getType()).append(" }, ");
+        entity.append("{entity id: ").append(getEntityId()).append(" }, ");
+        entity.append("{body: ").append(getBody()).append(" }, ");
+        entity.append("{metadata: ").append(getMetaData()).append(" }, ");
+        entity.append("{record number: ").append(getRecordNumber()).append(" }");
+        entity.append(" ]");
+        return entity.toString();
+    }
 }

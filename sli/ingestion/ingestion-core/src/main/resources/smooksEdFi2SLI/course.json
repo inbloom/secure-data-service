@@ -1,11 +1,14 @@
 {
-    "keyFields": ["body.schoolId"],
-    "references": [
+    "keyFields": ["metaData.externalId"],
+    "references": 
+    [
         {
             "fieldPath": "body.schoolId",
-            "ref": {
+            "ref": 
+            {
                 "collectionName": "educationOrganization",
-                "choiceOfFields": [
+                "choiceOfFields": 
+                [
                     [
                         {
                             "path": "body.stateOrganizationId",

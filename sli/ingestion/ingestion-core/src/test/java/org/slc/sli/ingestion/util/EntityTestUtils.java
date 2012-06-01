@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Map.Entry;
@@ -24,12 +24,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.milyn.Smooks;
+import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
@@ -43,26 +43,26 @@ import org.xml.sax.SAXException;
  *
  */
 public class EntityTestUtils {
+
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
+    
+    public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
+            String targetSelector) throws IOException, SAXException, SmooksException {
 
-    private Map<String, Smooks> smooksConfigs;
-
-    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector) throws IOException, SAXException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputStream);
+        DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
 
         Smooks smooks = new Smooks(smooksConfig);
+        SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
+        smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
+        smooks.addVisitor(smooksEdFiVisitor, targetSelector);
 
-        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, nrfWriter, null, null), targetSelector);
+        JavaResult result = new JavaResult();
+        smooks.filterSource(new StreamSource(dataSource), result);
+        
+        List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
-        try {
-            smooks.filterSource(new StreamSource(dataSource));
-        } finally {
-            nrfWriter.close();
-        }
-
-        return new NeutralRecordFileReader(outputStream.toByteArray());
+        return entityList;
     }
 
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
@@ -112,33 +112,26 @@ public class EntityTestUtils {
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData) throws IOException, SAXException {
-
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
-
-            Assert.assertTrue(nrfr.hasNext());
-
-            neutralRecord = nrfr.next();
-        } finally {
-            if (nrfr != null)
-                nrfr.close();
+        
+        List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
+                targetSelector);
+        if (records != null && records.size() > 0) {
+            neutralRecord = records.get(0);
         }
-
-        return neutralRecord;
+        return neutralRecord;        
     }
 
     @SuppressWarnings("unchecked")
 	public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
 			throws IOException, SAXException {
-
         JavaResult result = new JavaResult();
         Smooks smooks = new Smooks(smooksConfigPath);
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
         try {
+
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
 
             smooks.filterSource(source, result);
@@ -158,10 +151,7 @@ public class EntityTestUtils {
             entityList = Collections.emptyList();
         }
         return null;
-
     }
-
-    public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
 
     /**
      * Reads the entire contents of a resource file found on the classpath and returns it as a
@@ -175,8 +165,9 @@ public class EntityTestUtils {
      */
     public static String readResourceAsString(String resourceName) throws FileNotFoundException {
         InputStream stream = EntityTestUtils.getResourceAsStream(resourceName);
-        if (stream == null)
+        if (stream == null) {
             throw new FileNotFoundException("Could not find resource " + resourceName + " in the classpath");
+        }
 
         try {
             return EntityTestUtils.convertStreamToString(stream);
@@ -214,8 +205,9 @@ public class EntityTestUtils {
     public static String delimit(String[] strings, String delimiter) {
         StringBuilder builder = new StringBuilder();
         for (String string : strings) {
-            if (builder.length() > 0)
+            if (builder.length() > 0) {
                 builder.append(delimiter);
+            }
             builder.append(string);
         }
         return builder.toString();
@@ -229,4 +221,22 @@ public class EntityTestUtils {
         return EntityTestUtils.class.getClassLoader().getResourceAsStream(resourceName);
     }
 
+    private static final class DummyResourceWriter implements ResourceWriter<NeutralRecord> {
+
+        private List<NeutralRecord> neutralRecordList;
+
+        private DummyResourceWriter() {
+            this.neutralRecordList = new ArrayList<NeutralRecord>();
+        }
+
+        @Override
+        public void writeResource(NeutralRecord neutralRecord, String jobId) {
+            neutralRecordList.add(neutralRecord);
+        }
+
+        public List<NeutralRecord> getNeutralRecordsList() {
+            return neutralRecordList;
+        }
+
+    }
 }
