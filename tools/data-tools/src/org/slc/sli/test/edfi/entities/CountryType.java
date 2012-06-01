@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;simpleType name="CountryType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}token">
  *     &lt;enumeration value="AFGHANISTAN"/>
- *     &lt;enumeration value="ÅLAND ISLANDS"/>
+ *     &lt;enumeration value="ÔøΩLAND ISLANDS"/>
  *     &lt;enumeration value="ALBANIA"/>
  *     &lt;enumeration value="ALGERIA"/>
  *     &lt;enumeration value="AMERICAN SAMOA"/>
@@ -75,10 +75,10 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="CONGO, THE DEMOCRATIC REPUBLIC OF THE"/>
  *     &lt;enumeration value="COOK ISLANDS"/>
  *     &lt;enumeration value="COSTA RICA"/>
- *     &lt;enumeration value="CÔTE D'IVOIRE"/>
+ *     &lt;enumeration value="CÔøΩTE D'IVOIRE"/>
  *     &lt;enumeration value="CROATIA"/>
  *     &lt;enumeration value="CUBA"/>
- *     &lt;enumeration value="CURAÇAO"/>
+ *     &lt;enumeration value="CURAÔøΩAO"/>
  *     &lt;enumeration value="CYPRUS"/>
  *     &lt;enumeration value="CZECH REPUBLIC"/>
  *     &lt;enumeration value="DENMARK"/>
@@ -201,11 +201,11 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="PORTUGAL"/>
  *     &lt;enumeration value="PUERTO RICO"/>
  *     &lt;enumeration value="QATAR"/>
- *     &lt;enumeration value="RÉUNION"/>
+ *     &lt;enumeration value="RÔøΩUNION"/>
  *     &lt;enumeration value="ROMANIA"/>
  *     &lt;enumeration value="RUSSIAN FEDERATION"/>
  *     &lt;enumeration value="RWANDA"/>
- *     &lt;enumeration value="SAINT BARTHÉLEMY"/>
+ *     &lt;enumeration value="SAINT BARTHÔøΩLEMY"/>
  *     &lt;enumeration value="SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"/>
  *     &lt;enumeration value="SAINT KITTS AND NEVIS"/>
  *     &lt;enumeration value="SAINT LUCIA"/>
@@ -281,7 +281,7 @@ public enum CountryType {
 
     AFGHANISTAN("AFGHANISTAN"),
     @XmlEnumValue("\u00c5LAND ISLANDS")
-    ÅLAND_ISLANDS("\u00c5LAND ISLANDS"),
+    ALAND_ISLANDS("\u00c5LAND ISLANDS"),
     ALBANIA("ALBANIA"),
     ALGERIA("ALGERIA"),
     @XmlEnumValue("AMERICAN SAMOA")
@@ -352,10 +352,10 @@ public enum CountryType {
     @XmlEnumValue("COSTA RICA")
     COSTA_RICA("COSTA RICA"),
     @XmlEnumValue("C\u00d4TE D'IVOIRE")
-    CÔTE_D_IVOIRE("C\u00d4TE D'IVOIRE"),
+    COTE_D_IVOIRE("C\u00d4TE D'IVOIRE"),
     CROATIA("CROATIA"),
     CUBA("CUBA"),
-    CURAÇAO("CURA\u00c7AO"),
+    CURACAO("CURA\u00c7AO"),
     CYPRUS("CYPRUS"),
     @XmlEnumValue("CZECH REPUBLIC")
     CZECH_REPUBLIC("CZECH REPUBLIC"),
@@ -507,13 +507,13 @@ public enum CountryType {
     @XmlEnumValue("PUERTO RICO")
     PUERTO_RICO("PUERTO RICO"),
     QATAR("QATAR"),
-    RÉUNION("R\u00c9UNION"),
+    REUNION("R\u00c9UNION"),
     ROMANIA("ROMANIA"),
     @XmlEnumValue("RUSSIAN FEDERATION")
     RUSSIAN_FEDERATION("RUSSIAN FEDERATION"),
     RWANDA("RWANDA"),
     @XmlEnumValue("SAINT BARTH\u00c9LEMY")
-    SAINT_BARTHÉLEMY("SAINT BARTH\u00c9LEMY"),
+    SAINT_BARTHELEMY("SAINT BARTH\u00c9LEMY"),
     @XmlEnumValue("SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA")
     SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA("SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"),
     @XmlEnumValue("SAINT KITTS AND NEVIS")
