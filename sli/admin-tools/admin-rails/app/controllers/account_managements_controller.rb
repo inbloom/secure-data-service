@@ -80,7 +80,7 @@ class AccountManagementsController < ApplicationController
         account_management.vendor=account[:vendor]
         account_management.email=account[:email]
         
-        account_management.lastUpdate=account[:updated].strftime("%Y-%m-%d %I:%M:%S%p")
+        account_management.lastUpdate=account[:updated].in_time_zone().strftime("%c %Z")
         account_management.status=account[:status]
         account_management.transitions=account[:transitions]
         account_managements.push(account_management)
