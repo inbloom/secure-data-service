@@ -3,6 +3,8 @@ package org.slc.sli.test.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -59,31 +61,43 @@ public class ValidateSchema {
                     Validator validator = schema.newValidator();
                     Source source = new StreamSource(file);
 
+                    final Map<String, List<Integer>> errorReport = new HashMap<String, List<Integer>>();
                     try {
 
-                        validator.setErrorHandler(new ErrorHandler() {
+                            validator.setErrorHandler(new ErrorHandler() {
 
                             @Override
                             public void warning(SAXParseException exception) throws SAXException {
-                                // TODO Auto-generated method stub
-                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>" + exception.getMessage() + "  ");
-
+                                handle(exception);
                             }
 
                             @Override
                             public void fatalError(SAXParseException exception) throws SAXException {
-                                // TODO Auto-generated method stub
-                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>"+ exception.getMessage() + "  ");
-
+                                handle(exception);
                             }
 
                             @Override
                             public void error(SAXParseException exception) throws SAXException {
-                                System.out.println(exception.getLineNumber() + ">>>>>>>>>>>>>>>>>>>>>>>>>"+ exception.getMessage() + "  ");
-
+                                handle(exception);
                             }
+                                                        
+                            private void handle(SAXParseException exception) {
+                                String error = exception.getMessage();
+                                if(!errorReport.containsKey(error)) { 
+                                    errorReport.put(error, new LinkedList<Integer>());
+                                }
+                                errorReport.get(error).add(new Integer(exception.getLineNumber()));
+                            }
+                            
                         });
                         validator.validate(source);
+                                                
+                        for(String error: errorReport.keySet()) {
+                            List<Integer> lines = errorReport.get(error);
+                            System.out.println(lines.size() + " errors. " + error + " "  + ((lines.size() > 5 )? (lines.subList(0, 4)):( lines)));
+                        }
+                        
+                        
                         System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
                         System.out.println("");
                     } catch (SAXException ex) {
