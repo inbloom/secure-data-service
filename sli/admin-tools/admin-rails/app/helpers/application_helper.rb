@@ -78,6 +78,15 @@ module ApplicationHelper
     true
   end
   
+  # Checks if the user account exists.
+  # Input Parameters:
+  #   - email - user id (email)
+  #
+  # Returns : true or false
+  def self.user_exists?(email)
+    ApprovalEngine.user_exists?(email)
+  end
+  
   # Returns a map containing values for email_address, first_name, and last_name.
   #
   # Input Parameters:

@@ -119,7 +119,7 @@ Then /^I am redirected to a page with terms and conditions$/ do
 end
 
 Then /^I receive an error that the account already exists$/ do
-  step "I should see the error message \"User name already exists\""
+  step "I should see the error message \"An account with this email already exists\""
 end
 
 Then /^I am redirected to the hosting website$/ do
