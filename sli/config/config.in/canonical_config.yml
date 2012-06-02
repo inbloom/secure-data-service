@@ -91,6 +91,8 @@ default:
         # ingestion command topic
         sli.ingestion.topic.command: seda:ingestion
 
+        # concurrent or serial
+        sli.ingestion.processor.edfi: serial
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -1160,6 +1162,7 @@ nxteam:
         sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
         sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.processor.edfi: concurrent
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: nxmongo3.slidev.org
