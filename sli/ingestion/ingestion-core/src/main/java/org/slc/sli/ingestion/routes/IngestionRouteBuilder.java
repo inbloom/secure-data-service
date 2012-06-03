@@ -4,14 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
@@ -19,7 +12,6 @@ import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
-import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
@@ -36,6 +28,11 @@ import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion route builder.
@@ -60,8 +57,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     EdFiProcessor edFiProcessor;
 
-    @Autowired
-    ConcurrentEdFiProcessor concurrentEdFiProcessor;
+    //@Autowired
+    //ConcurrentEdFiProcessor concurrentEdFiProcessor;
 
     @Autowired
     PurgeProcessor purgeProcessor;
@@ -102,8 +99,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private NodeInfo nodeInfo;
 
-    @Value("${sli.ingestion.processor.edfi}")
-    private String processorToUse;
+    //@Value("${sli.ingestion.processor.edfi}")
+    //private String processorToUse;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -318,10 +315,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildExtractionRoutes(String workItemQueueUri) {
 
-        Processor edfiProcessorToUse = edFiProcessor;
-        if ( "concurrent".equals( processorToUse ) ) {
-            edfiProcessorToUse = concurrentEdFiProcessor;
-        }
+        //Processor edfiProcessorToUse = edFiProcessor;
+        //if ( "concurrent".equals( processorToUse ) ) {
+        //    edfiProcessorToUse = concurrentEdFiProcessor;
+        //}
 
         // routeId: extraction
         from(workItemQueueUri)
@@ -348,7 +345,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process(edfiProcessorToUse).to("direct:postExtract");
+                .process(edFiProcessor).to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs")
