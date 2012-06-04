@@ -115,13 +115,56 @@ def fix_programs
     stamp_id(spa, program['_id'], edorg)
     stamp_id(@db['program'], program['body']['programId'], edorg)
   end
+  spa = @db['staffProgramAssociation']
+  spa.find.each do |program|
+    edorg = @db['program'].find_one({"_id" => program['body']['programId'][0]})['metaData']['edOrgs']
+    stamp_id(spa, program['_id'], edorg)
+  end
   print_time "correcting program and associations"
 end
 
 def fix_cohorts
+  @start_time = Time.now
+  cohorts = @db['cohort']
+  cohorts.find.each do |cohort|
+    stamp_id(cohorts, cohort['_id'], cohort['body']['educationOrgId'])
+  end
+  @db['studentCohortAssociation'].find.each do |cohort|
+    edorg = @db['cohort'].find_one({'_id' => cohort['body']['cohortId']})['metaData']['edOrgs']
+    stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
+  end
+  @db['staffCohortAssociation'].find.each do |cohort|
+    edorg = @db['cohort'].find_one({'_id' => cohort['body']['cohortId'][0]})['metaData']['edOrgs']
+    stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
+  end
+  print_time "correcting cohort and associations"
 end
 
 def fix_sessions
+  @start_time = Time.now
+  ssa = @db['schoolSessionAssociation']
+  ssa.find.each do |session|
+    edorg = session['body']['schoolId']
+    stamp_id(ssa, session['_id'], edorg)
+    stamp_id(@db['session'], session['body']['sessionId'], edorg)
+  end
+  print_time "correctiong session and associations"
+end
+
+def fix_staff
+  @start_time = Time.now
+  sea = @db['staffEducationOrganizationAssociation']
+  sea.find.each do |staff|
+    edorg = staff['body']['educationOrganizationReference']
+    stamp_id(sea, staff['_id'], edorg)
+    stamp_id(@db['staff'], staff['staffReference'], edorg)
+  end
+  #This needed?
+  tsa = @db['teacherSchoolAssociation']
+  tsa.find.each do |teacher|
+    stamp_id(tsa, teacher['_id'], teacher['body']['schoolId'])
+  end
+  print_time "correcting all staff"
 end
 
 def fix_grades
@@ -170,10 +213,10 @@ def fix_miscellany
   #Student Compentency
   @db['studentCompetency'].find.each do |student|
     edorg = @db['studentSectionAssociation'].find_one({'_id' => student['body']['studentSectionAssociationId']})['metaData']['edOrgs']
-    stamp_id(@db['studentCompetency'], studen['_id'], edorg)
+    stamp_id(@db['studentCompetency'], student['_id'], edorg)
   end
   
-  
+  print_time "correcting studentCompetency, studentsectiongradebookentry, and studenttranscriptassociation"
   
 end
 
@@ -195,7 +238,8 @@ fix_programs
 fix_courses
 fix_miscellany
 fix_cohorts
-fix_sessions
 fix_grades
+fix_sessions
+fix_staff
 
 puts "\tFinal time: #{Time.now - start_time} secs"
