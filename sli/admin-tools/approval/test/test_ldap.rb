@@ -45,7 +45,7 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
     #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 
     @ldap.delete_user(Jd_email)
@@ -297,5 +297,29 @@ class TestLdap < Test::Unit::TestCase
 
     @ldap.delete_user(uid)
   end 
+
+
+  def test_email_with_plus
+    plus_email = "jdoe+test1@example.com"
+    @ldap.delete_user(plus_email)
+    test_user_info = {
+      :first      => "Jon",
+      :last       => "Do", 
+      :email      => plus_email,
+      :password   => "mysecret",
+      :emailtoken => "xyz",
+      :homedir    => "-", 
+      :status     => "submitted",
+      :emailAddress => plus_email
+    }
+    @ldap.create_user(test_user_info)
+
+    found_user = @ldap.read_user(plus_email)
+    assert found_user[:emailAddress] == test_user_info[:emailAddress]
+    assert found_user[:email] == test_user_info[:email]
+
+    @ldap.delete_user(test_user_info[:email])
+  end
+
 end
 
