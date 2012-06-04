@@ -4,7 +4,7 @@ Given /^my role is Educator$/ do
   @format = "application/json"
   restHttpGet("/system/session/check", @format)
   check = JSON.parse(@res.body)
-  assert("Should be an Educator", check["sliRoles"].include?("Educator"))
+  assert(check["sliRoles"].include?("Educator"), "Should be an Educator") 
 end
 
 When /^I make an API call to access teachers$/ do
@@ -18,12 +18,31 @@ When /^I make an API call to access staff$/ do
 end
 
 Then /^I get a response$/ do
-  assert("Should have a valid list of entities.", !@staff.nil?)
+  assert(!@staff.nil?, "Should have a valid list of entities.") 
 end
 
 Then /^the response does not includes the protected fields$/ do
+
+  restHttpGet("/home", "application/json")
+  home = JSON.parse(@res.body)
+  home['links'].each do |link|
+    if link['rel'] == 'self'
+      $my_id = link['href'].split('/').last
+    end
+  end
+
   @staff.each do |staff|
-    assert("Shouldn't see fields like BirthDay", !staff.has_key?("birthDate"))
+    next if staff['id'] == $my_id
+    assert(!staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay")
+    staff['telephone'].each do |phone|
+      puts 'hi'
+      type = phone['telephoneNumberType']
+      assert(phone == nil || type == 'Work', 'Should not see non-work telephone')
+    end
+    staff['electronicMail'].each do |email|
+      type = email['emailAddressType']
+      assert(email == nil || type == 'Work', 'Should not see non-work email')
+    end
   end
 end
 
@@ -31,17 +50,17 @@ Given /^my role is Leader$/ do
   @format = "application/json"
   restHttpGet("/system/session/check", @format)
   check = JSON.parse(@res.body)
-  assert("Should be an Educator", check["sliRoles"].include?("Leader"))
+  assert(check["sliRoles"].include?("Leader"), "Should be an Educator") 
 end
 
 Then /^the response includes the protected fields$/ do
   @staff.each do |staff|
-    assert("Shouldn't see fields like BirthDay", staff.has_key?("birthDate"))
+    assert(staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay") 
   end
 end
 
 Then /^I should see my restricted information$/ do
-  assert("Should see their own birthday", @staff.has_key?("birthDate"))
+  assert(@staff.has_key?("birthDate"), "Should see their own birthday")
 end
 
 When /^I make an API call to access myself$/ do
