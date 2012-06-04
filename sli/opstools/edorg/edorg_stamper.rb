@@ -118,19 +118,63 @@ def fix_programs
   print_time "correcting program and associations"
 end
 
+def fix_cohorts
+end
+
+def fix_sessions
+end
+
+def fix_grades
+  @start_time = Time.now
+  @db['gradebookEntry'].find.each do |grade|
+    edorg = @db['section'].find_one({"_id" => grade['body']['sectionId']})['metaData']['edOrgs']
+    stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
+  end
+  
+  #Grades and grade period
+  @db['grade'].find.each do |grade|
+    edorg = @db['studentSectionAssociation'].find_one({"_id" => grade['body']['studentSectionAssociationId']})['metaData']['edOrgs']
+    stamp_id(@db['grade'], grade['_id'], edorg)
+    stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
+  end
+  print_time "correcting grade, gradebookEntry, and gradingPeriod"
+end
+
+def fix_courses
+  @start_time = Time.now
+  csa = @db['courseSectionAssociation']
+  csa.find.each do |course|
+    edorg = @db['section'].find_one({'_id' => course['body']['sectionId']})['metaData']['edOrgs']
+    stamp_id(csa, course['_id'], edorg)
+    stamp_id(@db['course'], course['body']['courseId'], edorg)
+    stamp_id(@db['courseOffering'], course['body']['courseId'], edorg)
+  end
+  print_time "correcting course, course offering, and associations"
+end
+
 def fix_miscellany
   @start_time = Time.now
+  
   #StudentTranscriptAssociation
   @db['studentTranscriptAssociation'].find.each do |trans|
     edorg = student_edorgs(trans['body']['studentId'])
     stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg)
   end
+  
   #StudentSectionGradeBook
   @db['studentSectionGradebookEntry'].find.each do |trans|
     edorg = student_edorgs(trans['body']['studentId'])
     stamp_id(@db['studentSectionGradebookEntry'], trans['_id'], edorg)
   end
+  
   #Student Compentency
+  @db['studentCompetency'].find.each do |student|
+    edorg = @db['studentSectionAssociation'].find_one({'_id' => student['body']['studentSectionAssociationId']})['metaData']['edOrgs']
+    stamp_id(@db['studentCompetency'], studen['_id'], edorg)
+  end
+  
+  
+  
 end
 
 
@@ -148,5 +192,10 @@ fix_disciplines
 fix_parents
 fix_report_card
 fix_programs
+fix_courses
+fix_miscellany
+fix_cohorts
+fix_sessions
+fix_grades
 
 puts "\tFinal time: #{Time.now - start_time} secs"
