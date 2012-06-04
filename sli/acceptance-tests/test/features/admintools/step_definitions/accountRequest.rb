@@ -162,7 +162,7 @@ Then /^I should see the text "([^\"]*)"$/ do |text|
 end
 
 Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
-  assert(@driver.find_element(:xpath, "//li[contains(text(), '#{errorMsg}')]").size != 0,
+  assert(@driver.find_element(:xpath, "//span[@class='help-inline' and contains(text(), '#{errorMsg}')]").size != 0,
          "Cannot find error message \"#{errorMsg}\"")
 end
 

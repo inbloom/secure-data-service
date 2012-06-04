@@ -1,109 +1,74 @@
-<%= form_for(@user_account_registration) do |f| %>
-  <% if @user_account_registration.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:</h2>
-    </div>
-  <% end %>
+<% def require_marker %>
+<% "<span style=\"color:red\">*</span>" %>
+<% end %>
 
-  <div class="field">
-    <table>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :firstName ,"First Name"%><span style="color:red"> *</span><br />
-                <%= f.text_field :firstName %>
-            </td>
-            <% if @user_account_registration.errors[:firstName].any? %>
-                <td id="error_explanation">
+<%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
+<% def print(f, field, field_name, is_password_field, password_field = nil) %>
+    <% required = required?(@user_account_registration, field) %>
+    <% error = "" %>
+    <% if @user_account_registration.errors[field].any? %>
+        <% error = " error" %>
+    <% end %>
+    <%= tag("div", :class => "control-group#{error}") %>
+    <div class="control-label">
+      <%= f.label field do %>
+          <% required_string = "" %>
+          <% if required %>
+              <% required_string = " #{require_marker}" %>
+          <% end %>
+          <% "#{field_name}#{required_string}".html_safe %>
+      <% end %>
+    </div>
+    <div class="controls">
+      <% if is_password_field %>
+          <% if required %>
+              <%= f.password_field password_field %>
+          <% else %>
+              <%= f.password_field field, :placeholder => "optional" %>
+          <% end %>
+      <% else %>
+          <% if required %>
+              <%= f.text_field field %>
+          <% else %>
+              <%= f.text_field field, :placeholder => "optional" %>
+          <% end %>
+      <% end %>
+
+      <% if @user_account_registration.errors[field].any? %>
+            <span class="help-inline">
+              <% if @user_account_registration.errors[field].size > 1 %>
                   <ul>
-                  <% @user_account_registration.errors[:firstName].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
+                    <% @user_account_registration.errors[field].each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
                   </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :lastName ,"Last Name"%><span style="color:red"> *</span><br />
-                <%= f.text_field :lastName %>
-            </td>
-            <% if @user_account_registration.errors[:lastName].any? %>
-                <td id="error_explanation">
-                  <ul>
-                  <% @user_account_registration.errors[:lastName].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :vendor %><br/>
-                <%= f.text_field :vendor %>
-             </td>
-             <% if @user_account_registration.errors[:vendor].any? %>
-                <td id="error_explanation">
-                  <ul>
-                  <% @user_account_registration.errors[:vendor].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :email,"Email" %><span style="color:red"> *</span> This is your login ID<br />
-                <%= f.text_field :email %>
-            </td>
-            <% if @user_account_registration.errors[:email].any? %>
-            <td id="error_explanation">
-              <ul>
-              <% @user_account_registration.errors[:email].each do |msg| %>
-                <li><%= msg %></li>
+              <% else %>
+                  <%= @user_account_registration.errors[field][0] %>
               <% end %>
-              </ul>
-            </td>
-            <%end%>
-        </tr>
-        <tr class="field">
-            <td class="form-inline"><%= f.label :password %><span style="color:red"> *</span><br />
-                <%= f.password_field :password %>
-            </td>
-            <% if @user_account_registration.errors[:password].any? %>
-                <td id="error_explanation">
-                  <ul>
-                  <% @user_account_registration.errors[:password].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-         <tr class="field">
-            <td class="form-inline"><%= f.label :confirmation %><span style="color:red"> *</span><br />
-                <%= f.password_field :password_confirmation %>
-            </td>
-            <% if @user_account_registration.errors[:confirmation].any? %>
-                <td id="error_explanation">
-                  <ul>
-                  <% @user_account_registration.errors[:confirmation].each do |msg| %>
-                    <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </td>
-            <%end%>
-        </tr>
-        <tr>
-            <td><span style="color:red">*</span> = required fields</td>
-        </tr>
-    </table>
-  </div>
-  <div class="actions">
-    <br/>
-    <table>
-        <tr>
-          <td id="SubmitButton"><%= f.submit "Submit", 
-            :id => "submitRegButton"%> or </td>
-          <td id="CancelLink"><%= link_to "Cancel", APP_CONFIG['redirect_slc_url'] %></td>
-        </tr>
-    </table>
-  </div>
+            </span>
+      <% end %>
+    </div>
+    </div>
+<% end %>
+
+<%= form_for(@user_account_registration) do |f| %>
+    <% if @user_account_registration.errors.any? %>
+        <div class="alert alert-error">
+          <%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:
+        </div>
+    <% end %>
+    <fieldset>
+      <% print f, :firstName, "First Name", false %>
+      <% print f, :lastName, "Last Name", false %>
+      <% print f, :vendor, "Company", false %>
+      <% print f, :email, "Email", false %>
+      <% print f, :password, "Password", true, :password %>
+      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation %>
+      <span style="color:red">*</span> = required fields
+      <div class="form-actions">
+        <%= f.submit "Submit",
+                     :id => "submitRegButton", :class => "btn btn-primary"%>
+        <%= link_to "Cancel", APP_CONFIG['redirect_slc_url'], :class =>"btn" %>
+      </div>
+    </fieldset>
 <% end %>

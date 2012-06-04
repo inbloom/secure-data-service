@@ -186,7 +186,13 @@ module ApplicationHelper
   def self.remove_user(email_address)
     ApprovalEngine.remove_user(email_address)
   end
-  
+
+  def required?(obj, attr)
+    target = (obj.class == Class) ? obj : obj.class
+    target.validators_on(attr).map(&:class).include?(
+        ActiveModel::Validations::PresenceValidator)
+  end
+
 end
 class ErbBinding < OpenStruct
     def get_binding
