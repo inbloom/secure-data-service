@@ -31,26 +31,26 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
 
     // knobs to control number of entities to create
-	public static final int TOTAL_SEAS =2 ;
-    public static final int LEAS_PER_SEA =10;
-    public static final int STAFF_PER_SEA = 3;
-    public static final int SCHOOLS_PER_LEA = 25;
-    public static final int COURSES_PER_SCHOOL = 6;
+	public static final int TOTAL_SEAS =1 ;
+    public static final int LEAS_PER_SEA =1;
+    public static final int STAFF_PER_SEA = 4;
+    public static final int SCHOOLS_PER_LEA = 2;
+    public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 2;
     public static final int SECTIONS_PER_COURSE_SESSION = 2;
-    public static final int TEACHERS_PER_SCHOOL = 20;
-    public static final int STUDENTS_PER_SCHOOL = 200;
+    public static final int TEACHERS_PER_SCHOOL = 2;
+    public static final int STUDENTS_PER_SCHOOL = 2;
     public static final int PROGRAMS_PER_SCHOOL = 2;
-    public static final int PROGRAMS_PER_SEA = 1;
+    public static final int PROGRAMS_PER_SEA = 2;
     public static final int STAFF_PER_PROGRAM = 2;
-    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
-    public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
+    public static final int FREE_STANDING_COHORT_SIZE = 2;
     public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 2;
     public static final int ASSESSMENTS_PER_STUDENT = 2;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 2;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
-    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
+    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 2;
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 2;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
     public static final int COURSES_PER_STUDENT = 2;

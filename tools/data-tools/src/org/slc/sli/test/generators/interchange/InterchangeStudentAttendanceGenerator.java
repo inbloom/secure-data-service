@@ -3,9 +3,7 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -49,12 +47,12 @@ public class InterchangeStudentAttendanceGenerator {
      */
     public static void generate(XMLStreamWriter writer) throws JAXBException, XMLStreamException {
 
-        writer.writeStartElement("InterchangeStudentAttendance");
-        writer.writeNamespace(null, "http://ed-fi.org/0100");
-        
         InterchangeStudentAttendance interchange = new InterchangeStudentAttendance();
         List<AttendanceEvent> interchangeObjects = interchange.getAttendanceEvent();
 
+        writer.writeStartElement("InterchangeStudentAttendance");
+        writer.writeNamespace(null, "http://ed-fi.org/0100");
+        
         writeEntitiesToInterchange(interchangeObjects, writer);
 
         writer.writeEndElement();
