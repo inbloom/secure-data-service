@@ -65,7 +65,6 @@ public class StudentGradeGenerator {
 
     private static Random rand = new Random();
     private static String thisDay, oneYearAgo, oneYearHence;
-    private static ObjectFactory objectFactory = new ObjectFactory();
     private static int idCount = 0;
 
     private static final int MAX_DAYS_ABSENT = 10;
@@ -277,7 +276,9 @@ public class StudentGradeGenerator {
         GradingPeriod period = new GradingPeriod();
         period.setBeginDate(oneYearAgo);
         period.setEndDate(thisDay);
-        period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+        GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+        gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+        period.setGradingPeriodIdentity(gpit);
         period.setTotalInstructionalDays(92);
         return period;
     }
@@ -287,7 +288,7 @@ public class StudentGradeGenerator {
         GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
         GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
         ref.setGradingPeriodIdentity(identity);
-        identity.setGradingPeriod(period.getGradingPeriod());
+        identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
         identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
         if (edOrg != null)
             identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
