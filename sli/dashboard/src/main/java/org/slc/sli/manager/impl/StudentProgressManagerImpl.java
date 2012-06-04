@@ -1,6 +1,7 @@
 package org.slc.sli.manager.impl;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.util.Constants;
@@ -38,6 +39,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     public static final String GRADE = "grade";
     public static final String SUBJECT = "subject";
     public static final String COURSE = "course";
+    private static final DecimalFormat GRADE_FORMATTER = new DecimalFormat("0.0");
 
     @Autowired
     private EntityManager entityManager;
@@ -134,7 +136,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
         String gpa = "";
         if (academicRecord != null) {
-            gpa = academicRecord.get(Constants.ATTR_CUMULATIVE_GPA).toString();
+            gpa = GRADE_FORMATTER.format(academicRecord.get(Constants.ATTR_CUMULATIVE_GPA));
         }
         return gpa;
     }
@@ -460,7 +462,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             return 0;
         }
     }
-    
+
     /**
      * Compare two GenericEntities by the Session
      * @author jshort
