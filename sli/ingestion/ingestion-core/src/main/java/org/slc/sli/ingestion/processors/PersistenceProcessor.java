@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
@@ -72,8 +71,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     private EdFi2SLITransformer defaultEdFi2SLITransformer;
 
-    // spring-loaded list of supported collections
-    private Set<String> persistedCollections;
+    private Map<String, Set<String>> entityPersistTypeMap;
 
     private Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers;
 
@@ -95,7 +93,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Camel Exchange process callback method
      *
-     * @param exchange camel exchange.
+     * @param exchange
+     *            camel exchange.
      */
     @Override
     @ExtractBatchJobIdToContext
@@ -113,9 +112,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Process the persistence of the entity specified by the work note.
-     * 
-     * @param workNote specifies the entity to be persisted.
-     * @param exchange camel exchange.
+     *
+     * @param workNote
+     *            specifies the entity to be persisted.
+     * @param exchange
+     *            camel exchange.
      */
     private void processPersistence(WorkNote workNote, Exchange exchange) {
         Stage stage = initializeStage(workNote);
@@ -140,8 +141,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Initialize the current (persistence) stage.
-     * 
-     * @param workNote specifies the entity to be persisted.
+     *
+     * @param workNote
+     *            specifies the entity to be persisted.
      * @return current (started) stage.
      */
     private Stage initializeStage(WorkNote workNote) {
@@ -155,10 +157,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Processes the work note by persisting the entity (with range) specified in the work note.
-     * 
-     * @param workNote specifies the entity (and range) to be persisted.
-     * @param job current batch job.
-     * @param stage persistence stage.
+     *
+     * @param workNote
+     *            specifies the entity (and range) to be persisted.
+     * @param job
+     *            current batch job.
+     * @param stage
+     *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
         long recordNumber = 0;
@@ -166,10 +171,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         boolean persistedFlag = false;
 
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-        String collectionToPersistFrom = getCollectionNameAfterTransform(job, collectionNameAsStaged);
-        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
-        boolean noTransformationWasPerformed = collectionNameAsStaged.equals(collectionToPersistFrom);
+        EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
+        String collectionToPersistFrom = getCollectionToPersistFrom(collectionNameAsStaged, entityPipelineType);
+
+        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
@@ -196,15 +202,18 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
                 // process NeutralRecord with old or new pipeline
-                if (noTransformationWasPerformed) {
-                    if (persistedCollections.contains(neutralRecord.getRecordType())) {
-                        numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
-                                errorReportForCollection);
-                        persistedFlag = true;
-                    }
-                } else {
+                if (entityPipelineType == EntityPipelineType.OLD) {
+
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
+                            errorReportForCollection);
+                    persistedFlag = true;
+
+                } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
+                        || entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
+
                     numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
                             errorReportForCollection);
+
                     persistedFlag = true;
                 }
 
@@ -234,10 +243,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Invoked if the neutral record is of type $$type$$_transformed (underwent transformation).
-     * 
-     * @param neutralRecord transformed neutral record.
-     * @param tenantId tenant of the neutral record.
-     * @param errorReportForCollection error report.
+     *
+     * @param neutralRecord
+     *            transformed neutral record.
+     * @param tenantId
+     *            tenant of the neutral record.
+     * @param errorReportForCollection
+     *            error report.
      * @return number of records that failed to persist.
      */
     private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
@@ -279,11 +291,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Invoked if the neutral record is of type $$type$$ (no transformation occurred).
-     * 
-     * @param neutralRecord neutral record as it was initially ingested.
-     * @param recordNumber count when neutral record was encountered in incoming interchange.
-     * @param tenantId tenant of the neutral record.
-     * @param errorReportForCollection error report.
+     *
+     * @param neutralRecord
+     *            neutral record as it was initially ingested.
+     * @param recordNumber
+     *            count when neutral record was encountered in incoming interchange.
+     * @param tenantId
+     *            tenant of the neutral record.
+     * @param errorReportForCollection
+     *            error report.
      * @return
      */
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
@@ -306,35 +322,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * returns a name of a collection which we should use in data persistence
-     *
-     * @param job
-     *
-     * @return collectionName
-     */
-    private String getCollectionNameAfterTransform(Job job, String collectionName) {
-
-        String collectionNameTransformed = collectionName + "_transformed";
-
-        boolean collectionExists = neutralRecordMongoAccess.getRecordRepository().collectionExistsForJob(
-                collectionNameTransformed, job.getId());
-
-        if (collectionExists) {
-            if (neutralRecordMongoAccess.getRecordRepository().countForJob(collectionNameTransformed,
-                    new NeutralQuery(), job.getId()) > 0) {
-                LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THAN 0 RECORD = " + collectionNameTransformed);
-                return (collectionNameTransformed);
-            }
-        }
-        return collectionName;
-    }
-
-    /**
      * Creates metrics for persistence of work note.
-     * 
-     * @param perFileMetrics current metrics on a per file basis.
-     * @param neutralRecord neutral record to be persisted.
-     * @param workNote work note specifying entities to be persisted.
+     *
+     * @param perFileMetrics
+     *            current metrics on a per file basis.
+     * @param neutralRecord
+     *            neutral record to be persisted.
+     * @param workNote
+     *            work note specifying entities to be persisted.
      * @return
      */
     private Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
@@ -356,8 +351,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Performs a look up for ingestion handlers based on entity type. If the entity does not
      * specify a special transformer, then the default entity persist handler is returned.
-     * 
-     * @param type neutral record entity type.
+     *
+     * @param type
+     *            neutral record entity type.
      * @return ingestion persistence handler.
      */
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
@@ -372,9 +368,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Checks to see if there is a special ed-fi to sli transformer for the specified neutral
-     * record entity type. If no special transformer is specified, then the default transformer is used.
-     * 
-     * @param type neutral record entity type.
+     * record entity type. If no special transformer is specified, then the default transformer is
+     * used.
+     *
+     * @param type
+     *            neutral record entity type.
      * @return ed-fi to sli transformer.
      */
     private EdFi2SLITransformer findTransformer(String type) {
@@ -387,9 +385,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Creates an error report for the specified batch job id and resource id.
-     * 
-     * @param batchJobId current batch job.
-     * @param resourceId current resource id.
+     *
+     * @param batchJobId
+     *            current batch job.
+     * @param resourceId
+     *            current resource id.
      * @return database logging error report.
      */
     private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
@@ -400,8 +400,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Gets the tenant id of the current batch job.
-     * 
-     * @param job current batch job.
+     *
+     * @param job
+     *            current batch job.
      * @return tenant id.
      */
     private static String getTenantId(Job job) {
@@ -413,10 +414,31 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         return tenantId;
     }
 
+    private String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
+        String collectionToPersistFrom = collectionNameAsStaged;
+        if (entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
+            collectionToPersistFrom = collectionNameAsStaged + "_transformed";
+        }
+        return collectionToPersistFrom;
+    }
+
+    private EntityPipelineType getEntityPipelineType(String collectionName) {
+        EntityPipelineType entityPipelineType = EntityPipelineType.NONE;
+        if (entityPersistTypeMap.get("oldPipelineEntities").contains(collectionName)) {
+            entityPipelineType = EntityPipelineType.OLD;
+        } else if (entityPersistTypeMap.get("newPipelinePlainEntities").contains(collectionName)) {
+            entityPipelineType = EntityPipelineType.NEW_PLAIN;
+        } else if (entityPersistTypeMap.get("newPipelineTransformedEntities").contains(collectionName)) {
+            entityPipelineType = EntityPipelineType.NEW_TRANSFORMED;
+        }
+        return entityPipelineType;
+    }
+
     /**
      * Handles the absence of a batch job id in the camel exchange.
-     * 
-     * @param exchange camel exchange.
+     *
+     * @param exchange
+     *            camel exchange.
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
@@ -426,10 +448,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Handles the existence of any processing exceptions in the exchange.
-     * 
-     * @param exception processing exception in camel exchange.
-     * @param exchange camel exchange.
-     * @param batchJobId current batch job id.
+     *
+     * @param exception
+     *            processing exception in camel exchange.
+     * @param exchange
+     *            camel exchange.
+     * @param batchJobId
+     *            current batch job id.
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -454,12 +479,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.obsoletePersistHandler = obsoletePersistHandler;
     }
 
-    public Set<String> getPersistedCollections() {
-        return persistedCollections;
+    public Map<String, Set<String>> getEntityPersistTypeMap() {
+        return entityPersistTypeMap;
     }
 
-    public void setPersistedCollections(Set<String> persistedCollections) {
-        this.persistedCollections = persistedCollections;
+    public void setEntityPersistTypeMap(Map<String, Set<String>> entityPersistTypeMap) {
+        this.entityPersistTypeMap = entityPersistTypeMap;
     }
 
     public void setTransformers(Map<String, EdFi2SLITransformer> transformers) {
@@ -484,12 +509,16 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Gets a db cursor used for iterating over the range of elements specified in the work note for the
+     * Gets a db cursor used for iterating over the range of elements specified in the work note for
+     * the
      * specified collection and job.
-     * 
-     * @param collectionName collection to pull entities from in mongo.
-     * @param jobId batch job id.
-     * @param workNote work distributed by maestro (contains range to perform work on).
+     *
+     * @param collectionName
+     *            collection to pull entities from in mongo.
+     * @param jobId
+     *            batch job id.
+     * @param workNote
+     *            work distributed by maestro (contains range to perform work on).
      * @return
      */
     protected DBCursor getCollectionIterable(String collectionName, String jobId, WorkNote workNote) {
@@ -507,4 +536,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
+    private static enum EntityPipelineType {
+        OLD, NEW_PLAIN, NEW_TRANSFORMED, NONE;
+    }
+
 }
