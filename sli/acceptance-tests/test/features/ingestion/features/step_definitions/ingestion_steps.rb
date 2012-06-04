@@ -904,7 +904,7 @@ When /^two batch job logs have been created$/ do
   end
 
   if found
-    sleep(10) # give JobReportingProcessor time to finish the job (increased to 10 for AWS)
+    sleep(5) # give JobReportingProcessor time to finish the job (increased to 5 for AWS)
     assert(true, "")
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
