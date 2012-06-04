@@ -10,9 +10,10 @@ require_relative '../../entities/common.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "SECTION ID"
-  id = "e7b6521b-7bed-890a-d4b5-c4b25a29fc7e" if template == "STUDENT SECTION ASSOC ID"
+  id = "bac890d6-b580-4d9d-a0d4-8bce4e8d351a" if template == "STUDENT SECTION ASSOC ID"
   id = "53777181-3519-4111-9210-529350429899" if template == "COURSE ID"
-  id = "32930275-a9f3-4eaa-866f-7b35efc303ee" if template == "SCHOOL ID"
+  id = "fef10fc3-9dee-4bd9-ac9b-88bf3e850841" if template == "COURSE OFFERING ID"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "SCHOOL ID"
   id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "STUDENT_ID"
   id
 end
@@ -37,6 +38,10 @@ end
 
 When /^I look at the first one$/ do
   @col = @col[0]
+end
+
+When /^I look at the second one$/ do
+  @col = @col[1]
 end
 
 When /^I go back up one level$/ do
@@ -78,10 +83,20 @@ Then /^I should find "([\d]*)" "([^\"]*)" in it$/ do |count, collection|
 end
 
 Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
+  
+  
   @col.each do |col|
+    puts("  COL    ")
+    puts(col)
+    puts("\n\n\n")
     assert(col[key] != nil, "Response contains no #{key}")
   end
 end
+
+Then /^I should find "([^\"]*)" expanded in element "([\d]*)"$/ do |key, index|
+  assert(@col[convert(index)][key] != nil, "Response contains no #{key}")
+end
+
 
 Then /^inside "([^\"]*)"$/ do |key|
   if !defined? @col
