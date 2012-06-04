@@ -265,7 +265,7 @@ public class SamlFederationResource {
             headers.setContentType(MediaType.APPLICATION_JSON);
             
             Map<String, Object> resultMap = new HashMap<String, Object>();
-            resultMap.put("authorization_token", authorizationCode);
+            resultMap.put("authorization_code", authorizationCode);
             if (state != null) {
                 resultMap.put("state", state);
             }
