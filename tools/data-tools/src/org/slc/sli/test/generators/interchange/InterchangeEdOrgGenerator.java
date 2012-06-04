@@ -39,9 +39,9 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  */
 public class InterchangeEdOrgGenerator {
 
-	
+
 	static CourseGenerator gen ;
-	
+
 	static {
 		try
 		{
@@ -56,7 +56,7 @@ public class InterchangeEdOrgGenerator {
      * Sets up a new Education Organization Interchange and populates it
      *
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public static InterchangeEducationOrganization generate() throws Exception {
 
@@ -86,7 +86,7 @@ public class InterchangeEdOrgGenerator {
      * Generates the individual entities that can be Educational Organizations
      *
      * @param interchangeObjects
-     * @throws Exception 
+     * @throws Exception
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
 
@@ -185,11 +185,10 @@ public class InterchangeEdOrgGenerator {
      *
      * @param interchangeObjects
      * @param courseMetas
-     * @throws Exception 
+     * @throws Exception
      */
     private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) throws Exception {
         long startTime = System.currentTimeMillis();
-
         for (CourseMeta courseMeta : courseMetas) {
 
             Course course;
@@ -201,6 +200,8 @@ public class InterchangeEdOrgGenerator {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
                 course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
             }
+
+            courseMeta.courseCodes.addAll(course.getCourseCode());
 
             interchangeObjects.add(course);
         }
