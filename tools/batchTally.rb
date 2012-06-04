@@ -5,9 +5,9 @@ require 'json'
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
-    if stat["time"]>100000 # ignore entries less than 100 seconds
+    #if stat["time"]>100000 # ignore entries less than 100 seconds
       printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m\n",name,stat["calls"],stat["time"]/1000
-    end
+    #end
   end
   puts "--------------------"
 end

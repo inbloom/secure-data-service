@@ -871,7 +871,6 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   end
 
   @db = old_db
-  sleep(10)    # waiting to poll job file removes race condition in AWS (slow writes to file)   
 end
 
 When /^two batch job logs have been created$/ do
