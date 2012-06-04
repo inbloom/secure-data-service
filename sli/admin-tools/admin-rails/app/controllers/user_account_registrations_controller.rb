@@ -22,6 +22,7 @@ class UserAccountRegistrationsController < ApplicationController
   # POST /user_account_registrations.json
   def create
     @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
+    Rails.logger.debug "User Account Registration = #{@user_account_registration}"
     @user_account_registration.errors.clear
     if @user_account_registration.valid? ==false
      redirectPage=false

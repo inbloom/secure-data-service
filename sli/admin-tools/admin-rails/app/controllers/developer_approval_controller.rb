@@ -78,7 +78,7 @@ class DeveloperApprovalController < ApplicationController
 
         user_info = @@j.decode(request.body.read)
 
-        if (ApprovalEngine.user_exists?(user_info[:email]))
+        if (APP_LDAP_CLIENT.user_exists?(user_info[:email]))
             rval[:status] = 'existingUser'
         else
             rval[:verificationToken] = ApprovalEngine.add_disabled_user(user_info)
