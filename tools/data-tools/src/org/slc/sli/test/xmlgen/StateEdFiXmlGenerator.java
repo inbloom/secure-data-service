@@ -3,6 +3,8 @@ package org.slc.sli.test.xmlgen;
 import java.io.File;
 import java.io.PrintStream;
 
+import javax.xml.stream.XMLStreamWriter;
+
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
@@ -251,11 +253,10 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAttendance() throws Exception {
 
-        InterchangeStudentAttendance studentAttendance = InterchangeStudentAttendanceGenerator.generate();
-
         String xmlFilePath = rootOutputPath + "/InterchangeStudentAttendance.xml";
 
-        JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
+        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAttendance.class);
+        InterchangeStudentAttendanceGenerator.generate(writer);
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Attendance", xmlFilePath);
     }
