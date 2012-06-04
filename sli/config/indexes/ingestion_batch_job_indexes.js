@@ -1,0 +1,1 @@
+db["error"].ensureIndex({"batchJobId":1});
