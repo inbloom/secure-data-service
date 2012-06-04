@@ -130,7 +130,7 @@ end
 transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
-
+puts "Edfi record #{edfiRecordCount}"
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
 combinedProcessingTime = (maestroProcessingTime + pitProcessingTime)/1000
 totalPitProcessingTime = pitProcessingTime/1000
@@ -160,7 +160,8 @@ if ! jobEnd.nil?
 end
 if  !totalJobTime.nil?
   puts "Total Job time #{totalJobTime} sec"
-  puts "Job RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
+  puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
+  puts "Transformed / job time RPS \e[35m#{transformedRecordCount / totalJobTime.round()}\e[0m"
 end
 
 puts "ALL DONE"
