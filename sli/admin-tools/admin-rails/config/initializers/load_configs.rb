@@ -12,4 +12,29 @@ APP_EMAILER = Emailer.new({
       "__PORTAL__" => APP_CONFIG["portal_url"]}
     })
 
+#TRANSITION_ACTION_CONFIG = TransitionActionConfig.new(APP_EMAILER, APP_CONFIG["is_sandbox"]) do
+#  def transition(user)
+#    if user[:status] == STATE_APPROVED
+#      # TODO: Below should not be hardcoded and should be configurable by admin.
+#      # TODO: check that user[:emailAddress] is valid-ish email (regex?)
+#      email = {
+#          :email_addr => user[:emailAddress],
+#          :name       => "#{user[:first]} #{user[:last]}"
+#      }
+#      if APP_CONFIG["is_sandbox"]
+#        email[:subject] = "Welcome to the SLC Developer Sandbox"
+#        template=File.open("#{Rails.root}/public/welcome_email_sandbox_text.template") {|file| file.read}
+#      else
+#        template=File.read("#{Rails.root}/public/welcome_email_prod_text.template") {|file| file.read}
+#        email[:subject] = "Welcome to the SLC Developer Program"
+#      end
+#      email_content = ERB.new(template)
+#      template_data = {:firstName => user[:first],
+#                       :landingZoneLink => "__URI__/landing_zone",
+#                       :portalLink => "__PORTAL__" }
+#      email[:content] = email_content.result(ErbBinding.new(template_data).get_binding)
+#      APP_EMAILER.send_approval_email email
+#    end
+#  end
+#end
 ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, APP_CONFIG["is_sandbox"])

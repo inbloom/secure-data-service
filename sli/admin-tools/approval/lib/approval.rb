@@ -47,16 +47,16 @@ module ApprovalEngine
 	]
 
 	## backend storage
-	@@storage      = nil
-	@@emailer      = nil
-	@@is_sandbox   = false
-	@@email_secret = ""
-	@@roles        = []
+	@@storage                  = nil
+	@@transition_action_config = nil
+	@@is_sandbox               = false
+	@@email_secret             = ""
+	@@roles                    = []
 
 	# initialize the storage
-	def ApprovalEngine.init(storage, emailer, is_sandbox)
+	def ApprovalEngine.init(storage, transition_action_config, is_sandbox)
 		@@storage = storage
-		@@emailer = emailer
+		@@transition_action_config = transition_action_config
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
 		@@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
@@ -108,35 +108,15 @@ module ApprovalEngine
 				set_roles(user[:email])
 			else
 				raise "Unknown state transition #{status} => #{target[transition]}."
-				re
 		end
 
-    if user[:status] == STATE_APPROVED
-      # TODO: Below should not be hardcoded and should be configurable by admin.
-      # TODO: check that user[:emailAddress] is valid-ish email (regex?)
-      email = {
-        :email_addr => user[:emailAddress],
-        :name       => "#{user[:first]} #{user[:last]}"
-      }
-      if @@is_sandbox
-        email[:subject] = "Welcome to the SLC Developer Sandbox"
-        template=File.read("#{File.expand_path('../../template/welcome_email_sandbox_text.template',__FILE__)}")
-      else
-      template=File.read("#{File.expand_path('../../template/welcome_email_prod_text.template',__FILE__)}")
-      email[:subject] = "Welcome to the SLC Developer Program"
-      end
-        email_content = ERB.new(template)
-        template_data = {:firstName => user[:first],
-        :landingZoneLink => "__URI__/landing_zone",
-        :portalLink => "__PORTAL__" }
-        email[:content] = email_content.result(ErbBinding.new(template_data).get_binding)
-      @@emailer.send_approval_email email
-    end
+    @@transition_action_config.transition(user)
 
 		# if this is a sandbox and the new status is pending then move to status approved
 		if @@is_sandbox && (user[:status] == STATE_PENDING)
 			change_user_status(email_address, ACTION_APPROVE)
-		end
+    end
+
 	end
 
 	# Verify the email address against the backend.
@@ -154,12 +134,6 @@ module ApprovalEngine
 		change_user_status(user[:email], ACTION_VERIFY_EMAIL, true)
 	end
 
-
-	# Check whether a user with the given email address exists.
-	# The email address serves as the unique userid.
-	def ApprovalEngine.user_exists?(email_address)
-		@@storage.user_exists?(email_address)
-	end
 
 	# Add all relevant information for a new user to the backend.
 	#
