@@ -357,8 +357,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
-        //we don't allow create apps to have the boostrap flag
-        app.remove("bootstrap");
+        //we don't allow created apps to have the bootstrap flag
+        if (!oldApp.containsKey("bootstrap"))
+            app.remove("bootstrap");
 
         return super.update(uuid, app, headers, uriInfo);
     }
