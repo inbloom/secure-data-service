@@ -320,11 +320,11 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAssessment() throws Exception {
 
-        InterchangeStudentAssessment studentAssessment = InterchangeStudentAssessmentGenerator.generate();
-
         String xmlFilePath = rootOutputPath + "/InterchangeStudentAssessment.xml";
 
-        JaxbUtils.marshal(studentAssessment, new PrintStream(xmlFilePath));
+        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAssessment.class);
+        InterchangeStudentAssessmentGenerator.generate(writer);
+        JaxbUtils.finishInterchangeWriter(writer);
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
