@@ -113,7 +113,7 @@ public class JaxbUtils {
      * @param outputStream
      * @throws JAXBException
      */
-    public static <T> void marshal(T objectToMarshal, XMLStreamWriter outputStream) {
+    public static void marshal(Object objectToMarshal, XMLStreamWriter outputStream) {
         if (objectToMarshal != null) {
 
             try {                
