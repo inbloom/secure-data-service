@@ -3,6 +3,7 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
@@ -35,12 +36,26 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  */
 public class InterchangeEdOrgGenerator {
 
-    /**
+	
+	static CourseGenerator gen ;
+	
+	static {
+		try
+		{
+			gen = new CourseGenerator(GradeLevelType.SEVENTH_GRADE);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	/**
      * Sets up a new Education Organization Interchange and populates it
      *
      * @return
+     * @throws Exception 
      */
-    public static InterchangeEducationOrganization generate() {
+    public static InterchangeEducationOrganization generate() throws Exception {
 
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
         List<Object> interchangeObjects = interchange
@@ -55,8 +70,9 @@ public class InterchangeEdOrgGenerator {
      * Generates the individual entities that can be Educational Organizations
      *
      * @param interchangeObjects
+     * @throws Exception 
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
 
         generateStateEducationAgencies(interchangeObjects, MetaRelations.SEA_MAP.values());
 
@@ -84,9 +100,9 @@ public class InterchangeEdOrgGenerator {
             StateEducationAgency sea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                sea = null;
+                sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             } else {
-                sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id);
+            	 sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             }
 
             interchangeObjects.add(sea);
@@ -138,7 +154,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 school = null;
             } else {
-                school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId);
+                school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             }
 
             interchangeObjects.add(school);
@@ -153,8 +169,9 @@ public class InterchangeEdOrgGenerator {
      *
      * @param interchangeObjects
      * @param courseMetas
+     * @throws Exception 
      */
-    private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) {
+    private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) throws Exception {
         long startTime = System.currentTimeMillis();
 
         for (CourseMeta courseMeta : courseMetas) {
@@ -162,9 +179,11 @@ public class InterchangeEdOrgGenerator {
             Course course;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                course = null;
+            	//course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
+            	course = null;
             } else {
-                course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
+                //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
+                course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
             }
 
             interchangeObjects.add(course);

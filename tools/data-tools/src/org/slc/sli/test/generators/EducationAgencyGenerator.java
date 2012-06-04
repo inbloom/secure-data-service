@@ -28,7 +28,8 @@ public class EducationAgencyGenerator {
 
     public StateEducationAgency getSEA(String id) {
         StateEducationAgency agency = new StateEducationAgency();
-        if(id != null) agency.setId(id); 
+        if (id != null)
+            agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
         edorgCode.setID("NYSEA");
         edorgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
@@ -52,23 +53,22 @@ public class EducationAgencyGenerator {
         rating.setRatingProgram("Federa; Board Rating Program");
         rating.setRatingTitle("State SAT Rating");
         rating.setSchoolYear("2012");
-        agency.getAccountabilityRatings().add(rating) ;
-        //agency.getProgramReference().add(ProgramReferenceType)
-        //agency.getEducationOrganizationPeerReference()
+        agency.getAccountabilityRatings().add(rating);
+        // agency.getProgramReference().add(ProgramReferenceType)
+        // agency.getEducationOrganizationPeerReference()
         return agency;
     }
-    
-    public EducationalOrgReferenceType getEducationalOrgReferenceType(EducationOrganization edOrg)
-    {
-    	EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
-    	EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
-    	identity.getStateOrganizationIdOrEducationOrgIdentificationCode().
-        	addAll(edOrg.getEducationOrgIdentificationCode());
-    	return ref;
+
+    public EducationalOrgReferenceType getEducationalOrgReferenceType(EducationOrganization edOrg) {
+        EducationalOrgReferenceType ref = new EducationalOrgReferenceType();
+        EducationalOrgIdentityType identity = new EducationalOrgIdentityType();
+        identity.getEducationOrgIdentificationCode().addAll(edOrg.getEducationOrgIdentificationCode());
+        // identity.getStateOrganizationIdOrEducationOrgIdentificationCode().
+        // addAll(edOrg.getEducationOrgIdentificationCode());
+        return ref;
     }
-    
-    public LocalEducationAgency getLEA(String id)
-    {
+
+    public LocalEducationAgency getLEA(String id) {
         LocalEducationAgency agency = new LocalEducationAgency();
         agency.setStateOrganizationId("ManhattanLEA");
         agency.setId(id);
@@ -95,21 +95,20 @@ public class EducationAgencyGenerator {
         rating.setRatingProgram("NY Board Rating Program");
         rating.setRatingTitle("NY SAT Rating");
         rating.setSchoolYear("2012");
-        agency.getAccountabilityRatings().add(rating) ;
-        //agency.getProgramReference().add(ProgramReferenceType)
-        //agency.getEducationOrganizationPeerReference()
-        agency.setLEACategory(LEACategoryType.INDEPENDENT) ;
+        agency.getAccountabilityRatings().add(rating);
+        // agency.getProgramReference().add(ProgramReferenceType)
+        // agency.getEducationOrganizationPeerReference()
+        agency.setLEACategory(LEACategoryType.INDEPENDENT);
         agency.setCharterStatus(CharterStatusType.OPEN_ENROLLMENT);
-        //agency.setLocalEducationAgencyReference(EducationalOrgReferenceType) ;
-        //agency.setEducationServiceCenterReference(EducationalOrgReferenceType value) ;
-        //agency.setStateEducationAgencyReference(EducationalOrgReferenceType value) ;
+        // agency.setLocalEducationAgencyReference(EducationalOrgReferenceType) ;
+        // agency.setEducationServiceCenterReference(EducationalOrgReferenceType value) ;
+        // agency.setStateEducationAgencyReference(EducationalOrgReferenceType value) ;
         return agency;
     }
 
-    public EducationServiceCenter getEducationServiceCenter(String id)
-    {
+    public EducationServiceCenter getEducationServiceCenter(String id) {
         EducationServiceCenter agency = new EducationServiceCenter();
-        //agency.setStateOrganizationId(String value)
+        // agency.setStateOrganizationId(String value)
         agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
         edorgCode.setID("FOOD");
@@ -134,9 +133,9 @@ public class EducationAgencyGenerator {
         rating.setRatingProgram("NY School Food Rating");
         rating.setRatingTitle("Food Service Rating");
         rating.setSchoolYear("2012");
-        agency.getAccountabilityRatings().add(rating) ;
-        //agency.getProgramReference().add(ProgramReferenceType)
-        //agency.getEducationOrganizationPeerReference()
+        agency.getAccountabilityRatings().add(rating);
+        // agency.getProgramReference().add(ProgramReferenceType)
+        // agency.getEducationOrganizationPeerReference()
         return agency;
     }
 }

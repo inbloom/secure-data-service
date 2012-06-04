@@ -1,10 +1,15 @@
 package org.slc.sli.test.edfi.entities.meta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SessionMeta {
     public final String id;
     public final String schoolId;
 
     public final String simpleId;
+    
+    public List<String> calendarList = new ArrayList<String>();
 
     public SessionMeta(String id, SchoolMeta schoolMeta) {
         this.id = schoolMeta.id + "-" + id;

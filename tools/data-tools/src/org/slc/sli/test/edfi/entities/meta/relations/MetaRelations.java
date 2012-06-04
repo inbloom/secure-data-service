@@ -6,10 +6,12 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import org.slc.sli.test.DataFidelityType;
+import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
+import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
@@ -27,35 +29,68 @@ public final class MetaRelations {
 
     // default fidelity of data generation
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
-    
+
     // knobs to control number of entities to create
-	public static final int TOTAL_SEAS = 1;
-    public static final int LEAS_PER_SEA =2;
+	public static final int TOTAL_SEAS =2 ;
+    public static final int LEAS_PER_SEA =10;
     public static final int STAFF_PER_SEA = 3;
-    public static final int SCHOOLS_PER_LEA = 2;
-    public static final int COURSES_PER_SCHOOL = 2;
+    public static final int SCHOOLS_PER_LEA = 25;
+    public static final int COURSES_PER_SCHOOL = 6;
     public static final int SESSIONS_PER_SCHOOL = 2;
-    public static final int SECTIONS_PER_COURSE_SESSION = 7;
-    public static final int TEACHERS_PER_SCHOOL = 2;
-    public static final int STUDENTS_PER_SCHOOL = 8;
-    public static final int PROGRAMS_PER_SCHOOL = 1;
+    public static final int SECTIONS_PER_COURSE_SESSION = 2;
+    public static final int TEACHERS_PER_SCHOOL = 20;
+    public static final int STUDENTS_PER_SCHOOL = 200;
+    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int PROGRAMS_PER_SEA = 1;
     public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
     public static final int FREE_STANDING_COHORT_SIZE = 4;
     public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
-    public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
-    public static final int ASSESSMENTS_PER_STUDENT = 10;
-    public static final int ATTENDANCE_PER_STUDENT_SECTION = 8;
+    public static final int INV_PROB_SECTION_HAS_PROGRAM = 2;
+    public static final int ASSESSMENTS_PER_STUDENT = 2;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 2;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
-    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
+    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 2;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
     public static final int COURSES_PER_STUDENT = 2;
     public static final int SECTIONS_PER_STUDENT = 2;
+    public static final int CALENDER_PER_SESSIONS = 2;
+    public static final int GRADINGPERIOD_PER_CALENDAR = 2;
+
+
+//	public static final int TOTAL_SEAS =2 ;
+//    public static final int LEAS_PER_SEA =2;
+//    public static final int STAFF_PER_SEA = 3;
+//    public static final int SCHOOLS_PER_LEA = 5;
+//    public static final int COURSES_PER_SCHOOL = 6;
+//    public static final int SESSIONS_PER_SCHOOL = 2;
+//    public static final int SECTIONS_PER_COURSE_SESSION = 2;
+//    public static final int TEACHERS_PER_SCHOOL = 20;
+//    public static final int STUDENTS_PER_SCHOOL = 20;
+//    public static final int PROGRAMS_PER_SCHOOL = 2;
+//    public static final int PROGRAMS_PER_SEA = 1;
+//    public static final int STAFF_PER_PROGRAM = 2;
+//    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
+//    public static final int FREE_STANDING_COHORT_SIZE = 4;
+//    public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
+//    public static final int INV_PROB_SECTION_HAS_PROGRAM = 2;
+//    public static final int ASSESSMENTS_PER_STUDENT = 2;
+//    public static final int ATTENDANCE_PER_STUDENT_SECTION = 2;
+//    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
+//    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
+//    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 2;
+//    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
+//    public static final int COURSES_PER_STUDENT = 2;
+//    public static final int SECTIONS_PER_STUDENT = 2;
+//    public static final int CALENDER_PER_SESSIONS = 2;
+//    public static final int GRADINGPERIOD_PER_CALENDAR = 2;
 
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     // TODO: do we need maps? maybe just use Collections?
+    public static final Map<String, CalendarMeta> CALENDAR_MAP = new TreeMap<String, CalendarMeta>();
+    public static final Map<String, GradingPeriodMeta> GRADINGPERIOD_MAP = new TreeMap<String, GradingPeriodMeta>();
     public static final Map<String, SeaMeta> SEA_MAP = new TreeMap<String, SeaMeta>();
     public static final Map<String, LeaMeta> LEA_MAP = new TreeMap<String, LeaMeta>();
     public static final Map<String, SchoolMeta> SCHOOL_MAP = new TreeMap<String, SchoolMeta>();
@@ -73,7 +108,9 @@ public final class MetaRelations {
     public static final Map<String, DisciplineIncidentMeta> DISCIPLINE_INCIDENT_MAP = new TreeMap<String, DisciplineIncidentMeta>();
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
 
-    public static final String SEA_PREFIX = "cap";
+
+
+    public static final String SEA_PREFIX = "NY";
     public static final String FIRST_TEACHER_ID = "lroslin";
 
     /**
@@ -84,6 +121,7 @@ public final class MetaRelations {
         long startTime = System.currentTimeMillis();
 
         buildSeas();
+
 
         AssessmentMetaRelations.buildStandaloneAssessments();
 
@@ -101,6 +139,7 @@ public final class MetaRelations {
         for (int idNum = 0; idNum < TOTAL_SEAS; idNum++) {
 
             SeaMeta seaMeta = new SeaMeta(SEA_PREFIX + idNum);
+            //SeaMeta seaMeta = new SeaMeta(SEA_PREFIX);
 
             SEA_MAP.put(seaMeta.id, seaMeta);
 
@@ -111,6 +150,8 @@ public final class MetaRelations {
     private static void buildAndRelateEntitiesWithSea(SeaMeta seaMeta) {
 
         Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
+
+        Map<String, ProgramMeta> programmForSea = buildProgramsForSEA(seaMeta);
 
         buildLeasForSea(seaMeta, staffForSea);
     }
@@ -140,7 +181,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < LEAS_PER_SEA; idNum++) {
 
-            LeaMeta leaMeta = new LeaMeta("lea" + idNum, seaMeta);
+            LeaMeta leaMeta = new LeaMeta("D" + idNum, seaMeta);
 
             LEA_MAP.put(leaMeta.id, leaMeta);
 
@@ -162,7 +203,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
-            SchoolMeta schoolMeta = new SchoolMeta("sc" + idNum, leaMeta);
+            SchoolMeta schoolMeta = new SchoolMeta("HSch" + idNum, leaMeta);
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
@@ -182,7 +223,13 @@ public final class MetaRelations {
 
         Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
 
+        Map<String, CalendarMeta> calendarForSession =  buildCalendarForSessions(sessionsForSchool);
+
+        Map<String, GradingPeriodMeta> gradingPeriodForCalendar = buildGradingPeriodForCalendar(calendarForSession);
+
         Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+
+
 
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                 sessionsForSchool, programForSchool);
@@ -199,7 +246,7 @@ public final class MetaRelations {
 
         addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
-        addStaffToPrograms(programForSchool, staffForSea);
+        addStaffToPrograms(MetaRelations.PROGRAM_MAP, staffForSea);
 
         addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
 
@@ -308,7 +355,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < COURSES_PER_SCHOOL; idNum++) {
 
-            CourseMeta courseMeta = new CourseMeta("course" + idNum, schoolMeta);
+            CourseMeta courseMeta = new CourseMeta("cse" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -321,13 +368,62 @@ public final class MetaRelations {
 
 
     /**
-     * Generate the sessions for the school.
-     * sessionsForSchool is used later in this class.
-     * SESSION_MAP is used to actually generate the XML.
+     * Generate the Calendar For GradingPeriod.
+     * CalendarForGradingPeriod is used later in this class.
+     * GRADINGPERIOD_MAP is used to actually generate the XML.
      *
      * @param schoolMeta
      * @return
      */
+    private static Map<String, GradingPeriodMeta> buildGradingPeriodForCalendar(Map<String, CalendarMeta> calendarForGradingPeriod) {
+
+    	Map<String, GradingPeriodMeta> gradingPeriodMetas = new HashMap<String, GradingPeriodMeta>(GRADINGPERIOD_PER_CALENDAR);
+
+    		for(CalendarMeta calendarMeta : calendarForGradingPeriod.values()) {
+
+    			 for (int idNum = 0; idNum < GRADINGPERIOD_PER_CALENDAR ; idNum++) {
+
+    				 String gradingPeriodId =  calendarMeta.id + "-" + idNum;
+
+    				 GradingPeriodMeta gradingPeriodMeta = new GradingPeriodMeta(gradingPeriodId);
+    				 gradingPeriodMeta.calendars.add(calendarMeta.id);
+
+    				 // it's useful to return the objects created JUST for this school
+    				 gradingPeriodMetas.put(gradingPeriodMeta.id, gradingPeriodMeta);
+    				 GRADINGPERIOD_MAP.put(gradingPeriodMeta.id, gradingPeriodMeta);
+    			 }
+    		}
+
+    		return gradingPeriodMetas;
+    }
+
+    /**
+     * Generate the Calendar For Sessions.
+     * CalendarForSessions is used later in this class.
+     * CALENDAR_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+    private static Map<String, CalendarMeta> buildCalendarForSessions(Map<String, SessionMeta> sessionForSchool) {
+    	 Map<String, CalendarMeta> calendarForSessions = new HashMap<String, CalendarMeta>(CALENDER_PER_SESSIONS);
+
+    		 for (SessionMeta sessionMeta : sessionForSchool.values()) {
+    			 for (int idNum = 0; idNum < SESSIONS_PER_SCHOOL; idNum++) {
+
+    				 String calendarId = sessionMeta.id + "-" + idNum;
+    				 CalendarMeta calendarMeta = new CalendarMeta(calendarId, sessionMeta);
+
+    				 // it's useful to return the objects created JUST for this school
+    				 calendarForSessions.put(calendarMeta.id, calendarMeta);
+    				 CALENDAR_MAP.put(calendarMeta.id, calendarMeta);
+    				 sessionMeta.calendarList.add(calendarId);
+    			 }
+    		 }
+         return calendarForSessions;
+
+    }
+
     private static Map<String, SessionMeta> buildSessionsForSchool(SchoolMeta schoolMeta) {
 
 
@@ -335,7 +431,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < SESSIONS_PER_SCHOOL; idNum++) {
 
-            SessionMeta sessionMeta = new SessionMeta("session" + idNum, schoolMeta);
+            SessionMeta sessionMeta = new SessionMeta("ses" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -380,7 +476,7 @@ public final class MetaRelations {
                         programCounter = (programCounter + 1) % programMetas.length;
                     }
 
-                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta,
+                    SectionMeta sectionMeta = new SectionMeta("sec" + idNum, schoolMeta, courseMeta, sessionMeta,
                             programMeta);
 
                     // it's useful to return the objects created JUST for this school
@@ -415,11 +511,36 @@ public final class MetaRelations {
             programMapForSchool.put(programMeta.id, programMeta);
             PROGRAM_MAP.put(programMeta.id, programMeta);
 
+            schoolMeta.programId = programMeta.id;
+
             buildCohortsForProgram(programMeta, schoolMeta);
         }
 
         return programMapForSchool;
     }
+
+    /**
+     * Generate the programs for SEA.
+     * programMapForSEA is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param
+     * @return
+     */
+    private static Map<String, ProgramMeta> buildProgramsForSEA(SeaMeta seaMeta) {
+
+    	Map<String, ProgramMeta> programMapForSEA = new HashMap<String, ProgramMeta>();
+
+    	  for (int idNum = 0; idNum < PROGRAMS_PER_SEA; idNum++) {
+    		  ProgramMeta programMeta = new ProgramMeta("prg" + seaMeta.id + "_" + idNum, seaMeta);
+    		  programMapForSEA.put(programMeta.id, programMeta);
+    		  PROGRAM_MAP.put(programMeta.id, programMeta);
+    		  seaMeta.programId = programMeta.id;
+    		  seaMeta.programs.put(seaMeta.programId, programMeta);
+    	  }
+    	  return programMapForSEA;
+    }
+
 
     /**
      * Generate a cohort for this program.
@@ -430,7 +551,7 @@ public final class MetaRelations {
      * @return
      */
     private static void buildCohortsForProgram(ProgramMeta programMeta, SchoolMeta schoolMeta) {
-        CohortMeta cohortMeta = new CohortMeta("coh", programMeta);
+        CohortMeta cohortMeta = new CohortMeta("ch", programMeta);
         COHORT_MAP.put(cohortMeta.id, cohortMeta);
         programMeta.cohortIds.add(cohortMeta.id);
         return;

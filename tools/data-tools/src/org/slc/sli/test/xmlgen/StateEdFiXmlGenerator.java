@@ -3,6 +3,8 @@ package org.slc.sli.test.xmlgen;
 import java.io.File;
 import java.io.PrintStream;
 
+import javax.xml.stream.XMLStreamWriter;
+
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
@@ -49,7 +51,9 @@ public class StateEdFiXmlGenerator {
     /**
      * used by interchange generators to determine which entity generator to invoke
      */
+    //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
+
 
     /**
      * used to determine the output directory for generated interchange and control files
@@ -107,7 +111,7 @@ public class StateEdFiXmlGenerator {
        staffAssociation();
 
        studentParent();
-
+       System.out.println("will the studentParend be ended!)");
        studentEnrollment();
 
        studentProgram();
@@ -231,6 +235,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
+    	System.out.println("start to student enrollment");
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
 
@@ -248,11 +253,10 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAttendance() throws Exception {
 
-        InterchangeStudentAttendance studentAttendance = InterchangeStudentAttendanceGenerator.generate();
-
         String xmlFilePath = rootOutputPath + "/InterchangeStudentAttendance.xml";
 
-        JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
+        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAttendance.class);
+        InterchangeStudentAttendanceGenerator.generate(writer);
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Attendance", xmlFilePath);
     }

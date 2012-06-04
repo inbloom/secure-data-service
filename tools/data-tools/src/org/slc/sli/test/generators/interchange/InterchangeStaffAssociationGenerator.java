@@ -37,8 +37,9 @@ public class InterchangeStaffAssociationGenerator {
      * Sets up a new Staff Association Interchange and populates it.
      *
      * @return
+     * @throws Exception 
      */
-    public static InterchangeStaffAssociation generate() {
+    public static InterchangeStaffAssociation generate() throws Exception {
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
         List<Object> interchangeObjects = interchange
@@ -53,8 +54,9 @@ public class InterchangeStaffAssociationGenerator {
      * Generate the individual Teacher Association entities.
      *
      * @param interchangeObjects
+     * @throws Exception 
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
 
         generateTeachers(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
@@ -77,10 +79,11 @@ public class InterchangeStaffAssociationGenerator {
      *
      * @param interchangeObjects
      * @param teacherMetas
+     * @throws Exception 
      */
-    private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+    private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) throws Exception {
         long startTime = System.currentTimeMillis();
-
+        
         for (TeacherMeta teacherMeta : teacherMetas) {
 
             Teacher teacher;
@@ -88,7 +91,8 @@ public class InterchangeStaffAssociationGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 teacher = null;
             } else {
-                teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
+                //teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
+            	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             }
 
             interchangeObjects.add(teacher);
@@ -154,8 +158,9 @@ public class InterchangeStaffAssociationGenerator {
      *
      * @param interchangeObjects
      * @param teacherMetas
+     * @throws Exception 
      */
-    private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) {
+    private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) throws Exception {
         long startTime = System.currentTimeMillis();
 
         for (StaffMeta staffMeta : staffMetas) {
@@ -165,7 +170,9 @@ public class InterchangeStaffAssociationGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 staff = null;
             } else {
-                staff = StaffGenerator.generateLowFi(staffMeta.id);
+                //staff = StaffGenerator.generateLowFi(staffMeta.id);
+                staff = StaffGenerator.generateMediumFi(staffMeta.id);
+                
             }
 
             interchangeObjects.add(staff);

@@ -28,6 +28,7 @@ public class AttendanceEventGenerator {
         ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
         ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
         ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
+        ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
 
         if (INCLUDE_OPTIONAL_DATA) {
             ae.setAttendanceEventType(getAttendanceEventType());

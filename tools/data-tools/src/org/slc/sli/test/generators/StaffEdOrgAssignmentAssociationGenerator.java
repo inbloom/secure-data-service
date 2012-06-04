@@ -22,7 +22,8 @@ public class StaffEdOrgAssignmentAssociationGenerator {
         staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
 
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
-        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(staffMeta.edOrgId);
+        //edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(staffMeta.edOrgId);
+        edOrgIdentity.setStateOrganizationId(staffMeta.edOrgId);
 
         EducationalOrgReferenceType edOrgReferenceType = new EducationalOrgReferenceType();
         edOrgReferenceType.setEducationalOrgIdentity(edOrgIdentity);

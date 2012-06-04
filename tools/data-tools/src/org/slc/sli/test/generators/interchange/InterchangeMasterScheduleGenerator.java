@@ -64,7 +64,7 @@ public class InterchangeMasterScheduleGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 section = null;
             } else {
-                section = SectionGenerator.generateLowFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
+            	section = SectionGenerator.generateMediumFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
                         sectionMeta.sessionId);
             }
 
