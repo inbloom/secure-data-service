@@ -39,8 +39,8 @@ public class MongoTrackingAspect {
             collection = collection.substring(0, collection.lastIndexOf("_"));
         }
 
-        if(pjp.getSignature().equals("executeCommand")) {
-            collection="EXEC-UNKNOWN";
+        if (pjp.getSignature().getName().equals("executeCommand")) {
+            collection = "EXEC-UNKNOWN";
         }
 
         String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
