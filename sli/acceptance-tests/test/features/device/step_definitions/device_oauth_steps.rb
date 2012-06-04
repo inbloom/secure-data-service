@@ -32,7 +32,7 @@ end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
   @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/token?response_type=code&client_id=#{@oauthClientId}" +
-                   "&client_secret=#{@oauthClientSecret}&auth_code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
+                   "&client_secret=#{@oauthClientSecret}&code=#{@oauthAuthCode}&redirect_uri=#{@oauthRedirectURI}"
 end
 
 Then /^I should receive a json response containing my authorization token$/ do
