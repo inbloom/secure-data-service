@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.security.context.resolver.NodeDateFilter;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
@@ -34,10 +35,10 @@ public class BrutePathFinder implements SecurityPathFinder {
     private NodeFilter sectionGracePeriodNodeFilter;
 
     @Autowired
-    private NodeFilter studentGracePeriodNodeFilter;
+    private NodeDateFilter studentGracePeriodNodeFilter;
 
     @Autowired
-    private NodeFilter studentSectionEndDateFilter;
+    private NodeDateFilter studentSectionEndDateFilter;
 
     @PostConstruct
     public void init() {

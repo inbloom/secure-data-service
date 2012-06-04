@@ -85,19 +85,22 @@ public class NodeDateFilterTest {
         nodeFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID,"2000","exitWithdrawDate");
         List<String> returnedIds = nodeFilter.filterIds(ids);
         assertNotNull("Should not be null", returnedIds);
-        assertEquals("Should match", 4, returnedIds.size());
-        assertTrue("Should be true", returnedIds.contains("1"));
-        assertTrue("Should be true", returnedIds.contains("3"));
-        assertTrue("Should be true", returnedIds.contains("4"));
-
-        nodeFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,ParameterConstants.STUDENT_ID,"0","endDate");
-        List<String> returnStudentIds = nodeFilter.filterIds(ids);
-        assertNotNull("Should not be null", returnStudentIds);
-        assertEquals("Should match", 4, returnStudentIds.size());
+        assertEquals("Should match", 5, returnedIds.size());
         assertTrue("Should be true", returnedIds.contains("1"));
         assertTrue("Should be true", returnedIds.contains("3"));
         assertTrue("Should be true", returnedIds.contains("4"));
         assertTrue("Should be true", returnedIds.contains("5"));
+        assertTrue("Should be true", returnedIds.contains("6"));
+
+        nodeFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,ParameterConstants.STUDENT_ID,"0","endDate");
+        List<String> returnStudentIds = nodeFilter.filterIds(ids);
+        assertNotNull("Should not be null", returnStudentIds);
+        assertEquals("Should match", 5, returnStudentIds.size());
+        assertTrue("Should be true", returnStudentIds.contains("1"));
+        assertTrue("Should be true", returnStudentIds.contains("2"));
+        assertTrue("Should be true", returnStudentIds.contains("3"));
+        assertTrue("Should be true", returnStudentIds.contains("4"));
+        assertTrue("Should be true", returnStudentIds.contains("5"));
     }
 
     private List<Entity> getStudentSchoolAssociations() {
@@ -108,7 +111,7 @@ public class NodeDateFilterTest {
         list.add(createEntity("studentId", "3", "someKey", "7"));
         list.add(createEntity("studentId", "4", "exitWithdrawDate", ""));
         list.add(createEntity("studentId", "5", "endDate", "2012-08-03"));
-        list.add(createEntity("studentId", "6", "endDate", "2012-03-03"));
+        list.add(createEntity("studentId", "6", "endDate", "2012-01-03"));
 
         return list;
     }

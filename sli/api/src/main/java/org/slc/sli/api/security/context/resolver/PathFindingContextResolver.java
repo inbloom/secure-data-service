@@ -20,6 +20,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,8 +50,13 @@ public class PathFindingContextResolver implements EntityContextResolver {
     @Autowired
     private Repository<Entity> repo;
 
+    @Autowired
+    private NodeDateFilter endDateFilter;
+
     private String fromEntity;
     private String toEntity;
+
+    private static final String END_DATE = "endDate";
 
     /*
      * @see
@@ -92,6 +98,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
             List<String> idSet = new ArrayList<String>();
             String repoName = getResourceName(current, next, connection);
             debug("Getting Ids From {}", repoName);
+            String collectionName = repoName;
+            String referenceLocation = connection.getFieldName();
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
@@ -119,7 +127,10 @@ public class PathFindingContextResolver implements EntityContextResolver {
                 }
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.getFieldName(), new ArrayList<String>(ids));
+                collectionName =  ad.getStoredCollectionName();
+                referenceLocation = keys.get(0);
             } else if (connection.getAssociationNode().length() != 0) {
+                referenceLocation = "_id";
                 idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
                         new ArrayList<String>(ids));
 
@@ -130,6 +141,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             }
 
             if (connection.getFilter() != null) {
+                /*if(EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(connection.getConnectionTo())){
+                    ((NodeDateFilter)connection.getFilter()).setParameters(collectionName,referenceLocation,"0",END_DATE);
+                }*/
                 idSet = connection.getFilter().filterIds(idSet);
             }
 
@@ -141,6 +155,14 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
         //  Allow creator access
         ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
+       /* ArrayList<String> filteredIdList=null;
+        if(toEntity.equals())  {
+            graceFilter.setParameters(EntityNames.STAFF_ED_ORG_ASSOCIATION,STUDENT_ID,"0",END_DATE);
+            filteredIdList= endDateFilter
+        }
+        else{
+            filteredIdList=new ArrayList<String>(ids);
+        }*/
         return new ArrayList<String>(ids);
     }
 

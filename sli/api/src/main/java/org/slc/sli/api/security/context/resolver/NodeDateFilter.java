@@ -78,6 +78,7 @@ public class NodeDateFilter extends NodeFilter {
      * @return
      */
     protected boolean isResolvable(String filterDateString, String formattedEndDateString) {
+
         Date filterDate = null, endDate = null;
         boolean retValue = true;
 
@@ -94,7 +95,6 @@ public class NodeDateFilter extends NodeFilter {
         } catch (ParseException e) {
             retValue = false;
         }
-
         return retValue;
     }
 
