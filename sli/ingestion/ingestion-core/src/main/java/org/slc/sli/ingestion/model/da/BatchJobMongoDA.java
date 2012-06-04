@@ -71,7 +71,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void saveError(Error error) {
-        if (error != null && trackIngestionErrors.equals("true")) {
+        if (error != null && "true".equals(trackIngestionErrors)) {
             batchJobMongoTemplate.save(error);
         }
     }
