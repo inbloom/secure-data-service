@@ -1,15 +1,5 @@
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
@@ -34,6 +24,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -651,8 +652,33 @@ public class BasicService implements EntityService {
     }
 
     private void complexFilter(Map<String, Object> eb) {
-        if (this.getCollectionName().equals(EntityNames.STAFF)) {
-            //TODO replace stub
+        if (defn.getType().equals(EntityNames.STAFF)) {
+            final String work = "Work";
+            final String telephoneNumberType = "telephoneNumberType";
+            final String emailAddressType = "emailAddressType";
+
+            List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get("telephone");
+            if (telephones != null) {
+
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
+                    if (!work.equals(it.next().get(telephoneNumberType))) {
+                        it.remove();
+                    }
+                }
+
+            }
+
+            List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get("electronicMail");
+            if (emails != null) {
+
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
+                    if (!work.equals(it.next().get(emailAddressType))) {
+                        it.remove();
+                    }
+                }
+
+            }
+
         }
     }
 
