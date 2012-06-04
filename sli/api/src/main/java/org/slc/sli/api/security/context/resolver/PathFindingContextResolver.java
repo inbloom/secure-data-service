@@ -50,9 +50,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
     @Autowired
     private Repository<Entity> repo;
 
-    @Autowired
-    private NodeDateFilter endDateFilter;
-
     private String fromEntity;
     private String toEntity;
 
