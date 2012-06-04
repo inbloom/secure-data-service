@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrgCalendar.xsd">
+
+  <CalendarDate id="CLND_20110527Instructionalday">
+    <Date>2011-10-27</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+  </CalendarDate>
+
+  <GradingPeriod id="GRDP_20110527">
+    <GradingPeriod>End of Year</GradingPeriod>
+    <BeginDate>2011-10-27</BeginDate>
+    <EndDate>2011-11-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+    <CalendarDateReference ref="CLND_20110527Instructionalday"/>
+  </GradingPeriod>
+
+  <Session>
+    <SessionName>Fall 2011 Able School</SessionName>
+    <SchoolYear>1999-2000</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-23</EndDate>
+    <TotalInstructionalDays>80</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference ref="GRDP_20110527"/>
+  </Session>
+</InterchangeEducationOrgCalendar>
+

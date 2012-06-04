@@ -1,6 +1,191 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
+
+	<CourseOffering>
+		<LocalCourseCode>Art001</LocalCourseCode>
+		<LocalCourseTitle>Art001</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<SessionName>Dusk-Elem-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Art001</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>PE001</LocalCourseCode>
+		<LocalCourseTitle>PE001</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+				<SessionName>Dusk-Elem-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>PE001</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Chem305</LocalCourseCode>
+		<LocalCourseTitle>Chem305</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<SessionName>Dusk-High-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Chem305</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Mason201</LocalCourseCode>
+		<LocalCourseTitle>Mason201</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+				<SessionName>Dusk-High-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Mason201</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Math001</LocalCourseCode>
+		<LocalCourseTitle>Math001</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<SessionName>Parker-Elem-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Math001</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>PhySci001</LocalCourseCode>
+		<LocalCourseTitle>PhySci001</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+				<SessionName>Parker-Elem-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>PhySci001</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>ARCH221</LocalCourseCode>
+		<LocalCourseTitle>ARCH221</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<SessionName>Parker-High-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>ARCH221</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Sci127</LocalCourseCode>
+		<LocalCourseTitle>Sci127</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+				<SessionName>Parker-High-Spring2012</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Sci127</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
 	<Section>
 		<UniqueSectionCode>Art001-Sec2</UniqueSectionCode>
 		<SequenceOfCourse>1</SequenceOfCourse>

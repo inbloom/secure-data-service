@@ -46,6 +46,11 @@ task :ingestionCohortTest do
   runTests("test/features/ingestion/features/ingestion_cohort.feature")
 end
 
+desc "Run Ingestion Course Offering Test"
+task :ingestionCourseOfferingTest do
+  runTests("test/features/ingestion/features/ingestion_courseOffering.feature")
+end
+
 desc "Run Ingestion StudentCohortAssociation Test"
 task :ingestionStudentCohortAssociationTest do
   runTests("test/features/ingestion/features/ingestion_StudentCohortAssociation.feature")

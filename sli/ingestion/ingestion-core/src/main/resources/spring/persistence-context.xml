@@ -82,5 +82,24 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>graduationPlan</value>
+    <value>program</value>
+    <value>studentProgramAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>cohort</value>
+    <value>studentCohortAssociation</value>
+    <value>staffCohortAssociation</value>
+    <value>learningObjective</value>
+    <value>learningStandard</value>
+    <value>disciplineIncident</value>
+    <value>disciplineAction</value>
+    <value>studentDisciplineIncident</value>
+    <value>competencyLevelDescriptor</value>
+    <value>gradingPeriod</value>
+    <value>calendarDate</value>
+    <value>reportCard</value>
+    <value>courseOffering</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentCompetency</value>
   </util:set>
 </beans>
