@@ -109,9 +109,6 @@ public class EdFiProcessor implements Processor {
                     anyErrorsProcessingFiles = true;
                     metrics.setErrorCount(errorCount);
                 }
-
-                ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
-                newJob.getResourceEntries().add(resource);
             }
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);

@@ -52,8 +52,6 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
-  | newBatchJob    | 1                   | resourceEntries.3.resourceFormat | neutralrecord                        | string     |
-  | newBatchJob    | 1                   | resourceEntries.3.resourceType   | EducationOrganization                | string     |
 
    And I should see "Processed 1 records." in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 1" in the resulting batch job file
@@ -145,8 +143,6 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
-  | newBatchJob    | 1                   | resourceEntries.3.resourceFormat | neutralrecord                        | string     |
-  | newBatchJob    | 1                   | resourceEntries.3.resourceType   | EducationOrganization                | string     |
  #errors
   | error          | 1                   | severity                         | WARNING                                 |string      |
   | error          | 2                   | severity                         | ERROR                                   |string      |
