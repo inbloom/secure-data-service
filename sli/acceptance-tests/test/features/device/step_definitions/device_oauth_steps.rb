@@ -36,8 +36,9 @@ When /^I navigate to the API token endpoint with my client ID, secret, authoriza
 end
 
 Then /^I should receive a json response containing my authorization token$/ do
-  pending # express the regexp above with the code you wish you had
-  @sessionId = ""
+  assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("authorization_token")}
+
+  @sessionId = @driver.page_source.match(/"authorization_token":"([^"]*)"/)[0]
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do
