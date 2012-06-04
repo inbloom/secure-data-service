@@ -8,7 +8,8 @@ APP_EMAILER = Emailer.new({
       :sender_email_addr => APP_CONFIG["email_sender_address"],
       :host=>APP_CONFIG["email_host"],
       :port=>APP_CONFIG["email_port"],
-      :replacer=>{"__URI__" => APP_CONFIG["email_replace_uri"]}
+      :replacer=>{"__URI__" => APP_CONFIG["email_replace_uri"],
+      "__PORTAL__" => APP_CONFIG["portal_url"]}
     })
 
 ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, APP_CONFIG["is_sandbox"])

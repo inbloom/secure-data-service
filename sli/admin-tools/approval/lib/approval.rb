@@ -128,7 +128,7 @@ module ApprovalEngine
         email_content = ERB.new(template)
         template_data = {:firstName => user[:first],
         :landingZoneLink => "__URI__/landing_zone",
-        :appsLink => "__URI__/apps" }
+        :portalLink => "__PORTAL__" }
         email[:content] = email_content.result(ErbBinding.new(template_data).get_binding)
       @@emailer.send_approval_email email
     end

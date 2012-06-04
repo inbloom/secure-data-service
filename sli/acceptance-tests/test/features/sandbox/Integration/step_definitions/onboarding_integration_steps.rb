@@ -290,6 +290,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
   id = "apps"                                             if human_readable_id == "URL_TO_APPLICATION_REGISTRATION"
   id = "roles"                                            if human_readable_id == "URL_TO_ADMIN_APP"
+  id = "portal"                                           if human_readable_id == "URL_TO_PORTAL"
 
   id = "account_managements" if human_readable_id == "ACCOUNT_MANAGEMENT_APP"
   id = "slcoperator" if human_readable_id == "SLC_OPERATOR_USER"
@@ -381,7 +382,7 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
 end
 
 Then /^an approval email is sent to the "([^"]*)"$/ do |email|
-  sleep(1)
+  sleep(5)
   @email = email
   verifyEmail()
   approval_email_subject="Welcome to the SLC Developer"

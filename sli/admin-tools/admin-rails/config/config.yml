@@ -18,6 +18,8 @@ development:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -38,6 +40,8 @@ local-acceptance-tests:
     redirect_slc_url: http://www.slcedu.org  
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -58,6 +62,8 @@ development_sb:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -78,6 +84,8 @@ team:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 team_sb:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -98,6 +106,8 @@ team_sb:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_host: ldap.slidev.org
@@ -114,6 +124,8 @@ test:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org    
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
 production:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -134,3 +146,5 @@ production:
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
+    support_email: support@slidev.org
+    portal_url: https://rc2portal.slidev.org/portal
