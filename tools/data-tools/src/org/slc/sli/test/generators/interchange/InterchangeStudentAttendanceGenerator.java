@@ -1,14 +1,11 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import java.util.List;
-
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
-import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AttendanceEventGenerator;
@@ -27,33 +24,15 @@ public class InterchangeStudentAttendanceGenerator {
      * Sets up a new Student Attendance Interchange and populates it.
      *
      * @return
-     */
-//    public static InterchangeStudentAttendance generate() {
-//
-//        InterchangeStudentAttendance interchange = new InterchangeStudentAttendance();
-//        List<AttendanceEvent> interchangeObjects = interchange.getAttendanceEvent();
-//
-//        writeEntitiesToInterchange(interchangeObjects);
-//
-//        return interchange;
-//    }
-
-    /**
-     * Sets up a new Student Attendance Interchange and populates it.
-     *
-     * @return
      * @throws JAXBException 
      * @throws XMLStreamException 
      */
-    public static void generate(XMLStreamWriter writer) throws JAXBException, XMLStreamException {
-
-        InterchangeStudentAttendance interchange = new InterchangeStudentAttendance();
-        List<AttendanceEvent> interchangeObjects = interchange.getAttendanceEvent();
+    public static void generate(XMLStreamWriter writer) throws XMLStreamException {
 
         writer.writeStartElement("InterchangeStudentAttendance");
         writer.writeNamespace(null, "http://ed-fi.org/0100");
         
-        writeEntitiesToInterchange(interchangeObjects, writer);
+        writeEntitiesToInterchange(writer);
 
         writer.writeEndElement();
         
@@ -65,14 +44,14 @@ public class InterchangeStudentAttendanceGenerator {
      * @param interchangeObjects
      * @throws JAXBException 
      */
-    private static void writeEntitiesToInterchange(List<AttendanceEvent> interchangeObjects, XMLStreamWriter writer) throws JAXBException {
+    private static void writeEntitiesToInterchange(XMLStreamWriter writer) {
 
-        generateStudentAttendanceEventAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values(), writer);
+        generateStudentAttendanceEventAssoc(MetaRelations.STUDENT_MAP.values(), writer);
 
     }
 
-    private static void generateStudentAttendanceEventAssoc(List<AttendanceEvent> interchangeObjects,
-            Collection<StudentMeta> studentMetas, XMLStreamWriter writer) throws JAXBException {
+    private static void generateStudentAttendanceEventAssoc(Collection<StudentMeta> studentMetas, 
+            XMLStreamWriter writer) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;

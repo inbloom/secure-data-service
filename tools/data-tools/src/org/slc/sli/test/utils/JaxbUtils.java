@@ -1,5 +1,6 @@
 package org.slc.sli.test.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -25,6 +26,8 @@ import com.sun.org.apache.xml.internal.utils.QName;
  */
 public class JaxbUtils {
 
+    private static final int XML_WRITER_BUFFER_SIZE = 104857600; // 100 MB
+
     // this is very single threaded
     private static Marshaller streamMarshaller = null;
     
@@ -36,8 +39,6 @@ public class JaxbUtils {
 
     public static XMLStreamWriter createInterchangeWriter(String xmlFilePath, Class interchange) {
         XMLStreamWriter writer = null;
-        FileOutputStream xmlFos = null;
-        JAXBContext context = null;
         
         interchangeStartTime = System.currentTimeMillis();
 
@@ -47,7 +48,7 @@ public class JaxbUtils {
         
         System.out.println("Creating interchange " + interchange.getName());
         try {
-            context = JAXBContext.newInstance(interchange);
+            JAXBContext context = JAXBContext.newInstance(interchange);
             streamMarshaller = context.createMarshaller();
             streamMarshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
             streamMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
@@ -57,8 +58,9 @@ public class JaxbUtils {
         }
 
         try {
-            xmlFos = new FileOutputStream(xmlFilePath);
-            writer = XMLOutputFactory.newFactory().createXMLStreamWriter(xmlFos, "UTF-8");
+            FileOutputStream xmlFos = new FileOutputStream(xmlFilePath);
+            OutputStream xmlOs = new BufferedOutputStream(xmlFos, XML_WRITER_BUFFER_SIZE);
+            writer = XMLOutputFactory.newFactory().createXMLStreamWriter(xmlOs, "UTF-8");
             writer.writeStartDocument("UTF-8", "1.0");
 
             // remove unwanted population of namespace attributes
@@ -113,7 +115,7 @@ public class JaxbUtils {
      * @param outputStream
      * @throws JAXBException
      */
-    public static <T> void marshal(T objectToMarshal, XMLStreamWriter outputStream) {
+    public static void marshal(Object objectToMarshal, XMLStreamWriter outputStream) {
         if (objectToMarshal != null) {
 
             try {                
