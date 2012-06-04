@@ -1,7 +1,7 @@
 edfi-xml,StudentParent,InterchangeStudent.xml,0bcbb18ed9f2f76ce2d14cc93d34678b
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,dfc69a06d8ab51704e533dadcf475e08
 edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,675411426d1d06d5897d6919c89f3171
-edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,0dbf837a880f1abc06534a37fbb50aa0
+edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,8c86ce5901c20cba13e209e04af6d1e4
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml,63f5801a5f9975388576311f5de9d7db
 edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,9d3b9d14421540a94fb7fe371b50a982
 edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,1f9bd6c25a60ccec5102c79e7d77728e
@@ -25,3 +25,7 @@ edfi-xml,StudentGrades,InterchangeStudentGrade.xml,1f7f92402529327004efab0d22563
 edfi-xml,StudentParent,InterchangeStudentParent.xml,bcff2b3687d06fc6bc6e9f9b546644f6
 edfi-xml,StudentCohort,InterchangeStudentCohort.xml,c6e6ab709ba6a92509eb960c06d2412b
 edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,28b3c0ced290b34669a6de7a2ff11a12
+
+
+
+
