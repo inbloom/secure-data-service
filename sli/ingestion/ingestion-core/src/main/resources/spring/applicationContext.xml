@@ -115,7 +115,7 @@
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
-    <property name="persistedCollections" ref="persistedEntities" />
+    <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>

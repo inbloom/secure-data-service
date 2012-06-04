@@ -86,20 +86,11 @@ public class JobReportingProcessor implements Processor {
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
-            processJobReporting(workNote);
-        }
-
-        try {
-            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
-            template.start();
-            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
-            template.stop();
-        } catch (Exception e) {
-            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+            processJobReporting(exchange, workNote);
         }
     }
 
-    private void processJobReporting(WorkNote workNote) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -117,15 +108,11 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            if ("true".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-            } else if ("transformed".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(
-                        workNote.getBatchJobId());
-                LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
-                        workNote.getBatchJobId());
-            }
+
+            cleanupStagingDatabase(workNote);
+
+            broadcastFlushStats(exchange, workNote);
+
             if (job != null) {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
@@ -431,6 +418,34 @@ public class JobReportingProcessor implements Processor {
                 userRoles, message); // Alpha MH (logMessage)
 
         audit(event);
+    }
+
+    private void cleanupStagingDatabase(WorkNote workNote) {
+        if ("true".equals(clearOnCompletion)) {
+            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
+        } else if ("transformed".equals(clearOnCompletion)) {
+            neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(workNote.getBatchJobId());
+            LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+                    workNote.getBatchJobId());
+        }
+    }
+
+    /**
+     * broadcast a message to all orchestra nodes to flush their execution stats
+     *
+     * @param exchange
+     * @param workNote
+     */
+    private void broadcastFlushStats(Exchange exchange, WorkNote workNote) {
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+            template.start();
+            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
+            template.stop();
+        } catch (Exception e) {
+            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {
