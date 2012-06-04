@@ -23,6 +23,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,8 @@ public class JobReportingProcessor implements Processor {
                 LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
                         workNote.getBatchJobId());
             }
+            cleanUpUnZippedFiles(job);
+
             if (job != null) {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
@@ -431,6 +434,24 @@ public class JobReportingProcessor implements Processor {
                 userRoles, message); // Alpha MH (logMessage)
 
         audit(event);
+    }
+
+    public void cleanUpUnZippedFiles(NewBatchJob job) {
+
+        boolean isZipFile = false;
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+               isZipFile = true;
+            }
+        }
+        if (isZipFile) {
+            File dir = new File(job.getSourceId());
+            try {
+                FileUtils.deleteDirectory(dir);
+            } catch (IOException e) {
+                LogUtil.error(LOG, "Exception encountered while deleting unzipped files in JobReportingProcessor. ", e);
+            }
+        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {
