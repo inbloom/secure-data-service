@@ -62,7 +62,8 @@ module ApplicationHelper
     end
     email_content = ERB.new(template)
     template_data={:firstName => user_email_info['first_name'],
-        :userEmailValidationLink => userEmailValidationLink}
+        :userEmailValidationLink => userEmailValidationLink,
+        :supportEmail => APP_CONFIG['support_email']}
     email_message = email_content.result(ErbBinding.new(template_data).get_binding)
       
     if (email_token.nil?)
