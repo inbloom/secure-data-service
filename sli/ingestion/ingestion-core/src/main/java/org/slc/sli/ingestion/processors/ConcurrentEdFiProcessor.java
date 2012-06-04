@@ -82,12 +82,12 @@ public class ConcurrentEdFiProcessor implements Processor {
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
-            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
-
             if (fileEntryList.size() > 0) {
                 // prepare staging database
                 setupStagingDatabase(batchJobId);
             }
+
+            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
 
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
