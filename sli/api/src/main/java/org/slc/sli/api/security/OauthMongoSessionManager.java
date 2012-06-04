@@ -83,12 +83,15 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
-
+        
         if (app == null) {
             RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
             error(x.getMessage(), x);
             throw x;
-        } else if (redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
+        }
+        Boolean isInstalled = (Boolean)app.getBody().get("installed");
+        
+        if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
             error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
             throw x;
@@ -103,9 +106,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             sessionEntity.getBody().put("tenantId", tenantId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }
-
+        
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
-        appSessions.add(newAppSession(clientId, redirectUri, state, samlId));
+        appSessions.add(newAppSession(clientId, redirectUri, state, samlId, isInstalled));
 
         repo.update(SESSION_COLLECTION, sessionEntity);
     }
@@ -321,14 +324,14 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         return repo.findOne(SESSION_COLLECTION, neutralQuery);
     }
 
-    private Map<String, Object> newAppSession(String clientId, String redirectUri, String state, String samlId) {
+    private Map<String, Object> newAppSession(String clientId, String redirectUri, String state, String samlId, Boolean isInstalled) {
         Map<String, Object> app = new HashMap<String, Object>();
         app.put("clientId", clientId);
         app.put("redirectUri", redirectUri);
         app.put("state", state);
         app.put("samlId", samlId);
         app.put("verified", "false");
-
+        app.put("installed", isInstalled);
         Map<String, Object> code = new HashMap<String, Object>();
         code.put("value", "c-" + UUID.randomUUID().toString());
         code.put("expiration", System.currentTimeMillis() + this.sessionLength);

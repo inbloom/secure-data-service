@@ -247,7 +247,7 @@ public class SamlFederationResource {
         
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
-        String redirectUri = (String) appSession.get("redirectUri");
+        Boolean isInstalled = (Boolean)appSession.get("installed");
         Map<String, Object> code = (Map<String, Object>) appSession.get("code");
         
         ObjectMapper jsoner = new ObjectMapper();
@@ -259,7 +259,7 @@ public class SamlFederationResource {
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
         
-        if (redirectUri.equals("http://device")) {
+        if (isInstalled) {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Cache-Control", "no-store");
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -273,6 +273,7 @@ public class SamlFederationResource {
             return Response.ok(resultMap).build();
             
         } else {
+            String redirectUri = (String) appSession.get("redirectUri");
             UriBuilder builder = UriBuilder.fromUri(redirectUri);
             builder.queryParam("code", authorizationCode);
             if (state != null) {
