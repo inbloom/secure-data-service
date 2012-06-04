@@ -121,21 +121,6 @@ public class SmooksCallable implements Callable<Boolean> {
     
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
-        
-        // LandingZone landingZone = new LocalFileSystemLandingZone(new File(
-        // ingestionFileEntry.getTopLevelLandingZonePath()));
-        
-        // File neutralRecordOutFile = createTempFile(resolveLzDirecotry(ingestionFileEntry,
-        // landingZone));
-        
-        // fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
-        // fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
-        
-        // NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
-        
-        // set the IngestionFileEntry NeutralRecord file we just wrote
-        // ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
-        
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
         
@@ -149,29 +134,9 @@ public class SmooksCallable implements Callable<Boolean> {
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
-            
-            // long count = 0L;
-            // Hashtable<String, Long> counts = nrFileWriter.getNRCount();
-            // for (String type : counts.keySet()) {
-            // count += counts.get(type);
-            // }
-            
-            // fileProcessStatus.setTotalRecordCount(count);
-            // nrFileWriter.close();
         }
     }
-    
-    // private String resolveLzDirecotry(IngestionFileEntry ingestionFileEntry, LandingZone
-    // landingZone) {
-    // String lzDirectory = null;
-    // if (landingZone != null && landingZone.getLZId() != null) {
-    // lzDirectory = landingZone.getLZId();
-    // } else {
-    // lzDirectory = ingestionFileEntry.getFile().getParent();
-    // }
-    // return lzDirectory;
-    // }
-    
+
     private int aggregateAndLogProcessingErrors(String batchJobId, IngestionFileEntry fe) {
         int errorCount = 0;
         for (Fault fault : fe.getFaultsReport().getFaults()) {
@@ -187,14 +152,5 @@ public class SmooksCallable implements Callable<Boolean> {
             batchJobDAO.saveError(error);
         }
         return errorCount;
-    }
-    
-    // private static File createTempFile(String lzDirectory) throws IOException {
-    // File landingZone = new File(lzDirectory);
-    // File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp",
-    // landingZone) : File
-    // .createTempFile("neutralRecord_", ".tmp");
-    // return outputFile;
-    // }
-    
+    }    
 }
