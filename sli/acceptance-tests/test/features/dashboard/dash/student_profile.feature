@@ -61,7 +61,7 @@ And I click on student "Marvin Miller"
 And I view its student profile
 And their name shown in profile is "Marvin Miller Jr"
 And their id shown in proflie is "453827070"
-And their grade is "O"
+And their grade is "!"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "0"
