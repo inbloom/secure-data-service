@@ -92,7 +92,7 @@ default:
         sli.ingestion.topic.command: seda:ingestion
 
         # concurrent or serial
-        sli.ingestion.processor.edfi: serial
+        sli.ingestion.processor.edfi: concurrent
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
