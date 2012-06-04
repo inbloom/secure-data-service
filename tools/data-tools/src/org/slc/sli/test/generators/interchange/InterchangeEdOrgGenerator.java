@@ -3,6 +3,8 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.stream.XMLStreamWriter;
+
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
@@ -21,6 +23,7 @@ import org.slc.sli.test.generators.CourseGenerator;
 import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
+import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -36,9 +39,9 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  */
 public class InterchangeEdOrgGenerator {
 
-	
+
 	static CourseGenerator gen ;
-	
+
 	static {
 		try
 		{
@@ -53,10 +56,11 @@ public class InterchangeEdOrgGenerator {
      * Sets up a new Education Organization Interchange and populates it
      *
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public static InterchangeEducationOrganization generate() throws Exception {
 
+        
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
@@ -66,11 +70,23 @@ public class InterchangeEdOrgGenerator {
         return interchange;
     }
 
+    public static void generate(XMLStreamWriter writer) throws Exception {
+
+        InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
+        List<Object> interchangeObjects = interchange
+                .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
+
+        addEntitiesToInterchange(interchangeObjects);
+
+        JaxbUtils.marshal(interchange, writer);
+
+    }
+
     /**
      * Generates the individual entities that can be Educational Organizations
      *
      * @param interchangeObjects
-     * @throws Exception 
+     * @throws Exception
      */
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
 
@@ -169,11 +185,10 @@ public class InterchangeEdOrgGenerator {
      *
      * @param interchangeObjects
      * @param courseMetas
-     * @throws Exception 
+     * @throws Exception
      */
     private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) throws Exception {
         long startTime = System.currentTimeMillis();
-
         for (CourseMeta courseMeta : courseMetas) {
 
             Course course;
@@ -185,6 +200,8 @@ public class InterchangeEdOrgGenerator {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
                 course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
             }
+
+            courseMeta.courseCodes.addAll(course.getCourseCode());
 
             interchangeObjects.add(course);
         }

@@ -5,8 +5,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 
-import javax.xml.bind.Element;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.NamespaceContext;
@@ -15,7 +15,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
+import com.sun.org.apache.xml.internal.utils.QName;
 
 /**
  * Utilities to help when using JAXB
@@ -28,6 +28,8 @@ public class JaxbUtils {
     // this is very single threaded
     private static Marshaller streamMarshaller = null;
     
+    private static long interchangeStartTime = System.currentTimeMillis();
+    
     public static Marshaller getStreamMarshaller() {
         return streamMarshaller;
     }
@@ -37,10 +39,13 @@ public class JaxbUtils {
         FileOutputStream xmlFos = null;
         JAXBContext context = null;
         
+        interchangeStartTime = System.currentTimeMillis();
+
         if (streamMarshaller != null) {
             System.out.println("The previous interchange writer may not have called finishInterchangeWriter().");
         }
         
+        System.out.println("Creating interchange " + interchange.getName());
         try {
             context = JAXBContext.newInstance(interchange);
             streamMarshaller = context.createMarshaller();
@@ -56,8 +61,9 @@ public class JaxbUtils {
             writer = XMLOutputFactory.newFactory().createXMLStreamWriter(xmlFos, "UTF-8");
             writer.writeStartDocument("UTF-8", "1.0");
 
+            // remove unwanted population of namespace attributes
             writer.setNamespaceContext(new NamespaceContext() {
-                public Iterator getPrefixes(String namespaceURI) {
+                public Iterator<String> getPrefixes(String namespaceURI) {
                     return null;
                 }
 
@@ -86,6 +92,9 @@ public class JaxbUtils {
     
     public static void finishInterchangeWriter(XMLStreamWriter writer) {
         
+      System.out.println("generated and marshaled in: "
+      + (System.currentTimeMillis() - interchangeStartTime));
+
         try {
             writer.writeEndDocument();
             writer.close();
@@ -104,14 +113,17 @@ public class JaxbUtils {
      * @param outputStream
      * @throws JAXBException
      */
-    public static void marshal(Object objectToMarshal, XMLStreamWriter outputStream) throws JAXBException {
+    public static <T> void marshal(T objectToMarshal, XMLStreamWriter outputStream) {
         if (objectToMarshal != null) {
-            long startTime = System.currentTimeMillis();
 
-            streamMarshaller.marshal(objectToMarshal, outputStream);
+            try {                
+                streamMarshaller.marshal(objectToMarshal, outputStream);
+            } catch (JAXBException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                System.exit(1);  // fail fast for now
+            }
 
-            System.out.println("marshaled " + objectToMarshal.getClass() + " in: "
-                    + (System.currentTimeMillis() - startTime));
         } else {
             throw new IllegalArgumentException("Cannot marshal null object");
         }
@@ -124,7 +136,6 @@ public class JaxbUtils {
      * @param objectToMarshal
      * @throws JAXBException
      */
-    @Deprecated
     public static void marshal(Object objectToMarshal) throws JAXBException {
         marshal(objectToMarshal, System.out);
     }
@@ -136,7 +147,6 @@ public class JaxbUtils {
      * @param outputStream
      * @throws JAXBException
      */
-    @Deprecated
     public static void marshal(Object objectToMarshal, OutputStream outputStream) throws JAXBException {
         if (objectToMarshal != null) {
             long startTime = System.currentTimeMillis();
