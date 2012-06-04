@@ -77,6 +77,9 @@ default:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
@@ -284,6 +287,9 @@ acceptance-tests:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
@@ -374,6 +380,9 @@ ci:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -454,6 +463,9 @@ dev:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
+
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -538,6 +550,9 @@ devjuggernauts:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -620,6 +635,9 @@ devapp1:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -694,6 +712,9 @@ local:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
+
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
@@ -913,6 +934,9 @@ team:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -1025,6 +1049,10 @@ perf:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
+
+	# Configuration to enable / disable ingestion error persistance to batchjob database
+	sli.ingestion.errors.tracking = true
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # perf/ingestion/ingestion_conf.properties
