@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
+import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
+import org.slc.sli.test.edfi.entities.StudentAssessmentItem;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
@@ -16,6 +19,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AssessmentGenerator;
 import org.slc.sli.test.generators.StudentAssessmentGenerator;
+import org.slc.sli.test.generators.StudentAssessmentItemGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentObjectiveAssessmentGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -46,8 +50,10 @@ public class InterchangeStudentAssessmentGenerator {
                 MetaRelations.STUDENT_ASSES_MAP.values());
 
         generateStudentObjectiveAssessments(interchangeObjects, studentAssessments);
-
+        
         // TODO: StudentAssessmentItem (post-alpha)
+        generateStudentAssessmentItems(interchangeObjects, studentAssessments);
+
     }
 
     private static void generateStudentReference(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
@@ -109,6 +115,33 @@ public class InterchangeStudentAssessmentGenerator {
         }
 
         System.out.println("generated " + count + " StudentObjectiveAssessment objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+    
+    private static void generateStudentAssessmentItems(List<Object> interchangeObjects,
+            Collection<StudentAssessment> studentAssessmentMetas) {
+
+        long startTime = System.currentTimeMillis();
+        long count = 0;
+
+        for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
+            StudentAssessmentItem studentAssessmentItem;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                studentAssessmentItem = null;
+            } else {
+                AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
+                AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
+                aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                airt.setAssessmentItemIdentity(aiit);
+                studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+".", airt);
+            }
+
+            interchangeObjects.add(studentAssessmentItem);
+            count++;
+        }
+
+        System.out.println("generated " + count + " StudentAssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 

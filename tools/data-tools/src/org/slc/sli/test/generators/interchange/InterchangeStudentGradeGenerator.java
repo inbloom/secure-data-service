@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.CompetencyLevelDescriptor;
@@ -51,7 +53,6 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.GradeBookEntryMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
-import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.ReportCardMeta;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
@@ -61,6 +62,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.StudentGradeRelations;
 import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentGradeGenerator;
+import org.slc.sli.test.utils.JaxbUtils;
 
 /**
  * Generates the StudentGradeGrade Interchange
@@ -124,7 +126,7 @@ public final class InterchangeStudentGradeGenerator {
         return sectionRef;
     }
 
-    public static InterchangeStudentGrade generate() {
+    public static void generate(XMLStreamWriter writer) throws XMLStreamException {
 
         StudentGradeRelations.buildCompetencyLevelDescriptorMeta();
         StudentGradeRelations.buildGradeBookEntriesMeta();
@@ -132,62 +134,68 @@ public final class InterchangeStudentGradeGenerator {
         InterchangeStudentGrade interchange = new InterchangeStudentGrade();
         List<ComplexObjectType> interchangeObjects = interchange
                 .getStudentAcademicRecordOrCourseTranscriptOrReportCard();
-        addEntitiesToInterchange(interchangeObjects);
-        return interchange;
+        
+        writer.writeStartElement("InterchangeStudentGrade");
+        writer.writeNamespace(null, "http://ed-fi.org/0100");
+        
+        writeEntitiesToInterchange(interchangeObjects, writer);
+
+        writer.writeEndElement();
     }
 
-    private static List<ComplexObjectType> addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+    private static void writeEntitiesToInterchange(List<ComplexObjectType> interchangeObjects, 
+            XMLStreamWriter writer) {
 
         int studentCount = MetaRelations.STUDENT_MAP.size();
         long count = 0;
 
         generateStudentAcademicRecord(interchangeObjects, MetaRelations.STUDENT_MAP, MetaRelations.SESSION_MAP,
-                MetaRelations.SECTION_MAP, StudentGradeRelations.REPORT_CARD_META);
+                MetaRelations.SECTION_MAP, StudentGradeRelations.REPORT_CARD_META, writer);
         System.out.println("Finished StudentAcademicRecord [" + studentCount + "] Records Generated");
         generateCourseTranscript(interchangeObjects, MetaRelations.STUDENT_MAP, MetaRelations.SESSION_MAP,
-                MetaRelations.COURSE_MAP, MetaRelations.COURSES_PER_STUDENT);
+                MetaRelations.COURSE_MAP, MetaRelations.COURSES_PER_STUDENT, writer);
         System.out.println("Finished CourseTranscript [" + studentCount * MetaRelations.COURSES_PER_STUDENT
                 + "] Records Generated");
         generateReportCard(interchangeObjects, MetaRelations.STUDENT_MAP, StudentGradeRelations.REPORT_CARD_META,
-                MetaRelations.SECTION_MAP);
+                MetaRelations.SECTION_MAP, writer);
         System.out.println("Finished ReportCard [" + studentCount * StudentGradeRelations.REPORT_CARDS
                 + "] Records Generated");
         generateGrade(interchangeObjects, MetaRelations.STUDENT_MAP, StudentGradeRelations.REPORT_CARD_META,
-                MetaRelations.SECTION_MAP);
+                MetaRelations.SECTION_MAP, writer);
         System.out.println("Finished Grade [" + studentCount * MetaRelations.COURSES_PER_STUDENT
                 * MetaRelations.SECTIONS_PER_COURSE_SESSION + "] Records Generated");
         generateStudentCompetency(interchangeObjects, MetaRelations.STUDENT_MAP,
-                StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP);
+                StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP, writer);
         System.out
                 .println("Finished StudentCompetency ["
                         + studentCount
                         * StudentGradeRelations.REPORT_CARDS
                         * (StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT + StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT)
                         + "] Records Generated");
-        generateDiploma(interchangeObjects);
+        generateDiploma(interchangeObjects, writer);
         System.out.println("Finished Diploma [O] Records Generated ");
         generateGradebookEntry(interchangeObjects, StudentGradeRelations.GRADE_BOOK_ENTRY_METAS,
-                MetaRelations.SECTION_MAP);
+                MetaRelations.SECTION_MAP, writer);
         System.out.println("Finished GradebookEntry [" + StudentGradeRelations.GRADEBOOK_ENTRIES
                 + "] Records Generated");
         count = generateStudentGradebookEntry(interchangeObjects, MetaRelations.STUDENT_MAP,
-                StudentGradeRelations.GRADE_BOOK_ENTRY_METAS, MetaRelations.SECTION_MAP);
+                StudentGradeRelations.GRADE_BOOK_ENTRY_METAS, MetaRelations.SECTION_MAP, writer);
         System.out.println("Finished StudentGradebookEntry [" + count + "] Records Generated");
-        generateCompentencyLevelDescriptor(interchangeObjects, StudentGradeRelations.competencyLevelDescriptors);
+        generateCompentencyLevelDescriptor(interchangeObjects, StudentGradeRelations.competencyLevelDescriptors, writer);
         System.out.println("Finished CompentencyLevelDescriptor [" + StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR
                 + "] Records Generated");
-        generateLearningObjective(interchangeObjects, StudentGradeRelations.REPORT_CARD_META);
+        generateLearningObjective(interchangeObjects, StudentGradeRelations.REPORT_CARD_META, writer);
         System.out.println("Finished LearningObjective [" + StudentGradeRelations.learningObjectives.size()
                 + "] Records Generated");
-        generateStudentCompentencyObjective(interchangeObjects, StudentGradeRelations.REPORT_CARD_META);
+        generateStudentCompentencyObjective(interchangeObjects, StudentGradeRelations.REPORT_CARD_META, writer);
         System.out.println("Finished StudentCompentencyObjective ["
                 + StudentGradeRelations.studentCompetencyObjectives.size() + "] Records Generated");
-        return interchangeObjects;
+
     }
 
     private static void generateStudentAcademicRecord(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, Map<String, SessionMeta> sessionMetaMap,
-            Map<String, SectionMeta> sectionMetaMap, List<ReportCardMeta> reportCardsForStudent) {
+            Map<String, SectionMeta> sectionMetaMap, List<ReportCardMeta> reportCardsForStudent, XMLStreamWriter writer) {
 
         String sessionId = sessionMetaMap.keySet().iterator().next();
         SessionReferenceType sessionRef = new SessionReferenceType();// Reference to First Session.
@@ -215,13 +223,14 @@ public final class InterchangeStudentGradeGenerator {
             StudentAcademicRecord sar = StudentGradeGenerator.getStudentAcademicRecord(studentRef, sessionRef,
                     reportCardRefs, diplomaRef);
             sar.setId(ID_PREFIX_STUDENT_ACADEMIC_RECORD + studentId);
-            interchangeObjects.add(sar);
+
+            JaxbUtils.marshal(sar, writer);
         }
     }
 
     private static void generateCourseTranscript(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, Map<String, SessionMeta> sessionMetaMap,
-            Map<String, CourseMeta> courseMetaMap, int coursesPerStudent) {
+            Map<String, CourseMeta> courseMetaMap, int coursesPerStudent, XMLStreamWriter writer) {
 
         List<String> courseSet = new LinkedList<String>(courseMetaMap.keySet());
         courseSet = courseSet.subList(0, coursesPerStudent);// Every Student has a CourseTranscript
@@ -254,14 +263,14 @@ public final class InterchangeStudentGradeGenerator {
                 CourseTranscript courseTranscript = StudentGradeGenerator.getCourseTranscript(courseRef, sarReference,
                         edOrgRef);
                 courseTranscript.setId(ID_PREFIX_COURSE_TRANSCRIPT + courseId + "_" + studentId);
-                interchangeObjects.add(courseTranscript);
+                JaxbUtils.marshal(courseTranscript, writer);
             }
         }
     }
 
     private static void generateReportCard(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
-            Map<String, SectionMeta> sectionMetaMap) {
+            Map<String, SectionMeta> sectionMetaMap, XMLStreamWriter writer) {
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
@@ -315,14 +324,15 @@ public final class InterchangeStudentGradeGenerator {
                 ReportCard reportCard = StudentGradeGenerator.getReportCard(studentRef, gradingPeriodRef,
                         gradeReferences, scReferences);
                 reportCard.setId(studentId + "_" + ID_PREFIX_REPORT_CARD + reportCardMeta.getId());
-                interchangeObjects.add(reportCard);
+                
+                JaxbUtils.marshal(reportCard, writer);
             }
         }
     }
 
     private static void generateGrade(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
-            Map<String, SectionMeta> sectionMetaMap) {
+            Map<String, SectionMeta> sectionMetaMap, XMLStreamWriter writer) {
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
@@ -353,7 +363,8 @@ public final class InterchangeStudentGradeGenerator {
                                                                                            // StudentSectionAssociation
                     Grade grade = StudentGradeGenerator.getGrade(ssaRef, gradingPeriodRef);
                     grade.setId(ID_PREFIX_GRADE + reportCardId + sectionId + studentId);
-                    interchangeObjects.add(grade);
+                    
+                    JaxbUtils.marshal(grade, writer);
                 }
             }
         }
@@ -361,7 +372,7 @@ public final class InterchangeStudentGradeGenerator {
 
     private static void generateStudentCompetency(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, List<ReportCardMeta> reportCardsForStudent,
-            Map<String, SectionMeta> sectionMetaMap) {
+            Map<String, SectionMeta> sectionMetaMap, XMLStreamWriter writer) {
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
             String studentId = studentMeta.id;
@@ -402,7 +413,8 @@ public final class InterchangeStudentGradeGenerator {
 
                     studentCompetency.setCompetencyLevel(competencyLevelRef);
                     studentCompetency.setId(ID_PREFIX_LO + reportCardId + "_" + loId + "_" + studentId);
-                    interchangeObjects.add(studentCompetency);
+                    
+                    JaxbUtils.marshal(studentCompetency, writer);
                 }
 
                 List<String> scIds = reportCardMeta.getStudentCompetencyIds();
@@ -440,13 +452,14 @@ public final class InterchangeStudentGradeGenerator {
                     studentCompetency.setCompetencyLevel(competencyLevelRef);
 
                     studentCompetency.setId(ID_PREFIX_SCO + reportCardId + "_" + scoId + "_" + studentId);
-                    interchangeObjects.add(studentCompetency);
+                    
+                    JaxbUtils.marshal(studentCompetency, writer);
                 }
             }
         }
     }
 
-    private static void generateDiploma(List<ComplexObjectType> interchangeObjects) {
+    private static void generateDiploma(List<ComplexObjectType> interchangeObjects, XMLStreamWriter writer) {
 
         String schoolId = MetaRelations.SCHOOL_MAP.entrySet().iterator().next().getKey();
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
@@ -455,11 +468,13 @@ public final class InterchangeStudentGradeGenerator {
         edOrgIdentity.setStateOrganizationId(schoolId);
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
         Diploma diploma = StudentGradeGenerator.getDiploma(schoolRef);
-        interchangeObjects.add(diploma);
+        
+        JaxbUtils.marshal(diploma, writer);
     }
 
     private static void generateGradebookEntry(List<ComplexObjectType> interchangeObjects,
-            List<GradeBookEntryMeta> gradeBookEntryMetaList, Map<String, SectionMeta> sectionMetaMap) {
+            List<GradeBookEntryMeta> gradeBookEntryMetaList, Map<String, SectionMeta> sectionMetaMap, 
+            XMLStreamWriter writer) {
 
         for (int i = 0; i < gradeBookEntryMetaList.size(); i++) {
             GradeBookEntryMeta gradeBookEntryMeta = gradeBookEntryMetaList.get(i);
@@ -475,13 +490,14 @@ public final class InterchangeStudentGradeGenerator {
 
             GradebookEntry gradeBookEntry = StudentGradeGenerator.getGradeBookEntry(gradingPeriodRef, sectionRef);
             gradeBookEntry.setId(gradeBookEntryMeta.getId());
-            interchangeObjects.add(gradeBookEntry);
+
+            JaxbUtils.marshal(gradeBookEntry, writer);           
         }
     }
 
     private static long generateStudentGradebookEntry(List<ComplexObjectType> interchangeObjects,
             Map<String, StudentMeta> studentMetaMap, List<GradeBookEntryMeta> gradeBookEntryMetaList,
-            Map<String, SectionMeta> sectionMetaMap) {
+            Map<String, SectionMeta> sectionMetaMap, XMLStreamWriter writer) {
         long count = 0;
 
         for (StudentMeta studentMeta : studentMetaMap.values()) {
@@ -509,7 +525,8 @@ public final class InterchangeStudentGradeGenerator {
                     ReferenceType ref = new ReferenceType();
                     ref.setRef(new Ref(gradeBookEntryMeta.getId()));
                     studentGradeBookEntry.setGradebookEntryReference(ref);
-                    interchangeObjects.add(studentGradeBookEntry);
+
+                    JaxbUtils.marshal(studentGradeBookEntry, writer);           
                     count++;
                 }
             }
@@ -518,7 +535,7 @@ public final class InterchangeStudentGradeGenerator {
     }
 
     private static void generateCompentencyLevelDescriptor(List<ComplexObjectType> interchangeObjects,
-            List<String> competencyLevelDescriptorIds) {
+            List<String> competencyLevelDescriptorIds, XMLStreamWriter writer) {
 
         int i = 0;
         for (String cldId : competencyLevelDescriptorIds) {
@@ -527,12 +544,13 @@ public final class InterchangeStudentGradeGenerator {
             competencyLevelDescriptor.setDescription("CompetencyLevelDesciptor Description " + cldId);
             competencyLevelDescriptor.setId(ID_PREFIX_CLD + (i++));
             competencyLevelDescriptor.setPerformanceBaseConversion(PerformanceBaseType.ADVANCED);
-            interchangeObjects.add(competencyLevelDescriptor);
+
+            JaxbUtils.marshal(competencyLevelDescriptor, writer);           
         }
     }
 
     private static void generateLearningObjective(List<ComplexObjectType> interchangeObjects,
-            List<ReportCardMeta> reportCardMetas) {
+            List<ReportCardMeta> reportCardMetas, XMLStreamWriter writer) {
 
         for (ReportCardMeta reportCardMeta : reportCardMetas) {
             String reportCardId = reportCardMeta.getId();
@@ -542,13 +560,14 @@ public final class InterchangeStudentGradeGenerator {
                 lo.setDescription("Learning Objective Description");
                 lo.setObjective(ID_PREFIX_LO + reportCardId + "_" + loId);
                 lo.setObjectiveGradeLevel(GradeLevelType.ADULT_EDUCATION);
-                interchangeObjects.add(lo);
+
+                JaxbUtils.marshal(lo, writer);           
             }
         }
     }
 
     private static void generateStudentCompentencyObjective(List<ComplexObjectType> interchangeObjects,
-            List<ReportCardMeta> reportCardMetas) {
+            List<ReportCardMeta> reportCardMetas, XMLStreamWriter writer) {
 
         String schoolId = MetaRelations.SCHOOL_MAP.entrySet().iterator().next().getKey();
         for (ReportCardMeta reportCardMeta : reportCardMetas) {
@@ -557,7 +576,8 @@ public final class InterchangeStudentGradeGenerator {
                 EducationalOrgReferenceType edOrgRef = getEducationalOrgRef(schoolId);
                 StudentCompetencyObjective sco = StudentCompetancyObjectiveGenerator.getStudentCompetencyObjective(
                         ID_PREFIX_SCO + reportCardId + "_" + scoId, edOrgRef);
-                interchangeObjects.add(sco);
+
+                JaxbUtils.marshal(sco, writer);           
             }
         }
     }
