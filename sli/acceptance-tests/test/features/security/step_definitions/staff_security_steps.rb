@@ -35,7 +35,6 @@ Then /^the response does not includes the protected fields$/ do
     next if staff['id'] == $my_id
     assert(!staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay")
     staff['telephone'].each do |phone|
-      puts 'hi'
       type = phone['telephoneNumberType']
       assert(phone == nil || type == 'Work', 'Should not see non-work telephone')
     end
@@ -54,9 +53,42 @@ Given /^my role is Leader$/ do
 end
 
 Then /^the response includes the protected fields$/ do
-  @staff.each do |staff|
-    assert(staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay") 
+  restHttpGet("/home", "application/json")
+  home = JSON.parse(@res.body)
+  home['links'].each do |link|
+    if link['rel'] == 'self'
+      $my_id = link['href'].split('/').last
+    end
   end
+
+  found_protected = false
+  @staff.each do |staff|
+    next if staff['id'] == $my_id
+    found_protected = true if staff.has_key?('birthDate')
+  end
+  assert(found_protected, "Should have staff with protected fields (birthDate)")
+
+
+  found_protected = false
+  @staff.each do |staff|
+    next if staff['id'] == $my_id
+    staff['telephone'].each do |phone|
+      type = phone['telephoneNumberType']
+      found_protected = true if phone != nil && type != 'Work'
+    end
+  end
+  assert(found_protected, 'Should have response with protected fields (telephone)')
+
+  found_protected = false
+  @staff.each do |staff|
+    next if staff['id'] == $my_id
+    staff['electronicMail'].each do |email|
+      type = email['emailAddressType']
+      found_protected = true if email != nil && type != 'Work'
+    end
+  end
+  assert(found_protected, 'Should have response with protected fields (email)')
+
 end
 
 Then /^I should see my restricted information$/ do
