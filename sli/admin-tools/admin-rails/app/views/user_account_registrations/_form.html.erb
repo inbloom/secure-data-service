@@ -1,35 +1,10 @@
-<%= form_for(@user_account_registration) do |f| %>
-    <% if @user_account_registration.errors.any? %>
-        <div class="alert alert-error">
-          <%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:
-        </div>
-    <% end %>
-    <fieldset>
-      <% print f, :firstName, "First Name", true, false %>
-      <% print f, :lastName, "Last Name", true, false %>
-      <% if APP_CONFIG['is_sandbox'] %>
-          <% print f, :vendor, "Company", false, false %>
-      <% else %>
-          <% print f, :vendor, "Company", true, false %>
-      <% end %>
-      <% print f, :email, "Email", true, false %>
-      <% print f, :password, "Password", true, true, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, true, :password_confirmation %>
-      <span style="color:red">*</span> = required fields
-      <div class="form-actions">
-        <%= f.submit "Submit",
-                     :id => "submitRegButton", :class => "btn btn-primary"%>
-        <%= link_to "Cancel", APP_CONFIG['redirect_slc_url'], :class =>"btn" %>
-      </div>
-    </fieldset>
-<% end %>
-
 <% def require_marker %>
 <% "<span style=\"color:red\">*</span>" %>
 <% end %>
 
 <%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
-<% def print(f, field, field_name, required, is_password_field, password_field = nil) %>
+<% def print(f, field, field_name, is_password_field, password_field = nil) %>
+    <% required = required?(@user_account_registration, field) %>
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
         <% error = " error" %>
@@ -74,4 +49,26 @@
       <% end %>
     </div>
     </div>
+<% end %>
+
+<%= form_for(@user_account_registration) do |f| %>
+    <% if @user_account_registration.errors.any? %>
+        <div class="alert alert-error">
+          <%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:
+        </div>
+    <% end %>
+    <fieldset>
+      <% print f, :firstName, "First Name", false %>
+      <% print f, :lastName, "Last Name", false %>
+      <% print f, :vendor, "Company", false %>
+      <% print f, :email, "Email", false %>
+      <% print f, :password, "Password", true, :password %>
+      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation %>
+      <span style="color:red">*</span> = required fields
+      <div class="form-actions">
+        <%= f.submit "Submit",
+                     :id => "submitRegButton", :class => "btn btn-primary"%>
+        <%= link_to "Cancel", APP_CONFIG['redirect_slc_url'], :class =>"btn" %>
+      </div>
+    </fieldset>
 <% end %>
