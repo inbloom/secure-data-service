@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
+//import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 
@@ -19,6 +20,8 @@ import org.slc.sli.domain.Entity;
 public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
 
     private static final String END_DATE = "endDate";
+
+    public static final String STUDENT_ID = "studentId";
 
     @Autowired
     private AssociativeContextHelper helper;
@@ -33,7 +36,7 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,ParameterConstants.STUDENT_ID,"0",END_DATE);
+        nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,STUDENT_ID,"0",END_DATE);
         List<String> studentIds =nodeDateFilter.filterIds( helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
 

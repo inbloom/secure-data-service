@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
@@ -18,6 +19,7 @@ import org.slc.sli.domain.Entity;
 public class TeacherToStudentSchoolAssociationResolver implements
         EntityContextResolver {
     private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    public static final String STUDENT_ID = "studentId";
 
     @Autowired
     private AssociativeContextHelper helper;
@@ -35,7 +37,7 @@ public class TeacherToStudentSchoolAssociationResolver implements
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        graceFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID,gracePeriod,EXIT_WITHDRAW_DATE);
+        graceFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,STUDENT_ID,gracePeriod,EXIT_WITHDRAW_DATE);
         List<String> studentIds = graceFilter.filterIds(helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "studentId", studentIds);
