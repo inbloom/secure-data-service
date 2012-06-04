@@ -9,6 +9,7 @@ import java.util.List;
 import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
 
     private MongoTemplate batchJobMongoTemplate;
+
+    @Value("${sli.ingestion.errors.tracking}")
+    private String trackIngestionErrors;
 
     @Override
     public void saveBatchJob(NewBatchJob job) {
@@ -67,7 +71,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void saveError(Error error) {
-        if (error != null) {
+        if (error != null && trackIngestionErrors.equals("true")) {
             batchJobMongoTemplate.save(error);
         }
     }
