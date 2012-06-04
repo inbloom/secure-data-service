@@ -1,7 +1,6 @@
 package org.slc.sli.api.security;
 
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,21 +12,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
+import org.scribe.exceptions.OAuthException;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -41,6 +28,16 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -113,13 +110,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         repo.update(SESSION_COLLECTION, sessionEntity);
     }
 
-    /**
-     * Provides the URI to which the user should be redirected
-     * Upon receipt of successful SAML message
-     */
     @Override
-    @SuppressWarnings("unchecked")
-    public Pair<String, URI> composeRedirect(String samlId, SLIPrincipal principal) {
+    public Entity getSessionForSamlId(String samlId){
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria("appSession.samlId", "=", samlId));
 
@@ -130,30 +122,27 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             error("Attempted to access invalid session", x);
             throw x;
         }
-
+        return session;
+    }
+    
+    @Override
+    public Map<String, Object> getAppSession(String samlId, Entity session){
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
 
-        URI redirect = null;
         for (Map<String, Object> appSession : appSessions) {
             if (appSession.get("samlId").equals(samlId)) {
-                UriBuilder builder = UriBuilder.fromUri((String) appSession.get("redirectUri"));
-                Map<String, Object> code = (Map<String, Object>) appSession.get("code");
-                builder.queryParam("code", (String) code.get("value"));
-
-                if (appSession.get("state") != null) {
-                    builder.queryParam("state", appSession.get("state"));
-                }
-
-                Map<String, Object> mapForm = jsoner.convertValue(principal, Map.class);
-                mapForm.remove("entity");
-                session.getBody().put("principal", mapForm);
-                repo.update(SESSION_COLLECTION, session);
-                redirect = builder.build();
-                break;
+                return appSession;
             }
         }
-
-        return Pair.of(session.getEntityId(), redirect);
+        RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
+        error("Attempted to access invalid session", x);
+        throw x;
+    }
+        
+    @Override
+    public void updateSession(Entity session){
+        repo.update(SESSION_COLLECTION, session);
     }
 
     /**
