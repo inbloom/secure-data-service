@@ -597,7 +597,7 @@ def getVerificationLink
 end
 
 def removeUser(email)
-  if ApprovalEngine.user_exists?(email)
+  if @ldap.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
   coll = @db["userAccount"]

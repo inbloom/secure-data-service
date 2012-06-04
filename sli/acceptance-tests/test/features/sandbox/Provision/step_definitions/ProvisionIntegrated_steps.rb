@@ -106,7 +106,7 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
 end
 
 def removeUser(email)
-  if ApprovalEngine.user_exists?(email)
+  if @ldap.user_exists?(email)
   ApprovalEngine.remove_user(email)
   end
 end

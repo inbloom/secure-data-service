@@ -91,7 +91,7 @@ When /^I reject the account request$/ do
 end
 
 Then /^an account exists in production LDAP with login name "([^"]*)"$/ do |login_name|
-  assert(ApprovalEngine.user_exists?(@userinfo[:email]), "User " << @userinfo[:email] << " does not exist in LDAP")
+  assert(@ldap.user_exists?(@userinfo[:email]), "User " << @userinfo[:email] << " does not exist in LDAP")
   #assert(ApprovalEngine.user_exists?(login_name), "User " << login_name << " does not exist in LDAP")
 end
 

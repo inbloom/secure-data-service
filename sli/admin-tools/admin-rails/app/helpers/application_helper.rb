@@ -147,7 +147,7 @@ module ApplicationHelper
   # and included in a click through link that the user received in an email (as a query parameter).
   #
   def self.verify_email(emailtoken)
-    ApprovalEngine.verify_email(emailtoken)
+    APP_LDAP_CLIENT.verify_email(emailtoken)
   end
 
   # Update the user information that was submitted via the add_user method.
