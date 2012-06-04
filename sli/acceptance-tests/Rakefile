@@ -328,6 +328,17 @@ task :databrowserTests => [:realmInit] do
   end
 end
 
+desc "Run Device and Agent Tests"
+task :deviceTests => [:realmInit] do
+  runTests("test/features/device")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 ############################################################
 # Dashboard tests start
 ############################################################
