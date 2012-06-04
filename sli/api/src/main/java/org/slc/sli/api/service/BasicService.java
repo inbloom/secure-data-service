@@ -652,12 +652,16 @@ public class BasicService implements EntityService {
     }
 
     private void complexFilter(Map<String, Object> eb) {
-        if (defn.getType().equals(EntityNames.STAFF)) {
+        Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        if (!auths.contains(Right.READ_RESTRICTED) && defn.getType().equals(EntityNames.STAFF)) {
             final String work = "Work";
             final String telephoneNumberType = "telephoneNumberType";
             final String emailAddressType = "emailAddressType";
+            final String telephone = "telephone";
+            final String electronicMail = "electronicMail";
 
-            List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get("telephone");
+            List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
                 for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
@@ -668,7 +672,7 @@ public class BasicService implements EntityService {
 
             }
 
-            List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get("electronicMail");
+            List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
                 for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
