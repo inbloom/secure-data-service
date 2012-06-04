@@ -10,6 +10,9 @@
     <util:list id="excluded" value-type="java.lang.String">
             <value>system.indexes</value>
             <value>system.js</value>
+            <value>system.profile</value>
+            <value>system.namespaces</value>
+            <value>system.users</value>
     </util:list>
 
 <bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
