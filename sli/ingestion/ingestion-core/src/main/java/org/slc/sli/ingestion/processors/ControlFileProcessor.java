@@ -43,7 +43,7 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
     
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-    
+
     @Autowired
     private ControlFileValidator validator;
     
