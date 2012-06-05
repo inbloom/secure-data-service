@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
+import java.util.ArrayList;
+
 /**
  * Simple container for graph objects.
  */
@@ -28,7 +30,9 @@ public final class SecurityNodeBuilder {
      * @return
      */
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode) {
-        return addConnection(toEntity, withField, associationNode, null);
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode);
+        node.addConnection(connection);
+        return this;
     }
     
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode,
@@ -50,6 +54,12 @@ public final class SecurityNodeBuilder {
     
     public SecurityNodeBuilder addLocalReference(String toEntity, String withField) {
         node.addConnection(new SecurityNodeConnection(toEntity, withField, true));
+        return this;
+    }
+    public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode,
+                                             ArrayList<NodeFilter> filter) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter);
+        node.addConnection(connection);
         return this;
     }
 }

@@ -14,6 +14,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
@@ -95,8 +96,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
             List<String> idSet = new ArrayList<String>();
             String repoName = getResourceName(current, next, connection);
             debug("Getting Ids From {}", repoName);
-            String collectionName = repoName;
-            String referenceLocation = connection.getFieldName();
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
@@ -124,10 +123,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
                 }
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.getFieldName(), new ArrayList<String>(ids));
-                collectionName =  ad.getStoredCollectionName();
-                referenceLocation = keys.get(0);
             } else if (connection.getAssociationNode().length() != 0) {
-                referenceLocation = "_id";
                 idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
                         new ArrayList<String>(ids));
 
@@ -138,10 +134,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             }
 
             if (connection.getFilter() != null) {
-                /*if(EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(connection.getConnectionTo())){
-                    ((NodeDateFilter)connection.getFilter()).setParameters(collectionName,referenceLocation,"0",END_DATE);
-                }*/
-                idSet = connection.getFilter().filterIds(idSet);
+                for (NodeFilter filter:connection.getFilter()) {
+                idSet = filter.filterIds(idSet);
+                }
             }
 
             previousIdSet = idSet;
@@ -152,14 +147,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
         //  Allow creator access
         ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
-       /* ArrayList<String> filteredIdList=null;
-        if(toEntity.equals())  {
-            graceFilter.setParameters(EntityNames.STAFF_ED_ORG_ASSOCIATION,STUDENT_ID,"0",END_DATE);
-            filteredIdList= endDateFilter
-        }
-        else{
-            filteredIdList=new ArrayList<String>(ids);
-        }*/
         return new ArrayList<String>(ids);
     }
 

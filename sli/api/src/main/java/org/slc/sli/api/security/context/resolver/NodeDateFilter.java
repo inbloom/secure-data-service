@@ -31,15 +31,32 @@ public class NodeDateFilter extends NodeFilter {
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String entityName;
-    private String referenceId;
-    private String endDateString;
-    private String filterDateParam;
+    protected String entityName;
 
-    public void setParameters (String entityName, String referenceId, String endDateString, String filterDateParam) {
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public String getGracePeriod() {
+        return gracePeriod;
+    }
+
+    public String getFilterDateParam() {
+        return filterDateParam;
+    }
+
+    protected String referenceId;
+    protected String gracePeriod;
+    protected String filterDateParam;
+
+    public void setParameters (String entityName, String referenceId, String gracePeriod, String filterDateParam) {
         this.entityName = entityName;
         this.referenceId = referenceId;
-        this.endDateString = endDateString;
+        this.gracePeriod = gracePeriod;
         this.filterDateParam = filterDateParam;
     }
 
@@ -49,9 +66,9 @@ public class NodeDateFilter extends NodeFilter {
         calendar.setTimeInMillis(System.currentTimeMillis());
         List<String> returnIds = new ArrayList<String>();
 
-        if (entityName != null && referenceId != null && endDateString != null && filterDateParam != null) {
+        if (entityName != null && referenceId != null && gracePeriod != null && filterDateParam != null) {
             //get the filter date
-            String formattedEndDateString = helper.getFilterDate(endDateString, calendar);
+            String formattedEndDateString = helper.getFilterDate(gracePeriod, calendar);
 
             if (!toResolve.isEmpty()) {
                 //get the entities
@@ -60,9 +77,10 @@ public class NodeDateFilter extends NodeFilter {
 
                 for (Entity entity : referenceEntities) {
                     String filterDateString = (String) entity.getBody().get(filterDateParam);
-
-                    if (isResolvable(filterDateString, formattedEndDateString)) {
-                        returnIds.add((String) entity.getBody().get(referenceId));
+                    String refId= (String) entity.getBody().get(referenceId);
+                    if (!returnIds.contains(refId) &&
+                            isResolvable(filterDateString, formattedEndDateString)) {
+                        returnIds.add(refId);
                     }
                 }
             }
@@ -73,7 +91,7 @@ public class NodeDateFilter extends NodeFilter {
 
     /**
      * Compares two given dates
-     * @param filterDate
+     * @param filterDateString
      * @param formattedEndDateString
      * @return
      */

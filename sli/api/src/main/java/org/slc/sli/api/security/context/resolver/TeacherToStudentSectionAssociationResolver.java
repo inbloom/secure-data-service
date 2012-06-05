@@ -19,15 +19,11 @@ import org.slc.sli.domain.Entity;
 @Component
 public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
 
-    private static final String END_DATE = "endDate";
-
-    public static final String STUDENT_ID = "studentId";
-
     @Autowired
     private AssociativeContextHelper helper;
 
     @Autowired
-    private NodeDateFilter nodeDateFilter;
+    private StudentSectionAssociationEndDateFilter nodeDateFilter;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -36,7 +32,7 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,STUDENT_ID,"0",END_DATE);
+        //nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,STUDENT_ID,"0",END_DATE);
         List<String> studentIds =nodeDateFilter.filterIds( helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
 
