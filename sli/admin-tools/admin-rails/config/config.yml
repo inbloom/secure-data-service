@@ -20,6 +20,10 @@ development:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+# TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -42,6 +46,10 @@ local-acceptance-tests:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -64,6 +72,10 @@ development_sb:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -86,6 +98,10 @@ team:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 team_sb:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -108,6 +124,10 @@ team_sb:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_host: ldap.slidev.org
@@ -126,6 +146,10 @@ test:
     email_sender_address_user_reg_app: noreply@slidev.org    
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
 production:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
@@ -148,3 +172,7 @@ production:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    recaptcha_disable: true
+    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs

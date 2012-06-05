@@ -1,6 +1,8 @@
 require 'rest-client'
 require 'json'
 class UserAccountRegistrationsController < ApplicationController
+  include ReCaptcha::AppHelper
+  
   skip_before_filter :handle_oauth
   before_filter :check_for_cancel, :only => [:create, :update]
   
@@ -23,10 +25,13 @@ class UserAccountRegistrationsController < ApplicationController
   def create
     @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
     Rails.logger.debug "User Account Registration = #{@user_account_registration}"
+    captcha_valid = validate_recap(params, @user_account_registration.errors)
     @user_account_registration.errors.clear
-    if @user_account_registration.valid? ==false
+    
+    if @user_account_registration.valid? == false || captcha_valid == false
      redirectPage=false
      render500=false
+     @user_account_registration.errors.add :recaptcha, "Invalid Captcha Response" unless captcha_valid
     else
       begin
         response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
