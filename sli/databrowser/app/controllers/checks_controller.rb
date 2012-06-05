@@ -17,6 +17,6 @@ class ChecksController < ApplicationController
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
-    redirect_to root_url
+    render :layout=> false, :file => "#{Rails.root}/public/LoggedOut.html"
   end
 end

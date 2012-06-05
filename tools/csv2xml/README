@@ -1,0 +1,21 @@
+Common Core Standard Math CSV file to Edfi xml interchange file conversion:
+
+1.run CCSMathCSV2XMLTransformer.java in org.slc.sli.sample.transform package
+2.required input files:
+  CCS math csv file (see example in data/CC_Standards_6.25.10-Math.csv)
+  CCS dot notation to GUID mapping file (see example in data/E0330_ccss_identifiers.csv)
+3.both the CCS Math csv file and dot notation to GUID mapping file need to be UTF-8
+  encoded to transform the special symbol and characters correctly to edfi interchange xml file.
+4.output file: interchangeAssessmentMetadata-CCS-Math.xml, which is edfi shema verified interchage xml,
+   and can be ingested from ingestion service.
+   
+Common Core Standard English CSV file to Edfi xml interchange file conversion:
+
+1.run CCSEnglishCSV2XMLTransformer.java in org.slc.sli.sample.transform package
+2.required input files:
+  CCS English csv file (see example in data/CC_Standards_6.25.10-English.csv)
+  CCS dot notation to GUID mapping file (see example in data/E0330_ccss_identifiers.csv)
+3.both the CCS English csv file and dot notation to GUID mapping file need to be UTF-8
+  encoded to transform the special symbol and characters correctly to edfi interchange xml file.
+4.output file: interchangeAssessmentMetadata-CCS-English.xml, which is edfi shema verified interchage xml,
+   and can be ingested from ingestion service.
