@@ -124,8 +124,8 @@ When /^I navigate to GET the first value in list "([^"]*)" with URI prefix "([^"
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
-  contentType = contentType(@res)
-  jsonTypes = ["application/json; charset=utf-8", "application/vnd.slc.full+json; charset=utf-8", "application/vnd.slc+json; charset=utf-8"].to_set
+  contentType = contentType(@res).gsub(/\s+/,"")
+  jsonTypes = ["application/json;charset=utf-8", "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")
@@ -184,7 +184,6 @@ Then /^"([^"]*)" should be the first value in list "([^"]*)"$/ do |key, list|
   assert(list.is_a?(Array), "ID list is a #{list.class}, expected Array")
   assert(list.length > 0, "ID list length is 0, expected positive value")
   value = list.first
-
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result.has_key?(key), "Response does not contain key #{key}")
