@@ -16,20 +16,20 @@ class SLCFixer
   def start
     time = Time.now
     Benchmark.bm(20) do |x|
-      x.report("Students") {fix_students}
-      x.report("Sections") {fix_sections}
-      x.report("Attendance") {fix_attendance}
-      x.report("Assessments") {fix_assessments}
-      x.report("Discipline") {fix_disciplines}
-      x.report("Parents") {fix_parents}
-      x.report("Report Card") {fix_report_card}
-      x.report("Programs") {fix_programs}
-      x.report("Courses") {fix_courses}
-      x.report("Miscellaneous") {fix_miscellany}
-      x.report("Cohorts") {fix_cohorts}
-      x.report("Grades") {fix_grades}
-      x.report("Sessions") {fix_sessions}
-      x.report("Staff") {fix_staff}
+      x.report("Students")      {fix_students}
+      x.report("Sections")      {fix_sections}
+      x.report("Attendance")    {Thread.new {fix_attendance}}
+      x.report("Assessments")   {Thread.new {fix_assessments}}
+      x.report("Discipline")    {Thread.new {fix_disciplines}}
+      x.report("Parents")       {Thread.new {fix_parents}}
+      x.report("Report Card")   {Thread.new {fix_report_card}}
+      x.report("Programs")      {Thread.new {fix_programs}}
+      x.report("Courses")       {Thread.new {fix_courses}}
+      x.report("Miscellaneous") {Thread.new {fix_miscellany}}
+      x.report("Cohorts")       {Thread.new {fix_cohorts}}
+      x.report("Grades")        {Thread.new {fix_grades}}
+      x.report("Sessions")      {Thread.new {fix_sessions}}
+      x.report("Staff")         {Thread.new {fix_staff}}
     end
     finalTime = Time.now - time
     puts "\t Final time is #{finalTime} secs"
