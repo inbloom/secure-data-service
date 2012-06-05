@@ -167,7 +167,7 @@ public class SchoolGenerator {
             code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
             code.setID("SchoolId");
             edOrgIdenType.getEducationOrgIdentificationCode().add(code);
-            
+
             EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
             school.setLocalEducationAgencyReference(edOrgRef);
@@ -175,7 +175,7 @@ public class SchoolGenerator {
         }
         return schools;
     }
-    
+
     public static EducationalOrgReferenceType getEducationalOrgReferenceType(School school)
     {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
@@ -196,7 +196,16 @@ public class SchoolGenerator {
         School school = new School();
         school.setId(schoolId);
 
+        // support school references in two ways:
+        // 1. StateOrganizationId
+        // 2. IdentificationSystem and ID
         school.setStateOrganizationId(schoolId);
+
+        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
+        eoic.setID(schoolId);
+        school.getEducationOrgIdentificationCode().add(eoic);
+
         school.setNameOfInstitution(schoolId);
         school.setShortNameOfInstitution(schoolId.replaceAll("[a-z]", ""));
         school.setWebSite("http://www." + schoolId.replaceAll("[ a-z:]", "") + "School.edu");
@@ -261,12 +270,12 @@ public class SchoolGenerator {
 //        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 //
 //        school.setLocalEducationAgencyReference(leaRef);
-        
+
         Ref leaRef = new Ref(leaId);
         EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         eort.setRef(leaRef);
         school.setLocalEducationAgencyReference(eort);
-        
+
         Ref programRef = new Ref(programId);
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setRef(programRef);
