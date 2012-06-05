@@ -51,7 +51,11 @@ public class AttendanceEventGenerator {
     }
 
     public static AttendanceEventCategoryType getAttendanceEventCategoryType() {
-        return AttendanceEventCategoryType.values()[RANDOM.nextInt(AttendanceEventCategoryType.values().length)];
+    	int index = RANDOM.nextInt(AttendanceEventCategoryType.values().length);
+    	if (index == 1)
+    		index = index + 1;
+    	
+        return AttendanceEventCategoryType.values()[index];
     }
 
    // ["In Attendance", "Absence". "Excused Absence","Unexcused Absence", "Tardy", "Early departure"]

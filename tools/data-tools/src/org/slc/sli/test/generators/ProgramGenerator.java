@@ -51,7 +51,16 @@ public class ProgramGenerator {
         program.setProgramId(programId);
         
         int programTypeIndx = Math.abs(rand.nextInt() % ProgramType.values().length);
-        program.setProgramType(ProgramType.values()[programTypeIndx]);
+        if( programTypeIndx == 23)
+        	programTypeIndx = programTypeIndx + 1;
+        if( programTypeIndx == 12)
+        	programTypeIndx = programTypeIndx + 1;
+        if( programTypeIndx == 15)
+        	programTypeIndx = programTypeIndx + 1;
+        
+       	
+        program.setProgramType(ProgramType.values()[programTypeIndx]);//edfi schema and sli schema has two set vale of programType, donot use value not in sli schema
+       
         int programSponsorTypeIndx = Math.abs(rand.nextInt() % ProgramSponsorType.values().length);
         program.setProgramSponsor(ProgramSponsorType.values()[programSponsorTypeIndx]);
         
