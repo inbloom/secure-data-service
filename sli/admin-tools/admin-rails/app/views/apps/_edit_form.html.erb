@@ -82,8 +82,8 @@
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
   <% isNew = @district_hierarchy == nil %>
   
-  <% if !isNew and !app.pending? %>
-  <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if !app.bootstrap and app.in_progress? %>">
+  <% if !isNew and !app.pending? and !app.bootstrap %>
+  <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
     <h3>Enable</h2>
     <h6>Choose the states or Districts you would like to have access to your application.</h6>
     <div class="links">
