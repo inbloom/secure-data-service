@@ -12,6 +12,7 @@ import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
+import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
@@ -32,6 +33,7 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
     
     // knobs to control number of entities to create
+
     // public static final int TOTAL_SEAS =2 ;
     // public static final int LEAS_PER_SEA =10;
     // public static final int STAFF_PER_SEA = 3;
@@ -61,6 +63,8 @@ public final class MetaRelations {
     
     public static final int TOTAL_SEAS = 2;
     public static final int LEAS_PER_SEA = 2;
+    public static final int ESC_PER_SEA = 10;
+    public static final int FEEDER_RELATIONSHIPS = 10;
     public static final int STAFF_PER_SEA = 3;
     public static final int SCHOOLS_PER_LEA = 5;
     public static final int COURSES_PER_SCHOOL = 6;
@@ -91,6 +95,7 @@ public final class MetaRelations {
     public static final Map<String, CalendarMeta> CALENDAR_MAP = new TreeMap<String, CalendarMeta>();
     public static final Map<String, GradingPeriodMeta> GRADINGPERIOD_MAP = new TreeMap<String, GradingPeriodMeta>();
     public static final Map<String, SeaMeta> SEA_MAP = new TreeMap<String, SeaMeta>();
+    public static final Map<String, ESCMeta> ESC_MAP = new TreeMap<String, ESCMeta>();
     public static final Map<String, LeaMeta> LEA_MAP = new TreeMap<String, LeaMeta>();
     public static final Map<String, SchoolMeta> SCHOOL_MAP = new TreeMap<String, SchoolMeta>();
     public static final Map<String, CourseMeta> COURSE_MAP = new TreeMap<String, CourseMeta>();
@@ -151,6 +156,8 @@ public final class MetaRelations {
         Map<String, ProgramMeta> programmForSea = buildProgramsForSEA(seaMeta);
         
         buildLeasForSea(seaMeta, staffForSea);
+        
+        buildEscsForSea(seaMeta);
     }
     
     /**
@@ -187,6 +194,24 @@ public final class MetaRelations {
     }
     
     /**
+     * For each SEA, generate:
+     * - EducationServiceCenters
+     *
+     * @param seaMeta
+     */
+    private static void buildEscsForSea(SeaMeta seaMeta) {
+
+        for (int idNum = 0; idNum < ESC_PER_SEA; idNum++) {
+
+            ESCMeta escMeta = new ESCMeta("Esc" + idNum, seaMeta);
+
+            ESC_MAP.put(escMeta.id, escMeta);
+            seaMeta.escs.put(escMeta.id, escMeta);
+            
+        }
+    }
+
+    /**
      * For each School, generate:
      * - teachers
      * - courses
@@ -207,6 +232,7 @@ public final class MetaRelations {
             buildAndRelateEntitiesWithSchool(schoolMeta, staffForSea);
         }
     }
+
     
     private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta, Map<String, StaffMeta> staffForSea) {
         

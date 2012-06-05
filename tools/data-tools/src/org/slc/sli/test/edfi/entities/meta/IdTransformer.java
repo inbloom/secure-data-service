@@ -1,8 +1,8 @@
 package org.slc.sli.test.edfi.entities.meta;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+//import java.io.BufferedWriter;
+//import java.io.FileWriter;
+//import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,15 +10,15 @@ public final class IdTransformer {
 
     private static final Pattern p1 = Pattern.compile("([a-zA-Z])([a-zA-Z]+)(\\d*)");
     private static final Pattern p2 = Pattern.compile("(\\d+)");
-    static PrintWriter idTransformsFile = null;
-
-    static {
-        try{
-            idTransformsFile = new PrintWriter(new BufferedWriter(new FileWriter("data/idTransforms.txt")));
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    static PrintWriter idTransformsFile = null;
+//
+//    static {
+//        try{
+//            idTransformsFile = new PrintWriter(new BufferedWriter(new FileWriter("data/idTransforms.txt")));
+//        }catch(Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static String transformId(String id) {
         try {
@@ -27,8 +27,9 @@ public final class IdTransformer {
                 //idTransformsFile.println(id + " > " + transformed);
             return transformed.replaceAll("-", "");
         } catch (Exception e) {
-            if(idTransformsFile != null)
-                idTransformsFile.println(id + " > " + "failed");
+//            if(idTransformsFile != null)
+//                idTransformsFile.println(id + " > " + "failed");
+//            failed to transform. returning as is.            
             return id;
         }
     }
