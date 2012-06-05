@@ -23,7 +23,6 @@
 	<xs:element name="program" type="program" />
 	<xs:element name="reportCard" type="reportCard" />
 	<xs:element name="school" type="school" />
-	<xs:element name="schoolSessionAssociation" type="schoolSessionAssociation" />
 	<xs:element name="section" type="section" />
 	<xs:element name="sectionAssessmentAssociation" type="sectionAssessmentAssociation" />
 	<xs:element name="session" type="session" />

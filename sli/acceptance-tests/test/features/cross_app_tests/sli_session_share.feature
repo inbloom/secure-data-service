@@ -15,7 +15,7 @@ Scenario: Session sharring between Databrowser & Dashboard
 	And I am redirected to the dashboard home page
 	When I navigate to the databrowser page
 	And I click on the logout link
-#	Then I should see a message that I was logged out
+	Then I should see a message that I was logged out
 	And I should forced to reauthenticate to gain access
 	When I navigate to the dashboard home page
 	Then I should forced to reauthenticate to gain access
@@ -33,7 +33,7 @@ Scenario: Session sharring between Databrowser & Sample App
 	And I am redirected to the sample app home page
 	When I navigate to the databrowser page
 	And I click on the logout link
-#	Then I should see a message that I was logged out
+	Then I should see a message that I was logged out
 	And I should forced to reauthenticate to gain access
 	When I navigate to the sample app page
 	Then I should forced to reauthenticate to gain access

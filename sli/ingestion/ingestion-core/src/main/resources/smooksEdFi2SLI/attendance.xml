@@ -28,7 +28,7 @@
         <jb:wiring beanIdRef="schoolYearAttendanceMap"/>
     </jb:bean>
     
-    <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance">
+    <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance element">
         <jb:value property="schoolYear" data="schoolYearAttendance element schoolYear"></jb:value>
         <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"/>
     </jb:bean>

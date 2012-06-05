@@ -13,11 +13,13 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And the title of the page is "SLC - List of Students"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
+And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order
 And I click on "Student" header to sort a "string" column in "descending" order
 And I click on "StateTest Reading Performance Level" header to sort an integer column in "ascending" order based on "title"
@@ -87,12 +89,13 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And the title of the page is "SLC - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
 And their grade is "8"
-#And the teacher is "Mrs Linda Kim"
-#And the class is "8th Grade English - Sec 6"
+And the teacher is "Mrs Linda Kim"
+And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
 And there are "4" Tabs
@@ -273,7 +276,7 @@ Daybreak, IL 75229
 """
 And I look at "Parent 2" Contact Info
 # Defect on character set
-#And parent "Richard Lê" is his "Father"
+And parent "Richard Lê" is his "Father"
 And there are "1" phone numbers
 And the list of phone number includes "+33 (1) 45.23.35.48.12"
 And there are "1" addresses

@@ -3,9 +3,6 @@ package org.slc.sli.ingestion.handler;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -14,6 +11,8 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Handles the persisting of Entity objects
@@ -25,8 +24,6 @@ import org.slc.sli.validation.ValidationError;
  *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> {
-
-    // private static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
 
     private Repository<Entity> entityRepository;
 
@@ -45,7 +42,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (DuplicateKeyException ex) {
             reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
         }
-
         return null;
     }
 

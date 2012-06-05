@@ -17,10 +17,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.springframework.context.ApplicationContext;
 
 /**
  * EntityWriteConverter unit-tests.
@@ -37,6 +37,9 @@ public class EntityWriteConverterTest {
     EntityEncryption encryptor;
     List<Object[]> encryptCalls = new ArrayList<Object[]>();
     
+    @Mock
+    ApplicationContext mockContext;
+    
     @SuppressWarnings("unchecked")
     @Before
     public void init() {
@@ -49,6 +52,7 @@ public class EntityWriteConverterTest {
                         return (Map<String, Object>) invocation.getArguments()[1];
                     }
                 });
+        Mockito.when(mockContext.getBean("entityEncryption", EntityEncryption.class)).thenReturn(encryptor);
     }
     
     @Test

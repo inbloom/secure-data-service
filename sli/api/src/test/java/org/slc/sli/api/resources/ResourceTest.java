@@ -63,8 +63,6 @@ public class ResourceTest {
     @Autowired
     private SecurityContextInjector injector;
     
-    // post some data
-    // Map of <type, id> pair to entity location.
     /**
      * Track an object type/id.
      */
@@ -85,7 +83,6 @@ public class ResourceTest {
     private static final String EDUCATIONORGANIZATION_ASSOCIATION_URI = "educationOrganization-associations";
     private static final String SCHOOL_SESSION_ASSOCIATION_URI = "school-session-associations";
     private static final String COURSE_OFFERING_URI = "courseOfferings";
-    private static final String COURSE_SECTION_ASSOCIATION_URI = "course-section-associations";
     private static final String STUDENT_URI = "students";
     
     @Autowired

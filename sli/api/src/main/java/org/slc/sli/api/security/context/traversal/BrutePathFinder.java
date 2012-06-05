@@ -8,9 +8,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
@@ -18,6 +15,8 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Basic brute force path finding implementation.
@@ -91,7 +90,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.REPORT_CARD, "studentId", "")
                         .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "studentId", "")
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
-                        .addConnection(EntityNames.STUDENT_ACADEMIC_RECORD, "studentId", "")
+                        .addConnection(EntityNames.STUDENT_ACADEMIC_RECORD, "studentId")
                         .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId")
@@ -160,7 +159,8 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY).construct());
         nodeMap.put(EntityNames.GRADEBOOK_ENTRY, SecurityNodeBuilder.buildNode(EntityNames.GRADEBOOK_ENTRY).construct());
-        nodeMap.put(EntityNames.STUDENT_ACADEMIC_RECORD, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ACADEMIC_RECORD).construct());
+        nodeMap.put(EntityNames.STUDENT_ACADEMIC_RECORD, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ACADEMIC_RECORD)
+                .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentAcademicRecordId").construct());
         nodeMap.put(EntityNames.STUDENT_COMPETENCY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_COMPETENCY).construct());
         nodeMap.put(EntityNames.GRADE, SecurityNodeBuilder.buildNode(EntityNames.GRADE).construct());
 
@@ -180,6 +180,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
+
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
@@ -293,7 +294,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return newPath;
             }
         }
-        debug("NO PATH FOUND FROM {} to {}", new String[]{ from, to });
+        debug("NO PATH FOUND FROM {} to {}", new Object[]{ from, to });
         path.remove(current);
         return null;
     }
@@ -312,10 +313,6 @@ public class BrutePathFinder implements SecurityPathFinder {
             return prePath.get(from + to);
         }
         return new ArrayList<SecurityNode>();
-    }
-
-    private boolean checkForFinalNode(String to, SecurityNode temp) {
-        return temp.getName().equals(to);
     }
 
     public void setNodeMap(Map<String, SecurityNode> nodeMap) {
