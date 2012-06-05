@@ -6,7 +6,7 @@ Please follow this link to confirm that this is your email address.
 
 <%= userEmailValidationLink %>
 
-*Note* - After you have confirmed your email address, your account must be approved by an SLC Administrator. For any issues, please email supportemail@slidev.org
+*Note* - After you have confirmed your email address, your account must be approved by an SLC Administrator. For any issues, please email <%= supportEmail %>
      
 Thanks,
 The Shared Learning Collaborative.
