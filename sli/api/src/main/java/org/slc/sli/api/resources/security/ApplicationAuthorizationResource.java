@@ -45,7 +45,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("/applicationAuthorization")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class ApplicationAuthorizationResource {
     
     @Autowired
@@ -184,7 +184,7 @@ public class ApplicationAuthorizationResource {
                 NeutralQuery finalQuery = new NeutralQuery();
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
                 finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
-                finalQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId()));
+                finalQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
                 if (ent != null) {
                     ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
