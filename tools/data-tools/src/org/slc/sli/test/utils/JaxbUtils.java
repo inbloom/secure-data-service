@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.NamespaceContext;
@@ -15,8 +14,6 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
-import com.sun.org.apache.xml.internal.utils.QName;
 
 /**
  * Utilities to help when using JAXB

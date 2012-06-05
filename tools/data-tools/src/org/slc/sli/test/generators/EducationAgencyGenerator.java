@@ -10,21 +10,16 @@ import org.slc.sli.test.edfi.entities.EducationOrganizationCategoryType;
 import org.slc.sli.test.edfi.entities.EducationServiceCenter;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.FeederSchoolAssociation;
 import org.slc.sli.test.edfi.entities.InstitutionTelephone;
 import org.slc.sli.test.edfi.entities.InstitutionTelephoneNumberType;
 import org.slc.sli.test.edfi.entities.LEACategoryType;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
+import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 
 public class EducationAgencyGenerator {
-
-    private AddressGenerator nyAddressGen;
-
-    public EducationAgencyGenerator() throws Exception {
-        nyAddressGen = new AddressGenerator(StateAbbreviationType.NY);
-    }
 
     public StateEducationAgency getSEA(String id) {
         StateEducationAgency agency = new StateEducationAgency();
@@ -39,7 +34,7 @@ public class EducationAgencyGenerator {
         EducationOrganizationCategoriesType catType = new EducationOrganizationCategoriesType();
         catType.getOrganizationCategory().add(EducationOrganizationCategoryType.STATE_EDUCATION_AGENCY);
         agency.setOrganizationCategories(catType);
-        agency.getAddress().add(nyAddressGen.getRandomAddress());
+        agency.getAddress().add(AddressGenerator.getRandomAddress());
         InstitutionTelephone telephone = new InstitutionTelephone();
         telephone.setInstitutionTelephoneNumberType(InstitutionTelephoneNumberType.ADMINISTRATIVE);
         telephone.setTelephoneNumber("212-816-1213");
@@ -81,7 +76,7 @@ public class EducationAgencyGenerator {
         EducationOrganizationCategoriesType catType = new EducationOrganizationCategoriesType();
         catType.getOrganizationCategory().add(EducationOrganizationCategoryType.LOCAL_EDUCATION_AGENCY);
         agency.setOrganizationCategories(catType);
-        agency.getAddress().add(nyAddressGen.getRandomAddress());
+        agency.getAddress().add(AddressGenerator.getRandomAddress());
         InstitutionTelephone telephone = new InstitutionTelephone();
         telephone.setInstitutionTelephoneNumberType(InstitutionTelephoneNumberType.ADMINISTRATIVE);
         telephone.setTelephoneNumber("212-531-3213");
@@ -106,36 +101,67 @@ public class EducationAgencyGenerator {
         return agency;
     }
 
-    public EducationServiceCenter getEducationServiceCenter(String id) {
+    public static EducationServiceCenter getEducationServiceCenter(String id, String seaId) {
         EducationServiceCenter agency = new EducationServiceCenter();
-        // agency.setStateOrganizationId(String value)
+        agency.setStateOrganizationId(id);
         agency.setId(id);
         EducationOrgIdentificationCode edorgCode = new EducationOrgIdentificationCode();
-        edorgCode.setID("FOOD");
+        edorgCode.setID(id);
         edorgCode.setIdentificationSystem(EducationOrgIdentificationSystemType.OTHER);
         agency.getEducationOrgIdentificationCode().add(edorgCode);
-        agency.setNameOfInstitution("New York Lunch Box Providers");
+        agency.setNameOfInstitution(id );
         agency.setShortNameOfInstitution("NYLBPROVS");
         EducationOrganizationCategoriesType catType = new EducationOrganizationCategoriesType();
         catType.getOrganizationCategory().add(EducationOrganizationCategoryType.EDUCATION_SERVICE_CENTER);
         agency.setOrganizationCategories(catType);
-        agency.getAddress().add(nyAddressGen.getRandomAddress());
+        agency.getAddress().add(AddressGenerator.getRandomAddress());
         InstitutionTelephone telephone = new InstitutionTelephone();
         telephone.setInstitutionTelephoneNumberType(InstitutionTelephoneNumberType.ADMINISTRATIVE);
         telephone.setTelephoneNumber("212-823-1231");
         agency.getTelephone().add(telephone);
-        agency.setWebSite("www.nyLunchBoxProviders.com");
+        agency.setWebSite("www.esc" + id + ".com");
         agency.setOperationalStatus(OperationalStatusType.ACTIVE);
         AccountabilityRating rating = new AccountabilityRating();
-        rating.setRating("Hygiene OK");
+        rating.setRating("AOK");
         rating.setRatingDate("2011-03-04");
-        rating.setRatingOrganization("New York State Health Inspector");
-        rating.setRatingProgram("NY School Food Rating");
-        rating.setRatingTitle("Food Service Rating");
+        rating.setRatingOrganization("DoE");
+        rating.setRatingProgram("DoER11");
+        rating.setRatingTitle("DoER11-XP");
         rating.setSchoolYear("2012");
         agency.getAccountabilityRatings().add(rating);
         // agency.getProgramReference().add(ProgramReferenceType)
         // agency.getEducationOrganizationPeerReference()
+        
+        // construct and add the SEA reference
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.setStateOrganizationId(seaId);
+
+        EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+        seaRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+        agency.setStateEducationAgencyReference(seaRef);
         return agency;
+    }
+    
+    public static FeederSchoolAssociation getFeederSchoolAssociation(SchoolMeta receiver, SchoolMeta feeder) {
+        FeederSchoolAssociation feed = new FeederSchoolAssociation();
+        
+        EducationalOrgIdentityType feederIdentityType = new EducationalOrgIdentityType();
+        feederIdentityType.setStateOrganizationId(feeder.id);
+        EducationalOrgReferenceType feederRef = new EducationalOrgReferenceType();
+        feederRef.setEducationalOrgIdentity(feederIdentityType);
+        
+        EducationalOrgIdentityType receiverIdentityType = new EducationalOrgIdentityType();
+        receiverIdentityType.setStateOrganizationId(receiver.id);
+        EducationalOrgReferenceType receiverRef = new EducationalOrgReferenceType();
+        receiverRef.setEducationalOrgIdentity(receiverIdentityType);
+        
+        feed.setFeederSchoolReference(feederRef);
+        feed.setReceivingSchoolReference(receiverRef);
+        feed.setBeginDate("20121010");
+        feed.setEndDate("20151010");
+        feed.setFeederRelationshipDescription("Feeder Relationship from " + feeder.id + " to " + receiver.id);
+
+        return feed;
     }
 }
