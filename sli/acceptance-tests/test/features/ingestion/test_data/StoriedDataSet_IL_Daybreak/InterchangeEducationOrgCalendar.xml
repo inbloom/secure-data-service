@@ -2583,7 +2583,7 @@
 	<GradingPeriod id="GRDP_20100527">
 		<GradingPeriodIdentity>
 			<GradingPeriod>End of Year</GradingPeriod>
-			<SchoolYear>2010-2011</SchoolYear>
+			<SchoolYear>2009-2010</SchoolYear>
 			<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2010-05-27</BeginDate>
@@ -2598,7 +2598,7 @@
 				<ID>South Daybreak Elementary</ID>
 			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
-			<SchoolYear>2009-2010</SchoolYear>
+			<SchoolYear>2008-2009</SchoolYear>
 		</GradingPeriodIdentity>
 		<BeginDate>2009-05-27</BeginDate>
 		<EndDate>2009-05-27</EndDate>
@@ -2612,7 +2612,7 @@
 				<ID>South Daybreak Elementary</ID>
 			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
-			<SchoolYear>2008-2009</SchoolYear>
+			<SchoolYear>2007-2008</SchoolYear>
 		</GradingPeriodIdentity>
 		<BeginDate>2008-05-27</BeginDate>
 		<EndDate>2008-05-27</EndDate>
@@ -2626,7 +2626,7 @@
 				<ID>South Daybreak Elementary</ID>
 			</EducationOrgIdentificationCode>
 			<GradingPeriod>End of Year</GradingPeriod>
-			<SchoolYear>2007-2008</SchoolYear>
+			<SchoolYear>2006-2007</SchoolYear>
 		</GradingPeriodIdentity>
 		<BeginDate>2007-05-27</BeginDate>
 		<EndDate>2007-05-27</EndDate>
@@ -3173,14 +3173,9 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20100527"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2010 Daybreak Central High</SessionName>
     <SchoolYear>2009-2010</SchoolYear>
@@ -3193,14 +3188,9 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20100527"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2008 East Daybreak Junior High</SessionName>
     <SchoolYear>2008-2009</SchoolYear>
@@ -3213,14 +3203,9 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20090527"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2009 East Daybreak Junior High</SessionName>
     <SchoolYear>2008-2009</SchoolYear>
@@ -3233,13 +3218,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20090527"/>
   </Session>
 
   <!-- sessions for Matt Sollars history. We've already got F2010, S2011, and F2011 for East Daybreak Junior High.
@@ -3256,13 +3235,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20100527"/>
   </Session>
 
   <Session>
@@ -3277,14 +3250,9 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2009-2010</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20100527"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
     <SchoolYear>2008-2009</SchoolYear>
@@ -3297,14 +3265,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20090527"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2009 South Daybreak Elementary</SessionName>
     <SchoolYear>2008-2009</SchoolYear>
@@ -3317,14 +3280,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2008-2009</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20090527"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
     <SchoolYear>2007-2008</SchoolYear>
@@ -3337,14 +3295,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2007-2008</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20080527"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
     <SchoolYear>2007-2008</SchoolYear>
@@ -3357,14 +3310,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2007-2008</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20080527"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
     <SchoolYear>2006-2007</SchoolYear>
@@ -3377,14 +3325,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>First Semester</GradingPeriod>
-        <SchoolYear>2006-2007</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20070527"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2007 South Daybreak Elementary</SessionName>
     <SchoolYear>2006-2007</SchoolYear>
@@ -3397,14 +3340,7 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2006-2007</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20070527"/>
   </Session>
 
-    
 </InterchangeEducationOrgCalendar>

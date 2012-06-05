@@ -2,6 +2,110 @@
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
 
+  <GradingPeriod id="GRDP_20120527_EDJH">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>East Daybreak Junior High</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-05-27</BeginDate>
+    <EndDate>2012-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20110527_EDJH">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>East Daybreak Junior High</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2010-2011</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2011-05-27</BeginDate>
+    <EndDate>2011-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20120527_SDE">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>South Daybreak Elementary</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-05-27</BeginDate>
+    <EndDate>2012-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20110527_SDE">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>South Daybreak Elementary</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2010-2011</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2011-05-27</BeginDate>
+    <EndDate>2011-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20120527_DCH">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>Daybreak Central High</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-05-27</BeginDate>
+    <EndDate>2012-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20110527_DCH">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>Daybreak Central High</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2010-2011</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2011-05-27</BeginDate>
+    <EndDate>2011-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20120527_SCHS">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>Sunset Central High School</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-05-27</BeginDate>
+    <EndDate>2012-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
+  <GradingPeriod id="GRDP_20110527_SCHS">
+    <GradingPeriodIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>Sunset Central High School</ID>
+      </EducationOrgIdentificationCode>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2010-2011</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2011-05-27</BeginDate>
+    <EndDate>2011-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
   <Session>
     <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -14,14 +118,9 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20110527_EDJH"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -34,14 +133,9 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20110527_EDJH"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
@@ -54,14 +148,9 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20120527_EDJH"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
@@ -74,14 +163,9 @@
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20120527_SDE"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2011 Sunset Central High School</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
@@ -94,14 +178,9 @@
         <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20120527_SCHS"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2011 Daybreak Central High</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
@@ -114,14 +193,9 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20120527_DCH"/>
   </Session>
+
   <Session>
     <SessionName>Spring 2011 Daybreak Central High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -134,14 +208,9 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20110527_DCH"/>
   </Session>
+
   <Session>
     <SessionName>Fall 2010 Daybreak Central High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -154,13 +223,7 @@
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20110527_DCH"/>
   </Session>
 
 </InterchangeEducationOrgCalendar>

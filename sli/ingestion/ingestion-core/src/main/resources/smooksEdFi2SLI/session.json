@@ -13,10 +13,38 @@
                 [
                     [
                         {
-                            "path" : "metaData.externalId",
+                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity"
+                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.schoolYear"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.ID",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.edorgIdentity.EducationOrgIdentificationCode.ID"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.identificationSystem",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.edorgIdentity.EducationOrgIdentificationCode.IdentificationSystem"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.gradingPeriodReference.edorgIdentity.StateOrganizationId"
                             }]
                         }
                     ]
