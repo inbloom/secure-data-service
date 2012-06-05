@@ -50,8 +50,8 @@ public class InterchangeWriter<T> {
 //            streamMarshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
             streamMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         } catch (JAXBException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
+            System.exit(1);  // fail fast for now
         }
 
         try {
@@ -84,14 +84,14 @@ public class InterchangeWriter<T> {
             writer.writeNamespace(null, "http://ed-fi.org/0100");
 
         } catch (XMLStreamException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(1);  // fail fast for now
         } catch (FactoryConfigurationError e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(1);  // fail fast for now
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(1);  // fail fast for now
         }
     }
     
@@ -106,8 +106,8 @@ public class InterchangeWriter<T> {
             writer.writeEndDocument();
             writer.close();
         } catch (XMLStreamException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(1);  // fail fast for now
         }
 
         streamMarshaller = null;
@@ -126,7 +126,6 @@ public class InterchangeWriter<T> {
             try {                
                 streamMarshaller.marshal(objectToMarshal, writer);
             } catch (JAXBException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 System.exit(1);  // fail fast for now
             }
