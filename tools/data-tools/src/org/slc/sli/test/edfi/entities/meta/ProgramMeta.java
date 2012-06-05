@@ -36,6 +36,17 @@ public class ProgramMeta {
 
         orgId = seaMeta.id;
     }
+    
+    public ProgramMeta(String id, LeaMeta leaMeta) {
+        this.id = leaMeta.id + "-" + id;
+
+        staffIds = new HashSet<String>();
+        studentIds = new HashSet<String>();
+
+        cohortIds = new HashSet<String>();
+
+        orgId = leaMeta.id;
+    }
 
     @Override
     public String toString() {

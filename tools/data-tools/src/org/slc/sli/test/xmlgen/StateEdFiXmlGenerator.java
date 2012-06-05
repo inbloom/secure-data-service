@@ -216,7 +216,7 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
-    	System.out.println("start to student enrollment");
+    	
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
 
@@ -234,13 +234,12 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAttendance() throws Exception {
 
+
         String xmlFilePath = rootOutputPath + "/InterchangeStudentAttendance.xml";
 
         XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAttendance.class);
         InterchangeStudentAttendanceGenerator.generate(writer);
         JaxbUtils.finishInterchangeWriter(writer);
-
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Attendance", xmlFilePath);
     }
 
     /**
@@ -291,6 +290,9 @@ public class StateEdFiXmlGenerator {
         String xmlFilePath = rootOutputPath + "/InterchangeStudentDiscipline.xml";
 
         JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath));
+        
+        
+        
 
         // TODO: uncomment when ingestion supports this
         // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",

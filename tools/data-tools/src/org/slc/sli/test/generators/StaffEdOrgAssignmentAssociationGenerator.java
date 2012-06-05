@@ -2,6 +2,7 @@ package org.slc.sli.test.generators;
 
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StaffClassificationType;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
@@ -17,9 +18,12 @@ public class StaffEdOrgAssignmentAssociationGenerator {
         staffIdentityType.setStaffUniqueStateId(staffMeta.id);
 
         StaffReferenceType staffReferenceType = new StaffReferenceType();
-        staffReferenceType.setStaffIdentity(staffIdentityType);
-
+        Ref staffRef = new Ref(staffMeta.id);
+        staffReferenceType.setRef(staffRef);
         staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
+        
+//        staffReferenceType.setStaffIdentity(staffIdentityType);
+//        staffEdOrgAssignmentAssoc.setStaffReference(staffReferenceType);
 
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
         //edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(staffMeta.edOrgId);

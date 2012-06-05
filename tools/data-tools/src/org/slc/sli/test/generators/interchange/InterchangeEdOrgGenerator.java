@@ -202,9 +202,9 @@ public class InterchangeEdOrgGenerator {
             LocalEducationAgency lea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                lea = null;
+            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             } else {
-                lea = LocalEducationAgencyGenerator.generateLowFi(leaMeta.id, leaMeta.seaId);
+            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             }
 
             interchangeObjects.add(lea);

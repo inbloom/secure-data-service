@@ -75,12 +75,13 @@ public class InterchangeEdOrgCalGenerator {
 				gradingPeriod = null;
 			} else {
 				// calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
-//				gradingPeriod = gpg.getGradingPeriod();
+				//gradingPeriod = gpg.getGradingPeriod();
 				
 				for (String calendarId : gradingPeriodMeta.calendars) {
                     String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
                     orgId = orgId.substring(0, orgId.lastIndexOf("-"));
 				    gradingPeriod = gpg.getGradingPeriod(orgId);
+				    gradingPeriod.setId(gradingPeriodMeta.id);
 					ReferenceType calRef = new ReferenceType();
 					calRef.setRef(new Ref(calendarId));
 					gradingPeriod.getCalendarDateReference().add(calRef);
@@ -134,6 +135,7 @@ public class InterchangeEdOrgCalGenerator {
                 session = null;
             } else {
                 session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList);
+            	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
             interchangeObjects.add(session);

@@ -3,15 +3,25 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.Ref;
+import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
+
+
 
 public class StudentSchoolAssociationGenerator {
 
     public static StudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
 
     	StudentSchoolAssociation ssa = new StudentSchoolAssociation();
+    	
+    	String graduationPlan = schoolId + "-gPlan0";
+    	Ref gPlan = new Ref(graduationPlan);
+    	ReferenceType refType = new ReferenceType();
+    	refType.setRef(gPlan);
+    	ssa.setGraduationPlanReference(refType);
 
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);

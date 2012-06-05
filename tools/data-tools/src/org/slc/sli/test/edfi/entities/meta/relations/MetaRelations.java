@@ -14,6 +14,7 @@ import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
+import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
@@ -61,6 +62,7 @@ public final class MetaRelations {
     // public static final int CALENDER_PER_SESSIONS = 2;
     // public static final int GRADINGPERIOD_PER_CALENDAR = 2;
     
+
     public static final int TOTAL_SEAS = 2;
     public static final int LEAS_PER_SEA = 2;
     public static final int ESC_PER_SEA = 10;
@@ -70,10 +72,12 @@ public final class MetaRelations {
     public static final int COURSES_PER_SCHOOL = 6;
     public static final int SESSIONS_PER_SCHOOL = 2;
     public static final int SECTIONS_PER_COURSE_SESSION = 2;
-    public static final int TEACHERS_PER_SCHOOL = 20;
-    public static final int STUDENTS_PER_SCHOOL = 20;
+    public static final int TEACHERS_PER_SCHOOL = 4;
+    public static final int STUDENTS_PER_SCHOOL = 4;
     public static final int PROGRAMS_PER_SCHOOL = 2;
-    public static final int PROGRAMS_PER_SEA = 1;
+    public static final int PROGRAMS_PER_SEA = 2;
+    public static final int PROGRAMS_PER_LEA=2;
+    public static final int LEA_PER_SCHOOL =2;
     public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
     public static final int FREE_STANDING_COHORT_SIZE = 4;
@@ -89,8 +93,12 @@ public final class MetaRelations {
     public static final int SECTIONS_PER_STUDENT = 2;
     public static final int CALENDER_PER_SESSIONS = 2;
     public static final int GRADINGPERIOD_PER_CALENDAR = 2;
-    
-    // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
+    public static final int GRADUATION_PLAN_PER_SCHOOL=1;
+    public static final int GRADING_PERIOD_PER_SESSIONS=2;
+
+
+     //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
+
     // TODO: do we need maps? maybe just use Collections?
     public static final Map<String, CalendarMeta> CALENDAR_MAP = new TreeMap<String, CalendarMeta>();
     public static final Map<String, GradingPeriodMeta> GRADINGPERIOD_MAP = new TreeMap<String, GradingPeriodMeta>();
@@ -112,7 +120,8 @@ public final class MetaRelations {
     public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new TreeMap<String, StudentAssessmentMeta>();
     public static final Map<String, DisciplineIncidentMeta> DISCIPLINE_INCIDENT_MAP = new TreeMap<String, DisciplineIncidentMeta>();
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
-    
+    public static final Map<String, GraduationPlanMeta> GRADUATION_PLAN_MAP = new TreeMap<String, GraduationPlanMeta>();
+
     public static final String SEA_PREFIX = "NY";
     public static final String FIRST_TEACHER_ID = "lroslin";
     
@@ -141,7 +150,6 @@ public final class MetaRelations {
         for (int idNum = 0; idNum < TOTAL_SEAS; idNum++) {
             
             SeaMeta seaMeta = new SeaMeta(SEA_PREFIX + idNum);
-            // SeaMeta seaMeta = new SeaMeta(SEA_PREFIX);
             
             SEA_MAP.put(seaMeta.id, seaMeta);
             
@@ -229,6 +237,8 @@ public final class MetaRelations {
             
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
             
+            buildProgramsForLEA(leaMeta);
+            
             buildAndRelateEntitiesWithSchool(schoolMeta, staffForSea);
         }
     }
@@ -249,10 +259,13 @@ public final class MetaRelations {
         Map<String, GradingPeriodMeta> gradingPeriodForCalendar = buildGradingPeriodForCalendar(calendarForSession);
         
         Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
+
         
         Map<String, CourseOfferingMeta> courseOfferingForSchool = buildCourseOfferingsForSchool(schoolMeta,
                 sessionsForSchool, coursesForSchool);
         
+        Map<String, GraduationPlanMeta> graduationPlanMap = buildGraduationPlanForSchool(schoolMeta); 
+
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                 sessionsForSchool, programForSchool);
         
@@ -365,6 +378,31 @@ public final class MetaRelations {
         }
         
         return studentsInSchoolMap;
+    }
+    
+    /**
+     * Generate the GraduationPlan for this school.
+     * graduationPlanForSchoolMap is used later in this class.
+     * GRANDUATION_PLAN_MAP is used to actually generate the XML.
+     *
+     * @param schoolMeta
+     * @return
+     */
+
+    private static Map<String, GraduationPlanMeta> buildGraduationPlanForSchool(SchoolMeta schoolMeta) {
+    																										 
+    	Map<String, GraduationPlanMeta> graduationPlanForSchoolMap = new HashMap<String, GraduationPlanMeta>(GRADUATION_PLAN_PER_SCHOOL);
+    	
+    	for (int idNum = 0; idNum < GRADUATION_PLAN_PER_SCHOOL; idNum++) {
+    		
+    		GraduationPlanMeta gpMeta = new GraduationPlanMeta ("gPlan" + idNum, schoolMeta);
+    		
+    		graduationPlanForSchoolMap.put(gpMeta.id, gpMeta);
+    		
+    		GRADUATION_PLAN_MAP.put(gpMeta.id, gpMeta);
+    		
+    	}
+    	return graduationPlanForSchoolMap;
     }
     
     /**
@@ -562,6 +600,7 @@ public final class MetaRelations {
         return programMapForSchool;
     }
     
+
     /**
      * Generate the programs for SEA.
      * programMapForSEA is used later in this class.
@@ -583,6 +622,35 @@ public final class MetaRelations {
         }
         return programMapForSEA;
     }
+
+
+    
+    /**
+     * Generate the programs for LEA.
+     * programMapForLEA is used later in this class.
+     * PROGRAM_MAP is used to actually generate the XML.
+     *
+     * @param
+     * @return
+     */   
+    private static Map<String, ProgramMeta> buildProgramsForLEA(LeaMeta leaMeta) {
+
+    	Map<String, ProgramMeta> programMapForLEA = new HashMap<String, ProgramMeta>();
+ 
+    	  for (int idNum = 0; idNum < PROGRAMS_PER_LEA; idNum++) {
+    		  ProgramMeta programMeta = new ProgramMeta("prg" + leaMeta.id + "_" + idNum, leaMeta);
+    		  programMapForLEA.put(programMeta.id, programMeta);
+    		  
+    		 
+    		  PROGRAM_MAP.put(programMeta.id, programMeta);
+    		  
+    		  leaMeta.programId = programMeta.id;
+    		  leaMeta.programs.put(leaMeta.programId, programMeta);
+    	  }
+    	 
+    	  return programMapForLEA;
+    }
+
     
     /**
      * Generate a cohort for this program.

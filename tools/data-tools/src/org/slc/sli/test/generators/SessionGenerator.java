@@ -18,6 +18,7 @@ import org.slc.sli.test.edfi.entities.Session;
 import org.slc.sli.test.edfi.entities.SessionIdentityType;
 import org.slc.sli.test.edfi.entities.SessionReferenceType;
 import org.slc.sli.test.edfi.entities.TermType;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SessionGenerator {
 
@@ -171,7 +172,9 @@ public class SessionGenerator {
 //        session.setBeginDate("2012-01-01");
 //        session.setEndDate("2012-06-21");
         session.setTotalInstructionalDays(120);
-        session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
+        
+        
+        //session.getGradingPeriodReference().add(new GradingPeriodReferenceType());
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
@@ -187,6 +190,14 @@ public class SessionGenerator {
         	session.getCalendarDateReference().add(ref);
         }
 
+        for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
+			Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
+			GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
+			gprt.setRef(gpRef);
+			session.getGradingPeriodReference().add(gprt);
+			session.setEducationOrganizationReference(schoolRef);
+		}
+        
         session.setEducationOrganizationReference(schoolRef);
         return session;
     }
