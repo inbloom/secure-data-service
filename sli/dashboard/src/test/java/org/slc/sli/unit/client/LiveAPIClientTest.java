@@ -305,7 +305,7 @@ public class LiveAPIClientTest {
             }
             
             @Override
-            public List<GenericEntity> matchSchoolsAndSections(List<GenericEntity> schools,
+            public List<GenericEntity> matchSchoolToCourses(List<GenericEntity> schools,
                     List<GenericEntity> sections, String token) {
                 LinkedList<GenericEntity> list = new LinkedList<GenericEntity>();
                 list.add(new GenericEntity());

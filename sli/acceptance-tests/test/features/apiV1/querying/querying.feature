@@ -3,7 +3,7 @@ Feature: Querying the API to receive subsets of results
  
 Scenario Outline: Confirm ability to use all API query operators with different data type
   Given I am logged in using "jpratt" "jpratt1234" to realm "NY"
-    And format "application/json"
+    And format "application/json; charset=utf-8"
    When parameter "limit" is "0"
     And parameter <field name> <operator> <operand>
     And I query <resource name> to demonstrate <test type>
