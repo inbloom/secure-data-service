@@ -71,6 +71,7 @@ public class ParentGenerator {
         // Random random = new Random();
         // nameGenerator = new NameGenerator();
         // ag = new AddressGenerator(StateAbbreviationType.NY);
+        p.setId(parentId);
         p.setParentUniqueStateId(parentId);
         p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
 

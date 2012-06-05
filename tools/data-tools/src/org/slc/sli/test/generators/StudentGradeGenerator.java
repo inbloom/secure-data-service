@@ -71,6 +71,8 @@ public class StudentGradeGenerator {
     private static final int MAX_DAYS_ATTENDANCE = 100;
     private static final int MAX_DAYS_TARDY = 20;
 
+    private static final String[] GRADES = {"A", "B", "C", "D", "E", "F"};
+
     static {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         thisDay = dateFormatter.format(new Date());
@@ -166,8 +168,9 @@ public class StudentGradeGenerator {
 
     public static Grade getGrade(StudentSectionAssociationReferenceType ssaRef,
             GradingPeriodReferenceType gradingPeriodRef) {
+        
         Grade grade = new Grade();
-        grade.setLetterGradeEarned("A B C D E F".split(" ")[getRand() % 6]);
+        grade.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
         grade.setNumericGradeEarned(new BigInteger("3"));
         grade.setDiagnosticStatement("Grade Exam Taken");
         grade.setGradeType(GradeType.EXAM);
@@ -248,7 +251,7 @@ public class StudentGradeGenerator {
 
         courseTranscript.setGradeLevelWhenTaken(GradeLevelType.EIGHTH_GRADE);
         courseTranscript.setMethodCreditEarned(MethodCreditEarnedType.ADULT_EDUCATION_CREDIT);
-        courseTranscript.setFinalLetterGradeEarned("A B C D E F".split(" ")[rand.nextInt(6)]);
+        courseTranscript.setFinalLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
         courseTranscript.setCourseRepeatCode(CourseRepeatCodeType.REPEAT_COUNTED);
 
         courseTranscript.setCourseReference(courseRef);
@@ -276,9 +279,13 @@ public class StudentGradeGenerator {
         GradingPeriod period = new GradingPeriod();
         period.setBeginDate(oneYearAgo);
         period.setEndDate(thisDay);
+
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
         period.setGradingPeriodIdentity(gpit);
+
+        //period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+
         period.setTotalInstructionalDays(92);
         return period;
     }
@@ -288,7 +295,11 @@ public class StudentGradeGenerator {
         GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
         GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
         ref.setGradingPeriodIdentity(identity);
+
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
+
+       // identity.setGradingPeriod(period.getGradingPeriod());
+
         identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
         if (edOrg != null)
             identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
@@ -299,7 +310,7 @@ public class StudentGradeGenerator {
             StudentReferenceType student) {
         StudentGradebookEntry sgbe = new StudentGradebookEntry();
         sgbe.setDateFulfilled(thisDay);
-        sgbe.setLetterGradeEarned("A B C D E F".split(" ")[rand.nextInt(6)]);
+        sgbe.setLetterGradeEarned(GRADES[rand.nextInt(GRADES.length)]);
         sgbe.setNumericGradeEarned(BigInteger.ONE);
 
         CompetencyLevelDescriptorType cld = new CompetencyLevelDescriptorType();

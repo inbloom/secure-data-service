@@ -17,7 +17,7 @@ import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.GraduationPlanType;
 
 public class GraduationPlanGenerator {
-    private Random random = new Random();
+    private static Random random = new Random();
     private AcademicSubjectType[] subjectTypes = AcademicSubjectType.values();
     private GradeLevelType[] gradeLevels = GradeLevelType.values();
     private CourseCodeSystemType[] courseCodeSystemTypes = CourseCodeSystemType.values();
@@ -34,6 +34,22 @@ public class GraduationPlanGenerator {
         this(true);
     }
 
+    public static GraduationPlan generateLowFi(String graduationPlanId) {
+    	
+    	
+   	 GraduationPlan gp = new GraduationPlan();
+
+        gp.setId(graduationPlanId);
+
+        gp.setGraduationPlanType(GraduationPlanType.STANDARD);
+
+        Credits cs = new Credits();
+        cs.setCredit(new BigDecimal(1 + random.nextInt(80)));
+        gp.setTotalCreditsRequired(cs);
+        
+        return gp;
+   }
+    
     public GraduationPlan generate(String graduationPlanId, List<String> courses, List<String> edOrgs) {
         GraduationPlan gp = new GraduationPlan();
 

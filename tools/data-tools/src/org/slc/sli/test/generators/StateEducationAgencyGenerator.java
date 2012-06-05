@@ -14,7 +14,9 @@ public class StateEducationAgencyGenerator {
     public static StateEducationAgency generateLowFi(String id, SeaMeta seaMeta) {
 
         StateEducationAgency stateEducationAgency = new StateEducationAgency();
+        stateEducationAgency.setId(id);
         stateEducationAgency.setStateOrganizationId(id);
+
         stateEducationAgency.setNameOfInstitution("Institution name " + id);
         stateEducationAgency.setShortNameOfInstitution("Institution " + id);
 
@@ -24,7 +26,7 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.setOperationalStatus(OperationalStatusType.ACTIVE);
 
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
-        
+       int  counter =0;
        for (String pid:seaMeta.programs.keySet()){
     	   ProgramMeta pm = seaMeta.programs.get(pid); 
     	   Ref programRef = new Ref(pm.id);

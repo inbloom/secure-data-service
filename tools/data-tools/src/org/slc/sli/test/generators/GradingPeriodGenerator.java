@@ -15,12 +15,14 @@ public class GradingPeriodGenerator {
 
     public GradingPeriod getGradingPeriod (String orgId) {
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+        
         gpit.setGradingPeriod(getGradingPeriodType());
         gpit.setSchoolYear("2011-2012");
 //        String orgId = new String("Test");
         gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) orgId);
         GradingPeriod gp = new GradingPeriod ();
 //        gp.setGradingPeriod(getGradingPeriodType());
+        //gp.setId(orgId);
         gp.setGradingPeriodIdentity(gpit);
         beginDate = "2011-03-04";
         endDate = "2012-03-04";
