@@ -100,6 +100,10 @@ Then /^my password is shown as a series of dots$/ do
     ]").attribute("type") == "password")
 end
 
+Then /^a captcha form is shown$/ do
+  @driver.find_element(:id, "recaptcha_widget_div").should_not == nil
+end
+
 Then /^when I click "([^\"]*)"$/ do |button|
   if button == 'Cancel'
     @driver.find_element(:xpath, "//a[text()=\"#{button}\"]").click

@@ -17,6 +17,7 @@ Scenario: As a user I request for a production account
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd123"
   Then my password is shown as a series of dots
+  And a captcha form is shown
   And when I click "Submit"
   Then my field entries are validated
   And I am redirected to a page with terms and conditions
