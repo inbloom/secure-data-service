@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
+@Produces({ MediaType.APPLICATION_XML+";charset=utf-8", HypermediaType.VENDOR_SLC_XML+";charset=utf-8" })
 public class ObjectXMLWriter implements MessageBodyWriter {
 
     @Override

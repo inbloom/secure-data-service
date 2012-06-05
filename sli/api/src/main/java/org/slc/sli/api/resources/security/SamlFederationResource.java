@@ -44,8 +44,6 @@ import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -281,8 +279,9 @@ public class SamlFederationResource {
             }
             
             URI redirect = builder.build();
-            return Response.temporaryRedirect(redirect)
-                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", 300, false)).build();
+            return Response.status(Response.Status.FOUND)
+                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", 300, false))
+                    .location(redirect).build();
         }
     }
     
