@@ -7,7 +7,7 @@
         <ns2:request>
             <ns2:param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="views" style="query"
                        type="xs:string">
-                <ns2:doc><![CDATA[A comma-separated list of optional fields to include,]]></ns2:doc>
+                <ns2:doc><![CDATA[A comma-separated list of optional data to include,]]></ns2:doc>
             </ns2:param>
         </ns2:request>
     </merge>
@@ -15,7 +15,7 @@
         <ns2:request>
             <ns2:param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="views" style="query"
                        type="xs:string">
-                <ns2:doc><![CDATA[A comma-separated list of optional fields to include,]]></ns2:doc>
+                <ns2:doc><![CDATA[A comma-separated list of optional data to include,]]></ns2:doc>
             </ns2:param>
         </ns2:request>
     </merge>
