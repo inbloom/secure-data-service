@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;
@@ -34,9 +32,13 @@ import org.slc.sli.ingestion.NeutralRecord;
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
-    private static final String ATTENDANCE_TRANSFORMED = EntityNames.ATTENDANCE + "_transformed";
+    private static final String ATTENDANCE = "attendance";
+    private static final String SCHOOL = "school";
+    private static final String SESSION = "session";
+    private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
+    private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
 
-    private Map<String, Map<Object, NeutralRecord>> collections;
+    private Map<Object, NeutralRecord> attendances;
 
     @Autowired
     private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
@@ -45,7 +47,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * Default constructor.
      */
     public AttendanceTransformer() {
-        collections = new HashMap<String, Map<Object, NeutralRecord>>();
+        attendances = new HashMap<Object, NeutralRecord>();
     }
 
     /**
@@ -65,13 +67,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-        List<String> collectionsToLoad = Arrays.asList(EntityNames.ATTENDANCE);
-        for (String collectionName : collectionsToLoad) {
-            Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
-            collections.put(collectionName, collection);
-            LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
-        }
-        LOG.info("Finished loading data for attendance transformation.");
+        attendances = getCollectionFromDb(ATTENDANCE);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE, attendances.size());
     }
 
     /**
@@ -83,7 +80,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         Map<String, List<Map<String, Object>>> studentAttendanceEvents = new HashMap<String, List<Map<String, Object>>>();
         Map<Pair<String, String>, List<Map<String, Object>>> studentSchoolAttendanceEvents = new HashMap<Pair<String, String>, List<Map<String, Object>>>();
 
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(EntityNames.ATTENDANCE).entrySet()) {
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentId = (String) attributes.get("studentId");
@@ -248,7 +245,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         // TODO: This sets attendance record's source file to FIRST attendance record
         // --> augment transformer so that the file of each attendance event is
         // carried through to this stage?
-        record.setSourceFile(collections.get(EntityNames.ATTENDANCE).values().iterator().next().getSourceFile());
+        record.setSourceFile(attendances.values().iterator().next().getSourceFile());
         return record;
     }
 
@@ -266,7 +263,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
 
         Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                EntityNames.STUDENT_SCHOOL_ASSOCIATION, getJob().getId(), query);
+                STUDENT_SCHOOL_ASSOCIATION, getJob().getId(), query);
 
         if (associations != null) {
             List<String> schoolIds = new ArrayList<String>();
@@ -280,7 +277,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", schoolIds));
 
             Iterable<NeutralRecord> queriedSchools = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                    EntityNames.SCHOOL, getJob().getId(), schoolQuery);
+                    SCHOOL, getJob().getId(), schoolQuery);
 
             if (queriedSchools != null) {
                 Iterator<NeutralRecord> itr = queriedSchools.iterator();
@@ -310,7 +307,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         query.addCriteria(new NeutralCriteria("schoolId", "=", schoolId));
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                EntityNames.SESSION, getJob().getId(), query);
+                SESSION, getJob().getId(), query);
 
         if (queriedSessions != null) {
             Iterator<NeutralRecord> itr = queriedSessions.iterator();

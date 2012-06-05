@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.transformation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,8 @@ import org.springframework.stereotype.Component;
 public class StudentTranscriptAssociationCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentTranscriptAssociationCombiner.class);
+    
+    private static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
     
     private Map<Object, NeutralRecord> studentTranscripts;
     
@@ -47,8 +48,8 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
      */
     public void loadData() {
         LOG.info("Loading data for studentTranscriptAssociation transformation.");
-        this.studentTranscripts = getCollectionFromDb(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
+        this.studentTranscripts = getCollectionFromDb(STUDENT_TRANSCRIPT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_TRANSCRIPT_ASSOCIATION,
                 studentTranscripts.size());
     }
     
