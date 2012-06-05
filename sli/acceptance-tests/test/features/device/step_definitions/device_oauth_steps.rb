@@ -26,8 +26,8 @@ end
 
 Then /^I should receive a json response containing my authorization code$/ do  
   assertWithWait("Could not find text 'authorization_code' on page") {@driver.page_source.include?("authorization_code")}
-
-  @oauthAuthCode = @driver.page_source.match(/"authorization_code":"([^"]*)"/)[0]
+  
+  @oauthAuthCode = @driver.page_source.match(/"authorization_code":"(?<Code>[^"]*)"/)[:Code]
 end
 
 When /^I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI$/ do
@@ -36,9 +36,9 @@ When /^I navigate to the API token endpoint with my client ID, secret, authoriza
 end
 
 Then /^I should receive a json response containing my authorization token$/ do
-  assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("authorization_token")}
+  assertWithWait("Could not find text 'authorization_token' on page") {@driver.page_source.include?("access_token")}
 
-  @sessionId = @driver.page_source.match(/"authorization_token":"([^"]*)"/)[0]
+  @sessionId = @driver.page_source.match(/"access_token":"(?<Token>[^"]*)"/)[:Token]
 end
 
 Then /^I should be able to use the token to make valid API calls$/ do
@@ -47,7 +47,6 @@ Then /^I should be able to use the token to make valid API calls$/ do
   assert(@res != nil, "Response is nil")
   data = JSON.parse(@res.body)
   assert(data != nil, "Response body is nil")
-  assert(data['authentication'] != nil, "Session debug context doesn't contain 'authentication'")
-  assert(data['authentication']['authenticated'] == true, 
+  assert(data['authenticated'] == true, 
          "Session debug context 'authentication.authenticated' is not true")
 end
