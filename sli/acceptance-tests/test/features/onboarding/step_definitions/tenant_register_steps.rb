@@ -45,7 +45,7 @@ Before do
 end
 
 When /^I POST a new tenant$/ do
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   dataObj =  {
       "landingZone" => [ 
         { 
@@ -65,18 +65,18 @@ When /^I POST a new tenant$/ do
       ],
       "tenantId" => UNIQUE_TENANT_ID_1
   }
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 When /^I provision a new landing zone$/ do
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   dataObj = {
       "stateOrganizationId" => UNIQUE_ED_ORG_ID,
       "tenantId" => UNIQUE_TENANT_ID_1
   }
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/provision/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
@@ -101,7 +101,7 @@ Then /^I should receive the data for the specified tenant entry$/ do
 end
 
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   dataObj = {
       "landingZone" => [ 
         { 
@@ -114,13 +114,13 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
       ],
       "tenantId" => UNIQUE_TENANT_ID_1
   }
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPut(arg1, data)
   assert(@res != nil, "Response from PUT operation was null")
 end
 
 Then /^I should no longer be able to get that tenant's data$/ do
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   restHttpGet("/tenants/#{@newId}")
   assert(@res != nil, "Response from PUT operation was null")
   assert(@res.code == 404, "Return code was not expected: "+@res.code.to_s+" but expected 404")
@@ -128,34 +128,34 @@ end
 
 # TODO delete
 When /^I POST a tenant specifying an invalid field$/ do
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   dataObj = DataProvider.getValidAppData()
   dataObj["foo"] = "A Bar Tenant"
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 When /^I PUT a tenant specifying an invalid field$/ do
-  @format = "application/json; charset=utf-8"
+  @format = "application/json;charset=utf-8"
   dataObj = DataProvider.getValidAppData()
   dataObj["foo"] = "A Bar Tenant"
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPut("/tenants/#{@newId}", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 
 def postToTenants(dataObj)
-  @format = "application/json; charset=utf-8"
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  @format = "application/json;charset=utf-8"
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 def postToProvision(dataObj)
-  @format = "application/json; charset=utf-8"
-  data = prepareData("application/json; charset=utf-8", dataObj)
+  @format = "application/json;charset=utf-8"
+  data = prepareData("application/json;charset=utf-8", dataObj)
   restHttpPost("/provision/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
