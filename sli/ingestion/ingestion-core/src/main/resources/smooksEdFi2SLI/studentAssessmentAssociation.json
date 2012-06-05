@@ -9,10 +9,47 @@
             [
                 [
                     {
-                        "path" : "metaData.externalId",
+                        "path" : "body.assessmentIdentificationCode",
                         "values" :
                         [{
-                            "valueSource" : "body.assessmentId"
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
+                        }]
+                    }
+                ],
+                [
+                    {
+                        "path" : "body.assessmentTitle",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentTitle"
+                        }]
+                    },
+                    {
+                        "path" : "body.assessmentCategory",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentCategory"
+                        }]
+                    },
+                    {
+                        "path" : "body.academicSubject",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AcademicSubject"
+                        }]
+                    },
+                    {
+                        "path" : "body.gradeLevelAssessed",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.GradeLevelAssessed"
+                        }]
+                    },
+                    {
+                        "path" : "body.version",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.Version"
                         }]
                     }
                 ]

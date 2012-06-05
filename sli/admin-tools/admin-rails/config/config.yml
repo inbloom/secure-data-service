@@ -5,7 +5,7 @@ development:
     redirect_uri: http://local.slidev.org:3000/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
@@ -57,7 +57,7 @@ development_sb:
     redirect_uri: http://local.slidev.org:3000/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: true

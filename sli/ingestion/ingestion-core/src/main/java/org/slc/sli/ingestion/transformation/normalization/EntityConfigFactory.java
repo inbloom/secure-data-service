@@ -6,9 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+
+import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 
 /**
  * Factory for entity configurations
@@ -19,6 +23,8 @@ import org.springframework.core.io.ResourceLoader;
 public class EntityConfigFactory implements ResourceLoaderAware {
     private static final String CONFIG_EXT = ".json";
     private static final EntityConfig NOT_FOUND = null;
+    private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
+
 
     private String searchPath;
     private ResourceLoader resourceLoader;
@@ -35,9 +41,11 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     configIs = config.getInputStream();
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
                 } else {
+                    LOG.warn("no config found for entity type {}", entityType);
                     entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
+                LOG.error("Error loading entity type " + entityType, e);
                 entityConfigurations.put(entityType, NOT_FOUND);
             } finally {
                 IOUtils.closeQuietly(configIs);

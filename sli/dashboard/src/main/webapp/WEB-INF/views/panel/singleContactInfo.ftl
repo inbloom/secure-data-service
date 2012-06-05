@@ -33,14 +33,11 @@
 		<#list singleContact.address as address>
 			<tr>
 				<th>
-				<!-- show only once -->
-				<#if address.addressType ??>
-					<#if address.addressType == "Home" >
-	    				Address:
-    				<#else>
-    					${address.addressType}:
-    				</#if>
-				</#if>
+					<#if address.addressType ??>
+						${address.addressType}:
+					<#else>
+						Address:
+					</#if>
 				</th>
 				<td class="contactInfoData">
 				    <div>
