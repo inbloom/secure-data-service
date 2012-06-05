@@ -55,8 +55,7 @@ When /^I click on the Logout link$/ do
 end
 
 Then /^I am redirected to a page that informs me that I have signed out$/ do
-  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("success") != nil }
-  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("signed off") != nil }
+  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("successfully logged out") != nil }
 end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
