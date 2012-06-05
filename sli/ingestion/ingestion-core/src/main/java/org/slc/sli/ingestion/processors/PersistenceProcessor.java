@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -18,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
@@ -182,20 +179,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         try {
 
-            int maxRecordNumberToPersist = workNote.getRangeMaximum() - workNote.getRangeMinimum();
+            Map<Object, NeutralRecord> records = getCollectionFromDb(collectionToPersistFrom, job.getId(), workNote);
 
-            DBCursor cursor = getCollectionIterable(collectionToPersistFrom, job.getId(), workNote);
-            Iterator<DBObject> dbObjectIterator = cursor.iterator();
-
-            while (recordNumber <= maxRecordNumberToPersist && dbObjectIterator.hasNext()) {
-                DBObject record = dbObjectIterator.next();
-
+            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : records.entrySet()) {
                 numFailed = 0;
 
                 recordNumber++;
                 persistedFlag = false;
 
-                NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
+                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
 
@@ -508,28 +500,27 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
-    /**
-     * Gets a db cursor used for iterating over the range of elements specified in the work note for
-     * the
-     * specified collection and job.
-     *
-     * @param collectionName
-     *            collection to pull entities from in mongo.
-     * @param jobId
-     *            batch job id.
-     * @param workNote
-     *            work distributed by maestro (contains range to perform work on).
-     * @return
-     */
-    protected DBCursor getCollectionIterable(String collectionName, String jobId, WorkNote workNote) {
-        DBCollection col = neutralRecordMongoAccess.getRecordRepository().getCollectionForJob(collectionName, jobId);
 
-        DBCursor dbcursor = col.find();
-        dbcursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
-        dbcursor.batchSize(1000);
-        dbcursor.skip(workNote.getRangeMinimum());
+    public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName, String jobId, WorkNote workNote) {
+        Query query = new Query();
 
-        return dbcursor;
+        Iterable<NeutralRecord> data;
+
+        Criteria limiter = Criteria.where("locationInSourceFile").gte(workNote.getRangeMinimum()).lte(workNote.getRangeMaximum());
+        query.addCriteria(limiter);
+
+
+        data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName, query, jobId);
+
+        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
+        NeutralRecord tempNr;
+
+        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
+        while (neutralRecordIterator.hasNext()) {
+            tempNr = neutralRecordIterator.next();
+            collection.put(tempNr.getRecordId(), tempNr);
+        }
+        return collection;
     }
 
     @Override
