@@ -58,6 +58,7 @@ public final class MetaRelations {
     public static final int ESC_PER_SEA = 10;
     public static final int PROGRAMS_PER_LEA=2;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
+    public static final int FEEDER_RELATIONSHIPS = 2;
     public static final int COURSES_PER_STUDENT = 15;
     public static final int SECTIONS_PER_STUDENT = 14;
     public static final int CALENDER_PER_SESSIONS = 2;
