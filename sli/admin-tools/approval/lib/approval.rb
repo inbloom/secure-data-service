@@ -48,17 +48,17 @@ module ApprovalEngine
 
 	## backend storage
 	@@storage                  = nil
-#	@@transition_action_config = nil
-  @@emailer                  =nil
+	@@transition_action_config = nil
+  @@emailer                  = nil
 	@@is_sandbox               = false
 	@@email_secret             = ""
 	@@roles                    = []
 
 	# initialize the storage
-	#def ApprovalEngine.init(storage, transition_action_config, is_sandbox)
-	def ApprovalEngine.init(storage, emailer, is_sandbox)
+	def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox)
+	#def ApprovalEngine.init(storage, emailer, is_sandbox)
 		@@storage = storage
-		#@@transition_action_config = transition_action_config
+		@@transition_action_config = transition_action_config
 		@@emailer =emailer
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
@@ -113,7 +113,7 @@ module ApprovalEngine
 				raise "Unknown state transition #{status} => #{target[transition]}."
 		end
 
-   # @@transition_action_config.transition(user)
+   @@transition_action_config.transition(user) if @@transition_action_config
    if user[:status] == ApprovalEngine::STATE_APPROVED
      # TODO: Below should not be hardcoded and should be configurable by admin.
      # TODO: check that user[:emailAddress] is valid-ish email (regex?)

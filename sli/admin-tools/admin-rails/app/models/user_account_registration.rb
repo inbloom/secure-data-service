@@ -4,9 +4,9 @@ class UserAccountRegistration
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :email, :firstName, :lastName, :password, :vendor, :confirmation
+  attr_accessor :email, :firstName, :lastName, :password, :vendor
 
-  validates_presence_of :firstName, :lastName, :password, :confirmation
+  validates_presence_of :firstName, :lastName, :password, :password_confirmation
   validates :email, :presence => true, :email => true
   validates :password, :confirmation => true #password_confirmation attr
   validates_presence_of :vendor unless APP_CONFIG["is_sandbox"]

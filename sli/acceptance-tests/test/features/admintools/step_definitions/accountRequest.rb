@@ -179,7 +179,7 @@ def initializeApprovalAndLDAP(emailConf, prod)
   ldapBase = PropLoader.getProps['ldap_base']
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   email = Emailer.new emailConf
-  ApprovalEngine.init(@ldap, email, !prod)
+  ApprovalEngine.init(@ldap, email, nil, !prod)
 end
 
 def assertText(text)

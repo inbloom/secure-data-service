@@ -21,11 +21,7 @@
     </div>
     <div class="controls">
       <% if is_password_field %>
-          <% if required %>
-              <%= f.password_field password_field %>
-          <% else %>
-              <%= f.password_field field, :placeholder => "optional" %>
-          <% end %>
+          <%= f.password_field password_field %>
       <% else %>
           <% if required %>
               <%= f.text_field field %>
@@ -63,7 +59,7 @@
       <% print f, :vendor, "Company", false %>
       <% print f, :email, "Email", false %>
       <% print f, :password, "Password", true, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, :confirmation %>
+      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation %>
       <span style="color:red">*</span> = required fields
       <div class="form-actions">
         <%= f.submit "Submit",
