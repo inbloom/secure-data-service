@@ -1,4 +1,3 @@
-@wip
 @US684
 Feature: OAuth flow for devices
 As an app developer, I want to be able to authenticate to the API through OAuth so I can make API calls from a desktop or a mobile phone
