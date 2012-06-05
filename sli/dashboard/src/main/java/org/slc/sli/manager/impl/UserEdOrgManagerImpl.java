@@ -3,7 +3,6 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -16,6 +15,7 @@ import java.util.Vector;
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityComparator;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
@@ -90,8 +90,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // otherwise get school's parent ed-org
         if (edOrg == null) {
 
-           // get list of school
-           List<GenericEntity> schools = getSchools(token);
+            // get list of school
+            List<GenericEntity> schools = getSchools(token);
 
             if (schools != null && !schools.isEmpty()) {
 
@@ -100,7 +100,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
                 // read parent organization
                 edOrg = getParentEducationalOrganization(getToken(), school);
-                if(edOrg == null) {
+                if (edOrg == null) {
                     throw new DashboardException(
                             "No data is available for you to view. Please contact your IT administrator.");
                 }
@@ -222,13 +222,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     // convert school ids to the school object array and sort based on the name of
                     // the institution
                     Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(
-                            new Comparator<Map<String, Object>>() {
-                                @Override
-                                public int compare(Map<String, Object> a, Map<String, Object> b) {
-                                    return ((String) a.get(Constants.ATTR_NAME_OF_INST)).compareTo((String) b
-                                            .get(Constants.ATTR_NAME_OF_INST));
-                                }
-                            });
+                            new GenericEntityComparator(Constants.ATTR_NAME_OF_INST, String.class));
                     reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
                     obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                     retVal.add(obj);
@@ -245,12 +239,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         putToCache(USER_HIERARCHY_CACHE, token, retVal);
         //Sort the Districts based on the District Name
-        Collections.sort(retVal, new Comparator<Map<String, Object>>() {
-            @Override
-            public int compare(Map<String, Object> a, Map<String, Object> b) {
-                return ((String) a.get(Constants.ATTR_NAME)).compareTo((String) b.get(Constants.ATTR_NAME));
-            }
-        });
+        Collections.sort(retVal, new GenericEntityComparator(Constants.ATTR_NAME, String.class));
 
         return retVal;
     }
@@ -340,11 +329,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 for (String educationAgency : organizationCategories) {
                     if (educationAgency != null && educationAgency.equals(Constants.LOCAL_EDUCATION_AGENCY)) {
                         staffEntity.put(Constants.LOCAL_EDUCATION_AGENCY, true);
-                                break;
-                            }
-                        }
+                        break;
                     }
                 }
+            }
+        }
         return staffEntity;
     }
 }

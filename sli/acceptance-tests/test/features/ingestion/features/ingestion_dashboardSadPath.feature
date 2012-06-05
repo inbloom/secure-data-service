@@ -39,6 +39,10 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | disciplineIncident          |
         | disciplineAction            |
 		| studentDisciplineIncidentAssociation|
+	    | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
   And I should see "Processed 749 records." in the resulting batch job file

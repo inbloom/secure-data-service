@@ -7,6 +7,11 @@ Then /^I click on "([^"]*)" header to sort a "([^"]*)" column in "([^"]*)" order
    sortColumn(columnName, ColumnType.getType(columnType), isAscendingOrder(order))
 end
 
+Then /^I check "([^"]*)" column is sorted as "([^"]*)" column$/ do |columnName, columnType|
+   originalValues = getColumnValues(columnName, columnType)
+   checkColumnSorted(columnName, ColumnType.getType(columnType), originalValues.sort)
+end
+
 # returns all trs of a grid in a particular panel
 # excludes the header of the grid
 def getGrid(panel)
@@ -127,44 +132,51 @@ def sortColumn(columnName, columnType, isAscending, attributeToCompare = nil)
   searchText = ".//div[contains(@id,'" + returnedName + "')]"
   column = hTable.find_element(:xpath, searchText)
 
-  all_trs = getStudentGrid()
-  
-  unsorted = []
-  all_trs.each do |tr|
-    if (attributeToCompare == nil)
-      value = getAttribute(tr, returnedName)
-    else
-      value = getAttributeByName(tr, returnedName, attributeToCompare)
-    end
-    if (columnType == ColumnType::INTEGER)
-      value = value.to_i
-    elsif (columnType == ColumnType::LETTERGRADE)
-      value = letterGradeMapping(value)
-    end
-    unsorted = unsorted + [value]
-  end
+  sorted = getColumnValues(columnName, columnType, attributeToCompare).sort
 
   #caveat:  there's a Bug on Student Column, it only happens on first load, and if Student is the first column to be sorted
   column.click
   if (!isAscending)
     column.click
-    unsorted = unsorted.sort.reverse
-  else
-    unsorted = unsorted.sort   
+    sorted = sorted.reverse 
   end
+  checkColumnSorted(columnName, columnType, sorted, attributeToCompare)
+end
+
+def getCellValue(tr, columnName, columnType, attributeName = nil)
+  if (attributeName == nil)
+    value = getAttribute(tr, columnName)
+  else
+    value = getAttributeByName(tr, columnName, attributeName)
+  end
+  if (columnType == ColumnType::INTEGER)
+    value = value.to_i
+  elsif (columnType == ColumnType::LETTERGRADE)
+    value = letterGradeMapping(value)
+  end
+  return value
+end
+
+def getColumnValues(columnName, columnType, attributeName = nil)
+  returnedName = getColumnLookupName(columnName)
+
+  all_trs = getStudentGrid()
+  
+  unsorted = []
+  all_trs.each do |tr|
+    unsorted = unsorted + [getCellValue(tr, returnedName, columnType, attributeName)]
+  end
+  return unsorted
+end
+
+def checkColumnSorted(columnName, columnType, expectedSortOrder, attributeName = nil)
+  returnedName = getColumnLookupName(columnName)
+
   all_trs = getStudentGrid()
   i  = 0
   all_trs.each do |tr|
-    if (attributeToCompare == nil)
-      value = getAttribute(tr, returnedName)
-    else
-      value = getAttributeByName(tr, returnedName, attributeToCompare)
-    end
-    
-    if (columnType == ColumnType::LETTERGRADE)
-      value = letterGradeMapping(value).to_s
-    end
-    assert(value == unsorted[i].to_s, "sort order is wrong")
+    value = getCellValue(tr, returnedName, columnType, attributeName)
+    assert(value == expectedSortOrder[i], "sort order is wrong, expected is " + expectedSortOrder[i].to_s + ", got " + value.to_s)
     i +=1
   end     
 end
