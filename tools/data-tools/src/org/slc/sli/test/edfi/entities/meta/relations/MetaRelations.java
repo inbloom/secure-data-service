@@ -34,36 +34,36 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
     
     // knobs to control number of entities to create
-	public static final int TOTAL_SEAS =1;
-    public static final int LEAS_PER_SEA =1;
-    public static final int STAFF_PER_SEA = 135;
+	public static final int TOTAL_SEAS =2;
+    public static final int LEAS_PER_SEA =2;
+    public static final int STAFF_PER_SEA = 5;
     public static final int SCHOOLS_PER_LEA = 1;
-    public static final int COURSES_PER_SCHOOL = 48;
+    public static final int COURSES_PER_SCHOOL = 4;
     public static final int SESSIONS_PER_SCHOOL = 2;
     public static final int SECTIONS_PER_COURSE_SESSION = 7;
-    public static final int TEACHERS_PER_SCHOOL = 54;
-    public static final int STUDENTS_PER_SCHOOL = 664;
+    public static final int TEACHERS_PER_SCHOOL = 4;
+    public static final int STUDENTS_PER_SCHOOL = 6;
     public static final int PROGRAMS_PER_SCHOOL = 1;
     public static final int PROGRAMS_PER_SEA = 1;
-    public static final int STAFF_PER_PROGRAM = 15;
+    public static final int STAFF_PER_PROGRAM = 4;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 1;
-    public static final int FREE_STANDING_COHORT_SIZE = 146;
+    public static final int FREE_STANDING_COHORT_SIZE = 4;
     public static final int STAFF_PER_FREE_STANDING_COHORT = 5;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 8;
-    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 717;
-    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 957;
-    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 3000;
-    public static final int ESC_PER_SEA = 10;
+    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 4;
+    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 8;
+    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 4;
+    public static final int ESC_PER_SEA = 2;
     public static final int PROGRAMS_PER_LEA=2;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
     public static final int FEEDER_RELATIONSHIPS = 2;
-    public static final int COURSES_PER_STUDENT = 15;
-    public static final int SECTIONS_PER_STUDENT = 14;
+    public static final int COURSES_PER_STUDENT = 3;
+    public static final int SECTIONS_PER_STUDENT = 2;
     public static final int CALENDER_PER_SESSIONS = 2;
     public static final int GRADINGPERIOD_PER_CALENDAR = 2;
-    public static final int GRADUATION_PLAN_PER_SCHOOL=1;
+    public static final int GRADUATION_PLAN_PER_SCHOOL=2;
     public static final int GRADING_PERIOD_PER_SESSIONS=2;
 
 
@@ -584,7 +584,7 @@ public final class MetaRelations {
         Map<String, ProgramMeta> programMapForSEA = new HashMap<String, ProgramMeta>();
         
         for (int idNum = 0; idNum < PROGRAMS_PER_SEA; idNum++) {
-            ProgramMeta programMeta = new ProgramMeta("prg" + seaMeta.id + "_" + idNum, seaMeta);
+            ProgramMeta programMeta = new ProgramMeta("prg" + idNum, seaMeta);
             programMapForSEA.put(programMeta.id, programMeta);
             PROGRAM_MAP.put(programMeta.id, programMeta);
             seaMeta.programId = programMeta.id;
@@ -608,7 +608,7 @@ public final class MetaRelations {
     	Map<String, ProgramMeta> programMapForLEA = new HashMap<String, ProgramMeta>();
  
     	  for (int idNum = 0; idNum < PROGRAMS_PER_LEA; idNum++) {
-    		  ProgramMeta programMeta = new ProgramMeta("prg" + leaMeta.id + "_" + idNum, leaMeta);
+    		  ProgramMeta programMeta = new ProgramMeta("prg" + idNum, leaMeta);
     		  programMapForLEA.put(programMeta.id, programMeta);
     		  
     		 
