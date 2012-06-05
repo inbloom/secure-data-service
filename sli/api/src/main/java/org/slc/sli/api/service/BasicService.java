@@ -148,13 +148,18 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        //add the security criteria
-        neutralQuery.addCriteria(securityCriteria);
-        
         // super list logic --> only true when using DefaultEntityContextResolver
         List<String> results = new ArrayList<String>();
+
+        //not a super list so add the criteria
+        //not sure if this ever happen
+        if (allowed.size() > 0) {
+            //add the security criteria
+            neutralQuery.addCriteria(securityCriteria);
+        }
+
         Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-        
+
         for (Entity entity : entities) {
             results.add(entity.getEntityId());
         }
@@ -678,10 +683,10 @@ public class BasicService implements EntityService {
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
         if (type != null && type.equals(EntityNames.STAFF)) {
-            securityField = "metadata.edOrgs";
+            securityField = "metaData.edOrgs";
         }
 
-        NeutralCriteria securityCriteria = new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed);
+        NeutralCriteria securityCriteria = new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false);
 
         return securityCriteria;
     }
