@@ -33,7 +33,7 @@ class SLCFixer
     end
     finalTime = Time.now - time
     puts "\t Final time is #{finalTime} secs"
-    puts "\t Records per second #{@@count/finalTime}"
+    puts "\t Records(#{@@count}) per second #{@@count/finalTime}"
   end
 
   def fix_students
@@ -45,7 +45,7 @@ class SLCFixer
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
       edorgs.flatten!.uniq!
       stamp_id(@students, student['body']['studentId'], edorgs)
-      stamp_id(ssa, ssa['_id'], student['body']['schoolId'])
+      stamp_id(ssa, student['_id'], student['body']['schoolId'])
     end
   end
 
@@ -209,8 +209,10 @@ class SLCFixer
   
   private
   def stamp_id(collection, id, edOrg)
+    @@collections ||= Set.new
     collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
-    @@count += collection.count
+    @@count += collection.count unless @@collections.include? collection.name
+    @@collections << collection.name
   end
 
   def student_edorgs(id)
