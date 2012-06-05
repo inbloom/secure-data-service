@@ -32,10 +32,10 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
     
     // knobs to control number of entities to create
-	public static final int TOTAL_SEAS =1 ;
-    public static final int LEAS_PER_SEA =12;
+	public static final int TOTAL_SEAS =1;
+    public static final int LEAS_PER_SEA =1;
     public static final int STAFF_PER_SEA = 135;
-    public static final int SCHOOLS_PER_LEA = 46;
+    public static final int SCHOOLS_PER_LEA = 1;
     public static final int COURSES_PER_SCHOOL = 48;
     public static final int SESSIONS_PER_SCHOOL = 2;
     public static final int SECTIONS_PER_COURSE_SESSION = 7;
