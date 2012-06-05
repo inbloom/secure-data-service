@@ -38,7 +38,7 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Path("{a:v1/|}system/session")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
 public class SecuritySessionResource {
 
     @Autowired

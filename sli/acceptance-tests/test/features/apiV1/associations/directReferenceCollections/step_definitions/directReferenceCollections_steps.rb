@@ -125,7 +125,7 @@ When /^I navigate to GET the first value in list "([^"]*)" with URI prefix "([^"
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   contentType = contentType(@res)
-  jsonTypes = ["application/json", "application/vnd.slc.full+json", "application/vnd.slc+json"].to_set
+  jsonTypes = ["application/json; charset=utf-8", "application/vnd.slc.full+json; charset=utf-8", "application/vnd.slc+json; charset=utf-8"].to_set
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)
     assert(@result != nil, "Result of JSON parsing is nil")

@@ -229,7 +229,7 @@ public class IdNormalizer {
                                             Collection<?> entityValues = (Collection<?>) entityValue;
                                             filterValues.addAll(entityValues);
                                         } else if (entityValue != null) {
-                                            filterValues.add(entityValue.toString());
+                                            filterValues.add(entityValue);
                                         }
                                     }
                                     
