@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'mongo'
 require "benchmark"
+require "set"
+require 'date'
 
 class SLCFixer
   
@@ -11,9 +13,10 @@ class SLCFixer
   end
   
   def start
+    time = Time.now
     Benchmark.bm(20) do |x|
-      x.report("Sections") {fix_sections}
       x.report("Students") {fix_students}
+      x.report("Sections") {fix_sections}
       x.report("Attendance") {fix_attendance}
       x.report("Assessments") {fix_assessments}
       x.report("Discipline") {fix_disciplines}
@@ -27,18 +30,18 @@ class SLCFixer
       x.report("Sessions") {fix_sessions}
       x.report("Staff") {fix_staff}
     end
+    puts "\t Final time is #{Time.now - time} secs"
   end
 
   def fix_students
-    ssa = @db['studentSchoolAssociation']
-    students = @db['student']
-    students.find.each do |student|
-      edOrg = []
-      ssa.find({"body.studentId" => student["_id"]}).each do |assoc|
-        stamp_id(ssa, assoc['body']['schoolId'], assoc['body']['schoolId'])
-        edOrg << assoc['body']['schoolId']
-      end
-      stamp_id(students, student['_id'], edOrg)
+    ssa = @db['studentSchoolAssociation']    
+    ssa.find.each do |student|
+      edorgs = []
+      old = student_edorgs(student['body']['studentId'])
+      edorgs << old unless old.nil?
+      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
+      edorgs.flatten!.uniq!
+      stamp_id(@students, student['body']['studentId'], edorgs)
     end
   end
 
@@ -54,15 +57,15 @@ class SLCFixer
   end
 
   def fix_sections
-    @start_time = Time.now
-    sections = @db['section']
-    sections.find.each do |section|
-      stamp_id(sections, section["_id"], section['body']['schoolId'])
-      @db['studentSectionAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], section['body']['schoolId']) }
-      @db['teacherSectionAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], section['body']['schoolId']) }
-      @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], section['body']['schoolId']) }
-      @db['sectionSchoolAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], section['body']['schoolId']) }
+    ssa = @db['studentSectionAssociation']
+    ssa.find.each do |section|
+      edorgs = student_edorgs(section['body']['studentId'])
+      stamp_id(ssa, section['_id'], edorgs)
+      stamp_id(@db['section'], section['body']['sectionId'], edorgs)
+      @db['teacherSectionAssociation'].find({"body.sectionId" => section['body']['sectionId']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
+      @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['body']['sectionId']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
     end
+    @db['sectionSchoolAssociation'].find.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
   end
 
   def fix_assessments
@@ -214,14 +217,14 @@ class SLCFixer
   end
   
   private
-  def stamp_id(collection, id, edOrg = [])
+  def stamp_id(collection, id, edOrg)
     collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
   end
 
   def student_edorgs(id)
     student = @students.find_one({"_id" => id})
-    student['metaData']['edOrgs'] unless student.nil? or student['metaData'].nil?
-    nil
+    return student['metaData']['edOrgs'] unless (student.nil? or student['metaData'].nil?)
+    return []
   end
 end
 
