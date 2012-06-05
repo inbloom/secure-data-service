@@ -69,7 +69,7 @@
 	  <% end %>
 	  <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
 	  <%= tag("div", :class => "control-group#{error}") %>
-	  <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}).html_safe %>
+	  <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
       <% if @user_account_registration.errors[:recaptcha].any? %>
             <span class="help-inline">
 				<%= @user_account_registration.errors[:recaptcha][0] %>
