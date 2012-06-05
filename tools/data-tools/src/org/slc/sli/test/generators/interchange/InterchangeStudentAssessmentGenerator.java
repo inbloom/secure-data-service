@@ -3,11 +3,10 @@ package org.slc.sli.test.generators.interchange;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
 import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentAssessmentItem;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
@@ -22,7 +21,7 @@ import org.slc.sli.test.generators.StudentAssessmentGenerator;
 import org.slc.sli.test.generators.StudentAssessmentItemGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentObjectiveAssessmentGenerator;
-import org.slc.sli.test.utils.JaxbUtils;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -32,23 +31,16 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  */
 public class InterchangeStudentAssessmentGenerator {
 
-    public static void generate(XMLStreamWriter writer) throws XMLStreamException {
-        // Manually create the interchange level tags
-        writer.writeStartElement("InterchangeStudentAssessment");
-        writer.writeNamespace(null, "http://ed-fi.org/0100");
-        
+    public static void generate(InterchangeWriter<InterchangeStudentAssessment> writer) throws XMLStreamException {
         writeEntitiesToInterchange(writer);
-
-        writer.writeEndElement();
     }
 
-    private static void writeEntitiesToInterchange(XMLStreamWriter writer) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentAssessment> writer) {
 
         // TODO: do we really want these 2 non-entity reference items?
-        // generateStudentReference(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        // generateStudentReference(MetaRelations.STUDENT_MAP.values(), writer);
 
-        // generateAssessmentReference(interchangeObjects,
-        // AssessmentMetaRelations.ASSESSMENT_MAP.values());
+        // generateAssessmentReference(AssessmentMetaRelations.ASSESSMENT_MAP.values(), writer);
 
         Collection<StudentAssessment> studentAssessments = generateStudentAssessments(
                 MetaRelations.STUDENT_ASSES_MAP.values(), writer);
@@ -60,23 +52,25 @@ public class InterchangeStudentAssessmentGenerator {
 
     }
 
-    private static void generateStudentReference(Collection<StudentMeta> studentMetas, XMLStreamWriter writer) {
+    private static void generateStudentReference(Collection<StudentMeta> studentMetas, 
+            InterchangeWriter<InterchangeStudentAssessment> writer) {
         for (StudentMeta studentMeta : studentMetas) {
             StudentReferenceType studentReference = StudentGenerator.getStudentReferenceType(studentMeta.id);
-            JaxbUtils.marshal(studentReference, writer);
+            writer.marshal(studentReference);
         }
     }
 
     private static void generateAssessmentReference(Collection<AssessmentMeta> assessmentMetas, 
-            XMLStreamWriter writer) {
+            InterchangeWriter<InterchangeStudentAssessment> writer) {
         for (AssessmentMeta assessmentMeta : assessmentMetas) {
             AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentMeta.id);
-            JaxbUtils.marshal(assessmentRef, writer);
+            writer.marshal(assessmentRef);
         }
     }
 
     private static Collection<StudentAssessment> generateStudentAssessments(
-            Collection<StudentAssessmentMeta> studentAssessmentMetas, XMLStreamWriter writer) {
+            Collection<StudentAssessmentMeta> studentAssessmentMetas, 
+            InterchangeWriter<InterchangeStudentAssessment> writer) {
         long startTime = System.currentTimeMillis();
 
         Collection<StudentAssessment> studentAssessments = new ArrayList<StudentAssessment>();
@@ -91,7 +85,7 @@ public class InterchangeStudentAssessmentGenerator {
 
             // consider nesting creation of StudentObjectiveAssessment here if too much memory is used
             studentAssessments.add(studentAssessment);
-            JaxbUtils.marshal(studentAssessment, writer);
+            writer.marshal(studentAssessment);
         }
 
         System.out.println("generated " + studentAssessmentMetas.size() + " StudentAssessment objects in: "
@@ -100,7 +94,8 @@ public class InterchangeStudentAssessmentGenerator {
     }
 
     private static void generateStudentObjectiveAssessments(
-            Collection<StudentAssessment> studentAssessmentMetas, XMLStreamWriter writer) {
+            Collection<StudentAssessment> studentAssessmentMetas, 
+            InterchangeWriter<InterchangeStudentAssessment> writer) {
         long startTime = System.currentTimeMillis();
         long count = 0;
         
@@ -114,7 +109,7 @@ public class InterchangeStudentAssessmentGenerator {
                     studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
                 }
                 
-                JaxbUtils.marshal(studentObjectiveAssessment, writer);
+                writer.marshal(studentObjectiveAssessment);
                 count++;
             }
         }
@@ -124,7 +119,8 @@ public class InterchangeStudentAssessmentGenerator {
     }
     
     private static void generateStudentAssessmentItems(
-            Collection<StudentAssessment> studentAssessmentMetas, XMLStreamWriter writer) {
+            Collection<StudentAssessment> studentAssessmentMetas, 
+            InterchangeWriter<InterchangeStudentAssessment> writer) {
 
         long startTime = System.currentTimeMillis();
         long count = 0;
@@ -143,7 +139,7 @@ public class InterchangeStudentAssessmentGenerator {
                     studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+"."+count, airt);
                 }
 
-                JaxbUtils.marshal(studentAssessmentItem, writer);
+                writer.marshal(studentAssessmentItem);
                 count++;
             }
         }

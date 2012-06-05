@@ -1,15 +1,12 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
-import javax.xml.bind.JAXBException;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
+import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AttendanceEventGenerator;
-import org.slc.sli.test.utils.JaxbUtils;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -24,34 +21,23 @@ public class InterchangeStudentAttendanceGenerator {
      * Sets up a new Student Attendance Interchange and populates it.
      *
      * @return
-     * @throws JAXBException 
-     * @throws XMLStreamException 
      */
-    public static void generate(XMLStreamWriter writer) throws XMLStreamException {
-
-        writer.writeStartElement("InterchangeStudentAttendance");
-        writer.writeNamespace(null, "http://ed-fi.org/0100");
-        
-        writeEntitiesToInterchange(writer);
-
-        writer.writeEndElement();
-        
+    public static void generate(InterchangeWriter<InterchangeStudentAttendance> writer) {
+        writeEntitiesToInterchange(writer);        
     }
 
     /**
      * Generate the individual Student Attendance Association entities and write them out.
      *
-     * @param interchangeObjects
-     * @throws JAXBException 
      */
-    private static void writeEntitiesToInterchange(XMLStreamWriter writer) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentAttendance> writer) {
 
         generateStudentAttendanceEventAssoc(MetaRelations.STUDENT_MAP.values(), writer);
 
     }
 
     private static void generateStudentAttendanceEventAssoc(Collection<StudentMeta> studentMetas, 
-            XMLStreamWriter writer) {
+            InterchangeWriter<InterchangeStudentAttendance> writer) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -73,7 +59,7 @@ public class InterchangeStudentAttendanceGenerator {
                                 studentMeta.schoolIds.get(0), sectionId);
                     }
 
-                    JaxbUtils.marshal(attendanceEvent, writer);
+                    writer.marshal(attendanceEvent);
 
                     objGenCounter++;
                 }
