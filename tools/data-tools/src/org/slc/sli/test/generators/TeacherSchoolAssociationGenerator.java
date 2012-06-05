@@ -9,6 +9,7 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.ProgramAssignmentType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
@@ -54,10 +55,13 @@ public class TeacherSchoolAssociationGenerator {
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
-
+   
+        
         teacherSchool.getSchoolReference().add(schoolRef);
 
+       
         // construct and add the teacher reference
+        /*
         StaffIdentityType staffIdentity = new StaffIdentityType();
         staffIdentity.setStaffUniqueStateId(teacherMeta.id);
 
@@ -65,6 +69,13 @@ public class TeacherSchoolAssociationGenerator {
         teacherRef.setStaffIdentity(staffIdentity);
 
         teacherSchool.setTeacherReference(teacherRef);
+        */
+        
+        Ref teacherRefer = new Ref(teacherMeta.id);
+        StaffReferenceType teacherRef = new StaffReferenceType();
+        teacherRef.setRef(teacherRefer);
+        teacherSchool.setTeacherReference(teacherRef);
+        
 
         teacherSchool.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
 
