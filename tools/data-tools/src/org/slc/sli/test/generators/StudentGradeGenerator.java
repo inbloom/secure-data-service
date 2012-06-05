@@ -276,9 +276,13 @@ public class StudentGradeGenerator {
         GradingPeriod period = new GradingPeriod();
         period.setBeginDate(oneYearAgo);
         period.setEndDate(thisDay);
+
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         gpit.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
         period.setGradingPeriodIdentity(gpit);
+
+        //period.setGradingPeriod(GradingPeriodType.END_OF_YEAR);
+
         period.setTotalInstructionalDays(92);
         return period;
     }
@@ -288,7 +292,11 @@ public class StudentGradeGenerator {
         GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
         GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
         ref.setGradingPeriodIdentity(identity);
+
         identity.setGradingPeriod(period.getGradingPeriodIdentity().getGradingPeriod());
+
+       // identity.setGradingPeriod(period.getGradingPeriod());
+
         identity.setSchoolYear(period.getBeginDate() + "-" + period.getEndDate());
         if (edOrg != null)
             identity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrg);
