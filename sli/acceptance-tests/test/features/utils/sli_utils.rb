@@ -236,6 +236,12 @@ def prepareData(format, hash)
     hash.to_json
   elsif format == "application/xml"
     hash.to_s
+  elsif format == "application/json; charset=utf-8"
+    hash.to_json
+  elsif format == "application/vnd.slc+json; charset=utf-8"
+    hash.to_json
+  elsif format == "application/xml; charset=utf-8"
+    hash.to_s
   else
     assert(false, "Unsupported MIME type")
   end

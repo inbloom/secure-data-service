@@ -1342,12 +1342,12 @@
     <jb:wiring beanIdRef="assessmentIdentificationCodeType" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentificationCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode">
+    createOnElement="AssessmentIdentificationCode">
     <jb:value property="identificationSystem"
-      data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@IdentificationSystem" />
+      data="AssessmentIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode"
-      data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID" data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/ID" />
+      data="AssessmentIdentificationCode/@AssigningOrganizationCode" />
+    <jb:value property="ID" data="AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="assessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1673,8 +1673,7 @@
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:value property="studentId"
       data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="assessmentId"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
+    <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
     <jb:value property="serialNumber" data="InterchangeStudentAssessment/StudentAssessment/SerialNumber" />
@@ -1826,20 +1825,11 @@
     <jb:value property="GradeLevelAssessed"
       data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />
     <jb:value property="Version"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" />
+      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" decoder="Integer" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentificationCodeArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity">
-    <jb:wiring beanIdRef="assessmentIdentificationCodeMap" />
-  </jb:bean>
-  <jb:bean beanId="assessmentIdentificationCodeMap" class="java.util.HashMap"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode">
-    <jb:value property="IdentificationSystem"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@IdentificationSystem" />
-    <jb:value property="AssigningOrganizationCode"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
+    <jb:wiring beanIdRef="assessmentIdentificationCodeType" />
   </jb:bean>
 
   <!-- Questionable ends -->
