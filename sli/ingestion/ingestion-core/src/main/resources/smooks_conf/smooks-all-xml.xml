@@ -1631,24 +1631,10 @@
   <!-- StudentAssessment mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:expression property="recordType">'studentAssessmentAssociation'</jb:expression>
-    <jb:expression property="association">true</jb:expression>
-<!--     <jb:wiring property="localId" beanIdRef="StudentAssessmentLocalId" /> -->
+<!--     <jb:expression property="association">true</jb:expression> -->
     <jb:wiring property="attributes" beanIdRef="studentAssessmentAttributes" />
-<!--     <jb:wiring property="localParentIds" beanIdRef="studentAssessmentAssociationParentIds" /> -->
   </jb:bean>
 
-<!--   <jb:bean beanId="StudentAssessmentLocalId" class="java.util.HashMap" -->
-<!--     createOnElement="InterchangeStudentAssessment/StudentAssessment"> -->
-<!--     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" /> -->
-<!--     <jb:value property="studentId" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" /> -->
-<!--     <jb:value property="assessmentId" data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" /> -->
-<!--   </jb:bean> -->
-
-<!--   <jb:bean beanId="studentAssessmentAssociationParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment"> -->
-<!--     <jb:value property="Student" data="StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" /> -->
-<!--     <jb:value property="Assessment" -->
-<!--       data="StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" /> -->
-<!--   </jb:bean> -->
 
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:value property="studentId"
@@ -1667,7 +1653,6 @@
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
     <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
-<!--     <jb:wiring property="parents" beanIdRef="studentAssessmentAssociationParentIds" /> -->
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">

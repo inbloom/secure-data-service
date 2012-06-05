@@ -155,7 +155,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private List<Map<String, Object>> getStudentAssessmentItems(String studentAssessmentId) {
         List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
         Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
-        studentAssessmentItemSearchPaths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+        studentAssessmentItemSearchPaths.put("localParentIds.studentResultRef", studentAssessmentId);
         
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
                 "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());
