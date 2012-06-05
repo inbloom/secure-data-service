@@ -17,14 +17,6 @@ def countEach
   puts "Total records: #{totalCount}"
 end
 
-def count(collectionName)
-  db = getDatabase
-
-  coll = db.collection(collectionName)
-  count = coll.count
-  puts "#{collectionName}: #{count}"
-end
-
 def getDatabase
   host = ARGV[0]
   if (host.nil?)
