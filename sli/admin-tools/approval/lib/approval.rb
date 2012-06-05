@@ -159,6 +159,12 @@ module ApprovalEngine
 	end
 
 
+  # Check whether a user with the given email address exists.
+  # The email address serves as the unique userid.
+  def ApprovalEngine.user_exists?(email_address)
+    @@storage.user_exists?(email_address)
+  end
+
 	# Add all relevant information for a new user to the backend.
 	#
 	# Input Parameters:

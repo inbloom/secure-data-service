@@ -45,7 +45,7 @@ end
 
 Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
   removeUser(email)
-  assert(!@ldap.user_exists?(email), "#{email} still exists in LDAP")
+  assert(!ApprovalEngine.user_exists?(email), "#{email} still exists in LDAP")
 end
 
 Given /^I go to the production account registration page$/ do
@@ -200,7 +200,7 @@ def getEmailToken(email)
 end
 
 def removeUser(email)
-  if @ldap.user_exists?(email)
+  if ApprovalEngine.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
   coll = @db["userAccount"]
