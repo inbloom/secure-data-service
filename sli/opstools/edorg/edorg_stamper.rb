@@ -10,6 +10,7 @@ class SLCFixer
     @connection = Mongo::Connection.new(hp[0], hp[1].to_i)
     @db = @connection['sli']
     @students = @db['student']
+    @@count ||= 0
   end
   
   def start
@@ -30,11 +31,13 @@ class SLCFixer
       x.report("Sessions") {fix_sessions}
       x.report("Staff") {fix_staff}
     end
-    puts "\t Final time is #{Time.now - time} secs"
+    finalTime = Time.now - time
+    puts "\t Final time is #{finalTime} secs"
+    puts "\t Records per second #{@@count/finalTime}"
   end
 
   def fix_students
-    ssa = @db['studentSchoolAssociation']    
+    ssa = @db['studentSchoolAssociation']
     ssa.find.each do |student|
       edorgs = []
       old = student_edorgs(student['body']['studentId'])
@@ -42,16 +45,14 @@ class SLCFixer
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
       edorgs.flatten!.uniq!
       stamp_id(@students, student['body']['studentId'], edorgs)
+      stamp_id(ssa, ssa['_id'], student['body']['schoolId'])
     end
   end
 
   def fix_attendance
-    @start_time = Time.now
     attendances = @db['attendance']
-    students = @db['student']
-    edOrg = []
     attendances.find.each do |attendance|
-      edOrg << students.find_one({"_id" => attendance['body']['studentId']})['metaData']['edOrgs']
+      edOrg = student_edorgs(attendance['body']['studentId'])
       stamp_id(attendances, attendance['_id'], edOrg)
     end
   end
@@ -69,7 +70,6 @@ class SLCFixer
   end
 
   def fix_assessments
-    @start_time = Time.now
     saa = @db['studentAssessmentAssociation']
     saa.find.each do |assessment|
       edOrg = student_edorgs(assessment['body']['studentId'])
@@ -79,7 +79,7 @@ class SLCFixer
   end
 
   def fix_disciplines
-    @start_time = Time.now
+
     da = @db['disciplineAction']
     da.find.each do |action|
       edorg = student_edorgs(action['body']['studentId'])
@@ -94,7 +94,6 @@ class SLCFixer
   end
 
   def fix_parents
-    @start_time = Time.now
     spa = @db['studentParentAssociation']
     spa.find.each do |parent|
       edorg = student_edorgs(parent['body']['studentId'])
@@ -104,7 +103,6 @@ class SLCFixer
   end
 
   def fix_report_card
-    @start_time = Time.now
     report_card = @db['reportCard']
     report_card.find.each do |card|
       edorg = student_edorgs(card['body']['studentId'])
@@ -144,7 +142,6 @@ class SLCFixer
   end
 
   def fix_sessions
-    @start_time = Time.now
     ssa = @db['schoolSessionAssociation']
     ssa.find.each do |session|
       edorg = session['body']['schoolId']
@@ -154,7 +151,6 @@ class SLCFixer
   end
 
   def fix_staff
-    @start_time = Time.now
     sea = @db['staffEducationOrganizationAssociation']
     sea.find.each do |staff|
       edorg = staff['body']['educationOrganizationReference']
@@ -169,12 +165,10 @@ class SLCFixer
   end
 
   def fix_grades
-    @start_time = Time.now
     @db['gradebookEntry'].find.each do |grade|
       edorg = @db['section'].find_one({"_id" => grade['body']['sectionId']})['metaData']['edOrgs']
       stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
     end
-  
     #Grades and grade period
     @db['grade'].find.each do |grade|
       edorg = @db['studentSectionAssociation'].find_one({"_id" => grade['body']['studentSectionAssociationId']})['metaData']['edOrgs']
@@ -184,7 +178,6 @@ class SLCFixer
   end
 
   def fix_courses
-    @start_time = Time.now
     csa = @db['courseSectionAssociation']
     csa.find.each do |course|
       edorg = @db['section'].find_one({'_id' => course['body']['sectionId']})['metaData']['edOrgs']
@@ -195,8 +188,6 @@ class SLCFixer
   end
 
   def fix_miscellany
-    @start_time = Time.now
-  
     #StudentTranscriptAssociation
     @db['studentTranscriptAssociation'].find.each do |trans|
       edorg = student_edorgs(trans['body']['studentId'])
@@ -219,6 +210,7 @@ class SLCFixer
   private
   def stamp_id(collection, id, edOrg)
     collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
+    @@count += collection.count
   end
 
   def student_edorgs(id)
