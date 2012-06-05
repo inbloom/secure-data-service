@@ -18,7 +18,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -38,7 +38,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -58,7 +58,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -78,7 +78,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -98,7 +98,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -118,7 +118,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -138,7 +138,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -158,7 +158,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>

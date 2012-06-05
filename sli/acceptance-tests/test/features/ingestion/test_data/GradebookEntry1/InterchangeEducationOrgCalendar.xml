@@ -18,7 +18,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -39,7 +39,7 @@
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>

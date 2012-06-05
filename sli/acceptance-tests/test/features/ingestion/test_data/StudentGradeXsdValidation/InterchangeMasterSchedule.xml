@@ -2,6 +2,29 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
   <!-- Mi-Ha Tran and the other 1st graders -->
+   <CourseOffering>
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  
   <Section>
     <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
@@ -14,9 +37,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>

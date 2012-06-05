@@ -10,6 +10,12 @@ Given I post "GradebookEntry1.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName                |
 	   | gradebookEntry                |
+	   | section                       |
+	   | educationOrganization         |
+	   | course                        |
+	   | courseOffering                |
+	   | session                       |
+	   | schoolSessionAssociation      |
 When zip file is scp to ingestion landing zone
 	And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:

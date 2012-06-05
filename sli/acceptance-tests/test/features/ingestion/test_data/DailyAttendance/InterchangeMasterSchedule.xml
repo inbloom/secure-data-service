@@ -359,9 +359,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -388,9 +388,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -416,9 +416,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -444,9 +444,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -472,9 +472,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -500,9 +500,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -528,9 +528,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade Composition</ID>
         </CourseCode>
-        <Term>Second Semester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -556,9 +556,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -584,9 +584,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Special Elective:Debate Clinic</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -612,9 +612,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -640,9 +640,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -668,9 +668,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -696,9 +696,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -724,9 +724,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -752,9 +752,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -780,9 +780,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -808,9 +808,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -836,9 +836,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>American Literature</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -864,9 +864,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -892,9 +892,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -920,9 +920,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -949,9 +949,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Algebra-11</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -977,9 +977,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Algebra-10</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -1005,9 +1005,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Geometry-10</ID>
         </CourseCode>
-        <Term>Second Semester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -1033,9 +1033,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Geometry-10</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>

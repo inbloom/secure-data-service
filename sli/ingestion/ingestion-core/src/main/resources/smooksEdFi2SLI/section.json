@@ -1,5 +1,5 @@
 {
-   "keyFields":["body.uniqueSectionCode","body.schoolId","body.sessionId", "body.courseId"],
+   "keyFields":["body.uniqueSectionCode","body.schoolId","body.sessionId", "body.courseOfferingId"],
    "references":
    [
       {
@@ -79,22 +79,70 @@
          }
       },
       {
-         "fieldPath":"body.courseId",
-         "ref":{
-            "collectionName":"course",
-            "choiceOfFields":[
-               [
-                  {
-                     "path":"metaData.externalId",
-                     "values":[
-                        {
-                           "valueSource":"body.LocalCourseCode"
-                        }
-                     ]
-                  }
-               ]
-            ]
-         }
-      }
+          "fieldPath" : "body.courseOfferingId",
+          "ref" : 
+          {
+              "collectionName" : "courseOffering",
+              "choiceOfFields" :
+              [
+                  [
+                      {
+                          "path":"body.localCourseCode",
+                          "values" :
+                          [{ 
+                                "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.LocalCourseCode" 
+                          }]
+                      },
+                      {
+                          "path":"body.sessionId",
+                          "values" :
+                          [{
+                               "ref" :
+                               {
+                                   "collectionName" : "session",
+                                   "choiceOfFields" :
+                                   [[
+                                        {
+                                            "path" : "body.schoolId",
+                                            "values" :
+                                            [{
+                                                 "ref" :
+                                                 {
+                                                     "collectionName" : "educationOrganization",
+                                                     "choiceOfFields" :
+                                                     [[
+                                                          {
+                                                              "path" : "body.stateOrganizationId",
+                                                              "values" :
+                                                              [{
+                                                                   "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.StateOrganizationId" 
+                                                              }]
+                                                          }
+                                                     ]]
+                                                 }
+                                            }]
+                                         },
+                                         {
+                                             "path" : "body.schoolYear",
+                                             "values" :
+                                             [{
+                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SchoolYear" 
+                                             }]
+                                         },
+                                         {
+                                             "path" : "body.term",
+                                             "values" :
+                                             [{
+                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.Term" 
+                                             }]
+                                         }
+                                   ]]
+                               }
+                          }]
+                      }
+                  ]
+              ]
+          }
+       }
    ]
 }

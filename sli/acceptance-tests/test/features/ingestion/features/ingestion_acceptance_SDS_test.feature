@@ -104,7 +104,7 @@ Then I should see following map of entry counts in the corresponding collections
         | gradingPeriod               | 17    |
         | calendarDate                | 556   |
         | reportCard                  | 2     |
-        | courseOffering              | 96    |
+        | courseOffering              | 95    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -150,7 +150,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
        | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
-    And I should see "Processed 16712 records." in the resulting batch job file
+    And I should see "Processed 3124 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -161,8 +161,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 194" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 194" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 192" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
@@ -263,7 +263,7 @@ Then I should see following map of entry counts in the corresponding collections
 		| studentDisciplineIncidentAssociation| 4|
         | grade                       | 4     |
         | reportCard                  | 2     |
-        | courseOffering              | 97    |
+        | courseOffering              | 96    |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -331,7 +331,7 @@ Then I should see following map of entry counts in the corresponding collections
 		| studentDisciplineIncidentAssociation| 8|
         | grade                       | 4     |
         | reportCard                  | 2     |
-        | courseOffering              | 105   |
+        | courseOffering              | 104   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |

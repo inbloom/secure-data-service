@@ -12,6 +12,7 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | student                     |
      | studentSchoolAssociation    |
      | course                      |
+	 | courseOffering              |
      | educationOrganization       |
      | school                      |
      | section                     |
@@ -25,6 +26,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 94    |
      | studentSchoolAssociation    | 123   |
      | course                      | 15    |
+	 | courseOffering              | 15    |
      | educationOrganization       | 8     |
      | school                      | 0     |
      | section                     | 25    |
@@ -39,7 +41,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
 
-  And I should see "Processed 16487 records." in the resulting batch job file
+  And I should see "Processed 541 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
