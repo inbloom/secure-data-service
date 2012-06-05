@@ -75,9 +75,23 @@ DashboardProxy = {
 		},
 		getWidgetConfig: function(widget) {
 			return this.widgetConfig[widget];
-		}
+		},
 		
-
+		// The function returns the layout name
+		getLayoutName: function () {
+			var configObj = this.config,
+				key,
+				obj;
+			
+			for (key in configObj) {
+				obj = configObj[key];
+				if(obj.type && obj.type === "LAYOUT" && obj.name) {
+					return obj.name;
+				}
+			}
+			
+			return "SLC";
+		}
 };
 
 DashboardUtil.getContextRootPath = function() {
@@ -202,6 +216,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 	            if(item1.style) {
 	            	colModelItem.classes = item1.style;
 	            }
+	            
+	            colModelItem.resizable = false; // prevent the user from manually resizing the columns
+	            
 	            colModel.push( colModelItem );
 	        }     
 	    }
@@ -211,7 +228,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
       	  useColSpanStyle: true, 
-      	  groupHeaders:groupHeaders
+      	  groupHeaders:groupHeaders,
+          fixed: true
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
     	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');

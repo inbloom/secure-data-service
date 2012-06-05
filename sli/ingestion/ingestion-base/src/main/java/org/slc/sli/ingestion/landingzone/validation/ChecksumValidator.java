@@ -39,7 +39,7 @@ public class ChecksumValidator extends IngestionFileValidator {
             actualMd5Hex = null;
         }
 
-        if (!checksumsMatch(actualMd5Hex.toLowerCase(), fe.getChecksum().toLowerCase())) {
+        if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
             if (log.isDebugEnabled()) {
                 String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
