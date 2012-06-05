@@ -57,10 +57,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>SAT</ID>
-				</AssessmentIdentificationCode>
+                <AssessmentTitle>SAT</AssessmentTitle>
 			</AssessmentIdentity>
 		</AssessmentReference>
 	</StudentAssessment>
