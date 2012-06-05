@@ -43,7 +43,7 @@ class SLCFixer
       old = student_edorgs(student['body']['studentId'])
       edorgs << old unless old.nil?
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
-      edorgs.flatten!.uniq!
+      edorgs = edorgs.flatten.uniq
       stamp_id(@students, student['body']['studentId'], edorgs)
       stamp_id(ssa, student['_id'], student['body']['schoolId'])
     end
