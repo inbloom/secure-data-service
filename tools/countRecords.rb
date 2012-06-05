@@ -1,30 +1,20 @@
 require 'rubygems'
 require 'mongo'
 
-def countRecords
-  db = getDatabase
-
-  count = 0
-  db.collection_names.each do |collectionName|
-    if (!collectionName.start_with?('system.'))
-      coll = db.collection(collectionName)
-      count += coll.count
-    end
-  end
-
-  puts "Total records: #{count}"
-end
-
 def countEach
   db = getDatabase
 
+  totalCount = 0
   db.collection_names.sort.each do |collectionName|
     if (!collectionName.start_with?('system.'))
       coll = db.collection(collectionName)
       count = coll.count
+      totalCount += count
       puts "#{collectionName}: #{count}"
     end
   end
+
+  puts "Total records: #{totalCount}"
 end
 
 def count(collectionName)
@@ -52,10 +42,4 @@ end
 
 
 countEach
-
-countRecords
-
-#count('section')
-
-#count('student')
 
