@@ -269,7 +269,7 @@ acceptance-tests:
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
-
+        sli.mongotemplate.writeConcern: com.mongodb.WriteConcern.SAFE
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
