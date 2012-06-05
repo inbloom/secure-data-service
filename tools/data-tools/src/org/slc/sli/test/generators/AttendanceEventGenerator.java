@@ -51,9 +51,40 @@ public class AttendanceEventGenerator {
     }
 
     public static AttendanceEventCategoryType getAttendanceEventCategoryType() {
-        return AttendanceEventCategoryType.values()[RANDOM.nextInt(AttendanceEventCategoryType.values().length)];
+    	int index = RANDOM.nextInt(AttendanceEventCategoryType.values().length);
+    	if (index == 1)
+    		index = index + 1;
+    	
+        return AttendanceEventCategoryType.values()[index];
     }
 
+   // ["In Attendance", "Absence". "Excused Absence","Unexcused Absence", "Tardy", "Early departure"]
+
+    
+    public static AttendanceEventCategoryType getAttendanceEventCategoryTypeMedFi() {
+    	int roll = RANDOM.nextInt(100);
+		switch (roll) {
+		case 1 :
+			return AttendanceEventCategoryType.values()[roll];
+		case 2 :
+			return AttendanceEventCategoryType.values()[roll];
+		case 3 : 
+			return AttendanceEventCategoryType.values()[roll];
+		case 4 :
+			return AttendanceEventCategoryType.values()[roll -2];
+		case 5 : 
+			return AttendanceEventCategoryType.values()[roll - 4];
+		case 6:
+			return AttendanceEventCategoryType.values()[roll - 2];
+		case 7:
+			return AttendanceEventCategoryType.values()[roll - 2];
+		default : 
+			return AttendanceEventCategoryType.values()[0];
+					
+		}
+ 
+    }
+    
     public static EducationalEnvironmentType getEducationalEnvironmentType() {
         return EducationalEnvironmentType.values()[RANDOM.nextInt(EducationalEnvironmentType.values().length)];
     }

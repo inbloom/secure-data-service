@@ -1,24 +1,29 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
+import org.slc.sli.test.edfi.entities.EducationServiceCenter;
+import org.slc.sli.test.edfi.entities.FeederSchoolAssociation;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
+import org.slc.sli.test.edfi.entities.meta.ESCMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 import org.slc.sli.test.edfi.entities.meta.SeaMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.CourseGenerator;
+import org.slc.sli.test.generators.EducationAgencyGenerator;
 import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
+import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -77,6 +82,10 @@ public class InterchangeEdOrgGenerator {
 
         generateStateEducationAgencies(interchangeObjects, MetaRelations.SEA_MAP.values());
 
+        generateEducationServiceCenters(interchangeObjects, MetaRelations.ESC_MAP.values());
+        
+        generateFeederSchoolAssociation(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
+        
         generateLocalEducationAgencies(interchangeObjects, MetaRelations.LEA_MAP.values());
 
         generateSchools(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
@@ -103,7 +112,7 @@ public class InterchangeEdOrgGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             } else {
-            	 sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
+            	sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             }
 
             interchangeObjects.add(sea);
@@ -113,6 +122,57 @@ public class InterchangeEdOrgGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
+    /**
+     * Loops all ESCs and, using an ESC Generator, populates interchange data.
+     *
+     * @param interchangeObjects
+     * @param escMetas
+     */
+    private static void generateEducationServiceCenters(List<Object> interchangeObjects, Collection<ESCMeta> escMetas) {
+        long startTime = System.currentTimeMillis();
+
+        for (ESCMeta escMeta : escMetas) {
+
+            EducationServiceCenter esc;
+
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                esc = EducationAgencyGenerator.getEducationServiceCenter(escMeta.id, escMeta.seaId);
+            } else {
+                esc = EducationAgencyGenerator.getEducationServiceCenter(escMeta.id, escMeta.seaId);
+            }
+
+            interchangeObjects.add(esc);
+        }
+
+        System.out.println("generated " + escMetas.size() + " EducationServiceCenter objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+    
+    /**
+     * Generates FEEDER_RELATIONSHIPS FeederSchoolAssociation between 2 schools using a circular list.
+     *
+     * @param interchangeObjects
+     * @param seaMetas
+     */
+    private static void generateFeederSchoolAssociation(List<Object> interchangeObjects, Collection<SchoolMeta> schools) {
+        long startTime = System.currentTimeMillis();
+
+        List<SchoolMeta> schoolMetas = new LinkedList<SchoolMeta>(schools);
+        int schoolCount = schoolMetas.size();
+        if(schoolCount > 1) {
+            for(int i = 0; i < MetaRelations.FEEDER_RELATIONSHIPS; i++) {
+                SchoolMeta feederMeta   = schoolMetas.get(i % schoolCount);
+                SchoolMeta receiverMeta = schoolMetas.get((i+ 1) % schoolCount);
+                FeederSchoolAssociation fsa = EducationAgencyGenerator.getFeederSchoolAssociation(receiverMeta, feederMeta);
+                fsa.setFeederRelationshipDescription("Feeder Relationship " +  i);
+                interchangeObjects.add(fsa);
+            }
+        }
+
+        System.out.println("generated " + MetaRelations.FEEDER_RELATIONSHIPS + " FeederSchoolAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+    
     /**
      * Loops all LEAs and, using an LEA Generator, populates interchange data.
      *
@@ -127,9 +187,9 @@ public class InterchangeEdOrgGenerator {
             LocalEducationAgency lea;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                lea = null;
+            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             } else {
-                lea = LocalEducationAgencyGenerator.generateLowFi(leaMeta.id, leaMeta.seaId);
+            	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             }
 
             interchangeObjects.add(lea);

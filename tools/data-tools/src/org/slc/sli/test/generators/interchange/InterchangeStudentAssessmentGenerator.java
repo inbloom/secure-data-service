@@ -126,20 +126,22 @@ public class InterchangeStudentAssessmentGenerator {
         long count = 0;
 
         for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
-            StudentAssessmentItem studentAssessmentItem;
+            if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
+                StudentAssessmentItem studentAssessmentItem;
 
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentAssessmentItem = null;
-            } else {
-                AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
-                AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
-                aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
-                airt.setAssessmentItemIdentity(aiit);
-                studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+".", airt);
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    studentAssessmentItem = null;
+                } else {
+                    AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
+                    AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
+                    aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                    airt.setAssessmentItemIdentity(aiit);
+                    studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+"."+count, airt);
+                }
+
+                writer.marshal(studentAssessmentItem);
+                count++;
             }
-
-            writer.marshal(studentAssessmentItem);
-            count++;
         }
 
         System.out.println("generated " + count + " StudentAssessmentItem objects in: "

@@ -61,6 +61,8 @@ public class MediumStudentGenerator {
 //	        Random random = new Random();
 
 	        Student student = new Student();
+	        
+	        student.setId(studentId);
 
 	        student.setStudentUniqueStateId(studentId);
 

@@ -10,7 +10,9 @@ public class SeaMeta {
     public String programId;
     
     public Map<String, ProgramMeta> programs = new HashMap();
-
+    
+    public Map<String, ESCMeta> escs = new HashMap<String, ESCMeta>();
+    
     public SeaMeta(String id) {
         this.id = id;
     }

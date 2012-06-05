@@ -290,10 +290,11 @@ public class CourseGenerator {
         course.setCourseTitle(cc.getID());
 
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
-        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-        eoic.setID(schoolId);
-        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+//        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+//        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+//        eoic.setID(schoolId);
+//        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+        edOrgIdentityType.setStateOrganizationId(schoolId);
         // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(eoic);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
