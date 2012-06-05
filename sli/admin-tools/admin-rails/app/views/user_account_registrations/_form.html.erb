@@ -8,6 +8,8 @@
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
         <% error = " error" %>
+    <% elsif is_password_field && @user_account_registration.errors[password_field].any? %>
+        <% error = " error" %>
     <% end %>
     <%= tag("div", :class => "control-group#{error}") %>
     <div class="control-label">
