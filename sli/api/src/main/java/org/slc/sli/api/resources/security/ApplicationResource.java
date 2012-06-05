@@ -288,10 +288,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
         }
         
-        if (clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)) || clientId != null
-                && !clientId.equals(oldApp.get(CLIENT_ID)) || id != null && !id.equals(oldApp.get("id"))
-                || !registrationDatesMatch(oldReg, newReg, APPROVAL_DATE)
-                || !registrationDatesMatch(oldReg, newReg, REQUEST_DATE)) {
+        if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
+                || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
+                || (id != null && !id.equals(oldApp.get("id")))
+                || (!registrationDatesMatch(oldReg, newReg, APPROVAL_DATE))
+                || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
+            
             EntityBody body = new EntityBody();
             body.put("message",
                     "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date) specified in PUT.  "
@@ -404,10 +406,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         Long oldDate = (Long) oldReg.get(field);
         Long newDate = (Long) newReg.get(field);
         
-        if (oldDate != null && newDate != null) {
+        if (oldDate == newDate) {
+            return true;
+        } else if (oldDate != null && newDate != null) {
             return oldDate.equals(newDate);
-        } else {
-            return false;
         }
+        return false;
     }
 }
