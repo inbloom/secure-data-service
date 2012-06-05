@@ -18,7 +18,7 @@ $('#dbrd_frm_search').submit(function(e) {
   if (!lastName) {
     lastName = '';
   }
-  DashboardUtil.goToUrl('studentSearchPage', 'firstName=' + firstName + '&lastName=' + lastName);
+  SLC.util.goToUrl('studentSearchPage', 'firstName=' + firstName + '&lastName=' + lastName);
 });
 </script>
 </form>

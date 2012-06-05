@@ -10,6 +10,6 @@
     function getTableId() {
         return '${id}';
     }
-    var instHierarchy=DashboardProxy.getData('populationWidget')['root'];
+    var instHierarchy=SLC.dataProxy.getData('populationWidget')['root'];
     populateInstHierarchy();
 </script>

@@ -1,4 +1,4 @@
-var dataModel = DashboardProxy.getData("studentSearch");
+var dataModel = SLC.dataProxy.getData("studentSearch");
 
 var no_result_string =
         '<h4>I\'m sorry, we do not have results that match your search.</h4>\
@@ -61,7 +61,6 @@ function gotoURL(id) {
 	}
 	var params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&pageNumber=' + postPageNum +
 	'&pageSize=' + postPageSize;
-	//DashboardUtil.load('studentSearchPage', params);
-  	DashboardUtil.goToUrl('studentSearchPage', params);
+  	SLC.util.goToUrl('studentSearchPage', params);
 }
 

@@ -31,7 +31,7 @@
 </div>
     <script type="text/javascript">
       <#-- make grid -->
-      DashboardUtil.makeGrid('${id}', DashboardProxy.getConfig("${gridId}"), DashboardProxy.getData("${gridId}"));
+      SLC.grid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
 
     </script>
 
@@ -42,9 +42,9 @@
 	var contextRootPath = '${CONTEXT_ROOT_PATH}',
 		pageTitle;
 		
-	DashboardProxy.loadAll(${viewDataConfig});
+	SLC.dataProxy.loadAll(${viewDataConfig});
   
-	pageTitle = DashboardProxy.getLayoutName();
+	pageTitle = SLC.dataProxy.getLayoutName();
 	$("<title></title>").html(pageTitle).appendTo("head");
 </script>
 </#noescape>

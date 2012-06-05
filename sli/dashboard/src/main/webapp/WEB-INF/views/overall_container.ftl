@@ -3,15 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/js/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/raphael-min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/dashboardUtil.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/fuelGaugeWidget.js"></script>
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/css/ui.jqgrid.css" media="screen" />
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.util.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>
+<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
 
 <script type="text/javascript">

@@ -2,7 +2,7 @@
 <#assign layoutConfig = viewConfigs>
 <script>
     $(document).ready( function() {
-        DashboardUtil.makeTabs("#tabs");
+        SLC.util.makeTabs("#tabs");
     });
 </script>
 
