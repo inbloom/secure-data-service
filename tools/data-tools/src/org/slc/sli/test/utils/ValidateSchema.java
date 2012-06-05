@@ -47,6 +47,7 @@ public class ValidateSchema {
 
         }
 
+        long totalErrorCount = 0;
         for (File file : new File(xmlDir).listFiles()) {
             if (file.isFile()) {
                 String fname = file.getName();
@@ -91,15 +92,20 @@ public class ValidateSchema {
                             
                         });
                         validator.validate(source);
-                                                
-                        for(String error: errorReport.keySet()) {
-                            List<Integer> lines = errorReport.get(error);
-                            System.out.println(lines.size() + " errors. " + error + " "  + ((lines.size() > 5 )? (lines.subList(0, 4)):( lines)));
+                        totalErrorCount += errorReport.size(); 
+                        if(errorReport.size() > 0) {                            
+                            System.out.println("Errors for " + file.getCanonicalPath() + ". [" + schemaFile + "]");
+                            for(String error: errorReport.keySet()) {
+                                List<Integer> lines = errorReport.get(error);
+                                System.out.println("Lines  "  + ((lines.size() > 5 )? (lines.subList(0, 4) + "..."):(lines)) + lines.size() + " errors. " + error);
+                            }
+                            System.out.println("");
                         }
-                        
-                        
-                        System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
-                        System.out.println("");
+                        else {
+                            System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
+                            System.out.println("");
+                        }
+                                               
                     } catch (SAXException ex) {
                         System.out.println("** ERROR **" + file.getCanonicalPath() + " is not valid. [" + schemaFile
                                 + "]");
@@ -109,6 +115,8 @@ public class ValidateSchema {
                 }
             }
         }
+        if(totalErrorCount > 0) 
+            System.out.println("                                ******************************************" + totalErrorCount + " ERRORS" + "**************************************************");
         return null;
     }
 

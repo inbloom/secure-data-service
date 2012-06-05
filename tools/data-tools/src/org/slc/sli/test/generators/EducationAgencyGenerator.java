@@ -114,7 +114,7 @@ public class EducationAgencyGenerator {
         EducationOrganizationCategoriesType catType = new EducationOrganizationCategoriesType();
         catType.getOrganizationCategory().add(EducationOrganizationCategoryType.EDUCATION_SERVICE_CENTER);
         agency.setOrganizationCategories(catType);
-        agency.getAddress().add(AddressGenerator.getRandomAddress());
+        agency.getAddress().add(AddressGenerator.generateLowFi());
         InstitutionTelephone telephone = new InstitutionTelephone();
         telephone.setInstitutionTelephoneNumberType(InstitutionTelephoneNumberType.ADMINISTRATIVE);
         telephone.setTelephoneNumber("212-823-1231");
@@ -127,7 +127,7 @@ public class EducationAgencyGenerator {
         rating.setRatingOrganization("DoE");
         rating.setRatingProgram("DoER11");
         rating.setRatingTitle("DoER11-XP");
-        rating.setSchoolYear("2012");
+        rating.setSchoolYear("2012-2013");
         agency.getAccountabilityRatings().add(rating);
         // agency.getProgramReference().add(ProgramReferenceType)
         // agency.getEducationOrganizationPeerReference()
@@ -158,8 +158,8 @@ public class EducationAgencyGenerator {
         
         feed.setFeederSchoolReference(feederRef);
         feed.setReceivingSchoolReference(receiverRef);
-        feed.setBeginDate("20121010");
-        feed.setEndDate("20151010");
+        feed.setBeginDate(" 2012-10-10");
+        feed.setEndDate("2030-10-10");
         feed.setFeederRelationshipDescription("Feeder Relationship from " + feeder.id + " to " + receiver.id);
 
         return feed;
