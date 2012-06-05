@@ -50,6 +50,9 @@ class ApplicationController < ActionController::Base
       elsif params[:code] && !oauth.has_code
         SessionResource.access_token = oauth.get_token(params[:code])
         check = Check.get("")
+        email = SupportEmail.get("")
+        logger.debug { "Email #{email}"}
+        session[:support_email] = email
         session[:full_name] ||= check["full_name"]   
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
