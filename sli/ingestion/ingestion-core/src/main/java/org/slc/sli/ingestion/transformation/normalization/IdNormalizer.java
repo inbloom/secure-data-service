@@ -144,7 +144,7 @@ public class IdNormalizer {
 
     public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport, String resolvedReferences) {
-        LOG.debug("resolving id for {}", entity);
+        LOG.debug("resolving id for {}", entity.getType());
         List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
@@ -256,7 +256,7 @@ public class IdNormalizer {
                             }
                         }
                         if (filterValues.size() > 0) {
-                            LOG.debug("adding criteria where {} is $in: {}", field.getPath(), filterValues);
+                            LOG.debug("adding criteria for {}", field.getPath());
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }
