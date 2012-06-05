@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
@@ -26,6 +25,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     private Map<Object, NeutralRecord> assessments;
     
+    private static final String ASSESSMENT = "assessment";
+    private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+
     /**
      * Default constructor.
      */
@@ -49,8 +51,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for assessment transformation.");
-        assessments = getCollectionFromDb(EntityNames.ASSESSMENT);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.ASSESSMENT, assessments.size());
+        assessments = getCollectionFromDb(ASSESSMENT);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", ASSESSMENT, assessments.size());
     }
     
     /**
@@ -94,7 +96,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR,
+                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR,
                         getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
             }
             
@@ -140,7 +142,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         paths.put("body.codeValue", assessmentPeriodDescriptorRef);
         
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
+                ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
         
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
