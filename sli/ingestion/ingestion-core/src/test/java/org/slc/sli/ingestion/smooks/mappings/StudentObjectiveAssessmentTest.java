@@ -30,7 +30,7 @@ public class StudentObjectiveAssessmentTest {
             + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
             + "<Result>12</Result>"
             + "</ScoreResults>"
-            + "<StudentTestAssessmentReference ref=\"STA-TAKS-Reading-8-2011-604844\"></StudentTestAssessmentReference>"
+            + "<StudentAssessmentReference ref=\"STA-TAKS-Reading-8-2011-604844\"></StudentAssessmentReference>"
             + "<ObjectiveAssessmentReference>"
             + "<ObjectiveAssessmentIdentity>"
             + "<ObjectiveAssessmentIdentificationCode>TAKSReading8-1</ObjectiveAssessmentIdentificationCode>"
@@ -38,31 +38,6 @@ public class StudentObjectiveAssessmentTest {
             + "</ObjectiveAssessmentReference>"
             + "</StudentObjectiveAssessment>"
             + "</InterchangeStudentAssessment>";
-    
-    /*
-     * TODO: write CSV unit test
-     * public void testValidSectionCSV() throws Exception {
-     * 
-     * String smooksConfig = "smooks_conf/smooks-studentObjectiveAssessment-csv.xml";
-     * String targetSelector = "csv-record";
-     * 
-     * String testData = "";
-     * 
-     * ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
-     * NeutralRecordFileReader nrfr = null;
-     * try {
-     * nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-     * 
-     * // Tests that the NeutralRecord was created
-     * Assert.assertTrue(nrfr.hasNext());
-     * 
-     * NeutralRecord record = nrfr.next();
-     * checkValidSectionNeutralRecord(record);
-     * } finally {
-     * nrfr.close();
-     * }
-     * }
-     */
     
     @Test
     public void testValidatorSection() throws Exception {
@@ -85,13 +60,14 @@ public class StudentObjectiveAssessmentTest {
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
         
-        List scoreResultList = (List) entity.get("scoreResults");
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> scoreResultList = (List<Map<String, Object>>) entity.get("scoreResults");
         Assert.assertTrue(scoreResultList != null);
-        Map scoreResult = (Map) scoreResultList.get(0);
+        Map<String, Object> scoreResult = (Map<String, Object>) scoreResultList.get(0);
         Assert.assertTrue(scoreResult != null);
         Assert.assertEquals("12", scoreResult.get("result").toString());
         Assert.assertEquals("Raw score", scoreResult.get("assessmentReportingMethod"));
-        Assert.assertEquals("STA-TAKS-Reading-8-2011-604844", entity.get("studentTestAssessmentRef"));
+        Assert.assertEquals("STA-TAKS-Reading-8-2011-604844", entity.get("studentAssessmentRef"));
         Assert.assertEquals("TAKSReading8-1", entity.get("objectiveAssessmentRef"));
     }
 }
