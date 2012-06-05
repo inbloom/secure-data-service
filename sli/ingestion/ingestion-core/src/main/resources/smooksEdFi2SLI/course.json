@@ -11,7 +11,7 @@
                 [
                     [
                         {
-                            "path": "body.stateOrganizationId",
+                            "path": "metaData.externalId",
                             "values": [
                                 {
                                     "valueSource": "body.schoolId"
