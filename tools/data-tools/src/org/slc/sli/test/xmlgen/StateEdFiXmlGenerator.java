@@ -3,8 +3,6 @@ package org.slc.sli.test.xmlgen;
 import java.io.File;
 import java.io.PrintStream;
 
-import javax.xml.stream.XMLStreamWriter;
-
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
@@ -33,6 +31,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
 
@@ -216,7 +215,6 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentEnrollment() throws Exception {
-    	
 
         InterchangeStudentEnrollment studentEnrollment = InterchangeStudentEnrollmentGenerator.generate();
 
@@ -234,12 +232,12 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAttendance() throws Exception {
 
+        InterchangeWriter<InterchangeStudentAttendance> iWriter = 
+                new InterchangeWriter<InterchangeStudentAttendance>(InterchangeStudentAttendance.class);
+        InterchangeStudentAttendanceGenerator.generate(iWriter);
+        iWriter.close();
 
-        String xmlFilePath = rootOutputPath + "/InterchangeStudentAttendance.xml";
-
-        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAttendance.class);
-        InterchangeStudentAttendanceGenerator.generate(writer);
-        JaxbUtils.finishInterchangeWriter(writer);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Attendance", iWriter.getXmlFilePath());
     }
 
     /**
@@ -322,13 +320,12 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentAssessment() throws Exception {
 
-        String xmlFilePath = rootOutputPath + "/InterchangeStudentAssessment.xml";
+        InterchangeWriter<InterchangeStudentAssessment> iWriter = 
+                new InterchangeWriter<InterchangeStudentAssessment>(InterchangeStudentAssessment.class);
+        InterchangeStudentAssessmentGenerator.generate(iWriter);
+        iWriter.close();
 
-        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentAssessment.class);
-        InterchangeStudentAssessmentGenerator.generate(writer);
-        JaxbUtils.finishInterchangeWriter(writer);
-
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", iWriter.getXmlFilePath());
     }
 
     /**
@@ -338,13 +335,12 @@ public class StateEdFiXmlGenerator {
      */
     private static void studentGrade() throws Exception {
 
-        String xmlFilePath = rootOutputPath + "/InterchangeStudentGrade.xml";
-
-        XMLStreamWriter writer = JaxbUtils.createInterchangeWriter(xmlFilePath, InterchangeStudentGrade.class);
-        InterchangeStudentGradeGenerator.generate(writer);
-        JaxbUtils.finishInterchangeWriter(writer);
+        InterchangeWriter<InterchangeStudentGrade> iWriter = 
+                new InterchangeWriter<InterchangeStudentGrade>(InterchangeStudentGrade.class);
+        InterchangeStudentGradeGenerator.generate(iWriter);
+        iWriter.close();
         
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", iWriter.getXmlFilePath());
     }
 
 }

@@ -4,15 +4,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.stream.XMLStreamWriter;
-
+import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
 import org.slc.sli.test.edfi.entities.EducationServiceCenter;
 import org.slc.sli.test.edfi.entities.FeederSchoolAssociation;
-import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
-import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
@@ -28,7 +26,6 @@ import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
 import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
-import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -73,18 +70,6 @@ public class InterchangeEdOrgGenerator {
         addEntitiesToInterchange(interchangeObjects);
 
         return interchange;
-    }
-
-    public static void generate(XMLStreamWriter writer) throws Exception {
-
-        InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
-        List<Object> interchangeObjects = interchange
-                .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
-
-        addEntitiesToInterchange(interchangeObjects);
-
-        JaxbUtils.marshal(interchange, writer);
-
     }
 
     /**
