@@ -20,39 +20,39 @@ import org.springframework.stereotype.Component;
 
 /**
  * Process commands issued via a command topic
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 @Component
 public class CommandProcessor {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
-
+    
     private static final Object FLUSH_STATS = "flushStats";
-
+    
     @Resource(name = "batchJobMongoTemplate")
     private MongoTemplate mongo;
-
+    
     @Handler
     public void processCommand(Exchange exch) throws Exception {
         String command = exch.getIn().getBody().toString();
-
+        
         LOG.info("Received: " + command);
         String[] chunks = command.split("\\|");
-
+        
         if (FLUSH_STATS.equals(chunks[0])) {
             String batchId = chunks[1];
             Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
-
+            
             String hostName = InetAddress.getLocalHost().getHostName();
-            hostName = hostName.replaceAll("\\.","#");
+            hostName = hostName.replaceAll("\\.", "#");
             Update update = new Update();
             update.set("executionStats." + hostName, stats);
-
-            LOG.info("Dumping runtime stats to db...");
+            
+            LOG.info("Dumping runtime stats to db for job {}", batchId);
             LOG.info(stats.toString());
-
+            
             mongo.updateFirst(new Query(Criteria.where("_id").is(batchId)), update, "newBatchJob");
             MongoTrackingAspect.aspectOf().reset();
             LOG.info("Runtime stats are now cleared.");
@@ -60,5 +60,5 @@ public class CommandProcessor {
             LOG.error("Unsupported command");
         }
     }
-
+    
 }
