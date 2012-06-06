@@ -34,15 +34,7 @@
 
       <% if @user_account_registration.errors[field].any? %>
             <span class="help-inline">
-              <% if @user_account_registration.errors[field].size > 1 %>
-                  <ul>
-                    <% @user_account_registration.errors[field].each do |msg| %>
-                        <li><%= msg %></li>
-                    <% end %>
-                  </ul>
-              <% else %>
-                  <%= @user_account_registration.errors[field][0] %>
-              <% end %>
+              <%= @user_account_registration.errors[field][0] %>
             </span>
       <% end %>
     </div>
@@ -65,13 +57,13 @@
       <div style="margin-bottom: 9px;">
         <span style="color:red;">*</span> = required fields
       </div>
-	  <%# recaptcha section %>
-	  <% if APP_CONFIG['recaptcha_disable'] == true %>
-		<span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
-	  <% end %>
-	  <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
-	  <%= tag("div", :class => "control-group#{error}") %>
-	  <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
+      <%# recaptcha section %>
+      <% if APP_CONFIG['recaptcha_disable'] == true %>
+          <span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
+      <% end %>
+      <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
+      <%= tag("div", :class => "control-group#{error}") %>
+      <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
       <% if @user_account_registration.errors[:recaptcha].any? %>
             <span class="help-inline">
 				<%= @user_account_registration.errors[:recaptcha][0] %>
