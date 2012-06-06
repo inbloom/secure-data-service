@@ -92,7 +92,7 @@ public class IdNormalizer {
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
-        LOG.debug("~Entity~ {}", e == null ? "Not Found" : e);
+        LOG.debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
         if (e == null) {
             errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq,
                     IdNormalizer.class);

@@ -1322,12 +1322,12 @@
     <jb:wiring beanIdRef="assessmentIdentificationCodeType" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentificationCodeType" class="java.util.HashMap"
-    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode">
+    createOnElement="AssessmentIdentificationCode">
     <jb:value property="identificationSystem"
-      data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@IdentificationSystem" />
+      data="AssessmentIdentificationCode/@IdentificationSystem" />
     <jb:value property="assigningOrganizationCode"
-      data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID" data="InterchangeAssessmentMetadata/Assessment/AssessmentIdentificationCode/ID" />
+      data="AssessmentIdentificationCode/@AssigningOrganizationCode" />
+    <jb:value property="ID" data="AssessmentIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="assessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
@@ -1653,8 +1653,7 @@
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:value property="studentId"
       data="InterchangeStudentAssessment/StudentAssessment/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="assessmentId"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
+    <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" />
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="administrationEndDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationEndDate" />
     <jb:value property="serialNumber" data="InterchangeStudentAssessment/StudentAssessment/SerialNumber" />
@@ -1806,20 +1805,11 @@
     <jb:value property="GradeLevelAssessed"
       data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />
     <jb:value property="Version"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" />
+      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/Version" decoder="Integer" />
   </jb:bean>
   <jb:bean beanId="assessmentIdentificationCodeArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity">
-    <jb:wiring beanIdRef="assessmentIdentificationCodeMap" />
-  </jb:bean>
-  <jb:bean beanId="assessmentIdentificationCodeMap" class="java.util.HashMap"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode">
-    <jb:value property="IdentificationSystem"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@IdentificationSystem" />
-    <jb:value property="AssigningOrganizationCode"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID"
-      data="InterchangeStudentAssessment/StudentAssessment/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
+    <jb:wiring beanIdRef="assessmentIdentificationCodeType" />
   </jb:bean>
 
   <!-- Questionable ends -->
@@ -1942,8 +1932,8 @@
     <!-- <jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" /> -->
     <jb:wiring property="cumulativeCreditsEarned" beanIdRef="studentAcademicRecordCumulativeCreditsEarnedValue" />
     <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="studentAcademicRecordCumulativeCreditsAttemptedValue" />
-    <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Float" />
-    <jb:value property="cumulativeGradePointAverage" data="StudentAcademicRecord/CumulativeGradePointAverage" decoder="Float" />
+    <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Double" />
+    <jb:value property="cumulativeGradePointAverage" data="StudentAcademicRecord/CumulativeGradePointAverage" decoder="Double" />
     <jb:wiring property="classRanking" beanIdRef="studentAcademicRecordClassRanking" />
   </jb:bean>
 
@@ -1965,16 +1955,16 @@
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsEarnedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsEarned/Credit" decoder="Float" />
+    <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsEarned/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditType" />
-    <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditConversion" decoder="Float"/>
+    <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsEarned/@CreditConversion" decoder="Double"/>
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordCumulativeCreditsAttemptedValue" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsAttempted/Credit" decoder="Float" />
+    <jb:value property="credit" data="StudentAcademicRecord/CumulativeCreditsAttempted/Credit" decoder="Double" />
     <jb:value property="creditType" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditType" />
-    <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditConversion" decoder="Float" />
+    <jb:value property="creditConversion" data="StudentAcademicRecord/CumulativeCreditsAttempted/@CreditConversion" decoder="Double" />
   </jb:bean>
 
   <!-- Start StudentTranscriptAssociation mapping -->
@@ -2020,7 +2010,7 @@
 
   <jb:bean beanId="AdditionalCredit" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/CourseTranscript">
-    <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Float" />
+    <jb:value property="credit" data="CourseTranscript/AdditionalCredits/Credit" decoder="Double" />
     <jb:value property="additionalCreditType" data="CourseTranscript/AdditionalCredits/AdditionalCreditType" />
   </jb:bean>
 

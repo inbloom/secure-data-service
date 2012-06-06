@@ -26,7 +26,7 @@ import org.slc.sli.api.resources.Resource;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
 public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
 
     @Override
