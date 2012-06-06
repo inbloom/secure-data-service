@@ -92,12 +92,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
         for (Entity sourceEntity : sourceEntities) {
             for (Entity targetEntity : targetEntities) {
                 // If both entities are orphaned, don't allow linking
-                if (sourceEntity != null && targetEntity != null
-                        && "true".equals(sourceEntity.getMetaData().get("isOrphaned"))
+                if ("true".equals(sourceEntity.getMetaData().get("isOrphaned"))
                         && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
                     warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(),
                             targetEntity.getEntityId());
-                    // throw new IllegalArgumentException("Cannot link two orphaned entities");
                 }
                 
                 // Unorphan

@@ -21,79 +21,75 @@ import org.springframework.util.ResourceUtils;
 
 /**
  * a set of static functions that can be used by Ingestion Tests.
- *
- *  @author yuan
+ * 
+ * @author yuan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 @Ignore
 public class IngestionTest {
-
+    
     public static final String INGESTION_FILE_PREFIX = "conv";
     public static final String INGESTION_TEMP_FILE_SUFFIX = ".tmp";
     public static final String INGESTION_CSV_FILE_SUFFIX = ".csv";
     public static final String INGESTION_XML_FILE_SUFFIX = ".xml";
-
-    public static File getFile(String fileResourcePath)
-            throws FileNotFoundException {
+    
+    public static File getFile(String fileResourcePath) throws FileNotFoundException {
         if (!fileResourcePath.startsWith("classpath:")) {
             fileResourcePath = "classpath:" + fileResourcePath;
         }
         File file = ResourceUtils.getFile(fileResourcePath);
         return file;
     }
-
-    public static InputStream getFileInputStream(String fileResourcePath)
-            throws FileNotFoundException {
+    
+    public static InputStream getFileInputStream(String fileResourcePath) throws FileNotFoundException {
         if (!fileResourcePath.startsWith("classpath:")) {
             fileResourcePath = "classpath:" + fileResourcePath;
         }
         File file = ResourceUtils.getFile(fileResourcePath);
         return new BufferedInputStream(new FileInputStream(file));
     }
-
-    public static OutputStream createFileOutputStream(String filePath)
-            throws IOException {
+    
+    public static OutputStream createFileOutputStream(String filePath) throws IOException {
         File file = new File(filePath);
         return new BufferedOutputStream(new FileOutputStream(file));
     }
-
+    
     public static OutputStream createTempFileOutputStream() throws IOException {
         File file = createTempFile();
         return new BufferedOutputStream(new FileOutputStream(file));
     }
-
+    
     public static File createTempFile() throws IOException {
         return createTempFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX);
     }
-
-    public static File createTempFile(String prefix, String suffix)
-            throws IOException {
+    
+    public static File createTempFile(String prefix, String suffix) throws IOException {
         File file = File.createTempFile(prefix, suffix);
         file.deleteOnExit();
         return file;
     }
-
+    
     public static File createTestFile(String fileContents) throws IOException {
-        return createTestFile(INGESTION_FILE_PREFIX,
-                INGESTION_TEMP_FILE_SUFFIX, fileContents);
+        return createTestFile(INGESTION_FILE_PREFIX, INGESTION_TEMP_FILE_SUFFIX, fileContents);
     }
-
-    public static File createTestFile(String prefix, String suffix,
-            String fileContents) throws IOException {
+    
+    public static File createTestFile(String prefix, String suffix, String fileContents) throws IOException {
         File file = createTempFile(prefix, suffix);
         BufferedOutputStream outputStream = null;
-
+        
         try {
             outputStream = new BufferedOutputStream(new FileOutputStream(file));
             outputStream.write(fileContents.getBytes());
         } finally {
-            outputStream.close();
+            
+            if (outputStream != null) {
+                outputStream.close();
+            }
         }
-
+        
         return file;
     }
-
+    
 }

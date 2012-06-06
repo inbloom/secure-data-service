@@ -95,7 +95,7 @@ public class JobReportingProcessor implements Processor {
             template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
             template.stop();
         } catch (Exception e) {
-            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+            LogUtil.error(LOG, "Error sending `that's all folks` message to the orchestra", e);
         }
     }
 
