@@ -111,7 +111,7 @@ default:
         sli.ingestion.queue.maestro.host:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
         sli.ingestion.queue.maestro.keystorePassword:
@@ -307,7 +307,7 @@ acceptance-tests:
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -954,7 +954,7 @@ team:
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
