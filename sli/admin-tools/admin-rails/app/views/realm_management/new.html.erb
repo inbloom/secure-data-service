@@ -3,6 +3,7 @@
 </div>
 
 <h1>Realm Management Tool - Create New Realm</h1>
-
-<%= render 'form' %>
+<%= form_for(@realm, :url => {:controller => 'realm_management', :action => 'create'}) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
 

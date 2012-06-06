@@ -43,7 +43,6 @@ class RealmsController < ApplicationController
      respond_to do |format|
        success = false
        errorMsg = ""
-
        begin
          success =  @realm.update_attributes(params[:realm])
        rescue ActiveResource::BadRequest => error
@@ -66,17 +65,8 @@ class RealmsController < ApplicationController
   def create
      logger.debug("Creating a new realm")
      @realm = Realm.new(params[:realm])
-     @realm.saml = {} if @realm.saml == nil
-     if @realm.mappings == nil
-      @realm.mappings = {}
-      @realm.mappings["role"] = [{"sliRoleName" => "IT Administrator", "clientRoleName" => [ "IT Administrator" ] }, {"sliRoleName" => "Educator", "clientRoleName" => [ "Educator" ] }, {"sliRoleName" => "Aggregate Viewer", "clientRoleName" => [ "Aggregate Viewer" ] }, {"sliRoleName" => "Leader", "clientRoleName" => [ "Leader" ] }]
-     end
-     @realm.admin = false
      @realm.edOrg = session[:edOrg]
-     #Default saml mapping
-     @realm.saml =  { "field" => [ { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" }, { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" }, { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } ] }
      logger.debug{"Creating realm #{@realm}"}
-
      respond_to do |format|
        if @realm.save
          format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully created.' }

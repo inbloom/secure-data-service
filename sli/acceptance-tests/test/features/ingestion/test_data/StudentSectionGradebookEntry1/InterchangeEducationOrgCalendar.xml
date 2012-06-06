@@ -2,6 +2,17 @@
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
 
+  <GradingPeriod id="GRDP_20120527_DCH">
+    <GradingPeriodIdentity>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      <GradingPeriod>End of Year</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-05-27</BeginDate>
+    <EndDate>2012-05-27</EndDate>
+    <TotalInstructionalDays>0</TotalInstructionalDays>
+  </GradingPeriod>
+
   <Session>
     <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
     <SchoolYear>2011-2012</SchoolYear>
@@ -14,13 +25,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <GradingPeriodReference>
-      <GradingPeriodIdentity>
-        <GradingPeriod>End of Year</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </GradingPeriodIdentity>
-    </GradingPeriodReference>
+    <GradingPeriodReference ref="GRDP_20120527_DCH"/>
   </Session>
 
 </InterchangeEducationOrgCalendar>
