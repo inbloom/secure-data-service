@@ -98,6 +98,7 @@ default:
 
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
+        sli.ingestion.processor.xml: serial 
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -1183,6 +1184,7 @@ nxteam:
         sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
+        sli.ingestion.processor.xml: serial 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
