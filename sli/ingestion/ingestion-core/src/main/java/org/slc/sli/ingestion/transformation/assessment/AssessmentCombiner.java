@@ -2,13 +2,16 @@ package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -23,16 +26,23 @@ import org.springframework.stereotype.Component;
 public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
+    
     private Map<Object, NeutralRecord> assessments;
+    private Map<Object, NeutralRecord> objectiveAssessments;
     
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
+    
+    @Autowired
+    private ObjectiveAssessmentBuilder builder;
+    
     /**
      * Default constructor.
      */
     public AssessmentCombiner() {
         assessments = new HashMap<Object, NeutralRecord>();
+        objectiveAssessments = new HashMap<Object, NeutralRecord>();
     }
     
     /**
@@ -52,7 +62,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for assessment transformation.");
         assessments = getCollectionFromDb(ASSESSMENT);
+        objectiveAssessments = loadAllObjectiveAssessments();
         LOG.info("{} is loaded into local storage.  Total Count = {}", ASSESSMENT, assessments.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", OBJECTIVE_ASSESSMENT,
+                objectiveAssessments.size());
     }
     
     /**
@@ -78,10 +91,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(
-                            getNeutralRecordMongoAccess(), getJob().getId())
-                            .getObjectiveAssessment(objectiveAssessmentRef);
-                    
+                    Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
+                            objectiveAssessments);
                     if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
                         LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
@@ -96,8 +107,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR,
-                        getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
             }
             
             @SuppressWarnings("unchecked")
@@ -197,5 +207,26 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
         
         return familyHierarchyName;
+    }
+    
+    /**
+     * Returns collection entities found in staging ingestion database. If a work note was not
+     * provided for
+     * the job, then all entities in the collection will be returned.
+     * 
+     * @param collectionName
+     *            name of collection to be queried for.
+     */
+    public Map<Object, NeutralRecord> loadAllObjectiveAssessments() {
+        Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                OBJECTIVE_ASSESSMENT, getWorkNote().getBatchJobId(), new NeutralQuery(0));
+        Iterator<NeutralRecord> itr = data.iterator();
+        NeutralRecord record = null;
+        while (itr.hasNext()) {
+            record = itr.next();
+            all.put(record.getRecordId(), record);
+        }
+        return all;
     }
 }

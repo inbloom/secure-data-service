@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
     private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentRef";
@@ -34,12 +36,17 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     
     private Map<Object, NeutralRecord> studentAssessments;
+    private Map<Object, NeutralRecord> objectiveAssessments;
+    
+    @Autowired
+    private ObjectiveAssessmentBuilder builder;
     
     /**
      * Default constructor.
      */
     public StudentAssessmentCombiner() {
         studentAssessments = new HashMap<Object, NeutralRecord>();
+        objectiveAssessments = new HashMap<Object, NeutralRecord>();
     }
     
     /**
@@ -59,8 +66,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
         studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
+        objectiveAssessments = loadAllObjectiveAssessments();
         LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
                 studentAssessments.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", OBJECTIVE_ASSESSMENT,
+                objectiveAssessments.size());
     }
     
     /**
@@ -124,9 +134,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
-                Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
-                        getJob().getId()).getObjectiveAssessment(objectiveAssessmentRef);
-                
+                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
+                        objectiveAssessments);
                 if (objectiveAssessment != null) {
                     LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
@@ -188,5 +197,26 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
         }
         return studentAssessmentItems;
+    }
+    
+    /**
+     * Returns collection entities found in staging ingestion database. If a work note was not
+     * provided for
+     * the job, then all entities in the collection will be returned.
+     * 
+     * @param collectionName
+     *            name of collection to be queried for.
+     */
+    public Map<Object, NeutralRecord> loadAllObjectiveAssessments() {
+        Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                OBJECTIVE_ASSESSMENT, getWorkNote().getBatchJobId(), new NeutralQuery(0));
+        Iterator<NeutralRecord> itr = data.iterator();
+        NeutralRecord record = null;
+        while (itr.hasNext()) {
+            record = itr.next();
+            all.put(record.getRecordId(), record);
+        }
+        return all;
     }
 }
