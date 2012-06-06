@@ -13,7 +13,7 @@ Transform /^<([^>]*)>$/ do |human_readable_id|
   guid = "92d6d5a0-852c-45f4-907a-912752831772" if human_readable_id == "'SCHOOL' ID"
   guid = "87770f3e-93c6-11e1-adcc-101f74582c4c" if human_readable_id == "'SCHOOL-SESSION-ASSOCIATION' ID"
   guid = "c549e272-9a7b-4c02-aff7-b105ed76c904" if human_readable_id == "'SESSION' ID"
-  guid = "c5b80f7d-93c5-11e1-adcc-101f74582c4c" if human_readable_id == "'SESSION-COURSE-ASSOCIATION' ID"
+  guid = "88ddb0c4-1787-4ed8-884e-96aa774e6d42" if human_readable_id == "'SESSION-COURSE-ASSOCIATION' ID"
   guid = "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" if human_readable_id == "'COURSE' ID"
   guid = "15ab6363-5509-470c-8b59-4f289c224107" if human_readable_id == "'SECTION' ID"
   guid = "32b86a2a-e55c-4689-aedf-4b676f3da3fc" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
@@ -81,12 +81,16 @@ end
 
 Then /^I should receive a collection link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   found = false;
-  @result.each do |link|
-    if link["link"]["rel"]==rel
-      if link["link"]["href"] =~ /#{Regexp.escape(href)}$/
+  @result.each do |record|
+    
+    record["links"].each do |link|
+      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
         found = true
       end
     end
+    
+    
+    
   end
   assert(found, "Response collection did not contain link rel \"#{rel}\" with value \"#{href}\"")
 end

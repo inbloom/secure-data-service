@@ -14,20 +14,20 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #course offering data
   id = 63                                        if human_readable_id == "ASSOCIATION COUNT"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 6                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 6                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "67bfb073-bd36-0771-8d5a-bba7ba03f8fb"   if human_readable_id == "ASSOCIATION ID"
-  id = "67bfb073-bd36-0771-8d5a-bba7ba03f8fb"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "67bfb073-bd36-0771-8d5a-bba7ba03f8fb"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = "b360e8e8-54d1-4b00-952a-b817f91035ed"   if human_readable_id == "ASSOCIATION ID"
+  id = "b360e8e8-54d1-4b00-952a-b817f91035ed"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "b360e8e8-54d1-4b00-952a-b817f91035ed"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getCourseOfferings"			            if human_readable_id == "ASSOCIATION LINK NAME"
   id = "courseOffering"                         if human_readable_id == "ASSOCIATION TYPE"
   id = "courseOfferings"              			if human_readable_id == "ASSOCIATION URI"
   
   #session related data
   id = "sessionId"                               if human_readable_id == "ENDPOINT1 FIELD"
-  id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "d23ebfc4-5192-4e6c-a52b-81cee2319072"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getSession"                              if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getSessions"                             if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "session"                                 if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #course related data
   id = "courseId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "ddf01d82-9293-49ba-b16e-0fe5b4f4804d"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "52038025-1f18-456a-884e-d2e63f9a02f4"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getCourse"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getCourses"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "course"                                if human_readable_id == "ENDPOINT2 TYPE" 
@@ -43,7 +43,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "localCourseCode"                        if human_readable_id == "UPDATE FIELD"
-  id = "HOME1"						    if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "LCCGR1"						    if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
   id = "LCCGR2"						    if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general

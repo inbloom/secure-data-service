@@ -1,3 +1,4 @@
+@RALLY_DE87
 @RALLY_US209
 @RALLY_US210
 Feature: As an SLI application, I want to be able to view more student data in a single API call.
@@ -62,18 +63,18 @@ Feature: As an SLI application, I want to be able to view more student data in a
   # Transcript
     And inside "transcript"
     And I should find "2" "studentSectionAssociations" in it
-    And I should find "sections" expanded in each of them
-    When I look at the first one
+    And I should find "sections" expanded in element "1"
+    When I look at the second one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
-    And I should see "courseId" is "<COURSE ID>" in it
+    And I should see "courseOfferingId" is "<COURSE OFFERING ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
-    And I should see "uniqueSectionCode" is "algebraIIS11" in it
+    And I should see "uniqueSectionCode" is "8th Grade English - Sec 5" in it
     And inside "sessions"
-    And I should see "sessionName" is "Fall 2011" in it
+    And I should see "sessionName" is "Spring 2012" in it
     When I go back up one level
     Then inside "courses"
-    And I should see "courseDescription" is "Intro to French" in it
+    And I should see "courseDescription" is "Intro to Russian" in it
 
   Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"

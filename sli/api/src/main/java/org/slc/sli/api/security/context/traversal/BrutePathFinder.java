@@ -125,8 +125,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.PROGRAM, "programReference") // TODO: fix XSD
                         .addConnection(EntityNames.SECTION, "schoolId").construct());
         
-        nodeMap.put(EntityNames.COURSE_OFFERING, SecurityNodeBuilder.buildNode(EntityNames.COURSE_OFFERING)
-                .addConnection(EntityNames.COURSE, "courseId", EntityNames.COURSE_OFFERING).construct());
+        nodeMap.put(
+                EntityNames.COURSE_OFFERING,
+                SecurityNodeBuilder.buildNode(EntityNames.COURSE_OFFERING)
+                        .addConnection(EntityNames.COURSE, "courseId", EntityNames.COURSE_OFFERING)
+                        .addConnection(EntityNames.SESSION, "sessionId", EntityNames.COURSE_OFFERING).construct());
         
         nodeMap.put(
                 EntityNames.SESSION,
