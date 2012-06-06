@@ -113,6 +113,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return count(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
+    public long countForJob(String collectionName, Query query, String jobId) {
+        return count(toStagingCollectionName(collectionName, jobId), query);
+    }
+
     public Set<String> getCollectionNamesForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
 

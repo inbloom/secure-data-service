@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.dal;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +77,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         neutralRecord.setBatchJobId(batchJobId);
         neutralRecord.setSourceFile((String) map.get("sourceFile"));
         neutralRecord.setLocationInSourceFile(((Integer) map.get("locationInSourceFile")).intValue());
+        neutralRecord.setCreationTime((Date) map.get("creationTime"));
         neutralRecord.setLocalParentIds(localParentIds);
         neutralRecord.setAssociation(isAssociation);
         return neutralRecord;

@@ -18,6 +18,7 @@
 
 package org.slc.sli.ingestion;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,6 +96,11 @@ public class NeutralRecord {
      * The location in source file of the record
      */
     private int locationInSourceFile;
+
+    /**
+     * The location in source file of the record
+     */
+    private Date creationTime;
 
     /**
      * Default constructor
@@ -274,6 +280,14 @@ public class NeutralRecord {
 
     public void setLocationInSourceFile(int locationInSourceFile) {
         this.locationInSourceFile = locationInSourceFile;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     @Override

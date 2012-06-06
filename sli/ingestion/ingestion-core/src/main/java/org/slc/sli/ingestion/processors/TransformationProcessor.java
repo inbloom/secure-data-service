@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -43,6 +46,9 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+
     /**
      * Camel Exchange process callback method
      *
@@ -67,11 +73,21 @@ public class TransformationProcessor implements Processor {
 
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
 
+        String batchJobId = workNote.getBatchJobId();
+
         // FIXME: transformation needs to actually count processed records and errors
-        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum() + 1);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        NeutralCriteria criteriaStart = new NeutralCriteria("creationTime>=" + workNote.getRangeMinimum().toString());
+        neutralQuery.addCriteria(criteriaStart);
+
+        NeutralCriteria criteriaEnd = new NeutralCriteria("creationTime<=" + workNote.getRangeMaximum().toString());
+        neutralQuery.addCriteria(criteriaEnd);
+
+        long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), neutralQuery, batchJobId);
+        
+        metrics.setRecordCount(recordsToProcess);
         stage.getMetrics().add(metrics);
 
-        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);

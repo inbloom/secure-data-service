@@ -221,4 +221,6 @@ public interface Repository<T> {
      */
     public void ensureIndex(IndexDefinition index, String collection);
 
+    public long count(String collectionName, Query query);
+
 }

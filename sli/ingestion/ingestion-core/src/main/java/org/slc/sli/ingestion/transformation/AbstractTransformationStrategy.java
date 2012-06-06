@@ -121,7 +121,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         if (getWorkNote() != null) {
             WorkNote note = getWorkNote();
 
-            Criteria limiter = Criteria.where("locationInSourceFile").gte(note.getRangeMinimum()).lte(note.getRangeMaximum());
+            Criteria limiter = Criteria.where("creationTime").gte(note.getRangeMinimum()).lte(note.getRangeMaximum());
             query.addCriteria(limiter);
         }
 

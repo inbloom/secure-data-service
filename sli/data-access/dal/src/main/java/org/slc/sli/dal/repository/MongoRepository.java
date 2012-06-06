@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +22,17 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
  * and field query methods for all object classes.
- * 
+ *
  * @author Thomas Shewchuk tshewchuk@wgen.net 3/2/2012 (PI3 US1226)
- * 
+ *
  */
 
 public abstract class MongoRepository<T> implements Repository<T> {
@@ -175,6 +176,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
+    public long count(String collectionName, Query query) {
+        DBCollection collection = template.getCollection(collectionName);
+        if (collection == null) {
+            return 0;
+        }
+        return collection.count(query.getQueryObject());
+    }
+
+    @Override
     public DBCollection getCollection(String collectionName) {
         return template.getCollection(collectionName);
     }
@@ -187,7 +197,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * document, however since we are specifying IDs in the DAL instead of
      * letting Mongo create the document IDs, this method will check for the
      * existence of a document ID before saving the document.
-     * 
+     *
      * @param collection
      * @param record
      * @param body
@@ -214,16 +224,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
         return true;
     }
-    
+
     public WriteResult update(NeutralQuery query, Map<String, Object> update, String collectionName) {
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
         Update convertedUpdate = new Update();
-        
+
         for (Map.Entry<String, Object> entry : update.entrySet()) {
             String operation = entry.getKey();
             @SuppressWarnings("unchecked")
             Map<String, Object> operands = (Map<String, Object>) entry.getValue();
-            
+
             if (operation.equals("push")) {
                 for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
                     convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
@@ -234,7 +244,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
-        
+
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
@@ -351,13 +361,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         //TODO - This needs refactoring: template.getDb() is an expensive operations
         // Mongo indexes names(including collection name and namespace) are limited to 128 characters.
         String nsName = (String) index.getIndexOptions().get("name") + collection + "." + template.getDb().getName();
-        
+
         // Verify the length of the name is ready
         if (nsName.length() >= 128) {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
         }
-        
+
         template.ensureIndex(index, collection);
 
     }
