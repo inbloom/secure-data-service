@@ -1,0 +1,12 @@
+Welcome <%= firstName %>!
+
+You have successfully created a landing zone for your education organization.
+     
+To load your data you will need to sftp to the server below and upload the data file you created in order for it to be ingested by the system.
+
+Server: <%= serverName %>
+Ed-Org: <%= edorgId %>
+
+
+Thank you,
+The Shared Learning Collaborative

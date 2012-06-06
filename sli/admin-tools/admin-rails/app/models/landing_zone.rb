@@ -43,16 +43,23 @@ class LandingZone
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
       # TODO: move this out to a template and not hardcode
+      if APP_CONFIG["is_sandbox"]
       template=File.open("#{Rails.root}/public/provision_sandbox_email_text.template"){|file| file.read}
+      email_subject = "SLC Sandbox Developer - Data Setup"
+      else
+      template=File.open("#{Rails.root}/public/provision_prod_email_text.template"){|file| file.read}
+      email_subject = "SLC Landing Zone Setup"
+      end
       email_content = ERB.new(template)
       template_data={:firstName => user_info[:first],
         :serverName => @server,
         :edorgId => edorg_id,
-        :landingZone => @landingzone}
+        #:landingZone => @landingzone
+        }
       email = {
         :email_addr => user_info[:emailAddress],
         :name       => "#{user_info[:first]} #{user_info[:last]}",
-        :subject    => "SLC Sandbox Developer - Data Setup",
+        :subject    => email_subject,
         :content    => email_content.result(ErbBinding.new(template_data).get_binding)
 =begin
 :content    => "Welcome #{user_info[:first]}!\n\n" <<
