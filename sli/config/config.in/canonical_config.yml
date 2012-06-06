@@ -1185,9 +1185,12 @@ nxteam:
         sli.ingestion.processor.edfi: concurrent
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: nxmongo3.slidev.org
-        sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
+        sli.mongodb.host: localhost 
+        sli.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
+
         sli.ingestion.mongotemplate.writeConcern: NORMAL
         sli.default.mongotemplate.writeConcern: NORMAL
         sli.ingestion.errors.tracking: true
