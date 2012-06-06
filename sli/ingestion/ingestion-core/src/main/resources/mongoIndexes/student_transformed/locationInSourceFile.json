@@ -1,7 +1,0 @@
-{
-    "collection": "student_transformed",
-    "indexFields":
-    [
-        {"name" : "locationInSourceFile" , "order" : "1"}
-    ]
-}
