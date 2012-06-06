@@ -29,7 +29,9 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  *
  */
 public class InterchangeEdOrgCalGenerator {
-	private static GradingPeriodGenerator gpg = new GradingPeriodGenerator();
+    public static final int MAX_GRADING_PERIODS=20;
+
+    private static GradingPeriodGenerator gpg = new GradingPeriodGenerator();
 
     /**
      * Sets up a new Education Organization Calendar Interchange and populates it
@@ -67,6 +69,8 @@ public class InterchangeEdOrgCalGenerator {
 			Collection<GradingPeriodMeta> gradingPeriodMetas) {
 		long startTime = System.currentTimeMillis();
 		
+        int count=1;
+        String prevOrgId = "";
 		for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
 
 			GradingPeriod gradingPeriod = null;
@@ -76,15 +80,18 @@ public class InterchangeEdOrgCalGenerator {
 			} else {
 				// calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
 				//gradingPeriod = gpg.getGradingPeriod();
-				
 				for (String calendarId : gradingPeriodMeta.calendars) {
+				    if (count>MAX_GRADING_PERIODS) break;
                     String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
                     orgId = orgId.substring(0, orgId.lastIndexOf("-"));
-				    gradingPeriod = gpg.getGradingPeriod(orgId);
+                    if (!prevOrgId.equalsIgnoreCase(orgId)) count=1;
+                    prevOrgId = orgId;
+				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
 				    gradingPeriod.setId(gradingPeriodMeta.id);
 					ReferenceType calRef = new ReferenceType();
 					calRef.setRef(new Ref(calendarId));
 					gradingPeriod.getCalendarDateReference().add(calRef);
+					count++;
 				}
 			}
 

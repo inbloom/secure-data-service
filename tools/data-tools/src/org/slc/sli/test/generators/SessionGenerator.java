@@ -51,7 +51,7 @@ public class SessionGenerator {
 
         GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
         gpit.setGradingPeriod(getGradingPeriodType());
-        gpit.setSchoolYear("2010-2012");
+        gpit.setSchoolYear("2011-2012");
         // System.out.println("this is grading period Type :" +
         // gpit.getGradingPeriod());
         // System.out.println("this is school year Type :" +
