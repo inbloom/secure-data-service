@@ -80,6 +80,11 @@ default:
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
+  # Write concerns
+        
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
+      
     ingestion: &INGESTION-DEFAULT
 
         # ingestion landing zone
@@ -700,10 +705,6 @@ local:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         
-        # Write concerns
-        
-        sli.ingestion.mongotemplate.writeConcern: SAFE
-        sli.default.mongotemplate.writeConcern: SAFE
       
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
