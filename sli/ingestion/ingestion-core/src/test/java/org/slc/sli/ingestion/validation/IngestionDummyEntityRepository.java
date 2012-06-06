@@ -157,4 +157,10 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         return true;
     }
 
+    @Override
+    public void setWriteConcern(String writeConcern) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

@@ -170,4 +170,10 @@ public class DummyEntityRepository implements Repository<Entity> {
         return true;
     }
 
+    @Override
+    public void setWriteConcern(String writeConcern) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

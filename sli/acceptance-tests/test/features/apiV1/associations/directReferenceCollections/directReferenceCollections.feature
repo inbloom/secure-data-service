@@ -14,13 +14,13 @@ Scenario Outline: Control the presence of links by specifying an accept type for
     Then I should receive a return code of 200
      And the response should contain links if I requested them
     Examples:
-        | format                     | return links |
-        | "application/json"         | "links"      |
-        | "application/vnd.slc+json" | "links"      |
-#       | "application/xml"          |              |
+        | format                                    | return links |
+        | "application/json;charset=utf-8"         | "links"      |
+        | "application/vnd.slc+json;charset=utf-8" | "links"      |
+#       | "application/xml"                         |              |
 
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
-   Given format "application/vnd.slc+json"
+   Given format "application/vnd.slc+json;charset=utf-8"
      And referring collection <source entity type> exposed as <source expose name>
      And referring field <reference field> with value <reference value>
      And referred collection <target entity type> exposed as <target expose name>

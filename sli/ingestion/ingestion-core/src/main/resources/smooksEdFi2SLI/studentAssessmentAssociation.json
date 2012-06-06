@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
+    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate", "body.gradeLevelAssessed"],
     "references" :
     [{
         "fieldPath" : "body.assessmentId","ref" :
@@ -14,9 +14,7 @@
                         [{
                             "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
                         }]
-                    }
-                ],
-                [
+                    },
                     {
                         "path" : "body.assessmentTitle",
                         "values" :

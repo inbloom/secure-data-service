@@ -221,4 +221,11 @@ public interface Repository<T> {
      */
     public void ensureIndex(IndexDefinition index, String collection);
 
+    /**
+     * Supports configuring a write concern on a repository.
+     *
+     * @param writeConcern
+     */
+    public void setWriteConcern(String writeConcern);
+
 }
