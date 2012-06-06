@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -126,11 +127,11 @@ public class EntityTestUtils {
     @SuppressWarnings("unchecked")
 	public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
 			throws IOException, SAXException {
-
         JavaResult result = new JavaResult();
         Smooks smooks = new Smooks(smooksConfigPath);
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
         try {
+
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
 
             smooks.filterSource(source, result);

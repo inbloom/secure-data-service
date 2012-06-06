@@ -39,7 +39,7 @@ import org.slc.sli.domain.Entity;
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
 public class HomeResource {
 
     final EntityDefinitionStore entityDefs;

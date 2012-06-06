@@ -19,6 +19,10 @@ Then /^I click on the browser back button$/ do
   @driver.navigate().back()
 end
 
+Then /^the title of the page is "(.*?)"$/ do |pageTitle|
+  assert(@driver.title == pageTitle, "Expected: " + pageTitle + " Actual " + @driver.title)
+end
+
 def localLogin (username, password)
   puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
   puts "localLogin" if $SLI_DEBUG

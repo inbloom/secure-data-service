@@ -52,6 +52,10 @@
                         },
                     });
                 });
+                
+                // display page title
+                pageTitle = DashboardProxy.getLayoutName();
+				$("<title></title>").html(pageTitle).appendTo("head");
             });
         </script>
 

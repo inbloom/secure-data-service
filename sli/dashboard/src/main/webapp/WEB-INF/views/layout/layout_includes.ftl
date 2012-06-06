@@ -39,8 +39,13 @@
 
 <#noescape>
 <script>
-  var contextRootPath = '${CONTEXT_ROOT_PATH}';
-  DashboardProxy.loadAll(${viewDataConfig});
+	var contextRootPath = '${CONTEXT_ROOT_PATH}',
+		pageTitle;
+		
+	DashboardProxy.loadAll(${viewDataConfig});
+  
+	pageTitle = DashboardProxy.getLayoutName();
+	$("<title></title>").html(pageTitle).appendTo("head");
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">
