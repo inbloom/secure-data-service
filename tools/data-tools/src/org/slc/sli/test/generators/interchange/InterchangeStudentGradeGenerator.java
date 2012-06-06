@@ -1,6 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,8 @@ public final class InterchangeStudentGradeGenerator {
     private static final String ID_PREFIX_SCO = "SCO_";
     private static final String ID_PREFIX_CLD = "CLD_";
     private static final Random randGenerator = new Random();
+    
+    private static Map<String, List<Grade>> gradeMap = new HashMap<String, List<Grade>>();
 
     // LightWeight object that holds id of the reference.
     static final class Ref extends ComplexObjectType {
@@ -149,14 +152,14 @@ public final class InterchangeStudentGradeGenerator {
                 MetaRelations.COURSE_MAP, MetaRelations.COURSES_PER_STUDENT, writer);
         System.out.println("Finished CourseTranscript [" + studentCount * MetaRelations.COURSES_PER_STUDENT
                 + "] Records Generated");
-        generateReportCard(MetaRelations.STUDENT_MAP, StudentGradeRelations.REPORT_CARD_META,
-                MetaRelations.SECTION_MAP, writer);
-        System.out.println("Finished ReportCard [" + studentCount * StudentGradeRelations.REPORT_CARDS
-                + "] Records Generated");
         generateGrade(MetaRelations.STUDENT_MAP, StudentGradeRelations.REPORT_CARD_META,
                 MetaRelations.SECTION_MAP, writer);
         System.out.println("Finished Grade [" + studentCount * MetaRelations.COURSES_PER_STUDENT
                 * MetaRelations.SECTIONS_PER_COURSE_SESSION + "] Records Generated");
+        generateReportCard(MetaRelations.STUDENT_MAP, StudentGradeRelations.REPORT_CARD_META,
+                MetaRelations.SECTION_MAP, writer);
+        System.out.println("Finished ReportCard [" + studentCount * StudentGradeRelations.REPORT_CARDS
+                + "] Records Generated");
         generateStudentCompetency(MetaRelations.STUDENT_MAP,
                 StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP, writer);
         System.out
@@ -288,9 +291,10 @@ public final class InterchangeStudentGradeGenerator {
 
                 // One Grade per Section. N Sections per Course. N Courses per Student. We will use
                 // the first N Sections
-                for (String sectionId : sectionSet) {
+                List<Grade> gradeList = gradeMap.get(studentId);
+                for (Grade grade : gradeList ) {
                     ReferenceType gradeReference = new ReferenceType();
-                    gradeReference.setRef(new Ref(ID_PREFIX_GRADE + reportCardId + sectionId + studentId));
+                    gradeReference.setRef(grade);
                     gradeReferences.add(gradeReference);
                 }
 
@@ -340,7 +344,7 @@ public final class InterchangeStudentGradeGenerator {
                 sectionSet = sectionSet.subList(0, MetaRelations.COURSES_PER_STUDENT
                         * MetaRelations.SECTIONS_PER_COURSE_SESSION);
 
-                for (String sectionId : sectionSet) {// One Grade per Section. N Sections per
+                for (String sectionId : studentMeta.sectionIds) {// One Grade per Section. N Sections per
                                                      // Course. N Courses per Student. We will use
                                                      // the first N Sections
                     String schoolId = sectionMetaMap.get(sectionId).schoolId;
@@ -358,6 +362,13 @@ public final class InterchangeStudentGradeGenerator {
                                                                                            // StudentSectionAssociation
                     Grade grade = StudentGradeGenerator.getGrade(ssaRef, gradingPeriodRef);
                     grade.setId(ID_PREFIX_GRADE + reportCardId + sectionId + studentId);
+                    if (!gradeMap.containsKey(studentId)) {
+                        List<Grade> gradeList = new ArrayList<Grade>();
+                        gradeList.add(grade);
+                        gradeMap.put(studentId, gradeList);
+                    } else {
+                        gradeMap.get(studentId).add(grade);
+                    }
                     
                     writer.marshal(grade);
                 }
@@ -385,7 +396,7 @@ public final class InterchangeStudentGradeGenerator {
                     String sectionId = section.id;
                     String sectionSchool = section.schoolId;
 
-                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                    SectionReferenceType sectionRef = getSectionRef(studentMeta.sectionIds.get(0), sectionSchool);// Reference
                                                                                               // to
                                                                                               // Section
 
@@ -420,7 +431,7 @@ public final class InterchangeStudentGradeGenerator {
                     String sectionId = section.id;
                     String sectionSchool = section.schoolId;
 
-                    SectionReferenceType sectionRef = getSectionRef(sectionId, sectionSchool);// Reference
+                    SectionReferenceType sectionRef = getSectionRef(studentMeta.sectionIds.get(0), sectionSchool);// Reference
                                                                                               // to
                                                                                               // Section
 

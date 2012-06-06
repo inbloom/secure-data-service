@@ -729,16 +729,16 @@ public final class MetaRelations {
         for (StudentMeta studentMeta : studentsForSchool.values()) {
             
             // TODO students should not belong to simultaneous sections
-//            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) {
-//                if (sectionCounter >= sectionMetas.length) {
-//                    sectionCounter = 0;
-//                }
-//                studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-//                sectionCounter++;
-//            }
-            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
-                studentMeta.sectionIds.add(sectionMeta.id);
+            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) {
+                if (sectionCounter >= sectionMetas.length) {
+                    sectionCounter = 0;
+                }
+                studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                sectionCounter++;
             }
+//            for (SectionMeta sectionMeta : sectionsForSchool.values() ) {
+//                studentMeta.sectionIds.add(sectionMeta.id);
+//            }
         }
     }
     
