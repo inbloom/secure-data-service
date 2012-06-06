@@ -130,14 +130,16 @@ public class EntityManager extends ApiClientManager {
         
         List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId);
         
-        // sort parent Contact if there are more than 2.
+        //sort parent Contact if there are more than 2.
         if (parents != null && parents.size() > 1) {
             ParentsSorter.sort(parents);
-            for (GenericEntity parentsContact : parents) {
-                ContactSorter.sort(parentsContact);
-            }
-            student.put(Constants.ATTR_PARENTS, parents);
         }
+
+        for (GenericEntity parentsContact : parents) {
+            ContactSorter.sort(parentsContact);
+        }
+
+        student.put(Constants.ATTR_PARENTS, parents);
         return student;
     }
     
