@@ -30,11 +30,23 @@ class ChangePasswordsController < ApplicationController
     @change_password.errors.clear
     respond_to do |format|
       if @change_password.valid? == true
+        begin
           check = Check.get("")
-          email = check["user_id"]
+          email = check["external_id"]
+          update_info = {
+              :email => "#{email}",
+              :password   => "#{@change_password.new}"
+          }
+          response =  APP_LDAP_CLIENT.update_user_info(update_info)
 
-          format.html { redirect_to new_change_password_path, notice: 'Your password has been modified successfully.' + email }
+          format.html { redirect_to new_change_password_path, notice: 'Your password has been modified successfully.' }
           format.json { render :json => @change_password, status: :created, location: @change_password }
+        rescue Exception => e
+          @change_password.errors.add(:base,e.message)
+          @change_password.errors.add(:new, "Something is not right, please check your new password.")
+          format.html { render action: "new" }
+          format.json { render json: @change_password.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @change_password.errors, status: :unprocessable_entity }
