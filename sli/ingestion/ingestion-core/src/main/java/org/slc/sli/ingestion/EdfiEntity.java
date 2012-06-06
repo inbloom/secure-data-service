@@ -47,7 +47,7 @@ public enum EdfiEntity {
 
     ASSESSMENT_PERIOD_DESCRIPTOR("assessmentPeriodDescriptor", Collections.<EdfiEntity>emptyList()),
 
-    EDUCATION_ORGANIZATION("educationOrganization", Arrays.asList(PROGRAM)),
+    EDUCATION_ORGANIZATION("educationOrganization", Arrays.asList(PROGRAM, SELF)),
 
     ACADEMIC_WEEK("academicWeek", Arrays.asList(EdfiEntity.CALENDAR_DATE)),
 
@@ -258,6 +258,10 @@ public enum EdfiEntity {
             }
         }
         return found;
+    }
+
+    public boolean isSelfReferencing() {
+        return neededEntities.contains(SELF);
     }
 
 }

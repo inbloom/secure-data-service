@@ -87,7 +87,7 @@ public class WorkNoteSplitter {
 
             LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
 
-            if (numRecords > splitChunkSize) {
+            if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
                 int numberOfBatches = (int) Math.ceil((double) numRecords / splitChunkSize);
 
                 LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
