@@ -1189,6 +1189,7 @@ nxteam:
         sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
         sli.ingestion.mongotemplate.writeConcern: NORMAL
+        sli.default.mongotemplate.writeConcern: NORMAL
         sli.ingestion.errors.tracking: true
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
