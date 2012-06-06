@@ -23,7 +23,10 @@ public class EdOrgContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
-    private NodeFilter edOrgToChildEdOrgNodeFilter;
+    private EdOrgToChildEdOrgNodeFilter edOrgToChildEdOrgNodeFilter;
+
+    @Autowired
+    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -38,6 +41,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()));
 
         //apply the filter
-        return edOrgToChildEdOrgNodeFilter.filterIds(ids);
+        return edOrgToChildEdOrgNodeFilter.filterIds(
+                staffEdOrgEdOrgIDNodeFilter.filterIds(ids));
     }
 }
