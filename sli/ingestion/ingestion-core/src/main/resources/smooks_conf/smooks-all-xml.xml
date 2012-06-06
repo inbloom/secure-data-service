@@ -623,6 +623,10 @@
     <jb:value property="emailAddressType" data="ElectronicMail/@EmailAddressType" />
     <jb:value property="emailAddress" data="ElectronicMail/EmailAddress" />
   </jb:bean>
+  
+  <jb:bean beanId="staffRaceItemTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Staff/Race/">
+    <jb:value data="Staff/Race/RacialCategory"/>
+  </jb:bean>
 
   <jb:bean beanId="staffCredentialTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Staff">
     <jb:wiring beanIdRef="staffCredentialType" />
