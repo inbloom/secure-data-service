@@ -27,12 +27,12 @@ import org.springframework.core.io.ByteArrayResource;
  *
  */
 public class ApplicationInitializerTest {
-
+    
     @InjectMocks
     private ApplicationInitializer appInit;
-
+    
     @Mock
-    private Repository<Entity> mockRepo = null;
+    private Repository<Entity> mockRepo;
     
     Properties props = new Properties();
     
@@ -51,22 +51,21 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
         saveProps();
-
-
+        
     }
-
+    
     private void saveProps() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         props.store(baos, "");
         appInit.bootstrapProperties = new ByteArrayResource(baos.toByteArray());
     }
-
+    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testAppNotExist() throws Exception {
         final List<Map<String, Object>> apps = new ArrayList<Map<String, Object>>();
         Mockito.when(mockRepo.create(Mockito.anyString(), Mockito.anyMap())).thenAnswer(new Answer<Entity>() {
-
+            
             @Override
             public Entity answer(InvocationOnMock invocation) throws Throwable {
                 apps.add((Map<String, Object>) invocation.getArguments()[1]);
@@ -76,23 +75,23 @@ public class ApplicationInitializerTest {
         appInit.init();
         assertEquals("Two apps registered", 2, apps.size());
         assertEquals("Value replaced", "https://admin", apps.get(0).get("application_url"));
-        assertEquals("Value replaced", "https://dashboard", apps.get(1).get("application_url")); 
+        assertEquals("Value replaced", "https://dashboard", apps.get(1).get("application_url"));
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testCreateWithGuid() throws Exception {
-        //when a GUID is specified, we have to use an update instead of a create
+        // when a GUID is specified, we have to use an update instead of a create
         final List<Entity> apps = new ArrayList<Entity>();
         props.put("bootstrap.app.admin.guid", "111");
         props.put("bootstrap.app.dashboard.guid", "222");
         saveProps();
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-
+            
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 apps.add((Entity) invocation.getArguments()[1]);
-                return null;
+                return true;
             }
         });
         appInit.init();
@@ -109,15 +108,15 @@ public class ApplicationInitializerTest {
         Mockito.when(mockRepo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
         
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-
+            
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 apps.add((Entity) invocation.getArguments()[1]);
-                return null;
+                return true;
             }
         });
         appInit.init();
         assertEquals("One app updated", 1, apps.size());
     }
-
+    
 }

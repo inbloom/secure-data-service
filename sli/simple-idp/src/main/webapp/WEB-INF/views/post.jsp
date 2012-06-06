@@ -1,14 +1,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <html>
+<head>
+<title>Working...</title>
+</head>
 
-<body OnLoad="OnLoadEvent();">
-<form action="${samlAssertion.redirectUri}" method="post" name="form1">
-    <input type="hidden" name="SAMLResponse" value="${samlAssertion.samlResponse}"  />
-</form>
-<script>
+<body>
+	<form action="${samlAssertion.redirectUri}" method="POST"
+		name="hiddenform">
+		<input type="hidden" name="SAMLResponse"
+			value="${samlAssertion.samlResponse}" />
 
-function OnLoadEvent() {
-   document.form1.submit();
-}
-</script>
+		<noscript>
+			<p>Script is disabled. Click Submit to continue.</p>
+			<input type="submit" value="Submit" />
+		</noscript>
+	</form>
+	<script>
+		window.setTimeout('document.forms[0].submit()', 0);
+	</script>
+</body>
+</html>

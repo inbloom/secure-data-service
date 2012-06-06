@@ -12,7 +12,6 @@ import java.util.Set;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import org.slc.sli.api.client.impl.BasicLink;
 import org.slc.sli.api.client.impl.GenericEntity;
 
@@ -263,9 +262,9 @@ public class TestHelpers {
         }
         
         Set<Map.Entry<String, Object>> eMapEntries = eMap.entrySet();
-        rMap.entrySet();
+        Set<Map.Entry<String, Object>> rMapEntries = rMap.entrySet();
         
-        if (!(eMapEntries.containsAll(eMapEntries) && eMapEntries.containsAll(eMapEntries))) {
+        if (!(eMapEntries.containsAll(rMapEntries) && rMapEntries.containsAll(eMapEntries))) {
             return false;
         }
         
