@@ -24,6 +24,10 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -40,9 +44,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -58,15 +59,15 @@ import org.springframework.stereotype.Component;
 public class RealmRoleManagerResource {
 
     private static final String UNKNOWN_SLI_REALM_NAME = "UnknownSLIRealmName";
-    private static final String UNKNOWN_SLI_ROLE_NAME  = "UnknownSLIRoleName";
+    private static final String UNKNOWN_SLI_ROLE_NAME = "UnknownSLIRoleName";
 
     @Autowired
     private EntityDefinitionStore store;
 
     @Autowired
-    private RoleRightAccess       roleRightAccess;
+    private RoleRightAccess roleRightAccess;
 
-    private EntityService         service;
+    private EntityService service;
 
     @Autowired
     private Repository<Entity> repo;
@@ -110,16 +111,13 @@ public class RealmRoleManagerResource {
 
         EntityBody oldRealm = service.get(realmId);
 
-        if (!canEditCurrentRealm(updatedRealm)
-                || (oldRealm.get("edOrg") != null && !oldRealm.get("edOrg").equals(SecurityUtil.getEdOrg()))) {
+        if (!canEditCurrentRealm(updatedRealm) || oldRealm.get("edOrg") != null
+                && !oldRealm.get("edOrg").equals(SecurityUtil.getEdOrg())) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to update this realm.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
-        if (validateUniqueness != null) {
-            return validateUniqueness;
-        }
+
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm
                 .get("mappings");
         if (mappings != null) {
@@ -129,10 +127,10 @@ public class RealmRoleManagerResource {
             }
         }
 
-        //set the tenant and edOrg
+        // set the tenant and edOrg
         updatedRealm.put("tenantId", SecurityUtil.getTenantId());
         updatedRealm.put("edOrg", SecurityUtil.getEdOrg());
-        
+
         if (service.update(realmId, updatedRealm)) {
             audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm ["
                     + updatedRealm.get("name") + "] updated!"));
@@ -168,11 +166,7 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to create a realm for another ed org");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
-        if (validateUniqueness != null) {
-            debug("On realm create, uniqueId is not unique");
-            return validateUniqueness;
-        }
+
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm
                 .get("mappings");
         if (mappings != null) {
@@ -184,10 +178,10 @@ public class RealmRoleManagerResource {
             }
         }
 
-        //set the tenant and edOrg
+        // set the tenant and edOrg
         newRealm.put("tenantId", SecurityUtil.getTenantId());
         newRealm.put("edOrg", SecurityUtil.getEdOrg());
-        
+
         String id = service.create(newRealm);
         audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm ["
                 + newRealm.get("name") + "] created!"));
@@ -226,7 +220,12 @@ public class RealmRoleManagerResource {
         Iterable<String> realmList = service.listIds(neutralQuery);
         for (String id : realmList) {
             EntityBody curEntity = service.get(id);
-            if (curEntity != null && curEntity.get("mappings") == null) {
+
+            if (curEntity == null) {
+                continue;
+            }
+
+            else if (curEntity.get("mappings") == null) {
                 curEntity.put("mappings", new HashMap<String, List<String>>());
             }
 
@@ -314,33 +313,33 @@ public class RealmRoleManagerResource {
         Map<String, Object> oldMappings = null, newMappings = null;
         String oldRealmName = null, newRealmName = null;
         if (oldRealm != null) {
-            oldMappings      = (Map<String, Object>) oldRealm.get("mappings");
-            oldRealmName     = (String) oldRealm.get("name");
+            oldMappings = (Map<String, Object>) oldRealm.get("mappings");
+            oldRealmName = (String) oldRealm.get("name");
         }
         if (newRealm != null) {
-            newMappings      = (Map<String, Object>) newRealm.get("mappings");
+            newMappings = (Map<String, Object>) newRealm.get("mappings");
             newRealmName = (String) newRealm.get("name");
         }
 
         List<Map<String, Object>> oldSliToClientRoles = null, newSliToClientRoles = null;
 
         if (oldMappings != null) {
-            oldSliToClientRoles      = (List<Map<String, Object>>) oldMappings.get("role");
+            oldSliToClientRoles = (List<Map<String, Object>>) oldMappings.get("role");
         }
 
         if (newMappings != null) {
-            newSliToClientRoles      = (List<Map<String, Object>>) newMappings.get("role");
+            newSliToClientRoles = (List<Map<String, Object>>) newMappings.get("role");
         }
 
         Set<Pair<String, String>> oldRoleMapList = getMappings(oldRealmName, oldSliToClientRoles);
         Set<Pair<String, String>> newRoleMapList = getMappings(newRealmName, newSliToClientRoles);
 
-        Set<Pair<String, String>> newlyAddedMappings   =  new HashSet<Pair<String, String>>();
+        Set<Pair<String, String>> newlyAddedMappings = new HashSet<Pair<String, String>>();
         newlyAddedMappings.addAll(newRoleMapList);
         newlyAddedMappings.removeAll(oldRoleMapList);
         logSecurityEvent(uriInfo, newlyAddedMappings, true);
 
-        Set<Pair<String, String>> deletedMappings =  new HashSet<Pair<String, String>>();
+        Set<Pair<String, String>> deletedMappings = new HashSet<Pair<String, String>>();
         deletedMappings.addAll(oldRoleMapList);
         deletedMappings.removeAll(newRoleMapList);
         logSecurityEvent(uriInfo, deletedMappings, false);
@@ -372,7 +371,7 @@ public class RealmRoleManagerResource {
     }
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> roleMapList, boolean added) {
-        String [] addedDeleted = new String[] {"Added", "Deleted"};
+        String[] addedDeleted = new String[] { "Added", "Deleted" };
         for (Pair<String, String> roleMap : roleMapList) {
             String sliRoleName = roleMap.getLeft();
             String clientRoleName = roleMap.getRight();
