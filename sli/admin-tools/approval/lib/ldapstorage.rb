@@ -3,6 +3,9 @@ require 'net/ldap'
 require 'net/ldap/dn'
 require 'date'
 
+class InvalidPasswordException < StandardError
+end 
+
 class LDAPStorage 
     ####################################################################
     # Description of LDAP related data model 
@@ -49,6 +52,10 @@ class LDAPStorage
         :emailAddress
     ]
 
+    LDAP_WO_CONSTANTS = {
+        :loginShell           =>  "/sbin/nologin"
+    }
+
     # some fields are stored in the description field as 
     # key/value pairs 
     PACKED_ENTITY_FIELD_MAPPING = {
@@ -68,10 +75,10 @@ class LDAPStorage
 
     # these values are injected when the user is created 
     ENTITY_CONSTANTS = {
-        :uidnumber => CONST_GROUPID_NUM,
-        :gidnumber => CONST_USERID_NUM,
-        :vendor    => "none",
-        :homedir   => "/dev/null"
+        :uidnumber  => CONST_GROUPID_NUM,
+        :gidnumber  => CONST_USERID_NUM,
+        :vendor     => "none",
+        :homedir    => "/dev/null"
     }
 
     # List of fields to fetch from LDAP for user
@@ -104,13 +111,14 @@ class LDAPStorage
     def initialize(host, port, base, username, password)
          @people_base = "ou=people,#{base}"
          @group_base  = "ou=groups,#{base}"
-        @ldap_conf = { :host => host,
+        @ldap_conf = { 
+            :host => host,
             :port => port,
-             :base => @people_base,
-             :auth => {
-                   :method => :simple,
-                   :username => username,
-                   :password => password
+            :base => @people_base,
+            :auth => {
+                :method => :simple,
+                :username => username,
+                :password => password
              }
          }
 
@@ -158,9 +166,12 @@ class LDAPStorage
         end
         
         LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-            value = (ldap_k == LDAP_PASSWORD_FIELD) ? ldap_md5(e_user_info[rec_k]) : e_user_info[rec_k]
+            value = (ldap_k == LDAP_PASSWORD_FIELD) ? ldap_password(e_user_info[rec_k]) : e_user_info[rec_k]
             attributes[ldap_k] = value 
         end
+
+        # add all the required LDAP constants. These are write-only 
+        attributes.merge!(LDAP_WO_CONSTANTS)
 
         # pack additional fields into the description field 
         packed_fields = pack_fields(e_user_info)
@@ -174,6 +185,17 @@ class LDAPStorage
                 raise ldap_ex(ldap, "Unable to create user in LDAP: #{attributes}.")
             end            
         end
+    end
+
+    def authenticate(email_address, password)
+        local_conf = @ldap_conf.clone
+        local_conf[:auth] = {
+                :method => :simple,
+                :username => get_DN(email_address),
+                :password => password
+            }
+        ldap = Net::LDAP.new local_conf
+        return ldap.bind 
     end
 
     # returns extended user_info
@@ -314,7 +336,9 @@ class LDAPStorage
                         if PACKED_ENTITY_FIELD_MAPPING.include?(attribute)
                             desc_attributes[attribute] = user_info[attribute]
                         else
-                            ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
+                            if !(ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
+                                raise ldap_ex(ldap, "Unable to update attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                            end
                         end
                     end
                 end
@@ -361,7 +385,7 @@ class LDAPStorage
     def search_map_user_fields(filter, max_recs=nil, raw=false)
         # search for all fields plus the description field 
         Net::LDAP.open(@ldap_conf) do |ldap|
-            attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD]
+            attributes = COMBINED_LDAP_ATTR_MAPPING.keys + [LDAP_DESCRIPTION_FIELD] + (raw ? LDAP_WO_CONSTANTS.keys : [])
             arr = ldap.search(:filter => filter, :attributes => attributes).to_a()
             if !max_recs
                 max_recs = arr.length
@@ -397,7 +421,7 @@ class LDAPStorage
 
                 user_rec
             end
-        end            
+        end
     end
 
     def pack_fields(user_info)
@@ -405,13 +429,18 @@ class LDAPStorage
         ((packed_fields.select {|k,v| !!v}).map { |k,v|  "#{k}=#{v}" }).join("\n")
     end
 
-    def ldap_ex(ldap, msg)
+    def ldap_ex(ldap, msg, check_password_error=false)
         op = ldap.get_operation_result
-        "#{msg} (#{op.code}) #{op.message}"
+        if op.code == 19   # indicates a password that does not comply with policy 
+            raise InvalidPasswordException
+        else 
+            "#{msg} (#{op.code}) #{op.message}"
+        end
     end
 
-    def ldap_md5(plaintext)
-        "{MD5}#{Digest::MD5.base64digest(plaintext)}"
+    def ldap_password(plaintext)
+        plaintext
+        # "{MD5}#{Digest::MD5.base64digest(plaintext)}"
     end
 end
 
