@@ -1,10 +1,6 @@
 require 'mongo'
 require 'json'
 
-if ARGV.count() < 1
-  puts "must specify the type of batch"
-  exit
-end
 
 expected={"900K" => {
   "assessment"=>4,
@@ -49,8 +45,69 @@ expected={"900K" => {
   "teacher"=>0,
   "teacherSchoolAssociation"=>900,
   "teacherSectionAssociation"=>3125
+  },
+    
+  "8M" => {
+  "assessment"=>163,
+  "attendance"=>30544,#3420928
+  "calendarDate"=>184,
+  "cohort"=>92,
+  "course"=>100,
+  "courseOffering"=>0,
+  "courseSectionAssociation"=>0,
+  "disciplineAction"=>44022,
+  "disciplineIncident"=>44022,
+  "educationOrganization"=>48,
+  "educationOrganizationAssociation"=>135,
+  "educationOrganizationSchoolAssociation"=>0,
+  "gradebookEntry"=>0,
+  "gradingPeriod"=>736,
+  "learningObjective"=>393,
+  "parent"=>45904,
+  "program"=>47,
+  "school"=>46,
+  "schoolSessionAssociation"=>0, 
+  "section"=>30912,
+  "sectionAssessmentAssociation"=>0,
+  "sectionSchoolAssociation"=>0,
+  "session"=>92,
+  "sessionCourseAssociation"=>0,
+  "staff"=>135,
+  "staffCohortAssociation"=>92,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>47,
+  "student"=>30544,
+  "studentAcademicRecord"=>0,
+  "studentAssessmentAssociation"=>305440,
+  "studentCohortAssociation"=>32983,
+  "studentDisciplineIncidentAssociation"=>44022,
+  "studentParentAssociation"=>45904,
+  "studentProgramAssociation"=>26267,
+  "studentSchoolAssociation"=>30544,
+  "studentSectionAssociation"=>427616,
+  "studentSectionGradebookEntry"=>0,
+  "studentTranscriptAssociation"=>0,
+  "teacher"=>2484,
+  "teacherSchoolAssociation"=>2484,
+  "teacherSectionAssociation"=>30912
   }
 }
+
+# Print total counts
+expected.each do |set,collections|
+  total=0
+  collections.each do |name,count|
+    total+=count
+  end
+  printf "%s %d\n",set,total
+end
+
+# Check that user specified the set
+if ARGV.count() < 1
+  puts "must specify the type of batch"
+  exit
+end
+
 
 if !expected.has_key?(ARGV[0])
   puts "Unsupported batch \e[31m#{ARGV[0]}\e[0m"
@@ -62,7 +119,7 @@ end
 connection = Mongo::Connection.new("nxmongo3.slidev.org", 27017)
 db = connection.db("sli")
 
-printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m\n"
+printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m"
 puts "---------------------------------------------------------"
 
 expected[ARGV[0]].each do |collectionName,expectedCount|
