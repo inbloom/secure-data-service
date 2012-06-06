@@ -27,6 +27,7 @@ public class ErrorController extends GenericLayoutController {
     private static final Logger LOG = LoggerFactory.getLogger(ErrorController.class);
     
     public static final String EXCEPTION_URL = "/exception";
+    public static final String TEST_EXCEPTION_URL = "/testException";
     public static final String TEMPLATE_NAME = "error";
     public static final String TEMPLATE_FILE = "error.ftl";
     public static final String URL_PARAM_ERROR_TYPE = "errorType";
@@ -65,7 +66,7 @@ public class ErrorController extends GenericLayoutController {
         return new ModelAndView(Constants.OVERALL_CONTAINER_PAGE, model);
     }
     
-    @RequestMapping(value = "/testException", method = RequestMethod.GET)
+    @RequestMapping(value = TEST_EXCEPTION_URL, method = RequestMethod.GET)
     public ModelAndView handleTest(ModelMap model) throws Exception {
         throw new IllegalArgumentException("Test Exception");
     }
