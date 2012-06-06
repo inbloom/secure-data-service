@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate", "body.gradeLevelAssessed"],
+    "keyFields" : ["metaData.externalId", "body.assessmentId", "body.studentId", "body.administrationDate"],
     "references" :
     [{
         "fieldPath" : "body.assessmentId","ref" :
