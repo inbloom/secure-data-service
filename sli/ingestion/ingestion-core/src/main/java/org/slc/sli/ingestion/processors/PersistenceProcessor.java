@@ -46,17 +46,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -518,7 +507,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         Iterable<NeutralRecord> data;
 
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lte(workNote.getRangeMaximum());
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
         query.addCriteria(limiter);
 
 

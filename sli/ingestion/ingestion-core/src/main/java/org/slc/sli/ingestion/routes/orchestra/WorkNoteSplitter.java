@@ -111,7 +111,11 @@ public class WorkNoteSplitter {
                 Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
                 Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
 
-                List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(new ArrayList<WorkNote>(), jobId, stagedEntity, nrEarliestIterator.next().getCreationTime(), nrLatestIterator.next().getCreationTime());
+                Date startDate =  nrEarliestIterator.next().getCreationTime();
+                Date endDate = nrLatestIterator.next().getCreationTime();
+                endDate.setTime(endDate.getTime() + 2000);
+
+                List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(new ArrayList<WorkNote>(), jobId, stagedEntity, startDate, endDate);
                 Iterator<WorkNote> workNoteIterator = collectionWorkNotes.iterator();
                 while (workNoteIterator.hasNext()) {
                     WorkNote wn = workNoteIterator.next();
@@ -121,7 +125,7 @@ public class WorkNoteSplitter {
                 }
 
                 LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
-                        stagedEntity.getCollectionNameAsStaged(), workNoteList.size());
+                        stagedEntity.getCollectionNameAsStaged(), collectionWorkNotes.size());
 
             } else {
                 LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
@@ -140,6 +144,7 @@ public class WorkNoteSplitter {
 
                 Date startTime = nrEarliestIterator.next().getCreationTime();
                 Date endTime = nrLatestIterator.next().getCreationTime();
+                endTime.setTime(endTime.getTime() + 2000);
 
                 WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, endTime, 1);
                 workNoteList.add(workNote);
@@ -248,16 +253,16 @@ public class WorkNoteSplitter {
                     }
                 }
             }
-            
+
             splitAttempts++;
-            
-            if (splitAttempts > 20) {
+
+            if (splitAttempts > 20 && done == false) {
                 LOG.info("Split Max reached. Adding left + right work notes");
                 WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, start, 0);
                 workNotes.add(workNoteLeft);
                 WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, start, endTime, 0);
                 workNotes.add(workNoteRight);
-                
+
                 done = true;
             }
         }
