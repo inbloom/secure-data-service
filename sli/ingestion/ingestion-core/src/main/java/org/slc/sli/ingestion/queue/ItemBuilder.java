@@ -20,7 +20,7 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 public class ItemBuilder {
 
     @Autowired
-    @Qualifier("type4UUIDGeneratorStrategy")
+    @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public Map<String, Object> buildNewItem() {
