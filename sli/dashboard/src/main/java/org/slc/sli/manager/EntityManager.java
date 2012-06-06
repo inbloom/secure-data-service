@@ -55,7 +55,7 @@ public class EntityManager extends ApiClientManager {
      *            authentication token
      * @param studentId
      *            The student we are looking for
-     * @param optionalFields
+     * @param views
      *            A list of "optional views" that we are appending to the student. These could be
      *            related
      *            to attendance, assessments, etc..
