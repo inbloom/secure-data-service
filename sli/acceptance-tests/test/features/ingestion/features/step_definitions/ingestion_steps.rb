@@ -701,7 +701,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @metaData = {}
 
   @newTenant = {
-    "_id" => BSON::Binary.new("HE9cAZldKXq5uZ==", BSON::Binary::SUBTYPE_UUID),
+    "_id" => "tenantTest-id",
     "type" => "tenantTest",
     "body" => @body,
     "metaData" => @metaData

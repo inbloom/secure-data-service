@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.dal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -30,7 +29,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     private EntityEncryption encryptor;
 
     @Autowired
-    @Qualifier("type4UUIDGeneratorStrategy")
+    @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public EntityEncryption getStagingEncryptor() {
@@ -52,12 +51,12 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             encryptedBody = encryptor.encrypt(neutralRecord.getRecordType(), neutralRecord.getAttributes());
         }
 
-        UUID uid = null;
+        String uid = null;
         if (neutralRecord.getRecordId() == null) {
             uid = uuidGeneratorStrategy.randomUUID();
-            neutralRecord.setRecordId(uid.toString());
+            neutralRecord.setRecordId(uid);
         } else {
-            uid = UUID.fromString(neutralRecord.getRecordId());
+            uid = neutralRecord.getRecordId();
         }
 
         Map<String, Object> localParentIds = neutralRecord.getLocalParentIds();
