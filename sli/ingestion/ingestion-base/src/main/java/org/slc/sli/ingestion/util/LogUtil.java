@@ -118,7 +118,7 @@ public class LogUtil {
                     createLoggingException((Exception) exception.getCause()));
         }
         loggingException.setStackTrace(exception.getStackTrace());
-        return loggingException;
+        return exception;
     }
 
 }

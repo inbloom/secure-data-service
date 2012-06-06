@@ -18,7 +18,6 @@ import com.mongodb.DBObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.validation.SchemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
@@ -28,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -236,6 +236,12 @@ public class ReferenceSchemaTest {
             }
 
             return false;
+        }
+
+        @Override
+        public void setWriteConcern(String writeConcern) {
+            // TODO Auto-generated method stub
+
         }
 
     }
