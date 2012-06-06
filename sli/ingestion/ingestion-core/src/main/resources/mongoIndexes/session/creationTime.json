@@ -1,0 +1,7 @@
+{
+    "collection": "session",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}

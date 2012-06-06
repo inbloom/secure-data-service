@@ -1,0 +1,7 @@
+{
+    "collection": "grade",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}
