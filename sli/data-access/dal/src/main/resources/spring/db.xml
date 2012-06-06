@@ -12,7 +12,6 @@
   default-autowire="byName">
 
   <!-- SHARED CONFIG -->
-
   <tx:annotation-driven />
 
   <bean id="placeholderConfig"
@@ -21,9 +20,7 @@
       value="file:${sli.conf}" />
   </bean>
 
-
   <!-- MONGODB CONFIG -->
-
   <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
     host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
   <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
@@ -36,12 +33,10 @@
       <mongo:converter>
         <bean class="org.slc.sli.dal.convert.EntityWriteConverter" />
       </mongo:converter>
-
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
-<!--    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />  -->
    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
    </bean>
 
@@ -49,7 +44,7 @@
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <property name="writeConcern">
-      <util:constant static-field="${sli.mongotemplate.writeConcern}"></util:constant>
+      <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>
   </bean>
 
@@ -61,22 +56,6 @@
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
   
-  <!--   <bean id="validationStrategyList" class="java.util.ArrayList">
-    <constructor-arg>
-      <list>
-        <ref bean="blacklistByCharsetStrategy" />
-      </list>
-    </constructor-arg>
-  </bean>
-
-  <bean id="blacklistByCharsetStrategy" class="org.slc.sli.validation.strategy.BlacklistByCharsetStrategy" />
-  <bean id="charsetBlacklist" class="java.util.ArrayList">
-    <constructor-arg>
-      <list>
-      </list>
-    </constructor-arg>
-  </bean> -->
   <import resource="classpath:/spring/validation.xml" />
-
   <context:component-scan base-package="org.slc.sli.dal" />
 </beans>
