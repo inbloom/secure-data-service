@@ -2980,6 +2980,20 @@
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
     <jb:value property="cohortIdentifier"
         data="StaffCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
+    <jb:wiring property="stateOrganizationId"
+      beanIdRef="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_StateOrganizationIdArray" />
+    <jb:wiring property="educationOrgIdentificationCode"
+      beanIdRef="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_StateOrganizationIdArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
+    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/StateOrganizationId" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_StaffCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
+    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/EducationOrgIdentificationCode" />
   </jb:bean>
 
   <jb:bean beanId="StaffCohortAssoc_cohortIdArray" class="java.util.ArrayList"
