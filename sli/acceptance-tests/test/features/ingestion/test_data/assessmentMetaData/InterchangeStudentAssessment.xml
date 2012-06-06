@@ -57,10 +57,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>SAT</ID>
-				</AssessmentIdentificationCode>
+                <AssessmentTitle>SAT</AssessmentTitle>
 			</AssessmentIdentity>
 		</AssessmentReference>
 	</StudentAssessment>
@@ -96,8 +93,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
@@ -109,8 +106,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
@@ -122,8 +119,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
@@ -135,8 +132,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
@@ -148,8 +145,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
@@ -161,8 +158,8 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
@@ -174,8 +171,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
@@ -187,8 +184,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
@@ -200,8 +197,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_1">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_1">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
@@ -213,8 +210,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
@@ -226,8 +223,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
@@ -239,8 +236,8 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentTestAssessmentReference ref="saa_id_2">
-		</StudentTestAssessmentReference>
+		<StudentAssessmentReference ref="saa_id_2">
+		</StudentAssessmentReference>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>

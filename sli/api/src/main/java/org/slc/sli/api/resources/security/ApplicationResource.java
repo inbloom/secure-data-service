@@ -48,7 +48,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("apps")
-@Produces({ Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";

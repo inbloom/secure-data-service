@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
@@ -204,7 +205,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes: {}", e);
+                LogUtil.error(LOG, "Failed to create mongo indexes for collection " + collectionName, e);
             }
         }
     }

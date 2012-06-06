@@ -110,11 +110,13 @@ public class ConcurrentEdFiProcessor implements Processor {
 
         for (IngestionFileEntry fe : fileEntryList) {
 
-            Callable<Boolean> smooksCallable = new SmooksCallable(newJob, fe, stage, batchJobDAO, sliSmooksFactory);
+            if (fe.getFile().length() > 0) {
+                Callable<Boolean> smooksCallable = new SmooksCallable(newJob, fe, stage, batchJobDAO, sliSmooksFactory);
 
-            FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
+                FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
 
-            smooksFutureTaskList.add(smooksFutureTask);
+                smooksFutureTaskList.add(smooksFutureTask);
+            }
         }
         return smooksFutureTaskList;
     }

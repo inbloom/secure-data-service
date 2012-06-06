@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
@@ -30,6 +29,8 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
 
     private static final Logger LOG = LoggerFactory.getLogger(StudentDisciplineIncidentAssociationTransformer.class);
 
+    private static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION = "studentDisciplineIncidentAssociation";
+    
     private Map<Object, NeutralRecord> collection;
 
     public StudentDisciplineIncidentAssociationTransformer() {
@@ -49,8 +50,8 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
 
     private void loadData() {
         LOG.info("Loading data for student discipline incident association transformation.");
-        collection = getCollectionFromDb(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, collection.size());
+        collection = getCollectionFromDb(STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, collection.size());
         LOG.info("Finished loading data for student discipline incident association transformation.");
     }
 

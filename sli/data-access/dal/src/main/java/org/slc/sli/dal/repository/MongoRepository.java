@@ -9,6 +9,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
@@ -371,4 +372,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
         template.ensureIndex(index, collection);
 
     }
+
+    /**
+     * Sets the write concern of the template.  Support options defined in Mongo's WriteConcern class.
+     *
+     * @see com.mongodb.WriteConcern
+     */
+    @Override
+    public void setWriteConcern(String writeConcern) {
+        try {
+            WriteConcern concern = WriteConcern.valueOf(writeConcern);
+            template.setWriteConcern(concern);
+        } catch (RuntimeException ex) {
+            LOG.warn("Unknown write concern", writeConcern);
+            // When in doubt, play it (Replicas) safe.
+            template.setWriteConcern(WriteConcern.REPLICAS_SAFE);
+}
+    }
+
 }

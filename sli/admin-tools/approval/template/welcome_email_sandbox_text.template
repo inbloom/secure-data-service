@@ -6,7 +6,7 @@ First, you will need to select the sample school data to use in your sandbox (yo
 <%= landingZoneLink %>
 
 Second, after you have selected a data source, register your sandbox applications here:
-<%= appsLink %>
+<%= portalLink %>
 
 
 Thank you,

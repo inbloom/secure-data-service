@@ -80,6 +80,11 @@ default:
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
+  # Write concerns
+        
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
+      
     ingestion: &INGESTION-DEFAULT
 
         # ingestion landing zone
@@ -269,7 +274,8 @@ acceptance-tests:
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
-
+        
+        
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
@@ -662,6 +668,9 @@ local:
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
+        
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -695,6 +704,8 @@ local:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        
+      
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
@@ -733,6 +744,14 @@ local:
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
+        
+         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
+        sli.simple-idp.sliAdminRealmName: Local
+        # LDAP base URLs, comma separated list of ldap servers
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        # LDAP base DN
+        sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
+        
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
@@ -1166,10 +1185,15 @@ nxteam:
         sli.ingestion.processor.edfi: concurrent
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: nxmongo3.slidev.org
-        sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
+        sli.mongodb.host: localhost 
+        sli.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
-        sli.ingestion.errors.tracking: false
+
+        sli.ingestion.mongotemplate.writeConcern: NORMAL
+        sli.default.mongotemplate.writeConcern: NORMAL
+        sli.ingestion.errors.tracking: true
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 

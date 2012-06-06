@@ -97,7 +97,7 @@ public class WorkNoteSplitter {
 
             LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
 
-            if (numRecords > splitChunkSize) {
+            if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
 
                 Query queryEarliest = new Query();
                 queryEarliest.sort().on("creationTime", Order.ASCENDING);

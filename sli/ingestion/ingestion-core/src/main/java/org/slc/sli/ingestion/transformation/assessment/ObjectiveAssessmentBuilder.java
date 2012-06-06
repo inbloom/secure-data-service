@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -24,6 +23,7 @@ import org.slf4j.LoggerFactory;
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
     
+    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
@@ -106,7 +106,7 @@ public class ObjectiveAssessmentBuilder {
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
         LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
         NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(
-                EntityNames.OBJECTIVE_ASSESSMENT,
+                OBJECTIVE_ASSESSMENT,
                 new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)), jobId);
         if (objectiveAssessmentRecord == null) {
             return null;

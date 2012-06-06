@@ -239,6 +239,11 @@ public class ReferenceSchemaTest {
         }
 
         @Override
+        public void setWriteConcern(String writeConcern) {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
         public long count(String collectionName, Query query) {
             // TODO Auto-generated method stub
             return 0;
