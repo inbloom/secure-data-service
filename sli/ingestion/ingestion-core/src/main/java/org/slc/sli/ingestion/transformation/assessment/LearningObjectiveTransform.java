@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -132,6 +133,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
+            nr.setCreationTime(getWorkNote().getRangeMinimum());
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(nr, getBatchJobId());
         }
     }

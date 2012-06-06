@@ -81,7 +81,11 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
         dbObj.put("association", neutralRecord.isAssociation());
 
-        dbObj.put("creationTime", DateTimeUtil.getNowInUTC());
+        if (neutralRecord.getCreationTime() != null) {
+            dbObj.put("creationTime", neutralRecord.getCreationTime());
+        } else {
+            dbObj.put("creationTime", DateTimeUtil.getNowInUTC());
+        }
 
         return dbObj;
     }
