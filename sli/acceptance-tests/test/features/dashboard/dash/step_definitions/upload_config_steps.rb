@@ -246,7 +246,7 @@ Then /^I should be shown a success message$/ do
 end
 
 Then /^I should be shown a failure message$/ do
-  assert(@alertMessage.include?("input should be a valid JSON string"), "Actual message: " + @alertMessage)
+  assert(@alertMessage.include?("Your request could not be completed."), "Actual message: " + @alertMessage)
 end
 
 Then /^I reset custom config$/ do

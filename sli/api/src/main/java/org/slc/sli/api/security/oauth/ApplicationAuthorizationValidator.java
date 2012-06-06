@@ -125,12 +125,8 @@ public class ApplicationAuthorizationValidator {
                         .findAccessible(principal.getEntity());
             }
             
-            /*
-             * //Need to clean this up when we remove the demo user 'hack'
-             * if (edOrgs == AllowAllEntityContextResolver.SUPER_LIST) {
-             * return null;
-             * }
-             */
+            edOrgs.remove("-133"); //avoid querying bad mongo ID
+
             for (String id : edOrgs) {
                 Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
                 if (entity == null) {

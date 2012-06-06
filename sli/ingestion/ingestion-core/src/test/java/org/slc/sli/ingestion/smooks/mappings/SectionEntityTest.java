@@ -186,10 +186,11 @@ public class SectionEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
         neutralRecord.setAttributeField("courseId", "1bce2323211dfds");
+        neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
         SimpleEntity entity = EntityTestUtils.smooksGetSingleSimpleEntity(edFiToSliConfig, neutralRecord);
 
 
-        Assert.assertNotNull(neutralRecord.getAttributes().get("courseCode"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("courseId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
@@ -427,11 +428,11 @@ public class SectionEntityTest {
         Assert.assertEquals("0.0", availableCredit.get("creditConversion").toString());
         Assert.assertEquals("50.0", availableCredit.get("Credit").toString());
 
-        Assert.assertEquals("LocalCourseCode0", entity.get("LocalCourseCode"));
+        Assert.assertEquals("LocalCourseCode0", ((Map<String, Object>) ((Map<String, Object>) entity.get("courseOfferingReference")).get("courseOfferingIdentity")).get("localCourseCode"));
 
-        Assert.assertEquals("StateOrganizationId1", entity.get("schoolId"));
+        Assert.assertEquals("StateOrganizationId1",((Map<String, Object>) ((Map<String, Object>) entity.get("schoolReference")).get("educationalOrgIdentity")).get("stateOrganizationId"));
 
-        Assert.assertEquals("SessionName0", entity.get("sessionId"));
+        Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity.get("sessionReference")).get("sessionIdentity")).get("sessionName"));
 
         @SuppressWarnings("unchecked")
         List<String> programReferenceList = (List<String>) entity.get("programReference");
