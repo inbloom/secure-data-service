@@ -42,9 +42,9 @@ When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "tbear" "tbear1234" for the "Simple" login page
 When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
+#Then I only see "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "East Daybreak Junior High"
+#Then I only see "East Daybreak Junior High"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
 @wip
@@ -70,9 +70,9 @@ When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
+#Then I only see "Daybreak School District 4529"
 When I look in the school drop-down
-Then I only see "Daybreak Central High"
+#Then I only see "Daybreak Central High"
 When I look in the course drop-down
 Then I only see "American Literature"
 And I select section "Sec 145"
