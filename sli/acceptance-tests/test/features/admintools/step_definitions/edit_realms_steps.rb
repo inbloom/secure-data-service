@@ -77,11 +77,34 @@ When /^I click the "([^"]*)" button$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I should be redirected back to the edig page$/ do
+Then /^I should see that I am on the "([^"]*)" page$/ do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I should see that I am on the "([^"]*)" page$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I should remove all of the fields$/ do
+  @driver.find_elements(:css, 'input[type="text"]').each {|field| field.clear}
+end
+
+
+Then /^I should get (\d+) errors$/ do |arg1|
+  assert(arg1.to_i == @driver.find_element(:id, 'error_explanation').find_elements(:css, 'li').count, "We should have found #{arg1} validation errors")
+end
+
+Then /^I should not see any errors$/ do
+  begin
+    @driver.find_element(:id, 'error_explanation')
+    assert(false, "Shouldn't be any errors")
+  rescue
+    assert(true, "There shouldn't be any errors found")
+  end
+end
+
+Then /^I should make the unique identifier not unique$/ do
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Shared Learning Infrastructure"
+end
+
+Then /^I should get (\d+) error$/ do |arg1|
+  step "I should get 1 errors"
 end
 

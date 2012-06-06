@@ -29,8 +29,8 @@
 			<%end%>
 			<td class="rowAction">
 			  <%if !app.pending? %>
-			  <%= link_to("In Progress", edit_app_path(app), :class => "btn btn-warning") if !app.bootstrap and app.in_progress? and !app.pending? %>
-			  <%= link_to("Edit", edit_app_path(app), :class => "btn") if app.bootstrap or !app.in_progress?%> | 
+			  <%= link_to("In Progress", edit_app_path(app), :class => "btn btn-warning") if app.in_progress? and !app.pending? %>
+			  <%= link_to("Edit", edit_app_path(app), :class => "btn") if !app.in_progress?%> | 
         <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %>
         <% end %>
       </td>
