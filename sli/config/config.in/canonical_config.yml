@@ -271,7 +271,7 @@ acceptance-tests:
         #sli.mongodb.pass =
         
         
-        sli.ingestion.mongotemplate.writeConcern: NORMAL
+        sli.ingestion.mongotemplate.writeConcern: REPLICAS_SAFE
         sli.default.mongotemplate.writeConcern: REPLICAS_SAFE
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
@@ -1184,6 +1184,8 @@ nxteam:
         sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
         sli.ingestion.errors.tracking: false
+        sli.ingestion.mongotemplate.writeConcern: NORMAL
+       
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
