@@ -54,7 +54,6 @@
     <value>studentAcademicRecord</value>
     <value>studentCompetencyObjective</value>
     <value>studentParentAssociation</value>
-    <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
     <value>teacher</value>
   </util:set>
@@ -77,6 +76,7 @@
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentProgramAssociation</value>
+    <value>studentSchoolAssociation</value>
     <value>studentSectionGradebookEntry</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
