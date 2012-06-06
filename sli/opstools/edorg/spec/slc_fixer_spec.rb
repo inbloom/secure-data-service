@@ -32,8 +32,8 @@ describe SLCFixer do
       connection = Mongo::Connection.new('localhost', 27017)
       @db = connection['sli']
       @fixer = SLCFixer.new(@db)
-      `cd ../../acceptance-tests;bundle exec rake importSandboxData`
-      @fixer.fix_students
+      `cd ../../acceptance-tests;bundle exec rake importSandboxData > /dev/null`
+      @fixer.fix_staff
     end
     it "should update all staff who are associated to an edorg" do
       failed = []
@@ -41,19 +41,16 @@ describe SLCFixer do
       assoc = []
       @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference']}
       assoc.uniq!
-      associated = @db['staff'].count - assoc.size
-      puts associated
-      associated.should == failed.size
+      unassociated = @db['staff'].count - assoc.size
+      unassociated.should == failed.size
     end
   end
-  
-  describe '#'
   describe '#start' do
     before(:each) do
       connection = Mongo::Connection.new('localhost', 27017)
       @db = connection['sli']
       @fixer = SLCFixer.new(@db)
-      `cd ../../acceptance-tests;bundle exec rake importSandboxData`
+      `cd ../../acceptance-tests;bundle exec rake importSandboxData > /dev/null`
       @fixer.start
     end
     it "should have stamped nearly everything with an edorg" do
