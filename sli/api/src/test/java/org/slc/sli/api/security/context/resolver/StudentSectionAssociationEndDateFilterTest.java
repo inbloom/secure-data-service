@@ -13,29 +13,29 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import static org.junit.Assert.assertEquals;
+
 
 /**
  * Unit Tests
  *
- * @author srupasinghe
+ * @author pghosh
  *
  */
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentGracePeriodNodeFilterTest {
+public class StudentSectionAssociationEndDateFilterTest {
     @InjectMocks
     @Spy
-    StudentGracePeriodNodeFilter nodeFilter = new StudentGracePeriodNodeFilter(); //class under test
+    StudentSectionAssociationEndDateFilter nodeFilter = new StudentSectionAssociationEndDateFilter(); //class under test
 
     @Mock
     private AssociativeContextHelper mockHelper;
@@ -51,12 +51,12 @@ public class StudentGracePeriodNodeFilterTest {
     }
 
     @Test
-    public void testsetParameters() {
+    public void testSetParameters() {
         nodeFilter.setParameters();
-        assertEquals("Should match", EntityNames.STUDENT_SCHOOL_ASSOCIATION, nodeFilter.getEntityName());
+        assertEquals("Should match", EntityNames.STUDENT_SECTION_ASSOCIATION, nodeFilter.getEntityName());
         assertEquals("Should match", ParameterConstants.STUDENT_ID, nodeFilter.getReferenceId());
         assertEquals("Should match", gracePeriodVal, nodeFilter.getGracePeriod());
-        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getFilterDateParam());
+        assertEquals("Should match", "endDate", nodeFilter.getFilterDateParam());
     }
-
 }
+

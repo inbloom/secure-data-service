@@ -2,6 +2,7 @@ package org.slc.sli.api.service;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.domain.Entity;
 
 /**
  * Interface for objects used to transform entities between their database representations and their
@@ -38,6 +39,6 @@ public interface Treatment {
      *            The entity in the form it is stored in the DB
      * @return The entity in the form it is exposed via ReST
      */
-    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id);
+    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity);
 
 }
