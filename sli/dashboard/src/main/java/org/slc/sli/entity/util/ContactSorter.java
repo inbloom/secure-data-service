@@ -82,21 +82,21 @@ public final class ContactSorter {
         // sorting for Address
         // if size is less than 1, we do not need to sort.
         if (addresses.size() > 1) {
-            GenericSorter genericSorter = new GenericSorter("addressType", addressPriority);
+            GenericEntityComparator genericSorter = new GenericEntityComparator("addressType", addressPriority);
             Collections.sort(addresses , genericSorter);
         }
         // sorting telephone numbers
         if (telephones.size() > 1) {
-            GenericSorter genericSorter = new GenericSorter("telephoneNumberType", telephonePriority2);
+            GenericEntityComparator genericSorter = new GenericEntityComparator("telephoneNumberType", telephonePriority2);
             Collections.sort(telephones , genericSorter);
 
             //if primaryTelephoneNumberIndicator is true, it has the highest priority.
-            genericSorter = new GenericSorter("primaryTelephoneNumberIndicator", telephonePriority1);
+            genericSorter = new GenericEntityComparator("primaryTelephoneNumberIndicator", telephonePriority1);
             Collections.sort(telephones , genericSorter);
         }
         // sorting email addresses
         if (electronicMails.size() > 1) {
-            GenericSorter genericSorter = new GenericSorter("emailAddressType", emailPriority);
+            GenericEntityComparator genericSorter = new GenericEntityComparator("emailAddressType", emailPriority);
             Collections.sort(electronicMails , genericSorter);
         }
         return genericEntity;

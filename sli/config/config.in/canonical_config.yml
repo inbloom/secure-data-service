@@ -662,6 +662,9 @@ local:
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
+        
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -733,6 +736,14 @@ local:
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
+        
+         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
+        sli.simple-idp.sliAdminRealmName: Local
+        # LDAP base URLs, comma separated list of ldap servers
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        # LDAP base DN
+        sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
+        
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN

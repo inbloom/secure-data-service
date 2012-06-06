@@ -1,0 +1,7 @@
+{
+    "collection": "studentAssessmentAssociation_transformed",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}
