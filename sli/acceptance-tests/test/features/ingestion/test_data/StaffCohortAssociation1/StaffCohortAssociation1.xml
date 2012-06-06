@@ -9,7 +9,7 @@
 	</StaffReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 		<StateOrganizationId>IL</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>
@@ -25,7 +25,7 @@
 	</StaffReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>
@@ -40,7 +40,7 @@
 	</StaffReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>

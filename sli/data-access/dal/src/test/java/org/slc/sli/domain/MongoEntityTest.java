@@ -22,7 +22,7 @@ public class MongoEntityTest {
 
     private UUIDGeneratorStrategy mockGeneratorStrategy;
 
-    private static final UUID FIXED_UUID = new UUID(42L, 5150L);
+    private static final String FIXED_UUID = "2012wd-type1uuid"; //new UUID(42L, 5150L);
 
     @Before
     public void init() {
@@ -43,14 +43,14 @@ public class MongoEntityTest {
 
         MongoEntity entity2 = MongoEntity.fromDBObject(obj);
 
-        assertEquals(entity2.getEntityId(), FIXED_UUID.toString());
-        assertTrue(obj.get("_id") instanceof UUID);
+        assertEquals(entity2.getEntityId(), FIXED_UUID);
+        assertTrue(obj.get("_id") instanceof String);
     }
 
     @Test
     public void testUUIDNoStrategy() {
 
-        UUID uuid = UUID.randomUUID();
+        String uuid = UUID.randomUUID().toString();
 
         MongoEntity entity = createEntity(uuid);
 
@@ -59,14 +59,14 @@ public class MongoEntityTest {
         MongoEntity entity2 = MongoEntity.fromDBObject(obj);
 
         assertEquals(entity2.getEntityId(), uuid.toString());
-        assertTrue(obj.get("_id") instanceof UUID);
+        assertTrue(obj.get("_id") instanceof String);
     }
 
-    private MongoEntity createEntity(UUID uuid) {
+    private MongoEntity createEntity(String uuid) {
 
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
-        MongoEntity entity = new MongoEntity("student", uuid.toString(), body, metaData);
+        MongoEntity entity = new MongoEntity("student", uuid, body, metaData);
 
         return entity;
     }

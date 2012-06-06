@@ -25,7 +25,7 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 1 random UUID.
      */
     @Override
-    public UUID randomUUID() {
-        return generator.generate();
+    public String randomUUID() {
+        return generator.generate().toString();
     }
 }
