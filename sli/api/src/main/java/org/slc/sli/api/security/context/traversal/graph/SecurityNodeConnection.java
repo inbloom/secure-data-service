@@ -1,6 +1,9 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Basic wrapper class for fields that a connection has
  *
@@ -11,7 +14,7 @@ public class SecurityNodeConnection {
     private String connectionTo = "";
     private String associationNode = "";
     private boolean isReferenceInSelf = false;
-    private NodeFilter filter;
+    private List<NodeFilter> filter;
 
     /**
      * @return the fieldName
@@ -49,7 +52,7 @@ public class SecurityNodeConnection {
     }
 
 
-    public NodeFilter getFilter() {
+    public List<NodeFilter> getFilter() {
         return this.filter;
     }
 
@@ -68,11 +71,21 @@ public class SecurityNodeConnection {
         this.connectionTo = toEntity;
         this.fieldName = withField;
         this.associationNode = associationNode;
+        this.filter = new ArrayList<NodeFilter>();
+        this.filter.add(filter);
+    }
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, List<NodeFilter> filter) {
+        this.connectionTo = toEntity;
+        this.fieldName = withField;
+        this.associationNode = associationNode;
         this.filter = filter;
     }
 
     public SecurityNodeConnection(String connectionTo, String fieldName, String associationNode) {
-        this(connectionTo, fieldName, associationNode, null);
+        this.connectionTo = connectionTo;
+        this.fieldName = fieldName;
+        this.associationNode = associationNode;
+        this.filter = null;
     }
 
     public SecurityNodeConnection(String connectionTo, String fieldName) {

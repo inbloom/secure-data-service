@@ -41,7 +41,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 		#@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
 
-		ApprovalEngine.init(@ldap, @mock_emailer, is_sandbox)
+		ApprovalEngine.init(@ldap, TransitionActionConfig.new(@mock_emailer, is_sandbox), is_sandbox)
 		@ldap.get_user_groups(@jd_email).each do |g|
 			@ldap.remove_user_group(@jd_email, g)
 		end
@@ -54,7 +54,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 
 		td_emailtoken = ApprovalEngine.add_disabled_user(@td_user)
 		jd_emailtoken = ApprovalEngine.add_disabled_user(@jd_user)
-		assert(ApprovalEngine.user_exists?(@jd_email))
+		assert(@ldap.user_exists?(@jd_email))
 		user = @ldap.read_user(@jd_email)
 		assert(user)
 		assert(user[:email] == @jd_email)
