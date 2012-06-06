@@ -12,10 +12,12 @@
 <div class="well row">
   <div class="span4">
     Client ID<br />
+    <p><em> The client ID needed to perform OAuth</em></p>
     <%=client_field_value(app, :client_id)%>
   </div>
   <div class="span4">
     Shared Secret<br/>
+    <p><em> The shared secret needed to perform OAuth</em></p>
     <%= client_field_value(app, :client_secret) %>
   </div>
 </div>

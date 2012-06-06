@@ -15,8 +15,6 @@ class RealmManagementControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-
-
   test "should get edit" do
     get :edit, id: @realm_fixtures['one']['id']
     assert_response :success
