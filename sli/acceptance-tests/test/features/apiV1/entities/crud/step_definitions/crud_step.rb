@@ -65,7 +65,7 @@ $entityData = {
   },
   "studentAcademicRecord" => {
     "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
+    "sessionId" => "9499b9ef-640f-4103-8859-bb6d23b6b566"
   },
   "student" => {
     "birthData" => {

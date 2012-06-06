@@ -563,8 +563,6 @@ task :importSandboxData do
     "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
-    "educationOrganizationSchoolAssociation" => "school_educationOrganization_fixture.json",
-    "educationOrganizationAssociation" => "educationOrganizationAssociation_fixture.json",
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
@@ -591,28 +589,6 @@ task :importSandboxData do
     "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
-
-  smallvilleTestHash = Hash[
-    "assessment" => "smallville_assessment_fixture.json",
-    "course" => "smallville_courses_fixture.json",
-    "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
-    "courseOffering" => "smallville_course_session_association_fixture.json",
-    "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
-    "educationOrganization" => "smallville_edOrg_fixture.json",
-    "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",
-    "schoolSessionAssociation" => "smallville_school_session_association_fixture.json",
-    "section" => "smallville_sections_fixture.json",
-    "sectionAssessmentAssociation" => "smallville_section_assessment_fixture.json",
-    "session" => "smallville_sessions_fixture.json",
-    "student" => "smallville_students_fixture.json",
-    "studentAssessmentAssociation" => "smallville_student_assessment_fixture.json",
-    "studentSchoolAssociation" => "smallville_student_school_association_fixture.json",
-    "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
-    "staff" => "smallville_staff_fixture.json",
-    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
-    "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
-  ]
-  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
 
 desc "Import Unified Data Set"
