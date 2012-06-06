@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.studentId", "body.schoolId", "body.schoolYear", "body.entryDate", "body.entryGradeLevel"],
+    "keyFields" : ["body.studentId", "body.schoolId", "body.entryDate", "body.entryGradeLevel"],
     "references" :
     [{
         "fieldPath" : "body.studentId",
@@ -24,7 +24,7 @@
         "fieldPath" : "body.schoolId",
         "ref" :
         {
-            "collectionName" : "educationOrganization",
+            "collectionName" : "school",
             "choiceOfFields" :
             [
                 [
