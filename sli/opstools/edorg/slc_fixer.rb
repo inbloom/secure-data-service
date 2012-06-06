@@ -62,13 +62,9 @@ class SLCFixer
     sections.find.each do |section|
       edorgs = section['body']['schoolId']
       stamp_id(sections, section['_id'], edorgs)
-      @db['teacherSectionAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
+      @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
       @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
-    end
-    @student_hash.each do |k, v|
-      @db['studentSectionAssociation'].find({'body.studentId' => k}).each do |section|
-        stamp_id(db['studentSectionAssociation'], section['_id'], v)
-      end
+      @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], edorgs) }
     end
     @db['sectionSchoolAssociation'].find.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
   end
@@ -164,10 +160,10 @@ class SLCFixer
   def fix_staff
     sea = @db['staffEducationOrganizationAssociation']
     sea.find.each do |staff|
-      old = old_edorgs(@db['staff'], staff['staffReference'])
+      old = old_edorgs(@db['staff'], staff['body']['staffReference'])
       edorg = staff['body']['educationOrganizationReference']
       stamp_id(sea, staff['_id'], edorg)
-      stamp_id(@db['staff'], staff['staffReference'], old.merge(edorg).flatten.uniq)
+      stamp_id(@db['staff'], staff['body']['staffReference'], (old << edorg).flatten.uniq)
     end
     #This needed?
     tsa = @db['teacherSchoolAssociation']
@@ -192,10 +188,13 @@ class SLCFixer
   def fix_courses
     csa = @db['courseSectionAssociation']
     csa.find.each do |course|
-      edorg = @db['section'].find_one({'_id' => course['body']['sectionId']})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['section'], course['body']['sectionId'])
       stamp_id(csa, course['_id'], edorg)
       stamp_id(@db['course'], course['body']['courseId'], edorg)
-      stamp_id(@db['courseOffering'], course['body']['courseId'], edorg)
+    end
+    co = @db['courseOffering']
+    co.find.each do |course|
+      stamp_id(co, course['_id'], old_edorgs(@db['course'], course['body']['courseId']))
     end
   end
 
@@ -217,11 +216,17 @@ class SLCFixer
       edorg = @db['studentSectionAssociation'].find_one({'_id' => student['body']['studentSectionAssociationId']})['metaData']['edOrgs']
       stamp_id(@db['studentCompetency'], student['_id'], edorg)
     end
+    
+    #Student Academic Record
+    @db['studentAcademicRecord'].find.each do |student|
+      edorg = student_edorgs(student['body']['studentId'])
+      stamp_id(@db['studentAcademicRecord'], student['_id'], edorg)
+    end
   end
   
   private
   def stamp_id(collection, id, edOrg)
-    if edOrg.nil?
+    if edOrg.nil? or edOrg.empty?
       return
     end
     collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
@@ -229,6 +234,13 @@ class SLCFixer
   end
 
   def student_edorgs(id)
+    if id.is_a? Array
+      temp = []
+      id.each do |i|
+        temp = (temp + @student_hash[i]) if @student_hash.has_key? i
+      end
+      return temp.flatten.uniq
+    end
     return @student_hash[id] if @student_hash.has_key? id
     nil
   end
@@ -240,6 +252,7 @@ class SLCFixer
     rescue
       old = []      
     end
+    return [] if old.nil?
     old
   end
 end
