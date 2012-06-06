@@ -21,7 +21,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.api.client.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,8 +52,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     private String fromEntity;
     private String toEntity;
-
-    private static final String END_DATE = "endDate";
 
     /*
      * @see
@@ -134,8 +131,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
             }
 
             if (connection.getFilter() != null) {
-                for (NodeFilter filter:connection.getFilter()) {
-                idSet = filter.filterIds(idSet);
+                for (NodeFilter filter : connection.getFilter()) {
+                    idSet = filter.filterIds(idSet);
                 }
             }
 

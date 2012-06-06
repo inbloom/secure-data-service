@@ -18,10 +18,19 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.*;
+import java.util.List;
+import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -64,8 +73,6 @@ public class NodeDateFilterTest {
     public void testFilterIds() {
         List<Entity> studentSchoolAssociations = getStudentSchoolAssociations();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2012, 4, 3);
         when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn("2012-04-03");
 
         when(mockHelper.getReferenceEntities(eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION),
@@ -82,7 +89,7 @@ public class NodeDateFilterTest {
         ids.add("5");
         ids.add("6");
 
-        nodeFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID,"2000","exitWithdrawDate");
+        nodeFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, "2000", "exitWithdrawDate");
         List<String> returnedIds = nodeFilter.filterIds(ids);
         assertNotNull("Should not be null", returnedIds);
         assertEquals("Should match", 5, returnedIds.size());
@@ -92,7 +99,7 @@ public class NodeDateFilterTest {
         assertTrue("Should be true", returnedIds.contains("5"));
         assertTrue("Should be true", returnedIds.contains("6"));
 
-        nodeFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,ParameterConstants.STUDENT_ID,"0","endDate");
+        nodeFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_ID, "0", "endDate");
         List<String> returnStudentIds = nodeFilter.filterIds(ids);
         assertNotNull("Should not be null", returnStudentIds);
         assertEquals("Should match", 5, returnStudentIds.size());

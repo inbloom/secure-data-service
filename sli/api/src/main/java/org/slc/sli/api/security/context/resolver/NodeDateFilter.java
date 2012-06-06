@@ -1,12 +1,9 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
@@ -53,7 +50,7 @@ public class NodeDateFilter extends NodeFilter {
     protected String gracePeriod;
     protected String filterDateParam;
 
-    public void setParameters (String entityName, String referenceId, String gracePeriod, String filterDateParam) {
+    public void setParameters(String entityName, String referenceId, String gracePeriod, String filterDateParam) {
         this.entityName = entityName;
         this.referenceId = referenceId;
         this.gracePeriod = gracePeriod;
@@ -77,9 +74,9 @@ public class NodeDateFilter extends NodeFilter {
 
                 for (Entity entity : referenceEntities) {
                     String filterDateString = (String) entity.getBody().get(filterDateParam);
-                    String refId= (String) entity.getBody().get(referenceId);
-                    if (!returnIds.contains(refId) &&
-                            isResolvable(filterDateString, formattedEndDateString)) {
+                    String refId = (String) entity.getBody().get(referenceId);
+                    if (!returnIds.contains(refId)
+                            && isResolvable(filterDateString, formattedEndDateString)) {
                         returnIds.add(refId);
                     }
                 }

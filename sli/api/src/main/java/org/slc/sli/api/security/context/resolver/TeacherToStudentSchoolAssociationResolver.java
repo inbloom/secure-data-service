@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 
@@ -39,7 +38,6 @@ public class TeacherToStudentSchoolAssociationResolver implements
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        //graceFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID,gracePeriod,EXIT_WITHDRAW_DATE);
         List<String> studentIds = graceFilter.filterIds(helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "studentId", studentIds);

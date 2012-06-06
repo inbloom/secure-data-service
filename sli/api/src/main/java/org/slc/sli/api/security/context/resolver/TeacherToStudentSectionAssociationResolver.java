@@ -32,8 +32,7 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        //nodeDateFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION,STUDENT_ID,"0",END_DATE);
-        List<String> studentIds =nodeDateFilter.filterIds( helper.findAccessible(principal, Arrays.asList(
+        List<String> studentIds = nodeDateFilter.filterIds(helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
 
         return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId", studentIds);

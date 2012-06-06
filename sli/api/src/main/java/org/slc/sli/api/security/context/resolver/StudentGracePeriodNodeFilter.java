@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  *
  */
 @Component
-public class StudentGracePeriodNodeFilter extends NodeDateFilter{
+public class StudentGracePeriodNodeFilter extends NodeDateFilter {
 
     private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
 
@@ -22,8 +22,8 @@ public class StudentGracePeriodNodeFilter extends NodeDateFilter{
     private String gracePeriodVal;
 
     @PostConstruct
-    public void setParameters (){
-        setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION,ParameterConstants.STUDENT_ID, gracePeriodVal,EXIT_WITHDRAW_DATE);
+    public void setParameters() {
+        setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, gracePeriodVal, EXIT_WITHDRAW_DATE);
     }
 }
 

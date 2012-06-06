@@ -18,10 +18,18 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.*;
+import java.util.List;
+import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -57,8 +65,6 @@ public class StaffEdOrgEdOrgIDNodeFilterTest {
         List<Entity> schoolAssociations = getSchoolAssociations();
         List<Entity> edorgAssociations = getEdorgAssociations();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2012, 4, 3);
         when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn("2012-04-03");
 
         when(mockHelper.getReferenceEntities(eq(EntityNames.STAFF_ED_ORG_ASSOCIATION),
@@ -88,18 +94,18 @@ public class StaffEdOrgEdOrgIDNodeFilterTest {
     private List<Entity> getSchoolAssociations() {
         List<Entity> list = new ArrayList<Entity>();
 
-        list.add(createEntity("schoolId", "1","endDate", "2012-08-03"));
+        list.add(createEntity("schoolId", "1", "endDate", "2012-08-03"));
         list.add(createEntity("schoolId", "2", "endDate", "2012-01-03"));
-        list.add(createEntity("schoolId", "3","someKey", "7"));
+        list.add(createEntity("schoolId", "3", "someKey", "7"));
 
         return list;
     }
     private List<Entity> getEdorgAssociations() {
         List<Entity> list = new ArrayList<Entity>();
 
-        list.add(createEntity("educationOrganizationReference","14","exitWithdrawDate", ""));
-        list.add(createEntity("educationOrganizationReference","15", "endDate", "2012-08-03"));
-        list.add(createEntity("educationOrganizationReference","16","endDate", "2012-01-03"));
+        list.add(createEntity("educationOrganizationReference", "14", "exitWithdrawDate", ""));
+        list.add(createEntity("educationOrganizationReference", "15", "endDate", "2012-08-03"));
+        list.add(createEntity("educationOrganizationReference", "16", "endDate", "2012-01-03"));
 
         return list;
     }
