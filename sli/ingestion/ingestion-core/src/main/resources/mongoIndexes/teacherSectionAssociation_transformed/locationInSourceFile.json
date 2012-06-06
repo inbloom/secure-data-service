@@ -1,0 +1,7 @@
+{
+    "collection": "teacherSectionAssociation_transformed",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}
