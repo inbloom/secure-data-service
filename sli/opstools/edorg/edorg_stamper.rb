@@ -10,6 +10,7 @@ class SLCFixer
     @connection = Mongo::Connection.new(hp[0], hp[1].to_i)
     @db = @connection['sli']
     @students = @db['student']
+    @student_hash = {}
     @@count ||= 0
   end
   
@@ -44,6 +45,7 @@ class SLCFixer
       edorgs << old unless old.nil?
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
       edorgs = edorgs.flatten.uniq
+      @student_hash[student['body']['studentId']] = edorgs
       stamp_id(@students, student['body']['studentId'], edorgs)
       stamp_id(ssa, student['_id'], student['body']['schoolId'])
     end
@@ -216,6 +218,7 @@ class SLCFixer
   end
 
   def student_edorgs(id)
+    return @student_hash[id] if @student_hash.has_key? id
     student = @students.find_one({"_id" => id})
     return student['metaData']['edOrgs'] unless (student.nil? or student['metaData'].nil?)
     return []
