@@ -249,7 +249,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         // --> augment transformer so that the file of each attendance event is
         // carried through to this stage?
         record.setSourceFile(collections.get(EntityNames.ATTENDANCE).values().iterator().next().getSourceFile());
-        record.setLocationInSourceFile(collections.get(EntityNames.ATTENDANCE).values().iterator().next().getLocationInSourceFile());
         return record;
     }
 
