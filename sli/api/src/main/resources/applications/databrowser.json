@@ -1,7 +1,7 @@
 {
-   "name": "SLC Data Browser",
-   "description":"The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.",
-   "version":"0.0",
+   "name": "${bootstrap.app.databrowser.name}",
+   "description":"${bootstrap.app.databrowser.description}",
+   "version":"${bootstrap.app.databrowser.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.databrowser.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.databrowser.url}",
@@ -18,5 +18,5 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Full Window App",
-   "vendor":"SLC"
+   "vendor":"${bootstrap.app.vendor}"
 }

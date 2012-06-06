@@ -17,6 +17,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,7 @@ import com.mongodb.util.JSON;
  * 
  * Bootstraps application data during API startup.
  * 
- * The application data is contained within template files, e.g. applications/admin.json.
- * The templates are resolved relative to the directory containing bootstrap.app.conf.
+ * The application data is contained within template files in the API, e.g. applications/admin.json.
  * 
  * During startup we look for two types of properties
  * <ol>
@@ -49,7 +49,8 @@ public class ApplicationInitializer {
     
     @Value("file:${bootstrap.app.conf}")
     protected Resource bootstrapProperties;
-    
+
+
     private static final String APP_RESOURCE = "application";
 
     @PostConstruct
@@ -78,16 +79,11 @@ public class ApplicationInitializer {
                         InputStream is = null;
 
                         try {
-                            String templateUrl = sliProps.getProperty(templateKey);
-                            Resource res = bootstrapProperties.createRelative(templateUrl); //relative to directory containing boostrap props
-                            debug("Attempting to load template from {}", res.getFile().toString());
-                            is = res.getInputStream();
+                            is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
                             Map appData = loadJsonFile(is, sliProps);
                             writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
                         } finally {
-                            if (is != null) {
-                                is.close();
-                            }
+                            is.close();
                         }
                     } catch (IOException e) {
                         error("Problem loading JSON template.", e);

@@ -1,7 +1,7 @@
 {
-   "name": "SLC Dashboards",
-   "description":"The SLC Dashboards allow you to see information about students in lists and profiles.",
-   "version":"A.0",
+   "name": "${bootstrap.app.dashboard.name}",
+   "description":"${bootstrap.app.dashboard.description}",
+   "version":"${bootstrap.app.dashboard.version}",
    "bootstrap": true,
    "image_url":"${bootstrap.app.dashboard.url}/static/images/dashboard_icon.jpg",
    "administration_url":"${bootstrap.app.dashboard.url}/service/config",
@@ -18,6 +18,6 @@
    "is_admin":false,
    "installed":false,
    "behavior":"Full Window App",
-   "vendor":"SLC"
+   "vendor":"${bootstrap.app.vendor}"
 }
 
