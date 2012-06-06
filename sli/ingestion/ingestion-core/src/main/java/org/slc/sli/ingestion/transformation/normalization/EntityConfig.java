@@ -17,6 +17,7 @@ public class EntityConfig {
     private List<String> keyFields;
     private List<RefDef> references;
     private Map<String, Object> piiFields;
+    private Map<String, String> subEntities;
 
     public List<String> getKeyFields() {
         return keyFields;
@@ -42,8 +43,17 @@ public class EntityConfig {
         return piiFields;
     }
 
+    public Map<String, String> getSubEntities() {
+        return subEntities;
+    }
+
+    public void setSubEntities(Map<String, String> subEntities) {
+        this.subEntities = subEntities;
+    }
+
     public static EntityConfig parse(InputStream inputStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(inputStream, EntityConfig.class);
     }
+
 }
