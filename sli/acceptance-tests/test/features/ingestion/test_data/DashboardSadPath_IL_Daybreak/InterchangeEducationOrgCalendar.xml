@@ -2285,9 +2285,7 @@
     <GradingPeriodIdentity>
       <GradingPeriod>Second Six Weeks</GradingPeriod>
       <SchoolYear>2010-2011</SchoolYear>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-        <ID>South Daybreak Elementary</ID>
-      </EducationOrgIdentificationCode>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     </GradingPeriodIdentity>
     <BeginDate>2010-10-04</BeginDate>
     <EndDate>2010-11-07</EndDate>
@@ -2391,9 +2389,7 @@
     <GradingPeriodIdentity>
       <GradingPeriod>Fourth Six Weeks</GradingPeriod>
       <SchoolYear>2010-2011</SchoolYear>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-        <ID>East Daybreak Junior High</ID>
-      </EducationOrgIdentificationCode>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     </GradingPeriodIdentity>
     <BeginDate>2011-01-10</BeginDate>
     <EndDate>2011-02-20</EndDate>
@@ -2583,9 +2579,7 @@
     <GradingPeriodIdentity>
       <GradingPeriod>End of Year</GradingPeriod>
       <SchoolYear>2008-2009</SchoolYear>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-        <ID>East Daybreak Junior High</ID>
-      </EducationOrgIdentificationCode>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     </GradingPeriodIdentity>
     <BeginDate>2009-05-27</BeginDate>
     <EndDate>2009-05-27</EndDate>
@@ -2607,9 +2601,7 @@
     <GradingPeriodIdentity>
       <GradingPeriod>End of Year</GradingPeriod>
       <SchoolYear>2006-2007</SchoolYear>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-        <ID>Daybreak Central High</ID>
-      </EducationOrgIdentificationCode>
+      <StateOrganizationId>Daybreak Central High</StateOrganizationId>
     </GradingPeriodIdentity>
     <BeginDate>2007-05-27</BeginDate>
     <EndDate>2007-05-27</EndDate>
@@ -2910,9 +2902,7 @@
     <GradingPeriodIdentity>
       <GradingPeriod>Sixth Six Weeks</GradingPeriod>
       <SchoolYear>2011-2012</SchoolYear>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-        <ID>East Daybreak Junior High</ID>
-      </EducationOrgIdentificationCode>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     </GradingPeriodIdentity>
     <BeginDate>2012-04-16</BeginDate>
     <EndDate>2012-05-25</EndDate>
