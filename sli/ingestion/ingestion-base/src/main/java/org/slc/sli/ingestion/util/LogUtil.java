@@ -110,7 +110,8 @@ public class LogUtil {
      *         the new message-safe exception
      */
     private static Exception createLoggingException(Exception exception) {
-        Exception loggingException;
+       /* Disabling - we need a better solution since we struggle debug without the error message.
+        * Exception loggingException;
         if (exception.getCause() == null) {
             loggingException = new Exception(exception.getClass().toString());
         } else {
@@ -118,7 +119,9 @@ public class LogUtil {
                     createLoggingException((Exception) exception.getCause()));
         }
         loggingException.setStackTrace(exception.getStackTrace());
-        return loggingException;
+
+*/
+        return exception;
     }
 
 }
