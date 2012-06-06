@@ -5,11 +5,12 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198 @RALLY_US2253 @RALLY_US196 @RALLY_US2254
 Scenario: View Matt Sollars
-When I login as "linda.kim" "linda.kim1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
 When I select ed org "Daybreak School District 4529"
@@ -44,7 +45,7 @@ And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
 And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
-# AbsenceCount: 1 
+# AbsenceCount: 1
 And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
 And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # AbsenceCount: more than 6 absence count
@@ -179,7 +180,8 @@ Then I see a list of 28 students
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Mi-Ha Tran
-When I login as "rbraverman" "rbraverman1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
@@ -240,12 +242,12 @@ And the phone number "309-555-5210" is of type "Unlisted"
 And the phone number "309-555-5341" is of type "Unlisted"
 And the order of the phone numbers is "309-555-5210;309-555-5341"
 And there are "2" addresses
-And the list of address includes 
+And the list of address includes
 """
 34 Northshore Ave, Apt 9B
 Daybreak, IL 75229
 """
-And the list of address includes 
+And the list of address includes
 """
 82 N. Central Pkwy., Suite B
 Daybreak, IL 75229
@@ -269,7 +271,7 @@ And the list of address includes
 34 Northshore Ave, Apt 9B
 Daybreak, IL 75229
 """
-And I look at "Parent 2" Contact Info 
+And I look at "Parent 2" Contact Info
 # Defect on character set
 #And parent "Richard Lê" is his "Father"
 And there are "1" phone numbers
@@ -291,7 +293,8 @@ Then I see a list of 25 students
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View Carmen Ortiz
-When I login as "cgray" "cgray1234"
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
@@ -375,7 +378,7 @@ And the order of the phone numbers is "3095550001;3095550004;3095550003;30955500
 And there are "1" email addresses
 And the list of email address includes "c.ortiz@gmail.com"
 And there are "1" addresses
-And the list of address includes 
+And the list of address includes
 """
 213 Central Ave
 Daybreak, IL 75229

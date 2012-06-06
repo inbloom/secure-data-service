@@ -2,6 +2,8 @@ require 'set'
 require 'digest'
 require 'ldapstorage'
 require 'emailer'
+require 'erbbinding'
+require 'erb'
 
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
@@ -106,6 +108,7 @@ module ApprovalEngine
 				set_roles(user[:email])
 			else
 				raise "Unknown state transition #{status} => #{target[transition]}."
+				re
 		end
 
     if user[:status] == STATE_APPROVED
@@ -117,23 +120,16 @@ module ApprovalEngine
       }
       if @@is_sandbox
         email[:subject] = "Welcome to the SLC Developer Sandbox"
-        email[:content] = "#{user[:first]},\n\n" <<
-          "Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
-          "First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by following this link:\n" <<
-          "__URI__/landing_zone\n\n" <<
-          "Second, after you have selected a data source, register your sandbox applications here:\n" <<
-          "__URI__/apps\n\n" <<
-          "Thank you,\n" <<
-          "SLC Operator"
+        template=File.read("#{File.expand_path('../../template/welcome_email_sandbox_text.template',__FILE__)}")
       else
-        email[:subject] = "Welcome to the SLC Developer Program"
-        email[:content] = "#{user[:first]},\n\n" <<
-          "Your request for developer account has been approved. Get started by registering your applications with the Shared Learning Collaborative.\n\n" <<
-          "To register your applications go to:\n" <<
-          "__URI__/apps\n\n" <<
-          "Thank you,\n" <<
-          "SLC Operator"
+      template=File.read("#{File.expand_path('../../template/welcome_email_prod_text.template',__FILE__)}")
+      email[:subject] = "Welcome to the SLC Developer Program"
       end
+        email_content = ERB.new(template)
+        template_data = {:firstName => user[:first],
+        :landingZoneLink => "__URI__/landing_zone",
+        :appsLink => "__URI__/apps" }
+        email[:content] = email_content.result(ErbBinding.new(template_data).get_binding)
       @@emailer.send_approval_email email
     end
 

@@ -30,6 +30,6 @@ public class RoleInitializerTest {
     public void testAllRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
 
-        assertTrue(roleInitializer.buildRoles() == 11);
+        assertTrue(roleInitializer.buildRoles() == 10);
     }
 }

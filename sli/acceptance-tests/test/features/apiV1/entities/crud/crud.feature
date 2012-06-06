@@ -58,7 +58,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
@@ -100,7 +100,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
+| "gradingPeriod"                | "gradingPeriods"          | "beginDate"              | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
@@ -130,7 +130,7 @@ Examples:
 | "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 17 |
 | "student"                      | "students"                | 82 |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | 3 |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
 | "userAccount"                  | "userAccounts"            | 2 |

@@ -1,0 +1,7 @@
+{
+    "collection": "reportCard",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

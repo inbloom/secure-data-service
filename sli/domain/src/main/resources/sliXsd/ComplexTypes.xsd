@@ -1461,6 +1461,15 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="schoolId" type="reference" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The education organization referenced by this session.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3595,7 +3604,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="entryDate" type="xs:date" minOccurs="0">
+			<xs:element name="schoolYear" type="schoolYearType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The value of the school year for the school.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entryDate" type="xs:date">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an individual
 						enters and
@@ -4024,16 +4039,24 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentId" type="reference">
+			<xs:element name="studentAcademicRecordId" type="reference" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
-					<xs:documentation>The Student that took the reported instruction.
+					<xs:documentation>Association to the student academic record for the current course transcript.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>student</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
+						<sli:ReferenceType>studentAcademicRecord</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="studentId" type="reference" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Association to a student for the current course transcript.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>student</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -5726,7 +5749,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradingPeriod" type="gradingPeriodType">
+			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
 				<xs:annotation>
 					<xs:documentation>
 						The name of the period for which grades are
@@ -5785,6 +5808,29 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+  <xs:complexType name="gradingPeriodIdentityType">
+    <xs:annotation>
+      <xs:documentation>Encapsulates the possible attributes that can be used to lookup the grading period.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="gradingPeriod" type="gradingPeriodType">
+        <xs:annotation>
+          <xs:documentation>The name of the period for which grades are reported</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="schoolYear" type="schoolYearType">
+        <xs:annotation>
+          <xs:documentation>The identifier for the school year.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
+        <xs:annotation>
+          <xs:documentation>The identifier for the educational organization.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
 	<xs:complexType name="graduationPlan">
 		<xs:annotation>
@@ -6093,7 +6139,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="gradesOffered" type="gradeLevelType">
+			<xs:element  maxOccurs="unbounded" minOccurs="0" name="gradesOffered" type="gradeLevelType">
 				<xs:annotation>
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>

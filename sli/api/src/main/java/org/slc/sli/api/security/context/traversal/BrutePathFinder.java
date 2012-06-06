@@ -96,7 +96,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.REPORT_CARD, "studentId", "")
                         .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "studentId", "")
                         .addConnection(EntityNames.STUDENT_PARENT_ASSOCIATION, "studentId")
-                        .addConnection(EntityNames.STUDENT_ACADEMIC_RECORD, "studentId", "")
+                        .addConnection(EntityNames.STUDENT_ACADEMIC_RECORD, "studentId")
                         .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId").construct());
@@ -186,10 +186,9 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY).construct());
         nodeMap.put(EntityNames.GRADEBOOK_ENTRY, SecurityNodeBuilder.buildNode(EntityNames.GRADEBOOK_ENTRY).construct());
-        nodeMap.put(EntityNames.STUDENT_ACADEMIC_RECORD,
-                SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ACADEMIC_RECORD).construct());
-        nodeMap.put(EntityNames.STUDENT_COMPETENCY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_COMPETENCY)
-                .construct());
+        nodeMap.put(EntityNames.STUDENT_ACADEMIC_RECORD, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_ACADEMIC_RECORD)
+                .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentAcademicRecordId").construct());
+        nodeMap.put(EntityNames.STUDENT_COMPETENCY, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_COMPETENCY).construct());
         nodeMap.put(EntityNames.GRADE, SecurityNodeBuilder.buildNode(EntityNames.GRADE).construct());
         
         nodeMap.put(EntityNames.STAFF_COHORT_ASSOCIATION,
@@ -214,6 +213,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
+
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
@@ -327,7 +327,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return newPath;
             }
         }
-        debug("NO PATH FOUND FROM {} to {}", new String[] { from, to });
+        debug("NO PATH FOUND FROM {} to {}", new Object[]{ from, to });
         path.remove(current);
         return null;
     }

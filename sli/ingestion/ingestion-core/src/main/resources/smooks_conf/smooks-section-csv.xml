@@ -53,7 +53,7 @@
    <jb:wiring property="availableCredit" beanIdRef="AvailableCreditType" />
 
 	<!-- CourseOfferingReference -->
-	<jb:value property="courseOfferingId" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
+	<jb:value property="LocalCourseCode" data="csv-record/CourseOfferingReference_CourseOfferingIdentity_LocalCourseCode"/>
 
     <!-- SchoolReference -->
 	<jb:value property="schoolId" data="csv-record/SchoolReference_EducationalOrgIdentity_StateOrganizationId" />
@@ -69,7 +69,7 @@
     <jb:bean beanId="AvailableCreditType" class="java.util.HashMap" createOnElement="csv-record">
     	<jb:value property="creditType" data="csv-record/AvailableCredit_CreditType"/>
     	<jb:value property="creditConversion" data="csv-record/AvailableCredit_CreditConversion"/>
-    	<jb:value property="credit" data="csv-record/AvailableCredit_Credit"/>
+    	<jb:value property="Credit" data="csv-record/AvailableCredit_Credit"/>
     </jb:bean>
 
 	<!-- ProgramReferenceType -->

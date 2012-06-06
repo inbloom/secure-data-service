@@ -1,158 +1,74 @@
 package org.slc.sli.ingestion.model;
 
-import java.util.Date;
-
-import org.slc.sli.ingestion.util.BatchJobUtils;
-
 /**
- * Model for metrics of an ingestion job with resolution into its stage and resource
- *
+ * Model for metrics of an ingestion job
+ * 
  * @author dduran
- *
+ * 
  */
 public class Metrics {
-
+    
     private String resourceId;
-
-    private String sourceIp;
-
-    private String hostname;
-
-    private Date startTimestamp;
-
-    private Date stopTimestamp;
-
     private long recordCount;
-
     private long errorCount;
-
-    /** The elapsed time, in miliseconds. */
-    private long elapsedTime;
-
+    
+    public static Metrics newInstance(String resourceId) {
+        Metrics metrics = new Metrics(resourceId);
+        metrics.setRecordCount(0);
+        metrics.setErrorCount(0);
+        return metrics;
+    }
+    
     // mongoTemplate requires this constructor.
     public Metrics() {
     }
-
-    public Metrics(String resourceId, String sourceIp, String hostname) {
-        this(resourceId, sourceIp, hostname, null, null, 0, 0);
-    }
-
-    public Metrics(String resourceId, String sourceIp, String hostname, Date startTimestamp, Date stopTimestamp,
-            long recordCount, long errorCount) {
-        super();
+    
+    public Metrics(String resourceId) {
         this.resourceId = resourceId;
-        this.sourceIp = sourceIp;
-        this.hostname = hostname;
-        this.startTimestamp = startTimestamp;
-        this.stopTimestamp = stopTimestamp;
+    }
+    
+    public Metrics(String resourceId, long recordCount, long errorCount) {
+        this.resourceId = resourceId;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
-
     }
-
-    public static Metrics createAndStart(String resourceId) {
-        Metrics metrics = new Metrics(resourceId, BatchJobUtils.getHostAddress(), BatchJobUtils.getHostName());
-        metrics.setRecordCount(0);
-        metrics.setErrorCount(0);
-        metrics.startMetric();
-        return metrics;
-    }
-
+    
     public String getResourceId() {
         return resourceId;
     }
-
+    
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
-
-    public String getSourceIp() {
-        return sourceIp;
-    }
-
-    public void setSourceIp(String sourceIp) {
-        this.sourceIp = sourceIp;
-    }
-
-    public String getHostname() {
-        return hostname;
-    }
-
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
-    }
-
-    public Date getStartTimestamp() {
-        return startTimestamp;
-    }
-
-    public void setStartTimestamp(Date startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
-
-    public Date getStopTimestamp() {
-        return stopTimestamp;
-    }
-
-    public void setStopTimestamp(Date stopTimestamp) {
-        this.stopTimestamp = stopTimestamp;
-    }
-
+    
     public long getRecordCount() {
         return recordCount;
     }
-
+    
     public void setRecordCount(long recordCount) {
         this.recordCount = recordCount;
     }
-
+    
     public long getErrorCount() {
         return errorCount;
     }
-
+    
     public void setErrorCount(long errorCount) {
         this.errorCount = errorCount;
     }
-
-    public void update(String resourceId, String sourceIp, String hostname, Date startTimestamp, Date stopTimestamp,
-            long recordCount, long errorCount) {
+    
+    public void update(String resourceId, long recordCount, long errorCount) {
         if (resourceId != null) {
             this.resourceId = resourceId;
         }
-        if (sourceIp != null) {
-            this.sourceIp = sourceIp;
-        }
-        if (hostname != null) {
-            this.hostname = hostname;
-        }
-        if (startTimestamp != null) {
-            this.startTimestamp = startTimestamp;
-        }
-        if (stopTimestamp != null) {
-            this.stopTimestamp = stopTimestamp;
-        }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
-
     }
 
-    public void startMetric() {
-        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
+    @Override
+    public String toString() {
+        return String.format("%s ->%d[%d]", this.resourceId, this.recordCount, this.errorCount);
     }
-
-    public void stopMetric() {
-        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
-        calcElapsedTime();
-    }
-
-    public long getElapsedTime() {
-        return elapsedTime;
-    }
-
-    private void calcElapsedTime() {
-        if (stopTimestamp != null && startTimestamp != null) {
-            elapsedTime = stopTimestamp.getTime() - startTimestamp.getTime();
-        }
-    }
-
+    
+    
 }

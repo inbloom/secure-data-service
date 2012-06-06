@@ -395,8 +395,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
         <SessionName>Fall 2011 Able School</SessionName>
         <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>
@@ -422,8 +422,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
         <SessionName>Fall 2011 Able School</SessionName>
         <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>
@@ -449,8 +449,8 @@
     </CourseReference>
     <SessionReference>
       <SessionIdentity>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
         <SessionName>Fall 2011 Able School</SessionName>
         <StateOrganizationId>Able School</StateOrganizationId>
       </SessionIdentity>

@@ -1130,29 +1130,6 @@
 	</CourseOffering>
 
 	<CourseOffering>
-		<LocalCourseCode>Spec. Elective: Debate Clinic</LocalCourseCode>
-		<LocalCourseTitle>Spec. Elective: Debate Clinic</LocalCourseTitle>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<SessionReference>
-			<SessionIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-				<SessionName>Fall 2011 Sunset Central High School</SessionName>
-			</SessionIdentity>
-		</SessionReference>
-		<CourseReference>
-			<CourseIdentity>
-				<CourseCode IdentificationSystem="CSSC course code">
-					<ID>Spec. Elective: Debate Clinic</ID>
-				</CourseCode>
-			</CourseIdentity>
-		</CourseReference>
-	</CourseOffering>
-
-	<CourseOffering>
 		<LocalCourseCode>4th Grade Homeroom</LocalCourseCode>
 		<LocalCourseTitle>4th Grade Homeroom</LocalCourseTitle>
 		<SchoolReference>
@@ -2340,7 +2317,7 @@
           <ID>7th Grade English</ID>
         </CourseCode>
         <Term>Spring Semester</Term>
-        <SchoolYear>2010-2011</SchoolYear>
+        <SchoolYear>2009-2010</SchoolYear>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
@@ -2466,35 +2443,6 @@
     <SessionReference>
       <SessionIdentity>
         <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-
-  <Section>
-    <UniqueSectionCode>Debate Clinic - Sec 1</UniqueSectionCode>
-    <SequenceOfCourse>1</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Independent study</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Spec. Elective: Debate Clinic</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Spec. Elective: Debate Clinic</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <SessionName>Fall 2011 Sunset Central High School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -3725,7 +3673,7 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>State History I-G7</ID>
         </CourseCode>
-        <Term>Spring Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
@@ -3753,7 +3701,7 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Science 7A</ID>
         </CourseCode>
-        <Term>Spring Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
@@ -3781,7 +3729,7 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Spanish I</ID>
         </CourseCode>
-        <Term>Spring Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>

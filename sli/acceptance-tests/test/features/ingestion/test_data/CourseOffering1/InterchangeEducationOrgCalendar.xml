@@ -8,7 +8,14 @@
   </CalendarDate>
 
   <GradingPeriod id="GRDP_20110527">
-    <GradingPeriod>End of Year</GradingPeriod>
+    <GradingPeriodIdentity>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>IL</ID>
+		</EducationOrgIdentificationCode>
+		<GradingPeriod>End of Year</GradingPeriod>
+		<SchoolYear>2011-2012</SchoolYear>
+	</GradingPeriodIdentity>
+    
     <BeginDate>2011-10-27</BeginDate>
     <EndDate>2011-11-27</EndDate>
     <TotalInstructionalDays>0</TotalInstructionalDays>

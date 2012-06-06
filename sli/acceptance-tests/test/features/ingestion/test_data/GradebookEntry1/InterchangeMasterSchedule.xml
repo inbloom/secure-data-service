@@ -60,9 +60,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -89,9 +89,9 @@
           <CourseCode IdentificationSystem="CSSC course code">
             <ID>Algebra-11</ID>
           </CourseCode>
-          <Term>First Semester</Term>
+          <Term>Fall Semester</Term>
           <SchoolYear>2011-2012</SchoolYear>
-          <StateOrganizationId>1</StateOrganizationId>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </CourseOfferingIdentity>
       </CourseOfferingReference>
       <SchoolReference>

@@ -257,7 +257,7 @@ public class RealmRoleManagerResource {
             List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
             Role sliRole = roleRightAccess.getDefaultRole(sliRoleName);
             if (sliRole == null || sliRole.isAdmin()) {
-                res.put("response", "Invalid SLI Role");
+                res.put("response", "Invalid SLC Role");
                 return Response.status(Status.BAD_REQUEST).build();
             }
 
@@ -373,7 +373,7 @@ public class RealmRoleManagerResource {
         for (Pair<String, String> roleMap : roleMapList) {
             String sliRoleName = roleMap.getLeft();
             String clientRoleName = roleMap.getRight();
-            String eventMessage = addedDeleted[added ? 0 : 1] + " role mapping between SLI:" + sliRoleName + " and "
+            String eventMessage = addedDeleted[added ? 0 : 1] + " role mapping between SLC:" + sliRoleName + " and "
                     + clientRoleName;
             audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo,
                     eventMessage));

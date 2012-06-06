@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.ingestion.util.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,6 +23,8 @@ public class EntityConfigFactory implements ResourceLoaderAware {
     private static final String CONFIG_EXT = ".json";
     private static final EntityConfig NOT_FOUND = null;
 
+    private static final Logger LOG = LoggerFactory.getLogger(EntityConfigFactory.class);
+    
     private String searchPath;
     private ResourceLoader resourceLoader;
 
@@ -38,6 +43,7 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
+                LogUtil.error(LOG, "Exception loading EntityConfig for " + entityType + ":", e);
                 entityConfigurations.put(entityType, NOT_FOUND);
             } finally {
                 IOUtils.closeQuietly(configIs);

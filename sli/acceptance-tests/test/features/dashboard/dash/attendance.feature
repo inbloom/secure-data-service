@@ -10,12 +10,13 @@ attendance data for a list of students.
 Background:
     Given I have an open web browser
     Given the server is in "live" mode
-	
+
 @wip
 Scenario: Teacher sees Absence Count in K-3 list of students view
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -23,12 +24,13 @@ Scenario: Teacher sees Absence Count in K-3 list of students view
 		  And I select view "Early Literacy View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
-			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "25" 
+			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "25"
 @wip
 Scenario: Teacher sees Absence Count in 3-8 list of students view
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -37,12 +39,13 @@ Scenario: Teacher sees Absence Count in 3-8 list of students view
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
 			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "25"
- 
+
  @wip
 Scenario: Teacher sees Absence Count in 9-12 list of students view
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -56,7 +59,8 @@ Scenario: Teacher sees Absence Count in 9-12 list of students view
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -68,10 +72,11 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
       			And the class for id "attendances.attendanceRate" for student "Johnny Patel" is "perfLevel1"
 
 @wip
-Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow 
+Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -86,7 +91,8 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light green
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -101,7 +107,8 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light gre
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -116,7 +123,8 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -130,7 +138,8 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -142,10 +151,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
       			And the class for id "attendances.tardyRate" for student "Delilah Sims" is "perfLevel3"
 
 @wip
-Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green 
+Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -157,10 +167,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green
       			And the class for id "attendances.tardyRate" for student "Jolene Ashley" is "perfLevel4"
 
 @wip
-Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green 
+Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 		When I navigate to the Dashboard home page
 		When I select "Sunset School District 4526" and click go
-		When I login as "cgray" "cgray1234"
+	    And I was redirected to the "Simple" IDP Login page
+	    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 	    When I select <edOrg> "Daybreak School District 4529"
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
@@ -175,7 +186,8 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - third color
     When I navigate to the Dashboard home page
     When I select "Sunset School District 4526" and click go
-    When I login as "cgray" "cgray1234"
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
@@ -190,7 +202,8 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - second color
     When I navigate to the Dashboard home page
     When I select "Sunset School District 4526" and click go
-    When I login as "cgray" "cgray1234"
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
@@ -200,12 +213,13 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
       And I should see a table heading "Tardy Count"
       And the count for id "attendances.tardyCount" for student "Patricia Harper" is "4"
       And the class for id "attendances.tardyCount" for student "Patricia Harper" is "countLevel2"
-      
+
 @wip
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - first color
     When I navigate to the Dashboard home page
     When I select "Sunset School District 4526" and click go
-    When I login as "cgray" "cgray1234"
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
@@ -218,8 +232,9 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 
 Scenario: Monster test until LOS is faster
     When I navigate to the Dashboard home page
-    When I select "Sunset School District 4526" and click go
-    When I login as "cgray" "cgray1234"
+    When I select "Illinois Sunset School District 4526" and click go
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       When I select <edOrg> "Daybreak School District 4529"
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"

@@ -1,119 +1,148 @@
 {
-"keyFields" : ["body.uniqueSectionCode", "body.schoolId"],
-"references" :
- [
-    {
-     "fieldPath" : "body.schoolId",
-     "ref" : {
-            "collectionName" : "school",
-            "choiceOfFields" :
-                [ [
-                       {
-                       "path" : "metaData.externalId",
-                       "values" :
-                         [ { "valueSource" : "body.schoolId" } ]
-                        }
-                  ] ]
-            }
-     },
-    {
-    "fieldPath" : "body.ssaId" ,
-    "ref" : {
-              "collectionName" : "schoolSessionAssociation",
-              "choiceOfFields" :
-               [ [
-                   {
-                     "path" : "body.schoolId",
-                     "values" :
-                       [ { "valueSource" : "body.schoolId"  } ]
-                     },
-                     {
-                       "path" : "body.sessionId",
-                       "values" :
-                         [ {
-                             "ref" :
-                             {
-                     		     "collectionName" : "session",
-                     		     "choiceOfFields" :
-                     		  	  [
-                     		  	    [
-                     		  	       {
-                     		  	          "path" : "body.schoolYear",
-                     		  	          "values" :
-                     		  	           [ { "valueSource" : "body.sessionReference.SchoolYear" } ]
-                     		  	        },
-                     		  	        {
-                     		  	           "path" : "body.term",
-                     		  	           "values" :
-                     		  	           [ { "valueSource" : "body.sessionReference.Term" } ]
-                     		  	        }
-                     		  	      ],
-                     		  	      [
-                     		  	        {
-                     		     	       "path" : "body.sessionName",
-                     		  	           "values" :
-                     		  	            [ { "valueSource" : "body.sessionReference.SessionName" } ]
-                     		  	         }
-                                       ]
-                     		  	    ]
-                                 }
-                            }  ]
-                     }
-                ] ]
-          }
-       },
-       {
-         "fieldPath" : "body.schoolId_courseOffering",
-         "ref" : {
-             "collectionName" : "school",
-             "choiceOfFields" :
-             [ [
-                 {
-                   "path" : "metaData.externalId",
-                   "values" :
-                     [ { "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.StateOrganizationId" } ]
-                 }
-             ] ]
+   "keyFields":["body.uniqueSectionCode","body.schoolId","body.sessionId", "body.courseOfferingId"],
+   "references":
+   [
+      {
+         "fieldPath":"body.schoolId",
+         "ref":
+         {
+            "collectionName":"school",
+            "choiceOfFields":
+            [
+               [
+                  {
+                     "path":"metaData.externalId",
+                     "values":
+                     [{
+                         "valueSource":"body.schoolId"
+                     }]
+                  }
+               ]
+            ]
          }
-       },
-       {
-       "fieldPath" : "body.ssaId_courseOffering",
-       "ref" : {
-       		   "collectionName" : "schoolSessionAssociation",
-               "choiceOfFields" :
-               [ [
-                   {
-                     "path" : "body.schoolId",
-                     "values" :
-                       [ { "valueSource" : "body.schoolId_courseOffering"  } ]
-                     },
-                     {
-                       "path" : "body.sessionId",
-                       "values" :
-                       [ {
-                           "ref" :
+      },
+      {
+         "fieldPath":"body.sessionId",
+         "ref":
+         {
+            "collectionName":"session",
+            "choiceOfFields":
+            [
+               [
+                  {
+                     "path":"body.schoolYear",
+                     "values":
+                     [{
+                         "valueSource":"body.sessionReference.SchoolYear"
+                     }]
+                  },
+                  {
+                     "path":"body.term",
+                     "values":
+                     [{
+                         "valueSource":"body.sessionReference.Term"
+                     }]
+                  },
+                  {
+                     "path":"body.sessionName",
+                     "values":
+                     [{
+                         "valueSource":"body.sessionReference.SessionName"
+                     }]
+                  },
+                  {
+                     "path":"body.schoolId",
+                     "values":
+                     [
+                        {
+                           "ref":
                            {
-                             "collectionName" : "session",
-                             "choiceOfFields" :
-                             [
-                               [
-                                 {
-                                   "path" : "body.schoolYear",
-                                   "values" :
-                                     [ { "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SchoolYear" } ]
-                                 },
-                                 {
-                                   "path" : "body.term",
-                                   "values" :
-                                     [ { "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.Term" } ]
-                                 }
-                               ]
-                             ]
+                              "collectionName":"school",
+                              "choiceOfFields":
+                              [
+                                 [
+                                    {
+                                       "path":"metaData.externalId",
+                                       "values":
+                                       [{
+                                           "valueSource":"body.schoolId"
+                                       }]
+                                    }
+                                 ]
+                              ]
                            }
-                       } ]
-                     }
-                ] ]
+                        }
+                     ]
+                  }
+               ]
+            ]
+         }
+      },
+      {
+          "fieldPath" : "body.courseOfferingId",
+          "ref" : 
+          {
+              "collectionName" : "courseOffering",
+              "choiceOfFields" :
+              [
+                  [
+                      {
+                          "path":"body.localCourseCode",
+                          "values" :
+                          [{ 
+                                "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.LocalCourseCode" 
+                          }]
+                      },
+                      {
+                          "path":"body.sessionId",
+                          "values" :
+                          [{
+                               "ref" :
+                               {
+                                   "collectionName" : "session",
+                                   "choiceOfFields" :
+                                   [[
+                                        {
+                                            "path" : "body.schoolId",
+                                            "values" :
+                                            [{
+                                                 "ref" :
+                                                 {
+                                                     "collectionName" : "educationOrganization",
+                                                     "choiceOfFields" :
+                                                     [[
+                                                          {
+                                                              "path" : "body.stateOrganizationId",
+                                                              "values" :
+                                                              [{
+                                                                   "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.StateOrganizationId" 
+                                                              }]
+                                                          }
+                                                     ]]
+                                                 }
+                                            }]
+                                         },
+                                         {
+                                             "path" : "body.schoolYear",
+                                             "values" :
+                                             [{
+                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SchoolYear" 
+                                             }]
+                                         },
+                                         {
+                                             "path" : "body.term",
+                                             "values" :
+                                             [{
+                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.Term" 
+                                             }]
+                                         }
+                                   ]]
+                               }
+                          }]
+                      }
+                  ]
+              ]
           }
        }
-    ]
+   ]
 }

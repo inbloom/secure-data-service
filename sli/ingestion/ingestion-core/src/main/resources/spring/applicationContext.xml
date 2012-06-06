@@ -53,6 +53,10 @@
     </property>
   </bean>
 
+   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}" />
+   </bean>
+
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
@@ -111,9 +115,14 @@
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
-    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
+    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
+
+  <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+  <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
 
 </beans>
 
