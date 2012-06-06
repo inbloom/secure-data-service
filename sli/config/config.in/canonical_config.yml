@@ -10,7 +10,7 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
-        
+
         # Security grace period for viewing sections (only use in api)
         sli.security.gracePeriod: 2000
 
@@ -28,29 +28,29 @@ default:
 
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
-        
+
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
         bootstrap.sandbox.createSandboxRealm: false
 
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
-        bootstrap.admin.realm.tenantId: SLI	
+        bootstrap.admin.realm.tenantId: SLI
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
-        
+
         # Used to bootstrap the sandbox's other ream realm
         bootstrap.sandbox.realm.uniqueId: SandboxIDP
         bootstrap.sandbox.realm.name: Sandbox Environment
         bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
-        bootstrap.app.conf: 
+        bootstrap.app.conf:
 
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
         sli.landingZone.server: devpantheon.slidev.org
-        
+
         # User a negative number for unlimited
         sli.useraccount.maximum: 500
 
@@ -159,30 +159,20 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
-        
+
         dashboard.google_analytics.id: UA-31838086-1
-        
+
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
-        
+
 
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: ../applications/admin.json
-        bootstrap.app.admin.name: Admin Apps 
-        bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
-        bootstrap.app.admin.version: 0.0 
         bootstrap.app.databrowser.template: ../applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
-        bootstrap.app.databrowser.name: SLC Data Browser
-        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
-        bootstrap.app.databrowser.version: 0.0
         bootstrap.app.dashboard.template: ../applications/dashboard.json
         bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
-        bootstrap.app.dashboard.name: SLC Dashboards
-        bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
-        bootstrap.app.dashboard.version: A.0
-        bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
         # keystore password (used in common, data-access, and dashboard)
@@ -220,7 +210,7 @@ default:
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: dc=slidev,dc=org
-        
+
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -232,7 +222,7 @@ default:
 
         # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
-        
+
         # sample app externalized properties:
         sli.sample.apiUrl: http://local.slidev.org:8080/
         sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
@@ -311,9 +301,6 @@ acceptance-tests:
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
-
-
-
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -655,7 +642,7 @@ local:
         sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
-        
+
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
@@ -698,12 +685,8 @@ local:
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
-        # local/ingestion/ingestion_conf.properties
-        #landingzone.inbounddir: C:/software/ingestion/lz/
-        #logging.path: C:/software/ingestion/logs/
         landingzone.inbounddir: target/ingestion/lz/inbound
         logging.path: target/ingestion/logs
-        # local/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -714,7 +697,7 @@ local:
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
-        
+
         # (only used in dashboard)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
@@ -783,7 +766,12 @@ local-sandbox:
 local-acceptance-tests:
     api:
         <<: *API-LOCAL
-        
+        # Used to bootstrap the admin realm
+        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.tenantId: SLI
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
+
     data-access:
         <<: *DATA-ACCESS-LOCAL
 
@@ -792,83 +780,43 @@ local-acceptance-tests:
         sli.ingestion.tenant.loadDefaultTenants: true
 
     dashboard:
-        <<: *DASHBOARD-LOCAL
+        # Pick up default here, not local, to avoid overriding the encryption keystore.
+        <<: *DASHBOARD-DEFAULT
         api.server.url: http://local.slidev.org:8080/
         security.server.url: http://local.slidev.org:8080/
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
-        oauth.client.id: K2e7Dwhq5J
-        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
-        oauth.redirect: http://local.slidev.org:8080/dashboard/callback
-
-    apps:
-        <<: *APPS-LOCAL
-        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
-
-        bootstrap.app.admin.url: http://local.slidev.org:2000
-        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-        bootstrap.app.admin.client_id: Eg6eseKRzN
-
-        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
-        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
-        bootstrap.app.databrowser.url: http://local.slidev.org:2001
-
-    misc:
-        <<: *MISC-LOCAL
-        # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: nxbuild2.slidev.org
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.mongodb.user:
-        sli.ingestion.staging.mongodb.pass:
-        sli.ingestion.staging.clearOnCompletion: true
-
-#
-# Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
-#
-local-acceptance-tests:
-    api:
-        <<: *API-LOCAL
-
-    data-access:
-        <<: *DATA-ACCESS-LOCAL
-
-    ingestion:
-        <<: *INGESTION-DEFAULT
-        # nxbuild2/ingestion/queue.properties
-        sli.ingestion.queue.workItem.host: localhost
-        sli.ingestion.queue.workItem.port: 61616
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-
-    dashboard:
-        <<: *DASHBOARD-LOCAL
-        api.server.url: http://local.slidev.org:8080/
-        security.server.url: http://local.slidev.org:8080/
-        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
-        log.level: warn
-        oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
+        # K2e7Dwhq55
+        oauth.client.id: 58,40,16,19,-32,-66,33,35,-38,52,-101,18,70,13,-102,-23
+        # evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
         oauth.client.secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
 
     apps:
-        <<: *APPS-LOCAL        
-        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
-        
+        <<: *APPS-LOCAL
+        bootstrap.app.keys: admin,databrowser,dashboard
+
         bootstrap.app.admin.url: http://local.slidev.org:2000
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
         bootstrap.app.admin.client_id: Eg6eseKRzN
-        
+
         bootstrap.app.databrowser.client_id: 2zhRrEXh8r
         bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
         bootstrap.app.databrowser.url: http://local.slidev.org:2001
 
+        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
+        bootstrap.app.dashboard.client_id: K2e7Dwhq55
+        bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+
     misc:
-        <<: *MISC-LOCAL        
+        <<: *MISC-LOCAL
 
-
+        # sample app externalized properties:
+        sli.sample.apiUrl: http://local.slidev.org:8080/
+        sli.sample.callbackUrl: http://local.slidev.org:8080/sample/callback
+        sli.sample.clientId: vavedRa9uB
+        sli.sample.clientSecret: phEdAchetESedRewatRegeQeradeC5tUStEXeCa6UJ3JefuC
 
 team:
     api: &API-TEAM
@@ -927,10 +875,10 @@ team:
         # team/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
         logging.path: /home/ingestion/logs
-        
+
         # Command topic
         sli.ingestion.topic.command: activemq:topic:ingestion.command
-    
+
         # team/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
@@ -999,13 +947,11 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
-        
+
         sli.sample.apiUrl: https://${sample.swap}.slidev.org/
         sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
         sli.sample.clientId: AT1k3PdHzX
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
-
-
 
 perf:
     data-access:
@@ -1050,9 +996,6 @@ perf:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-
-
-
 
 test-local:
     test:
@@ -1103,7 +1046,7 @@ test-team:
         logging.path: /home/ingestion/logs
 
         # team/ingestion/test.properties
-        
+
         ## TODO - these should be the embedded ActiveMQ broker
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
@@ -1157,7 +1100,7 @@ sandbox:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
-        
+
 # Properties for systems being used by Team Hermod for ingestion performance
 # These are Amazon west instances
 nxteam:

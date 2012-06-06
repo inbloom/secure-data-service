@@ -1,7 +1,7 @@
 {
-   "name": "${bootstrap.app.admin.name}",
-   "description":"${bootstrap.app.admin.description}",
-   "version":"${bootstrap.app.admin.version}",
+   "name": "Admin Apps",
+   "description":"The SLC Administration Application allows you to change a variety of system settings.",
+   "version":"0.0",
    "bootstrap": true,
    "image_url":"${bootstrap.app.admin.url}/assets/icon.png",
    "administration_url":"${bootstrap.app.admin.url}",
@@ -18,7 +18,7 @@
    "is_admin":true,
    "installed":false,
    "behavior":"Iframe App",
-   "vendor":"${bootstrap.app.vendor}",
+   "vendor":"SLC",
    "endpoints":[
       {
          "name":"Application Registration",

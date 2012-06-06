@@ -74,7 +74,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |
-
+ 
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
@@ -96,6 +96,9 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.0.errorCount     | 0                                    | integer    |
   | newBatchJob    | 1                   | resourceEntries.1.resourceId     | controlfile.ctl                      | string     |
   | newBatchJob    | 1                   | resourceEntries.1.resourceFormat | control-file                         | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "[configProperty] purge: true" in the resulting batch job file
@@ -170,7 +173,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                | searchValue             | searchType |
   | newBatchJob    | 1                   | totalFiles                     | 1                       | integer    |
   | newBatchJob    | 2                   | status                         | CompletedSuccessfully   | string     |
-  | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     |
+  | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
 
