@@ -27,11 +27,15 @@ public class InterchangeWriter<T> {
 
     private static final int XML_WRITER_BUFFER_SIZE = 104857600; // 100 MB
     private static final boolean FORMAT_INTERCHANGE_XML = true;
+    private static final boolean SINGLE_LINE_MARSHALLING = true;
 
     private String interchangeName = null;
     private String xmlFilePath = null;
 
     private XMLStreamWriter writer = null;
+    private XMLStreamWriter defaultWriter = null;
+    private IndentingXMLStreamWriter indentingWriter = null;
+    
     private Marshaller streamMarshaller = null;
     
     private long interchangeStartTime;
@@ -57,11 +61,13 @@ public class InterchangeWriter<T> {
         try {
             FileOutputStream xmlFos = new FileOutputStream(xmlFilePath);
             OutputStream xmlBos = new BufferedOutputStream(xmlFos, XML_WRITER_BUFFER_SIZE);
-            writer = XMLOutputFactory.newFactory().createXMLStreamWriter(xmlBos, "UTF-8");
+            defaultWriter = XMLOutputFactory.newFactory().createXMLStreamWriter(xmlBos, "UTF-8");
             if (FORMAT_INTERCHANGE_XML) {
-                IndentingXMLStreamWriter indentingWriter = new IndentingXMLStreamWriter(writer);
+                indentingWriter = new IndentingXMLStreamWriter(defaultWriter);
                 indentingWriter.setIndentStep("    ");
                 writer = indentingWriter;
+            } else {
+                writer = defaultWriter;
             }
             writer.writeStartDocument("UTF-8", "1.0");
 
@@ -82,7 +88,7 @@ public class InterchangeWriter<T> {
             
             writer.writeStartElement(interchangeName);
             writer.writeNamespace(null, "http://ed-fi.org/0100");
-
+            
         } catch (XMLStreamException e) {
             e.printStackTrace();
             System.exit(1);  // fail fast for now
@@ -101,7 +107,9 @@ public class InterchangeWriter<T> {
       + (System.currentTimeMillis() - interchangeStartTime));
 
         try {
-
+            if (FORMAT_INTERCHANGE_XML && SINGLE_LINE_MARSHALLING) {
+                defaultWriter.writeCharacters("\n");
+            }
 //            writer.writeEndElement();
             writer.writeEndDocument();
             writer.close();
@@ -120,12 +128,21 @@ public class InterchangeWriter<T> {
      * @param outputStream
      * @throws JAXBException
      */
+    @SuppressWarnings("unused")
     public void marshal(Object objectToMarshal) {
         if (objectToMarshal != null) {
 
             try {                
-                streamMarshaller.marshal(objectToMarshal, writer);
+                if (FORMAT_INTERCHANGE_XML && SINGLE_LINE_MARSHALLING) {
+                    defaultWriter.writeCharacters("\n");
+                    streamMarshaller.marshal(objectToMarshal, defaultWriter);
+                } else {
+                    streamMarshaller.marshal(objectToMarshal, writer);
+                }
             } catch (JAXBException e) {
+                e.printStackTrace();
+                System.exit(1);  // fail fast for now
+            } catch (XMLStreamException e) {
                 e.printStackTrace();
                 System.exit(1);  // fail fast for now
             }
