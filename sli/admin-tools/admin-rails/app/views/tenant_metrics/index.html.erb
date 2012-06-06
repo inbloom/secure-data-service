@@ -1,0 +1,44 @@
+<p id="error_notice"><%= @error_notice %></p>
+<p id="notice"><%= @notice %></p>
+
+<h3>Tenant Collection Information</h3>
+
+<hr/>
+
+<!-- {:tenantId => {:collection => {:entityCount => 0, :size => 0} } } -->
+<table id="tenant-metrics-table">
+  <thead>
+  <tr>
+    <th>Tenant</th>
+    <th>Entities</th>
+    <th>Total Size (KB)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%  @tenant_metrics.metrics().each do |tenant_id, tenant_metric|
+
+      if tenant_id == "== Totals =="
+           @totals = tenant_metric
+           next
+      end
+
+      concat ("<tr>").html_safe
+      concat ("<td><b><a href='http://local.slidev.org:3000/tenant_metrics/" + tenant_id + "?details=true'>" + tenant_id + "</a></b></td>").html_safe
+
+      tenant_metric.each do |collectionName, collectionData|
+        if collectionName == "== Totals =="
+          concat ("<td class='metric_value'>" + collectionData[:entityCount].to_s() + "</td>").html_safe
+          concat ("<td class='metric_value' id='metric_value_last'>" + ("%.2f " % (collectionData[:size] / 1024)) + "</td>").html_safe
+        end
+        concat ("<tr>").html_safe
+      end
+    end
+
+    concat ("</tbody><tfoot><tr class='summary'><td class='collection_name'>Total for " + ("%d" % (@tenant_metrics.metrics().size - 1)) + " Tenants</td><td class='metric_value'>" + @totals["== Totals =="][:entityCount].to_s() + "</td>").html_safe
+    concat ("<td class='metric_value' id='metric_value_last'>" + ("%.2f " % (@totals["== Totals =="][:size] / 1024)) + "</td></tr></tfoot>").html_safe
+
+%>
+
+</table>
+<br/>
+<br/>

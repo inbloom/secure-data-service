@@ -26,6 +26,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
@@ -577,6 +583,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
             // When in doubt, play it (Replicas) safe.
             template.setWriteConcern(WriteConcern.REPLICAS_SAFE);
         }
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        List<DBCollection> collections = new ArrayList<DBCollection>();
+        
+        for (String name : getTemplate().getCollectionNames()) {
+            
+            if (!includeSystemCollections && name.startsWith("system.")) {
+                continue;
+            }
+            collections.add(getTemplate().getCollection(name));
+        }
+        return collections;
     }
     
 }

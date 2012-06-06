@@ -325,7 +325,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
                         + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
-                        + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
+                        + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed")
                 .routeId("noextract-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(noExtractProcessor).to("direct:postExtract");

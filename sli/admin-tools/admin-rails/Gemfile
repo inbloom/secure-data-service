@@ -11,6 +11,9 @@ gem 'therubyracer'
 
 gem 'oauth2'
 
+gem 'mongo'
+gem 'bson_ext'
+
 gem "net-ldap"
 
 gem 'approval', :path => '../approval'
