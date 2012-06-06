@@ -24,27 +24,27 @@ import org.slc.sli.domain.Repository;
  *
  */
 public class RealmInitializerTest {
-      
+    
     @InjectMocks
     private RealmInitializer realmInit;
     
     @Mock
-    private Repository<Entity> mockRepo = null;
-
+    private Repository<Entity> mockRepo;
+    
     @Before
     public void setUp() throws Exception {
         realmInit = new RealmInitializer();
         MockitoAnnotations.initMocks(this);
     }
-
+    
     @Test
     public void testRealmNotExist() throws Exception {
-         
-        //verify that the code attempts to insert a new realm when no existing realm is present
+        
+        // verify that the code attempts to insert a new realm when no existing realm is present
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(null);
         final AtomicBoolean update = new AtomicBoolean(false);
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-
+            
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 update.set(true);
@@ -60,14 +60,15 @@ public class RealmInitializerTest {
     @Test
     public void testOutdatedRealm() throws Exception {
         
-        //verify that the code attempts to insert a new realm if the existing one needs to be modified
+        // verify that the code attempts to insert a new realm if the existing one needs to be
+        // modified
         Map body = realmInit.createAdminRealmBody();
         body.put("name", "New name");
         Entity existingRealm = new MongoEntity("realm", body);
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(existingRealm);
         final AtomicBoolean update = new AtomicBoolean(false);
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-
+            
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 update.set(true);
@@ -82,14 +83,15 @@ public class RealmInitializerTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testRealmUnchanged() throws Exception {
-
-        //verify that the code doesn't attempt to update the realm if the existing one hasn't been modified
+        
+        // verify that the code doesn't attempt to update the realm if the existing one hasn't been
+        // modified
         Map body = realmInit.createAdminRealmBody();
         Entity existingRealm = new MongoEntity("realm", body);
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(existingRealm);
         final AtomicBoolean update = new AtomicBoolean(false);
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-
+            
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
                 update.set(true);
@@ -100,5 +102,5 @@ public class RealmInitializerTest {
         realmInit.init();
         assertFalse("Existing realm was not touched", update.get());
     }
-
+    
 }

@@ -1,7 +1,0 @@
-{
-    "collection": "studentSectionGradebookEntry_transformed",
-    "indexFields":
-    [
-        {"name" : "locationInSourceFile" , "order" : "1"}
-    ]
-}
