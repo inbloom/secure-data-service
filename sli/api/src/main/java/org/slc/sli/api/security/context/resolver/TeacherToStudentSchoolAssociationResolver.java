@@ -15,7 +15,7 @@ import org.slc.sli.domain.Entity;
 /**
  * Resolves which StudentSchoolAssociation a given teacher is allowed to see.
  */
-@Component
+@Deprecated
 public class TeacherToStudentSchoolAssociationResolver implements
         EntityContextResolver {
     private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";

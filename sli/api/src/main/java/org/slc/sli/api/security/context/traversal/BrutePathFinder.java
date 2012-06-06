@@ -61,7 +61,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
                         .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "teacherId")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
-                                new ArrayList<NodeFilter>(Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter)))
+                                Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter))
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId")
                         .construct());
         nodeMap.put(
@@ -115,7 +115,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.STAFF)
                         .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS,
-                                new ArrayList<NodeFilter>(Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter)))
+                                Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter))
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
                         .addConnection(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId")
                         .addConnection(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId")

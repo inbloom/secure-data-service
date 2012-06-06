@@ -28,27 +28,26 @@ public class NodeDateFilter extends NodeFilter {
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected String entityName;
-
-    public String getEntityName() {
+    protected String getEntityName() {
         return entityName;
     }
 
-    public String getReferenceId() {
+    protected String getReferenceId() {
         return referenceId;
     }
 
-    public String getGracePeriod() {
+    protected String getGracePeriod() {
         return gracePeriod;
     }
 
-    public String getFilterDateParam() {
+    protected String getFilterDateParam() {
         return filterDateParam;
     }
 
-    protected String referenceId;
-    protected String gracePeriod;
-    protected String filterDateParam;
+    private String entityName;
+    private String referenceId;
+    private String gracePeriod;
+    private String filterDateParam;
 
     public void setParameters(String entityName, String referenceId, String gracePeriod, String filterDateParam) {
         this.entityName = entityName;

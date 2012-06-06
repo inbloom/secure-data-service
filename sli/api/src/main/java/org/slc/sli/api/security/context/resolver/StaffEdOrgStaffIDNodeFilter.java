@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Filters the entity by a given date
+ *Filters staffId/teacherid based on  end date present in
+ * StaffEgorgAssociation or teacherSchoolAssociation
  *
  * @author pghosh
  *

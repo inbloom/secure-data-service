@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ public class SecurityNodeConnection {
     private String connectionTo = "";
     private String associationNode = "";
     private boolean isReferenceInSelf = false;
-    private ArrayList<NodeFilter> filter;
+    private List<NodeFilter> filter;
 
     /**
      * @return the fieldName
@@ -51,7 +52,7 @@ public class SecurityNodeConnection {
     }
 
 
-    public ArrayList<NodeFilter> getFilter() {
+    public List<NodeFilter> getFilter() {
         return this.filter;
     }
 
@@ -73,7 +74,7 @@ public class SecurityNodeConnection {
         this.filter = new ArrayList<NodeFilter>();
         this.filter.add(filter);
     }
-    public SecurityNodeConnection(String toEntity, String withField, String associationNode, ArrayList<NodeFilter> filter) {
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, List<NodeFilter> filter) {
         this.connectionTo = toEntity;
         this.fieldName = withField;
         this.associationNode = associationNode;
