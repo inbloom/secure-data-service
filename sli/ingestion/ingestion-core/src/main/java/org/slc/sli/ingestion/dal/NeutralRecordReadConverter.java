@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.DBObject;
 
@@ -31,7 +30,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     @SuppressWarnings("unchecked")
     public NeutralRecord convert(DBObject dbObj) {
 
-        UUID uuid = (UUID) dbObj.get("_id");
+        String uuid = (String) dbObj.get("_id");
         String id = uuid.toString();
 
         String type = null;
