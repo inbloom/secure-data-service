@@ -16,7 +16,7 @@ import org.slc.sli.domain.Entity;
  * Resolves which StudentSectionAssociation a given teacher is allowed to see.
  *
  */
-@Deprecated
+@Component
 public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
 
     @Autowired
