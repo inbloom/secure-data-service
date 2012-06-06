@@ -97,7 +97,7 @@ SLI Checkstyle configuration.
     <module name="ImportControl">
       <metadata name="net.sf.eclipsecs.core.comment" value="These libraries are not allowed.  Check confluence for details."/>
       <property name="severity" value="error"/>
-      <property name="file" value="${sli.home}/../build-tools/src/main/resources/checkstyle/import-control.xml"/>
+      <property name="file" value="${checkstyle.import.control.file}"/>
     </module>
   </module>
   <module name="FileTabCharacter"/>

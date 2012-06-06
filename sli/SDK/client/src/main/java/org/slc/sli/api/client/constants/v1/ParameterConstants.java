@@ -73,7 +73,7 @@ public class ParameterConstants {
     /**
      * Query parameter for optional fields to include
      */
-    public static final String OPTIONAL_FIELDS = "optionalFields";
+    public static final String OPTIONAL_FIELDS = "views";
 
     /**
      * Query parameter for inclusion of custom entity.

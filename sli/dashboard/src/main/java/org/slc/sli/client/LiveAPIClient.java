@@ -344,20 +344,20 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?optionalFields=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook", token);
+                + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook", token);
     }
 
     @Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?optionalFields=gradebook", token);
+                + "?views=gradebook", token);
     }
 
     @Override
     public GenericEntity getStudentWithOptionalFields(String token, String studentId, List<String> optionalFields) {
         String optFields = StringUtils.join(optionalFields, ',');
 
-        String url = getApiUrl() + STUDENTS_URL + studentId + "?optionalFields=" + optFields;
+        String url = getApiUrl() + STUDENTS_URL + studentId + "?views=" + optFields;
         return createEntityFromAPI(url, token);
     }
 
@@ -947,7 +947,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getCourses(final String token, final String sectionId, Map<String, String> params) {
         // get the entities
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?optionalFields=transcript", token);
+                + "?views=transcript", token);
     }
 
     /**

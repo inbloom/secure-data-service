@@ -740,7 +740,7 @@
 					<version>${maven.checkstyle.version}</version>
 					<configuration>
 						<configLocation>${sli.home}/../build-tools/src/main/resources/checkstyle/checkstyle.xml</configLocation>
-						<propertyExpansion>sli.home=${sli.home}</propertyExpansion>
+						<propertyExpansion>checkstyle.import.control.file=${sli.home}/../build-tools/src/main/resources/checkstyle/import-control.xml</propertyExpansion>
 						<includeTestSourceDirectory>true</includeTestSourceDirectory>
 						<linkXRef>false</linkXRef>
 						<failsOnError>false</failsOnError>
@@ -881,6 +881,10 @@
 							<name>.settings/checkstyle.xml</name>
 							<location>checkstyle/checkstyle.xml</location>
 						</file>
+                        <file>
+                            <name>.settings/import-control.xml</name>
+                            <location>checkstyle/import-control.xml</location>
+                        </file>
 						<file>
 							<name>.checkstyle</name>
 							<location>eclipse/eclipse-sli-checkstyle.xml</location>

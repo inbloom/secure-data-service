@@ -1,9 +1,11 @@
 package org.slc.sli.api.config;
 
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
-import org.springframework.stereotype.Component;
+import org.slc.sli.domain.Entity;
 
 /**
  * Add the entity type to the response body
@@ -19,7 +21,7 @@ public class TypeTreatment implements Treatment {
     }
 
     @Override
-    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id) {
+    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
         stored.put(TYPE_STRING, defn.getType());
         return stored;
     }

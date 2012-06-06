@@ -256,6 +256,11 @@ public class ResourceUtil {
     private static List<EmbeddedLink> getReferenceLinks(final EntityDefinition defn, final EntityBody entityBody,
             final UriInfo uriInfo) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
+        
+        if (defn == null || entityBody == null || uriInfo == null) {
+            return links;
+        }
+        
         // loop through all reference fields on supplied entity type
         for (Entry<String, ReferenceSchema> referenceField : defn.getReferenceFields().entrySet()) {
             // see what GUID is stored in the reference field
