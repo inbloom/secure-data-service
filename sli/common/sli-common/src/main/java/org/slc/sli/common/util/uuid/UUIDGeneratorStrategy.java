@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface UUIDGeneratorStrategy {
 
 
-    public UUID randomUUID();
+    public String randomUUID();
 }

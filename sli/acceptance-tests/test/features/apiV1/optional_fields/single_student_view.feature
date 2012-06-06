@@ -49,7 +49,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     When I look at the first one
     Then I should see "letterGradeEarned" is "A" in it
     And inside "gradebookEntries"
-    And I should see "dateAssigned" is "2012-02-07" in it
+    And I should see "dateAssigned" is "2012-01-31" in it
     And I should see "gradebookEntryType" is "Quiz" in it
     And I should see "entityType" is "gradebookEntry" in it
 
@@ -68,12 +68,12 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And inside "sections"
     And I should see "courseId" is "<COURSE ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
-    And I should see "uniqueSectionCode" is "algebraIIS11" in it
+    And I should see "uniqueSectionCode" is "8th Grade English - Sec 5" in it
     And inside "sessions"
-    And I should see "sessionName" is "Fall 2011" in it
+    And I should see "sessionName" is "Spring 2012" in it
     When I go back up one level
     Then inside "courses"
-    And I should see "courseDescription" is "Intro to French" in it
+    And I should see "courseDescription" is "Intro to Russian" in it
 
   Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"
