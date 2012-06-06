@@ -45,9 +45,9 @@ class SLCFixer
     ssa = @db['studentSchoolAssociation']
     ssa.find.each do |student|
       edorgs = []
-      old = old_edorgs(student['body']['studentId'])
+      old = old_edorgs(@students, student['body']['studentId'])
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
-      edorgs << old unless old.nil?
+      edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
       if !edorgs.eql? old
         @student_hash[student['body']['studentId']] = edorgs
@@ -164,9 +164,10 @@ class SLCFixer
   def fix_staff
     sea = @db['staffEducationOrganizationAssociation']
     sea.find.each do |staff|
+      old = old_edorgs(@db['staff'], staff['staffReference'])
       edorg = staff['body']['educationOrganizationReference']
       stamp_id(sea, staff['_id'], edorg)
-      stamp_id(@db['staff'], staff['staffReference'], edorg)
+      stamp_id(@db['staff'], staff['staffReference'], old.merge(edorg).flatten.uniq)
     end
     #This needed?
     tsa = @db['teacherSchoolAssociation']
@@ -232,12 +233,12 @@ class SLCFixer
     nil
   end
   
-  def old_edorgs(id)
-    student = @students.find_one({"_id" => id})
+  def old_edorgs(collection, id)
+    doc = collection.find_one({"_id" => id})
     begin
-      old = student['metaData']['edOrgs']
+      old = doc['metaData']['edOrgs']
     rescue
-      old = nil      
+      old = []      
     end
     old
   end
