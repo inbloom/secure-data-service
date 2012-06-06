@@ -1,5 +1,5 @@
 
-class TransitionActionConfig
+class Transitionactionconfig
 
   def initialize(is_sandbox, emailer)
     @is_sandbox = is_sandbox

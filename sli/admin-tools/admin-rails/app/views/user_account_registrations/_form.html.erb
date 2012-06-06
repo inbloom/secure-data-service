@@ -52,7 +52,7 @@
 <%= form_for(@user_account_registration) do |f| %>
     <% if @user_account_registration.errors.any? %>
         <div class="alert alert-error">
-          <%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:
+          There was an error processing your registration. Please fix any highlighted fields below.
         </div>
     <% end %>
     <fieldset>
