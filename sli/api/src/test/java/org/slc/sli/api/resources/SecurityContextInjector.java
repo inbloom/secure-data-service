@@ -61,7 +61,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         
-        debug("elevating rights to {}", rights.toString());
+        debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
     
@@ -81,7 +81,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         
-        debug("elevating rights to {}", rights.toString());
+        debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
     
@@ -101,7 +101,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         
-        debug("elevating rights to {}", rights.toString());
+        debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
     
@@ -121,7 +121,7 @@ public class SecurityContextInjector {
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         
-        debug("elevating rights to {}", rights.toString());
+        debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
     

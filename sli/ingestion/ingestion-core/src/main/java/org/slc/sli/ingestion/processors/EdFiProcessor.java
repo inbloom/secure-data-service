@@ -93,25 +93,27 @@ public class EdFiProcessor implements Processor {
 
             for (IngestionFileEntry fe : fileEntryList) {
 
-                Metrics metrics = Metrics.newInstance(fe.getFileName());
-                stage.getMetrics().add(metrics);
+                if (fe.getFile().length() > 0) {
+                    Metrics metrics = Metrics.newInstance(fe.getFileName());
+                    stage.getMetrics().add(metrics);
 
-                FileProcessStatus fileProcessStatus = new FileProcessStatus();
-                ErrorReport errorReport = fe.getErrorReport();
+                    FileProcessStatus fileProcessStatus = new FileProcessStatus();
+                    ErrorReport errorReport = fe.getErrorReport();
 
-                // actually do the processing
-                processFileEntry(fe, errorReport, fileProcessStatus);
+                    // actually do the processing
+                    processFileEntry(fe, errorReport, fileProcessStatus);
 
-                metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
+                    metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
 
-                int errorCount = aggregateAndLogProcessingErrors(batchJobId, fe);
-                if (errorCount > 0) {
-                    anyErrorsProcessingFiles = true;
-                    metrics.setErrorCount(errorCount);
+                    int errorCount = aggregateAndLogProcessingErrors(batchJobId, fe);
+                    if (errorCount > 0) {
+                        anyErrorsProcessingFiles = true;
+                        metrics.setErrorCount(errorCount);
+                    }
+
+                    ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
+                    newJob.getResourceEntries().add(resource);
                 }
-
-                ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
-                newJob.getResourceEntries().add(resource);
             }
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);

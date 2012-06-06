@@ -118,7 +118,7 @@ def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 
   email = Emailer.new email_conf
-  ApprovalEngine.init(@ldap, email, !prod)
+  ApprovalEngine.init(@ldap, email, nil, !prod)
 end
 
 def verifyEmail

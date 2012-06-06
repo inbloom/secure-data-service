@@ -32,7 +32,7 @@ Given /^LDAP server has been setup and running$/ do
        :sender_email_addr => @email_sender_address
      }
   
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),true)
+  ApprovalEngine.init(@ldap,Emailer.new(email_conf),nil,true)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|

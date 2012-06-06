@@ -21,29 +21,29 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Splits files
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 public class FileSplitHandler {
     public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandler.class);
     private static final int SPLIT_AT = 10000;
-
+    
     private XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-
+    
     public void split(File file, String outPath) throws XMLStreamException, IOException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         XMLEventReader reader = inputFactory.createXMLEventReader(new FileReader(file));
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
         XMLEventWriter writer = null;
-
+        
         int counter = 0;
         int startEventCounter = 0;
-
+        
         XMLEvent event;
         StartElement parent = null;
         try {
-
+            
             event = reader.nextEvent();
             while (!event.isEndDocument()) {
                 if (event.isStartElement()) {
@@ -51,19 +51,19 @@ public class FileSplitHandler {
                     if (startEventCounter == 1) {
                         parent = event.asStartElement();
                         writer = outputFactory.createXMLEventWriter(new FileWriter(outPath
-                                + parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
+                                + parent.getName().getLocalPart() + counter / SPLIT_AT + ".xml"));
                         writer.add(parent);
                         continue;
                     }
-
+                    
                     writeToFile(reader, event, writer);
                     counter++;
-
+                    
                     if (counter % SPLIT_AT == 0) {
                         writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
                         writer.close();
                         writer = outputFactory.createXMLEventWriter(new FileWriter(outPath
-                                + parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
+                                + parent.getName().getLocalPart() + counter / SPLIT_AT + ".xml"));
                         writer.add(parent);
                     }
                 }
@@ -72,14 +72,20 @@ public class FileSplitHandler {
         } catch (XMLStreamException e) {
             throw e;
         } finally {
-            writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
-            reader.close();
-            writer.close();
+            if (parent != null && writer != null) {
+                writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
+            }
+            if (reader != null) {
+                reader.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
         }
-
+        
         // System.out.println("Total: "+counter);
     }
-
+    
     private void writeToFile(XMLEventReader reader, XMLEvent startEvent, XMLEventWriter writer)
             throws XMLStreamException, IOException {
         StartElement element = startEvent.asStartElement();

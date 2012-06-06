@@ -62,7 +62,7 @@ public class AggregationPostProcessor implements Processor {
         IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
 
         if (stagedEntityTypeDAO.removeStagedEntityForJob(stagedEntityToRemove, jobId)) {
-            LOG.info("removed EdfiEntity from processing pool: {}", stagedEntityToRemove);
+            LOG.info("removed EdfiEntity from processing pool: {}", stagedEntityToRemove.getCollectionNameAsStaged());
         }
     }
 
