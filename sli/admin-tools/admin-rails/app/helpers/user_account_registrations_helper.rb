@@ -1,4 +1,7 @@
 module UserAccountRegistrationsHelper
+  include ReCaptcha::ViewHelper
+  
+  
 	INDEX=0
 
   	URL=APP_CONFIG['api_base']+"/v1/userAccounts"
