@@ -45,7 +45,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("/applicationAuthorization")
-@Produces({ Resource.JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
 public class ApplicationAuthorizationResource {
     
     @Autowired
