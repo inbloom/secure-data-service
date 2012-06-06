@@ -308,85 +308,24 @@
   <!-- Student School Association mapping -->
 
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:expression property="recordType">'studentSchoolAssociation'
-    </jb:expression>
+    <jb:expression property="recordType">'studentSchoolAssociation'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="studentSchoolAssociationAttributes" />
-    <jb:wiring property="localId" beanIdRef="studentSchoolAssociationLocalId" />
-    <jb:wiring property="localParentIds" beanIdRef="studentSchoolAssociationParentIds" />
-  </jb:bean>
-
-  <jb:bean beanId="studentSchoolAssociationLocalId" class="java.util.HashMap"
-    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="entryDate" data="EntryDate" />
-    <jb:value property="entryGradeLevel" data="EntryGradeLevel" />
-    <jb:value property="studentId" data="StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="schoolId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:value property="repeatGradeIndicator" data="RepeatGradeIndicator" default="false" decoder="Boolean"/>
-  </jb:bean>
-
-  <jb:bean beanId="studentSchoolAssociationParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:wiring property="Student" beanIdRef="StudentSchoolAssociation_StudentReference" />
-    <jb:wiring property="educationOrganization#schoolId" beanIdRef="StudentSchoolAssociation_SchoolReference" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentSchoolAssociation_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="Student#metaData.externalId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentSchoolAssociation_SchoolReference" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:value property="EducationOrganization#metaData.externalId" data="SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:wiring property="EducationOrganization#educationOrgIdentificationCode" beanIdRef="StudentSchool_SchoolReference_EdOrgidentificationCodeList" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentSchool_SchoolReference_EdOrgidentificationCodeList" class="java.util.ArrayList" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-    <jb:wiring beanIdRef="StudentSchool_SchoolReference_EdOrgidentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentSchool_SchoolReference_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
-    <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.ID" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
-    <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.identificationSystem" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
   </jb:bean>
 
   <jb:bean beanId="studentSchoolAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentEnrollment/StudentSchoolAssociation">
-
-    <!-- Student Id -->
     <jb:value property="studentId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
-
-    <!-- School Id -->
     <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-
-    <!--School Year-->
     <jb:value property="schoolYear" data="StudentSchoolAssociation/SchoolYear" />
-
-    <!-- EntryDate -->
     <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
-
-    <!-- EntryGradeLevel -->
     <jb:value property="entryGradeLevel" data="StudentSchoolAssociation/EntryGradeLevel" />
-
-    <!-- EntryType -->
     <jb:value property="entryType" data="StudentSchoolAssociation/EntryType" />
-
-    <!-- RepeatGradeIndicator -->
     <jb:value property="repeatGradeIndicator" data="StudentSchoolAssociation/RepeatGradeIndicator" decoder="Boolean" />
-
-    <!-- ClassOf -->
     <jb:value property="classOf" data="StudentSchoolAssociation/ClassOf" decoder="Integer" />
-
-    <!-- SchoolChoiceTransfer -->
     <jb:value property="schoolChoiceTransfer" data="StudentSchoolAssociation/SchoolChoiceTransfer" decoder="Boolean" />
-
-    <!-- exitWithdrawDate -->
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
-
-    <!-- ExitWithdrawType -->
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
-
-    <!-- EducationalPlans -->
     <jb:wiring property="educationalPlans" beanIdRef="educationalPlanItemTypeArray" />
-
   </jb:bean>
 
   <!-- EducationalPlanItemType -->
