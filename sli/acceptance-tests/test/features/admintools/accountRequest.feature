@@ -128,8 +128,8 @@ Scenario: As a user I request for a sandbox account
   Then I am directed to an acknowledgement page.
   And an email verification link for "lalsop@acme.com" is generated
   When I visit "<VALID VERIFICATION LINK>"
-  Then I should see the text "Registration Complete!"
-  And I should see the text "An administrator will email you when your account is ready."
+  Then I should see the text "Email Confirmed"
+  And I should see the text "You will be receiving an email with more information about your account."
 
 @sandbox
 Scenario: As an slc operator I want to check if a user accepted EULA
