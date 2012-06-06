@@ -24,7 +24,7 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
     UserAccountRegistrationsHelper.stubs(:register_user).returns({"redirect"=>true,"error"=>""})
 
-    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
+    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, password_confirmation: @user_account_registration.password_confirmation, vendor: @user_account_registration.vendor }
     assert_template :controller => "eula", :action => "show"
   end
   test "should validate user_account_registration" do
