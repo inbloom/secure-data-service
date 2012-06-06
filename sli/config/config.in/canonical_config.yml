@@ -271,8 +271,6 @@ acceptance-tests:
         #sli.mongodb.pass =
         
         
-        sli.ingestion.mongotemplate.writeConcern: REPLICAS_SAFE
-        sli.default.mongotemplate.writeConcern: REPLICAS_SAFE
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
@@ -701,6 +699,12 @@ local:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        
+        # Write concerns
+        
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
+      
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
@@ -1183,9 +1187,8 @@ nxteam:
         sli.mongodb.host: nxmongo3.slidev.org
         sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
-        sli.ingestion.errors.tracking: false
         sli.ingestion.mongotemplate.writeConcern: NORMAL
-       
+        sli.ingestion.errors.tracking: true
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
