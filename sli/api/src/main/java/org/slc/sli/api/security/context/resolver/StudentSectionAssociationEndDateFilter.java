@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
 /**
  * Filters the entity by a given date
  *
@@ -14,16 +13,15 @@ import javax.annotation.PostConstruct;
  *
  */
 @Component
-public class StudentGracePeriodNodeFilter extends NodeDateFilter {
+public class StudentSectionAssociationEndDateFilter extends NodeDateFilter {
 
-    private static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
+    private static final String END_DATE = "endDate";
 
     @Value("${sli.security.gracePeriod}")
     private String gracePeriodVal;
 
     @PostConstruct
     public void setParameters() {
-        setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, gracePeriodVal, EXIT_WITHDRAW_DATE);
+        setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_ID, gracePeriodVal, END_DATE);
     }
 }
-

@@ -185,7 +185,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetCourses() {
         String url = client.getApiUrl()
-                + "/v1/sections/56789/studentSectionAssociations/students?optionalFields=transcript";
+                + "/v1/sections/56789/studentSectionAssociations/students?views=transcript";
         String token = "token";
         
         // build the params
