@@ -14,8 +14,8 @@ APP_EMAILER = Emailer.new({
 
 class MyTransitionActionConfig
   def transition(user)
-    ApplicationMailer.welcome_email(user).deliver
     if user[:status] == ApprovalEngine::STATE_APPROVED
+      ApplicationMailer.welcome_email(user).deliver
     end
   end
 end
