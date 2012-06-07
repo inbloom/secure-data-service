@@ -52,7 +52,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final String OAUTH_CODE = "code";
     private static final String ENTRY_URL = "ENTRY_URL";
-    private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
     private static final String HEADER_USER_AGENT = "User-Agent";
     private static final String HEADER_AJAX_INDICATOR = "X-Requested-With";
     private static final String AJAX_REQUEST = "XmlHttpRequest";
@@ -209,15 +208,15 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         return cookieFound;
     }
     
-    private void saveCookieWithToken(HttpServletResponse response, String token) {
+    private void saveCookieWithToken(HttpServletRequest request, HttpServletResponse response, String token) {
         
         // DE476 Using custom header, since servlet api version 2.5 does not support
         // httpOnly
         // TODO: Remove custom header and use cookie when servlet-api is upgraded to 3.0
         // response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token +
-        // ";path=/;domain=" + DASHBOARD_COOKIE_DOMAIN + ";Secure;HttpOnly");
+        // ";path=/;domain=" + domain of the request + ";Secure;HttpOnly");
         response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token + ";path=/;domain="
-                + DASHBOARD_COOKIE_DOMAIN + ";HttpOnly");
+                + request.getServerName() + ";HttpOnly");
         
     }
     
@@ -255,7 +254,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         LOG.info(LOG_MESSAGE_AUTH_COMPLETED, new Object[] { principal.getName(), request.getRemoteAddr() });
         
         // Save the cookie to support sessions across multiple dashboard servers
-        saveCookieWithToken(response, (String) token);
+        saveCookieWithToken(request, response, (String) token);
         
         // AJAX calls OR cookie sessions should not redirect
         if (isAjaxRequest(request) || cookieFound) {            
