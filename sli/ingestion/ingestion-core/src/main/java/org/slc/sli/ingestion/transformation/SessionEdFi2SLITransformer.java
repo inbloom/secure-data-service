@@ -33,6 +33,11 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
     /* This code is identical to EdFiSLITransformer. We will remove this as the schoolSessionAssociat is removed */
 
         EntityConfig entityConfig = getEntityConfigurations().getEntityConfiguration(entity.getType());
+        if (entityConfig == null || entityConfig.getReferences().isEmpty()) {
+            LOG.warn("Cannot find reference configuration for entity of type: {}", entity.getType());
+            return;
+        }
+        LOG.debug("Found reference configuration for entity of type: {}", entity.getType());
 
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 
@@ -49,9 +54,6 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
             entity.getMetaData().putAll(matched.getMetaData());
-
-            // Set the flag to be used for schoolSessionAssociation Entity.
-            ssAssociation.getBody().put("matched","true");
         }
 
     }

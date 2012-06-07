@@ -23,8 +23,7 @@ public class SessionEntityPersistHandler extends EntityPersistHandler {
         Entity mongoSession = super.doHandling(entity, errorReport, fileProcessStatus);
         LOG.debug("created session : {}", mongoSession);
 
-        String flag = (String) ssAssociation.getBody().get("matched");
-        if (flag.compareTo("false") == 0 ) {
+        if ( entity.getEntityId() == null ) {
            ssAssociation.getBody().remove("matched");
            ssAssociation.getBody().put("sessionId",mongoSession.getEntityId());
            Entity createdSsAssociation = super.doHandling(ssAssociation, errorReport, fileProcessStatus);
