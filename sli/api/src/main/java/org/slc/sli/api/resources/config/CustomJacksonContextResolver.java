@@ -19,7 +19,7 @@ import org.slc.sli.api.resources.Resource;
 
 @Provider
 @Component
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE, Resource.XML_MEDIA_TYPE, Resource.SLC_XML_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8", Resource.XML_MEDIA_TYPE+";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE+";charset=utf-8" })
 public class CustomJacksonContextResolver implements ContextResolver<ObjectMapper> {
 
     private ObjectMapper mapper = new ObjectMapper();

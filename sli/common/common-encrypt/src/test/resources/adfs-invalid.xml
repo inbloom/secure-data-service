@@ -1,65 +1,88 @@
-<samlp:Response ID="_2df05266-4e49-406a-a05d-d9b6ce62b23d" Version="2.0" IssueInstant="2012-03-13T21:26:19.525Z" Destination="https://local.slidev.org:8080/api/rest/saml/sso/post"
-   Consent="urn:oasis:names:tc:SAML:2.0:consent:unspecified" InResponseTo="f8153597-9bf5-40b6-a648-dbc61493a7ec" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
-   <Issuer xmlns="urn:oasis:names:tc:SAML:2.0:assertion">http://devadfs.slidev.org/adfs/services/trust</Issuer>
-   <samlp:Status>
-      <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
-   </samlp:Status>
-   <Assertion ID="_34c95f64-1479-4e11-ba16-5cbe238bc33a" IssueInstant="2012-03-13T21:26:19.525Z" Version="2.0" xmlns="urn:oasis:names:tc:SAML:2.0:assertion">
-      <Issuer>http://devadfs.slidev.org/adfs/services/trust</Issuer>
-      <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
-         <ds:SignedInfo>
-            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
-            <ds:Reference URI="#_34c95f64-1479-4e11-ba16-5cbe238bc33a">
-               <ds:Transforms>
-                  <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
-                  <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-               </ds:Transforms>
-               <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-               <ds:DigestValue>GtIko8xjqLW6VcuMeiFY9yX1Mca8mvZ7gFan5qsAkSQ=</ds:DigestValue>
-            </ds:Reference>
-         </ds:SignedInfo>
-         <ds:SignatureValue>0TD9DkDhmTx0IYHk0ptix7Rb/v/+g/DlB+Fe6JnRUn+l2BIuIya9zg1HHMQe9kbeQ3ULAxclj1pGWUXD5ObKCNJOHuDttxKIKUlnIn5NVZW4Lc0SdBnFF8Nod8AdoIDAupRLJ03MmQkkxFDED3JQ/Kfp9jzYV+rYIgmjxU2iBPWuCutbJsnH4WdOe/UdV4ZgCH+2lEao9/JvRqHOLkWV7t5X7s0/R1wbimSG98z4Nf9Exr3mqToASH7Ex7KjrWtMu5MUIxWGqlpE6aBk7b/ZmyNyZH0dtWRKfQ/9ms3uF/UCrFBxTruCOJFnFmngEQaP7nNXqfML1AIu7KN7ev0Awg==
-         </ds:SignatureValue>
-         <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-            <ds:X509Data>
-               <ds:X509Certificate>MIIC4DCCAcigAwIBAgIQaXKkd6ZBzLpCgJuc6xZxxjANBgkqhkiG9w0BAQsFADAsMSowKAYDVQQDEyFBREZTIFNpZ25pbmcgLSBkZXZhZGZzLnNsaWRldi5vcmcwHhcNMTIwMzA1MTUxMzI2WhcNMTMwMzA1MTUxMzI2WjAsMSowKAYDVQQDEyFBREZTIFNpZ25pbmcgLSBkZXZhZGZzLnNsaWRldi5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUmCpCOYGrF6RsWdUmWSOu+XQY6W3A8/1wbw9LkBNjSdSTyOJfDN97O9788F1y6Yy9QBn15V4yPbS7DD1Zoc3wgj9Gof+y3wAzIeYHvfKiaRQQOGldup+LkG1jL/DfZjaU/ORtDIuE1ID3TaEGGIlS7CEYDZyM1zv6ZZT69hvp7sNevua55S2i9yFAPGOgYGl2jMghZhboB7gy4R9camkvcq/trEuKEIf/O5d0QNE2ism3FxtCHK+6gYKpESs5arZsslLTfLqGpcA72jQeB/Fe/IKqHUyUQX6lcEUIo30sUE56BWUhswzrEkEPNzo9KcurKnKFJUIJB6bIj4hPgfeBAgMBAAEwDQYJKoZIhvcNAQELBQADggEBALgKBrJive4RDeldI+LjS4HJC2Ne4pjHHCPmPiu9YOwvMcaNJLbz04HoaFPY36I59ncrEOrwvUOtijnDfaLewaPlzoH2eOtsfwN59uGtdbTN3qowgc0ZW6NtuLtHpyxT8sdGgnr/EHMwyFpi7/+0usap1DowALyiLi/V6F4LPTlq7Ft8ns4yOJmuEpIIpwHuLJr9GkDR9z4AoT+U7XNnib27ehGjYTekC5F4b6lDj4xB1gBk3H5u9VsfyshTvX19UnVyI5pkEY50nX7KIzl+svc2ADczMXIznpMVfa3yzBSBO7ryslgYtU3yLe/skZnHT0aRHZ0vcYcXZ4nVI8JG83Q=
-               </ds:X509Certificate>
-            </ds:X509Data>
-         </KeyInfo>
-      </ds:Signature>
-      <Subject>
-         <NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:transient" NameQualifier="http://devadfs.slidev.org/adfs/services/trust"
-            SPNameQualifier="http://local.slidev.org:8080">dkornishev</NameID>
-         <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
-            <SubjectConfirmationData InResponseTo="f8153597-9bf5-40b6-a648-dbc61493a7ec" NotOnOrAfter="2012-03-13T21:31:19.525Z"
-               Recipient="https://local.slidev.org:8080/api/rest/saml/sso/post" />
-         </SubjectConfirmation>
-      </Subject>
-      <Conditions NotBefore="2012-03-13T21:26:19.520Z" NotOnOrAfter="2012-03-13T22:26:19.520Z">
-         <AudienceRestriction>
-            <Audience>http://local.slidev.org:8080</Audience>
-         </AudienceRestriction>
-      </Conditions>
-      <AttributeStatement>
-         <Attribute Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn">
-            <AttributeValue>dkornishev</AttributeValue>
-         </Attribute>
-         <Attribute Name="roles">
-            <AttributeValue>Domain Users</AttributeValue>
-            <AttributeValue>Schema Admins</AttributeValue>
-         </Attribute>
-         <Attribute Name="userId">
-            <AttributeValue>dkornishev</AttributeValue>
-         </Attribute>
-         <Attribute Name="userName">
-            <AttributeValue>dkornishev@slidev.org</AttributeValue>
-         </Attribute>
-      </AttributeStatement>
-      <AuthnStatement AuthnInstant="2012-03-13T21:15:19.825Z" SessionIndex="_34c95f64-1479-4e11-ba16-5cbe238bc33a">
-         <AuthnContext>
-            <AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</AuthnContextClassRef>
-         </AuthnContext>
-      </AuthnStatement>
-   </Assertion>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+	xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Destination="http://local.slidev.org:8080/api/rest/saml/sso/post"
+	ID="f097dc4e-bdab-4eb3-9afa-03767678910c" InResponseTo="sli-fa364cc3-d1cb-4575-aa95-1283f0076da1"
+	IssueInstant="2012-06-06T01:47:29Z" Version="2.0">
+
+	<saml:Issuer>http://local.slidev.org:8082/simple-idp?realm=Local
+	</saml:Issuer>
+
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod
+				Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+			<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#dsa-sha1" />
+			<Reference URI="">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+				<DigestValue>vIysIeUPgOE57KvBNY3JWZeewQg=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>PjIc+K/s1iy5Zuunz4gfms2fLlmEsTiY9tyDCIHQMGHwzNkZXKF1ew==
+		</SignatureValue>
+		<KeyInfo>
+			<X509Data>
+				<X509Certificate>MIIC5zCCAqWgAwIBAgIET861pzALBgcqhkjOOAQDBQAwVzELMAkGA1UEBhMCVVMxCzAJBgNVBAgT
+					Ak5DMQ8wDQYDVQQHEwZEdXJoYW0xDTALBgNVBAoTBFdHRU4xDDAKBgNVBAsTA1NMSTENMAsGA1UE
+					AxMERmFrZTAeFw0xMjA2MDYwMTQzMDNaFw0xMjA5MDQwMTQzMDNaMFcxCzAJBgNVBAYTAlVTMQsw
+					CQYDVQQIEwJOQzEPMA0GA1UEBxMGRHVyaGFtMQ0wCwYDVQQKEwRXR0VOMQwwCgYDVQQLEwNTTEkx
+					DTALBgNVBAMTBEZha2UwggG3MIIBLAYHKoZIzjgEATCCAR8CgYEA/X9TgR11EilS30qcLuzk5/YR
+					t1I870QAwx4/gLZRJmlFXUAiUftZPY1Y+r/F9bow9subVWzXgTuAHTRv8mZgt2uZUKWkn5/oBHsQ
+					IsJPu6nX/rfGG/g7V+fGqKYVDwT7g/bTxR7DAjVUE1oWkTL2dfOuK2HXKu/yIgMZndFIAccCFQCX
+					YFCPFSMLzLKSuYKi64QL8Fgc9QKBgQD34aCF1ps93su8q1w2uFe5eZSvu/o66oL5V0wLPQeCZ1FZ
+					V4661FlP5nEHEIGAtEkWcSPoTCgWE7fPCTKMyKbhPBZ6i1R8jSjgo64eK7OmdZFuo38L+iE1YvH7
+					YnoBJDvMpPG+qFGQiaiD3+Fa5Z8GkotmXoB7VSVkAUw7/s9JKgOBhAACgYBIQFg/N+zulN9LxaXu
+					aDWfEFJf0iSRZmzlK7ncvMIPiOAa2LbbSOLn6Lang/zQJ+EseDqik6bgApopclnzPXNuw1wJLL8h
+					e2795uehihiEHI4UdTC8IwcvSKJ0WRzG+0flZCTmczHjeFI2aQg2bwvto16KeCrlwFtOxlVx9v9q
+					cjALBgcqhkjOOAQDBQADLwAwLAIUXtwNo/vnxrGnGcBW9F/fkUcLy2sCFHHR8f/cQQc6xKang0SF
+					1dPhmaGZ
+				</X509Certificate>
+			</X509Data>
+		</KeyInfo>
+	</Signature>
+	<samlp:Status>
+		<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+	</samlp:Status>
+
+	<saml:Assertion ID="0fc0f515-3dd6-47ed-b3e3-a0ffa1f541d5"
+		IssueInstant="2012-06-06T01:47:29Z" Version="2.0">
+		<saml:Issuer>http://local.slidev.org:8082/simple-idp?realm=Local
+		</saml:Issuer>
+		<saml:AttributeStatement>
+			<saml:Attribute Name="userId">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">daybreakadmin
+				</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="edOrg">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">IL-DAYBREAK
+				</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="tenant">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">IL
+				</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="userName">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Daybreak
+					Admin</saml:AttributeValue>
+			</saml:Attribute>
+			<saml:Attribute Name="roles">
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">LEA
+					Administrator</saml:AttributeValue>
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Realm
+					Administrator</saml:AttributeValue>
+				<saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Ingestion
+					User</saml:AttributeValue>
+			</saml:Attribute>
+		</saml:AttributeStatement>
+	</saml:Assertion>
+
 </samlp:Response>

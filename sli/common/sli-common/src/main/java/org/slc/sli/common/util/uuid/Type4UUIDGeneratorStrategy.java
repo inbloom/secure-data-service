@@ -19,8 +19,8 @@ public class Type4UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
      * Generate a type 4 random UUID.
      */
     @Override
-    public UUID randomUUID() {
-        return UUID.randomUUID();
+    public String randomUUID() {
+        return UUID.randomUUID().toString();
     }
 
 }

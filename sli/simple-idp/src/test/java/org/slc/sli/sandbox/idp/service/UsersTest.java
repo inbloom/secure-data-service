@@ -30,7 +30,7 @@ import org.springframework.ldap.core.LdapTemplate;
 @RunWith(MockitoJUnitRunner.class)
 public class UsersTest {
     @Mock
-    LdapTemplate ldapTemplate = null;
+    LdapTemplate ldapTemplate;
     
     @InjectMocks
     UserService userService = new UserService("uid", "person", "memberuid", "posixGroup");
@@ -99,6 +99,7 @@ public class UsersTest {
         assertEquals("TestGroup1", user.getRoles().get(0));
         assertEquals("TestGroup2", user.getRoles().get(1));
     }
+    
     @Test
     public void testAttributeExtractionCommas() {
         String desc = "tenant=myTenantId,edOrg=myEdorgId";
@@ -113,6 +114,7 @@ public class UsersTest {
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
         assertEquals(3, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionNewlines() {
         String desc = "tenant=myTenantId\nedOrg=myEdorgId\n";
@@ -124,6 +126,7 @@ public class UsersTest {
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
         assertEquals(3, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionSpaces() {
         String desc = "tenant=myTenantId edOrg=myEdorgId";
@@ -135,6 +138,7 @@ public class UsersTest {
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
         assertEquals(3, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionCommasWithSpaces() {
         String desc = "tenant=myTenantId,edOrg=My Edorg Id";
@@ -146,6 +150,7 @@ public class UsersTest {
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
         assertEquals(3, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionNewLinesWithSpaces() {
         String desc = "tenant=myTenantId\nedOrg=My Edorg Id\n";
@@ -157,6 +162,7 @@ public class UsersTest {
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
         assertEquals(3, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionNewLinesWithBlanks() {
         String desc = "tenant=\nedOrg=My Edorg Id\n";
@@ -168,6 +174,7 @@ public class UsersTest {
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
         assertEquals(2, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionNewLinesWithBlanks2() {
         String desc = "tenant=\nedOrg=\n";
@@ -179,6 +186,7 @@ public class UsersTest {
         assertEquals(null, user.getAttributes().get("edOrg"));
         assertEquals(1, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionCommasWithBlanks() {
         String desc = "tenant=,edOrg=My Edorg Id,";
@@ -190,6 +198,7 @@ public class UsersTest {
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
         assertEquals(2, user.getAttributes().size());
     }
+    
     @Test
     public void testAttributeExtractionCommasWithBlanks2() {
         String desc = "tenant=,edOrg=,";

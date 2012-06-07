@@ -177,16 +177,14 @@ h7 {
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #000000; text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #dadada url(../images/ui-bg_glass_75_dadada_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #212121; text-decoration: none;}
+.ui-tabs .ui-tabs-nav li.ui-state-hover { border-color: transparent; border-width: 0; }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(../images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
 .ui-tabs { position: relative;} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
 .ui-tabs .ui-tabs-nav { margin: 0; border-bottom: 2px solid #000000; }
 .ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 2px; margin: 0 .2em 1px 0; padding: 0; white-space: nowrap; background-color: #F2F2F2;}
 .ui-tabs .ui-tabs-nav li a { float: left; text-decoration: none; border: 1px solid transparent;border-radius: 0 0 0 0;line-height: 10px;margin-right: 2px;padding-left: 12px;padding-right: 12px;padding-bottom: 9px;padding-top: 9px;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 0px;background-color: #FFFFFF;border-color: #000000 #000000 #FFFFFF; border-width: 2px;font-weight: bold;}
-.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {  }
-.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {  }
-.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {  }
-.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { }
+.ui-tabs .ui-tabs-nav li.ui-state-active.ui-state-hover { border-color: #000000 #000000 #FFFFFF; border-width: 2px; }
 
 /** JQGrid overrides */
 .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
@@ -227,13 +225,13 @@ th.ui-th-column div {
 .ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #000000 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
 
 .ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child { border-right: none; }
-.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 35px !important; }
+.ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 20px !important; }
 
 /* Custom */
+
 /* Contact Info panel related */
 .contactInfoItem {
     width:33%;
-    height: 200px;
 }
 .contactInfoItem .tabular table th {
 	width: 150px;
@@ -241,6 +239,8 @@ th.ui-th-column div {
 .contactInfoData {
     width:250px;
 }
+
+.clear { clear: both; }
 
 .lozenge-widget
 {

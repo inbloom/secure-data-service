@@ -1,3 +1,4 @@
+@RALLY_US206
 @RALLY_US1736
 @RALLY_US2033
 Feature: Tenant Purge Test

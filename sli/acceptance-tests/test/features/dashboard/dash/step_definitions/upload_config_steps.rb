@@ -14,13 +14,14 @@ end
 When /^click Save$/ do
   clickButton("saveButton","id")
   begin
-    #@driver.switch_to.alert.accept
-    alert = @driver.switch_to.alert
+    alert = nil
+    @explicitWait.until{ (alert = isAlertPresent()) != nil}
     @alertMessage = alert.text
-    puts @alertMessage
+    puts "Alert: " + @alertMessage
     alert.accept
   rescue
   end
+  assert(@alertMessage != nil, "Alert Pop-up message was not found")
 end
 
 When /^I paste Invalid json config into the text box$/ do
@@ -138,7 +139,7 @@ Then /^I paste Valid json config into the text box$/ do
 \"studentProfile\" :
 {
   id : \"studentProfile\",
-  name: \"SLI - Student Profile\",
+  name: \"SLC - Student Profile\",
   type: \"LAYOUT\",
   data :{
     entity: \"student\",
@@ -245,7 +246,7 @@ Then /^I should be shown a success message$/ do
 end
 
 Then /^I should be shown a failure message$/ do
-  assert(@alertMessage.include?("input should be a valid JSON string"), "Actual message: " + @alertMessage)
+  assert(@alertMessage.include?("Your request could not be completed."), "Actual message: " + @alertMessage)
 end
 
 Then /^I reset custom config$/ do
@@ -254,6 +255,106 @@ end
 
 Then /^I see an error$/ do
   @driver.find_element(:class,"error-container")
+end
+
+Then /^I paste configuration to hide csi panel$/ do
+  hideCSIconfig = "{config: {
+\"studentProfile\" :
+{
+  id : \"studentProfile\",
+  name: \"SLC - Student Profile\",
+  type: \"LAYOUT\",
+  data :{
+    entity: \"student\",
+    cacheKey: \"student\"
+  }, 
+  items: [
+    {id : \"csi\", name: \"Student Info\", type: \"PANEL\",  condition: {field: \"gradeLevel\", value: [\"Eleventh Grade\"]}},
+    {id: \"tab7\", name: \"Elementary School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
+    {id: \"tab8\", name: \"Middle School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
+    {id: \"tab9\", name: \"High School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
+    {id: \"tab2\", name: \"Attendance and Discipline\", type : \"TAB\", items: [{id : \"attendanceHist\", type: \"GRID\"}]},
+    {id: \"tabE\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistREAD2\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
+    {id: \"tabM\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistStateTestR\", type: \"GRID\"}, {id : \"assessmentHistStateTestW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
+    {id: \"tabH\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistAPE\", type: \"GRID\"}, {id : \"assessmentHistSATR\", type: \"GRID\"}, {id : \"assessmentHistSATW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}},
+    {id: \"tab4\", name: \"Grades and Credits\",  type : \"TAB\", items: [ {id : \"transcriptHistory\", type : \"PANEL\"} ]}
+  ]
+}
+,
+\"assessmentHistAPE\" :
+{
+    id : \"assessmentHistAPE\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : AP English\",
+    data : {
+        cacheKey: 'assessmentHistAPE',
+        params: { assessmentFamily: \"AP.AP Eng\"}
+    }
+}
+,
+\"assessmentHistREAD2\" :
+{
+    id : \"assessmentHistREAD2\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : READ 2.0\",
+    data : {
+        cacheKey: 'assessmentHistREAD2',
+        params: { assessmentFamily: \"READ 2.0.READ 2.0 Grade 1\"}
+    }
+}
+,
+\"assessmentHistStateTestR\" :
+{
+    id : \"assessmentHistStateTestR\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : StateTest Reading\",
+    data : {
+        cacheKey: 'assessmentHistStateTestR',
+        params: { assessmentFamily: \"StateTest Reading\"}
+    }
+}
+,
+\"assessmentHistStateTestW\" :
+{
+    id : \"assessmentHistStateTestW\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : StateTest Writing\",
+    data : {
+        cacheKey: 'assessmentHistStateTestW',
+        params: { assessmentFamily: \"StateTest Writing\"}
+    }
+}
+,
+\"assessmentHistSATR\" :
+{
+    id : \"assessmentHistSATR\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : SAT Reading\",
+    data : {
+        cacheKey: 'assessmentHistSATR',
+        params: { assessmentFamily: \"SAT Reading\"}
+    }
+}
+,
+\"assessmentHistSATW\" :
+{
+    id : \"assessmentHistSATW\",
+    parentId: \"assessmentHist\",
+    type : \"GRID\",
+    name : \"Test History : SAT Writing\",
+    data : {
+        cacheKey: 'assessmentHistSATW',
+        params: { assessmentFamily: \"SAT Writing\"}
+    }
+}
+} 
+}"
+  putTextForConfigUpload(hideCSIconfig)
 end
 
 def putTextForConfigUpload(uploadText)
@@ -266,4 +367,14 @@ def putTextForConfigUpload(uploadText)
   # This is an attempt to set it through javascript to speed up execution and prevent timeout
   uploadText = uploadText.gsub(/\r/,"\\n").gsub(/\n/,"\\n").gsub(/\"/,'\\\"')
   @driver.execute_script("document.getElementById('jsonText').value = \"#{uploadText}\";")
+end
+
+def isAlertPresent()
+ begin
+    return @driver.switch_to.alert
+  rescue Selenium::WebDriver::Error::NoAlertPresentError => e  
+     puts e.message  
+     return nil
+  end 
+  
 end

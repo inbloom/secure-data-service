@@ -14,7 +14,7 @@
                      "path":"metaData.externalId",
                      "values":
                      [{
-                         "valueSource":"body.schoolId"
+                         "valueSource":"body.schoolReference.educationalOrgIdentity.stateOrganizationId"
                      }]
                   }
                ]
@@ -33,21 +33,21 @@
                      "path":"body.schoolYear",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.SchoolYear"
+                         "valueSource":"body.sessionReference.sessionIdentity.schoolYear"
                      }]
                   },
                   {
                      "path":"body.term",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.Term"
+                         "valueSource":"body.sessionReference.sessionIdentity.term"
                      }]
                   },
                   {
                      "path":"body.sessionName",
                      "values":
                      [{
-                         "valueSource":"body.sessionReference.SessionName"
+                         "valueSource":"body.sessionReference.sessionIdentity.sessionName"
                      }]
                   },
                   {
@@ -65,7 +65,7 @@
                                        "path":"metaData.externalId",
                                        "values":
                                        [{
-                                           "valueSource":"body.schoolId"
+                                           "valueSource":"body.schoolReference.educationalOrgIdentity.stateOrganizationId"
                                        }]
                                     }
                                  ]

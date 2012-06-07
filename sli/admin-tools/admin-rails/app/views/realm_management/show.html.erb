@@ -1,5 +1,14 @@
 <p id="notice"><%= notice %></p>
-
+<dl class="horizontal">
+  <dt>Display Name</dt>
+  <dd><%= @realm.name %></dd>
+  <dt>IDP URL (URL that identifies the federated IDP)</dt>
+  <dd><%= @realm.idp.id %></dd>
+  <dt>Redirect Endpoint (URL where authentication requests are sent)</dt>
+  <dd><%= @realm.idp.redirectEndpoint %></dd>
+  <dt>Realm Identifier (Used for skipping the realm selection)</dt>
+  <dd><%= @realm.uniqueIdentifier %></dd>
+</dl>
 
 <%= link_to 'Edit', edit_realm_management_path(@realm_editor) %> |
 <%= link_to 'Done', realm_management_path, :class=>"btn" %>

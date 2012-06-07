@@ -485,10 +485,8 @@ public class BasicService implements EntityService {
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
         
-        toReturn.put(METADATA, entity.getMetaData());
-        
         for (Treatment treatment : treatments) {
-            toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
+            toReturn = treatment.toExposed(toReturn, defn, entity);
         }
         
         if (readRight != Right.ANONYMOUS_ACCESS) {
@@ -772,8 +770,12 @@ public class BasicService implements EntityService {
     private Map<String, Object> createMetadata() {
         Map<String, Object> metadata = new HashMap<String, Object>();
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String createdBy = principal.getEntity().getEntityId();
+        if (createdBy != null && createdBy.equals("-133")) {
+            createdBy = principal.getExternalId();
+        }
         metadata.put("isOrphaned", "true");
-        metadata.put("createdBy", principal.getEntity().getEntityId());
+        metadata.put("createdBy", createdBy);
         metadata.put("tenantId", principal.getTenantId());
         return metadata;
     }
