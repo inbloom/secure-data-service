@@ -1,12 +1,17 @@
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.WorkNoteImpl;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +20,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  * WorkNote splitter to be used from camel
@@ -101,26 +99,25 @@ public class WorkNoteSplitter {
 
                 Query queryEarliest = new Query();
                 queryEarliest.sort().on("creationTime", Order.ASCENDING);
-                queryEarliest.limit(1);
-                Iterable<NeutralRecord> nrEarliest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
-                Iterator<NeutralRecord> nrEarliestIterator = nrEarliest.iterator();
-
+                
+                NeutralRecord earliest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+                        stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
+                
                 Query queryLatest = new Query();
                 queryLatest.sort().on("creationTime", Order.DESCENDING);
-                queryLatest.limit(1);
-                Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
-                Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
+                
+                NeutralRecord latest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+                        stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
 
-                Date startDate =  nrEarliestIterator.next().getCreationTime();
-                Date endDate = nrLatestIterator.next().getCreationTime();
-                endDate.setTime(endDate.getTime() + 2000);
+                long startDate =  earliest.getCreationTime();
+                long endDate = latest.getCreationTime() + 2000; // add 2s buffer
 
-                List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(new ArrayList<WorkNote>(), jobId, stagedEntity, startDate, endDate);
+                List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(
+                        new ArrayList<WorkNote>(), jobId, stagedEntity, startDate, endDate);
                 Iterator<WorkNote> workNoteIterator = collectionWorkNotes.iterator();
                 while (workNoteIterator.hasNext()) {
                     WorkNote wn = workNoteIterator.next();
                     wn.setBatchSize(collectionWorkNotes.size());
-
                     workNoteList.add(wn);
                 }
 
@@ -132,19 +129,18 @@ public class WorkNoteSplitter {
 
                 Query queryEarliest = new Query();
                 queryEarliest.sort().on("creationTime", Order.ASCENDING);
-                queryEarliest.limit(1);
-                Iterable<NeutralRecord> nrEarliest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
-                Iterator<NeutralRecord> nrEarliestIterator = nrEarliest.iterator();
+                
+                NeutralRecord earliest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+                        stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
 
                 Query queryLatest = new Query();
                 queryLatest.sort().on("creationTime", Order.DESCENDING);
-                queryLatest.limit(1);
-                Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
-                Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
-
-                Date startTime = nrEarliestIterator.next().getCreationTime();
-                Date endTime = nrLatestIterator.next().getCreationTime();
-                endTime.setTime(endTime.getTime() + 2000);
+                
+                NeutralRecord latest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+                        stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
+                
+                long startTime = earliest.getCreationTime();
+                long endTime = latest.getCreationTime() + 2000; // add 2s buffer
 
                 WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, endTime, 1);
                 workNoteList.add(workNote);
@@ -153,30 +149,33 @@ public class WorkNoteSplitter {
         return workNoteList;
     }
 
-    private List<WorkNote> constructCollectionWorkNotes(List<WorkNote> workNotes, String jobId, IngestionStagedEntity stagedEntity, Date startTime, Date endTime) {
+    private List<WorkNote> constructCollectionWorkNotes(List<WorkNote> workNotes, String jobId, IngestionStagedEntity stagedEntity, 
+            long startTime, long endTime) {
 
         String collectionName = stagedEntity.getCollectionNameAsStaged();
         long recordsCountInSegment = getCountOfRecords(collectionName, jobId, startTime, endTime);
-        if ((recordsCountInSegment <= (splitChunkSize * (1 + thresholdPct/100))) && (recordsCountInSegment >= (splitChunkSize * (1 - thresholdPct/100)))) {
+        if ((recordsCountInSegment <= (splitChunkSize * (1 + thresholdPct/100)))
+         && (recordsCountInSegment >= (splitChunkSize * (1 - thresholdPct/100)))) {
             //Current chunk is within acceptable threshold, add it to workNotes
         } else {
             //split time chunk in roughly 2 pieces
 
             long recordsInRightChunk;
-            long millies = (endTime.getTime() - startTime.getTime());
+            long millies = endTime - startTime;
             double split = 0.5;
             boolean done = false;
-            Date start = new Date();
+            long start = 0;
             int splitAttempts = 0;
 
             while (!done) {
                 //check right interval
-                start.setTime(startTime.getTime() + (long) (millies * split));
+                start = startTime + (long) (millies * split);
                 recordsInRightChunk = getCountOfRecords(collectionName, jobId, start, endTime);
 
-                LOG.info("Total ms in interval = " + millies + " in the right side = " + (long) (millies * split));
-                LOG.info("Right Interval (Start / End) " + start.toString() + " / " + endTime.toString());
-                LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = " + split, recordsInRightChunk, (recordsCountInSegment - recordsInRightChunk));
+                LOG.info("Total ms in interval = " + millies + " in the right side = " + (millies * split));
+                LOG.info("Right Interval (Start / End) " + String.valueOf(start) + " / " + String.valueOf(endTime));
+                LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = " + split, 
+                        recordsInRightChunk, (recordsCountInSegment - recordsInRightChunk));
 
                 done = true;
 
@@ -296,11 +295,9 @@ public class WorkNoteSplitter {
     }
 
 
-    private long getCountOfRecords(String collectionName, String jobId, Date min, Date max) {
-        Query query = new Query();
-        Criteria limiter = Criteria.where("creationTime").gte(min).lt(max);
-        query.addCriteria(limiter);
-
+    private long getCountOfRecords(String collectionName, String jobId, long min, long max) {
+        Criteria limiter = Criteria.where("creationTime").gte(min).lte(max);
+        Query query = new Query().addCriteria(limiter);
         return neutralRecordMongoAccess.getRecordRepository().countForJob(collectionName, query, jobId);
     }
 

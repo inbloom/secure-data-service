@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion;
 
-import java.util.Date;
 
 /**
  * Unit of work, chunked by Maestro, to be executed by a member of the orchestra (pit).
@@ -24,18 +23,18 @@ public interface WorkNote {
     IngestionStagedEntity getIngestionStagedEntity();
 
     /**
-     * Gets the minimum value of the index [inclusive] to perform work on.
+     * Gets the minimum value of the indexed field creationTime [inclusive] to perform work on.
      *
      * @return minimum index value.
      */
-    Date getRangeMinimum();
+    long getRangeMinimum();
 
     /**
-     * Gets the maximum value of the index [inclusive] to perform work on.
+     * Gets the maximum value of the indexed field creationTime [inclusive] to perform work on.
      *
      * @return maximum index value.
      */
-    Date getRangeMaximum();
+    long getRangeMaximum();
 
     /**
      * If this WorkNote is a part of a batch of WorkNotes, the size of said batch.

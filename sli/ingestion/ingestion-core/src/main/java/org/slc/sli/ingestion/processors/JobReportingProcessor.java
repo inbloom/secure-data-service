@@ -107,9 +107,7 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
-
             cleanupStagingDatabase(workNote);
-
             broadcastFlushStats(exchange, workNote);
 
             if (job != null) {
