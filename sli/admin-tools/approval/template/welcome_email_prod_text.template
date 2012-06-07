@@ -1,9 +1,0 @@
-<%= firstName %>
-
-Your request for developer account has been approved. Get started by registering your applications with the Shared Learning Collaborative.
-
-To register your applications go to:
-<%= portalLink %>
-
-Thank you,
-SLC Operator

@@ -18,7 +18,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | assessment                  | 5     |
      | studentAssessmentAssociation| 4     |
-     | learningStandard            | 6     |
+     | learningStandard            | 22    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten      | string |
@@ -77,7 +77,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
      
 
-  And I should see "Processed 16 records." in the resulting batch job file
+  And I should see "Processed 32 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file

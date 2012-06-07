@@ -28,7 +28,9 @@ public class PanelController {
      * Controller for client side pulls
      *
      */
-    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[a-f0-9-]*}", method = RequestMethod.GET)
+//    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[a-f0-9-]*}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]*}", method = RequestMethod.GET)
     @ResponseBody public ModelAndViewConfig handle(
             @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
         return customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);

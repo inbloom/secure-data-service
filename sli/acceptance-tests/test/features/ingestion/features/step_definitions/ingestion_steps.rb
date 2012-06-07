@@ -27,6 +27,7 @@ Before do
 
   @conn = Mongo::Connection.new(INGESTION_DB)
   @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
+  ensureBatchJobIndexes(@conn)
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
@@ -84,6 +85,30 @@ Before do
   end
 
   initializeTenants()
+end
+
+def ensureBatchJobIndexes(db_connection)
+
+  @db = db_connection[INGESTION_BATCHJOB_DB_NAME]
+
+  @collection = @db["error"]
+  @collection.save({ 'batchJobId' => " " })
+  @collection.ensure_index([['batchJobId', 1]])
+  @collection.ensure_index([['resourceId', 1]])
+  @collection.ensure_index([['batchJobId', 1], ['severity', 1]])
+  @collection.remove({ 'batchJobId' => " "  })
+
+  @collection = @db["newBatchJob"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['_id', 1]])
+  @collection.ensure_index([['_id', 1], ['stages.$.chunks.stageName', 1]])
+  @collection.remove({ '_id' => " " })
+
+  @collection = @db["batchJobStage"]
+  @collection.save({ 'jobId' => " ", 'stageName' => " " })
+  @collection.ensure_index([['jobId', 1], ['stageName', 1]])
+  @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
+
 end
 
 def initializeTenants()
@@ -501,6 +526,7 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
+  ensureBatchJobIndexes(@conn)
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
@@ -675,7 +701,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @metaData = {}
 
   @newTenant = {
-    "_id" => BSON::Binary.new("HE9cAZldKXq5uZ==", BSON::Binary::SUBTYPE_UUID),
+    "_id" => "tenantTest-id",
     "type" => "tenantTest",
     "body" => @body,
     "metaData" => @metaData

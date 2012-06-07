@@ -51,7 +51,8 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
         saveProps();
-        
+
+
     }
     
     private void saveProps() throws IOException {
