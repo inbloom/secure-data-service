@@ -116,16 +116,16 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to update this realm.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+        Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
+        if (validateUniqueness != null) {
+            return validateUniqueness;
+        }
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm
                 .get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
-            } else if (validateUniqueness != null) {
-                return validateUniqueness;
             }
         }
         
@@ -168,18 +168,19 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to create a realm for another ed org");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        
+        Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
+        if (validateUniqueness != null) {
+            debug("On realm create, uniqueId is not unique");
+            return validateUniqueness;
+        }
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm
                 .get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
+
             if (validateResponse != null) {
                 debug("On Realm create, role mappings aren't valid");
                 return validateResponse;
-            } else if (validateUniqueness != null) {
-                debug("On realm create, uniqueId is not unique");
-                return validateUniqueness;
             }
         }
         
@@ -292,6 +293,9 @@ public class RealmRoleManagerResource {
             query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
         Iterable<Entity> bodies = repo.findAll("realm", query);
+        for (Entity body : bodies) {
+            debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
+        }
         if (bodies != null && bodies.iterator().hasNext()) {
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate unique identifiers");
