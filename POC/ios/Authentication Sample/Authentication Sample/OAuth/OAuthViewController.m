@@ -70,22 +70,17 @@
     return YES;
     
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"didFailWithError %@", [error localizedFailureReason]);
-    [self extractCode:[[[error userInfo] valueForKey:@"NSErrorFailingURLKey"] query]];
-    [webView stopLoading];
-    [self getOauthToken];
-}
 
--(void) extractCode: (NSString *) fromUrl {
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    NSArray *kv = [fromUrl componentsSeparatedByString:@"="];
-    if([kv count] > 0) {
-        [parameters setObject:[kv objectAtIndex:1] forKey:[kv objectAtIndex:0]];
+- (void) webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *requestURL = [[webView.request URL] relativeString];
+    NSString *myText = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
+    if([requestURL hasSuffix:@"saml/sso/post"])
+    {
+        NSLog(@"The content in here is %@", myText);
+        self.code = [[myText JSONValue] objectForKey:@"authorization_code"];
+        [self getOauthToken];
+        
     }
-             
-    self.code = [parameters objectForKey:@"code"];
-    [parameters release];
-    NSLog(@"We have a code: %@", code);
 }
+   
 @end
