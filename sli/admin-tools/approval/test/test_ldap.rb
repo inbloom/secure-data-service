@@ -69,7 +69,7 @@ class TestLdap < Test::Unit::TestCase
   def assert_equal_user_info(expected, actual)
     All_keys.each do |x| 
       if x.to_s.downcase == "password"
-        assert_equal "{MD5}#{Digest::MD5.base64digest(expected[x])}", actual[x]
+        assert_equal expected[x], actual[x]
       elsif x.to_s.downcase != "cn"
         assert_equal expected[x], actual[x]
       end

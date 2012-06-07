@@ -1,0 +1,6 @@
+{
+    "keyFields" : ["metaData.externalId"],
+    
+    "subEntities" : { "body.assessmentItem?" : "assessmentItem"}
+    
+}
