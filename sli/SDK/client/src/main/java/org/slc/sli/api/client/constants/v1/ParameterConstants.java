@@ -140,4 +140,6 @@ public class ParameterConstants {
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
     public static final String USER_ACCOUNT_ID = "userAccountId";
     public static final String GRADE_ID = "gradeId";
+    public static final String _ID = "_id";
+    public static final String END_DATE = "endDate";
 }

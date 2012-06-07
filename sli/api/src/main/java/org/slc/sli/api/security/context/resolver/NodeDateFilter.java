@@ -74,7 +74,6 @@ public class NodeDateFilter extends NodeFilter {
         if (entityName != null && referenceId != null && gracePeriod != null && endDateParamName != null) {
             //get the filter date
             String curDateWithGracePeriod = helper.getFilterDate(gracePeriod, calendar);
-            String curDate = helper.getFilterDate(null, calendar);
 
             if (!toResolve.isEmpty()) {
                 //get the entities
@@ -89,11 +88,12 @@ public class NodeDateFilter extends NodeFilter {
                     }
 
                     if (startDateParamName.isEmpty()) {
-                        if (isResolvable(endDateStr, curDateWithGracePeriod)) {
+                        if (isDateBeforeEndDate(endDateStr, curDateWithGracePeriod)) {
                             returnIds.add(refId);
                         }
                     } else {
                         String startDateStr = (String) entity.getBody().get(startDateParamName);
+                        String curDate = getCurrentDate();
                         if (isDateInRange(curDate, startDateStr, endDateStr)) {
                             returnIds.add(refId);
                         }
@@ -119,23 +119,25 @@ public class NodeDateFilter extends NodeFilter {
     }
 
     /**
-     * Compares two given dates
+     * Compares two given dates.
+     * Returns true when first date is before or second date.
+     * Determines 'is date is before end date'.
      *
-     * @param filterDateString
+     * @param formattedDateString
      * @param formattedEndDateString
      * @return
      */
-    protected boolean isResolvable(String filterDateString, String formattedEndDateString) {
+    protected boolean isDateBeforeEndDate(String formattedDateString, String formattedEndDateString) {
 
-        Date filterDate = null, endDate = null;
+        Date date = null, endDate = null;
         boolean retValue = true;
 
         try {
-            if (filterDateString != null && !filterDateString.equals("")) {
-                filterDate = formatter.parse(filterDateString);
+            if (formattedDateString != null && !formattedDateString.equals("")) {
+                date = formatter.parse(formattedDateString);
                 endDate = formatter.parse(formattedEndDateString);
 
-                if (filterDate.before(endDate)) {
+                if (date.before(endDate)) {
                     retValue = false;
                 }
             }
@@ -144,6 +146,12 @@ public class NodeDateFilter extends NodeFilter {
             retValue = false;
         }
         return retValue;
+    }
+
+    protected String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        return helper.getFilterDate(null, calendar);
     }
 
 }
