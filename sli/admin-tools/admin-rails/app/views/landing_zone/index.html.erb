@@ -1,7 +1,11 @@
 <% @title="Provision Landing Zone" %>
+<% custom_ed_org_text = "I want to provide my own data set" %>
+<% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
 <div class="provision">
-	<h1>Provision Landing-Zone</h1>
-	<p>This will create a landing zone from which data for the educational organization can be imported.  It will also initialize the roles and permissions for the educational organization</p>
+  <div class="page-header">
+	<h1>Select Sandbox Data Source</h1>
+  </div>
+	<p>Choose a sample set of school data provided by the SLC or upload your own data via FTP.</p>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
@@ -12,25 +16,30 @@
 			<% end %>
 			<div class="provisionBlock">
 	                  <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton" /> 
-			  <label for="custom">Custom High-Level Ed-Org</label>
+			  <label for="custom"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
 			  <div class="edOrgIdSelect">
-			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
+			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
 		          </div>
 			</div>
 		<% else %>
 			<input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton" >
 			<div class="provisionBlock">
-			  <label>Input ID of Educational Organization</label>
+			  <label><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign" rel="tooltip" title="<%= tooltip_text %>"></i></label>
 			  <div class="edOrgIdSelect">
-			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
+			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
 			    <label for="custom_ed_org">State organization Id of Ed Org</label>
 			  </div>
 			</div>
 		<% end %>
-		<div class="provisionButtons">
-			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true", class="btn btn-danger"/>
-			<input name="commit" type="submit" value="Provision" id="provisionButton", class= "btn"/>
+		<div class="form-actions">
+          <%#
+			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
+          %>
+			<input name="commit" type="submit" value="Assign" id="provisionButton" class= "btn"/>
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+    $("#tooltip").tooltip();
+</script>
