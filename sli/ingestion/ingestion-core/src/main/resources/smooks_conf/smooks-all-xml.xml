@@ -1125,7 +1125,6 @@
     <jb:expression property="recordType">'assessmentItem'</jb:expression>
     <jb:value property="localId" data="AssessmentItem/@id" />
     <jb:wiring property="attributes" beanIdRef="assessmentItemAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="assessmentItemParentIds" />
   </jb:bean>
 
   <jb:bean beanId="assessmentItemAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
@@ -1134,10 +1133,7 @@
     <jb:value property="maxRawScore" decoder="Integer" data="MaxRawScore" />
     <jb:value property="correctResponse" data="CorrectResponse" />
     <jb:value property="nomenclature" data="Nomenclature" />
-  </jb:bean>
-
-  <jb:bean beanId="assessmentItemParentIds" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
-    <jb:wiring property="learningStandardRefs" beanIdRef="assessmentItemLearningStandardRefsArray" />
+    <jb:wiring property="learningStandards" beanIdRef="assessmentItemLearningStandardRefsArray" />
   </jb:bean>
 
   <jb:bean beanId="assessmentItemLearningStandardRefsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
@@ -1145,7 +1141,7 @@
   </jb:bean>
 
   <jb:bean beanId="assessmentItemLearningStandardRef" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
-    <jb:value property="learningStandardId" data="LearningStandardReference/LearningStandardIdentity/LearningStandardId/IdentificationCode" />
+    <jb:value property="identificationCode" data="LearningStandardReference/LearningStandardIdentity/LearningStandardId/IdentificationCode" />
     <jb:value property="contentStandardName" data="LearningStandardReference/LearningStandardIdentity/LearningStandardId/@ContentStandardName" />
   </jb:bean>
 

@@ -50,6 +50,9 @@ class ApplicationController < ActionController::Base
       elsif params[:code] && !oauth.has_code
         SessionResource.access_token = oauth.get_token(params[:code])
         check = Check.get("")
+        email = SupportEmail.get("")
+        logger.debug { "Email #{email}"}
+        session[:support_email] = email
         session[:full_name] ||= check["full_name"]   
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
@@ -95,8 +98,19 @@ class ApplicationController < ActionController::Base
     session[:roles].include? "SEA Administrator"
   end
 
+  def get_tenant
+    check = Check.get ""
+    if APP_CONFIG["is_sandbox"]
+      return check["external_id"]
+      #return check["user_id"]
+    else
+      return check["tenantId"]
+    end
+  end
+
+
   def not_found
   	  raise ActionController::RoutingError.new('Not Found')
-    end
-  
+  end
+
 end

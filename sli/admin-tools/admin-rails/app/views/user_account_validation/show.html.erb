@@ -1,10 +1,24 @@
+<% if @validation_result == UserAccountValidation::ACCOUNT_VERIFICATION_COMPLETE %>
+    <div class="page-header">
+      <h1>Email Confirmed</h1>
+    </div>
+    <pre class="pre-scrollable">
+    <p>
+      <b>What to look for next</b>
 
-<p>
-  <H1><b><%= @validation_result['status'] %></b></H1>
-  <br>
-  <%= @validation_result['message'] %>
+      An SLC Administrator reviews each account to maintain the privacy of the students and teachers we are serving. You will be receiving an email with more information about your account.
 
-  <br/><br/>
+      <b>For other questions:</b>
 
-</p>
+      If any other support related questions should arise, feel free to email customer support at support@slidev.org
+    </p>
+    </pre>
+<% else %>
+    <p>
+    <H1><b><%= @validation_result['status'] %></b></H1>
+    <br>
+    <%= @validation_result['message'] %>
+    <br/><br/>
+    </p>
 
+<% end %>
