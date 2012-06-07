@@ -3,7 +3,11 @@ require 'json'
 
 #Talk to maestro's mongos
 mongohost = 'nxmaestro.slidev.org'
+mongoport = 27017
 
+puts "\==========================================================="
+puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor sli database"
+  
 expected={"900K" => {
   "assessment"=>4,
   "attendance"=>15700,
@@ -118,7 +122,7 @@ if !expected.has_key?(ARGV[0])
   exit
 end
 
-connection = Mongo::Connection.new( mongohost, 27017)
+connection = Mongo::Connection.new( mongohost, mongoport)
 db = connection.db("sli")
 
 printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m"
