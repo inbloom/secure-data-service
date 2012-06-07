@@ -84,6 +84,7 @@ default:
   # Write concerns
         
         sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
       
     ingestion: &INGESTION-DEFAULT
@@ -1147,6 +1148,8 @@ nxteam:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: serial 
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 5
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
@@ -1157,6 +1160,7 @@ nxteam:
 
         sli.ingestion.mongotemplate.writeConcern: NORMAL
         sli.default.mongotemplate.writeConcern: NORMAL
+        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
     misc: &MISC-NXTEAM
