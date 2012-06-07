@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
+
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
  */
@@ -55,9 +57,10 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         // filter on end_date to get list of programIds
         List<String> programIds = new ArrayList<String>();
+        final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : staffProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate)) {
+            if (dateFilter.isDateBeforeEndDate(currentDate, endDate) && (Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
             }
         }
@@ -86,7 +89,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate)) {
+            if (dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate) && (Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
             }
         }
