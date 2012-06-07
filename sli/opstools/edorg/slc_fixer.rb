@@ -72,7 +72,6 @@ class SLCFixer
   def fix_attendance
     attendances = @db['attendance']
     attendances.find.each do |attendance|
-      puts "Attendance"
       edOrg = student_edorgs(attendance['body']['studentId'])
       stamp_id(attendances, attendance['_id'], edOrg)
     end
@@ -81,7 +80,6 @@ class SLCFixer
   def fix_assessments
     saa = @db['studentAssessmentAssociation']
     saa.find.each do |assessment|
-      puts "Assessment"
       edOrg = student_edorgs(assessment['body']['studentId'])
       stamp_id(saa, assessment['_id'], edOrg)
       stamp_id(@db['assessment'], @db['assessment'].find_one({"_id" => assessment['body']['assessmentId']})['_id'], edOrg)
@@ -153,7 +151,6 @@ class SLCFixer
   def fix_sessions
     ssa = @db['schoolSessionAssociation']
     ssa.find.each do |session|
-      puts "Session"
       edorg = session['body']['schoolId']
       stamp_id(ssa, session['_id'], edorg)
       stamp_id(@db['session'], session['body']['sessionId'], edorg)
@@ -163,7 +160,6 @@ class SLCFixer
   def fix_staff
     sea = @db['staffEducationOrganizationAssociation']
     sea.find.each do |staff|
-      puts "Staff"
       old = old_edorgs(@db['staff'], staff['body']['staffReference'])
       edorg = staff['body']['educationOrganizationReference']
       stamp_id(sea, staff['_id'], edorg)
