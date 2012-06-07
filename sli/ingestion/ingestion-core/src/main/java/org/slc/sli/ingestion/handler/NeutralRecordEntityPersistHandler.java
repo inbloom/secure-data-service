@@ -8,6 +8,11 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.WordUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
@@ -19,8 +24,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Handles the persisting of Entity objects
@@ -31,13 +34,22 @@ import org.springframework.dao.DuplicateKeyException;
  *         entities.
  *
  */
-public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> {
+public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> implements
+        InitializingBean {
 
     private static final String METADATA_BLOCK = "metaData";
 
     private Repository<Entity> entityRepository;
 
     private MessageSource messageSource;
+
+    @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
+    private String writeConcern;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        entityRepository.setWriteConcern(writeConcern);
+    }
 
     Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport) {
         return doHandling(entity, errorReport, null);
@@ -96,12 +108,10 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         for (ValidationError err : errors) {
 
             String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
-                           + "       Error      " + err.getType().name() + "\n"
-                           + "       Entity     " + entity.getType() + "\n"
-                           + "       Instance   " + entity.getRecordNumberInFile() + "\n"
-                           + "       Field      " + err.getFieldName() + "\n"
-                           + "       Value      " + err.getFieldValue() + "\n"
-                           + "       Expected   " + Arrays.toString(err.getExpectedTypes())  + "\n";
+                    + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
+                    + "\n" + "       Instance   " + entity.getRecordNumberInFile() + "\n" + "       Field      "
+                    + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
+                    + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
             errorReport.error(message, this);
         }
     }
@@ -117,7 +127,8 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      *            Reference to error report to log error message in.
      */
     private void reportErrors(String errorMessage, NeutralRecordEntity entity, ErrorReport errorReport) {
-        String assembledMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG1", entity.getType(), errorMessage);
+        String assembledMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG1",
+                entity.getType(), errorMessage);
         errorReport.error(assembledMessage, this);
     }
 
@@ -144,7 +155,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                     collection = keys[0];
                     fieldName = keys[1];
                 } catch (Exception e) {
-                    errorReport.error(MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG2", externalIdEntry.getKey()), this);
+                    errorReport.error(
+                            MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG2",
+                                    externalIdEntry.getKey()), this);
                     break;
                 }
             } else {
@@ -155,7 +168,8 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
 
             Object internalId = "";
 
-            // Allows a reference to be configured as a String, a Map of search criteria, or a list of such Maps,
+            // Allows a reference to be configured as a String, a Map of search criteria, or a list
+            // of such Maps,
             // used to make the transition to search criteria smoother
             if (Map.class.isInstance(externalIdEntry.getValue())) {
 
@@ -299,9 +313,12 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     /**
      * Create entity lookup filter by fields
      *
-     * @param entity : the entity to be looked up.
-     * @param keyFields : the list of the fields with which to generate the filter
-     * @param errorReport: error reporting
+     * @param entity
+     *            : the entity to be looked up.
+     * @param keyFields
+     *            : the list of the fields with which to generate the filter
+     * @param errorReport
+     *            : error reporting
      * @return Look up filter
      *
      * @author tke
