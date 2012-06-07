@@ -510,7 +510,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
         query.addCriteria(limiter);
 
-
         data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName, query, jobId);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
@@ -521,6 +520,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             tempNr = neutralRecordIterator.next();
             collection.put(tempNr.getRecordId(), tempNr);
         }
+
+        LOG.info("Retrieved " + collection.size() + " records from staged collection " + collectionName + " for interval " + workNote.getRangeMinimum() + " / " + workNote.getRangeMaximum());
+
         return collection;
     }
 
