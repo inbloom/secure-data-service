@@ -46,7 +46,7 @@ class SLCFixer
     ssa.find.each do |student|
       edorgs = []
       old = old_edorgs(@students, student['body']['studentId'])
-      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
+      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
       edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
       if !edorgs.eql? old
@@ -189,7 +189,7 @@ class SLCFixer
   def fix_courses
     csa = @db['section']
     csa.find.each do |course|
-      edorg = old_edorgs(csa, course['body']['sectionId'])
+      edorg = course['metaData']['edOrgs']
       stamp_id(@db['course'], course['body']['courseId'], edorg)
     end
     co = @db['courseOffering']
