@@ -56,8 +56,8 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     # Transcript
     And inside "transcript"
     And I should find "2" "studentSectionAssociations" in it
-    And I should find "sections" expanded in element "1"
-    When I look at the second one
+    And I should find "sections" expanded in element "0"
+    When I look at the first one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
     And I should see "courseOfferingId" is "<COURSE OFFERING ID>" in it
