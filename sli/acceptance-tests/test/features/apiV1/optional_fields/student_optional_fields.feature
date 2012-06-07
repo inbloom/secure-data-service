@@ -59,8 +59,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find one with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     When I go into the item with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     Then I should find "sections" expanded in it
-    #When I look at the first one
-    #Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
     And I should see "courseOfferingId" is "<COURSE OFFERING ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
