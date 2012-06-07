@@ -1,6 +1,8 @@
 require 'mongo'
 require 'json'
 
+#Talk to maestro's mongos
+mongohost = 'nxmaestro.slidev.org'
 
 expected={"900K" => {
   "assessment"=>4,
@@ -116,7 +118,7 @@ if !expected.has_key?(ARGV[0])
   exit
 end
 
-connection = Mongo::Connection.new("nxmongo3.slidev.org", 27017)
+connection = Mongo::Connection.new( mongohost, 27017)
 db = connection.db("sli")
 
 printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m"
