@@ -83,7 +83,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 315   |
-        | attendance                  | 75    |
+        | attendance                  | 81    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 6     |
@@ -205,8 +205,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records considered: 81" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records ingested successfully: 81" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file
@@ -247,7 +247,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 315   |
-        | attendance                  | 75    |
+        | attendance                  | 81    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 6     |
@@ -314,7 +314,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 315   |
-        | attendance                  | 75    |
+        | attendance                  | 81    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 6     |
