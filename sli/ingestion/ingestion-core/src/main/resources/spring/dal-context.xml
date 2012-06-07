@@ -56,9 +56,9 @@
   <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
-    <property name="writeConcern">
+    <!-- property name="writeConcern">
       <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
-    </property>
+    </property -->
   </bean>
 
   <!-- <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate"> <constructor-arg value="${sli.ingestion.staging.mongodb.database}"
