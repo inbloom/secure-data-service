@@ -42,34 +42,8 @@ class LandingZone
 
     # TODO: also check email address for being valid
     if(user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
-      # TODO: move this out to a template and not hardcode
-      template=File.open("#{Rails.root}/public/provision_sandbox_email_text.template"){|file| file.read}
-      email_content = ERB.new(template)
-      template_data={:firstName => user_info[:first],
-        :serverName => @server,
-        :edorgId => edorg_id,
-        :landingZone => @landingzone}
-      email = {
-        :email_addr => user_info[:emailAddress],
-        :name       => "#{user_info[:first]} #{user_info[:last]}",
-        :subject    => "SLC Sandbox Developer - Data Setup",
-        :content    => email_content.result(ErbBinding.new(template_data).get_binding)
-=begin
-:content    => "Welcome #{user_info[:first]}!\n\n" <<
-"You have selected the sample data set for your SLC sandbox.\n\n" <<
-"If you elected to use sample data provided by the SLC, it can be accessed at the server below." <<
-" You will need to sftp to the directory below and upload the data file in order for it to be ingested by the system.\n\n" <<
-"If you elected to use your own data you will need to sftp to the directory below and upload the data file you created in order for it to be ingested by the system.\n\n"<<
-"Server: #{result.attributes[:serverName]}\n" <<
-"Ed-Org: #{edorg_id}\n" <<
-"LZ Directory: #{result.attributes[:landingZone]}\n\n\n" <<
-#"Sftp to the LZ directory on the server using your ldap credentials.\n\n" <<
-"Thank you,\n" <<
-"The Shared Learning Collaborative\n"
-=end
-      }
       begin
-        APP_EMAILER.send_approval_email email
+        ApplicationMailer.provision_email(user_info[:emailAddress],user_info[:first],@server,edorg_id).deliver
       rescue => e
         Rails.logger.error "Could not send email to #{email[:email_addr]}."
       end

@@ -14,17 +14,17 @@ public class CohortMeta {
 
     /**
      * Constructor for meta data for cohort affiliated with a program
-     * 
+     *
      * @param id
      * @param programMeta
      */
     public CohortMeta(String id, ProgramMeta programMeta) {
         String simplifiedProgramId = programMeta.id.replaceAll("[a-z]", "");
-        this.id = simplifiedProgramId + "-prog-" + id;
+        this.id = simplifiedProgramId + "-p-" + id;
 
         staffIds = new HashSet<String>();
         studentIds = new HashSet<String>();
-        
+
         this.programMeta = programMeta;
         this.schoolMeta = null;
     }

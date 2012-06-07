@@ -1,9 +1,15 @@
 class EmailValidator < ActiveModel::EachValidator
+  @@EXISTING_EMAIL_MSG = "An account with this email already exists"
+  
   def validate_each(record, attribute, value)
     if not value =~ /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
       record.errors[attribute] << "Please enter a valid email address"
     else
-      record.errors[attribute] << "An account with this email already exists" if ApplicationHelper.user_exists? value
+      record.errors[attribute] << @@EXISTING_EMAIL_MSG if ApplicationHelper.user_exists? value
     end
+  end
+  
+  def self.existing_email_msg
+    @@EXISTING_EMAIL_MSG
   end
 end
