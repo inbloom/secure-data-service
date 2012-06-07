@@ -5,6 +5,34 @@ class ApplicationMailerTest < ActionMailer::TestCase
     ActionMailer::Base.deliveries.clear
   end
   
+  def test_welcome_email
+  user = {:first => "testFirst",
+  :last => "testLast",
+  :emailAddress => "test@test.com",
+  :vendor => "testVendor",
+  :password => "secret"
+  }
+  email = ApplicationMailer.welcome_email(user).deliver
+  assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
+  end
+  
+  def test_verify_email
+  email_address = "test@test.com"
+  firstName = "testFirst"
+  userEmailValidationLink = "http://test.com/validationLink"
+  email = ApplicationMailer.verify_email(email_address,firstName,userEmailValidationLink).deliver
+  assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
+  end
+  
+  def test_provision_email
+  email_address = "test@test.com"
+  firstName = "testFirst"
+  serverName = "testServer"
+  edorgId = "testEdorgId"
+  email = ApplicationMailer.provision_email(email_address, firstName, serverName, edorgId).deliver
+  assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
+  end
+  
   def test_notify_developer
     app = App.new(@app_fixtures['waffles'])    
     # Send the email, then test that it got queued
