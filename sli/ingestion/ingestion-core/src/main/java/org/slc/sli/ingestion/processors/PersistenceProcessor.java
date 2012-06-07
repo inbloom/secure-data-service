@@ -507,7 +507,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         Iterable<NeutralRecord> data;
 
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lte(workNote.getRangeMaximum());
         query.addCriteria(limiter);
 
 
