@@ -174,7 +174,7 @@ public class WorkNoteSplitter {
                 start.setTime(startTime.getTime() + (long) (millies * split));
                 recordsInRightChunk = getCountOfRecords(collectionName, jobId, start, endTime);
 
-                LOG.info("Total ms in interval = " + millies + " in the right side = " + (millies * split));
+                LOG.info("Total ms in interval = " + millies + " in the right side = " + (long) (millies * split));
                 LOG.info("Right Interval (Start / End) " + start.toString() + " / " + endTime.toString());
                 LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = " + split, recordsInRightChunk, (recordsCountInSegment - recordsInRightChunk));
 
@@ -298,7 +298,7 @@ public class WorkNoteSplitter {
 
     private long getCountOfRecords(String collectionName, String jobId, Date min, Date max) {
         Query query = new Query();
-        Criteria limiter = Criteria.where("creationTime").gte(min).lte(max);
+        Criteria limiter = Criteria.where("creationTime").gte(min).lt(max);
         query.addCriteria(limiter);
 
         return neutralRecordMongoAccess.getRecordRepository().countForJob(collectionName, query, jobId);
