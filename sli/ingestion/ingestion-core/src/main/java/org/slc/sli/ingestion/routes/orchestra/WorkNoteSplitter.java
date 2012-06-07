@@ -252,18 +252,32 @@ public class WorkNoteSplitter {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, start, endTime);
                     }
                 }
-            }
 
-            splitAttempts++;
+                splitAttempts++;
 
-            if (splitAttempts > 20 && done == false) {
-                LOG.info("Split Max reached. Adding left + right work notes");
-                WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, start, 0);
-                workNotes.add(workNoteLeft);
-                WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, start, endTime, 0);
-                workNotes.add(workNoteRight);
+                if (splitAttempts > 20 && done == false) {
+                    LOG.info("Split Max reached.");
 
-                done = true;
+                    if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(MatchEnumeration.large)) {
+                        LOG.info("Recursing on left");
+                        constructCollectionWorkNotes(workNotes, jobId, stagedEntity, startTime, start);
+                    } else {
+                        LOG.info("Adding left work note");
+                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, start, 0);
+                        workNotes.add(workNoteLeft);
+                    }
+
+                    if (checkRecordsInChunk(recordsInRightChunk).equals(MatchEnumeration.large)) {
+                        LOG.info("Recursing on right");
+                        constructCollectionWorkNotes(workNotes, jobId, stagedEntity, start, endTime);
+                    } else {
+                        LOG.info("Adding right work note");
+                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, start, endTime, 0);
+                        workNotes.add(workNoteRight);
+                    }
+
+                    done = true;
+                }
             }
         }
 
