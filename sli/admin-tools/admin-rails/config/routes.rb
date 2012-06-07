@@ -1,5 +1,7 @@
 SLIAdmin::Application.routes.draw do
 
+  resources :change_passwords
+
   resources :waitlist_users do
     get 'success', :on => :collection
     get 'failed', :on => :collection
