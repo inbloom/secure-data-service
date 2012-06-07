@@ -90,7 +90,7 @@
                           "path":"body.localCourseCode",
                           "values" :
                           [{ 
-                                "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.LocalCourseCode" 
+                                "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.localCourseCode" 
                           }]
                       },
                       {
@@ -115,7 +115,7 @@
                                                               "path" : "body.stateOrganizationId",
                                                               "values" :
                                                               [{
-                                                                   "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.StateOrganizationId" 
+                                                                   "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.stateOrganizationId" 
                                                               }]
                                                           }
                                                      ]]
@@ -126,14 +126,14 @@
                                              "path" : "body.schoolYear",
                                              "values" :
                                              [{
-                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.SchoolYear" 
+                                                 "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.schoolYear" 
                                              }]
                                          },
                                          {
                                              "path" : "body.term",
                                              "values" :
                                              [{
-                                                 "valueSource" : "body.CourseOfferingReference.CourseOfferingIdentity.Term" 
+                                                 "valueSource" : "body.courseOfferingReference.courseOfferingIdentity.term" 
                                              }]
                                          }
                                    ]]
