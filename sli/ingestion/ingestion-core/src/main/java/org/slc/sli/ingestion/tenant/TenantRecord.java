@@ -12,14 +12,15 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author jtully
  */
 public class TenantRecord {
-
+    
     private List<LandingZoneRecord> landingZone;
     private String tenantId;
     
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
+    
     // mongoTemplate requires this constructor.
-    public TenantRecord() { }
+    public TenantRecord() {
+    }
     
     public String getTenantId() {
         return tenantId;
@@ -40,7 +41,8 @@ public class TenantRecord {
     /**
      * Read in a TenantRecord object from a JSON InputStream
      * 
-     * @param inputStream, JSON formatted InputStream
+     * @param inputStream
+     *            , JSON formatted InputStream
      * @return TenantRecord object
      * @throws IOException
      */
@@ -48,18 +50,17 @@ public class TenantRecord {
         return MAPPER.readValue(inputStream, TenantRecord.class);
     }
     
-    
     /**
      * Read in a TenantRecord object from a JSON String
      * 
-     * @param input, JSON formatted String
+     * @param input
+     *            , JSON formatted String
      * @return TenantRecord object
      * @throws IOException
      */
     public static TenantRecord parse(String input) throws IOException {
         return MAPPER.readValue(input, TenantRecord.class);
     }
-    
     
     /**
      * Output the object as a JSON String
@@ -80,6 +81,10 @@ public class TenantRecord {
     
     @Override
     public boolean equals(Object o) {
-        return this.toString().equals(o.toString());
+        if (o == null) {
+            return false;
+        }
+        
+        return toString().equals(o.toString());
     }
 }

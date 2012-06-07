@@ -4,16 +4,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.entity.util.ParentsSorter;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -56,7 +55,7 @@ public class EntityManager extends ApiClientManager {
      *            authentication token
      * @param studentId
      *            The student we are looking for
-     * @param optionalFields
+     * @param views
      *            A list of "optional views" that we are appending to the student. These could be
      *            related
      *            to attendance, assessments, etc..
@@ -132,12 +131,15 @@ public class EntityManager extends ApiClientManager {
         List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId);
         
         //sort parent Contact if there are more than 2.
-        if (parents != null && parents.size() > 1)
+        if (parents != null && parents.size() > 1) {
             ParentsSorter.sort(parents);
-        for (GenericEntity parentsContact : parents)
+        }
+
+        for (GenericEntity parentsContact : parents) {
             ContactSorter.sort(parentsContact);
+        }
+
         student.put(Constants.ATTR_PARENTS, parents);
-        
         return student;
     }
     

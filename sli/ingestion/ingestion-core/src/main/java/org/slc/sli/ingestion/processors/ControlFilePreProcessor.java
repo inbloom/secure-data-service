@@ -139,7 +139,11 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             audit(event);
             
         } catch (Exception exception) {
-            handleExceptions(exchange, newBatchJob.getId(), exception, controlFileName);
+            String id = "null";
+            if (newBatchJob != null) {
+                id = newBatchJob.getId();
+            }
+            handleExceptions(exchange, id, exception, controlFileName);
         } finally {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
