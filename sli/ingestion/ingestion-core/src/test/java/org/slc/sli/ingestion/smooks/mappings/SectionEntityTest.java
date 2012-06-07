@@ -185,12 +185,12 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
-        neutralRecord.setAttributeField("courseId", "1bce2323211dfds");
+        neutralRecord.setAttributeField("courseOfferingId", "1bce2323211dfds");
         neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
         SimpleEntity entity = EntityTestUtils.smooksGetSingleSimpleEntity(edFiToSliConfig, neutralRecord);
 
 
-        Assert.assertNotNull(neutralRecord.getAttributes().get("courseId"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
@@ -201,7 +201,7 @@ public class SectionEntityTest {
 
         repo.addEntity("educationOrganization", "StateOrganizationId1", makeDummyEntity("educationOrganization", "StateOrganizationId1"));
         repo.addEntity("session", "SessionName0", makeDummyEntity("session", "SessionName0"));
-        repo.addEntity("course", "LocalCourseCode0", makeDummyEntity("course", "LocalCourseCode0"));
+        repo.addEntity("courseOffering", "LocalCourseCode0", makeDummyEntity("courseOffering", "LocalCourseCode0"));
         repo.addEntity("program", "ProgramId0", makeDummyEntity("program", "ProgramId0"));
 
         PrivateAccessor.setField(validator, "validationRepo", repo);
