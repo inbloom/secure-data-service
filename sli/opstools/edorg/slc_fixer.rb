@@ -49,10 +49,10 @@ class SLCFixer
       edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
       edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
+      stamp_id(ssa, student['_id'], student['body']['schoolId'])
       if !edorgs.eql? old
         @student_hash[student['body']['studentId']] = edorgs
         stamp_id(@students, student['body']['studentId'], edorgs)
-        stamp_id(ssa, student['_id'], student['body']['schoolId'])
       end
     end
   end
