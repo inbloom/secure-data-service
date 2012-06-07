@@ -13,7 +13,7 @@ public final class StudentAssessmentMeta {
     private static final AtomicInteger COUNTER = new AtomicInteger();
 
     private StudentAssessmentMeta(String studentId, String assessmentId) {
-        this.xmlId = studentId + "." + assessmentId + "." + COUNTER.getAndIncrement();
+        this.xmlId = IdTransformer.transformId(studentId + "." + assessmentId + "." + COUNTER.getAndIncrement());
         this.studentId = studentId;
         this.assessmentId = assessmentId;
     }

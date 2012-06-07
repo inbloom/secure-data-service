@@ -142,7 +142,7 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
 end
 
 Then /^an approval email is sent to the "([^"]*)"$/ do |email|
-  sleep(5)
+  sleep(10)
   @email = email
   verifyEmail()
   approval_email_subject="Welcome to the SLC Developer"

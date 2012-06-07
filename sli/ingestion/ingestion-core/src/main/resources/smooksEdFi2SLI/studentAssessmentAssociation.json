@@ -1,5 +1,6 @@
 {
     "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
+    "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem"},
     "references" :
     [{
         "fieldPath" : "body.assessmentId","ref" :
