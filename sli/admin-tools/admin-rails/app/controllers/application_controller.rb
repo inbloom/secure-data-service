@@ -98,8 +98,19 @@ class ApplicationController < ActionController::Base
     session[:roles].include? "SEA Administrator"
   end
 
+  def get_tenant
+    check = Check.get ""
+    if APP_CONFIG["is_sandbox"]
+      return check["external_id"]
+      #return check["user_id"]
+    else
+      return check["tenantId"]
+    end
+  end
+
+
   def not_found
   	  raise ActionController::RoutingError.new('Not Found')
-    end
-  
+  end
+
 end
