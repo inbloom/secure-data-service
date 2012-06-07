@@ -1,0 +1,75 @@
+<%= form_for(@change_password) do |f| %>
+  <% if notice != nil %>
+    <ul style="color:green">
+      <li><%= notice %></li>
+    </ul>
+  <% end %>
+  <% if @change_password.errors.any? %>
+    <div id="error_explanation">
+      <h4><%= pluralize(@change_password.errors.count, "error") %> prohibited from changing password:</h4>
+    </div>
+      <ul style="color:red">
+      <% @change_password.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+  <% end %>
+  
+  <div class="field">
+    <table>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :old ,"Old Password"%><span style="color:red"> *</span><br />
+                <%= f.password_field :old %>
+            </td>
+            <% if @change_password.errors[:old].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @change_password.errors[:old].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :new ,"New Password"%><span style="color:red"> *</span><br />
+                <%= f.password_field :new %>
+            </td>
+            <% if @change_password.errors[:new].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @change_password.errors[:new].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :confirmation, "Confirm New Password" %><span style="color:red"> *</span><br/>
+                <%= f.password_field :confirmation %>
+             </td>
+             <% if @change_password.errors[:confirmation].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @change_password.errors[:confirmation].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+    </table>
+  </div>
+  <div class="actions">
+    <br/>
+    <table>
+        <tr>
+          <td id="SubmitButton"><%= f.submit "Submit", 
+            :id => "submitChangePasswordButton"%> or </td>
+          <td id="CancelLink"><%= link_to "Cancel", change_passwords_path %></td>
+        </tr>
+    </table>
+  </div>
+<% end %>
+
