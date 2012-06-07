@@ -28,6 +28,7 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -348,6 +350,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
+                if (!edOrgsBelongToTenant(edOrgs)) {
+                    EntityBody body = new EntityBody();
+                    body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();  
+                }
+                
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
             }
@@ -361,6 +369,36 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         app.remove("bootstrap");
 
         return super.update(uuid, app, headers, uriInfo);
+    }
+    
+    /**
+     * In sandbox mode, a user can only authorize edorgs stamped with the user's own tenant ID,
+     * which is the external ID (email address) of the user.
+     * 
+     * @param edOrgs
+     * @return
+     */
+    private boolean edOrgsBelongToTenant(List<String> edOrgs) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        SLIPrincipal principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+        String sandboxTenant = principal.getExternalId();
+        EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
+        
+        for (String edOrgId : edOrgs) {
+            
+            EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
+            if (entity != null && entity.containsKey("metaData")) {
+                @SuppressWarnings("rawtypes")
+                Map metaData = (Map) entity.get("metaData");
+                if (!sandboxTenant.equals(metaData.get("tenantId"))) {
+                    debug("EdOrg {} does not belong to tenant {}.", edOrgId, sandboxTenant);
+                    return false;
+                }
+            } else {
+                debug("Did not find metadata for {}", edOrgId);
+            }
+        }
+        return true;
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgs) {

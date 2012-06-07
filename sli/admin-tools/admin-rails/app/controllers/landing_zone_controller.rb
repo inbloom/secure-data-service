@@ -50,16 +50,6 @@ class LandingZoneController < ApplicationController
     return check["external_id"]
   end
 
-  def get_tenant
-    check = Check.get ""
-    if APP_CONFIG["is_sandbox"]
-      return check["external_id"]
-      #return check["user_id"]
-    else
-      return check["tenantId"]
-    end
-  end
-
   def already_there
     respond_to do |format|
       format.html { render :file => "#{Rails.root}/public/409.html", :status => :conflict }
