@@ -28,6 +28,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Autowired
     private NodeDateFilter dateFilter;
 
+    @Autowired
+    private StudentSectionAssociationEndDateFilter studentSectionAssociationEndDateFilter;
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT.equals(toEntityType);
@@ -46,8 +49,12 @@ public class TeacherStudentResolver implements EntityContextResolver {
     }
 
     private List<String> findAccessibleThroughSection(Entity principal) {
-        return helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
+
+        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
+                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+
+        return studentSectionAssociationEndDateFilter.filterIds(studentIds);
+
     }
 
     private List<String> findAccessibleThroughProgram(Entity principal) {

@@ -15,6 +15,7 @@ import org.slc.sli.api.security.context.resolver.StudentSectionAssociationEndDat
 import org.slc.sli.api.security.context.resolver.StudentGracePeriodNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgStaffIDNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
+import org.slc.sli.api.security.context.resolver.TeacherStudentResolver;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
@@ -49,6 +50,9 @@ public class BrutePathFinder implements SecurityPathFinder {
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
+    @Autowired
+    private TeacherStudentResolver teacherStudentResolver;
+
 
     @PostConstruct
     public void init() {
@@ -58,6 +62,7 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
+                        .addConnection(EntityNames.STUDENT, teacherStudentResolver)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
                         .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "teacherId")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
