@@ -120,7 +120,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         String collectionName;
         while (iter.hasNext()) {
             collectionName = iter.next();
-            if (isSystemCollection(collectionName)) {
+            if (isExcludedCollection(collectionName)) {
                 continue;
             }
             mongoTemplate.remove(searchTenantId, collectionName);
@@ -130,7 +130,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     }
 
-    private boolean isSystemCollection(String collectionName) {
+    private boolean isExcludedCollection(String collectionName) {
         for (String excludedCollectionName : excludeCollections) {
             if (collectionName.equals(excludedCollectionName)) {
                 return true;

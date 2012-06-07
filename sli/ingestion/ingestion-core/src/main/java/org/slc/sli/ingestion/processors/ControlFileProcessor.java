@@ -14,6 +14,7 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -95,9 +96,11 @@ public class ControlFileProcessor implements Processor {
 
             FaultsReport errorReport = new FaultsReport();
 
+            if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
             // TODO Deal with validator being autowired in BatchJobAssembler
-            if (validator.isValid(cfd, errorReport)) {
-                createAndAddResourceEntries(newJob, cf);
+                if (validator.isValid(cfd, errorReport)) {
+                    createAndAddResourceEntries(newJob, cf);
+                }
             }
 
             BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
