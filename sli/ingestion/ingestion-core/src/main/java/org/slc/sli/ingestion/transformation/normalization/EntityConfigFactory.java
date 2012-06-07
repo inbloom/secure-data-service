@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
@@ -43,11 +42,9 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
                 } else {
                     LOG.warn("no config found for entity type {}", entityType);
-                    entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
-                LogUtil.error(LOG, "Exception loading EntityConfig for " + entityType + ":", e);
-                entityConfigurations.put(entityType, NOT_FOUND);
+                LOG.error("Error loading entity type " + entityType, e);
             } finally {
                 IOUtils.closeQuietly(configIs);
             }

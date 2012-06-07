@@ -1227,404 +1227,7 @@
 		<Date>2011-05-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<!-- GradingPeriods for the 2011-2012 school year -->
-	<GradingPeriod id="GRDP_20110822">
-    <GradingPeriodIdentity>
-      <GradingPeriod>First Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-		<BeginDate>2011-08-22</BeginDate>
-		<EndDate>2011-10-09</EndDate>
-		<TotalInstructionalDays>34</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20110822Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110823Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110824Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110825Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110826Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110827Holiday"/>
-		<CalendarDateReference ref="CLND_20110828Holiday"/>
-		<CalendarDateReference ref="CLND_20110829Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110830Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110831Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110901Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110902Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110903Holiday"/>
-		<CalendarDateReference ref="CLND_20110904Holiday"/>
-		<CalendarDateReference ref="CLND_20110905Holiday"/>
-		<CalendarDateReference ref="CLND_20110906Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110907Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110908Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110909Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110910Holiday"/>
-		<CalendarDateReference ref="CLND_20110911Holiday"/>
-		<CalendarDateReference ref="CLND_20110912Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110913Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110914Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110915Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110916Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110917Holiday"/>
-		<CalendarDateReference ref="CLND_20110918Holiday"/>
-		<CalendarDateReference ref="CLND_20110919Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110920Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110921Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110922Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110923Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110924Holiday"/>
-		<CalendarDateReference ref="CLND_20110925Holiday"/>
-		<CalendarDateReference ref="CLND_20110926Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110927Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110928Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110929Instructionalday"/>
-		<CalendarDateReference ref="CLND_20110930Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111001Holiday"/>
-		<CalendarDateReference ref="CLND_20111002Holiday"/>
-		<CalendarDateReference ref="CLND_20111003Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111004Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111005Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111006Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111007Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111008Holiday"/>
-		<CalendarDateReference ref="CLND_20111009Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20111010">
-    <GradingPeriodIdentity>
-      <GradingPeriod>Second Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-		<BeginDate>2011-10-10</BeginDate>
-		<EndDate>2011-11-27</EndDate>
-		<TotalInstructionalDays>33</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20111010Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111011Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111012Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111013Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111014Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111015Holiday"/>
-		<CalendarDateReference ref="CLND_20111016Holiday"/>
-		<CalendarDateReference ref="CLND_20111017Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111018Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111019Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111020Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111021Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111022Holiday"/>
-		<CalendarDateReference ref="CLND_20111023Holiday"/>
-		<CalendarDateReference ref="CLND_20111024Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111025Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111026Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111027Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111028Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111029Holiday"/>
-		<CalendarDateReference ref="CLND_20111030Holiday"/>
-		<CalendarDateReference ref="CLND_20111031Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111101Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111102Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111103Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111104Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111105Holiday"/>
-		<CalendarDateReference ref="CLND_20111106Holiday"/>
-		<CalendarDateReference ref="CLND_20111107Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111108Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111109Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111110Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111111Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111112Holiday"/>
-		<CalendarDateReference ref="CLND_20111113Holiday"/>
-		<CalendarDateReference ref="CLND_20111114Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111115Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111116Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111117Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111118Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111119Holiday"/>
-		<CalendarDateReference ref="CLND_20111120Holiday"/>
-		<CalendarDateReference ref="CLND_20111121Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111122Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111123Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111124Holiday"/>
-		<CalendarDateReference ref="CLND_20111125Holiday"/>
-		<CalendarDateReference ref="CLND_20111126Holiday"/>
-		<CalendarDateReference ref="CLND_20111127Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20111128">
-    <GradingPeriodIdentity>
-      <GradingPeriod>Third Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-		<BeginDate>2011-11-28</BeginDate>
-		<EndDate>2012-01-22</EndDate>
-		<TotalInstructionalDays>31</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20111128Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111129Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111130Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111201Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111202Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111203Holiday"/>
-		<CalendarDateReference ref="CLND_20111204Holiday"/>
-		<CalendarDateReference ref="CLND_20111205Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111206Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111207Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111208Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111209Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111210Holiday"/>
-		<CalendarDateReference ref="CLND_20111211Holiday"/>
-		<CalendarDateReference ref="CLND_20111212Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111213Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111214Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111215Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111216Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111217Holiday"/>
-		<CalendarDateReference ref="CLND_20111218Holiday"/>
-		<CalendarDateReference ref="CLND_20111219Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111220Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111221Instructionalday"/>
-		<CalendarDateReference ref="CLND_20111222Holiday"/>
-		<CalendarDateReference ref="CLND_20111223Holiday"/>
-		<CalendarDateReference ref="CLND_20111224Holiday"/>
-		<CalendarDateReference ref="CLND_20111225Holiday"/>
-		<CalendarDateReference ref="CLND_20111226Holiday"/>
-		<CalendarDateReference ref="CLND_20111227Holiday"/>
-		<CalendarDateReference ref="CLND_20111228Holiday"/>
-		<CalendarDateReference ref="CLND_20111229Holiday"/>
-		<CalendarDateReference ref="CLND_20111230Holiday"/>
-		<CalendarDateReference ref="CLND_20111231Holiday"/>
-		<CalendarDateReference ref="CLND_20120101Holiday"/>
-		<CalendarDateReference ref="CLND_20120102Holiday"/>
-		<CalendarDateReference ref="CLND_20120103Holiday"/>
-		<CalendarDateReference ref="CLND_20120104Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120105Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120106Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120107Holiday"/>
-		<CalendarDateReference ref="CLND_20120108Holiday"/>
-		<CalendarDateReference ref="CLND_20120109Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120110Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120111Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120112Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120113Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120114Holiday"/>
-		<CalendarDateReference ref="CLND_20120115Holiday"/>
-		<CalendarDateReference ref="CLND_20120116Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120117Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120118Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120119Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120120Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120121Holiday"/>
-		<CalendarDateReference ref="CLND_20120122Holiday"/>
-	</GradingPeriod>
-  <GradingPeriod id="GRDP_20120123">
-    <GradingPeriodIdentity>
-      <GradingPeriod>Fourth Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-    <BeginDate>2012-01-23</BeginDate>
-    <EndDate>2012-03-04</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20120123Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120124Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120125Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120126Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120127Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120128Holiday"/>
-		<CalendarDateReference ref="CLND_20120129Holiday"/>
-		<CalendarDateReference ref="CLND_20120130Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120131Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120201Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120202Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120203Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120204Holiday"/>
-		<CalendarDateReference ref="CLND_20120205Holiday"/>
-		<CalendarDateReference ref="CLND_20120206Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120207Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120208Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120209Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120210Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120211Holiday"/>
-		<CalendarDateReference ref="CLND_20120212Holiday"/>
-		<CalendarDateReference ref="CLND_20120213Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120214Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120215Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120216Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120217Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120218Holiday"/>
-		<CalendarDateReference ref="CLND_20120219Holiday"/>
-		<CalendarDateReference ref="CLND_20120220Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120221Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120222Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120223Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120224Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120225Holiday"/>
-		<CalendarDateReference ref="CLND_20120226Holiday"/>
-		<CalendarDateReference ref="CLND_20120227Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120228Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120229Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120301Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120302Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120303Holiday"/>
-		<CalendarDateReference ref="CLND_20120304Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20120124">
-    <GradingPeriodIdentity>
-      <GradingPeriod>Fifth Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-		<BeginDate>2012-03-05</BeginDate>
-		<EndDate>2012-04-15</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20120305Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120306Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120307Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120308Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120309Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120310Holiday"/>
-		<CalendarDateReference ref="CLND_20120311Holiday"/>
-		<CalendarDateReference ref="CLND_20120312Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120313Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120314Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120315Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120316Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120317Holiday"/>
-		<CalendarDateReference ref="CLND_20120318Holiday"/>
-		<CalendarDateReference ref="CLND_20120319Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120320Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120321Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120322Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120323Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120324Holiday"/>
-		<CalendarDateReference ref="CLND_20120325Holiday"/>
-		<CalendarDateReference ref="CLND_20120326Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120327Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120328Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120329Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120330Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120331Holiday"/>
-		<CalendarDateReference ref="CLND_20120401Holiday"/>
-		<CalendarDateReference ref="CLND_20120402Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120403Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120404Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120405Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120406Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120407Holiday"/>
-		<CalendarDateReference ref="CLND_20120408Holiday"/>
-		<CalendarDateReference ref="CLND_20120409Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120410Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120411Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120412Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120413Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120414Holiday"/>
-		<CalendarDateReference ref="CLND_20120415Holiday"/>
-	</GradingPeriod>
-	<GradingPeriod id="GRDP_20120125">
-    <GradingPeriodIdentity>
-      <GradingPeriod>Sixth Six Weeks</GradingPeriod>
-      <SchoolYear>2011-2012</SchoolYear>
-    </GradingPeriodIdentity>
-		<BeginDate>2012-04-16</BeginDate>
-		<EndDate>2012-05-25</EndDate>
-		<TotalInstructionalDays>30</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20120416Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120417Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120418Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120419Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120420Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120421Holiday"/>
-		<CalendarDateReference ref="CLND_20120422Holiday"/>
-		<CalendarDateReference ref="CLND_20120423Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120424Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120425Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120426Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120427Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120428Holiday"/>
-		<CalendarDateReference ref="CLND_20120429Holiday"/>
-		<CalendarDateReference ref="CLND_20120430Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120501Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120502Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120503Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120504Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120505Holiday"/>
-		<CalendarDateReference ref="CLND_20120506Holiday"/>
-		<CalendarDateReference ref="CLND_20120507Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120508Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120509Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120510Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120511Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120512Holiday"/>
-		<CalendarDateReference ref="CLND_20120513Holiday"/>
-		<CalendarDateReference ref="CLND_20120514Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120515Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120516Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120517Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120518Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120519Holiday"/>
-		<CalendarDateReference ref="CLND_20120520Holiday"/>
-		<CalendarDateReference ref="CLND_20120521Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120522Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120523Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120524Instructionalday"/>
-		<CalendarDateReference ref="CLND_20120525Instructionalday"/>
-	</GradingPeriod>
-	<!-- CalendarDates for the 2011-2012 school year -->
-	<Session>
-		<SessionName>Dusk-Elem-Spring2012</SessionName>
-		<SchoolYear>2011-2012</SchoolYear>
-		<Term>Spring Semester</Term>
-		<BeginDate>2012-01-01</BeginDate>
-		<EndDate>2012-06-21</EndDate>
-		<TotalInstructionalDays>120</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000122</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
-	</Session>
-	<Session>
-		<SessionName>Parker-Elem-Spring2012</SessionName>
-		<SchoolYear>2011-2012</SchoolYear>
-		<Term>Spring Semester</Term>
-		<BeginDate>2012-01-01</BeginDate>
-		<EndDate>2012-06-21</EndDate>
-		<TotalInstructionalDays>120</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000112</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
-	</Session>
-	<Session>
-		<SessionName>Dusk-High-Spring2012</SessionName>
-		<SchoolYear>2011-2012</SchoolYear>
-		<Term>Spring Semester</Term>
-		<BeginDate>2012-01-01</BeginDate>
-		<EndDate>2012-06-21</EndDate>
-		<TotalInstructionalDays>120</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>10000000121</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
-	</Session>
-	<Session>
-		<SessionName>Parker-High-Spring2012</SessionName>
-		<SchoolYear>2011-2012</SchoolYear>
-		<Term>Spring Semester</Term>
-		<BeginDate>2012-01-01</BeginDate>
-		<EndDate>2012-06-21</EndDate>
-		<TotalInstructionalDays>120</TotalInstructionalDays>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>1000000111</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GRDP_20120123"/>
-		<GradingPeriodReference ref="GRDP_20120124"/>
-		<GradingPeriodReference ref="GRDP_20120125"/>
-	</Session>
+
 	<CalendarDate id="CLND_20110919Instructionalday">
 		<Date>2011-09-19</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
@@ -2625,4 +2228,405 @@
 		<Date>2012-05-25</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
+
+	<!-- GradingPeriods for the 2011-2012 school year -->
+	<GradingPeriod id="GRDP_20110822">
+    <GradingPeriodIdentity>
+      <GradingPeriod>First Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+		<BeginDate>2011-08-22</BeginDate>
+		<EndDate>2011-10-09</EndDate>
+		<TotalInstructionalDays>34</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20110822Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110823Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110824Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110825Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110826Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110827Holiday"/>
+		<CalendarDateReference ref="CLND_20110828Holiday"/>
+		<CalendarDateReference ref="CLND_20110829Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110830Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110831Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110901Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110902Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110903Holiday"/>
+		<CalendarDateReference ref="CLND_20110904Holiday"/>
+		<CalendarDateReference ref="CLND_20110905Holiday"/>
+		<CalendarDateReference ref="CLND_20110906Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110907Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110908Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110909Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110910Holiday"/>
+		<CalendarDateReference ref="CLND_20110911Holiday"/>
+		<CalendarDateReference ref="CLND_20110912Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110913Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110914Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110915Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110916Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110917Holiday"/>
+		<CalendarDateReference ref="CLND_20110918Holiday"/>
+		<CalendarDateReference ref="CLND_20110919Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110920Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110921Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110922Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110923Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110924Holiday"/>
+		<CalendarDateReference ref="CLND_20110925Holiday"/>
+		<CalendarDateReference ref="CLND_20110926Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110927Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110928Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110929Instructionalday"/>
+		<CalendarDateReference ref="CLND_20110930Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111001Holiday"/>
+		<CalendarDateReference ref="CLND_20111002Holiday"/>
+		<CalendarDateReference ref="CLND_20111003Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111004Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111005Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111006Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111007Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111008Holiday"/>
+		<CalendarDateReference ref="CLND_20111009Holiday"/>
+	</GradingPeriod>
+	<GradingPeriod id="GRDP_20111010">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Second Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+		<BeginDate>2011-10-10</BeginDate>
+		<EndDate>2011-11-27</EndDate>
+		<TotalInstructionalDays>33</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20111010Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111011Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111012Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111013Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111014Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111015Holiday"/>
+		<CalendarDateReference ref="CLND_20111016Holiday"/>
+		<CalendarDateReference ref="CLND_20111017Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111018Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111019Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111020Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111021Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111022Holiday"/>
+		<CalendarDateReference ref="CLND_20111023Holiday"/>
+		<CalendarDateReference ref="CLND_20111024Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111025Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111026Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111027Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111028Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111029Holiday"/>
+		<CalendarDateReference ref="CLND_20111030Holiday"/>
+		<CalendarDateReference ref="CLND_20111031Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111101Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111102Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111103Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111104Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111105Holiday"/>
+		<CalendarDateReference ref="CLND_20111106Holiday"/>
+		<CalendarDateReference ref="CLND_20111107Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111108Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111109Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111110Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111111Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111112Holiday"/>
+		<CalendarDateReference ref="CLND_20111113Holiday"/>
+		<CalendarDateReference ref="CLND_20111114Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111115Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111116Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111117Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111118Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111119Holiday"/>
+		<CalendarDateReference ref="CLND_20111120Holiday"/>
+		<CalendarDateReference ref="CLND_20111121Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111122Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111123Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111124Holiday"/>
+		<CalendarDateReference ref="CLND_20111125Holiday"/>
+		<CalendarDateReference ref="CLND_20111126Holiday"/>
+		<CalendarDateReference ref="CLND_20111127Holiday"/>
+	</GradingPeriod>
+	<GradingPeriod id="GRDP_20111128">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Third Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+		<BeginDate>2011-11-28</BeginDate>
+		<EndDate>2012-01-22</EndDate>
+		<TotalInstructionalDays>31</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20111128Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111129Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111130Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111201Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111202Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111203Holiday"/>
+		<CalendarDateReference ref="CLND_20111204Holiday"/>
+		<CalendarDateReference ref="CLND_20111205Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111206Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111207Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111208Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111209Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111210Holiday"/>
+		<CalendarDateReference ref="CLND_20111211Holiday"/>
+		<CalendarDateReference ref="CLND_20111212Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111213Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111214Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111215Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111216Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111217Holiday"/>
+		<CalendarDateReference ref="CLND_20111218Holiday"/>
+		<CalendarDateReference ref="CLND_20111219Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111220Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111221Instructionalday"/>
+		<CalendarDateReference ref="CLND_20111222Holiday"/>
+		<CalendarDateReference ref="CLND_20111223Holiday"/>
+		<CalendarDateReference ref="CLND_20111224Holiday"/>
+		<CalendarDateReference ref="CLND_20111225Holiday"/>
+		<CalendarDateReference ref="CLND_20111226Holiday"/>
+		<CalendarDateReference ref="CLND_20111227Holiday"/>
+		<CalendarDateReference ref="CLND_20111228Holiday"/>
+		<CalendarDateReference ref="CLND_20111229Holiday"/>
+		<CalendarDateReference ref="CLND_20111230Holiday"/>
+		<CalendarDateReference ref="CLND_20111231Holiday"/>
+		<CalendarDateReference ref="CLND_20120101Holiday"/>
+		<CalendarDateReference ref="CLND_20120102Holiday"/>
+		<CalendarDateReference ref="CLND_20120103Holiday"/>
+		<CalendarDateReference ref="CLND_20120104Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120105Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120106Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120107Holiday"/>
+		<CalendarDateReference ref="CLND_20120108Holiday"/>
+		<CalendarDateReference ref="CLND_20120109Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120110Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120111Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120112Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120113Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120114Holiday"/>
+		<CalendarDateReference ref="CLND_20120115Holiday"/>
+		<CalendarDateReference ref="CLND_20120116Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120117Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120118Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120119Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120120Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120121Holiday"/>
+		<CalendarDateReference ref="CLND_20120122Holiday"/>
+	</GradingPeriod>
+  <GradingPeriod id="GRDP_20120123">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+    <BeginDate>2012-01-23</BeginDate>
+    <EndDate>2012-03-04</EndDate>
+		<TotalInstructionalDays>30</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20120123Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120124Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120125Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120126Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120127Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120128Holiday"/>
+		<CalendarDateReference ref="CLND_20120129Holiday"/>
+		<CalendarDateReference ref="CLND_20120130Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120131Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120201Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120202Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120203Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120204Holiday"/>
+		<CalendarDateReference ref="CLND_20120205Holiday"/>
+		<CalendarDateReference ref="CLND_20120206Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120207Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120208Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120209Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120210Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120211Holiday"/>
+		<CalendarDateReference ref="CLND_20120212Holiday"/>
+		<CalendarDateReference ref="CLND_20120213Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120214Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120215Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120216Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120217Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120218Holiday"/>
+		<CalendarDateReference ref="CLND_20120219Holiday"/>
+		<CalendarDateReference ref="CLND_20120220Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120221Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120222Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120223Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120224Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120225Holiday"/>
+		<CalendarDateReference ref="CLND_20120226Holiday"/>
+		<CalendarDateReference ref="CLND_20120227Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120228Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120229Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120301Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120302Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120303Holiday"/>
+		<CalendarDateReference ref="CLND_20120304Holiday"/>
+	</GradingPeriod>
+	<GradingPeriod id="GRDP_20120124">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+		<BeginDate>2012-03-05</BeginDate>
+		<EndDate>2012-04-15</EndDate>
+		<TotalInstructionalDays>30</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20120305Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120306Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120307Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120308Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120309Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120310Holiday"/>
+		<CalendarDateReference ref="CLND_20120311Holiday"/>
+		<CalendarDateReference ref="CLND_20120312Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120313Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120314Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120315Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120316Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120317Holiday"/>
+		<CalendarDateReference ref="CLND_20120318Holiday"/>
+		<CalendarDateReference ref="CLND_20120319Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120320Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120321Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120322Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120323Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120324Holiday"/>
+		<CalendarDateReference ref="CLND_20120325Holiday"/>
+		<CalendarDateReference ref="CLND_20120326Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120327Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120328Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120329Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120330Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120331Holiday"/>
+		<CalendarDateReference ref="CLND_20120401Holiday"/>
+		<CalendarDateReference ref="CLND_20120402Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120403Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120404Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120405Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120406Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120407Holiday"/>
+		<CalendarDateReference ref="CLND_20120408Holiday"/>
+		<CalendarDateReference ref="CLND_20120409Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120410Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120411Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120412Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120413Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120414Holiday"/>
+		<CalendarDateReference ref="CLND_20120415Holiday"/>
+	</GradingPeriod>
+	<GradingPeriod id="GRDP_20120125">
+    <GradingPeriodIdentity>
+      <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+      <SchoolYear>2011-2012</SchoolYear>
+    </GradingPeriodIdentity>
+		<BeginDate>2012-04-16</BeginDate>
+		<EndDate>2012-05-25</EndDate>
+		<TotalInstructionalDays>30</TotalInstructionalDays>
+		<CalendarDateReference ref="CLND_20120416Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120417Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120418Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120419Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120420Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120421Holiday"/>
+		<CalendarDateReference ref="CLND_20120422Holiday"/>
+		<CalendarDateReference ref="CLND_20120423Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120424Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120425Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120426Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120427Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120428Holiday"/>
+		<CalendarDateReference ref="CLND_20120429Holiday"/>
+		<CalendarDateReference ref="CLND_20120430Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120501Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120502Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120503Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120504Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120505Holiday"/>
+		<CalendarDateReference ref="CLND_20120506Holiday"/>
+		<CalendarDateReference ref="CLND_20120507Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120508Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120509Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120510Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120511Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120512Holiday"/>
+		<CalendarDateReference ref="CLND_20120513Holiday"/>
+		<CalendarDateReference ref="CLND_20120514Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120515Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120516Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120517Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120518Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120519Holiday"/>
+		<CalendarDateReference ref="CLND_20120520Holiday"/>
+		<CalendarDateReference ref="CLND_20120521Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120522Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120523Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120524Instructionalday"/>
+		<CalendarDateReference ref="CLND_20120525Instructionalday"/>
+	</GradingPeriod>
+
+	<!-- Sessions for the 2011-2012 school year -->
+	<Session>
+		<SessionName>Dusk-Elem-Spring2012</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Spring Semester</Term>
+		<BeginDate>2012-01-01</BeginDate>
+		<EndDate>2012-06-21</EndDate>
+		<TotalInstructionalDays>120</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference ref="GRDP_20120123"/>
+		<GradingPeriodReference ref="GRDP_20120124"/>
+		<GradingPeriodReference ref="GRDP_20120125"/>
+	</Session>
+	<Session>
+		<SessionName>Parker-Elem-Spring2012</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Spring Semester</Term>
+		<BeginDate>2012-01-01</BeginDate>
+		<EndDate>2012-06-21</EndDate>
+		<TotalInstructionalDays>120</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference ref="GRDP_20120123"/>
+		<GradingPeriodReference ref="GRDP_20120124"/>
+		<GradingPeriodReference ref="GRDP_20120125"/>
+	</Session>
+	<Session>
+		<SessionName>Dusk-High-Spring2012</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Spring Semester</Term>
+		<BeginDate>2012-01-01</BeginDate>
+		<EndDate>2012-06-21</EndDate>
+		<TotalInstructionalDays>120</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference ref="GRDP_20120123"/>
+		<GradingPeriodReference ref="GRDP_20120124"/>
+		<GradingPeriodReference ref="GRDP_20120125"/>
+	</Session>
+	<Session>
+		<SessionName>Parker-High-Spring2012</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Spring Semester</Term>
+		<BeginDate>2012-01-01</BeginDate>
+		<EndDate>2012-06-21</EndDate>
+		<TotalInstructionalDays>120</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference ref="GRDP_20120123"/>
+		<GradingPeriodReference ref="GRDP_20120124"/>
+		<GradingPeriodReference ref="GRDP_20120125"/>
+	</Session>
+
 </InterchangeEducationOrgCalendar>

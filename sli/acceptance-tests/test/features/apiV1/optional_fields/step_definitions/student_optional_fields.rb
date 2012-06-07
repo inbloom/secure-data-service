@@ -48,6 +48,20 @@ When /^I go back up one level$/ do
   @col = @colStack.pop
 end
 
+
+When /^I go into the item with the property "([^\"]*)" having the value "([^\"]*)"$/ do |key, value|
+  bool = false
+  @col.each do |col|
+    if col[key] == value
+      @col = col
+      bool = true
+      break
+    end
+  end
+  assert(bool, "No item found with having a #{key} with the value #{value}")
+end
+
+
 #################################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 #################################################################################
@@ -83,8 +97,6 @@ Then /^I should find "([\d]*)" "([^\"]*)" in it$/ do |count, collection|
 end
 
 Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
-  
-  
   @col.each do |col|
     puts("  COL    ")
     puts(col)
@@ -92,6 +104,21 @@ Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
     assert(col[key] != nil, "Response contains no #{key}")
   end
 end
+
+Then /^I should find "([^\"]*)" expanded in it$/ do |key|
+  assert(@col[key] != nil, "Element contains no #{key}")
+end
+
+Then /^I should find one with the property "([^\"]*)" having the value "([^\"]*)"$/ do |key, value|
+  bool = false
+  @col.each do |col|
+    if col[key] == value
+      bool = true
+    end
+  end
+  assert(bool, "No item found with having a #{key} with the value #{value}")
+end
+
 
 Then /^I should find "([^\"]*)" expanded in element "([\d]*)"$/ do |key, index|
   assert(@col[convert(index)][key] != nil, "Response contains no #{key}")
