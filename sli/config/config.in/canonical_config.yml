@@ -1139,6 +1139,8 @@ nxteam:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: serial 
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 5
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
