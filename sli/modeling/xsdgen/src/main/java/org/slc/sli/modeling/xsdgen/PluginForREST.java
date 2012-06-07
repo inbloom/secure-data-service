@@ -22,8 +22,8 @@ public final class PluginForREST implements Uml2XsdPlugin {
 
     // The target name-space should coincide with whatever is returned by the API.
     // Currently, we don't put the returned elements in a name-space.
-    private static final String TARGET_NAMESPACE = "";
-    // private static final String TARGET_NAMESPACE = "http://www.slcedu.org/api/v1";
+    // private static final String TARGET_NAMESPACE = "";
+    private static final String TARGET_NAMESPACE = "http://www.slcedu.org/api/v1";
 
     // The prefix for the target name-space can be empty or non-empty.
     // Using an empty prefix makes the generated schema less cluttered.

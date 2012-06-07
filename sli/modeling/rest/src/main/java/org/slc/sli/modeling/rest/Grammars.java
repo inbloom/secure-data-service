@@ -21,7 +21,7 @@ public final class Grammars extends WadlElement {
         this.includes = Collections.unmodifiableList(new ArrayList<Include>(includes));
     }
 
-    public List<Include> getInclude() {
+    public List<Include> getIncludes() {
         return includes;
     }
 

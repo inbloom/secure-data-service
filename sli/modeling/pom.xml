@@ -27,8 +27,12 @@
 		<module>wadl</module>
 		<module>xdm</module>
 		<module>jgen</module>
-		<module>sdk</module>
-		<module>sdkgen</module>
+		<module>xmigen</module>
+		
+		
 		<module>docgen</module>
+		<module>shtick</module>
+		<module>sdkgen</module>
+		<module>xsdgen</module>
 	</modules>
 </project>

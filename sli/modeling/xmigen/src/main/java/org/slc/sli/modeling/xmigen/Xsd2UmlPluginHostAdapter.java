@@ -69,7 +69,7 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
         // Associations don't have to be named.
-        return "";
+        return lhs.getName() + "<=>" + rhs.getName();
     }
 
     @Override

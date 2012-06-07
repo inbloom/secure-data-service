@@ -9,18 +9,25 @@ import java.io.InputStream;
 import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.xml.sax.InputSource;
 
-public final class Xsd2XmlResolver implements URIResolver {
+/**
+ * {@link URIResolver} implementation that resolves <code>schemaLocation</code> using a parent
+ * {@link File}.
+ */
+public final class ParentFileURIResolver implements URIResolver {
 
-    private final File path;
+    private final File parentFile;
 
-    public Xsd2XmlResolver(final File path) {
-        this.path = path;
+    public ParentFileURIResolver(final File parentFile) {
+        if (parentFile == null) {
+            throw new NullPointerException("parentFile");
+        }
+        this.parentFile = parentFile;
     }
 
     @Override
     public InputSource resolveEntity(final String targetNamespace, final String schemaLocation, final String baseUri) {
         try {
-            final File file = new File(path, schemaLocation);
+            final File file = new File(parentFile, schemaLocation);
             final InputStream byteStream = new BufferedInputStream(new FileInputStream(file));
             return new InputSource(byteStream);
         } catch (final FileNotFoundException e) {

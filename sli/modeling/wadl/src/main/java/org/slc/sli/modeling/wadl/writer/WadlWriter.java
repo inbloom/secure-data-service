@@ -227,7 +227,7 @@ public final class WadlWriter {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.GRAMMARS.getLocalName(), WadlSyntax.NAMESPACE);
         try {
             writeDocumentation(resources, xsw);
-            for (final Include resource : resources.getInclude()) {
+            for (final Include resource : resources.getIncludes()) {
                 writeInclude(resource, xsw);
             }
         } finally {

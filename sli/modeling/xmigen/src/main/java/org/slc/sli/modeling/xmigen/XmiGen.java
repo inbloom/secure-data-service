@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import joptsimple.OptionException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -21,6 +22,10 @@ import org.slc.sli.modeling.xsd.XsdReader;
 
 /**
  * A quick-n-dirty utility for converting W3C XML Schemas to XMI (with limitations).
+ * <p>
+ * This is a command line utility. A typical invocation is as follows:
+ * <code>--xsdFile SLI.xsd --xmiFile SLI.xmi --xmiFolder . --plugInName Xsd2UmlPlugInForSLI</code>
+ * </p>
  */
 public final class XmiGen {
 
@@ -30,6 +35,9 @@ public final class XmiGen {
     private static final String ARGUMENT_XMI_FOLDER = "xmiFolder";
     private static final String ARGUMENT_PLUGIN_NAME = "plugInName";
 
+    /**
+     * This is the entry point for the command line interface.
+     */
     public static void main(final String[] args) {
         final OptionParser parser = new OptionParser();
         final OptionSpec<?> helpSpec = parser.acceptsAll(ARGUMENT_HELP, "Show help");
@@ -38,51 +46,56 @@ public final class XmiGen {
         final OptionSpec<File> outFolderSpec = optionSpec(parser, ARGUMENT_XMI_FOLDER, "XMI (output) folder",
                 File.class);
         final OptionSpec<String> plugInNameSpec = optionSpec(parser, ARGUMENT_PLUGIN_NAME, "PlugIn name", String.class);
-        final OptionSet options = parser.parse(args);
-        if (options.hasArgument(helpSpec)) {
-            try {
-                parser.printHelpOn(System.out);
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
+        try {
+            final OptionSet options = parser.parse(args);
+            if (options.hasArgument(helpSpec)) {
+                try {
+                    parser.printHelpOn(System.out);
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                try {
+                    final File xsdFile = options.valueOf(xsdFileSpec);
+
+                    final File outFolder = options.valueOf(outFolderSpec);
+                    final String outFile = options.valueOf(outFileSpec);
+                    final File outLocation = new File(outFolder, outFile);
+                    // The platform-specific model provides the implementation mappings.
+                    final String plugInName = options.valueOf(plugInNameSpec);
+                    final Xsd2UmlPlugin plugIn = loadPlugIn(plugInName);
+                    final XmlSchema schema = XsdReader.readSchema(xsdFile,
+                            new ParentFileURIResolver(xsdFile.getParentFile()));
+
+                    final Model model = Xsd2Uml.transform("", schema, plugIn);
+
+                    final ModelIndex modelIndex = new DefaultModelIndex(model);
+
+                    XmiWriter.writeDocument(model, modelIndex, outLocation);
+                } catch (final FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        } else {
-            try {
-                final File xsdFile = options.valueOf(xsdFileSpec);
-
-                final File outFolder = options.valueOf(outFolderSpec);
-                final String outFile = options.valueOf(outFileSpec);
-                final File outLocation = new File(outFolder, outFile);
-                // The platform-specific model provides the implementation mappings.
-                final String plugInName = options.valueOf(plugInNameSpec);
-                final Xsd2UmlPlugin plugIn = loadPlugIn(plugInName);
-                final XmlSchema schema = XsdReader.readSchema(xsdFile, new Xsd2XmlResolver(xsdFile.getParentFile()));
-
-                final Model model = Xsd2Uml.transform("", schema, plugIn);
-
-                final ModelIndex modelIndex = new DefaultModelIndex(model);
-
-                XmiWriter.writeDocument(model, modelIndex, outLocation);
-            } catch (final FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (final OptionException e) {
+            // Caused by illegal arguments.
+            System.err.println(e.getMessage());
+        } catch (final ClassNotFoundException e) {
+            // Caused by not being able to load the plug-in.
+            System.err.println("Unable to load plugin specified in " + ARGUMENT_PLUGIN_NAME + " argument: "
+                    + e.getMessage());
         }
     }
 
-    private static final Xsd2UmlPlugin loadPlugIn(final String name) {
+    private static final Xsd2UmlPlugin loadPlugIn(final String name) throws ClassNotFoundException {
+        final Class<?> clazz = Class.forName(name);
+        final Class<? extends Xsd2UmlPlugin> factory = clazz.asSubclass(Xsd2UmlPlugin.class);
         try {
-            final Class<?> clazz = Class.forName(name);
-            final Class<? extends Xsd2UmlPlugin> factory = clazz.asSubclass(Xsd2UmlPlugin.class);
-            try {
-                return factory.newInstance();
-            } catch (final InstantiationException e) {
-                throw new RuntimeException(name, e);
-            } catch (final IllegalAccessException e) {
-                throw new RuntimeException(name, e);
-            }
-        } catch (final ClassNotFoundException e) {
+            return factory.newInstance();
+        } catch (final InstantiationException e) {
+            throw new RuntimeException(name, e);
+        } catch (final IllegalAccessException e) {
             throw new RuntimeException(name, e);
         }
-
     }
 
     private static final <T> OptionSpec<T> optionSpec(final OptionParser parser, final String option,

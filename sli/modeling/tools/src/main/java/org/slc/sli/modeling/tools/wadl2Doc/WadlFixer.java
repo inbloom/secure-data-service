@@ -1,5 +1,7 @@
 package org.slc.sli.modeling.tools.wadl2Doc;
 
+import static org.slc.sli.modeling.wadl.helpers.WadlHelper.computeId;
+
 import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,38 +28,6 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
 public final class WadlFixer {
 
     // private static final String ELEMENT_PREFIX = "sli";
-
-    private static final String computeId(final Method method, final Resource resource, final Resources resources,
-            final Application app, final Stack<Resource> ancestors) {
-
-        final List<String> steps = reverse(toSteps(resource, ancestors));
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append(method.getName().toLowerCase());
-        boolean first = true;
-        boolean seenParam = false;
-        String paramName = null;
-        for (final String step : steps) {
-            if (isTemplateParam(step)) {
-                seenParam = true;
-                paramName = parseTemplateParam(step);
-            } else if (isVersion(step)) {
-                // Ignore.
-            } else {
-                if (first) {
-                    first = false;
-                } else {
-                    sb.append("For");
-                }
-                sb.append(titleCase(step));
-                if (seenParam) {
-                    sb.append("By" + titleCase(paramName));
-                    seenParam = false;
-                }
-            }
-        }
-        return sb.toString();
-    }
 
     private static final Application fixApplication(final Application app, final WadlFixConfig config) {
         final Resources resources = fixResources(app.getResources(), app, config);
@@ -239,12 +209,8 @@ public final class WadlFixer {
         return step.startsWith("{") && step.endsWith("}");
     }
 
-    private static final boolean isVersion(final String step) {
-        return step.toLowerCase().equals("v1");
-    }
-
     public static void main(final String[] args) {
-        final WadlFixConfig config = new WadlFixConfig("", "");
+        final WadlFixConfig config = new WadlFixConfig("", "http://www.slcedu.org/api/v1");
         final Map<String, String> prefixMappings = new HashMap<String, String>();
         if (config.getNamespaceURI().trim().length() > 0) {
             prefixMappings.put(config.getPrefix(), config.getNamespaceURI());
@@ -253,17 +219,9 @@ public final class WadlFixer {
             @SuppressWarnings("unused")
             final ModelIndex model = new DefaultModelIndex(XmiReader.readModel("SLI.xmi"));
             final Application app = fixApplication(WadlReader.readApplication("wadl-original.xml"), config);
-            WadlWriter.writeDocument(app, prefixMappings, "wadl-clean.xml");
+            WadlWriter.writeDocument(app, prefixMappings, "SLI.wadl");
         } catch (final FileNotFoundException e) {
             System.err.println(e.getMessage());
-        }
-    }
-
-    private static final String parseTemplateParam(final String step) {
-        if (isTemplateParam(step)) {
-            return step.substring(1, step.length() - 1);
-        } else {
-            throw new AssertionError(step);
         }
     }
 
@@ -281,10 +239,6 @@ public final class WadlFixer {
             result.add(s);
         }
         return result;
-    }
-
-    private static final String titleCase(final String text) {
-        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
     private static final List<String> toSteps(final Resource resource, final Stack<Resource> ancestors) {

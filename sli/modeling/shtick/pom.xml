@@ -8,8 +8,8 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>sdk</artifactId>
-	<name>SDK (Java)</name>
+	<artifactId>shtick</artifactId>
+	<name>shtick (Experimental Piece for Search and Destroy)</name>
 
 	<properties>
       <sli.home>${project.parent.parent.basedir}</sli.home>
