@@ -207,8 +207,6 @@
 
   <!-- LocalEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
-    <!-- jb:value property="sourceId" data="" / -->
-    <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'educationOrganization'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/LocalEducationAgency/StateOrganizationId" />
     <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentIds" />

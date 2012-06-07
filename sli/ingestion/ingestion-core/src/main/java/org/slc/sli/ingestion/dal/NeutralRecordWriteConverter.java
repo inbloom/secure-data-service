@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,10 +81,10 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
         dbObj.put("association", neutralRecord.isAssociation());
 
-        if (neutralRecord.getCreationTime() != null) {
+        if (neutralRecord.getCreationTime() != 0) {
             dbObj.put("creationTime", neutralRecord.getCreationTime());
         } else {
-            dbObj.put("creationTime", DateTimeUtil.getNowInUTC());
+            dbObj.put("creationTime", new DateTime().getMillis());
         }
 
         return dbObj;

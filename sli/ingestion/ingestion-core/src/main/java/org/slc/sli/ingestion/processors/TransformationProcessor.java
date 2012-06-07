@@ -3,8 +3,6 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
@@ -24,6 +22,8 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -75,15 +75,12 @@ public class TransformationProcessor implements Processor {
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
 
         // FIXME: transformation needs to actually count processed records and errors
-        NeutralQuery neutralQuery = new NeutralQuery();
-        NeutralCriteria criteriaStart = new NeutralCriteria("creationTime>=" + workNote.getRangeMinimum().toString());
-        neutralQuery.addCriteria(criteriaStart);
-
-        NeutralCriteria criteriaEnd = new NeutralCriteria("creationTime<=" + workNote.getRangeMaximum().toString());
-        neutralQuery.addCriteria(criteriaEnd);
-
+        
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lte(workNote.getRangeMaximum());
+        Query query = new Query().addCriteria(limiter);
+        
         long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
-                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), neutralQuery, batchJobId);
+                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
         
         metrics.setRecordCount(recordsToProcess);
         stage.getMetrics().add(metrics);

@@ -1,17 +1,15 @@
 package org.slc.sli.ingestion.dal;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBObject;
-
-import org.springframework.core.convert.converter.Converter;
-
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.springframework.core.convert.converter.Converter;
+
+import com.mongodb.DBObject;
 
 /**
  * Spring converter registered in the Mongo configuration to convert DBObjects into MongoEntity.
@@ -77,7 +75,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         neutralRecord.setBatchJobId(batchJobId);
         neutralRecord.setSourceFile((String) map.get("sourceFile"));
         neutralRecord.setLocationInSourceFile(((Integer) map.get("locationInSourceFile")).intValue());
-        neutralRecord.setCreationTime((Date) map.get("creationTime"));
+        neutralRecord.setCreationTime((Long) map.get("creationTime"));
         neutralRecord.setLocalParentIds(localParentIds);
         neutralRecord.setAssociation(isAssociation);
         return neutralRecord;
