@@ -20,6 +20,7 @@ import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
+import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
@@ -76,6 +77,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private XmlFileProcessor xmlFileProcessor;
 
     @Autowired
+    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;
+
+    @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
 
     @Autowired
@@ -103,7 +107,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private NodeInfo nodeInfo;
 
     @Value("${sli.ingestion.processor.edfi}")
-    private String processorToUse;
+    private String edfiProcessorMode;
+
+    @Value("${sli.ingestion.processor.xml}")
+    private String xmlProcessorMode;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -319,8 +326,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildExtractionRoutes(String workItemQueueUri) {
 
         Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(processorToUse) ) {
+        if ("concurrent".equals(edfiProcessorMode) ) {
             edfiProcessorToUse = concurrentEdFiProcessor;
+        }
+
+        Processor xmlFileProcessorToUse = xmlFileProcessor;
+        if ("concurrent".equals(xmlProcessorMode) ) {
+            xmlFileProcessorToUse = concurrentXmlFileProcessor;
         }
 
         // routeId: extraction
@@ -344,7 +356,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
-                .process(xmlFileProcessor).to(workItemQueueUri)
+                .process(xmlFileProcessorToUse).to(workItemQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")

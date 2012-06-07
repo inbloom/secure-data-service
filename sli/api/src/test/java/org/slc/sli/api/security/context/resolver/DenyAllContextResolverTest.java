@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.context.resolver;
 
 import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,26 +23,22 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class DenyAllContextResolverTest {
-
+    
     @Autowired
     private DenyAllContextResolver denyAllContextResolver;
-
-    private String fromEntity;
-    private String toEntity;
+    
     private Entity principal;
-
+    
     @Before
     public void setUp() {
-        fromEntity = null;
-        toEntity = null;
         principal = Mockito.mock(Entity.class);
     }
-
+    
     @Test
     public void testCanResolve() throws Exception {
-        Assert.assertFalse(denyAllContextResolver.canResolve(fromEntity, toEntity));
+        Assert.assertFalse(denyAllContextResolver.canResolve(null, null));
     }
-
+    
     @Test
     public void testFindAccessible() throws Exception {
         Assert.assertTrue(denyAllContextResolver.findAccessible(principal).isEmpty());

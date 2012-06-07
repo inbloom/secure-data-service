@@ -60,10 +60,8 @@ public class XmlFileProcessor implements Processor {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
-        NewBatchJob newJob = null;
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
         try {
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
-
             boolean hasErrors = false;
             for (ResourceEntry resource : newJob.getResourceEntries()) {
 
@@ -134,8 +132,7 @@ public class XmlFileProcessor implements Processor {
         return idRefResolutionHandler;
     }
 
-    public void setIdRefResolutionHandler(
-            IdRefResolutionHandler idRefResolutionHandler) {
+    public void setIdRefResolutionHandler(IdRefResolutionHandler idRefResolutionHandler) {
         this.idRefResolutionHandler = idRefResolutionHandler;
     }
 
@@ -144,4 +141,5 @@ public class XmlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
+
 }

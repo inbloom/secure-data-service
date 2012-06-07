@@ -2,17 +2,17 @@ package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for building objective assessments
@@ -20,31 +20,15 @@ import org.slf4j.LoggerFactory;
  * @author nbrown
  * @author shalka
  */
+@Scope("prototype")
+@Component
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
     
-    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
     public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
-    
-    private final NeutralRecordMongoAccess mongoAccess;
-    private final String jobId;
-    
-    /**
-     * Default constructor.
-     * 
-     * @param mongoAccess
-     *            used for making calls to mongo to assemble objective assessments.
-     * @param jobId
-     *            current batch job id.
-     */
-    public ObjectiveAssessmentBuilder(NeutralRecordMongoAccess mongoAccess, String jobId) {
-        super();
-        this.mongoAccess = mongoAccess;
-        this.jobId = jobId;
-    }
     
     /**
      * Gets the specified objective assessment by first performing a look up on its '_id'
@@ -52,15 +36,17 @@ public class ObjectiveAssessmentBuilder {
      * 
      * @param objectiveAssessmentId
      *            xml id or identification code for the objective assessment.
+     * @param objectiveAssessments
+     *            set of objective assessments to search for single objective assessment in.
      * @return Map representing the objective assessment.
      */
-    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentId) {
-        Map<String, Object> assessment = getObjectiveAssessment(objectiveAssessmentId, BY_ID);
-        
+    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentId,
+            Map<Object, NeutralRecord> objectiveAssessments) {
+        Map<String, Object> assessment = getObjectiveAssessment(objectiveAssessmentId, BY_ID, objectiveAssessments);
         if (assessment == null || assessment.isEmpty()) {
             LOG.info("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
-            assessment = getObjectiveAssessment(objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
+            assessment = getObjectiveAssessment(objectiveAssessmentId, BY_IDENTIFICATION_CDOE, objectiveAssessments);
             
             if (assessment == null || assessment.isEmpty()) {
                 LOG.warn(
@@ -80,20 +66,22 @@ public class ObjectiveAssessmentBuilder {
      * Begins the recursion process for nesting all sub-objective assessments.
      * 
      * @param objectiveAssessmentRef
-     *            objectiveAssessmentRef current objective assessment.
+     *            current objective assessment.
      * @param by
-     *            how to search for objective assessments (currently 'BY_ID').
+     *            how to search for objective assessments (default: 'BY_ID').
+     * @param objectiveAssessments
+     *            set of objective assessments to search for single objective assessment in.
      * @return Map representing the current objective assessment (containing all children as well).
      */
-    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, String by) {
+    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, String by,
+            Map<Object, NeutralRecord> objectiveAssessments) {
         Set<String> parentObjs = Collections.emptySet();
-        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by);
+        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by, objectiveAssessments);
     }
     
     /**
      * Performs head recursion to nest sub-objective assessments onto the current objective
-     * assessment.
-     * Also checks for circular references.
+     * assessment. Also checks for circular references.
      * 
      * @param objectiveAssessmentRef
      *            current objective assessment.
@@ -101,49 +89,54 @@ public class ObjectiveAssessmentBuilder {
      *            ever-growing list of parent references (to prevent circular references).
      * @param by
      *            how to search for objective assessments (currently 'BY_ID').
+     * @param objectiveAssessments
+     *            set of objective assessments to search for single objective assessment in.
      * @return Map representing the current objective assessment (containing all children as well).
      */
-    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
+    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs,
+            String by, Map<Object, NeutralRecord> objectiveAssessments) {
         LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
-        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(
-                OBJECTIVE_ASSESSMENT,
-                new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)), jobId);
-        if (objectiveAssessmentRecord == null) {
-            return null;
-        }
-        Map<String, Object> objectiveAssessment = objectiveAssessmentRecord.getAttributes();
-        
-        objectiveAssessment.remove("id");
-        
-        List<?> subObjectiveRefs = (List<?>) objectiveAssessment.get(SUB_OBJECTIVE_REFS);
-        if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
-            Set<String> newParents = new HashSet<String>(parentObjs);
-            newParents.add(objectiveAssessmentRef);
-            List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
-            for (Object subObjectiveRef : subObjectiveRefs) {
-                if (!newParents.contains(subObjectiveRef)) {
-                    Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef, newParents,
-                            BY_ID);
-                    if (subAssessment != null) {
-                        subObjectives.add(subAssessment);
-                    } else {
-                        LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
+        for (Map.Entry<Object, NeutralRecord> objectiveAssessment : objectiveAssessments.entrySet()) {
+            Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
+            Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
+            
+            if (record.get(by).equals(objectiveAssessmentRef)) {
+                List<?> subObjectiveRefs = (List<?>) record.get(SUB_OBJECTIVE_REFS);
+                if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
+                    Set<String> newParents = new HashSet<String>(parentObjs);
+                    newParents.add(objectiveAssessmentRef);
+                    List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
+                    for (Object subObjectiveRef : subObjectiveRefs) {
+                        if (!newParents.contains(subObjectiveRef)) {
+                            Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef,
+                                    newParents, BY_ID, objectiveAssessments);
+                            if (subAssessment != null) {
+                                subObjectives.add(subAssessment);
+                            } else {
+                                LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
+                            }
+                        } else {
+                            LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
+                                    subObjectiveRef);
+                        }
                     }
+                    objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
+                    LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
+                            objectiveAssessmentRef);
                 } else {
-                    // sorry Mr. Hofstadter, no infinitely recursive assessments allowed due to
-                    // finite memory limitations
-                    LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
-                            subObjectiveRef);
+                    LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).",
+                            objectiveAssessmentRef);
                 }
+                
+                for (Map.Entry<String, Object> entry : record.entrySet()) {
+                    if (!(entry.getKey().equals(SUB_OBJECTIVE_REFS) || entry.getKey().equals(ASSESSMENT_ITEM_REFS) || entry
+                            .getKey().equals("id"))) {
+                        objectiveAssessmentToReturn.put(entry.getKey(), entry.getValue());
+                    }
+                }
+                return objectiveAssessmentToReturn;
             }
-            objectiveAssessment.put("objectiveAssessments", subObjectives);
-            LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
-                    objectiveAssessmentRef);
-        } else {
-            LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).", objectiveAssessmentRef);
         }
-        objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
-        objectiveAssessment.remove(ASSESSMENT_ITEM_REFS);
-        return objectiveAssessment;
+        return null;
     }
 }
