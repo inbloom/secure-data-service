@@ -100,18 +100,18 @@ public class WorkNoteSplitter {
 
                 Query queryEarliest = new Query();
                 queryEarliest.sort().on("creationTime", Order.ASCENDING);
-
-                NeutralRecord earliest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
-                        stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
+                queryEarliest.limit(1);
+                Iterable<NeutralRecord> nrEarliest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
+                Iterator<NeutralRecord> nrEarliestIterator = nrEarliest.iterator();
 
                 Query queryLatest = new Query();
                 queryLatest.sort().on("creationTime", Order.DESCENDING);
+                queryLatest.limit(1);
+                Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
+                Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
 
-                NeutralRecord latest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
-                        stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
-
-                long startDate =  earliest.getCreationTime();
-                long endDate = latest.getCreationTime() + 2000; // add 2s buffer
+                long startDate =  nrEarliestIterator.next().getCreationTime();
+                long endDate = nrLatestIterator.next().getCreationTime() + 2000; // add 2s buffer
 
                 List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(
                         new ArrayList<WorkNote>(), jobId, stagedEntity, startDate, endDate);
@@ -156,8 +156,13 @@ public class WorkNoteSplitter {
         String collectionName = stagedEntity.getCollectionNameAsStaged();
         long recordsCountInSegment = getCountOfRecords(collectionName, jobId, startTime, endTime);
         if ((recordsCountInSegment <= (splitChunkSize * (1 + thresholdPct/100)))
-         && (recordsCountInSegment >= (splitChunkSize * (1 - thresholdPct/100)))) {
+                && (recordsCountInSegment >= (splitChunkSize * (1 - thresholdPct/100)))) {
             //Current chunk is within acceptable threshold, add it to workNotes
+
+            LOG.info("Adding unsplit chunk - it's within acceptable limits");
+            WorkNote workNoteUnsplit = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, startTime, endTime, 0);
+            workNotes.add(workNoteUnsplit);
+
         } else {
             //split time chunk in roughly 2 pieces
 
