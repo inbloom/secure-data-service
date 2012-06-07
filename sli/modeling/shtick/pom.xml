@@ -17,6 +17,10 @@
 
 	<dependencies>
 
+    <dependency>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>client-api</artifactId>
+    </dependency>
 		<!-- Apache Commons IO Dependency -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -43,5 +47,5 @@
 			<version>1.0.1</version>
 		</dependency>
 
-	</dependencies>
+  </dependencies>
 </project>
