@@ -18,7 +18,6 @@ import java.util.List;
  * Filters the entity by a given date
  *
  * @author jcole
- *
  */
 @Component
 public class NodeDateFilter extends NodeFilter {
@@ -40,21 +39,31 @@ public class NodeDateFilter extends NodeFilter {
         return gracePeriod;
     }
 
-    protected String getFilterDateParam() {
-        return filterDateParam;
+    protected String getEndDateParamName() {
+        return endDateParamName;
+    }
+
+    public String getStartDateParamName() {
+        return startDateParamName;
+    }
+
+    public void setStartDateParamName(String startDateParamName) {
+        this.startDateParamName = startDateParamName;
     }
 
     private String entityName;
     private String referenceId;
     private String gracePeriod;
-    private String filterDateParam;
+    private String endDateParamName;
+    private String startDateParamName;
 
-    public void setParameters(String entityName, String referenceId, String gracePeriod, String filterDateParam) {
+    public void setParameters(String entityName, String referenceId, String gracePeriod, String endDateParamName) {
         this.entityName = entityName;
         this.referenceId = referenceId;
         this.gracePeriod = gracePeriod;
-        this.filterDateParam = filterDateParam;
+        this.endDateParamName = endDateParamName;
     }
+
 
     @Override
     public List<String> filterIds(List<String> toResolve) {
@@ -62,9 +71,10 @@ public class NodeDateFilter extends NodeFilter {
         calendar.setTimeInMillis(System.currentTimeMillis());
         List<String> returnIds = new ArrayList<String>();
 
-        if (entityName != null && referenceId != null && gracePeriod != null && filterDateParam != null) {
+        if (entityName != null && referenceId != null && gracePeriod != null && endDateParamName != null) {
             //get the filter date
-            String formattedEndDateString = helper.getFilterDate(gracePeriod, calendar);
+            String curDateWithGracePeriod = helper.getFilterDate(gracePeriod, calendar);
+            String curDate = helper.getFilterDate(null, calendar);
 
             if (!toResolve.isEmpty()) {
                 //get the entities
@@ -72,12 +82,23 @@ public class NodeDateFilter extends NodeFilter {
                         referenceId, toResolve);
 
                 for (Entity entity : referenceEntities) {
-                    String filterDateString = (String) entity.getBody().get(filterDateParam);
+                    String endDateStr = (String) entity.getBody().get(endDateParamName);
                     String refId = (String) entity.getBody().get(referenceId);
-                    if (!returnIds.contains(refId)
-                            && isResolvable(filterDateString, formattedEndDateString)) {
-                        returnIds.add(refId);
+                    if (returnIds.contains(refId)) {
+                        continue; // refId already added to returnIds
                     }
+
+                    if (startDateParamName.isEmpty()) {
+                        if (isResolvable(endDateStr, curDateWithGracePeriod)) {
+                            returnIds.add(refId);
+                        }
+                    } else {
+                        String startDateStr = (String) entity.getBody().get(startDateParamName);
+                        if (isDateInRange(curDate, startDateStr, endDateStr)) {
+                            returnIds.add(refId);
+                        }
+                    }
+
                 }
             }
         }
@@ -85,8 +106,21 @@ public class NodeDateFilter extends NodeFilter {
         return returnIds;
     }
 
+    protected boolean isDateInRange(String date, String startDate, String endDate) {
+        try {
+            return isDateInRange(formatter.parse(date), formatter.parse(startDate), formatter.parse(endDate));
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    protected boolean isDateInRange(Date date, Date startDate, Date endDate) {
+        return date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0;
+    }
+
     /**
      * Compares two given dates
+     *
      * @param filterDateString
      * @param formattedEndDateString
      * @return
