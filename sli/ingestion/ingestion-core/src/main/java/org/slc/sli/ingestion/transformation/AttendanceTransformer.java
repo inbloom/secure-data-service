@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
@@ -187,7 +188,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         // create a placeholder for the student-school pair and write to staging mongo db
         NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
-        getNeutralRecordMongoAccess().getRecordRepository().createForJob(placeholder, getJob().getId());
+
+        try {
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(placeholder, getJob().getId());
+        } catch (DuplicateKeyException dke) {
+            LOG.info("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
+        }
 
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions);
 
