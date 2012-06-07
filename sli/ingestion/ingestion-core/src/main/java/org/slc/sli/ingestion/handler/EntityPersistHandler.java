@@ -37,7 +37,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Override
     public void afterPropertiesSet() throws Exception {
-       entityRepository.setWriteConcern( writeConcern );
+       entityRepository.setWriteConcern(writeConcern);
     }
 
 
