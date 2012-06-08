@@ -42,8 +42,11 @@ public class CacheConfig {
 
             MemcachedCacheProvider provider = new MemcachedCacheProvider(bean);
             return provider;
-        } else {
+        } else if ( "inmemory".equals( cacheType ) ) {
             return new InmemoryCacheProvider();
+        }
+        else {
+            return new NullCacheProvider();
         }
     }
 }
