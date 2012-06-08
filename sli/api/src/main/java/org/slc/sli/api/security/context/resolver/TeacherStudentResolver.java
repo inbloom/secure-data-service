@@ -26,10 +26,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
-    private NodeDateFilter dateFilter;
-
-    @Autowired
-    private StudentSectionAssociationEndDateFilter studentSectionAssociationEndDateFilter;
+    private StudentSectionAssociationEndDateFilter dateFilter;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -50,11 +47,16 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     private List<String> findAccessibleThroughSection(Entity principal) {
 
+        List<String> sectionIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
+        studentIds = dateFilter.filterIds(studentIds);
 
-        return studentSectionAssociationEndDateFilter.filterIds(studentIds);
-
+        List<String> returnIds = new ArrayList<String>();
+        returnIds.addAll(studentIds);
+        returnIds.addAll(sectionIds);
+        return returnIds;
     }
 
     private List<String> findAccessibleThroughProgram(Entity principal) {
@@ -84,7 +86,10 @@ public class TeacherStudentResolver implements EntityContextResolver {
             }
         }
 
-        return studentIds;
+        List<String> returnIds = new ArrayList<String>();
+        returnIds.addAll(studentIds);
+        returnIds.addAll(programIds);
+        return returnIds;
     }
 
     private List<String> findAccessibleThroughCohort(Entity principal) {
@@ -113,6 +118,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
             }
         }
 
-        return studentIds;
+        List<String> returnIds = new ArrayList<String>();
+        returnIds.addAll(studentIds);
+        returnIds.addAll(cohortIds);
+        return returnIds;
     }
 }

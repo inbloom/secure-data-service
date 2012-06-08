@@ -62,6 +62,7 @@ public class NodeDateFilter extends NodeFilter {
         this.referenceId = referenceId;
         this.gracePeriod = gracePeriod;
         this.endDateParamName = endDateParamName;
+        this.startDateParamName = "";
     }
 
 
