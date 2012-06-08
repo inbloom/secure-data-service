@@ -77,6 +77,7 @@ default:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
@@ -292,6 +293,7 @@ acceptance-tests:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
@@ -379,6 +381,7 @@ ci:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -460,6 +463,7 @@ dev:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -543,6 +547,7 @@ devjuggernauts:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -625,6 +630,7 @@ devapp1:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -703,6 +709,7 @@ local:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
         
       
     ingestion: &INGESTION-LOCAL
@@ -892,6 +899,7 @@ team:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -1003,6 +1011,7 @@ perf:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # perf/ingestion/ingestion_conf.properties
@@ -1153,6 +1162,7 @@ nxteam:
         sli.default.mongotemplate.writeConcern: NORMAL
         sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
