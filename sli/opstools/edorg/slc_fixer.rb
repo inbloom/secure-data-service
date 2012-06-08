@@ -62,6 +62,7 @@ class SLCFixer
     sections.find.each do |section|
       edorgs = section['body']['schoolId']
       stamp_id(sections, section['_id'], edorgs)
+      stamp_id(@db['session'], section['body']['sessionId'], edorgs)
       @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
       @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
       @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], edorgs) }
@@ -166,7 +167,6 @@ class SLCFixer
       edorg << old_edorgs(db['section'], session['body']['sessionId'])
       edorg = edorg.flatten.uniq
       stamp_id(ssa, session['_id'], edorg)
-      stamp_id(@db['session'], session['body']['sessionId'], edorg)
     end
   end
 
@@ -244,7 +244,6 @@ class SLCFixer
   private
   def edorg_digger(id)
     edorgs = []
-    edorgs << 
     []
   end
   def stamp_id(collection, id, edOrg)
