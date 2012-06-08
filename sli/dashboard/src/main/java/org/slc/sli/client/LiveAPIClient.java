@@ -208,8 +208,8 @@ public class LiveAPIClient implements APIClient {
         }
 
         // get courses
-        List<GenericEntity> courses = null;
-        if (sections != null) {
+        List<GenericEntity> courses = new ArrayList<GenericEntity>();
+        if (sections != null && !sections.isEmpty()) {
             courses = getCourseSectionMappings(sections, token);
         }
 
@@ -531,7 +531,8 @@ public class LiveAPIClient implements APIClient {
         if (schoolId != null) {
             List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
             for (GenericEntity section : sections) {
-                if (section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
+                if (section.getString(Constants.ATTR_SCHOOL_ID) != null &&
+                    section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
                     filteredSections.add(section);
                 }
             }
