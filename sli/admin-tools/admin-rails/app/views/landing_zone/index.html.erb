@@ -3,7 +3,7 @@
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
 <div class="provision">
   <div class="page-header">
-	<h1>Select Sandbox Data Source</h1>
+	<% if APP_CONFIG['is_sandbox']%><h1>Select Sandbox Data Source</h1><%else%><h1>Select Data Source</h1><%end%>
   </div>
 	<p>Choose a sample set of school data provided by the SLC or upload your own data via FTP.</p>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
