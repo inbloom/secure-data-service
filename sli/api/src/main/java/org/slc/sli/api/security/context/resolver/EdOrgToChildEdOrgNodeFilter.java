@@ -36,7 +36,8 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     private Repository<Entity> repo;
 
     @Override
-    public List<String> filterIds(List<String> ids) {
+    public List<Entity> filterEntities(List<Entity> entitiesToResolve,String referenceField) {
+        List<String> ids = getReferencedIds(entitiesToResolve,referenceField);
         Set<String> parents = fetchParents(new HashSet<String>(ids));
         Set<String> blacklist = getBlacklist();
         Set<String> toReturn = new HashSet<String>(ids);
@@ -57,7 +58,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
 
         }
         toReturn.addAll(parents);
-        return new ArrayList<String>(toReturn);
+        return getFilteredEntities(entitiesToResolve,toReturn,referenceField);
     }
 
     /**
@@ -143,5 +144,41 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
 
         debug("Blacklisted Edorgs = {}", blacklist.toString());
         return blacklist;
+    }
+
+    private List<String> getReferencedIds(List<Entity> toResolve,String referenceField){
+        List<String> foundIds = new ArrayList<String>();
+
+        if(referenceField != null && !referenceField.isEmpty()){
+            for (Entity e : toResolve) {
+                Map<String, Object> body = e.getBody();
+                foundIds.add((String) body.get(referenceField));
+            }
+        }
+        else{
+            for (Entity e : toResolve) {
+                foundIds.add(e.getEntityId());
+            }
+        }
+        return foundIds;
+    }
+
+    private List<Entity> getFilteredEntities(List<Entity> entitiesToResolve,Set<String> keys,String referenceField){
+        List<Entity> filteredEntities = new ArrayList<Entity>();
+
+        if (entitiesToResolve == null) return filteredEntities;
+
+        for (Entity entity : entitiesToResolve) {
+            String keyId = entity.getEntityId();
+            if(referenceField != null && !referenceField.isEmpty()){
+                keyId = (String) entity.getBody().get(referenceField);
+            }
+            if (keys.contains(keyId)) {
+                filteredEntities.add(entity);
+            }
+        }
+
+        return filteredEntities;
+
     }
 }

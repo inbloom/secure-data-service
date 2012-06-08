@@ -44,7 +44,7 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffEdOrgEdOrgIDNodeFilterTest {
-    private static final String ED_ORG_REF = "educationOrganizationReference";
+   /* private static final String ED_ORG_REF = "educationOrganizationReference";
 
     @InjectMocks
     @Spy
@@ -120,5 +120,5 @@ public class StaffEdOrgEdOrgIDNodeFilterTest {
         when(mockEntity.getBody()).thenReturn(body);
 
         return mockEntity;
-    }
+    }*/
 }

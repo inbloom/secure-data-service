@@ -23,7 +23,7 @@ public class StudentGracePeriodNodeFilter extends NodeDateFilter {
 
     @PostConstruct
     public void setParameters() {
-        setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, gracePeriodVal, EXIT_WITHDRAW_DATE);
+        setParameters(gracePeriodVal, EXIT_WITHDRAW_DATE);
     }
 }
 

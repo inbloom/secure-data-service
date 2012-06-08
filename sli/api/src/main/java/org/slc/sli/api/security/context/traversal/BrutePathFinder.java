@@ -13,7 +13,6 @@ import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.StudentSectionAssociationEndDateFilter;
 import org.slc.sli.api.security.context.resolver.StudentGracePeriodNodeFilter;
-import org.slc.sli.api.security.context.resolver.StaffEdOrgStaffIDNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
@@ -44,9 +43,6 @@ public class BrutePathFinder implements SecurityPathFinder {
     private StudentSectionAssociationEndDateFilter studentSectionAssociationEndDateFilter;
 
     @Autowired
-    private StaffEdOrgStaffIDNodeFilter staffEdOrgStaffIDNodeFilter;
-
-    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
 
@@ -67,10 +63,10 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(
                 EntityNames.SCHOOL,
                 SecurityNodeBuilder.buildNode(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION)
-                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId")
                         .addConnection(EntityNames.STAFF, "staffReference",
-                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
                         .construct());
 
@@ -124,7 +120,7 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
-                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
                         .addConnection(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId")

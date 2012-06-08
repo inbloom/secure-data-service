@@ -53,8 +53,6 @@ public class StudentSectionAssociationEndDateFilterTest {
     @Test
     public void testSetParameters() {
         nodeFilter.setParameters();
-        assertEquals("Should match", EntityNames.STUDENT_SECTION_ASSOCIATION, nodeFilter.getEntityName());
-        assertEquals("Should match", ParameterConstants.STUDENT_ID, nodeFilter.getReferenceId());
         assertEquals("Should match", gracePeriodVal, nodeFilter.getGracePeriod());
         assertEquals("Should match", "endDate", nodeFilter.getFilterDateParam());
     }

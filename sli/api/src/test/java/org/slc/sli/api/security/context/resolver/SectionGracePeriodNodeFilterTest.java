@@ -46,7 +46,7 @@ import static org.mockito.Mockito.when;
         DirtiesContextTestExecutionListener.class })
 public class SectionGracePeriodNodeFilterTest {
 
-    @InjectMocks
+    /*@InjectMocks
     @Spy
     SectionGracePeriodNodeFilter nodeFilter = new SectionGracePeriodNodeFilter(); //class under test
 
@@ -174,6 +174,6 @@ public class SectionGracePeriodNodeFilterTest {
         when(mockEntity.getBody()).thenReturn(body);
 
         return mockEntity;
-    }
+    }*/
 
 }

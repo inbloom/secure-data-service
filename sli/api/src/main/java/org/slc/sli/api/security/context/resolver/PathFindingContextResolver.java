@@ -96,8 +96,13 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
-                Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
-                for (Entity entity : entities) {
+                Iterable<Entity> entityIterableList = repository.findAll(repoName, neutralQuery);
+                List<Entity> entitiesToResolve= new ArrayList<Entity>();
+                for (Entity entityInList: entityIterableList){
+                    entitiesToResolve.add(entityInList);
+                }
+                entitiesToResolve= helper.filterEntities(entitiesToResolve,connection.getFilter(), "");
+                for (Entity entity : entitiesToResolve) {
                     Object fieldData = entity.getBody().get(connection.getFieldName());
                     if (fieldData != null) {
                         if (fieldData instanceof String) {
@@ -119,22 +124,22 @@ public class PathFindingContextResolver implements EntityContextResolver {
                     keys = helper.getAssocKeys(current.getType(), ad);
                 }
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
-                        connection.getFieldName(), new ArrayList<String>(ids));
+                        connection.getFieldName(), new ArrayList<String>(ids),connection.getFilter());
             } else if (connection.getAssociationNode().length() != 0) {
                 idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
-                        new ArrayList<String>(ids));
+                        new ArrayList<String>(ids),connection.getFilter());
 
             } else {
                 idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
-                        new ArrayList<String>(ids));
+                        new ArrayList<String>(ids), connection.getFilter());
 
             }
 
-            if (connection.getFilter() != null) {
+            /*if (connection.getFilter() != null) {
                 for (NodeFilter filter : connection.getFilter()) {
                     idSet = filter.filterIds(idSet);
                 }
-            }
+            }*/
 
             previousIdSet = idSet;
             ids.addAll(idSet);

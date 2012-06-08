@@ -12,11 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Filters the sections by a given date (grace period)
@@ -40,7 +36,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
     private AssociativeContextHelper helper;
 
     @Override
-    public List<String> filterIds(List<String> toResolve) {
+    public List<Entity> filterEntities(List<Entity> toResolve,String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -49,7 +45,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
 
         if (!toResolve.isEmpty() && !endDate.isEmpty()) {
             //get the section entities
-            Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ID, toResolve);
+            Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ID, getReferencedIds(toResolve,referenceField));
             //get the session Ids
             Set<String> sessionIds = getIds(sections, ParameterConstants.SESSION_ID);
 
@@ -62,7 +58,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
             Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, query);
 
             //filter out the relevant ids
-            return new ArrayList<String>(getEntityIds(sections, ParameterConstants.SESSION_ID,
+            return new ArrayList<Entity>(getEntityIds(toResolve, ParameterConstants.SESSION_ID,
                     getIds(sessions, ID)));
         }
 
@@ -101,20 +97,39 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
      * @param keys The list of key ids to match
      * @return
      */
-    protected Set<String> getEntityIds(Iterable<Entity> entities, String idKey, Set<String> keys) {
-        Set<String> ids = new HashSet<String>();
+    protected Set<Entity> getEntityIds(Iterable<Entity> entities, String idKey, Set<String> keys) {
+        Set<Entity> filteredEntities = new HashSet<Entity>();
 
-        if (entities == null) return ids;
+        if (entities == null) return filteredEntities;
 
         for (Entity entity : entities) {
-            String keyId = (String) entity.getBody().get(idKey);
-
+            String keyId = entity.getEntityId();
+            if(idKey != null && !idKey.isEmpty()){
+                keyId = (String) entity.getBody().get(idKey);
+            }
             if (keys.contains(keyId)) {
-                ids.add(entity.getEntityId());
+                filteredEntities.add(entity);
             }
         }
 
-        return ids;
+        return filteredEntities;
+    }
+
+    private List<String> getReferencedIds(List<Entity> toResolve,String referenceField){
+        List<String> foundIds = new ArrayList<String>();
+
+        if(referenceField != null && !referenceField.isEmpty()){
+            for (Entity e : toResolve) {
+                Map<String, Object> body = e.getBody();
+                foundIds.add((String) body.get(referenceField));
+            }
+        }
+        else{
+            for (Entity e : toResolve) {
+                foundIds.add(e.getEntityId());
+            }
+        }
+        return foundIds;
     }
 
 }

@@ -28,14 +28,6 @@ public class NodeDateFilter extends NodeFilter {
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected String getEntityName() {
-        return entityName;
-    }
-
-    protected String getReferenceId() {
-        return referenceId;
-    }
-
     protected String getGracePeriod() {
         return gracePeriod;
     }
@@ -44,45 +36,35 @@ public class NodeDateFilter extends NodeFilter {
         return filterDateParam;
     }
 
-    private String entityName;
-    private String referenceId;
     private String gracePeriod;
     private String filterDateParam;
 
-    public void setParameters(String entityName, String referenceId, String gracePeriod, String filterDateParam) {
-        this.entityName = entityName;
-        this.referenceId = referenceId;
+    public void setParameters(String gracePeriod, String filterDateParam) {
         this.gracePeriod = gracePeriod;
         this.filterDateParam = filterDateParam;
     }
 
     @Override
-    public List<String> filterIds(List<String> toResolve) {
+    public List<Entity> filterEntities(List<Entity> toResolve,String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        List<String> returnIds = new ArrayList<String>();
+        List<Entity> returnEntityList = new ArrayList<Entity>();
 
-        if (entityName != null && referenceId != null && gracePeriod != null && filterDateParam != null) {
+        if (gracePeriod != null && filterDateParam != null) {
             //get the filter date
             String formattedEndDateString = helper.getFilterDate(gracePeriod, calendar);
 
             if (!toResolve.isEmpty()) {
-                //get the entities
-                Iterable<Entity> referenceEntities = helper.getReferenceEntities(entityName,
-                        referenceId, toResolve);
-
-                for (Entity entity : referenceEntities) {
+                for (Entity entity : toResolve) {
                     String filterDateString = (String) entity.getBody().get(filterDateParam);
-                    String refId = (String) entity.getBody().get(referenceId);
-                    if (!returnIds.contains(refId)
-                            && isResolvable(filterDateString, formattedEndDateString)) {
-                        returnIds.add(refId);
+                    if (isResolvable(filterDateString, formattedEndDateString)) {
+                        returnEntityList.add(entity);
                     }
                 }
             }
         }
 
-        return returnIds;
+        return returnEntityList;
     }
 
     /**
