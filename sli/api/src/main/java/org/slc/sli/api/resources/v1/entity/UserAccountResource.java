@@ -109,12 +109,13 @@ public class UserAccountResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result
      */
-    @POST
-    @Path("createWaitingListUser")
-    public Response createWaitingListUser(final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.WAITING_LIST_USER_ACCOUNTS, newEntityBody, headers, uriInfo);
-    }
+//    Possible security problem!!!!!!
+//    @POST
+//    @Path("createWaitingListUser")
+//    public Response createWaitingListUser(final EntityBody newEntityBody,
+//            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+//        return super.create(ResourceNames.WAITING_LIST_USER_ACCOUNTS, newEntityBody, headers, uriInfo);
+//    }
 
     /**
      * Get a single $$UserAccount$$ entity

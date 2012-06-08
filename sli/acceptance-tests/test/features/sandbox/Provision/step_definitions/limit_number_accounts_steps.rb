@@ -36,7 +36,7 @@ When /^the number of accounts already created in database is equal to <NUMBER_OF
 end
 
 Then /^I get an error message$/ do
-  assertWithWait("Waitlist Email") {@driver.find_element(:id, "new_waitlist_user") != nil}
+  assert(@driver.find_element(:id, "waiting_list_page") != nil)
 end
 
 When /^when I enter my email address$/ do
