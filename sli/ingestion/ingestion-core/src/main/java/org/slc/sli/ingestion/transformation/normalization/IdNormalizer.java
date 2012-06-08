@@ -362,7 +362,7 @@ public class IdNormalizer {
         SortedMap<?, ?> sortedMap = new TreeMap();
         sortedMap.putAll(map);
 
-        return String.format("%s_s", collection, sortedMap.toString());
+        return String.format("%s_%s", collection, sortedMap.toString());
 
     }
 
