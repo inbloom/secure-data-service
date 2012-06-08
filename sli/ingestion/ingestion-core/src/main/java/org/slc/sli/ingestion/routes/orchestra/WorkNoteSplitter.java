@@ -151,9 +151,11 @@ public class WorkNoteSplitter {
             while (!done) {
                 // check right interval
                 pivot = minTime + (long) (intervalElapsedTime * split);
+
                 long recordsInRightChunk = getCountOfRecords(collectionName, jobId, pivot, maxTime);
                 long recordsInLeftChunk = recordsCountInSegment - recordsInRightChunk;
 
+                LOG.info("Interval = {} / {} ", minTime, maxTime);
                 LOG.info("Total ms in interval = {}", intervalElapsedTime);
                 LOG.info("Right Interval (Start / End) {} / {} ", pivot, maxTime);
                 LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
@@ -169,6 +171,7 @@ public class WorkNoteSplitter {
 
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)
                             || chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
+
                         LOG.info("Adding left + right work notes");
 
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
@@ -282,26 +285,22 @@ public class WorkNoteSplitter {
     }
 
     private long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        Query queryLatest = new Query();
-        queryLatest.sort().on("creationTime", Order.DESCENDING);
-        queryLatest.limit(1);
-        Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(
-                stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
-        Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
-
-        long endDate = nrLatestIterator.next().getCreationTime() + 2000; // add 2s buffer
-        return endDate;
+        return getCreationTimeForEntity(stagedEntity, jobId, Order.DESCENDING) + 2000;
     }
 
     private long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        Query queryEarliest = new Query();
-        queryEarliest.sort().on("creationTime", Order.ASCENDING);
-        queryEarliest.limit(1);
-        Iterable<NeutralRecord> nrEarliest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(
-                stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
-        Iterator<NeutralRecord> nrEarliestIterator = nrEarliest.iterator();
-        long startDate = nrEarliestIterator.next().getCreationTime();
-        return startDate;
+        return getCreationTimeForEntity(stagedEntity, jobId, Order.ASCENDING);
+    }
+
+    private long getCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId, Order order) {
+        Query query = new Query();
+        query.sort().on("creationTime", order);
+        query.limit(1);
+        Iterable<NeutralRecord> nr = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(
+                stagedEntity.getCollectionNameAsStaged(), query, jobId);
+        Iterator<NeutralRecord> nrIterator = nr.iterator();
+
+        return nrIterator.next().getCreationTime();
     }
 
 }
