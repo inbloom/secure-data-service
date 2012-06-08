@@ -274,7 +274,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 340 records." in the resulting batch job file
+    And I should see "Processed 341 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
