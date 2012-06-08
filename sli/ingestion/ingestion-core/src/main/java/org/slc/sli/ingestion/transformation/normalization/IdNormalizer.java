@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -28,12 +36,19 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
  * @author okrook
  *
  */
+
+@Component
 public class IdNormalizer {
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
+    @Autowired
+    @Qualifier( value = "mongoEntityRepository")
     private Repository<Entity> entityRepository;
+
+    @Autowired
+    private CacheProvider cacheProvider;
 
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
@@ -293,18 +308,65 @@ public class IdNormalizer {
             collection = "staff";
         }
 
-        @SuppressWarnings("deprecation")
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+        List<String> ids = checkInCache(collection, filter);
 
-        List<String> ids = new ArrayList<String>();
+        if (CollectionUtils.isEmpty(ids)) {
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
-        if (foundRecords != null && foundRecords.iterator().hasNext()) {
-            for (Entity record : foundRecords) {
-                ids.add(record.getEntityId());
+            if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                for (Entity record : foundRecords) {
+                    ids.add(record.getEntityId());
+                }
             }
+
+            cache(ids, collection, filter);
+        }
+        return ids;
+    }
+
+    private void cache(List<String> ids, String collection, Query filter) {
+        String key = composeKey(collection, filter);
+
+        cacheProvider.add(key, ids);
+
+    }
+
+    /**
+     * Check for this in the cache
+     *
+     * @param collection
+     * @param filter
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> checkInCache(String collection, Query filter) {
+        List<String> ids;
+        String key = composeKey(collection, filter);
+        Object val = cacheProvider.get(key);
+
+        LOG.info("Cache {} for {}", val == null ? "MISS" : "HIT", key);
+
+        if (val == null) {
+            ids = new ArrayList<String>();
+
+        } else {
+            ids = (List<String>) val;
         }
 
         return ids;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private String composeKey(String collection, Query filter) {
+
+        Map map = filter.getQueryObject().toMap();
+
+        SortedMap<?, ?> sortedMap = new TreeMap();
+        sortedMap.putAll(map);
+
+        return String.format("%s_%s", collection, sortedMap.toString());
+
     }
 
     /**
@@ -364,5 +426,11 @@ public class IdNormalizer {
         }
 
         return result;
+    }
+
+    public void setCacheProvider(CacheProvider c) {
+
+        this.cacheProvider = c;
+
     }
 }
