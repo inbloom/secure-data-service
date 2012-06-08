@@ -143,7 +143,6 @@ puts "Total pit wall-clock time: #{wallClockForPits}sec"
 puts ""
 puts "Combined processing time on all nodes: #{combinedProcessingTime} sec"
 puts "Total PIT processing time across nodes: #{totalPitProcessingTime} sec"
-puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{(transformedRecordCount / wallClockForPits )}\e[0m"
 
 puts ""
 puts "\e[4mTime spent waiting on Mongo operations:\e[0m"
@@ -158,10 +157,14 @@ puts "Job started: #{jobStart.getlocal}"
 if ! jobEnd.nil?
   puts "Job ended: #{jobEnd.getlocal}"
 end
+puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{(transformedRecordCount / wallClockForPits )}\e[0m"
+puts "PIT RPS (persistence / pit wall-clock)  \e[35m#{(persistedRecordCount / wallClockForPits )}\e[0m"
+
 if  !totalJobTime.nil?
-  puts "Total Job time #{totalJobTime} sec"
   puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
   puts "Transformed / job time RPS \e[35m#{transformedRecordCount / totalJobTime.round()}\e[0m"
+  puts "Total Job time #{totalJobTime} sec"
+
 end
 
 puts "ALL DONE"

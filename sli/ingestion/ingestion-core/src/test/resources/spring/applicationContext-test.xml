@@ -29,6 +29,7 @@
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
+ 
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
@@ -44,7 +45,9 @@
     <context:exclude-filter type="regex" expression=".*DummyEntityRepository" />
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*AesCipher" />
+    <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
   </context:component-scan>
+
 
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 

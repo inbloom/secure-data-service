@@ -1050,6 +1050,19 @@
           <url>https://repository.jboss.org/nexus/content/groups/public</url>
         </repository>
 
+
+<!-- Memcached -->
+<repository>
+      <id>spy</id>
+      <name>Spy Repository</name>
+      <layout>default</layout>
+      <url>http://files.couchbase.com/maven2/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+
 		<!-- Spring Milestone repository -->
 		<repository>
 			<id>spring-milestone</id>
