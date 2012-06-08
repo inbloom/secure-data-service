@@ -27,11 +27,25 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
 
+    private static final String makeDefensiveCopy(final JavaFeature javaFeature, final JavaGenConfig config) {
+        final Feature feature = javaFeature.getFeature();
+        final Multiplicity multiplicity = feature.getMultiplicity();
+        final Range range = multiplicity.getRange();
+        final String primeType = javaFeature.getPrimeTypeName(config);
+        if (range.getUpper() == Occurs.UNBOUNDED) {
+            return "Collections.unmodifiableList(new ArrayList<" + primeType + ">("
+                    + camelCase(javaFeature.getName(config)) + "))";
+        } else {
+            return camelCase(feature.getName());
+        }
+    }
+
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
     private final OutputStreamWriter writer;
+
     private final JavaGenConfig config;
 
     public StandardJavaStreamWriter(final OutputStream stream, final String encoding, final JavaGenConfig config)
@@ -51,7 +65,52 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void beginClass(final String name) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writer.write("class");
+        writer.write(SPACE);
+        writer.write(name);
+        beginBlock();
+    }
+
+    @Override
+    public void beginClass(final String name, final List<String> implementations) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (implementations == null) {
+            throw new NullPointerException("implementations");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writer.write("class");
+        writer.write(SPACE);
+        writer.write(name);
+        if (!implementations.isEmpty()) {
+            writer.write(" implements ");
+            for (final String implementation : implementations) {
+                writer.write(implementation);
+            }
+        }
+        beginBlock();
+    }
+
+    @Override
     public void beginClass(final String name, final String extendsClass) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (extendsClass == null) {
+            throw new NullPointerException("extendsClass");
+        }
         writer.write("public");
         writer.write(SPACE);
         writer.write("final");
@@ -71,6 +130,19 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write("public");
         writer.write(SPACE);
         writer.write("enum");
+        writer.write(SPACE);
+        writer.write(name);
+        beginBlock();
+    }
+
+    @Override
+    public void beginInterface(final String name) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("interface");
         writer.write(SPACE);
         writer.write(name);
         beginBlock();
@@ -165,6 +237,12 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void writeOverride() throws IOException {
+        writer.write("@Override");
+        writer.write(CR);
+    }
+
+    @Override
     public void writeComment(final String comment) throws IOException {
         writer.write(CR);
         writer.write("/**");
@@ -250,19 +328,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
             }
         }
         endBlock();
-    }
-
-    private static final String makeDefensiveCopy(final JavaFeature javaFeature, final JavaGenConfig config) {
-        final Feature feature = javaFeature.getFeature();
-        final Multiplicity multiplicity = feature.getMultiplicity();
-        final Range range = multiplicity.getRange();
-        final String primeType = javaFeature.getPrimeTypeName(config);
-        if (range.getUpper() == Occurs.UNBOUNDED) {
-            return "Collections.unmodifiableList(new ArrayList<" + primeType + ">("
-                    + camelCase(javaFeature.getName(config)) + "))";
-        } else {
-            return camelCase(feature.getName());
-        }
     }
 
     @Override

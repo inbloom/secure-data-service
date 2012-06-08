@@ -17,8 +17,8 @@ import org.slc.sli.modeling.jgen.JavaGenConfig;
 import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
-import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
+import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
@@ -92,7 +92,7 @@ public final class JavaGenerator {
             try {
                 jsw.writePackage(targetPkgName);
                 JavadocHelper.writeJavadoc(dataType, model, jsw);
-                jsw.beginClass(dataType.getName(), null);
+                jsw.beginClass(dataType.getName());
                 try {
                     final String dataTypeBaseName = JavaTypeHelper.getAttributePrimeTypeName(getDataTypeBase(dataType,
                             model));

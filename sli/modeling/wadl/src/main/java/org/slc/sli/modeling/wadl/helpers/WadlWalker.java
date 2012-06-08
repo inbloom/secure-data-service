@@ -28,10 +28,15 @@ public final class WadlWalker {
         if (application == null) {
             throw new NullPointerException("application");
         }
-        final Resources resources = application.getResources();
-        final Stack<Resource> ancestors = new Stack<Resource>();
-        for (final Resource resource : resources.getResources()) {
-            walkResource(resource, resources, application, ancestors);
+        handler.beginApplication(application);
+        try {
+            final Resources resources = application.getResources();
+            final Stack<Resource> ancestors = new Stack<Resource>();
+            for (final Resource resource : resources.getResources()) {
+                walkResource(resource, resources, application, ancestors);
+            }
+        } finally {
+            handler.endApplication(application);
         }
     }
 

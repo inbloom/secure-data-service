@@ -46,7 +46,7 @@ public class ClassTypeHelper {
                     jsw.writeImport(importName);
                 }
                 JavadocHelper.writeJavadoc(classType, model, jsw);
-                jsw.beginClass(classType.getName(), null);
+                jsw.beginClass(classType.getName());
                 try {
                     // Write the attributes and association ends.
                     for (final JavaFeature feature : getFeatures(classType, model)) {

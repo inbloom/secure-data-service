@@ -20,6 +20,18 @@ public final class WadlViewerHandler implements WadlHandler {
     }
 
     @Override
+    public void beginApplication(Application application) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void endApplication(Application application) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
         // Ignore
     }

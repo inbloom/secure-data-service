@@ -165,7 +165,7 @@ public class StAXGenerator {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 jsw.writePackage("org.slc.sli.modeling.ninja.parser");
-                jsw.beginClass(name, null);
+                jsw.beginClass(name);
                 try {
                     final Set<String> featureNames = new HashSet<String>();
                     for (final ClassType classType : edfi.getClassTypes()) {
