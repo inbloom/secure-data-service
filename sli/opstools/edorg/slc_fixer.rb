@@ -137,7 +137,7 @@ class SLCFixer
     end
     spa = @db['staffProgramAssociation']
     spa.find.each do |program|
-      edorg = old_edorgs(@db['program'], program['body']['programId'][0])
+      edorg = old_edorgs(@db['program'], program['body']['programId'])
       stamp_id(spa, program['_id'], edorg)
     end
   end
@@ -153,7 +153,7 @@ class SLCFixer
       stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
     end
     @db['staffCohortAssociation'].find.each do |cohort|
-      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'][0])
+      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'])
       stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
     end
   end
@@ -198,9 +198,9 @@ class SLCFixer
   end
 
   def fix_courses
-    csa = @db['section']
-    csa.find.each do |course|
-      edorg = course['metaData']['edOrgs']
+    sections = @db['section']
+    sections.find.each do |section|
+      edorg = section['metaData']['edOrgs']
       stamp_id(@db['course'], course['body']['courseId'], edorg)
     end
     co = @db['courseOffering']
