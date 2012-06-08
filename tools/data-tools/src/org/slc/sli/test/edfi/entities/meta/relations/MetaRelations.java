@@ -95,7 +95,7 @@ public final class MetaRelations {
     public static final Map<String, GraduationPlanMeta> GRADUATION_PLAN_MAP = new TreeMap<String, GraduationPlanMeta>();
 
     public static final String SEA_PREFIX = "NY";
-    public static final String FIRST_TEACHER_ID = "lroslin";
+    public static final String FIRST_TEACHER_ID = "cgray";
     
     /**
      * Construct the meta relationships necessary for XML interchanges
