@@ -52,6 +52,9 @@
     [super dealloc];
 }
 
+/**
+ * Method that parses the OAuth token out of the response.
+ */
 - (void) getOauthToken {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://local.slidev.org:8080/api/oauth/token?client_id=EGbI4LaLaL&client_secret=iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee&code=%@&redirect_uri=NONCE", self.code]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -65,19 +68,21 @@
 /**
  * UIWebView Delegate
  */
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     return YES;
     
 }
 
+/**
+ * Once the authorization code page loads this method will use the code to get the oauth token
+ */
 - (void) webViewDidFinishLoad:(UIWebView *)webView {
     NSString *requestURL = [[webView.request URL] relativeString];
-    NSString *myText = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
+    NSString *response = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
     if([requestURL hasSuffix:@"saml/sso/post"])
     {
-        NSLog(@"The content in here is %@", myText);
-        self.code = [[myText JSONValue] objectForKey:@"authorization_code"];
+        NSLog(@"The auth code request is %@", response);
+        self.code = [[response JSONValue] objectForKey:@"authorization_code"];
         [self getOauthToken];
         
     }
