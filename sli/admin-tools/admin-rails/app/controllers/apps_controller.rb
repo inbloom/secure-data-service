@@ -200,3 +200,5 @@ class AppsController < ApplicationController
     end
     result
   end
+
+end
