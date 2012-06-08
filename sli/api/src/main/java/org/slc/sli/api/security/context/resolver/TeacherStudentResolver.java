@@ -6,10 +6,12 @@ import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,6 +30,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     @Autowired
     private StudentSectionAssociationEndDateFilter dateFilter;
+
+    @Value("${sli.security.gracePeriod}")
+    private String teacherSectionGracePeriod;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -54,9 +59,14 @@ public class TeacherStudentResolver implements EntityContextResolver {
         // filter on end_date to get list of programIds
         List<String> sectionIds = new ArrayList<String>();
         final String currentDate = dateFilter.getCurrentDate();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        final String teacherSectionGraceDate = helper.getFilterDate(teacherSectionGracePeriod, calendar);
+
         for (Entity assoc : teacherSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || (dateFilter.isDateBeforeEndDate(currentDate, endDate))) {
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isDateBeforeEndDate(teacherSectionGraceDate, endDate))) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
@@ -77,7 +87,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         returnIds.addAll(studentIds);
         returnIds.addAll(sectionIds);
         for (String id : returnIds) {
-            error("program {}", id);
+            debug("program {}", id);
         }
         return returnIds;
     }
@@ -115,7 +125,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         returnIds.addAll(studentIds);
         returnIds.addAll(programIds);
         for (String id : returnIds) {
-            error("program {}", id);
+            debug("program {}", id);
         }
         return returnIds;
     }
@@ -152,7 +162,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         returnIds.addAll(studentIds);
         returnIds.addAll(cohortIds);
         for (String id : returnIds) {
-            error("cohort {}", id);
+            debug("cohort {}", id);
         }
         return returnIds;
     }
