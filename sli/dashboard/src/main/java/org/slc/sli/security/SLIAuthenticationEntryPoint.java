@@ -229,6 +229,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String authUrl = service.getAuthorizationUrl(null);
         
       //State is keyword used by idp to forward parameters
+      //Adding requestUrl as state, to allow idp to send it back in the redirect
         authUrl += "&" + STATE_PARAMETER + "=" + request.getRequestURL().toString();
         response.sendRedirect(authUrl);        
     }
@@ -244,6 +245,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         saveCookieWithToken(request, response, accessToken.getToken());
         
         //State is keyword used by idp to forward parameters
+        //Retrieving entryUrl from state parameter added in initiatingAuthentication
         String entryUrl = request.getParameter(STATE_PARAMETER);
 
         if (entryUrl != null) {
