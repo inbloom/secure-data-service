@@ -32,9 +32,6 @@ public class EdOrgContextResolver implements EntityContextResolver {
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
-    @Resource(name = "securityExcludePaths")
-    private List<String> excludeList;
-
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));
