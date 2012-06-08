@@ -152,7 +152,7 @@ class SLCFixer
       stamp_id(cohorts, cohort['_id'], cohort['body']['educationOrgId'])
     end
     @db['studentCohortAssociation'].find.each do |cohort|
-      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'])
+      edorg = old_edorgs(@db['student'], cohort['body']['studentId'])
       stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
     end
     @db['staffCohortAssociation'].find.each do |cohort|
