@@ -241,7 +241,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
               config = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
               putToCache(USER_CONFIG_CACHE, token, config);
             } catch (Throwable t) {
-                logger.error("Unable to get custom config from the store for district id " + edOrgKey.getDistrictId(), t);
+                //logger.error("Unable to get custom config from the store for district id " + edOrgKey.getDistrictId(), t);
             }
         } else {
             config = value.get();

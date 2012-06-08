@@ -185,7 +185,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetCourses() {
         String url = client.getApiUrl()
-                + "/v1/sections/56789/studentSectionAssociations/students?optionalFields=transcript";
+                + "/v1/sections/56789/studentSectionAssociations/students?views=transcript";
         String token = "token";
         
         // build the params
@@ -305,7 +305,7 @@ public class LiveAPIClientTest {
             }
             
             @Override
-            public List<GenericEntity> matchSchoolsAndSections(List<GenericEntity> schools,
+            public List<GenericEntity> matchSchoolToCourses(List<GenericEntity> schools,
                     List<GenericEntity> sections, String token) {
                 LinkedList<GenericEntity> list = new LinkedList<GenericEntity>();
                 list.add(new GenericEntity());

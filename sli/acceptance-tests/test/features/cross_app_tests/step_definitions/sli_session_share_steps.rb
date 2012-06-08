@@ -40,7 +40,7 @@ Then /^I do not see any login pages$/ do
 end
 
 Then /^I am redirected to the dashboard home page$/ do
-  assertWithWait("Failed to be directed to Dashboards's LoS page")  {@driver.page_source.include?("SLI Dashboard")}
+  assertWithWait("Failed to be directed to Dashboards's LoS page")  {@driver.page_source.include?("Dashboard")}
 end
 
 When /^I navigate to the databrowser page$/ do
@@ -57,10 +57,11 @@ When /^I click on the logout link$/ do
 end
 
 Then /^I should see a message that I was logged out$/ do
-  #pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("successfully logged out") != nil }
 end
 
 Then /^I should forced to reauthenticate to gain access$/ do
+  @driver.get PropLoader.getProps['databrowser_server_url']
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 

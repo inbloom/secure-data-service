@@ -86,7 +86,7 @@ public class JobReportingProcessor implements Processor {
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
-            processJobReporting(workNote);
+            processJobReporting(exchange, workNote);
         }
 
         try {
@@ -95,11 +95,11 @@ public class JobReportingProcessor implements Processor {
             template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
             template.stop();
         } catch (Exception e) {
-            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+            LogUtil.error(LOG, "Error sending `that's all folks` message to the orchestra", e);
         }
     }
 
-    private void processJobReporting(WorkNote workNote) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -112,7 +112,7 @@ public class JobReportingProcessor implements Processor {
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(job, hasErrors);
+            writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
@@ -149,7 +149,7 @@ public class JobReportingProcessor implements Processor {
         batchJobDAO.saveBatchJob(job);
     }
 
-    private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
+    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
         FileLock lock = null;
@@ -177,6 +177,14 @@ public class JobReportingProcessor implements Processor {
             }
 
             writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
+
+            String purgeMessage = (String) exchange.getProperty("purge.complete");
+
+            if (purgeMessage != null) {
+
+                writeInfoLine(jobReportWriter, purgeMessage);
+
+            }
 
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());

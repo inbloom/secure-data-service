@@ -2,7 +2,6 @@
 "listOfStudents" :
 {
   id : "listOfStudents",
-  name: "SLI - List of Students",
   type : "PANEL",
   data :{
     lazy: true,
@@ -91,7 +90,7 @@
 "studentProfile" :
 {
   id : "studentProfile",
-  name: "SLI - Student Profile",
+  name: "SLC - Student Profile",
   type: "LAYOUT",
   data :{
     entity: "student",

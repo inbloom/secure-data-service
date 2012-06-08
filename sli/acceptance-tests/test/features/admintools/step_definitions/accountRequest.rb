@@ -25,6 +25,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @validationLink                                         if human_readable_id == "VALID VERIFICATION LINK"
   url = @validationLink                                         if human_readable_id == "ALREADY VERIFIED LINK"
   url = @baseUrl + @validationBaseSuffix + "/invalid123"        if human_readable_id == "INVALID VERIFICATION LINK"
+  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
+  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
   #return the translated value
   url
 end
@@ -100,6 +102,10 @@ Then /^my password is shown as a series of dots$/ do
     ]").attribute("type") == "password")
 end
 
+Then /^a captcha form is shown$/ do
+  @driver.find_element(:id, "recaptcha_widget_div").should_not == nil
+end
+
 Then /^when I click "([^\"]*)"$/ do |button|
   if button == 'Cancel'
     @driver.find_element(:xpath, "//a[text()=\"#{button}\"]").click
@@ -119,7 +125,7 @@ Then /^I am redirected to a page with terms and conditions$/ do
 end
 
 Then /^I receive an error that the account already exists$/ do
-  step "I should see the error message \"User name already exists\""
+  step "I should see the error message \"An account with this email already exists\""
 end
 
 Then /^I am redirected to the hosting website$/ do
@@ -162,7 +168,7 @@ Then /^I should see the text "([^\"]*)"$/ do |text|
 end
 
 Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
-  assert(@driver.find_element(:xpath, "//li[contains(text(), '#{errorMsg}')]").size != 0,
+  assert(@driver.find_element(:xpath, "//span[@class='help-inline' and contains(text(), '#{errorMsg}')]").size != 0,
          "Cannot find error message \"#{errorMsg}\"")
 end
 
@@ -179,7 +185,7 @@ def initializeApprovalAndLDAP(emailConf, prod)
   ldapBase = PropLoader.getProps['ldap_base']
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   email = Emailer.new emailConf
-  ApprovalEngine.init(@ldap, email, !prod)
+  ApprovalEngine.init(@ldap, email, nil, !prod)
 end
 
 def assertText(text)

@@ -43,7 +43,7 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
     
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-    
+
     @Autowired
     private ControlFileValidator validator;
     
@@ -95,10 +95,12 @@ public class ControlFileProcessor implements Processor {
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
             
             FaultsReport errorReport = new FaultsReport();
-            
+
+            if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
             // TODO Deal with validator being autowired in BatchJobAssembler
-            if (validator.isValid(cfd, errorReport)) {
-                createAndAddResourceEntries(newJob, cf);
+                if (validator.isValid(cfd, errorReport)) {
+                    createAndAddResourceEntries(newJob, cf);
+                }
             }
             
             BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);

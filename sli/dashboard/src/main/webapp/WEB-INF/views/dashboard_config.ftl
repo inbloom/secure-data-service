@@ -42,16 +42,20 @@
                             if(status == "Success") {
                                 alert("Successfully saved the config.");
                             } else if(status == "Permission Denied") {
-                                alert("Permission Denied, You are not allowed to do this opertaion.");
+                                alert("Permission denied, you are not allowed to do this operation.");
                             } else if(status == "Invalid Input") {
-                                alert("The input should be a valid JSON string");
+                                alert("The input should be a valid JSON string.");
                             }
                         },
                         error: function(event, request, settings) {
-                            alert("The input should be a valid JSON string");
+                            alert("Your request could not be completed.");
                         },
                     });
                 });
+                
+                // display page title
+                pageTitle = DashboardProxy.getLayoutName();
+				$("<title></title>").html(pageTitle).appendTo("head");
             });
         </script>
 

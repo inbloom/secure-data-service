@@ -1,7 +1,7 @@
 @integration
 Feature: Applications sharing SLI Sessions
 As a user of SLI, I want to have my session shared across SLI Apps
-@wip
+
 Scenario: Session sharring between Databrowser & Dashboard
 
 	Given I have an open web browser
@@ -15,11 +15,12 @@ Scenario: Session sharring between Databrowser & Dashboard
 	And I am redirected to the dashboard home page
 	When I navigate to the databrowser page
 	And I click on the logout link
-#	Then I should see a message that I was logged out
+	Then I should see a message that I was logged out
 	And I should forced to reauthenticate to gain access
 	When I navigate to the dashboard home page
 	Then I should forced to reauthenticate to gain access
 	
+@wip
 Scenario: Session sharring between Databrowser & Sample App
 
 	Given I have an open web browser
@@ -33,7 +34,7 @@ Scenario: Session sharring between Databrowser & Sample App
 	And I am redirected to the sample app home page
 	When I navigate to the databrowser page
 	And I click on the logout link
-#	Then I should see a message that I was logged out
+	Then I should see a message that I was logged out
 	And I should forced to reauthenticate to gain access
 	When I navigate to the sample app page
 	Then I should forced to reauthenticate to gain access

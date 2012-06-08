@@ -8,29 +8,30 @@ Background:
 @production
 Scenario: As a user I request for a production account
   Given I go to the production account registration page
-  And there is no registered account for "lalsop@acme.com" in the SLI database
-  And there is no registered account for "lalsop@acme.com" in LDAP
+  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
+  And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
-  And I fill out the field "Email" as "lalsop@acme.com"
+  And I fill out the field "Email" as "<USER_ACCOUNT_EMAIL>"
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd123"
   Then my password is shown as a series of dots
+  And a captcha form is shown
   And when I click "Submit"
   Then my field entries are validated
   And I am redirected to a page with terms and conditions
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
-  And an email verification link for "lalsop@acme.com" is generated
+  And an email verification link for "<USER_ACCOUNT>" is generated
 # Verify email address
   When I visit "<VALID VERIFICATION LINK>"
-  Then I should see the text "Registration Complete!"
-  And I should see the text "An administrator will email you when your account is ready."
+  Then I should see the text "Email Confirmed"
+  And I should see the text "You will be receiving an email with more information about your account."
 # Unhappy path: already verified
   When I visit "<ALREADY VERIFIED LINK>"
   Then I should see the text "Account validation failed!"
-  And I should see the text "Account previously verified."
+  And I should see the text "This account was previously verified."
 # Unhappy path: invalid link
   When I visit "<INVALID VERIFICATION LINK>"
   Then I should see the text "Account validation failed!"
@@ -39,11 +40,11 @@ Scenario: As a user I request for a production account
 @production
 Scenario: As an slc operator I want to register unique user accounts in the system
   Given I go to the production account registration page
-  And there is an approved account with login name "lalsop@acme.com"
+  And there is an approved account with login name "<USER_ACCOUNT>"
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
-  And I fill out the field "Email" as "lalsop@acme.com"
+  And I fill out the field "Email" as "<USER_ACCOUNT_EMAIL>"
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd123"
   And when I click "Submit"
@@ -52,12 +53,12 @@ Scenario: As an slc operator I want to register unique user accounts in the syst
 @production
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
-  And there is an approved account with login name "lalsop@acme.com"
+  And there is an approved account with login name "<USER_ACCOUNT>"
   When I query the database for EULA acceptance
-  Then I get 1 record for "lalsop@acme.com"
+  Then I get 1 record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
-  And "Email" is "lalsop@acme.com"
+  And "Email" is "<USER_ACCOUNT_EMAIL>"
   And "Environment" is "Production"
   And "Vendor" is "Acme Corp"
 
@@ -70,12 +71,12 @@ Scenario: Clicking the "cancel" button - registration form
 @production
 Scenario: Clicking the "reject" button - EULA page
   Given I go to the production account registration page
-  And there is no registered account for "lalsop@acme.com" in the SLI database
-  And there is no registered account for "lalsop@acme.com" in LDAP
+  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
+  And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
-  And I fill out the field "Email" as "lalsop@acme.com"
+  And I fill out the field "Email" as "<USER_ACCOUNT>"
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd123"
   Then my password is shown as a series of dots
@@ -84,7 +85,7 @@ Scenario: Clicking the "reject" button - EULA page
   And I am redirected to a page with terms and conditions
   And when I click "Reject"
   Then I am redirected to the hosting website
-  And the account for "lalsop@acme.com" is removed from SLI database
+  And the account for "<USER_ACCOUNT>" is removed from SLI database
 
 @production
 Scenario: Unhappy path: invalid form inputs
@@ -101,7 +102,7 @@ Scenario: Unhappy path: invalid form inputs
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
-  And I fill out the field "Email" as "lalsop@acme.com"
+  And I fill out the field "Email" as "<USER_ACCOUNT_EMAIL>"
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd456"
   Then my password is shown as a series of dots
@@ -111,12 +112,12 @@ Scenario: Unhappy path: invalid form inputs
 @sandbox
 Scenario: As a user I request for a sandbox account
   Given I go to the sandbox account registration page
-  And there is no registered account for "lalsop@acme.com" in the SLI database
-  And there is no registered account for "lalsop@acme.com" in LDAP
+  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
+  And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
-  And I fill out the field "Email" as "lalsop@acme.com"
+  And I fill out the field "Email" as "<USER_ACCOUNT_EMAIL>"
   And I fill out the field "Password" as "dummypswd123"
   And I fill out the field "Confirmation" as "dummypswd123"
   Then my password is shown as a series of dots
@@ -125,19 +126,19 @@ Scenario: As a user I request for a sandbox account
   And I am redirected to a page with terms and conditions
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
-  And an email verification link for "lalsop@acme.com" is generated
+  And an email verification link for "<USER_ACCOUNT>" is generated
   When I visit "<VALID VERIFICATION LINK>"
-  Then I should see the text "Registration Complete!"
-  And I should see the text "An administrator will email you when your account is ready."
+  Then I should see the text "Email Confirmed"
+  And I should see the text "You will be receiving an email with more information about your account."
 
 @sandbox
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
-  And there is an approved account with login name "lalsop@acme.com"
+  And there is an approved account with login name "<USER_ACCOUNT>"
   When I query the database for EULA acceptance
-  Then I get 1 record for "lalsop@acme.com"
+  Then I get 1 record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
-  And "Email" is "lalsop@acme.com"
+  And "Email" is "<USER_ACCOUNT_EMAIL>"
   And "Environment" is "Sandbox"
   And "Vendor" is "Acme Corp"

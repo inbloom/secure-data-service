@@ -52,7 +52,6 @@ getSliRoleObject = function(sliRole, roleData) {
 }
 `
 `sortTable = function(data, col, order) {
-
         data.sort(function(a, b) {
                 if (a[col].toLowerCase() > b[col].toLowerCase())
                         return 1 * order;
@@ -67,11 +66,8 @@ getSliRoleObject = function(sliRole, roleData) {
         table.empty();
 
         for (var i in data) {
-		if (data[i][1] == 'SLI Administrator') {
-			continue	
-		}
 		var tr = $("<tr style='display: none'>");
-        	tr.append($("<td>" + data[i][0] +  "<td>" + data[i][1] +  "</td>"));
+        	tr.append($("<td>" + data[i][1] +  "<td>" + data[i][0] +  "</td>"));
 
 		if (editable) {
 			tr.append("<td><button class='btn btn-danger deleteButton'>X</button></td>");
@@ -142,8 +138,8 @@ getSliRoleObject = function(sliRole, roleData) {
 	//Called when a delete button is clicked
         //Figure out which item was deleted, remove it from the rMap, attempt to save
         $(document).bind("deleteRow", function(e) {
-                var cRole = $(e.target).closest("tr").children("td:eq(0)").text();
-                var sliRole = $(e.target).closest("tr").children("td:eq(1)").text();
+                var sliRole = $(e.target).closest("tr").children("td:eq(0)").text();
+                var cRole = $(e.target).closest("tr").children("td:eq(1)").text();
                 for (var i in rMap) {
                         if (rMap[i][0] == cRole) {
                                 rMap.splice(i, 1);
@@ -178,17 +174,17 @@ getSliRoleObject = function(sliRole, roleData) {
 
         $("#cRole").click(function() {
                 sortCol = 0;
-                sortOrder[0] *= -1;
-                refreshSortIcon(0);
-                sortTable(rMap, sortCol, sortOrder[0]);
+                sortOrder[1] *= -1;
+                refreshSortIcon(1);
+                sortTable(rMap, sortCol, sortOrder[1]);
                 drawTable(rMap, true);    
         });
 
         $("#sRole").click(function() {
                 sortCol = 1;
-                sortOrder[1] *= -1;
-                refreshSortIcon(1);
-                sortTable(rMap, sortCol, sortOrder[1]);
+                sortOrder[0] *= -1;
+                refreshSortIcon(0);
+                sortTable(rMap, sortCol, sortOrder[0]);
                 drawTable(rMap, true);    
         });
 

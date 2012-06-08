@@ -2,9 +2,6 @@ require 'approval'
 
 module ApplicationHelper
 
-  EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
-  EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer Account - Email Confirmation"
-  
 
   REST_HEADER = {
     "Content-Type" => "application/json",
@@ -52,29 +49,25 @@ module ApplicationHelper
   def self.send_user_verification_email(validate_base, guid)
     
     user_email_info = get_email_info guid
-    email_token = get_email_token(user_email_info["email_address"])
-    
-    userEmailValidationLink = "__URI__/user_account_validation/#{email_token}"
-      
-    email_message_prod = "#{user_email_info['first_name']},\n\nThank you for registering for a developer account with the Shared Learning Collaborative.\n\n" <<
-      "Please follow this link to confirm that this is your email address.\n\n" <<
-      "#{userEmailValidationLink}\n\n" <<
-      "*Note* - After you have confirmed your email address, your account must be approved by an SLC Administrator. For any issues, please email supportemail@slidev.org" <<
-      "\n\nThanks,\n\nThe Shared Learning Collaborative."
-    email_message_sandbox = "#{user_email_info['first_name']},\n\nThank you for registering for a developer account with the Shared Learning Collaborative." <<
-      "\n\nPlease follow this link to confirm that this is your email address." <<
-      "\n\n#{userEmailValidationLink}\n\n" <<
-      "Thanks,\n\nThe Shared Learning Collaborative."
+    email_address = user_email_info["email_address"]
+    email_token = get_email_token(email_address)
     if (email_token.nil?)
       return false
     end
-    APP_EMAILER.send_approval_email({
-      :email_addr => user_email_info["email_address"],
-      :name       => user_email_info["first_name"]+" "+user_email_info["last_name"],
-      :subject    => (APP_CONFIG["is_sandbox"]?EMAIL_SUBJECT_SANDBOX : EMAIL_SUBJECT_PROD),
-      :content    => (APP_CONFIG["is_sandbox"]?email_message_sandbox : email_message_prod)
-    })
+    userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
+    
+    ApplicationMailer.verify_email(email_address,user_email_info['first_name'],userEmailValidationLink).deliver
+    
     true
+  end
+  
+  # Checks if the user account exists.
+  # Input Parameters:
+  #   - email - user id (email)
+  #
+  # Returns : true or false
+  def self.user_exists?(email)
+    ApprovalEngine.user_exists?(email)
   end
   
   # Returns a map containing values for email_address, first_name, and last_name.
@@ -146,7 +139,8 @@ module ApplicationHelper
   # and included in a click through link that the user received in an email (as a query parameter).
   #
   def self.verify_email(emailtoken)
-    ApprovalEngine.verify_email(emailtoken)
+   # APP_LDAP_CLIENT.verify_email(emailtoken)
+   ApprovalEngine.verify_email(emailtoken)
   end
 
   # Update the user information that was submitted via the add_user method.
@@ -185,5 +179,16 @@ module ApplicationHelper
   def self.remove_user(email_address)
     ApprovalEngine.remove_user(email_address)
   end
-  
+
+  def required?(obj, attr)
+    target = (obj.class == Class) ? obj : obj.class
+    target.validators_on(attr).map(&:class).include?(
+        ActiveModel::Validations::PresenceValidator)
+  end
+
 end
+class ErbBinding < OpenStruct
+    def get_binding
+      return binding()
+    end
+  end

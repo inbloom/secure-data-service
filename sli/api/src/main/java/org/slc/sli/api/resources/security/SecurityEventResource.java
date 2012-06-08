@@ -51,7 +51,7 @@ import org.slc.sli.domain.NeutralQuery.SortOrder;
 @Component
 @Scope("request")
 @Path("securityEvent")
-@Produces({ Resource.JSON_MEDIA_TYPE, Resource.SLC_JSON_MEDIA_TYPE })
+@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
 public class SecurityEventResource extends DefaultCrudEndpoint {
 
     public static final String UUID = "uuid";
