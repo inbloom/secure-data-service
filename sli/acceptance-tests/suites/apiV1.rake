@@ -40,6 +40,11 @@ task :v1DisciplineIncidentSecurityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/disciplineIncident/disciplineIncident_security.feature")
 end
 
+desc "Run V1 Staff Secuity Tests"
+task :v1StaffSecurityTests => [:realmInit] do
+  runTests("test/features/security/staff_security.feature")
+end
+
 desc "Run V1 Discipline Action Secuity Tests"
 task :v1DisciplineActionSecurityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/disciplineAction/disciplineAction_security.feature")
