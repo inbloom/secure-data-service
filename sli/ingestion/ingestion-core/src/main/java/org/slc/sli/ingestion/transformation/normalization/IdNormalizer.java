@@ -37,7 +37,7 @@ public class IdNormalizer {
 
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
-        if (entityConfig.getReferences() == null) {
+        if (entityConfig == null || entityConfig.getReferences() == null) {
             return;
         }
 
@@ -287,7 +287,7 @@ public class IdNormalizer {
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
-        if (collection.equals("school")) {
+        if (collection.equals("stateEducationAgency") || collection.equals("localEducationAgency") || collection.equals("school")) {
             collection = "educationOrganization";
         } else if (collection.equals("teacher")) {
             collection = "staff";

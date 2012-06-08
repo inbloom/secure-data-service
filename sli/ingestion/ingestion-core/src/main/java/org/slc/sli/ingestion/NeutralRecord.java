@@ -97,6 +97,11 @@ public class NeutralRecord {
     private int locationInSourceFile;
 
     /**
+     * Time when neutral record was created (in ms).
+     */
+    private long creationTime;
+
+    /**
      * Default constructor
      */
     public NeutralRecord() {
@@ -274,6 +279,14 @@ public class NeutralRecord {
 
     public void setLocationInSourceFile(int locationInSourceFile) {
         this.locationInSourceFile = locationInSourceFile;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
     }
 
     @Override

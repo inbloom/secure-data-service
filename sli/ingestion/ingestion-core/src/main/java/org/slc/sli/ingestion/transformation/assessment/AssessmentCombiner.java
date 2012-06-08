@@ -93,6 +93,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
                     Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
                             objectiveAssessments);
+                    
                     if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
                         LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
@@ -130,6 +131,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             attrs.remove("assessmentItemRefs");
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
     }

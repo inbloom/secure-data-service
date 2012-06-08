@@ -2,6 +2,8 @@ package org.slc.sli.ingestion;
 
 import java.io.Serializable;
 
+import org.joda.time.DateTime;
+
 /**
  * Unit of work, chunked by Maestro, to be executed by a member of the orchestra (pit).
  *
@@ -13,9 +15,10 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
 
     private final String batchJobId;
     private final IngestionStagedEntity ingestionStagedEntity;
-    private final int rangeMinimum;
-    private final int rangeMaximum;
-    private final int batchSize;
+    private final long startTime;
+    private final long endTime;
+
+    private int batchSize;
 
     /**
      * Default constructor for the WorkOrder class.
@@ -25,12 +28,11 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
      * @param minimum
      * @param maximum
      */
-    private WorkNoteImpl(String batchJobId, IngestionStagedEntity ingestionStagedEntity, int minimum, int maximum,
-            int batchSize) {
+    private WorkNoteImpl(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime, int batchSize) {
         this.batchJobId = batchJobId;
         this.ingestionStagedEntity = ingestionStagedEntity;
-        this.rangeMinimum = minimum;
-        this.rangeMaximum = maximum;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.batchSize = batchSize;
     }
 
@@ -42,7 +44,7 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
      * @return
      */
     public static WorkNoteImpl createSimpleWorkNote(String batchJobId) {
-        return new WorkNoteImpl(batchJobId, null, 0, 0, 0);
+        return new WorkNoteImpl(batchJobId, null, new DateTime().getMillis(), new DateTime().getMillis(), 0);
     }
 
     /**
@@ -55,9 +57,9 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
      * @param batchSize
      * @return
      */
-    public static WorkNoteImpl createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
-            int minimum, int maximum, int batchSize) {
-        return new WorkNoteImpl(batchJobId, ingestionStagedEntity, minimum, maximum, batchSize);
+    public static WorkNoteImpl createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, 
+            long startTime, long endTime, int batchSize) {
+        return new WorkNoteImpl(batchJobId, ingestionStagedEntity, startTime, endTime, batchSize);
     }
 
     /**
@@ -86,8 +88,8 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
      * @return minimum index value.
      */
     @Override
-    public int getRangeMinimum() {
-        return rangeMinimum;
+    public long getRangeMinimum() {
+        return startTime;
     }
 
     /**
@@ -96,8 +98,8 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
      * @return maximum index value.
      */
     @Override
-    public int getRangeMaximum() {
-        return rangeMaximum;
+    public long getRangeMaximum() {
+        return endTime;
     }
 
     @Override
@@ -108,13 +110,14 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        long result = 1;
         result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
         result = prime * result + batchSize;
         result = prime * result + ((ingestionStagedEntity == null) ? 0 : ingestionStagedEntity.hashCode());
-        result = prime * result + rangeMaximum;
-        result = prime * result + rangeMinimum;
-        return result;
+        result = prime * result + endTime;
+        result = prime * result + startTime;
+
+        return (int) result;
     }
 
     @Override
@@ -146,10 +149,10 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
         } else if (!ingestionStagedEntity.equals(other.ingestionStagedEntity)) {
             return false;
         }
-        if (rangeMaximum != other.rangeMaximum) {
+        if (startTime != other.startTime) {
             return false;
         }
-        if (rangeMinimum != other.rangeMinimum) {
+        if (endTime != other.endTime) {
             return false;
         }
         return true;
@@ -158,8 +161,14 @@ public final class WorkNoteImpl implements WorkNote, Serializable {
     @Override
     public String toString() {
         return "WorkNoteImpl [batchJobId=" + batchJobId + ", ingestionStagedEntity=" + ingestionStagedEntity
-                + ", rangeMinimum=" + rangeMinimum + ", rangeMaximum=" + rangeMaximum + ", batchSize=" + batchSize
+                + ", startTime=" + startTime + ", endTime=" + endTime + ", batchSize=" + batchSize
                 + "]";
+    }
+
+    @Override
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+
     }
 
 }

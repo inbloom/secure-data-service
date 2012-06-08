@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -30,7 +31,7 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
     private static final Logger LOG = LoggerFactory.getLogger(StudentDisciplineIncidentAssociationTransformer.class);
 
     private static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION = "studentDisciplineIncidentAssociation";
-    
+
     private Map<Object, NeutralRecord> collection;
 
     public StudentDisciplineIncidentAssociationTransformer() {
@@ -78,6 +79,7 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
 
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
 
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getBatchJobId());
         }

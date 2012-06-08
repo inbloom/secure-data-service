@@ -1,0 +1,7 @@
+{
+    "collection": "studentSectionGradebookEntry",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}

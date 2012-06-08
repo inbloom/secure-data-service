@@ -1,0 +1,7 @@
+{
+    "collection": "studentObjectiveAssessment",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}

@@ -8,14 +8,10 @@ import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  * WorkNote splitter to be used from camel
@@ -27,14 +23,11 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
-    @Value("${sli.ingestion.splitChunkSize}")
-    private int splitChunkSize;
-
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
     @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    private SplitStrategy splitStrategy;
 
     /**
      * Splits the work that can be processed in parallel next round into individual WorkNotes.
@@ -59,8 +52,21 @@ public class WorkNoteSplitter {
 
         List<WorkNote> workNoteList = createWorkNotes(nextTierEntities, jobId);
 
-        LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
+        return workNoteList;
+    }
 
+    private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+        LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
+
+        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
+        for (IngestionStagedEntity stagedEntity : stagedEntities) {
+
+            List<WorkNote> workNotesForEntity = splitStrategy.splitForEntity(stagedEntity, jobId);
+
+            workNoteList.addAll(workNotesForEntity);
+        }
+
+        LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
     }
 
@@ -71,40 +77,6 @@ public class WorkNoteSplitter {
 
         LOG.info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
 
-        return workNoteList;
-    }
-
-    private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
-        LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
-
-        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
-        for (IngestionStagedEntity stagedEntity : stagedEntities) {
-
-            // potentially unsafe cast but it was decided that it is unlikely for us to hit max int
-            // size for a staging db collection count.
-            int numRecords = (int) neutralRecordMongoAccess.getRecordRepository().countForJob(
-                    stagedEntity.getCollectionNameAsStaged(), new NeutralQuery(), jobId);
-
-            LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
-
-            if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
-                int numberOfBatches = (int) Math.ceil((double) numRecords / splitChunkSize);
-
-                LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
-                        stagedEntity.getCollectionNameAsStaged(), numberOfBatches);
-
-                for (int i = 0; i < numRecords; i += splitChunkSize) {
-                    int chunk = ((i + splitChunkSize) > numRecords) ? (numRecords) : (i + splitChunkSize);
-                    WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, i, chunk - 1,
-                            numberOfBatches);
-                    workNoteList.add(workNote);
-                }
-            } else {
-                LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
-                WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1, 1);
-                workNoteList.add(workNote);
-            }
-        }
         return workNoteList;
     }
 }

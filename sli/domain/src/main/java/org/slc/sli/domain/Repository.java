@@ -228,4 +228,6 @@ public interface Repository<T> {
      */
     public void setWriteConcern(String writeConcern);
 
+    public long count(String collectionName, Query query);
+
 }

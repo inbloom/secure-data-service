@@ -36,6 +36,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     
     private Map<Object, NeutralRecord> studentAssessments;
+    
     private Map<Object, NeutralRecord> objectiveAssessments;
     
     @Autowired
@@ -104,6 +105,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         studentAssessmentAssociationId);
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
@@ -136,6 +138,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 
                 Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
                         objectiveAssessments);
+                
                 if (objectiveAssessment != null) {
                     LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);

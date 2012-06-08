@@ -1,0 +1,7 @@
+{
+    "collection": "staffEducationOrganizationAssociation",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}

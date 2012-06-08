@@ -1,5 +1,13 @@
 package org.slc.sli.ingestion.dal;
 
+import java.util.Iterator;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 
@@ -24,6 +32,36 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     public void setNeutralRecordRepository(NeutralRecordRepository neutralRecordRepository) {
         this.neutralRecordRepository = neutralRecordRepository;
+    }
+
+    public long collectionCountForJob(String collectionNameAsStaged, String jobId) {
+        return neutralRecordRepository.countForJob(collectionNameAsStaged, new NeutralQuery(), jobId);
+    }
+
+    public long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId) {
+        Criteria limiter = Criteria.where("creationTime").gte(min).lt(max);
+        Query query = new Query().addCriteria(limiter);
+
+        return neutralRecordRepository.countForJob(collectionName, query, jobId);
+    }
+
+    public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
+        return getCreationTimeForEntity(stagedEntity, jobId, Order.DESCENDING) + 2000;
+    }
+
+    public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
+        return getCreationTimeForEntity(stagedEntity, jobId, Order.ASCENDING);
+    }
+
+    private long getCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId, Order order) {
+        Query query = new Query();
+        query.sort().on("creationTime", order);
+        query.limit(1);
+        Iterable<NeutralRecord> nr = neutralRecordRepository.findByQueryForJob(
+                stagedEntity.getCollectionNameAsStaged(), query, jobId);
+        Iterator<NeutralRecord> nrIterator = nr.iterator();
+
+        return nrIterator.next().getCreationTime();
     }
 
 }

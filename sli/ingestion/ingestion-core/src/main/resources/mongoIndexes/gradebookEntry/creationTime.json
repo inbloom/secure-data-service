@@ -1,0 +1,7 @@
+{
+    "collection": "gradebookEntry",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}
