@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
+    <GradingPeriod id="GRDP_20101004">
+      <GradingPeriodIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+    <GradingPeriod id="GRDP_20110104">
+      <GradingPeriodIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+    <GradingPeriod id="GRDP_20110222">
+     <GradingPeriodIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+    <GradingPeriod id="GRDP_20110411">
+     <GradingPeriodIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+    <GradingPeriod id="GRDP_20100823">
+      <GradingPeriodIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
+    <GradingPeriod id="GRDP_20101108">
+      <GradingPeriodIdentity>
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      </GradingPeriodIdentity>
+      <BeginDate>2010-10-04</BeginDate>
+      <EndDate>2010-11-07</EndDate>
+      <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
     <Session>
         <SessionName>Fall 2011 Able School</SessionName>
         <SchoolYear>2011-2012</SchoolYear>
@@ -818,60 +884,5 @@
         <GradingPeriodReference ref="GRDP_20110222"/>
         <GradingPeriodReference ref="GRDP_20110411"/>
     </Session>
-
-    <GradingPeriod id="GRDP_20101004">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>
-        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110104">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>
-      <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110222">
-     <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>
-      <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20110411">
-     <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>
-      <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20100823">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>        <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-    <GradingPeriod id="GRDP_20101108">
-      <GradingPeriodIdentity>
-        <GradingPeriod>Second Six Weeks</GradingPeriod>
-        <SchoolYear>2011-2012</SchoolYear>
-      </GradingPeriodIdentity>
-      <BeginDate>2010-10-04</BeginDate>
-        <EndDate>2010-11-07</EndDate>
-        <TotalInstructionalDays>25</TotalInstructionalDays>
-    </GradingPeriod>
-
 
 </InterchangeEducationOrgCalendar>

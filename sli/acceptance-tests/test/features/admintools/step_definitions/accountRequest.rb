@@ -25,6 +25,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @validationLink                                         if human_readable_id == "VALID VERIFICATION LINK"
   url = @validationLink                                         if human_readable_id == "ALREADY VERIFIED LINK"
   url = @baseUrl + @validationBaseSuffix + "/invalid123"        if human_readable_id == "INVALID VERIFICATION LINK"
+  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
+  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
   #return the translated value
   url
 end

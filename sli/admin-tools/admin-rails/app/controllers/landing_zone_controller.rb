@@ -1,6 +1,5 @@
 class LandingZoneController < ApplicationController
   before_filter :check_roles
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ProvisioningError, :with => :handle_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
   
@@ -49,16 +48,6 @@ class LandingZoneController < ApplicationController
   def uid
     check = Check.get ""
     return check["external_id"]
-  end
-
-  def get_tenant
-    check = Check.get ""
-    if APP_CONFIG["is_sandbox"]
-      return check["external_id"]
-      #return check["user_id"]
-    else
-      return check["tenantId"]
-    end
   end
 
   def already_there

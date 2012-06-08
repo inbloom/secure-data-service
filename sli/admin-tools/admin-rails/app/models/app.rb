@@ -14,6 +14,9 @@ class App < SessionResource
   end
   
   def in_progress?
+    if self.bootstrap
+      return false
+    end
     progress = true
     self.authorized_ed_orgs.each { |ed_org| progress = false if !ed_org.to_i != 0 }
     progress
