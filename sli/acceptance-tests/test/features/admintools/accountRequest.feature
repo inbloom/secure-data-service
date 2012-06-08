@@ -31,7 +31,7 @@ Scenario: As a user I request for a production account
 # Unhappy path: already verified
   When I visit "<ALREADY VERIFIED LINK>"
   Then I should see the text "Account validation failed!"
-  And I should see the text "Account previously verified."
+  And I should see the text "This account was previously verified."
 # Unhappy path: invalid link
   When I visit "<INVALID VERIFICATION LINK>"
   Then I should see the text "Account validation failed!"
