@@ -350,7 +350,7 @@ public class BrutePathFinder implements SecurityPathFinder {
     }
 
     public boolean isPathExcluded(String from, String to) {
-        return excludePath.contains(from + to);
+        return (excludePath.contains(from + to) || from.equals(EntityNames.STAFF));
     }
 
 }
