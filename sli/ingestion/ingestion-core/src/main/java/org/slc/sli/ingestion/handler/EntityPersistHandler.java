@@ -3,11 +3,6 @@ package org.slc.sli.ingestion.handler;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.dao.DuplicateKeyException;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -16,6 +11,10 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 
 /**
  * Handles the persisting of Entity objects
@@ -31,7 +30,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     private Repository<Entity> entityRepository;
     
     private MessageSource messageSource;
-    
+
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
     

@@ -127,10 +127,15 @@ default:
         sli.ingestion.queue.pit.keystore:
         sli.ingestion.queue.pit.keystorePassword:
         sli.ingestion.splitChunkSize: 5000
+
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
+        sli.ingestion.cache.type: null
+        sli.ingestion.cache.servers: 
+
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -1150,6 +1155,9 @@ nxteam:
         sli.ingestion.processor.xml: serial 
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.cache.type: memcached
+        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211
+
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
@@ -1175,6 +1183,7 @@ nxteam-maestro:
     ingestion:
         <<: *INGESTION-NXTEAM
         sli.ingestion.nodeType: maestro
+        
     data-access:
         <<: *DATA-ACCESS-NXTEAM
         sli.ingestion.staging.clearOnCompletion: transformed

@@ -9,28 +9,38 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
+ * Matches external / natural IDs to IDs in the database.
  *
  * @author ablum
  *
  */
-public class IdNormalizer {
+@Component
+public class InternalIdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
+    private static final Logger LOG = LoggerFactory.getLogger( InternalIdNormalizer.class);
 
-    private static final Map<Object, String> CACHE = new HashMap<Object, String>();
+    //private final Map<Object, String> CACHE;
+
+    @Autowired
+    private CacheProvider cacheProvider;
+
+
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
@@ -46,7 +56,7 @@ public class IdNormalizer {
      *            Error reporting
      * @return The resolved internalId
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+    public String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
 
         String cached = getFromCache(collection, tenantId, String.valueOf(externalSearchCriteria.hashCode()));
         if (cached != null) {
@@ -63,7 +73,7 @@ public class IdNormalizer {
         Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
         if (found == null || !found.iterator().hasNext()) {
-            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + query.getQueryObject().toString(), IdNormalizer.class);
+            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + query.getQueryObject().toString(), InternalIdNormalizer.class);
 
             return null;
         }
@@ -89,7 +99,7 @@ public class IdNormalizer {
      *            Error reporting
      * @return Resolved internal ID
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, String externalId, ErrorReport errorReport) {
+    public String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, String externalId, ErrorReport errorReport) {
 
         String cached = getFromCache(collection, tenantId, externalId);
         if (cached != null) {
@@ -104,7 +114,7 @@ public class IdNormalizer {
         Entity e = entityRepository.findOne(collection, nq);
         LOG.debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
         if (e == null) {
-            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq, IdNormalizer.class);
+            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq, InternalIdNormalizer.class);
 
             return null;
         }
@@ -121,7 +131,7 @@ public class IdNormalizer {
      * @param externalSearchCriteria
      * @param query
      */
-    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String tenantId, ErrorReport errorReport) {
+    private void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String tenantId, ErrorReport errorReport) {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
             StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
@@ -151,7 +161,7 @@ public class IdNormalizer {
      * @param key
      * @param value
      */
-    private static void resolveSameCollectionCriteria(Map<String, String> filterFields, String key, Object value) {
+    private void resolveSameCollectionCriteria(Map<String, String> filterFields, String key, Object value) {
         if (String.class.isInstance(value)) {
 
             StringTokenizer tokenizer = new StringTokenizer(key, "#");
@@ -186,7 +196,7 @@ public class IdNormalizer {
      * @param externalSearchCriteria
      * @param errorReport
      */
-    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query, Map.Entry<?, ?> searchCriteriaEntry, String tenantId, ErrorReport errorReport) {
+    private void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query, Map.Entry<?, ?> searchCriteriaEntry, String tenantId, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
         String pathCollection = tokenizer.nextToken();
         pathCollection = WordUtils.uncapitalize(pathCollection);
@@ -210,7 +220,7 @@ public class IdNormalizer {
         Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {
-            errorReport.error("Cannot find [" + pathCollection + "] record using the following filter: " + tempFilter.toString(), IdNormalizer.class);
+            errorReport.error("Cannot find [" + pathCollection + "] record using the following filter: " + tempFilter.toString(), InternalIdNormalizer.class);
         } else {
 
             Map<String, String> orFilter = new HashMap<String, String>();
@@ -226,7 +236,7 @@ public class IdNormalizer {
 
     }
 
-    private static Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
+    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {
             Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
@@ -235,7 +245,7 @@ public class IdNormalizer {
         return query;
     }
 
-    private static void addOrToQuery(Query query, Map<String, String> orFilter) {
+    private void addOrToQuery(Query query, Map<String, String> orFilter) {
         List<Query> queries = new ArrayList<Query>();
         for (Map.Entry<String, String> field : orFilter.entrySet()) {
             queries.add(new Query(Criteria.where(field.getKey()).is(field.getValue())));
@@ -246,20 +256,23 @@ public class IdNormalizer {
 
     //  Caching POC
 
-    private static String getFromCache(String collection, String tenantId, String criteria) {
+    private String getFromCache(String collection, String tenantId, String criteria) {
 
         String key = composeKey(collection, tenantId, criteria);
-        String found = CACHE.get(key);
+        String found = (String) cacheProvider.get( key );
+
         LOG.info("Cache {} for {}", found == null ? "MISS" : "HIT", key);
 
         return found;
     }
 
-    private static void cache(String collection, String tenantId, String criteria, String value) {
-        CACHE.put(composeKey(collection, tenantId, criteria), value);
+    private void cache(String collection, String tenantId, String criteria, String value) {
+        String key = composeKey(collection, tenantId, criteria);
+        //CACHE.put( key , value);
+        cacheProvider.add( key, value );
     }
 
-    private static String composeKey(String collection, String tenantId, String criteria) {
+    private String composeKey(String collection, String tenantId, String criteria) {
         return String.format("%s_%s_%s", collection, tenantId, criteria);
     }
 

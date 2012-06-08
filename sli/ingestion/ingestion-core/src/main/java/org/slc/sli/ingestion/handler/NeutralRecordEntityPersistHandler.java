@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,7 +20,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecordEntity;
-import org.slc.sli.ingestion.util.IdNormalizer;
+import org.slc.sli.ingestion.util.InternalIdNormalizer;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
@@ -42,6 +43,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     private Repository<Entity> entityRepository;
 
     private MessageSource messageSource;
+
+    @Autowired
+    private InternalIdNormalizer internalIdNormalizer;
 
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -174,7 +178,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             if (Map.class.isInstance(externalIdEntry.getValue())) {
 
                 Map<?, ?> externalSearchCriteria = (Map<?, ?>) externalIdEntry.getValue();
-                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
+                internalId = internalIdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
                         externalSearchCriteria, errorReport);
 
             } else if (List.class.isInstance(externalIdEntry.getValue())) {
@@ -183,19 +187,19 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                 for (Object reference : referenceList) {
                     if (Map.class.isInstance(reference)) {
                         Map<?, ?> externalSearchCriteria = (Map<?, ?>) reference;
-                        String id = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
+                        String id = internalIdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
                                 externalSearchCriteria, errorReport);
                         ((List<String>) internalId).add(id);
                     } else {
                         String externalId = reference.toString();
-                        internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
+                        internalId = internalIdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
                                 errorReport);
                     }
                 }
             } else {
 
                 String externalId = externalIdEntry.getValue().toString();
-                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
+                internalId = internalIdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
                         errorReport);
             }
 
