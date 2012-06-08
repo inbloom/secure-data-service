@@ -112,8 +112,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
+        String collection = null;
+        if (entity.getType().equals("stateEducationAgency") 
+                || entity.getType().equals("localEducationAgency")) {
+            collection = "educationOrganization";
+        } else if (entity.getType().equals("teacher")) {
+            collection = "staff";
+        } else {
+            collection = entity.getType();
+        }
+        
         @SuppressWarnings("deprecation")
-        Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
+        Iterable<Entity> match = entityRepository.findByQuery(collection, query, 0, 0);
 
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.

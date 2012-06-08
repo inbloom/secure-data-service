@@ -41,13 +41,10 @@
   <!-- collections that should be persisted using the old pipeline -->
   <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>competencyLevelDescriptor</value>
-    <value>educationOrganization</value>
     <value>gradebookEntry</value>
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
-    <value>stateEducationAgency</value>
-    <value>localEducationAgency</value>
     <value>school</value>
     <value>schoolSessionAssociation</value>
     <value>staff</value>
@@ -67,14 +64,17 @@
     <value>course</value>
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
+    <value>educationOrganization</value>
     <value>grade</value>
     <value>gradingPeriod</value>
+    <value>localEducationAgency</value>
     <value>program</value>
     <value>reportCard</value>
     <value>section</value>
     <value>session</value>
     <value>staffCohortAssociation</value>
     <value>staffProgramAssociation</value>
+    <value>stateEducationAgency</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentProgramAssociation</value>
