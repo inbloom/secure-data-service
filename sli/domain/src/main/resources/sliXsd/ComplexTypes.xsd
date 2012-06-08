@@ -2246,6 +2246,10 @@
 					<xs:documentation>The legal document or authorization giving
 						authorization to perform teaching assignment services.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="loginId" type="identificationCode"
