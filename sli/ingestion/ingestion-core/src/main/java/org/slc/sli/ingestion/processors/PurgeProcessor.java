@@ -152,7 +152,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        exchange.setProperty("purge.complete", "Purge process complete.");
+        exchange.setProperty("purge.complete", "Errors encountered during purge process");
         LogUtil.error(logger, "Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
