@@ -11,14 +11,14 @@
     <TotalInstructionalDays>75</TotalInstructionalDays>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <GradingPeriodReference>
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>IL</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
@@ -31,14 +31,14 @@
     <TotalInstructionalDays>75</TotalInstructionalDays>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <GradingPeriodReference>
       <GradingPeriodIdentity>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>IL</StateOrganizationId>
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
