@@ -72,6 +72,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         if ((String) entity.getBody().get("collectionName") != null) {
             collectionName = (String) entity.getBody().get("collectionName");
             entity.getBody().remove("collectionName");
+            entity.setType(collectionName);
         }
 
         if (entity.getEntityId() != null) {
