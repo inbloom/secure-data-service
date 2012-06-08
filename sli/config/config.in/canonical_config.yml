@@ -133,7 +133,7 @@ default:
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
-        sli.ingestion.cache.type: inmemory
+        sli.ingestion.cache.type: null
         sli.ingestion.cache.servers: 
 
 
