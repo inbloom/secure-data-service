@@ -18,7 +18,7 @@ class UserAccountValidation
   # error condition for attemptint to re-verify verified account
   ACCOUNT_PREVIOUSLY_VERIFIED = {
     "status" => "Account validation failed!",
-    "message" => "Account previously verified."
+    "message" => "This account was previously verified. For questions please contact #{APP_CONFIG['support_email']}"
   }
   
   # error condition for attemptint to re-verify verified account
