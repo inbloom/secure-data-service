@@ -43,10 +43,6 @@ public class WorkNoteSplitter {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
-    public enum MatchEnumeration {
-        good, small, large
-    }
-
     /**
      * Splits the work that can be processed in parallel next round into individual WorkNotes.
      *
@@ -140,17 +136,15 @@ public class WorkNoteSplitter {
             workNotes.add(workNoteUnsplit);
 
         } else {
-            // split time chunk in roughly 2 pieces
 
             long intervalElapsedTime = maxTime - minTime;
-            double split = 0.5;
-            boolean done = false;
-            long pivot = 0;
+            double splitFactor = 0.5;
             int splitAttempts = 0;
 
+            boolean done = false;
             while (!done) {
                 // check right interval
-                pivot = minTime + (long) (intervalElapsedTime * split);
+                long pivot = minTime + (long) (intervalElapsedTime * splitFactor);
 
                 long recordsInRightChunk = getCountOfRecords(collectionName, jobId, pivot, maxTime);
                 long recordsInLeftChunk = recordsCountInSegment - recordsInRightChunk;
@@ -159,7 +153,7 @@ public class WorkNoteSplitter {
                 LOG.info("Total ms in interval = {}", intervalElapsedTime);
                 LOG.info("Right Interval (Start / End) {} / {} ", pivot, maxTime);
                 LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
-                        + split, recordsInLeftChunk, recordsInRightChunk);
+                        + splitFactor, recordsInLeftChunk, recordsInRightChunk);
 
                 done = true;
 
@@ -186,39 +180,37 @@ public class WorkNoteSplitter {
                     // RIGHT SIDE IS TOO SMALL
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
                         LOG.info("Adding left + right work notes");
-                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
-                                0);
-                        workNotes.add(workNoteLeft);
-                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot,
-                                maxTime, 0);
-                        workNotes.add(workNoteRight);
+                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        workNotes.add(left);
+
+                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
                         LOG.info("Adding left + right work notes");
-                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
-                                0);
-                        workNotes.add(workNoteLeft);
-                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot,
-                                maxTime, 0);
-                        workNotes.add(workNoteRight);
+                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        workNotes.add(left);
+
+                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
                         LOG.info("Reintervaling - moving interval to the left (left side is too heavy)");
-                        split = split - split / 2;
+                        splitFactor = splitFactor / 2;
                         done = false;
                     }
                 } else {
                     // RIGHT SIDE IS TOO LARGE
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
                         LOG.info("Adding left work note + recursing on the right");
-                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
-                                0);
-                        workNotes.add(workNoteLeft);
+                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        workNotes.add(left);
+
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
                         LOG.info("Reintervaling - moving interval to the right (right side is too heavy)");
-                        split = split + split / 2;
+                        splitFactor = splitFactor + (splitFactor / 2);
                         done = false;
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
@@ -230,7 +222,7 @@ public class WorkNoteSplitter {
 
                 splitAttempts++;
 
-                if (splitAttempts > 20 && done == false) {
+                if (splitAttempts > 20 && !done) {
                     LOG.info("Split Max reached.");
 
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
@@ -238,9 +230,8 @@ public class WorkNoteSplitter {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     } else {
                         LOG.info("Adding left work note");
-                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
-                                0);
-                        workNotes.add(workNoteLeft);
+                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        workNotes.add(left);
                     }
 
                     if (chunkMatch(recordsInRightChunk, MatchEnumeration.large)) {
@@ -248,9 +239,8 @@ public class WorkNoteSplitter {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     } else {
                         LOG.info("Adding right work note");
-                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot,
-                                maxTime, 0);
-                        workNotes.add(workNoteRight);
+                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        workNotes.add(right);
                     }
 
                     done = true;
@@ -301,6 +291,10 @@ public class WorkNoteSplitter {
         Iterator<NeutralRecord> nrIterator = nr.iterator();
 
         return nrIterator.next().getCreationTime();
+    }
+
+    private enum MatchEnumeration {
+        good, small, large
     }
 
 }
