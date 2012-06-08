@@ -19,6 +19,7 @@ class SLCFixer
     Benchmark.bm(20) do |x|
       x.report("Students")      {fix_students}
       x.report("Sections")      {fix_sections}
+      x.report("Staff")         {fix_staff}
       @threads << Thread.new {x.report("Attendance")    {fix_attendance}}
       @threads << Thread.new {x.report("Assessments")   {fix_assessments}}
       @threads << Thread.new {x.report("Discipline")    {fix_disciplines}}
@@ -30,7 +31,6 @@ class SLCFixer
       @threads << Thread.new {x.report("Cohorts")       {fix_cohorts}}
       @threads << Thread.new {x.report("Grades")        {fix_grades}}
       @threads << Thread.new {x.report("Sessions")      {fix_sessions}}
-      @threads << Thread.new {x.report("Staff")         {fix_staff}}
     end
     @threads.each do |th|
       th.join
@@ -50,8 +50,8 @@ class SLCFixer
       edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
       stamp_id(ssa, student['_id'], student['body']['schoolId'])
+      @student_hash[student['body']['studentId']] = edorgs
       if !edorgs.eql? old
-        @student_hash[student['body']['studentId']] = edorgs
         stamp_id(@students, student['body']['studentId'], edorgs)
       end
     end
@@ -128,22 +128,25 @@ class SLCFixer
   end
 
   def fix_programs
-    @start_time = Time.now
     spa = @db['studentProgramAssociation']
     spa.find.each do |program|
       edorg = student_edorgs(program['body']['studentId'])
-      stamp_id(spa, program['_id'], edorg)
-      stamp_id(@db['program'], program['body']['programId'], edorg)
+      stamp_id(spa, program['_id'], program['body']['educationOrganizationId'])
+      stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'])
     end
     spa = @db['staffProgramAssociation']
     spa.find.each do |program|
-      edorg = old_edorgs(@db['program'], program['body']['programId'])
-      stamp_id(spa, program['_id'], edorg)
+      edorg = []
+      program_edorg = old_edorgs(@db['program'], program['body']['programId'])
+      staff_edorg = old_edorgs(@db['staff'], program['body']['staffId'])
+      edorg << program_edorg << staff_edorg
+      edorg = edorg.flatten.uniq 
+      stamp_id(@db['program'], program['body']['porgramId'], edorg)
+      stamp_id(spa, program['_id'], staff_edorg)
     end
   end
 
   def fix_cohorts
-    @start_time = Time.now
     cohorts = @db['cohort']
     cohorts.find.each do |cohort|
       stamp_id(cohorts, cohort['_id'], cohort['body']['educationOrgId'])
@@ -267,10 +270,15 @@ class SLCFixer
   end
   
   def old_edorgs(collection, id)
-    doc = collection.find_one({"_id" => id})
+    if id.is_a? Array
+      doc = collection.find_one({"_id" => {'$in' => id}})
+    else
+      doc = collection.find_one({"_id" => id})
+    end
     begin
       old = doc['metaData']['edOrgs']
     rescue
+      puts "Failing to get old edorgs for #{collection.name}-> #{id}"
       old = []      
     end
     return [] if old.nil?
