@@ -195,8 +195,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         
         while (it.hasNext()) {
             collectionName = it.next();
-            LOG.info("INDEXING COLLECTION " + collectionName + " = "
-                    + toStagingCollectionName(collectionName, batchJobId));
+            LOG.info("INDEXING COLLECTION: {} ==> staged as {} ", collectionName, toStagingCollectionName(collectionName, batchJobId));
             
             if (!collectionExistsForJob(collectionName, batchJobId)) {
                 createCollectionForJob(collectionName, batchJobId);
@@ -204,7 +203,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             
             try {
                 for (IndexDefinition definition : mongoIndexManager.getCollectionIndexes().get(collectionName)) {
-                    LOG.info("Adding Index on " + collectionName);
+                    LOG.debug("Adding Index: {}", definition);
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {
