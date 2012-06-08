@@ -201,7 +201,7 @@ class SLCFixer
     sections = @db['section']
     sections.find.each do |section|
       edorg = section['metaData']['edOrgs']
-      stamp_id(@db['course'], course['body']['courseId'], edorg)
+      stamp_id(@db['course'], section['body']['courseId'], edorg)
     end
     co = @db['courseOffering']
     co.find.each do |course|
