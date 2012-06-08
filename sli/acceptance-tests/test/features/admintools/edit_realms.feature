@@ -25,6 +25,7 @@ Scenario: Realm Administrator deleting a existing realm
    And I should hit the role mapping page
    And I should see that the page doesn't exist
    
+
 Scenario: Realm Administrator creating a new realm
   And I should see that I am on the new realm page
   And all of the input fields should be blank
@@ -33,3 +34,15 @@ Scenario: Realm Administrator creating a new realm
   Then I should be redirected back to the edit page
   And I should receive a notice that the realm was successfully "created"
   And I should see that I am on the "Brand New Realm" edit page
+
+Scenario: Realm creation/editing should have validation
+  And I should see that I am on the "Brand New Realm" edit page
+  And I should remove all of the fields
+  And I should click the "Save" button
+  Then I should get 4 errors
+  When I enter valid data into all fields
+  And I should click the "Save" button
+  Then I should not see any errors
+  And I should make the unique identifier not unique
+  And I should click the "Save" button
+  Then I should get 1 error

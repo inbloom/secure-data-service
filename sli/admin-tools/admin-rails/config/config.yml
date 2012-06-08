@@ -9,7 +9,7 @@ development:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
@@ -61,7 +61,7 @@ development_sb:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
@@ -86,7 +86,7 @@ team:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
@@ -112,7 +112,7 @@ team_sb:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
@@ -136,10 +136,11 @@ test:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
@@ -160,7 +161,7 @@ production:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
-    email_sender_name: SLI Administrator
+    email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000

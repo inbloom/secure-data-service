@@ -53,7 +53,7 @@ class RealmsControllerTest < ActionController::TestCase
    end
    
    test "should update realm" do
-     put :update, {id: 1, mappings: @realm_fixtures['one']['mappings'], format: 'json'}
+     put :update, {id: 1, mappings: @realm_fixtures['one'], format: 'json'}
      assert_response :success
      assert assigns(:realm)
      #mappings = Realm.find(1).mappings.to_json
