@@ -1512,32 +1512,7 @@
   <jb:bean beanId="session_gradingPeriodReference"
     class="java.util.HashMap"
     createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-    <jb:value property="gradingPeriod" data="GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
-    <jb:value property="schoolYear" data="GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
-    <jb:value property="stateOrganizationId" data="GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
-    <!-- <jb:wiring property="educationalOrgIdentity" beanIdRef="session_gradingPeriod_educationalOrgIdentity_array" /> -->
-  </jb:bean>
-
-  <jb:bean beanId="session_gradingPeriod_educationalOrgIdentity_array" class="java.util.ArrayList"
-           createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-        <jb:wiring beanIdRef="session_gradingPeriod_educationalOrgIdentity" />
-  </jb:bean>
-
-  <jb:bean beanId="session_gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
-           createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
-        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="session_gradingPeriod_educationalOrgIdentificationCode_Array" />
-  </jb:bean>
-
-  <jb:bean beanId="session_gradingPeriod_educationalOrgIdentificationCode_Array" class="java.util.ArrayList"
-           createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode" >
-    <jb:wiring beanIdRef="session_gradingPeriod_educationalOrgIdentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="session_gradingPeriod_educationalOrgIdentificationCode" class="java.util.HashMap"
-           createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode">
-    <jb:value property="ID" data="EducationOrgIdentificationCode/ID" />
-    <jb:value property="IdentificationSystem" data="EducationOrgIdentificationCode/IdentificationSystem" />
+    <jb:value property="GradingPeriodIdentity" data="Session/GradingPeriodReference/@ref" />
   </jb:bean>
 
   <!-- Assessment family mapping -->
@@ -3676,7 +3651,6 @@
   <jb:bean beanId="gradingPeriod_gradingPeriodIdentity" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriodIdentity">
         <jb:value property="gradingPeriod" data="GradingPeriodIdentity/GradingPeriod" />
         <jb:value property="schoolYear" data="GradingPeriodIdentity/SchoolYear" />
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
         <jb:wiring property="educationalOrgIdentity" beanIdRef="gradingPeriod_educationalOrgIdentity_array" />
   </jb:bean>
 
@@ -3812,7 +3786,7 @@
     <jb:bean beanId="ReportCardAttributes" class="java.util.HashMap"
              createOnElement="InterchangeStudentGrade/ReportCard">
         <jb:value property="studentId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
-        <jb:wiring property="gradingPeriodReference" beanIdRef="ReportCard_GradingPeriodReferenceArray" />
+        <jb:wiring property="gradingPeriodId" beanIdRef="ReportCard_GradingPeriodReference" />
         <jb:wiring property="grades" beanIdRef="ReportCard_GradesReferenceArray" />
         <jb:value property="reportCardId" data="ReportCard/@id" />
         <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
@@ -3841,42 +3815,13 @@
         <jb:value property="gradeId" data="GradeReference/GradeIdentity" />
     </jb:bean>
 
-  <jb:bean beanId="ReportCard_GradingPeriodReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentGrade/ReportCard">
-    <jb:wiring beanIdRef="ReportCard_GradingPeriodReference" />
-  </jb:bean>
-
-  <jb:bean beanId="ReportCard_GradingPeriodReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference">
-    <jb:value property="gradingPeriod" data="GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
-    <jb:value property="schoolYear" data="GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
-    <jb:value property="stateOrganizationId" data="GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
-    <!-- <jb:wiring property="educationalOrgIdentity" beanIdRef="ReportCard__gradingPeriod_educationalOrgIdentity_array" /> -->
-  </jb:bean>
-
-  <jb:bean beanId="ReportCard__gradingPeriod_educationalOrgIdentity_array" class="java.util.ArrayList"
-           createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference">
-        <jb:wiring beanIdRef="ReportCard__gradingPeriod_educationalOrgIdentity" />
-  </jb:bean>
-
-  <jb:bean beanId="ReportCard__gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
-           createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference">
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
-        <jb:wiring property="educationOrgIdentificationCode" beanIdRef="ReportCard__gradingPeriod_educationalOrgIdentificationCode_Array" />
-  </jb:bean>
-
-  <jb:bean beanId="ReportCard__gradingPeriod_educationalOrgIdentificationCode_Array" class="java.util.ArrayList"
-           createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode" >
-    <jb:wiring beanIdRef="ReportCard_gradingPeriod_educationalOrgIdentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="ReportCard_gradingPeriod_educationalOrgIdentificationCode" class="java.util.HashMap"
-           createOnElement="InterchangeStudentGrade/ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode">
-    <jb:value property="ID" data="EducationOrgIdentificationCode/ID" />
-    <jb:value property="IdentificationSystem" data="EducationOrgIdentificationCode/IdentificationSystem" />
-  </jb:bean>
-
+    <jb:bean beanId="ReportCard_GradingPeriodReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard">
+        <jb:value property="gradingPeriod" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
+        <jb:value property="schoolYear" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/SchoolYear" />
+        <jb:value property="edOrgId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/ID" />
+        <jb:value property="edOrgIdentCode" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+        <jb:value property="stateOrgId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
+    </jb:bean>
     <!-- End ReportCard mapping -->
 
 </smooks-resource-list>

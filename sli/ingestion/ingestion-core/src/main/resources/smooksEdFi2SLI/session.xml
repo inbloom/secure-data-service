@@ -42,7 +42,7 @@
     </jb:bean>
 
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes gradingPeriodReference element" />
+      <jb:value data="attributes gradingPeriodReference element" />
     </jb:bean>
 
 </smooks-resource-list>

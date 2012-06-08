@@ -12429,7 +12429,16 @@
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      <GradingPeriodReference ref="GRDP_20070527"/>
+      <!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
+      <GradingPeriodReference>
+        <GradingPeriodIdentity>
+          <GradingPeriod>End of Year</GradingPeriod>
+          <SchoolYear>2010-2011</SchoolYear>
+          <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>South Daybreak Elementary</ID>
+          </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+      </GradingPeriodReference>
     </ReportCard>
 
     <!-- grading history for Mi-Ha Tran. Refers to grades already earned in kindergarten. -->
@@ -13246,7 +13255,16 @@
           <StudentUniqueStateId>100000017</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      <GradingPeriodReference ref="GRDP_20110527"/>
+      <!-- GradingPeriodReference ref="GRDP_20110527" -->
+      <GradingPeriodReference>
+        <GradingPeriodIdentity>
+          <GradingPeriod>End of Year</GradingPeriod>
+          <SchoolYear>2010-2011</SchoolYear>
+          <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>South Daybreak Elementary</ID>
+          </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+      </GradingPeriodReference>
     </ReportCard>
 
     <StudentAcademicRecord id="SAR-100000017-1">

@@ -25,8 +25,11 @@
 
     <jb:bean beanId="reportCardBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="studentId" data="attributes studentId" />
+
         <jb:wiring property="studentCompetencyId" beanIdRef="reportCard_studentCompetencyIdArray" />
-        <!--<jb:wiring property="gradingPeriodId" beanIdRef="reportCard_gradingPeriodReferenceArray" /> -->
+
+        <jb:value property="gradingPeriodId" data="attributes gradingPeriodId" />
+
         <jb:wiring property="grades" beanIdRef="reportCard_gradeIdArray" />
         <jb:value property="gpaGivenGradingPeriod" data="attributes gpaGivenGradingPeriod" decoder="Double" />
         <jb:value property="gpaCumulative" data="attributes gpaCumulative" decoder="Double" />
@@ -42,9 +45,4 @@
     <jb:bean beanId="reportCard_studentCompetencyIdArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes studentCompetencyReference element" />
     </jb:bean>
-
-    <jb:bean beanId="reportCard_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes gradingPeriodReference element" />
-    </jb:bean>
-
 </smooks-resource-list>
