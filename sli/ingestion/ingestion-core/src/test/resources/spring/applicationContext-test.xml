@@ -29,7 +29,7 @@
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
- 
+
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
@@ -114,7 +114,7 @@
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers"/>
+    <property name="transformers" ref="transformers" />
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
@@ -123,8 +123,13 @@
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 
-  <bean id="WorkNoteAggregator" class=" org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
-  <bean id="WorkNoteSplitter" class=" org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+  <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="dummyNeutralRecordAccess" class="org.slc.sli.ingestion.routes.orchestra.TimestampSplitStrategyTest.DummyNeutralRecordAccess" />
+  <bean id="timestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.TimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="dummyNeutralRecordAccess" />
+  </bean>
 
 </beans>
