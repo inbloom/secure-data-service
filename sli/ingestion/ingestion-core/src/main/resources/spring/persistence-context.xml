@@ -46,6 +46,8 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
+    <value>stateEducationAgency</value>
+    <value>localEducationAgency</value>
     <value>school</value>
     <value>schoolSessionAssociation</value>
     <value>staff</value>

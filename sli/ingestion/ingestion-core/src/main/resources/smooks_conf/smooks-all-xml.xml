@@ -126,7 +126,7 @@
 
   <!-- StateEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
-    <jb:expression property="recordType">'educationOrganization'</jb:expression>
+    <jb:expression property="recordType">'stateEducationAgency'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/StateEducationAgency/StateOrganizationId" />
     <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
   </jb:bean>
@@ -144,6 +144,7 @@
     <jb:value property="operationalStatus" data="StateEducationAgency/OperationalStatus" />
     <jb:wiring property="accountabilityRatings" beanIdRef="stateEducationAgency_accountabilityRatingsTypeArray" />
     <jb:wiring property="programReference" beanIdRef="stateEducationAgency_programReferenceTypeArray" />
+    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="stateEducationAgency_educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -207,7 +208,7 @@
 
   <!-- LocalEducationAgency mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
-    <jb:expression property="recordType">'educationOrganization'</jb:expression>
+    <jb:expression property="recordType">'localEducationAgency'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/LocalEducationAgency/StateOrganizationId" />
     <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentIds" />
     <jb:wiring property="attributes" beanIdRef="localEducationOrganizationAttributes" />
@@ -242,6 +243,7 @@
     <jb:wiring property="programReference" beanIdRef="localEducationOrganization_programReferenceTypeArray" />
     <jb:value property="parentEducationAgencyReference"
       data="LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganization_educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
