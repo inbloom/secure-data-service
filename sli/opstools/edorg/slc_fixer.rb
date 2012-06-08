@@ -50,8 +50,8 @@ class SLCFixer
       edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
       stamp_id(ssa, student['_id'], student['body']['schoolId'])
-      @student_hash[student['body']['studentId']] = edorgs
       if !edorgs.eql? old
+        @student_hash[student['body']['studentId']] = edorgs
         stamp_id(@students, student['body']['studentId'], edorgs)
       end
     end
