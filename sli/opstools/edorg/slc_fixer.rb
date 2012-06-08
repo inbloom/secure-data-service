@@ -84,6 +84,16 @@ class SLCFixer
       stamp_id(saa, assessment['_id'], edOrg)
       stamp_id(@db['assessment'], @db['assessment'].find_one({"_id" => assessment['body']['assessmentId']})['_id'], edOrg)
     end
+    ssa = @db['sectionAssessmentAssociation']
+    ssa.find.each do |assessment|
+      edorgs = []
+      assessment_edOrg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
+      section_edorg = old_edorgs(@db['section'], assessment['body']['sectionId'])
+      edorgs << assessment_edOrg << section_edorg
+      edorgs = edorgs.flatten.uniq
+      stamp_id(@db['assessment'], assessment['body']['assessmentId'], edorgs)
+      stamp_id(ssa, assessment['_id'], edorgs)
+    end
   end
 
   def fix_disciplines
@@ -226,6 +236,11 @@ class SLCFixer
   end
   
   private
+  def edorg_digger(id)
+    edorgs = []
+    edorgs << 
+    []
+  end
   def stamp_id(collection, id, edOrg)
     if edOrg.nil? or edOrg.empty?
       return
