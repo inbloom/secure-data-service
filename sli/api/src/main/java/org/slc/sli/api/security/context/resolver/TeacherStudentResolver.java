@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
+import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
@@ -47,15 +48,37 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
     private List<String> findAccessibleThroughSection(Entity principal) {
 
-        List<String> sectionIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS));
+        // teacher -> teacherSectionAssociation
+        Iterable<Entity> teacherSectionAssociations = helper.getReferenceEntities(EntityNames.TEACHER_SECTION_ASSOCIATION, ParameterConstants.TEACHER_ID, Arrays.asList(principal.getEntityId()));
 
-        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
-                ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        studentIds = dateFilter.filterIds(studentIds);
+        // filter on end_date to get list of programIds
+        List<String> sectionIds = new ArrayList<String>();
+        final String currentDate = dateFilter.getCurrentDate();
+        for (Entity assoc : teacherSectionAssociations) {
+            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isDateBeforeEndDate(currentDate, endDate))) {
+                sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
+            }
+        }
+
+        // section -> studentSectionAssociation
+        Iterable<Entity> studentSectionAssociations = helper.getReferenceEntities(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, sectionIds);
+
+        // filter on end_date to get list of students
+        List<String> studentIds = new ArrayList<String>();
+        for (Entity assoc : studentSectionAssociations) {
+            String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
+            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
+                studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
+            }
+        }
 
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(sectionIds);
+        for (String id : returnIds) {
+            error("program {}", id);
+        }
         return returnIds;
     }
 
@@ -89,6 +112,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(programIds);
+        for (String id : returnIds) {
+            error("program {}", id);
+        }
         return returnIds;
     }
 
@@ -121,6 +147,9 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> returnIds = new ArrayList<String>();
         returnIds.addAll(studentIds);
         returnIds.addAll(cohortIds);
+        for (String id : returnIds) {
+            error("cohort {}", id);
+        }
         return returnIds;
     }
 }
