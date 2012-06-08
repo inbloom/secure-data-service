@@ -7,9 +7,8 @@ if ARGV.count < 1
   exit
 else
   hp = ARGV[0].split(":")
-  connection = Mongo::Connection.new(hp[0], hp[1].to_i)
+  connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 5, :pool_timeout => 5)
   db = connection['sli']
-  puts db
   fixer = SLCFixer.new(db)
   fixer.start
 end

@@ -19,18 +19,18 @@ class SLCFixer
     Benchmark.bm(20) do |x|
       x.report("Students")      {fix_students}
       x.report("Sections")      {fix_sections}
-      x.report("Attendance")    {@threads << Thread.new {fix_attendance}}
-      x.report("Assessments")   {@threads << Thread.new {fix_assessments}}
-      x.report("Discipline")    {@threads << Thread.new {fix_disciplines}}
-      x.report("Parents")       {@threads << Thread.new {fix_parents}}
-      x.report("Report Card")   {@threads << Thread.new {fix_report_card}}
-      x.report("Programs")      {@threads << Thread.new {fix_programs}}
-      x.report("Courses")       {@threads << Thread.new {fix_courses}}
-      x.report("Miscellaneous") {@threads << Thread.new {fix_miscellany}}
-      x.report("Cohorts")       {@threads << Thread.new {fix_cohorts}}
-      x.report("Grades")        {@threads << Thread.new {fix_grades}}
-      x.report("Sessions")      {@threads << Thread.new {fix_sessions}}
-      x.report("Staff")         {@threads << Thread.new {fix_staff}}
+      @threads << Thread.new {x.report("Attendance")    {fix_attendance}}
+      @threads << Thread.new {x.report("Assessments")   {fix_assessments}}
+      @threads << Thread.new {x.report("Discipline")    {fix_disciplines}}
+      @threads << Thread.new {x.report("Parents")       {fix_parents}}
+      @threads << Thread.new {x.report("Report Card")   {fix_report_card}}
+      @threads << Thread.new {x.report("Programs")      {fix_programs}}
+      @threads << Thread.new {x.report("Courses")       {fix_courses}}
+      @threads << Thread.new {x.report("Miscellaneous") {fix_miscellany}}
+      @threads << Thread.new {x.report("Cohorts")       {fix_cohorts}}
+      @threads << Thread.new {x.report("Grades")        {fix_grades}}
+      @threads << Thread.new {x.report("Sessions")      {fix_sessions}}
+      @threads << Thread.new {x.report("Staff")         {fix_staff}}
     end
     @threads.each do |th|
       th.join
@@ -46,13 +46,13 @@ class SLCFixer
     ssa.find.each do |student|
       edorgs = []
       old = old_edorgs(@students, student['body']['studentId'])
-      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithrdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today
+      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
       edorgs << old unless old.empty?
       edorgs = edorgs.flatten.uniq.sort
+      stamp_id(ssa, student['_id'], student['body']['schoolId'])
       if !edorgs.eql? old
         @student_hash[student['body']['studentId']] = edorgs
         stamp_id(@students, student['body']['studentId'], edorgs)
-        stamp_id(ssa, student['_id'], student['body']['schoolId'])
       end
     end
   end
@@ -168,7 +168,9 @@ class SLCFixer
     #This needed?
     tsa = @db['teacherSchoolAssociation']
     tsa.find.each do |teacher|
+      old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
       stamp_id(tsa, teacher['_id'], teacher['body']['schoolId'])
+      stamp_id(@db['staff'], teacher['body']['teacherId'], (old << teacher['body']['schoolId']).flatten.uniq)
     end
   end
 
@@ -179,17 +181,16 @@ class SLCFixer
     end
     #Grades and grade period
     @db['grade'].find.each do |grade|
-      edorg = @db['studentSectionAssociation'].find_one({"_id" => grade['body']['studentSectionAssociationId']})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
       stamp_id(@db['grade'], grade['_id'], edorg)
       stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
     end
   end
 
   def fix_courses
-    csa = @db['courseSectionAssociation']
+    csa = @db['section']
     csa.find.each do |course|
-      edorg = old_edorgs(@db['section'], course['body']['sectionId'])
-      stamp_id(csa, course['_id'], edorg)
+      edorg = course['metaData']['edOrgs']
       stamp_id(@db['course'], course['body']['courseId'], edorg)
     end
     co = @db['courseOffering']
@@ -213,7 +214,7 @@ class SLCFixer
   
     #Student Compentency
     @db['studentCompetency'].find.each do |student|
-      edorg = @db['studentSectionAssociation'].find_one({'_id' => student['body']['studentSectionAssociationId']})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
       stamp_id(@db['studentCompetency'], student['_id'], edorg)
     end
     

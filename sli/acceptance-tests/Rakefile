@@ -61,6 +61,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
+  addSecurityData()
+  
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
@@ -590,6 +592,28 @@ task :importSandboxData do
     "reportCard" => "reportCard_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
+
+  smallvilleTestHash = Hash[
+    "assessment" => "smallville_assessment_fixture.json",
+    "course" => "smallville_courses_fixture.json",
+    "courseSectionAssociation" => "smallville_course_section_association_fixture.json",
+    "courseOffering" => "smallville_course_session_association_fixture.json",
+    "educationOrganizationAssociation" => "smallville_edOrg_edOrg_association_fixture.json",
+    "educationOrganization" => "smallville_edOrg_fixture.json",
+    "educationOrganizationSchoolAssociation" => "smallville_school_edOrg_fixture.json",
+    "schoolSessionAssociation" => "smallville_school_session_association_fixture.json",
+    "section" => "smallville_sections_fixture.json",
+    "sectionAssessmentAssociation" => "smallville_section_assessment_fixture.json",
+    "session" => "smallville_sessions_fixture.json",
+    "student" => "smallville_students_fixture.json",
+    "studentAssessmentAssociation" => "smallville_student_assessment_fixture.json",
+    "studentSchoolAssociation" => "smallville_student_school_association_fixture.json",
+    "studentSectionAssociation" => "smallville_student_section_association_fixture.json",
+    "staff" => "smallville_staff_fixture.json",
+    "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
+    "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
+  ]
+  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
 end
 
 desc "Import Unified Data Set"
@@ -615,6 +639,15 @@ task :importUnifiedData => [:realmInit] do
     "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+desc "Apply security denormalization"
+task :addSecurityData do
+	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+end
+
+def addSecurityData()
+	`ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017`
 end
 
 desc "Help information for this Rakefile"
