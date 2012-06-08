@@ -10,7 +10,7 @@ module AppsHelper
     if app.attributes.has_key? 'registration' and app.registration.status == 'APPROVED'
       app.attributes[field]
     else
-      return check["tenantId"]
+      "Pending"
     end
   end
 
