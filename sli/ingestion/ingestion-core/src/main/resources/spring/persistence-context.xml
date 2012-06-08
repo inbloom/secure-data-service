@@ -34,10 +34,6 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="idNormalizer" class="org.slc.sli.ingestion.transformation.normalization.IdNormalizer">
-    <property name="entityRepository" ref="mongoEntityRepository" />
-  </bean>
-
   <!-- collections that should be persisted using the old pipeline -->
   <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>competencyLevelDescriptor</value>
