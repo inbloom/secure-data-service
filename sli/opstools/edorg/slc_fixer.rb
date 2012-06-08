@@ -127,7 +127,7 @@ class SLCFixer
     end
     spa = @db['staffProgramAssociation']
     spa.find.each do |program|
-      edorg = @db['program'].find_one({"_id" => program['body']['programId'][0]})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['program'], program['body']['programId'][0])
       stamp_id(spa, program['_id'], edorg)
     end
   end
@@ -139,11 +139,11 @@ class SLCFixer
       stamp_id(cohorts, cohort['_id'], cohort['body']['educationOrgId'])
     end
     @db['studentCohortAssociation'].find.each do |cohort|
-      edorg = @db['cohort'].find_one({'_id' => cohort['body']['cohortId']})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'])
       stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
     end
     @db['staffCohortAssociation'].find.each do |cohort|
-      edorg = @db['cohort'].find_one({'_id' => cohort['body']['cohortId'][0]})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'][0])
       stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
     end
   end
@@ -176,7 +176,7 @@ class SLCFixer
 
   def fix_grades
     @db['gradebookEntry'].find.each do |grade|
-      edorg = @db['section'].find_one({"_id" => grade['body']['sectionId']})['metaData']['edOrgs']
+      edorg = old_edorgs(@db['section'], grade['body']['sectionId'])
       stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
     end
     #Grades and grade period
