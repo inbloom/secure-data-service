@@ -142,7 +142,13 @@ $entityData = {
     "organizationCategories" => ["State Education Agency"],
     "stateOrganizationId" => "15",
     "nameOfInstitution" => "Gotham City School District", 
-    "address" => []
+    "address" => [
+              "streetNumberName" => "111 Ave C",
+              "city" => "Chicago",
+              "stateAbbreviation" => "IL",
+              "postalCode" => "10098",
+              "nameOfCounty" => "Wake"
+              ]
   },
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
