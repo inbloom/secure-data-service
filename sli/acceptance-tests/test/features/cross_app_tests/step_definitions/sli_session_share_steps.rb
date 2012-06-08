@@ -57,10 +57,11 @@ When /^I click on the logout link$/ do
 end
 
 Then /^I should see a message that I was logged out$/ do
-  #pending # express the regexp above with the code you wish you had
+  assertWithWait("Failed to find message stating that sign off was successful") { @driver.page_source.downcase.index("successfully logged out") != nil }
 end
 
 Then /^I should forced to reauthenticate to gain access$/ do
+  @driver.get PropLoader.getProps['databrowser_server_url']
   assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 

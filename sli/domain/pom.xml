@@ -12,6 +12,10 @@
     <artifactId>domain</artifactId>
     <name>Core Entities</name>
 
+    <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+    </properties>
+
     <dependencies>
 
         <dependency>

@@ -38,6 +38,29 @@
                         [
                             {"valueSource" : "body.cohortReference.cohortIdentity.cohortIdentifier"}
                         ]
+                    },
+                    {
+                        "path" : "body.educationOrgId",
+                        "values" : 
+                        [
+                            {"ref" :
+                                {
+                                    "collectionName" : "educationOrganization",
+                                    "isRefList" : true,
+                                    "refObjectPath" : "body.cohortReference",
+                                    "choiceOfFields" :
+                                    [[
+                                        {
+                                            "path" : "body.stateOrganizationId",
+                                            "values": 
+                                            [
+                                                {"valueSource": "body.cohortReference.cohortIdentity.stateOrganizationId"}
+                                            ]
+                                        }
+                                    ]]
+                                }
+                            }
+                        ]
                     }
                 ]
             ]

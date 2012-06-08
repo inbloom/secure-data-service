@@ -8,7 +8,19 @@ APP_EMAILER = Emailer.new({
       :sender_email_addr => APP_CONFIG["email_sender_address"],
       :host=>APP_CONFIG["email_host"],
       :port=>APP_CONFIG["email_port"],
-      :replacer=>{"__URI__" => APP_CONFIG["email_replace_uri"]}
+      :replacer=>{"__URI__" => APP_CONFIG["email_replace_uri"],
+      "__PORTAL__" => APP_CONFIG["portal_url"]}
     })
 
-ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, APP_CONFIG["is_sandbox"])
+class MyTransitionActionConfig
+  def transition(user)
+    if user[:status] == ApprovalEngine::STATE_APPROVED
+      ApplicationMailer.welcome_email(user).deliver
+    end
+  end
+end
+ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, MyTransitionActionConfig.new, APP_CONFIG["is_sandbox"])
+
+# ruby-recaptcha vars
+RCC_PUB = APP_CONFIG['recaptcha_pub']
+RCC_PRIV = APP_CONFIG['recaptcha_priv']

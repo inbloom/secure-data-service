@@ -169,7 +169,6 @@ public class RealmInitializer {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private List getAdminMappings() {
         List toReturn = new ArrayList();
-        toReturn.add(createRoleMapping(RoleInitializer.SLI_ADMINISTRATOR));
         toReturn.add(createRoleMapping(RoleInitializer.SLC_OPERATOR));
         toReturn.add(createRoleMapping(RoleInitializer.APP_DEVELOPER));
         toReturn.add(createRoleMapping(RoleInitializer.LEA_ADMINISTRATOR));

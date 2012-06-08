@@ -220,6 +220,9 @@ public class NeutralQuery {
         this.sortOrder = newSortOrder;
     }
 
+    /**
+     * Exposes relevant fields for the neutral query.
+     */
     @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
@@ -254,6 +257,12 @@ public class NeutralQuery {
             stringBuffer.append(neutralCriteria.getKey());
             stringBuffer.append(neutralCriteria.getOperator());
             stringBuffer.append(neutralCriteria.getValue());
+        }
+        
+        for (NeutralQuery query : this.orQueries) {
+            stringBuffer.append("$or{");
+            stringBuffer.append(query.toString());
+            stringBuffer.append("}");
         }
 
         return stringBuffer.toString();

@@ -1,15 +1,14 @@
 package org.slc.sli.dal.convert;
 
-import com.mongodb.DBObject;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.convert.converter.Converter;
-
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.converter.Converter;
+
+import com.mongodb.DBObject;
 
 /**
  * Spring converter registered in the Mongo configuration to convert MongoEntity objects into

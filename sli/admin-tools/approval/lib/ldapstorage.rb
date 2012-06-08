@@ -93,8 +93,6 @@ class LDAPStorage
 		:modifyTimestamp
 	]
 
-	LDAP_PASSWORD_FIELD = :userPassword
-
 	################################################################
 	# Implementation 
 	################################################################
@@ -157,7 +155,7 @@ class LDAPStorage
 		end
 		
 		LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-			value = (ldap_k == LDAP_PASSWORD_FIELD) ? ldap_md5(e_user_info[rec_k]) : e_user_info[rec_k]
+			value = e_user_info[rec_k]
 			attributes[ldap_k] = value 
 		end
 
@@ -403,10 +401,6 @@ class LDAPStorage
 	def ldap_ex(ldap, msg)
 		op = ldap.get_operation_result
 		"#{msg} (#{op.code}) #{op.message}"
-	end
-
-	def ldap_md5(plaintext)
-		"{MD5}#{Digest::MD5.base64digest(plaintext)}"
 	end
 end
 

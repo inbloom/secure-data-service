@@ -1,46 +1,129 @@
 {
     "keyFields" : ["metaData.externalId"],
     "references" :
-    [
-        {
-            "fieldPath" : "body.grades",
-            "ref" :
-            {
-                "collectionName" : "grade",
-                "isRefList" : true,
-                "refObjectPath" : "body.grades",
-                "choiceOfFields" :
-                [
-                    [
-                        {
-                            "path" : "metaData.externalId",
-                            "values" :
-                            [{
-                                "valueSource" : "body.grades.gradeId"
-                            }]
-                        }
-                    ]
-                ]
-            }
-        },
-        {
-            "fieldPath" : "body.studentId",
-            "ref" :
-            {
-                "collectionName" : "student",
-                "choiceOfFields" :
-                [
-                    [
-                        {
-                            "path" : "metaData.externalId",
-                            "values" :
-                            [{
-                                "valueSource" : "body.studentId"
-                            }]
-                        }
-                    ]
-                ]
-            }
-        }
-    ]
+            [
+                {
+                    "fieldPath" : "body.grades",
+                    "ref" :
+                    {
+                        "collectionName" : "grade",
+                        "isRefList" : true,
+                        "refObjectPath" : "body.grades",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "metaData.externalId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.grades.gradeId"
+                                                    }]
+                                        }
+                                    ]
+                                ]
+                    }
+                },
+                {
+                    "fieldPath" : "body.studentId",
+                    "ref" :
+                    {
+                        "collectionName" : "student",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "metaData.externalId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.studentId"
+                                                    }]
+                                        }
+                                    ]
+                                ]
+                    }
+                },
+                {
+                    "fieldPath" : "body.studentCompetencyReference",
+                    "ref" :
+                    {
+                        "collectionName" : "studentCompetency",
+                        "isRefList" : true,
+                        "refObjectPath" : "body.studentCompetencyReference",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "metaData.externalId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.studentCompetencyReference.studentCompetencyId"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "metaData.studentUniqueStateId",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.studentCompetencyReference.studentId" }
+                                                    ]
+                                        },
+                                        {
+                                            "path" : "metaData.uniqueSectionCode",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.studentCompetencyReference.sectionId" }
+                                                    ]
+                                        }
+                                    ]
+                                ]
+                    }
+                },
+                {
+                    "fieldPath" : "body.gradingPeriodId",
+                    "ref" :
+                    {
+                        "collectionName" : "gradingPeriod",
+                        "refObjectPath" : "body.gradingPeriodId",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.schoolYear"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.gradingPeriod"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.ID",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.edOrgId"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.identificationSystem",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.edOrgIdentCode"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.stateOrganizationId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.stateOrgId"
+                                                    }]
+                                        }
+                                    ]
+                                ]
+                    }
+                }
+            ]
 }

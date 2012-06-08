@@ -18,14 +18,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.common.constants.ResourceConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -39,7 +39,7 @@ import org.slc.sli.domain.Entity;
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
 public class HomeResource {
 
     final EntityDefinitionStore entityDefs;

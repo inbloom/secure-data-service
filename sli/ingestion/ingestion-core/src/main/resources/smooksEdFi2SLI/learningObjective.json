@@ -24,15 +24,6 @@
 			                "valueSource" : "localParentIds.parentContentStandardName"
 		                }]
 		            }
-	            ],
-	            [
-		            { 
-		           	    "path" : "body.objective",
-		                "values" : 
-		                [{
-			                "valueSource" : "localParentIds.parentObjective"
-		                }]
-		            }
 	            ]
 	        ]
         }

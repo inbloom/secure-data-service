@@ -23,7 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.api.security.saml2.XmlSignatureHelper;
+import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;

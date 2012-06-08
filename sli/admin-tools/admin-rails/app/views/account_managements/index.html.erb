@@ -1,24 +1,29 @@
 <p id="error_notice"><%= @error_notice %></p>
 <p id="notice"><%= @notice %></p>
-
-<h1>User Account Managements</h1>
+<div class="page-header">
+    <h1>Authorize Developer Account</h1>
+</div>
+<p></p>
+<h4>Manage which developers can access the SLC.</h4>
 <p>&nbsp;</p>
 <table id="Account_Management_Table" class="table table-striped">
   <thead>
   	<tr>
+        <th id="user_name">Username</th>
   		<th id="vendor">Vendor</th>
-  		<th id="user_name">User Name</th>
+        <th id="email">Email Address</th>
   		<th id="last_update">Last Update</th>
   		<th id="status">Status</th>
-  		<th id="action">Action</th>
+  		<th id="action">Actions</th>
   	</tr>
 	</thead>
 	<tbody>
 	<% if @account_managements!=nil and @account_managements.length>0%>
 	<% @account_managements.each do |account_management| %>
 	<tr>
-		<td class="vendor"><%= account_management.vendor%></td>
-		<td class="user_name" id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
+      <td class="user_name" id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
+      <td class="vendor"><%= account_management.vendor%></td>
+      <td class="email"><%= account_management.email%></td>
 		<td class="last_update"><%= account_management.lastUpdate%></td>
 		<% if account_management.status.downcase == "approved"%>
 		<td id="<%='status.'+account_management.name%>" class="account_management_table_approvedStatus"><%= account_management.status%></td>

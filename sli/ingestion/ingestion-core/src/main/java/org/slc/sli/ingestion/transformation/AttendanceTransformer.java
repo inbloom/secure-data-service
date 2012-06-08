@@ -3,24 +3,22 @@ package org.slc.sli.ingestion.transformation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -32,22 +30,23 @@ import org.slc.sli.ingestion.NeutralRecord;
  *
  * @author shalka
  */
+@Scope("prototype")
 @Component("attendanceTransformationStrategy")
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
+    private static final String ATTENDANCE_TRANSFORMED = EntityNames.ATTENDANCE + "_transformed";
+
     private Map<String, Map<Object, NeutralRecord>> collections;
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
 
     @Autowired
-    private Type1UUIDGeneratorStrategy uuidGenerator;
+    private UUIDGeneratorStrategy type1UUIDGeneratorStrategy;
 
     /**
      * Default constructor.
      */
     public AttendanceTransformer() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
     /**
@@ -58,7 +57,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
-        persist();
     }
 
     /**
@@ -68,14 +66,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-
-        List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
+        List<String> collectionsToLoad = Arrays.asList(EntityNames.ATTENDANCE);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
         }
-
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -83,135 +79,225 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * Transforms attendance events from Ed-Fi model into SLI model.
      */
     public void transform() {
-        LOG.debug("Transforming attendance data");
-        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        Set<Pair<String, String>> studentSchoolPairs = new HashSet<Pair<String, String>>();
+        LOG.info("Transforming attendance data");
 
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(
-                EntityNames.STUDENT_SCHOOL_ASSOCIATION).entrySet()) {
+        Map<String, List<Map<String, Object>>> studentAttendanceEvents = new HashMap<String, List<Map<String, Object>>>();
+        Map<Pair<String, String>, List<Map<String, Object>>> studentSchoolAttendanceEvents = new HashMap<Pair<String, String>, List<Map<String, Object>>>();
+
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(EntityNames.ATTENDANCE).entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-
             String studentId = (String) attributes.get("studentId");
-            String schoolId = (String) attributes.get("schoolId");
 
-            if (studentSchoolPairs.contains(Pair.of(studentId, schoolId))) {
-                LOG.warn("Already assembled attendance data for a student at school: {}", schoolId);
-            } else {
-                studentSchoolPairs.add(Pair.of(studentId, schoolId));
+            if (attributes.containsKey("schoolId")) {
+                Object stateOrganizationId = attributes.get("schoolId");
+                if (stateOrganizationId != null && stateOrganizationId instanceof String) {
+                    String schoolId = (String) stateOrganizationId;
+                    List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
-                NeutralRecord attendanceRecord = createTransformedAttendanceRecord();
-                Map<String, Object> attendanceAttributes = attendanceRecord.getAttributes();
-
-                attendanceAttributes.put("studentId", studentId);
-                attendanceAttributes.put("schoolId", schoolId);
-
-                Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
-                Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
-
-                LOG.info("For a student in school: {}", schoolId);
-                LOG.info("  Found {} associated sessions.", sessions.size());
-                LOG.info("  Found {} attendance events.", studentAttendance.size());
-
-                Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
-
-                if (schoolYears.entrySet().size() > 0) {
-                    List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
-                    for (Map.Entry<String, Object> entry : schoolYears.entrySet()) {
-                        String schoolYear = entry.getKey();
-
-                        @SuppressWarnings("unchecked")
-                        List<Map<String, Object>> events = (List<Map<String, Object>>) entry.getValue();
-                        Map<String, Object> attendance = new HashMap<String, Object>();
-                        attendance.put("schoolYear", schoolYear);
-                        attendance.put("attendanceEvent", events);
-                        daily.add(attendance);
+                    if (studentSchoolAttendanceEvents.containsKey(Pair.of(studentId, schoolId))) {
+                        events = studentSchoolAttendanceEvents.get(Pair.of(studentId, schoolId));
                     }
-                    attendanceAttributes.put("schoolYearAttendance", daily);
-                    attendanceRecord.setAttributes(attendanceAttributes);
-                    newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
-                } else {
-                    LOG.warn("  No daily attendance for a student in school: {}", schoolId);
+
+                    Map<String, Object> event = new HashMap<String, Object>();
+                    String eventDate = (String) attributes.get("eventDate");
+                    String eventCategory = (String) attributes.get("attendanceEventCategory");
+                    event.put("date", eventDate);
+                    event.put("event", eventCategory);
+                    if (attributes.containsKey("attendanceEventReason")) {
+                        String eventReason = (String) attributes.get("attendanceEventReason");
+                        event.put("reason", eventReason);
+                    }
+                    events.add(event);
+                    studentSchoolAttendanceEvents.put(Pair.of(studentId, schoolId), events);
                 }
+            } else {
+                List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+
+                if (studentAttendanceEvents.containsKey(studentId)) {
+                    events = studentAttendanceEvents.get(studentId);
+                }
+
+                Map<String, Object> event = new HashMap<String, Object>();
+                String eventDate = (String) attributes.get("eventDate");
+                String eventCategory = (String) attributes.get("attendanceEventCategory");
+                event.put("date", eventDate);
+                event.put("event", eventCategory);
+                if (attributes.containsKey("attendanceEventReason")) {
+                    String eventReason = (String) attributes.get("attendanceEventReason");
+                    event.put("reason", eventReason);
+                }
+                events.add(event);
+                studentAttendanceEvents.put(studentId, events);
             }
         }
-        transformedCollections.put(EntityNames.ATTENDANCE, newCollection);
-        LOG.info("Finished transforming attendance data for {} student-school associations.", newCollection.entrySet()
-                .size());
+
+        if (studentSchoolAttendanceEvents.size() > 0) {
+            LOG.info("Discovered {} student-school associations from attendance events",
+                    studentSchoolAttendanceEvents.size());
+            for (Map.Entry<Pair<String, String>, List<Map<String, Object>>> entry : studentSchoolAttendanceEvents
+                    .entrySet()) {
+                Pair<String, String> studentSchoolPair = entry.getKey();
+                List<Map<String, Object>> attendance = entry.getValue();
+                String studentId = studentSchoolPair.getLeft();
+                String schoolId = studentSchoolPair.getRight();
+                transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+            }
+        }
+
+        if (studentAttendanceEvents.size() > 0) {
+            LOG.info("Discovered {} students from attendance events that need school mappings",
+                    studentAttendanceEvents.size());
+            for (Map.Entry<String, List<Map<String, Object>>> entry : studentAttendanceEvents.entrySet()) {
+                String studentId = entry.getKey();
+                List<Map<String, Object>> attendance = entry.getValue();
+                List<NeutralRecord> schools = getSchoolsForStudent(studentId);
+                if (schools.size() == 0) {
+                    LOG.error("Student with id: {} is not associated to any schools.", studentId);
+                } else if (schools.size() > 1) {
+                    LOG.error("Student with id: {} is associated to more than one school.", studentId);
+                } else {
+                    NeutralRecord school = schools.get(0);
+                    String schoolId = (String) school.getAttributes().get("stateOrganizationId");
+                    transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+                }
+            }
+
+        }
+        LOG.info("Finished transforming attendance data");
     }
 
     /**
-     * Creates a Neutral Record of type 'dailyAttendance'.
+     * Transforms attendance data for the given student-school pair and persists to staging mongo
+     * db.
      *
-     * @return newly created 'dailyAttendance' Neutral Record.
+     * @param studentId
+     *            Student Unique State Id.
+     * @param schoolId
+     *            State Organization Id.
+     * @param attendance
+     *            List of transformed attendance events.
      */
-    private NeutralRecord createTransformedAttendanceRecord() {
+    private void transformAndPersistAttendanceEvents(String studentId, String schoolId,
+            List<Map<String, Object>> attendance) {
+        Map<Object, NeutralRecord> sessions = getSessions(schoolId);
+
+        LOG.debug("For student with id: {} in school: {}", studentId, schoolId);
+        LOG.debug("  Found {} associated sessions.", sessions.size());
+        LOG.debug("  Found {} attendance events.", attendance.size());
+
+        // create a placeholder for the student-school pair and write to staging mongo db
+        NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
+
+        try {
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(placeholder, getJob().getId());
+        } catch (DuplicateKeyException dke) {
+            LOG.info("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
+        }
+
+        Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions);
+
+        if (schoolYears.entrySet().size() > 0) {
+            for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
+                String schoolYear = attendanceEntry.getKey();
+                List<Map<String, Object>> events = attendanceEntry.getValue();
+
+                NeutralQuery query = new NeutralQuery(1);
+                query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
+                query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+                query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
+                        NeutralCriteria.OPERATOR_EQUAL, schoolYear));
+
+                Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
+                attendanceEventsToPush.put("body.schoolYearAttendance.$.attendanceEvent", events.toArray());
+                Map<String, Object> update = new HashMap<String, Object>();
+                update.put("pushAll", attendanceEventsToPush);
+                getNeutralRecordMongoAccess().getRecordRepository().updateFirstForJob(query, update,
+                        ATTENDANCE_TRANSFORMED, getBatchJobId());
+                LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
+            }
+        } else {
+            LOG.warn("No daily attendance for student: {} in school: {}", studentId, schoolId);
+        }
+    }
+
+    /**
+     * Creates a Neutral Record of type 'attendance'.
+     *
+     * @return newly created 'attendance' Neutral Record.
+     */
+    private NeutralRecord createAttendanceRecordPlaceholder(String studentId, String schoolId,
+            Map<Object, NeutralRecord> sessions) {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(uuidGenerator.randomUUID().toString());
-        record.setRecordType(EntityNames.ATTENDANCE);
+        record.setRecordId(type1UUIDGeneratorStrategy.randomUUID().toString());
+        record.setRecordType(ATTENDANCE_TRANSFORMED);
+
+        Map<String, List<Map<String, Object>>> placeholders = createAttendancePlaceholdersFromSessions(sessions);
+
+        List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
+        for (Map.Entry<String, List<Map<String, Object>>> year : placeholders.entrySet()) {
+            String schoolYear = year.getKey();
+            List<Map<String, Object>> events = year.getValue();
+            Map<String, Object> schoolYearAttendanceEvents = new HashMap<String, Object>();
+            schoolYearAttendanceEvents.put("schoolYear", schoolYear);
+            schoolYearAttendanceEvents.put("attendanceEvent", events);
+            daily.add(schoolYearAttendanceEvents);
+        }
+
+        Map<String, Object> attendanceAttributes = new HashMap<String, Object>();
+        attendanceAttributes.put("studentId", studentId);
+        attendanceAttributes.put("schoolId", schoolId);
+        attendanceAttributes.put("schoolYearAttendance", daily);
+
+        record.setAttributes(attendanceAttributes);
+
+        // TODO: This sets attendance record's source file to FIRST attendance record
+        // --> augment transformer so that the file of each attendance event is
+        // carried through to this stage?
+        record.setSourceFile(collections.get(EntityNames.ATTENDANCE).values().iterator().next().getSourceFile());
         return record;
     }
 
     /**
-     * Persists the transformed data into mongo.
-     */
-    public void persist() {
-        LOG.info("Persisting transformed data into attendance_transformed staging collection.");
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
-            }
-        }
-        LOG.info("Finished persisting transformed data into attendance_transformed staging collection.");
-    }
-
-    /**
-     * Returns all collection entities found in temp ingestion database
-     *
-     * @param collectionName
-     */
-    private Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
-        @SuppressWarnings("deprecation")
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
-
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
-        while (neutralRecordIterator.hasNext()) {
-            tempNr = neutralRecordIterator.next();
-            collection.put(tempNr.getRecordId(), tempNr);
-        }
-        return collection;
-    }
-
-    /**
-     * Gets attendance events for the specified student.
+     * Gets all schools associated with the specified student.
      *
      * @param studentId
      *            StudentUniqueStateId for student.
-     * @return Map of Attendance Events for student.
+     * @return List of Neutral Records representing schools.
      */
-    private Map<Object, NeutralRecord> getAttendanceEvents(String studentId) {
-        NeutralQuery query = new NeutralQuery();
-        query.setLimit(0);
+    private List<NeutralRecord> getSchoolsForStudent(String studentId) {
+        List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
+
+        NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
 
-        Iterable<NeutralRecord> records = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                EntityNames.ATTENDANCE, getJob().getId(), query);
+        Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                EntityNames.STUDENT_SCHOOL_ASSOCIATION, getJob().getId(), query);
 
-        Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
-        if (records != null) {
-            for (NeutralRecord record : records) {
-                studentAttendance.put(record.getRecordId(), record);
+        if (associations != null) {
+            List<String> schoolIds = new ArrayList<String>();
+            for (NeutralRecord association : associations) {
+                Map<String, Object> associationAttributes = association.getAttributes();
+                String schoolId = (String) associationAttributes.get("schoolId");
+                schoolIds.add(schoolId);
+            }
+
+            NeutralQuery schoolQuery = new NeutralQuery(0);
+            schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", schoolIds));
+
+            Iterable<NeutralRecord> queriedSchools = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                    EntityNames.SCHOOL, getJob().getId(), schoolQuery);
+
+            if (queriedSchools != null) {
+                Iterator<NeutralRecord> itr = queriedSchools.iterator();
+                NeutralRecord record = null;
+                while (itr.hasNext()) {
+                    record = itr.next();
+                    schools.add(record);
+                }
             }
         }
-        return studentAttendance;
+        return schools;
     }
 
     /**
@@ -223,53 +309,46 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      *            StateOrganizationId for school.
      * @return Map of Sessions for student-school pair.
      */
-    private Map<Object, NeutralRecord> getSessions(String studentId, String schoolId) {
-        NeutralQuery query = new NeutralQuery();
-        query.setLimit(0);
-        query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
+    private Map<Object, NeutralRecord> getSessions(String schoolId) {
+        Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
 
-        Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                EntityNames.STUDENT_SECTION_ASSOCIATION, getJob().getId(), query);
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("schoolId", "=", schoolId));
 
-        Map<Object, NeutralRecord> studentSchoolSessions = new HashMap<Object, NeutralRecord>();
-        if (associations != null) {
-            List<String> sectionIds = new ArrayList<String>();
-            for (NeutralRecord association : associations) {
-                Map<String, Object> associationAttributes = association.getAttributes();
-                String sectionId = (String) associationAttributes.get("sectionId");
-                sectionIds.add(sectionId);
-            }
+        Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
+                EntityNames.SESSION, getJob().getId(), query);
 
-            NeutralQuery sectionQuery = new NeutralQuery();
-            sectionQuery.setLimit(0);
-            sectionQuery.addCriteria(new NeutralCriteria("schoolId", "=", schoolId));
-            sectionQuery.addCriteria(new NeutralCriteria("uniqueSectionCode", "=", sectionIds));
-
-            Iterable<NeutralRecord> sections = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                    EntityNames.SECTION, getJob().getId(), sectionQuery);
-
-            if (sections != null) {
-                List<String> sessionIds = new ArrayList<String>();
-                for (NeutralRecord section : sections) {
-                    Map<String, Object> sectionAttributes = section.getAttributes();
-                    String sessionId = (String) sectionAttributes.get("sessionId");
-                    sessionIds.add(sessionId);
-                }
-
-                NeutralQuery sessionQuery = new NeutralQuery();
-                sessionQuery.addCriteria(new NeutralCriteria("sessionName", "=", sessionIds));
-
-                Iterable<NeutralRecord> sessions = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                        EntityNames.SESSION, getJob().getId(), sessionQuery);
-
-                if (sessions != null) {
-                    for (NeutralRecord session : sessions) {
-                        studentSchoolSessions.put(session.getRecordId(), session);
-                    }
-                }
+        if (queriedSessions != null) {
+            Iterator<NeutralRecord> itr = queriedSessions.iterator();
+            NeutralRecord record = null;
+            while (itr.hasNext()) {
+                record = itr.next();
+                sessions.put(record.getRecordId(), record);
             }
         }
-        return studentSchoolSessions;
+
+        return sessions;
+    }
+
+    /**
+     * Creates placeholders for attendance events based on provided sessions.
+     *
+     * @param sessions
+     *            Sessions enumerating school years to key off of for attendance events.
+     * @return Map containing { schoolYear --> empty list }
+     */
+    private Map<String, List<Map<String, Object>>> createAttendancePlaceholdersFromSessions(
+            Map<Object, NeutralRecord> sessions) {
+        Map<String, List<Map<String, Object>>> placeholders = new HashMap<String, List<Map<String, Object>>>();
+        for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
+            NeutralRecord sessionRecord = session.getValue();
+            Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
+            String schoolYear = (String) sessionAttributes.get("schoolYear");
+            if (schoolYear != null) {
+                placeholders.put(schoolYear, new ArrayList<Map<String, Object>>());
+            }
+        }
+        return placeholders;
     }
 
     /**
@@ -283,9 +362,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      *            Set of sessions that correspond to the school the student attends.
      * @return Map containing transformed attendance information.
      */
-    private Map<String, Object> mapAttendanceIntoSchoolYears(Map<Object, NeutralRecord> studentAttendance,
+    private Map<String, List<Map<String, Object>>> mapAttendanceIntoSchoolYears(List<Map<String, Object>> attendance,
             Map<Object, NeutralRecord> sessions) {
-        Map<String, Object> schoolYears = new HashMap<String, Object>();
+        Map<String, List<Map<String, Object>>> schoolYears = new HashMap<String, List<Map<String, Object>>>();
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
@@ -294,46 +373,18 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
 
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
-            for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr
-                    .hasNext();) {
-                Map.Entry<Object, NeutralRecord> record = recordItr.next();
-                NeutralRecord eventRecord = record.getValue();
-                Map<String, Object> eventAttributes = eventRecord.getAttributes();
 
-                String eventDate = (String) eventAttributes.get("eventDate");
+            for (int i = 0; i < attendance.size(); i++) {
+                Map<String, Object> event = attendance.get(i);
+                String eventDate = (String) event.get("date");
                 DateTime date = DateTimeUtil.parseDateTime(eventDate);
                 if (DateTimeUtil.isLeftDateBeforeRightDate(sessionBegin, date)
                         && DateTimeUtil.isLeftDateBeforeRightDate(date, sessionEnd)) {
-                    Map<String, Object> event = new HashMap<String, Object>();
-                    String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
-                    event.put("date", eventDate);
-                    event.put("event", eventCategory);
-                    if (eventAttributes.containsKey("attendanceEventReason")) {
-                        String eventReason = (String) eventAttributes.get("attendanceEventReason");
-                        event.put("reason", eventReason);
-                    }
                     events.add(event);
-                    recordItr.remove();
                 }
             }
-            if (events.size() > 0) {
-                schoolYears.put(schoolYear, events);
-            }
+            schoolYears.put(schoolYear, events);
         }
-
-        // if student attendance still has attendance events --> orphaned events
-
-        // Iterator<Map.Entry<Object, NeutralRecord>> recordItr =
-        // studentAttendance.entrySet().iterator();
-        // if (recordItr.hasNext()) {
-        // int orphanedEvents = 0;
-        // while (recordItr.hasNext()) {
-        // recordItr.next();
-        // orphanedEvents++;
-        // }
-        // LOG.warn("  {} attendance events still need to be mapped into a school year.",
-        // orphanedEvents);
-        // }
         return schoolYears;
     }
 }

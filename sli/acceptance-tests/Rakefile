@@ -212,7 +212,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :provisionSandboxUserAccountLimitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -451,9 +451,9 @@ end
 
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationTests do
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
-  runTests("test/features/sandbox/Integration/onboarding_integration.feature")
-end
+sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+runTests("test/features/sandbox/Integration/onboarding_integration.feature")
+  end
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
@@ -461,6 +461,21 @@ task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
 end
 
+desc "Run Provisioning User Account Limit Tests"
+task :provisionSandboxUserAccountLimitTests do
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.waitingListUserAccount.drop()\""
+  @tags = ["~@wip", "@sandbox"]
+  runTests("test/features/sandbox/Provision/limit_number_accounts.feature")
+  displayFailureReport()
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.waitingListUserAccount.drop()\""
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
 
 ############################################################
 # Onboarding Integration Tests end

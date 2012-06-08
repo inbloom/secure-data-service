@@ -1,0 +1,7 @@
+{
+    "collection": "staff",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

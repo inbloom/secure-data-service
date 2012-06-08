@@ -44,6 +44,14 @@ class AppsController < ApplicationController
       format.json { render json: @app }
     end
   end
+  
+  # GET /apps/1/edit
+  # GET /apps/1/edit.json
+  def edit
+    @title = "Edit Application"
+    @district_hierarchy = get_district_hierarchy
+    @app = App.find(params[:id])
+  end
 
   def approve
     @app = App.find(params[:id])
@@ -51,6 +59,8 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
+        #TODO send an email to the developer...
+        # ApplicationMailer.notify_operator(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -70,6 +80,7 @@ class AppsController < ApplicationController
         reg.status = "UNREGISTERED"
       end
       if @app.update_attribute("registration", reg)
+        # ApplicationMailer.notify_operator(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -94,6 +105,9 @@ class AppsController < ApplicationController
     params[:app][:behavior] = params[:app_behavior]
     params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
+    
+    logger.debug {params[:app].inspect}
 
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
@@ -103,6 +117,8 @@ class AppsController < ApplicationController
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
+        #TODO send an email to the operator
+        # ApplicationMailer.notify_operator(session[:support_email], @app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js
@@ -152,10 +168,6 @@ class AppsController < ApplicationController
     end
   end
 
-  def operator?
-    !session[:roles].include? "Application Developer"
-  end
-
   private
   def boolean_fix (parameter)
     case parameter
@@ -164,6 +176,29 @@ class AppsController < ApplicationController
     when "0"
       parameter = false
     end
+  end
+
+  def get_district_hierarchy
+    state_ed_orgs = EducationOrganization.all
+    result = {}
+    user_tenant = get_tenant
+    state_ed_orgs.each do |ed_org|
+      # In sandbox mode, only show edorgs for the current user's tenant
+      filter_tenant = APP_CONFIG["is_sandbox"] && (!ed_org.metaData.attributes.has_key?("tenantId") || ed_org.metaData.tenantId != user_tenant)
+
+      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil or filter_tenant
+      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution, "stateOrganizationId" => ed_org.stateOrganizationId}
+      child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
+      child_ed_orgs.each do |child_ed_org|
+        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution, "stateOrganizationId" => child_ed_org.stateOrganizationId}
+        if result.keys.include?(current_parent)
+          result[current_parent].push(current_child)
+        else
+          result[current_parent] = [current_child]
+        end
+      end
+    end
+    result
   end
 
 end

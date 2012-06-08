@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -120,7 +121,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         String collectionName;
         while (iter.hasNext()) {
             collectionName = iter.next();
-            if (isSystemCollection(collectionName)) {
+            if (isExcludedCollection(collectionName)) {
                 continue;
             }
             mongoTemplate.remove(searchTenantId, collectionName);
@@ -130,7 +131,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     }
 
-    private boolean isSystemCollection(String collectionName) {
+    private boolean isExcludedCollection(String collectionName) {
         for (String excludedCollectionName : excludeCollections) {
             if (collectionName.equals(excludedCollectionName)) {
                 return true;
@@ -162,7 +163,13 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     }
 
     private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
+        String batchJobId = null;
+
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        if (workNote != null) {
+            batchJobId = workNote.getBatchJobId();
+        }
+        return batchJobId;
     }
 
     private void missingBatchJobIdError(Exchange exchange) {

@@ -1,40 +1,16 @@
-<head>
-    <style>
-        .preStyle {
-             white-space: pre-wrap;
-             word-wrap: break-word;
-             width: 400px;
-             height: 400px;
-             overflow: auto;
-             overflow-y; scroll;
-             background-color: #FFFFFF;
-             border: 1px solid;
-             padding: 15px;
-        }
-    </style>
-</head>
-
+<div class="page-header">
+  <h1>Terms and Conditions</h1>
+</div>
+<p>In order to begin developing for the SLC you will need to agree to our Terms and Conditions.</p>
+<p><b>Step 2 of 3</b></p>
 <%= form_for(:eula) do |f| %>
-  <h1>Terms of Use</h1>
-  <div class="actions">
-
-    <table>
-      <tr>
-        <td>
-          <pre class="preStyle">
-              <%= render :file => '../../public/license.txt' %>
-          </pre>
-        </td>
-      </tr>
-      <tr>
-        <td align="right" style="padding: 10px">
-          <%= f.submit "Accept", 
-            :id => "acceptEulaButton", :class => "btn" %>
-          <%= f.submit "Reject", 
-            :id => "rejectEulaButton", :class => "btn" %>
-        </td>
-      </tr>
-    </table>
-
-  </div>
+    <pre class="pre-scrollable">
+        <%= render :file => '../../public/license.txt' %>
+    </pre>
+    <div class="form-actions">
+      <%= f.submit "I Accept",
+                   :id => "acceptEulaButton", :class => "btn btn-primary" %>
+      <%= f.submit "I Decline",
+                   :id => "rejectEulaButton", :class => "btn" %>
+    </div>
 <% end %>

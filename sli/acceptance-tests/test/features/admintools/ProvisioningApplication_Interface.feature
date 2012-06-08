@@ -1,4 +1,4 @@
-@RALLY_US1106 @RALLY_US2217
+@RALLY_US1106 @RALLY_US2217 @RALLY_US172
 Feature: Developer/Admin has an interface to create a High Level Ed-Org and link it to the Landing Zone
 
 Background: Vendor/Developer is logged into the Provisioning Tool

@@ -75,42 +75,8 @@
 	<%= f.text_field :image_url %>
 	<span class="help-inline">An optional image url to be displayed as an icon</span>
 </div>
-
-
-  <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
-  <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% isNew = @district_hierarchy == nil %>
-  <% isPending = client_field_value(app, :client_id) == "Pending"%>
-  <div class ="<%= "field well" if !isNew and !isPending%>">
-  <% @district_hierarchy = {} if isNew or isPending %>
-  <% @district_hierarchy.keys.each do |district| %>
-      <%=
-          if app.authorized_ed_orgs != nil
-              check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"]))
-          else
-              check_box_tag(check_box_name, district["stateOrganizationId"])
-          end
-      %>
-
-         <%= district["name"] %>    <br />
-    <% @district_hierarchy[district].each do |child_district| %>
-            &#160;&#160;
-            <%=
-                if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"], app.authorized_ed_orgs.include?(child_district["stateOrganizationId"]))
-                else
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"])
-                end
-            %>
-            <%= child_district["name"] %> <br />
-    <% end %>
-  <% end %>
-  <% if !isNew and !isPending %>
-    <%= button_to_function("Enable All", 'changeCheck("' + check_box_name + '", 1)')%>
-    <%= button_to_function("Disable All", 'changeCheck("' + check_box_name + '", 0)')%>
-    </div>
-  <%end%>
 <div class = "actions">
-	<%= f.submit "Submit", :disable_with => 'Submitting...', :class => "btn" %>
+	<%= f.submit "Register", :disable_with => 'Submitting...', :class => "btn" %>
+	<%= link_to "Cancel", :back %>
 </div>
 <% end %>

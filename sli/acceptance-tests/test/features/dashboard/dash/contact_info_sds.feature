@@ -31,7 +31,7 @@ And the list of address includes
 1558 4th Street, APT 7776
 Chicago, IL 60139-2152
 """
-And the address "1558 4th Street" is of type "Address"
+And the address "1558 4th Street" is of type "Home"
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
@@ -66,7 +66,7 @@ And the list of address includes
 1537 Steuben Street, APT 330
 New York, NY 10753-2389
 """
-And the address "8124 Brighton 3 Place" is of type "Address"
+And the address "8124 Brighton 3 Place" is of type "Home"
 And the address "1537 Steuben Street" is of type "Physical"
 
 @integration @RALLY_US198  @RALLY_US147

@@ -16,11 +16,11 @@ Then /^I can see the on\-boarded states\/districts$/ do
 end
 
 Then /^I check the Districts$/ do
-  @driver.find_element(:css, 'input:enabled[type="button"][value="Enable All"]').click
+  @driver.find_element(:link_text, 'Enable All').click
 end
 
 Then /^I uncheck the Districts$/ do
-  @driver.find_element(:css, 'input:enabled[type="button"][value="Disable All"]').click
+  @driver.find_element(:link_text, 'Disable All').click
 end
 
 When /^I click on Save$/ do
