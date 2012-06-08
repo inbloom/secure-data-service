@@ -46,19 +46,16 @@ public final class SdkImplementationWriter implements WadlHandler {
             jsw.writeImport("java.util.ArrayList");
             jsw.writeImport("java.util.Collections");
             jsw.writeImport("java.util.List");
-            jsw.writeImport("org.slc.sli.api.client.Entity");
-            jsw.writeImport("org.slc.sli.api.client.SLIClient");
-            jsw.writeImport("org.slc.sli.api.client.impl.BasicClient");
             jsw.beginClass(className, interfaces);
             // Attributes
-            jsw.writeAttribute("sliClient", "SLIClient");
+            //jsw.writeAttribute("sliClient", "SLIClient");
             // Write Initializer
             jsw.write("public "
                     + className
                     + "(final URL apiServerUrl, final String clientId, final String clientSecret, final URL callbackURL)");
             jsw.beginBlock();
-            jsw.beginStmt().write("sliClient = new BasicClient(apiServerUrl, clientId, clientSecret, callbackURL)")
-                    .endStmt();
+//            jsw.beginStmt().write("sliClient = new BasicClient(apiServerUrl, clientId, clientSecret, callbackURL)")
+//                    .endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -94,9 +91,9 @@ public final class SdkImplementationWriter implements WadlHandler {
                 jsw.writeComment(method.getId());
                 jsw.writeOverride();
                 jsw.beginStmt();
-                jsw.write("public List<Entity> " + method.getId() + "() throws IOException, SLIDataStoreException");
+                jsw.write("public List<SLIEntity> " + method.getId() + "() throws IOException, SLIDataStoreException");
                 jsw.beginBlock();
-                jsw.beginStmt().write("final List<Entity> entities = new ArrayList<Entity>()").endStmt();
+                jsw.beginStmt().write("final List<SLIEntity> entities = new ArrayList<SLIEntity>()").endStmt();
                 jsw.beginStmt().write("return Collections.unmodifiableList(entities)").endStmt();
             }
         } catch (final IOException e) {

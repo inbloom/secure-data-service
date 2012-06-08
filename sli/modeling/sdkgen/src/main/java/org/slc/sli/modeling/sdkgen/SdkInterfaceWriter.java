@@ -37,7 +37,6 @@ public final class SdkInterfaceWriter implements WadlHandler {
             jsw.writePackage(packageName);
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.util.List");
-            jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginInterface(className);
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -72,7 +71,7 @@ public final class SdkInterfaceWriter implements WadlHandler {
             if (Method.NAME_HTTP_GET.equals(method.getName())) {
                 jsw.writeComment(method.getId());
                 jsw.beginStmt();
-                jsw.write("List<Entity> " + method.getId() + "() throws IOException, SLIDataStoreException");
+                jsw.write("List<SLIEntity> " + method.getId() + "() throws IOException, SLIDataStoreException");
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
