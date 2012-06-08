@@ -61,6 +61,9 @@ public class MemcachedCacheProvider implements CacheProvider {
 
     @Override
     public Object get(String key) {
-        return client.get(key);
+        Object val =  client.get(key);
+
+        LOG.debug("Memcached {} for {}", val == null ? "MISS" : "HIT", key);
+        return val;
     }
 }
