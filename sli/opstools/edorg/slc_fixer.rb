@@ -156,8 +156,12 @@ class SLCFixer
       stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
     end
     @db['staffCohortAssociation'].find.each do |cohort|
-      edorg = old_edorgs(@db['cohort'], cohort['body']['cohortId'])
+      edorg = []
+      edorg << old_edorgs(@db['cohort'], cohort['body']['cohortId'])
+      edorg << old_edorgs(@db['staff'], cohort['body']['staffId'])
+      edorg = edorg.flatten.uniq
       stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
+      stamp_id(@db['cohort'], cohort['body']['cohortId'], edorg)
     end
   end
 
@@ -278,7 +282,6 @@ class SLCFixer
     begin
       old = doc['metaData']['edOrgs']
     rescue
-      puts "Failing to get old edorgs for #{collection.name}-> #{id}"
       old = []      
     end
     return [] if old.nil?
