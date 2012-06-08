@@ -127,9 +127,11 @@ public class BasicService implements EntityService {
             }
         }
 
-        //add the security criteria
-        localNeutralQuery.addCriteria(securityCriteria);
-        
+        if (allowed.size() > 0) {
+            //add the security criteria
+            localNeutralQuery.addCriteria(securityCriteria);
+        }
+
         return repo.count(collectionName, localNeutralQuery);
     }
     
@@ -369,8 +371,10 @@ public class BasicService implements EntityService {
             }
         }
 
-        //add the security criteria
-        localNeutralQuery.addCriteria(securityCriteria);
+        if (allowed.size() > 0) {
+            //add the security criteria
+            localNeutralQuery.addCriteria(securityCriteria);
+        }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
         
