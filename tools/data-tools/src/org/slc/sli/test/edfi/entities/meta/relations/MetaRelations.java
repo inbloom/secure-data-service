@@ -1,8 +1,10 @@
 package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.slc.sli.test.DataFidelityType;
@@ -34,7 +36,7 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
     
     // knobs to control number of entities to create
-	public static final int TOTAL_SEAS =1;
+    public static final int TOTAL_SEAS =1;
     public static final int LEAS_PER_SEA =1;
     public static final int STAFF_PER_SEA = 135;
     public static final int SCHOOLS_PER_LEA = 6;
@@ -65,7 +67,7 @@ public final class MetaRelations {
     public static final int GRADINGPERIOD_PER_CALENDAR = 2;
     public static final int GRADUATION_PLAN_PER_SCHOOL=1;
     public static final int GRADING_PERIOD_PER_SESSIONS=2;
-
+    
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
@@ -215,7 +217,7 @@ public final class MetaRelations {
 
     
     private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta, Map<String, StaffMeta> staffForSea) {
-        
+
         Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
         
         Map<String, StudentMeta> studentsForSchool = buildStudentsForSchool(schoolMeta);
@@ -241,7 +243,7 @@ public final class MetaRelations {
         
         Map<String, CohortMeta> freeStandingCohortsForSchool = buildFreeStandingCohortsForSchool(schoolMeta);
         
-        Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = buildDisciplineIncidentsForSchool(schoolMeta);
+        Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = buildDisciplineIncidentsForSchool(schoolMeta, teachersForSchool);
         
         Map<String, DisciplineActionMeta> disciplineActionsForSchool = buildDisciplineActionsForSchool(schoolMeta);
         
@@ -663,11 +665,14 @@ public final class MetaRelations {
      * 
      * @param schoolMeta
      */
-    private static Map<String, DisciplineIncidentMeta> buildDisciplineIncidentsForSchool(SchoolMeta schoolMeta) {
+    private static Map<String, DisciplineIncidentMeta> buildDisciplineIncidentsForSchool(SchoolMeta schoolMeta, Map<String, TeacherMeta> teacherMeta) {
         Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = new HashMap<String, DisciplineIncidentMeta>(
                 DISCPLINE_INCIDENTS_PER_SCHOOL);
+        Set<String> teacherSet = teacherMeta.keySet();
+        Iterator<String> it = teacherSet.iterator();
+        String teacherId = (String) it.next();
         for (int idNum = 0; idNum < DISCPLINE_INCIDENTS_PER_SCHOOL; idNum++) {
-            DisciplineIncidentMeta disciplineIncidentMeta = new DisciplineIncidentMeta("i" + idNum, schoolMeta);
+            DisciplineIncidentMeta disciplineIncidentMeta = new DisciplineIncidentMeta("i" + idNum, schoolMeta, teacherId);
             disciplineIncidentsForSchool.put(disciplineIncidentMeta.id, disciplineIncidentMeta);
             DISCIPLINE_INCIDENT_MAP.put(disciplineIncidentMeta.id, disciplineIncidentMeta);
         }
