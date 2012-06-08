@@ -30,13 +30,9 @@ $entityData = {
   "gradingPeriod" => {
     "gradingPeriodIdentity" => {
       "educationalOrgIdentity" => [{
-        "educationOrgIdentificationCode" => [
-          {
-              "ID" => "Daybreak Elementary School",
-              "identificationSystem" => "School"
-          }
-        ]
+        "stateOrganizationId" => "Daybreak Elementary School",
       }],
+      "stateOrganizationId" => "Daybreak Elementary School",
       "gradingPeriod" => "First Six Weeks",
       "schoolYear" => "2011-2012"
     },

@@ -752,15 +752,6 @@
 							<version>${wgen.build.tools}</version>
 						</dependency>
 					</dependencies>
-					<executions>
-						<execution>
-							<id>validate</id>
-							<phase>validate</phase>
-							<goals>
-								<goal>checkstyle</goal>
-							</goals>
-						</execution>
-					</executions>
 				</plugin>
 
 				<plugin>

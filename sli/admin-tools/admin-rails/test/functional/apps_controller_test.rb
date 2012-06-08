@@ -25,6 +25,13 @@ class AppsControllerTest < ActionController::TestCase
   test "cannot index as realm admin" do
     assert_raise(ActiveResource::ForbiddenAccess) {get :index, {}, {:roles => ["Realm Administrator"]}}
   end
+  
+  test "cannot index as realm admin" do
+    get :index, {}, {:roles => ["Realm Administrator"]}
+    !assigns @apps
+    assert !flash.nil?
+    assert @response.body =~ /Not Authorized/
+  end
 
   # test "should create app" do
   #   assert_difference("#{@Apps.count}") do

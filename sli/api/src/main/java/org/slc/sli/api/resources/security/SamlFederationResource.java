@@ -235,6 +235,18 @@ public class SamlFederationResource {
             throw new RuntimeException("Invalid user");
         }
 
+        if(principal.getRoles() == null || principal.getRoles().isEmpty()){
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            throw new RuntimeException("Invalid user. No roles specified for user.");
+        }
+ 
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+
+        if(principal.getSliRoles().isEmpty()){
+            debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+            throw new RuntimeException("Invalid user. No valid role mappings exist for the roles specified in the SAML Assertion.");
+        }
+
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }

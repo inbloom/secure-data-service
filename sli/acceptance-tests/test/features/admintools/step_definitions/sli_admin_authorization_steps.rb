@@ -40,3 +40,8 @@ And /^I login$/ do
   step "I submit the credentials \"#@user\" \"#@pass\" for the \"Simple\" login page"
 end
 
+Then /^the api should generate a (\d+) error$/ do |arg1|
+  puts @driver.current_url
+  assert(@driver.current_url.end_with?("api/rest/saml/sso/post"), "Should have gotten an error")
+end
+
