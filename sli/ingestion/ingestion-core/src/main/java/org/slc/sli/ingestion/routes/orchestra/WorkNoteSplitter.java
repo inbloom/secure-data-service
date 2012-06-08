@@ -37,10 +37,6 @@ public class WorkNoteSplitter {
 
     private int thresholdPct = 30;
 
-    private int splitChunkUpperBound = splitChunkSize * (1 + thresholdPct / 100);
-
-    private int splitChunkLowerBound = splitChunkSize * (1 - thresholdPct / 100);
-
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
@@ -137,9 +133,8 @@ public class WorkNoteSplitter {
 
         long recordsCountInSegment = getCountOfRecords(collectionName, jobId, minTime, maxTime);
 
-        if ((recordsCountInSegment <= splitChunkUpperBound) && (recordsCountInSegment >= splitChunkLowerBound)) {
+        if (chunkMatch(recordsCountInSegment, MatchEnumeration.good)) {
             // Current chunk is within acceptable threshold, add it to workNotes
-
             LOG.info("Adding unsplit chunk - it's within acceptable limits");
             WorkNote workNoteUnsplit = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime, 0);
             workNotes.add(workNoteUnsplit);
@@ -147,7 +142,6 @@ public class WorkNoteSplitter {
         } else {
             // split time chunk in roughly 2 pieces
 
-            long recordsInRightChunk;
             long intervalElapsedTime = maxTime - minTime;
             double split = 0.5;
             boolean done = false;
@@ -157,56 +151,37 @@ public class WorkNoteSplitter {
             while (!done) {
                 // check right interval
                 pivot = minTime + (long) (intervalElapsedTime * split);
-                recordsInRightChunk = getCountOfRecords(collectionName, jobId, pivot, maxTime);
+                long recordsInRightChunk = getCountOfRecords(collectionName, jobId, pivot, maxTime);
+                long recordsInLeftChunk = recordsCountInSegment - recordsInRightChunk;
 
-                LOG.info("Total ms in interval = " + intervalElapsedTime + " in the right side = "
-                        + (intervalElapsedTime * split));
-                LOG.info("Right Interval (Start / End) " + String.valueOf(pivot) + " / " + String.valueOf(maxTime));
+                LOG.info("Total ms in interval = {}", intervalElapsedTime);
+                LOG.info("Right Interval (Start / End) {} / {} ", pivot, maxTime);
                 LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
-                        + split, recordsInRightChunk, (recordsCountInSegment - recordsInRightChunk));
+                        + split, recordsInLeftChunk, recordsInRightChunk);
 
                 done = true;
 
-                /*
-                 * How to process results of records in chunk:
-                 * left right
-                 * ok ok add both to work notes
-                 * ok smaller add both to work notes
-                 * ok higher add left to work note, recurse on right
-                 *
-                 * smaller ok add both to work notes
-                 * smaller smaller add both to work notes
-                 * smaller higher move interval to the right
-                 *
-                 * higher ok add right to work note, recurse on left
-                 * higher smaller move interval to the left
-                 * higher higher recurse on both left and right
-                 */
-
-                if (checkRecordsInChunk(recordsInRightChunk).equals(MatchEnumeration.good)) {
+                if (chunkMatch(recordsInRightChunk, MatchEnumeration.good)) {
                     // RIGHT SIDE IS GOOD
-                    if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(MatchEnumeration.good)
-                            || checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                                    MatchEnumeration.small)) {
-                        LOG.info("Adding left + right work notes");
-                        WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
-                                0);
-                        workNotes.add(workNoteLeft);
-                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot,
-                                maxTime, 0);
-                        workNotes.add(workNoteRight);
 
-                    } else if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                            MatchEnumeration.large)) {
+                    WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                    workNotes.add(right);
+
+                    if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)
+                            || chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
+                        LOG.info("Adding left + right work notes");
+
+                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        workNotes.add(left);
+
+                    } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
+
                         LOG.info("Recursing on left + adding right work note");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
-                        WorkNote workNoteRight = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot,
-                                maxTime, 0);
-                        workNotes.add(workNoteRight);
                     }
-                } else if (checkRecordsInChunk(recordsInRightChunk).equals(MatchEnumeration.small)) {
+                } else if (chunkMatch(recordsInRightChunk, MatchEnumeration.small)) {
                     // RIGHT SIDE IS TOO SMALL
-                    if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(MatchEnumeration.good)) {
+                    if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
                         LOG.info("Adding left + right work notes");
                         WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 0);
@@ -215,8 +190,7 @@ public class WorkNoteSplitter {
                                 maxTime, 0);
                         workNotes.add(workNoteRight);
 
-                    } else if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                            MatchEnumeration.small)) {
+                    } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
                         LOG.info("Adding left + right work notes");
                         WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 0);
@@ -225,29 +199,26 @@ public class WorkNoteSplitter {
                                 maxTime, 0);
                         workNotes.add(workNoteRight);
 
-                    } else if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                            MatchEnumeration.large)) {
+                    } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
                         LOG.info("Reintervaling - moving interval to the left (left side is too heavy)");
                         split = split - split / 2;
                         done = false;
                     }
                 } else {
                     // RIGHT SIDE IS TOO LARGE
-                    if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(MatchEnumeration.good)) {
+                    if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
                         LOG.info("Adding left work note + recursing on the right");
                         WorkNote workNoteLeft = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 0);
                         workNotes.add(workNoteLeft);
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
 
-                    } else if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                            MatchEnumeration.small)) {
+                    } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
                         LOG.info("Reintervaling - moving interval to the right (right side is too heavy)");
                         split = split + split / 2;
                         done = false;
 
-                    } else if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(
-                            MatchEnumeration.large)) {
+                    } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
                         LOG.info("Recursing on both left and right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
@@ -259,7 +230,7 @@ public class WorkNoteSplitter {
                 if (splitAttempts > 20 && done == false) {
                     LOG.info("Split Max reached.");
 
-                    if (checkRecordsInChunk(recordsCountInSegment - recordsInRightChunk).equals(MatchEnumeration.large)) {
+                    if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
                         LOG.info("Recursing on left");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     } else {
@@ -269,7 +240,7 @@ public class WorkNoteSplitter {
                         workNotes.add(workNoteLeft);
                     }
 
-                    if (checkRecordsInChunk(recordsInRightChunk).equals(MatchEnumeration.large)) {
+                    if (chunkMatch(recordsInRightChunk, MatchEnumeration.large)) {
                         LOG.info("Recursing on right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     } else {
@@ -287,7 +258,14 @@ public class WorkNoteSplitter {
         return workNotes;
     }
 
+    private boolean chunkMatch(long count, MatchEnumeration matchEnum) {
+        return matchEnum == checkRecordsInChunk(count);
+    }
+
     private MatchEnumeration checkRecordsInChunk(long count) {
+        int splitChunkUpperBound = splitChunkSize * (1 + thresholdPct / 100);
+        int splitChunkLowerBound = splitChunkSize * (1 - thresholdPct / 100);
+
         if (count <= splitChunkUpperBound) {
             if (count >= splitChunkLowerBound) {
                 return MatchEnumeration.good;
@@ -306,22 +284,24 @@ public class WorkNoteSplitter {
     private long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         Query queryLatest = new Query();
         queryLatest.sort().on("creationTime", Order.DESCENDING);
-
-        NeutralRecord latest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+        queryLatest.limit(1);
+        Iterable<NeutralRecord> nrLatest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(
                 stagedEntity.getCollectionNameAsStaged(), queryLatest, jobId);
+        Iterator<NeutralRecord> nrLatestIterator = nrLatest.iterator();
 
-        long endTime = latest.getCreationTime() + 2000; // add 2s buffer
-        return endTime;
+        long endDate = nrLatestIterator.next().getCreationTime() + 2000; // add 2s buffer
+        return endDate;
     }
 
     private long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         Query queryEarliest = new Query();
         queryEarliest.sort().on("creationTime", Order.ASCENDING);
-
-        NeutralRecord earliest = neutralRecordMongoAccess.getRecordRepository().findOneForJob(
+        queryEarliest.limit(1);
+        Iterable<NeutralRecord> nrEarliest = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(
                 stagedEntity.getCollectionNameAsStaged(), queryEarliest, jobId);
-        long startTime = earliest.getCreationTime();
-        return startTime;
+        Iterator<NeutralRecord> nrEarliestIterator = nrEarliest.iterator();
+        long startDate = nrEarliestIterator.next().getCreationTime();
+        return startDate;
     }
 
 }
