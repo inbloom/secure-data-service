@@ -317,22 +317,6 @@ public class LiveAPIClient implements APIClient {
         return null;
     }
 
-    /**
-     * Get a list of student ids belonging to a section
-     */
-    private List<String> getStudentIdsForSection(String id, String token) {
-
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id + STUDENT_SECTION_ASSOC,
-                token);
-        List<String> studentIds = new ArrayList<String>();
-
-        if (responses != null) {
-            for (GenericEntity response : responses) {
-                studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
-            }
-        }
-        return studentIds;
-    }
 
     /**
      * Get one student
@@ -345,13 +329,14 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook", token);
+                + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook"
+                + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
     @Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?views=gradebook", token);
+                + "?views=gradebook" + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
     @Override
@@ -787,7 +772,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getHomeRoomForStudent(String studentId, String token) {
-        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC;
+        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);
 
         // If only one section association exists for the student, return the
@@ -1075,7 +1060,7 @@ public class LiveAPIClient implements APIClient {
         // Retrieve the student school associations from the first link with
         // STUDENT_SCHOOL_ASSOCIATIONS_LINK
         // sorted by entryDate
-        String url = this.sortBy(urls.get(0), "entryDate", "descending");
+        String url = this.sortBy(urls.get(0), "entryDate", "descending") + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
 
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token);
 
