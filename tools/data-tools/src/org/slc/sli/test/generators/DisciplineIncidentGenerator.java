@@ -60,6 +60,7 @@ public class DisciplineIncidentGenerator {
         DisciplineIncident incident = new DisciplineIncident();
 
         incident.setIncidentIdentifier(disciplineIncidentId);
+        incident.setId(disciplineIncidentId);
         // set incident date and time
         incident.setIncidentDate(date);
         incident.setIncidentTime(time);
