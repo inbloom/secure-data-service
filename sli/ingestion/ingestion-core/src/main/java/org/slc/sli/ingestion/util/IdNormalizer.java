@@ -30,6 +30,8 @@ public class IdNormalizer {
 
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
+    private static final Map<Object, String> CACHE = new HashMap<Object, String>();
+
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
      * store. Uses a multiple search criteria to resolve the reference
@@ -44,26 +46,31 @@ public class IdNormalizer {
      *            Error reporting
      * @return The resolved internalId
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId,
-            Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, Map<?, ?> externalSearchCriteria, ErrorReport errorReport) {
+
+        String cached = getFromCache(collection, tenantId, String.valueOf(externalSearchCriteria.hashCode()));
+        if (cached != null) {
+            return cached;
+        }
+
         Map<String, String> filterFields = new HashMap<String, String>();
         filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         Query query = new Query();
-        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, tenantId,
-                errorReport);
+        resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, tenantId, errorReport);
         query.fields().include("_id");
 
         Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
         if (found == null || !found.iterator().hasNext()) {
-            errorReport.error("Cannot find [" + collection + "] record using the following filter: "
-                    + query.getQueryObject().toString(), IdNormalizer.class);
+            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + query.getQueryObject().toString(), IdNormalizer.class);
 
             return null;
         }
 
         Entity entity = found.iterator().next();
+
+        cache(collection,tenantId,String.valueOf(externalSearchCriteria.hashCode()),entity.getEntityId());
 
         return entity.getEntityId();
     }
@@ -82,24 +89,27 @@ public class IdNormalizer {
      *            Error reporting
      * @return Resolved internal ID
      */
-    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId,
-            String externalId, ErrorReport errorReport) {
+    public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId, String externalId, ErrorReport errorReport) {
+
+        String cached = getFromCache(collection, tenantId, externalId);
+        if (cached != null) {
+            return cached;
+        }
+
         NeutralQuery nq = new NeutralQuery();
-        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), "=", tenantId,
-                false));
-        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), "=",
-                externalId, false));
+        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), "=", tenantId, false));
+        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), "=", externalId, false));
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
         LOG.debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
         if (e == null) {
-            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq,
-                    IdNormalizer.class);
+            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq, IdNormalizer.class);
 
             return null;
         }
 
+        cache(collection,tenantId,externalId,e.getEntityId());
         return e.getEntityId();
     }
 
@@ -111,9 +121,7 @@ public class IdNormalizer {
      * @param externalSearchCriteria
      * @param query
      */
-    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection,
-            Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String tenantId,
-            ErrorReport errorReport) {
+    private static void resolveSearchCriteria(Repository<Entity> entityRepository, String collection, Map<String, String> filterFields, Map<?, ?> externalSearchCriteria, Query query, String tenantId, ErrorReport errorReport) {
         for (Map.Entry<?, ?> searchCriteriaEntry : externalSearchCriteria.entrySet()) {
 
             StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
@@ -122,8 +130,7 @@ public class IdNormalizer {
 
             if (pathCollection.equals(collection) && searchCriteriaEntry.getValue() != null) {
 
-                resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(),
-                        searchCriteriaEntry.getValue());
+                resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
                 addSearchPathsToQuery(query, filterFields);
 
             } else {
@@ -156,8 +163,7 @@ public class IdNormalizer {
 
             for (Map.Entry<?, ?> searchCriteriaEntry : ((Map<?, ?>) value).entrySet()) {
 
-                resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(),
-                        searchCriteriaEntry.getValue());
+                resolveSameCollectionCriteria(filterFields, searchCriteriaEntry.getKey().toString(), searchCriteriaEntry.getValue());
 
             }
 
@@ -180,8 +186,7 @@ public class IdNormalizer {
      * @param externalSearchCriteria
      * @param errorReport
      */
-    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query,
-            Map.Entry<?, ?> searchCriteriaEntry, String tenantId, ErrorReport errorReport) {
+    private static void resolveDifferentCollectionCriteria(Repository<Entity> entityRepository, Query query, Map.Entry<?, ?> searchCriteriaEntry, String tenantId, ErrorReport errorReport) {
         StringTokenizer tokenizer = new StringTokenizer(searchCriteriaEntry.getKey().toString(), "#");
         String pathCollection = tokenizer.nextToken();
         pathCollection = WordUtils.uncapitalize(pathCollection);
@@ -192,11 +197,9 @@ public class IdNormalizer {
         if (searchCriteriaEntry.getValue() instanceof String) {
             Map<String, String> searchCriteriaEntryMap = new HashMap<String, String>();
             searchCriteriaEntryMap.put((String) searchCriteriaEntry.getKey(), (String) searchCriteriaEntry.getValue());
-            resolveSearchCriteria(entityRepository, pathCollection, tempFilter, searchCriteriaEntryMap, referenceQuery,
-                    tenantId, errorReport);
+            resolveSearchCriteria(entityRepository, pathCollection, tempFilter, searchCriteriaEntryMap, referenceQuery, tenantId, errorReport);
         } else {
-            resolveSearchCriteria(entityRepository, pathCollection, tempFilter,
-                    (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, tenantId, errorReport);
+            resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(), referenceQuery, tenantId, errorReport);
         }
 
         if (tempFilter.isEmpty()) {
@@ -207,9 +210,7 @@ public class IdNormalizer {
         Iterable<Entity> referenceFound = entityRepository.findByPaths(pathCollection, tempFilter);
 
         if (referenceFound == null || !referenceFound.iterator().hasNext()) {
-            errorReport.error(
-                    "Cannot find [" + pathCollection + "] record using the following filter: " + tempFilter.toString(),
-                    IdNormalizer.class);
+            errorReport.error("Cannot find [" + pathCollection + "] record using the following filter: " + tempFilter.toString(), IdNormalizer.class);
         } else {
 
             Map<String, String> orFilter = new HashMap<String, String>();
@@ -241,4 +242,25 @@ public class IdNormalizer {
         }
         query.or(queries.toArray(new Query[0]));
     }
+
+
+    //  Caching POC
+
+    private static String getFromCache(String collection, String tenantId, String criteria) {
+
+        String key = composeKey(collection, tenantId, criteria);
+        String found = CACHE.get(key);
+        LOG.info("Cache {} for {}", found == null ? "MISS" : "HIT", key);
+
+        return found;
+    }
+
+    private static void cache(String collection, String tenantId, String criteria, String value) {
+        CACHE.put(composeKey(collection, tenantId, criteria), value);
+    }
+
+    private static String composeKey(String collection, String tenantId, String criteria) {
+        return String.format("%s_%s_%s", collection, tenantId, criteria);
+    }
+
 }

@@ -1,3 +1,4 @@
+
 require 'mongo'
 require 'json'
 
@@ -5,8 +6,13 @@ require 'json'
 mongohost = 'nxmaestro.slidev.org'
 mongoport = 27017
 
+dbName = ARGV[1]
+if ( dbName.nil? ) 
+	dbName = "sli"
+end
+
 puts "\==========================================================="
-puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor sli database"
+puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor #{dbName} database"
   
 expected={"900K" => {
   "assessment"=>4,
@@ -71,7 +77,53 @@ expected={"900K" => {
   "learningObjective"=>393,
   "parent"=>45904,
   "program"=>47,
-  "school"=>46,
+  "school"=>0,
+  "schoolSessionAssociation"=>0, 
+  "section"=>30912,
+  "sectionAssessmentAssociation"=>0,
+  "sectionSchoolAssociation"=>0,
+  "session"=>92,
+  "sessionCourseAssociation"=>0,
+  "staff"=>135,
+  "staffCohortAssociation"=>92,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>47,
+  "student"=>30544,
+  "studentAcademicRecord"=>0,
+  "studentAssessmentAssociation"=>305440,
+  "studentCohortAssociation"=>32983,
+  "studentDisciplineIncidentAssociation"=>44022,
+  "studentParentAssociation"=>45904,
+  "studentProgramAssociation"=>26267,
+  "studentSchoolAssociation"=>30544,
+  "studentSectionAssociation"=>427616,
+  "studentSectionGradebookEntry"=>0,
+  "studentTranscriptAssociation"=>0,
+  "teacher"=>2484,
+  "teacherSchoolAssociation"=>2484,
+  "teacherSectionAssociation"=>30912
+  },
+  
+  # TODO
+    "22M" => {
+  "assessment"=>163,
+  "attendance"=>30544,#3420928
+  "calendarDate"=>184,
+  "cohort"=>92,
+  "course"=>100,
+  "courseOffering"=>0,
+  "courseSectionAssociation"=>0,
+  "disciplineAction"=>44022,
+  "disciplineIncident"=>44022,
+  "educationOrganization"=>48,
+  "educationOrganizationAssociation"=>135,
+  "educationOrganizationSchoolAssociation"=>0,
+  "gradebookEntry"=>0,
+  "gradingPeriod"=>736,
+  "learningObjective"=>393,
+  "parent"=>45904,
+  "program"=>47,
+  "school"=>0,
   "schoolSessionAssociation"=>0, 
   "section"=>30912,
   "sectionAssessmentAssociation"=>0,
@@ -97,15 +149,21 @@ expected={"900K" => {
   "teacherSchoolAssociation"=>2484,
   "teacherSectionAssociation"=>30912
   }
+  
+  
 }
 
 # Print total counts
+
+expectationTotals = { "900K" => 0, "8M" => 0, "22M" => 0 }
+
 expected.each do |set,collections|
   total=0
   collections.each do |name,count|
     total+=count
   end
   printf "%s %d\n",set,total
+  expectationTotals[set] = total
 end
 
 # Check that user specified the set
@@ -123,16 +181,20 @@ if !expected.has_key?(ARGV[0])
 end
 
 connection = Mongo::Connection.new( mongohost, mongoport)
-db = connection.db("sli")
 
-printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m"
+db = connection.db( dbName )
+
+printf "\e[35m%-40s %s\n","Collection","Actual(Expected)\e[0m"
 puts "---------------------------------------------------------"
 
-expected[ARGV[0]].each do |collectionName,expectedCount|
+totalActualCount = 0
+
+setName = ARGV[0]
+expected[ setName ].each do |collectionName,expectedCount|
   coll = db.collection(collectionName)
 
   count = coll.count()
-
+	totalActualCount += count
   color="\e[32m"
   if expectedCount != count
     color="\e[31m"
@@ -141,4 +203,6 @@ expected[ARGV[0]].each do |collectionName,expectedCount|
 
 end
 
+expectedSetTotal = expectationTotals[setName]
+puts "Expected #{expectedSetTotal} and saw #{totalActualCount}"
 puts "ALL DONE"
