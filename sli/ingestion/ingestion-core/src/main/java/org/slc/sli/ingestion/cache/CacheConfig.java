@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.cache;
 import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ public class CacheConfig {
     @Value("${sli.ingestion.cache.servers}")
     private String cacheServers;
 
-    @Autowired
+    @Bean
     public MemcachedClientFactoryBean getMemcachedClientFactoryBean() {
 
         MemcachedClientFactoryBean bean = new MemcachedClientFactoryBean();
