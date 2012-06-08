@@ -11,7 +11,6 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
   default-autowire="byName">
 
-
   <!-- SHARED CONFIG -->
 
   <tx:annotation-driven />
@@ -44,9 +43,7 @@
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
 <!--    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />  -->
    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
-    <property name="keyStore" value="${sli.encryption.keyStore}" />
-    <property name="propertiesFile" value="${sli.conf}" />
-  </bean>
+   </bean>
 
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg ref="mongoDbFactory" />
@@ -63,10 +60,8 @@
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
-
-  <context:component-scan base-package="org.slc.sli.dal" />
-
-<!--   <bean id="validationStrategyList" class="java.util.ArrayList">
+  
+  <!--   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
         <ref bean="blacklistByCharsetStrategy" />
@@ -83,4 +78,5 @@
   </bean> -->
   <import resource="classpath:/spring/validation.xml" />
 
+  <context:component-scan base-package="org.slc.sli.dal" />
 </beans>

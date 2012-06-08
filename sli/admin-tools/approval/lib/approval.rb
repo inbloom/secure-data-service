@@ -2,6 +2,8 @@ require 'set'
 require 'digest'
 require 'ldapstorage'
 require 'emailer'
+require 'erbbinding'
+require 'erb'
 
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
@@ -45,16 +47,19 @@ module ApprovalEngine
 	]
 
 	## backend storage
-	@@storage      = nil
-	@@emailer      = nil
-	@@is_sandbox   = false
-	@@email_secret = ""
-	@@roles        = []
+	@@storage                  = nil
+	@@transition_action_config = nil
+  @@emailer                  = nil
+	@@is_sandbox               = false
+	@@email_secret             = ""
+	@@roles                    = []
 
 	# initialize the storage
-	def ApprovalEngine.init(storage, emailer, is_sandbox)
+	def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox)
+	#def ApprovalEngine.init(storage, emailer, is_sandbox)
 		@@storage = storage
-		@@emailer = emailer
+		@@transition_action_config = transition_action_config
+		@@emailer =emailer
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
 		@@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
@@ -108,39 +113,34 @@ module ApprovalEngine
 				raise "Unknown state transition #{status} => #{target[transition]}."
 		end
 
-    if user[:status] == STATE_APPROVED
-      # TODO: Below should not be hardcoded and should be configurable by admin.
-      # TODO: check that user[:emailAddress] is valid-ish email (regex?)
+   @@transition_action_config.transition(user) if @@transition_action_config
+   if user[:status] == ApprovalEngine::STATE_APPROVED
+     # TODO: Below should not be hardcoded and should be configurable by admin.
+     # TODO: check that user[:emailAddress] is valid-ish email (regex?)
       email = {
-        :email_addr => user[:emailAddress],
-        :name       => "#{user[:first]} #{user[:last]}"
+          :email_addr => user[:emailAddress],
+          :name       => "#{user[:first]} #{user[:last]}"
       }
       if @@is_sandbox
-        email[:subject] = "Developer Account Approval"
-        email[:content] = "Hello,\n\n" <<
-          "Your request for developer account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
-          "To provision your landing zone go to:\n" <<
-          "__URI__/landing_zone\n\n" <<
-          "To register your applications go to:\n" <<
-          "__URI__/apps\n\n" <<
-          "Thank you,\n" <<
-          "SLC Operator"
+        email[:subject] = "Welcome to the SLC Developer Sandbox"
+        template=File.read("#{File.expand_path('../../template/welcome_email_sandbox_text.template',__FILE__)}")
       else
-        email[:subject] = "Vendor Account Approval"
-        email[:content] = "Hello,\n\n" <<
-          "Your request for vendor account has been approved.\n\n" <<
-          "To register your applications go to:\n" <<
-          "__URI__/apps\n\n" <<
-          "Thank you,\n" <<
-          "SLC Operator"
+        template=File.read("#{File.expand_path('../../template/welcome_email_prod_text.template',__FILE__)}")
+        email[:subject] = "Welcome to the SLC Developer Program"
       end
+      email_content = ERB.new(template)
+      template_data = {:firstName => user[:first],
+                       :landingZoneLink => "__URI__/landing_zone",
+                       :portalLink => "__PORTAL__" }
+      email[:content] = email_content.result(ErbBinding.new(template_data).get_binding)
       @@emailer.send_approval_email email
     end
 
 		# if this is a sandbox and the new status is pending then move to status approved
 		if @@is_sandbox && (user[:status] == STATE_PENDING)
 			change_user_status(email_address, ACTION_APPROVE)
-		end
+    end
+    
 	end
 
 	# Verify the email address against the backend.
@@ -159,11 +159,11 @@ module ApprovalEngine
 	end
 
 
-	# Check whether a user with the given email address exists.
-	# The email address serves as the unique userid.
-	def ApprovalEngine.user_exists?(email_address)
-		@@storage.user_exists?(email_address)
-	end
+  # Check whether a user with the given email address exists.
+  # The email address serves as the unique userid.
+  def ApprovalEngine.user_exists?(email_address)
+    @@storage.user_exists?(email_address)
+  end
 
 	# Add all relevant information for a new user to the backend.
 	#

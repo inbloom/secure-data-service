@@ -22,6 +22,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.client.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -30,7 +31,6 @@ import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.ResourceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -262,17 +262,15 @@ public class TenantResourceTest {
         List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertEquals("Should get 2 entities", results.size(), 2);
         
-        EntityBody body1 = results.get(0);
-        assertNotNull("Should not be null", body1);
-        assertEquals(TenantResourceImpl.TENANT_ID + " should be " + TENANT_1, TENANT_1,
-                body1.get(TenantResourceImpl.TENANT_ID));
-        assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
-        
-        EntityBody body2 = results.get(1);
-        assertNotNull("Should not be null", body2);
-        assertEquals(TenantResourceImpl.TENANT_ID + " should be " + TENANT_3, body2.get(TenantResourceImpl.TENANT_ID),
-                TENANT_3);
-        assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
+        // Order is not guaranteed
+        for (EntityBody body : results) {
+            assertNotNull("Should not be null", body);
+            assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+            
+            assertTrue(TenantResourceImpl.TENANT_ID + " should be in {" + TENANT_1 + ", " + TENANT_3 + "}",
+                    (TENANT_1.equals(body.get(TenantResourceImpl.TENANT_ID)) || TENANT_3.equals(body
+                            .get(TenantResourceImpl.TENANT_ID))));
+        }
     }
     
     private String getIDList(String resource) {

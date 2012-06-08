@@ -3,7 +3,6 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -16,6 +15,7 @@ import java.util.Vector;
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityComparator;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
@@ -222,13 +222,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     // convert school ids to the school object array and sort based on the name of
                     // the institution
                     Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(
-                            new Comparator<Map<String, Object>>() {
-                                @Override
-                                public int compare(Map<String, Object> a, Map<String, Object> b) {
-                                    return ((String) a.get(Constants.ATTR_NAME_OF_INST)).compareTo((String) b
-                                            .get(Constants.ATTR_NAME_OF_INST));
-                                }
-                            });
+                            new GenericEntityComparator(Constants.ATTR_NAME_OF_INST, String.class));
                     reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
                     obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                     retVal.add(obj);
@@ -245,12 +239,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         putToCache(USER_HIERARCHY_CACHE, token, retVal);
         //Sort the Districts based on the District Name
-        Collections.sort(retVal, new Comparator<Map<String, Object>>() {
-            @Override
-            public int compare(Map<String, Object> a, Map<String, Object> b) {
-                return ((String) a.get(Constants.ATTR_NAME)).compareTo((String) b.get(Constants.ATTR_NAME));
-            }
-        });
+        Collections.sort(retVal, new GenericEntityComparator(Constants.ATTR_NAME, String.class));
 
         return retVal;
     }

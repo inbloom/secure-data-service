@@ -5,16 +5,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -23,8 +20,6 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
-    private static final Logger LOG = LoggerFactory.getLogger(SecureRoleRightAccessImpl.class);
-    
     @Autowired
     private EntityDefinitionStore store;
     
@@ -46,7 +41,6 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(100);
-        
         
         // TODO find a way to "findAll" from entity service
         Iterable<String> ids = service.listIds(neutralQuery);
@@ -71,8 +65,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         for (String id : ids) {
             EntityBody body = service.get(id);
             Role tempRole = getRoleWithBodyAndID(id, body);
-            if (tempRole.getSpringRoleName().equals(springName))
+            if (tempRole.getSpringRoleName().equals(springName)) {
                 return tempRole;
+            }
         }
         return null;
     }
@@ -138,6 +133,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         this.service = service;
     }
     
+    @Override
     public Role getDefaultRole(String name) {
         return findRoleByName(name);
     }

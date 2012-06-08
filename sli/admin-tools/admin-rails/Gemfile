@@ -21,6 +21,8 @@ gem 'rest-client'
 
 gem 'twitter-bootstrap-rails'
 
+gem 'ruby-recaptcha'
+
 group :deployment, :integration do
   # Deploy with Capistrano
   gem 'capistrano'

@@ -1,6 +1,5 @@
 package org.slc.sli.api.representation;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -19,6 +18,7 @@ import com.sun.jersey.api.container.MappableContainerException;
 @Component
 public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
 
+    
     @Context
     private HttpHeaders headers;
 
@@ -35,9 +35,9 @@ public class GenericExceptionHandler implements ExceptionMapper<Throwable> {
                 throw new MappableContainerException(e);
         }
         Response.Status errorStatus = Response.Status.INTERNAL_SERVER_ERROR;
-
+        
         error("Caught exception thrown by ReST handler", e);
-
+        
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),

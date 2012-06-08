@@ -1,17 +1,19 @@
 package org.slc.sli.ingestion.handler;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Hashtable;
+import java.lang.reflect.Field;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
+import org.milyn.delivery.ContentHandlerConfigMapTable;
+import org.milyn.delivery.VisitorConfigMap;
+import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,10 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
+import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -62,55 +63,36 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
-        LandingZone landingZone = new LocalFileSystemLandingZone(new File(
-                ingestionFileEntry.getTopLevelLandingZonePath()));
-        String lzDirectory = "";
-        if (landingZone != null && landingZone.getLZId() != null) {
-            lzDirectory = landingZone.getLZId();
-        } else {
-            lzDirectory = ingestionFileEntry.getFile().getParent();
-        }
-        File neutralRecordOutFile = createTempFile(lzDirectory);
-
-        fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
-        fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
-
-        NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
-
-        // set the IngestionFileEntry NeutralRecord file we just wrote
-        ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, nrFileWriter, errorReport);
+        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
+
+            try {
+                Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
+                f.setAccessible(true);
+                VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
+                ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
+                SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)
+                        .getContentHandler();
+
+                int recordsPersisted = visitAfter.getRecordsPerisisted();
+                fileProcessStatus.setTotalRecordCount(recordsPersisted);
+
+                LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                        ingestionFileEntry.getFileName());
+            } catch (Exception e) {
+                LogUtil.error(LOG, "Error accessing visitor list in smooks", e);
+            }
         } catch (SmooksException se) {
-            LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName());
+            LogUtil.error(LOG, "smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
-
-            long count = 0L;
-            Hashtable<String, Long> counts = nrFileWriter.getNRCount();
-            for (String type : counts.keySet()) {
-                count += counts.get(type);
-            }
-
-            fileProcessStatus.setTotalRecordCount(count);
-
-            nrFileWriter.close();
         }
     }
-
-    private static File createTempFile(String lzDirectory) throws IOException {
-        File landingZone = new File(lzDirectory);
-        File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp", landingZone) : File
-                .createTempFile("neutralRecord_", ".tmp");
-        return outputFile;
-    }
-
 }

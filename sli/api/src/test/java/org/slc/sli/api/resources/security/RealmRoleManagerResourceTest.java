@@ -46,53 +46,53 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class RealmRoleManagerResourceTest {
     @Autowired
     private RealmRoleManagerResource resource;
-
+    
     @Autowired
     private SecurityContextInjector injector;
-
+    
     private EntityService service;
     private EntityBody mapping;
     private EntityBody realm2;
-    private UriInfo uriInfo = null;
-
+    private UriInfo uriInfo;
+    
     @Before
     public void setUp() throws Exception {
-
+        
         injector.setRealmAdminContext();
-
+        
         mapping = new EntityBody();
         mapping.put("id", "123567324");
         mapping.put("realm_name", "Waffles");
         mapping.put("edOrg", "fake-ed-org");
         mapping.put("mappings", new HashMap<String, Object>());
-
+        
         EntityBody realm2 = new EntityBody();
         realm2.put("id", "other-realm");
         realm2.put("name", "Other Realm");
         realm2.put("mappings", new HashMap<String, Object>());
         realm2.put("edOrg", "another-fake-ed-org");
-
+        
         service = mock(EntityService.class);
-
+        
         resource.setService(service);
-
+        
         when(service.update("-1", mapping)).thenReturn(true);
         when(service.update("1234", mapping)).thenReturn(true);
         when(service.get("-1")).thenReturn(null);
         when(service.get("1234")).thenReturn(mapping);
         when(service.get("other-realm")).thenReturn(realm2);
     }
-
+    
     @After
     public void tearDown() throws Exception {
         service = null;
     }
-
+    
     @Test
     public void testAddClientRole() throws Exception {
         try {
-
-            resource.updateClientRole("-1", null, uriInfo);
+            
+            resource.updateClientRole("-1", null, null);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -105,7 +105,7 @@ public class RealmRoleManagerResourceTest {
     @Test
     public void testAddAdminClientRole() throws Exception {
         try {
-            resource.updateClientRole("-1", null, uriInfo);
+            resource.updateClientRole("-1", null, null);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -117,24 +117,24 @@ public class RealmRoleManagerResourceTest {
         role.put("clientRoleName", new ArrayList<String>(Arrays.asList("Waffle", "Copter")));
         roles.add(role);
         mappings.put("role", roles);
-        Response res = resource.updateClientRole("1234", mapping, uriInfo);
+        Response res = resource.updateClientRole("1234", mapping, null);
         Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
     }
-
+    
     @Test
     public void testGetMappingsFound() throws Exception {
         Response res = resource.getMappings("1234");
         Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
         Assert.assertNotNull(res.getEntity());
     }
-
+    
     @Test
     public void testGetMappingsNotFound() throws Exception {
         Response res = resource.getMappings("-1");
         Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
         Assert.assertNull(res.getEntity());
     }
-
+    
     @Test
     public void testUpdateOtherEdOrgRealm() {
         EntityBody temp = new EntityBody();

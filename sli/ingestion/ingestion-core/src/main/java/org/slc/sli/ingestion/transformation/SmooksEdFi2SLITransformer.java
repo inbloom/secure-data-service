@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,10 +13,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.springframework.stereotype.Component;
 
 /**
  * EdFi to SLI transformer based on Smooks
@@ -43,7 +43,14 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             SimpleEntity entity = new SimpleEntity();
             entity.setType(type);
             entity.setBody(body);
-
+            
+            String externalId = (String) item.getLocalId();
+            if (externalId != null) {
+                Map<String, Object> meta = new HashMap<String, Object>();
+                meta.put("externalId", externalId);
+                entity.setMetaData(meta);
+            }
+            
             return Arrays.asList(entity);
         }
 

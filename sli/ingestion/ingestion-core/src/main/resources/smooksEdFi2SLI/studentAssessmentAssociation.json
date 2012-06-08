@@ -1,7 +1,85 @@
 {
+    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
+    "references" :
+    [{
+        "fieldPath" : "body.assessmentId","ref" :
+        {
+            "collectionName" : "assessment",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.assessmentIdentificationCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
+                        }]
+                    }
+                ],
+                [
+                    {
+                        "path" : "body.assessmentTitle",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentTitle"
+                        }]
+                    },
+                    {
+                        "path" : "body.assessmentCategory",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentCategory"
+                        }]
+                    },
+                    {
+                        "path" : "body.academicSubject",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.AcademicSubject"
+                        }]
+                    },
+                    {
+                        "path" : "body.gradeLevelAssessed",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.GradeLevelAssessed"
+                        }]
+                    },
+                    {
+                        "path" : "body.version",
+                        "values" :
+                        [{
+                            "valueSource" : "body.assessmentId.AssessmentIdentity.Version"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId","ref" :
+        {
+            "collectionName" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "metaData.externalId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.studentId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }],
     "piiFields" : {
         "StudentReference" : {
             "StudentIdentity" : {
+                "studentIdentificationCode" : {
+                    "identificationCode" : true
+                  },
                 "Name" : {
                     "Verification" : true,
                     "PersonalInformationVerificationType" : true,
@@ -18,7 +96,7 @@
                     "FirstName" : true,
                     "MiddleName" : true,
                     "LastSurname" : true,
-                    "GenerationCodeSuffix" : true 
+                    "GenerationCodeSuffix" : true
                   },
                 "BirthDate" : true,
                 "Sex" : true

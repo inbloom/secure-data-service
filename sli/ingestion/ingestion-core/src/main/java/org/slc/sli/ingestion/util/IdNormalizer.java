@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -25,6 +27,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
+
+    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
@@ -48,6 +52,7 @@ public class IdNormalizer {
         Query query = new Query();
         resolveSearchCriteria(entityRepository, collection, filterFields, externalSearchCriteria, query, tenantId,
                 errorReport);
+        query.fields().include("_id");
 
         Iterable<Entity> found = entityRepository.findByQuery(collection, query, 0, 1);
 
@@ -87,6 +92,7 @@ public class IdNormalizer {
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
+        LOG.debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
         if (e == null) {
             errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq,
                     IdNormalizer.class);
