@@ -168,8 +168,9 @@ class SLCFixer
     #This needed?
     tsa = @db['teacherSchoolAssociation']
     tsa.find.each do |teacher|
+      old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
       stamp_id(tsa, teacher['_id'], teacher['body']['schoolId'])
-      stamp_id(@db['staff'], teacher['body']['teacherId'], teacher['body']['schoolId'])
+      stamp_id(@db['staff'], teacher['body']['teacherId'], (old << teacher['body']['schoolId']).flatten.uniq)
     end
   end
 

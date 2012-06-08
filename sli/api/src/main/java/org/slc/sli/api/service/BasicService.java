@@ -18,6 +18,7 @@ import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.util.SecurityUtil;
@@ -77,6 +78,9 @@ public class BasicService implements EntityService {
     
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
+
+    @Autowired
+    private EdOrgContextResolver edOrgContextResolver;
     
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -826,7 +830,26 @@ public class BasicService implements EntityService {
         metadata.put("isOrphaned", "true");
         metadata.put("createdBy", createdBy);
         metadata.put("tenantId", principal.getTenantId());
+        //add the edorgs for staff
+        createEdOrgMetaDataForStaff(principal, metadata);
+
         return metadata;
+    }
+
+    /**
+     * Add the list of ed orgs a principal entity can see
+     * Needed for staff security
+     * @param principal
+     * @param metaData
+     */
+    private void createEdOrgMetaDataForStaff(SLIPrincipal principal, Map<String, Object> metaData) {
+        //get all the edorgs this principal can see
+        List<String> edOrgIds = edOrgContextResolver.findAccessible(principal.getEntity());
+
+        if (!edOrgIds.isEmpty()) {
+            debug("Updating metadData with edOrg ids");
+            metaData.put("edOrgs", edOrgIds);
+        }
     }
     
     /**
