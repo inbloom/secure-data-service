@@ -177,7 +177,7 @@ class AppsController < ApplicationController
       parameter = false
     end
   end
-  
+
   def get_district_hierarchy
     state_ed_orgs = EducationOrganization.all
     result = {}

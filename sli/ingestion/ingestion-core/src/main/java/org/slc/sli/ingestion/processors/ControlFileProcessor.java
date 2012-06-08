@@ -95,11 +95,11 @@ public class ControlFileProcessor implements Processor {
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
             
             FaultsReport errorReport = new FaultsReport();
-            
+
             if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
             // TODO Deal with validator being autowired in BatchJobAssembler
-            if (validator.isValid(cfd, errorReport)) {
-                createAndAddResourceEntries(newJob, cf);
+                if (validator.isValid(cfd, errorReport)) {
+                    createAndAddResourceEntries(newJob, cf);
                 }
             }
             

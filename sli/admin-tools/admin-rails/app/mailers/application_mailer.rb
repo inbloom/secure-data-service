@@ -24,10 +24,10 @@ class ApplicationMailer < ActionMailer::Base
   end
   
   def provision_email(email_address, firstName, serverName, edorgId)
-    @firstName = firstName
-    @serverName = serverName
-    @edorgId = edorgId
-    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
+  @firstName = firstName
+  @serverName = serverName
+  @edorgId = edorgId
+  mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
 
   def notify_operator(support_email, app)
