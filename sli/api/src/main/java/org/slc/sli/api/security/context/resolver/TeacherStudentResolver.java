@@ -1,7 +1,6 @@
 package org.slc.sli.api.security.context.resolver;
 
 import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
@@ -17,7 +16,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
-import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
