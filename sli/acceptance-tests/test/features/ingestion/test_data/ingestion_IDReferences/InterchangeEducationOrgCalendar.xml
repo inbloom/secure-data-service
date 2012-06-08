@@ -53,7 +53,7 @@
 
 	<GradingPeriod id="GP_2">
     	<GradingPeriodIdentity>
-          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <GradingPeriod>Second Six Weeks</GradingPeriod>
           <SchoolYear>2011-2012</SchoolYear>
           <StateOrganizationId>Charlie School</StateOrganizationId>
         </GradingPeriodIdentity>
@@ -77,7 +77,7 @@
 
 	<GradingPeriod id="GP_4">
     	<GradingPeriodIdentity>
-          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <GradingPeriod>Second Six Weeks</GradingPeriod>
           <SchoolYear>2011-2012</SchoolYear>
           <StateOrganizationId>Dog School</StateOrganizationId>
         </GradingPeriodIdentity>
@@ -101,7 +101,7 @@
 
 	<GradingPeriod id="GP_6">
     	<GradingPeriodIdentity>
-          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <GradingPeriod>Second Six Weeks</GradingPeriod>
           <SchoolYear>2011-2012</SchoolYear>
           <StateOrganizationId>Echo School</StateOrganizationId>
         </GradingPeriodIdentity>
@@ -125,7 +125,7 @@
 
     <GradingPeriod id="GP_8">
     	<GradingPeriodIdentity>
-          <GradingPeriod>First Six Weeks</GradingPeriod>
+          <GradingPeriod>Second Six Weeks</GradingPeriod>
           <SchoolYear>2011-2012</SchoolYear>
           <StateOrganizationId>Able School</StateOrganizationId>
         </GradingPeriodIdentity>
