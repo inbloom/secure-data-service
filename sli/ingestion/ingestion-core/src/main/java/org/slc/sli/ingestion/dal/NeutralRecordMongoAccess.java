@@ -17,7 +17,7 @@ import org.slc.sli.ingestion.ResourceWriter;
  * @author dduran
  *
  */
-public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
+public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord> {
 
     private NeutralRecordRepository neutralRecordRepository;
 
@@ -34,10 +34,12 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         this.neutralRecordRepository = neutralRecordRepository;
     }
 
+    @Override
     public long collectionCountForJob(String collectionNameAsStaged, String jobId) {
         return neutralRecordRepository.countForJob(collectionNameAsStaged, new NeutralQuery(), jobId);
     }
 
+    @Override
     public long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId) {
         Criteria limiter = Criteria.where("creationTime").gte(min).lt(max);
         Query query = new Query().addCriteria(limiter);
@@ -45,10 +47,12 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         return neutralRecordRepository.countForJob(collectionName, query, jobId);
     }
 
+    @Override
     public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        return getCreationTimeForEntity(stagedEntity, jobId, Order.DESCENDING) + 2000;
+        return getCreationTimeForEntity(stagedEntity, jobId, Order.DESCENDING) + 1;
     }
 
+    @Override
     public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         return getCreationTimeForEntity(stagedEntity, jobId, Order.ASCENDING);
     }

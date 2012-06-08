@@ -6,14 +6,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 
 /**
  * Implementation of SplitStrategy that uses the "creationTime" of an Entity to partition and create
@@ -29,10 +28,9 @@ public class TimestampSplitStrategy implements SplitStrategy {
     @Value("${sli.ingestion.splitChunkSize}")
     private int splitChunkSize;
 
-    private int thresholdPct = 30;
+    private double thresholdPct = 0.30;
 
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    private NeutralRecordAccess neutralRecordAccess;
 
     @Override
     public List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity, String jobId) {
@@ -40,8 +38,8 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
         int numRecords = countRecordsForEntity(stagedEntity, jobId);
 
-        long minTime = neutralRecordMongoAccess.getMinCreationTimeForEntity(stagedEntity, jobId);
-        long maxTime = neutralRecordMongoAccess.getMaxCreationTimeForEntity(stagedEntity, jobId);
+        long minTime = neutralRecordAccess.getMinCreationTimeForEntity(stagedEntity, jobId);
+        long maxTime = neutralRecordAccess.getMaxCreationTimeForEntity(stagedEntity, jobId);
 
         if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
             LOG.info("Entity split threshold reached. Splitting work for {} collection.",
@@ -203,8 +201,8 @@ public class TimestampSplitStrategy implements SplitStrategy {
     }
 
     private MatchEnumeration checkRecordsInChunk(long count) {
-        int splitChunkUpperBound = splitChunkSize * (1 + thresholdPct / 100);
-        int splitChunkLowerBound = splitChunkSize * (1 - thresholdPct / 100);
+        int splitChunkUpperBound = (int) (splitChunkSize * (1 + thresholdPct));
+        int splitChunkLowerBound = (int) (splitChunkSize * (1 - thresholdPct));
 
         if (count <= splitChunkUpperBound) {
             if (count >= splitChunkLowerBound) {
@@ -216,13 +214,13 @@ public class TimestampSplitStrategy implements SplitStrategy {
     }
 
     private long getCountOfRecords(String collectionName, long min, long max, String jobId) {
-        return neutralRecordMongoAccess.countCreationTimeWithinRange(collectionName, min, max, jobId);
+        return neutralRecordAccess.countCreationTimeWithinRange(collectionName, min, max, jobId);
     }
 
     private int countRecordsForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         // potentially unsafe cast but it was decided that it is unlikely for us to hit max int
         // size for a staging db collection count.
-        int numRecords = (int) neutralRecordMongoAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(),
+        int numRecords = (int) neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(),
                 jobId);
         LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
         return numRecords;
@@ -230,6 +228,14 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     private enum MatchEnumeration {
         good, small, large
+    }
+
+    public void setNeutralRecordAccess(NeutralRecordAccess neutralRecordAccess) {
+        this.neutralRecordAccess = neutralRecordAccess;
+    }
+
+    public void setSplitChunkSize(int splitChunkSize) {
+        this.splitChunkSize = splitChunkSize;
     }
 
 }
