@@ -1,3 +1,4 @@
+
 require 'mongo'
 require 'json'
 
@@ -5,8 +6,13 @@ require 'json'
 mongohost = 'nxmaestro.slidev.org'
 mongoport = 27017
 
+dbName = ARGV[1]
+if ( dbName.nil? ) 
+	dbName = "sli"
+end
+
 puts "\==========================================================="
-puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor sli database"
+puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor #{dbName} database"
   
 expected={"900K" => {
   "assessment"=>4,
@@ -71,7 +77,7 @@ expected={"900K" => {
   "learningObjective"=>393,
   "parent"=>45904,
   "program"=>47,
-  "school"=>46,
+  "school"=>0,
   "schoolSessionAssociation"=>0, 
   "section"=>30912,
   "sectionAssessmentAssociation"=>0,
@@ -123,7 +129,8 @@ if !expected.has_key?(ARGV[0])
 end
 
 connection = Mongo::Connection.new( mongohost, mongoport)
-db = connection.db("sli")
+
+db = connection.db( dbName )
 
 printf "\e[35m%-40s %s\n","Collection","Expected(Actual)\e[0m"
 puts "---------------------------------------------------------"
