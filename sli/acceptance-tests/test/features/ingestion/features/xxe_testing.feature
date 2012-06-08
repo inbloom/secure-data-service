@@ -19,7 +19,7 @@ Scenario: Post a zip file with an external entity that attempts to access a loca
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     educationOrganization" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
+#  And I should see "     Instance   1" in the resulting error log file
   And I should see "     Field      stateOrganizationId" in the resulting error log file
   And I should see "     Value      null" in the resulting error log file
   And I should see "     Expected   []" in the resulting error log file
