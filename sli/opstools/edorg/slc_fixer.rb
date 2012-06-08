@@ -161,7 +161,10 @@ class SLCFixer
   def fix_sessions
     ssa = @db['schoolSessionAssociation']
     ssa.find.each do |session|
-      edorg = session['body']['schoolId']
+      edorg = []
+      edorg << session['body']['schoolId']
+      edorg << old_edorgs(db['section'], session['body']['sessionId'])
+      edorg = edorg.flatten.uniq
       stamp_id(ssa, session['_id'], edorg)
       stamp_id(@db['session'], session['body']['sessionId'], edorg)
     end
@@ -205,7 +208,10 @@ class SLCFixer
     end
     co = @db['courseOffering']
     co.find.each do |course|
-      stamp_id(co, course['_id'], old_edorgs(@db['course'], course['body']['courseId']))
+      edorgs = []
+      edorgs << old_edorgs(@db['course'], course['body']['courseId'])
+      edorgs << old_edorgs(@db['session'], course['body']['sessionId'])
+      stamp_id(co, course['_id'], edorgs.flatten.uniq)
     end
   end
 
