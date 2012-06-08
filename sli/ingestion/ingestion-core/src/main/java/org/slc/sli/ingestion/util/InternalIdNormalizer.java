@@ -35,8 +35,6 @@ public class InternalIdNormalizer {
 
     private static final Logger LOG = LoggerFactory.getLogger( InternalIdNormalizer.class);
 
-    //private final Map<Object, String> CACHE;
-
     @Autowired
     private CacheProvider cacheProvider;
 
@@ -268,7 +266,7 @@ public class InternalIdNormalizer {
 
     private void cache(String collection, String tenantId, String criteria, String value) {
         String key = composeKey(collection, tenantId, criteria);
-        //CACHE.put( key , value);
+
         cacheProvider.add( key, value );
     }
 
