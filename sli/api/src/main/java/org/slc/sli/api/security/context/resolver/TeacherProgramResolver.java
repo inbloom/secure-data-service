@@ -1,15 +1,16 @@
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Resolves teacher's access and security context to program records.
@@ -41,7 +42,7 @@ public class TeacherProgramResolver implements EntityContextResolver {
         final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : staffProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
             }
         }
