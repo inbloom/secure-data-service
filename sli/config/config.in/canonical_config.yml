@@ -78,6 +78,8 @@ default:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+        sli.ingestion.staging.index.policy: pre
+
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
@@ -1161,7 +1163,7 @@ nxteam:
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.cache.type: memcached
         sli.ingestion.cache.servers: nxmemcache.slidev.org:11211
-
+        
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
@@ -1169,6 +1171,7 @@ nxteam:
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
+        sli.ingestion.staging.index.policy: post
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
