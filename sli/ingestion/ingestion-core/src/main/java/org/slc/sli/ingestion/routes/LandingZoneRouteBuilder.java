@@ -54,7 +54,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"
                             + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                             + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                            + "&readLock=changed&readLockCheckInterval=5000")
+                            + "&readLock=changed")
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                     .process(controlFilePreProcessor)
@@ -62,10 +62,10 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
 
             // routeId: zipFilePoller-inboundDir
             from(
-                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
+                    "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&preMove="
                             + inboundDir + "/.done&moveFailed=" + inboundDir
                             + "/.error"
-                            + "&readLock=changed&readLockCheckInterval=5000")
+                            + "&readLock=changed")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                     .process(zipFileProcessor)
