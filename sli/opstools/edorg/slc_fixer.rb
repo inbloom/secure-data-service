@@ -64,7 +64,7 @@ class SLCFixer
       stamp_id(sections, section['_id'], edorgs)
       @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
       @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
-      @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], edorgs) }
+      @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq) }
     end
     @db['sectionSchoolAssociation'].find.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
   end

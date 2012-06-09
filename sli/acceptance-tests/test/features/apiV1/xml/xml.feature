@@ -31,10 +31,10 @@ Background: Nothing yet
 
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
-    | assessments                 | assessment                 | 3               |
+    | assessments                 | assessment                 | 5               |
     | schools                     | school                     | 5               |
-    | students                    | student                    | 82              |
-    | studentSectionAssociations  | studentSectionAssociation  | 263             |
+    | students                    | student                    | 83              |
+    | studentSectionAssociations  | studentSectionAssociation  | 264             |
     | courseOfferings             | courseOffering             | 2               |
 
 
