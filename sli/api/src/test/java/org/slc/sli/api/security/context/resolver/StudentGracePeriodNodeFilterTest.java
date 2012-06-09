@@ -54,7 +54,7 @@ public class StudentGracePeriodNodeFilterTest {
     public void testsetParameters() {
         nodeFilter.setParameters();
         assertEquals("Should match", gracePeriodVal, nodeFilter.getGracePeriod());
-        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getFilterDateParam());
+        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getEndDateParamName());
     }
 
 }

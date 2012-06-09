@@ -18,7 +18,7 @@ default:
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
-        sli.support.email: sli@example.com
+        sli.support.email: slcoperator-email@slidev.org
 
         # Session lengths in milliseconds (5 minutes - only in api)
         sli.session.length: 300000
@@ -252,8 +252,6 @@ acceptance-tests:
         # Security SAML
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # acceptance-tests/data-access/db.properties
@@ -335,8 +333,6 @@ ci:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path:
     data-access:
@@ -418,9 +414,6 @@ dev:
 
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
-
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path: /home/api/logs/
     data-access:
@@ -587,8 +580,6 @@ devapp1:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # devapp1/data-access/db.properties
@@ -647,9 +638,6 @@ local:
 
         # Trusted Certificate Authority Store
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
-
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
 
@@ -840,9 +828,6 @@ team:
 
         # Security SAML
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
-
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
         bootstrap.sandbox.createSandboxRealm: false

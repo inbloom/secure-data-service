@@ -258,6 +258,7 @@ task :apiV1EntitySecurityTests do
   Rake::Task["v1CohortSecurityTests"].execute
   Rake::Task["v1DisciplineActionSecurityTests"].execute
   Rake::Task["v1DisciplineIncidentSecurityTests"].execute
+  Rake::Task["v1StaffSecurityTests"].execute
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -320,6 +321,17 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Device and Agent Tests"
+task :deviceTests => [:realmInit] do
+  runTests("test/features/device")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

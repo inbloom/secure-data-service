@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.context.resolver;
 
+<<<<<<< HEAD
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +12,17 @@ import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 //import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+
+//import org.slc.sli.api.client.constants.v1.ParameterConstants;
 
 /**
  * Resolves which StudentSectionAssociation a given teacher is allowed to see.

@@ -7,7 +7,7 @@ function getStudentListData() {
 	var selectionIndex = $("#sectionSelect").val();
       
 	location.href = contextRootPath + "/service/list/" + 
-					instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[selectionIndex].id;
+					courseSectionData[courseIndex].sections[selectionIndex].id;
 }
   
 function printStudentList() {

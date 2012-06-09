@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+
 import java.util.List;
 
 /**
@@ -66,6 +68,11 @@ public final class SecurityNodeBuilder {
                                              List<NodeFilter> filter) {
         SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter);
         node.addConnection(connection);
+        return this;
+    }
+
+    public SecurityNodeBuilder addConnection(String toEntity, EntityContextResolver resolver) {
+        node.addConnection( new SecurityNodeConnection(toEntity, resolver) );
         return this;
     }
 }

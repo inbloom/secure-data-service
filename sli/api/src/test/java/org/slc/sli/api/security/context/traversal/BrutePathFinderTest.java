@@ -45,10 +45,9 @@ public class BrutePathFinderTest {
     @Test
     public void testGetSimplePath() throws Exception {
         path = pathFinder.find("teacher", "student");
-        assertTrue(path.size() == 3);
+        assertTrue(path.size() == 2);
         assertTrue(path.get(0).getName().equals("teacher"));
-        assertTrue(path.get(1).getName().equals("section"));
-        assertTrue(path.get(2).getName().equals("student"));
+        assertTrue(path.get(1).getName().equals("student"));
     }
 
     @Test
@@ -63,9 +62,10 @@ public class BrutePathFinderTest {
     @Test
     public void testGet2PartPath() throws Exception {
         path = pathFinder.find("teacher", "section");
-        assertTrue(path.size() == 2);
+        assertTrue(path.size() == 3);
         assertTrue(path.get(0).getName().equals("teacher"));
-        assertTrue(path.get(1).getName().equals("section"));
+        assertTrue(path.get(1).getName().equals("student"));
+        assertTrue(path.get(2).getName().equals("section"));
     }
     
     

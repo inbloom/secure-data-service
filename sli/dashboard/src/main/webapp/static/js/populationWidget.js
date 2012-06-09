@@ -39,11 +39,11 @@ $(document).ready( function() {
             } 
         }
         
-        var coursesLength =  instHierarchy[edOrgIndex].schools[schoolIndex].courses.length;
+        var coursesLength =  courseSectionData.length;
         courseIndex = coursesLength == 1 ? 0 : -1;
         if (edOrgIndex > -1 && schoolIndex > -1 && coursesLength > 1) {
             for(var i=0; i < coursesLength; i++) {
-                if(instHierarchy[edOrgIndex].schools[schoolIndex].courses[i].id == selectedPopulation.section.courseId) {
+                if(courseSectionData[i].id == selectedPopulation.section.courseId) {
                     DashboardUtil.selectDropDownOption("course", i, true);
                     courseIndex = i;
                     break;
@@ -52,11 +52,11 @@ $(document).ready( function() {
         }
       
         // Section is not auto selected. hence we need to select.
-        var sectionsLength = instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections.length;
+        var sectionsLength = courseSectionData[courseIndex].sections.length;
         sectionIndex = sectionsLength == 1 ? 0 : -1;
         if (edOrgIndex > -1 && schoolIndex > -1 && courseIndex > -1 && sectionsLength > 0) { 
             for(var i=0; i < sectionsLength; i++) {
-                if(instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections[i].id == selectedPopulation.section.id) {
+                if(courseSectionData[courseIndex].sections[i].id == selectedPopulation.section.id) {
                     DashboardUtil.selectDropDownOption("section", i, false);
                     sectionIndex = i;
                     break;
@@ -115,6 +115,14 @@ function clearSelections(currentSelect) {
 	}
 }
 
+function getCourseSectionData() {
+	var edOrgIndex = $("#edOrgSelect").val();
+	var schoolIndex = $("#schoolSelect").val();
+	DashboardProxy.load('populationCourseSection', instHierarchy[edOrgIndex].schools[schoolIndex].id, function(panel) {	
+	    courseSectionData = DashboardProxy.getData('populationCourseSection')['root'];
+	});
+}
+
 function populateInstHierarchy() {
 	
 	$("#viewSelection").hide();
@@ -130,6 +138,7 @@ function populateSchoolMenu() {
 	clearSelections("school");
 	DashboardUtil.setDropDownOptions("school", null, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
 		clearSelections("course");
+		getCourseSectionData();
 		populateCourseMenu();
 	});
 }
@@ -138,7 +147,7 @@ function populateCourseMenu(){
 	var edOrgIndex = $("#edOrgSelect").val();
 	var schoolIndex = $("#schoolSelect").val();
 	clearSelections("course");
-	DashboardUtil.setDropDownOptions("course", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses, "courseTitle", "", true, function() {
+	DashboardUtil.setDropDownOptions("course", null, courseSectionData, "courseTitle", "", true, function() {
 		clearSelections("section");
 		populateSectionMenu();
 	});
@@ -150,7 +159,7 @@ function populateSectionMenu(){
 	var schoolIndex = $("#schoolSelect").val();
 	var courseIndex = $("#courseSelect").val();
 	clearSelections("section");
-	DashboardUtil.setDropDownOptions("section", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections, "sectionName", "", false, function() {
+	DashboardUtil.setDropDownOptions("section", null, courseSectionData[courseIndex].sections, "sectionName", "", false, function() {
 		getStudentListData();
 	});
 }

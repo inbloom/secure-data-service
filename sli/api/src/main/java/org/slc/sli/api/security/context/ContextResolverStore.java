@@ -51,7 +51,8 @@ public class ContextResolverStore implements ApplicationContextAware {
             found = denyAllContextResolver;
             warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
-        
+
+        warn("From entity '{}' to endity '{}' using context resolver '{}'", fromEntityType, toEntityType, found.getClass().getName());
         return found;
     }
 }
