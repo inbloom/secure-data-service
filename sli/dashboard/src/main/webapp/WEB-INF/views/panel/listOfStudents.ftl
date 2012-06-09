@@ -11,5 +11,6 @@
         return '${id}';
     }
     var instHierarchy=DashboardProxy.getData('populationWidget')['root'];
+    var courseSectionData;
     populateInstHierarchy();
 </script>
