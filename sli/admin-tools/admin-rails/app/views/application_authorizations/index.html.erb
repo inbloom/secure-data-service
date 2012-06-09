@@ -1,3 +1,6 @@
+<h1>Approve Applications</h1>
+<h6>Allow applications to access the platform</h6>
+
 <!-- application_authorizations -->
 
 <% names = @application_authorizations.map{|auth| auth.authId} %>
@@ -13,7 +16,7 @@
 <% if @application_authorizations.length == 0 %>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% else %>
-    <h3>Please approve SLI applications to access the district's data</h3>
+    <h3>Please approve SLC applications to access the district's data</h3>
 <% end %>
 <% if @application_authorizations.length > 1 %>
     <select id="districtSelection">
@@ -32,9 +35,11 @@
     $("select").change(function(){
         $("select option:selected").each(function(){
             $("table").hide();
+            $("h1").hide();
+            <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
+            $("h1:contains('" + $(this).text() + "')").show();
             $("#AuthorizedAppsTable_" + $(this).text()).show();
-
-       })  ;
+       });
      }).change();
 
 </script>

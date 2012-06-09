@@ -1,7 +1,7 @@
 admin:
     id: 1
     client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
-    scope: ENABLED
+    scope: installed
     redirect_uri: https://devdatab1.slidev.org/callback
     description: Admin application
     image_url: http://placekitten.com/150/150
@@ -9,6 +9,10 @@ admin:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    authorized_ed_orgs:
+      - 1234
+      - Something
+      - 1235
     registration:
         status: "APPROVED"
         request_date: 1330521193111
@@ -16,25 +20,41 @@ admin:
     version: "1.0"
     behavior: "Full Window App"
     is_admin: true
-    enabled: true
+    installed: true
+    endpoints:
+      -
+        name: something
+        roles:
+          -One
+          -Two
+      -
+        name: something else
+        roles:
+          -One
+          -Two
+
     created_on: 1331670018
     updated_on: 1331670018
-    developer_info: 
-        organization: SLI
+    vendor: SLI
     metaData:
+        createdBy: dudewithbademail
         updated: 10000000
         created: 10000000
 waffles:
     id: 2
-    scope: ENABLED
+    scope: installed
     client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
-    image_url: http://placekitten.com/150/150                   apps.yml
+    image_url: http://placekitten.com/150/150
     name: Waffle Application (Deoployment)
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    authorized_ed_orgs:
+      - 1234
+      - Something
+      - 1235
     registration:
         status: "APPROVED"
         request_date: 1330521193111
@@ -42,17 +62,17 @@ waffles:
     version: ".waffles"
     behavior: "Full Window App"
     is_admin: true
-    enabled: true
-    developer_info: 
-        organization: SLI
+    installed: true
+    vendor: SLI
     metaData:
+        createdBy: dude@email.com
         updated: 10000000
         created: 10000000
         
 update:
     id: 1
     client_secret: "Waffle Copter"
-    scope: ENABLED
+    scope: installed
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
     image_url: http://placekitten.com/150/150
@@ -66,11 +86,10 @@ update:
     version: ".waffles"
     behavior: "Full Window App"
     is_admin: "0"
-    enabled: "0"
-    developer_info: 
-        organization: SLI
+    installed: "0"
+    vendor: SLI
 new:
-    scope: ENABLED
+    scope: installed
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
     image_url: http://placekitten.com/150/150
@@ -84,7 +103,6 @@ new:
     version: 1.0
     behavior: "Full Window App"
     is_admin: "0"
-    enabled: "0"
-    developer_info: 
-        organization: SLI
+    installed: "0"
+    vendor: SLI
 

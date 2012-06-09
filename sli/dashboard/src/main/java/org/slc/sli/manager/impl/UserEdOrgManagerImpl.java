@@ -3,7 +3,6 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -16,6 +15,7 @@ import java.util.Vector;
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityComparator;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
@@ -222,13 +222,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     // convert school ids to the school object array and sort based on the name of
                     // the institution
                     Set<GenericEntity> reachableSchools = new TreeSet<GenericEntity>(
-                            new Comparator<Map<String, Object>>() {
-                                @Override
-                                public int compare(Map<String, Object> a, Map<String, Object> b) {
-                                    return ((String) a.get(Constants.ATTR_NAME_OF_INST)).compareTo((String) b
-                                            .get(Constants.ATTR_NAME_OF_INST));
-                                }
-                            });
+                            new GenericEntityComparator(Constants.ATTR_NAME_OF_INST, String.class));
                     reachableSchools.addAll(schoolReachableFromEdOrg.get(edOrgId));
                     obj.put(Constants.ATTR_SCHOOLS, reachableSchools);
                     retVal.add(obj);
@@ -245,12 +239,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         putToCache(USER_HIERARCHY_CACHE, token, retVal);
         //Sort the Districts based on the District Name
-        Collections.sort(retVal, new Comparator<Map<String, Object>>() {
-            @Override
-            public int compare(Map<String, Object> a, Map<String, Object> b) {
-                return ((String) a.get(Constants.ATTR_NAME)).compareTo((String) b.get(Constants.ATTR_NAME));
-            }
-        });
+        Collections.sort(retVal, new GenericEntityComparator(Constants.ATTR_NAME, String.class));
 
         return retVal;
     }
@@ -302,24 +291,40 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // Dashboard expects return one GenericEntity.
         entity.put(Constants.ATTR_ROOT, entities);
         if (key != null) {
-            // TODO: a better way of searching should be implemented.
+
+            // if section has been selected by user, get section info
+            GenericEntity section = getApiClient().getEntity(token, "sections", (String) key, null);
+            String schoolId = section.getString(Constants.ATTR_SCHOOL_ID);
+
+            // find the ed-org and school, given the section. set the "selectedPopulation" attribute.
             for (GenericEntity org : entities) {
-                Set schools = ((Set) org.get(Constants.ATTR_SCHOOLS));
-                for (Object school : schools) {
-                    for (Object course : ((GenericEntity) school).getList(Constants.ATTR_COURSES)) {
-                        for (Object section : ((GenericEntity) course).getList(Constants.ATTR_SECTIONS)) {
-                            if (((GenericEntity) section).getId().equals(key)) {
-                                GenericEntity selectedOrg = new GenericEntity();
-                                selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                                selectedOrg.put(Constants.ATTR_SECTION, section);
-                                entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-                                return entity;
-                            }
-                        }
+                Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
+                for (GenericEntity school : schools) {
+                    if (school.getId().equals(schoolId)) {
+                        GenericEntity selectedOrg = new GenericEntity();
+                        selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                        selectedOrg.put(Constants.ATTR_SECTION, section);
+                        entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                        return entity;
                     }
                 }
             }
+
         }
+        return entity;
+    }
+
+    /**
+     * Override from UserEdOrgManager.
+     * Signature is pre-defined by the architect.
+     */
+    @Override
+    public GenericEntity getUserCoursesAndSections(String token, Object schoolIdObj, Data config) {
+
+        String schoolId = (String) schoolIdObj;
+        List<GenericEntity> entities = getApiClient().getCoursesSectionsForSchool(token, schoolId);
+        GenericEntity entity = new GenericEntity();
+        entity.put(Constants.ATTR_ROOT, entities);
         return entity;
     }
 

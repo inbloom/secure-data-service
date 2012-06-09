@@ -4,9 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,10 +45,9 @@ public class BrutePathFinderTest {
     @Test
     public void testGetSimplePath() throws Exception {
         path = pathFinder.find("teacher", "student");
-        assertTrue(path.size() == 3);
+        assertTrue(path.size() == 2);
         assertTrue(path.get(0).getName().equals("teacher"));
-        assertTrue(path.get(1).getName().equals("section"));
-        assertTrue(path.get(2).getName().equals("student"));
+        assertTrue(path.get(1).getName().equals("student"));
     }
 
     @Test
@@ -62,9 +62,10 @@ public class BrutePathFinderTest {
     @Test
     public void testGet2PartPath() throws Exception {
         path = pathFinder.find("teacher", "section");
-        assertTrue(path.size() == 2);
+        assertTrue(path.size() == 3);
         assertTrue(path.get(0).getName().equals("teacher"));
-        assertTrue(path.get(1).getName().equals("section"));
+        assertTrue(path.get(1).getName().equals("student"));
+        assertTrue(path.get(2).getName().equals("section"));
     }
     
     

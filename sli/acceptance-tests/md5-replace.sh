@@ -1,11 +1,11 @@
 #!/bin/sh
 
-############################################################
-This will replace the md5 checksum for each interchange file
-specified in the control file.
-Usage:
-> sh md5-replace.sh {path_to_control_file}
-############################################################
+##############################################################
+# This will replace the md5 checksum for each interchange file
+# specified in the control file.
+# Usage:
+# > sh md5-replace.sh {path_to_control_file}
+##############################################################
 
 if test -z $1
 then

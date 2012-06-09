@@ -1,6 +1,11 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Basic wrapper class for fields that a connection has
  *
@@ -11,7 +16,9 @@ public class SecurityNodeConnection {
     private String connectionTo = "";
     private String associationNode = "";
     private boolean isReferenceInSelf = false;
-    private NodeFilter filter;
+    private boolean isResolver = false;
+    private EntityContextResolver resolver = null;
+    private List<NodeFilter> filter;
 
     /**
      * @return the fieldName
@@ -49,12 +56,28 @@ public class SecurityNodeConnection {
     }
 
 
-    public NodeFilter getFilter() {
+    public List<NodeFilter> getFilter() {
         return this.filter;
     }
 
     public boolean isReferenceInSelf() {
         return isReferenceInSelf;
+    }
+
+    public boolean isResolver() {
+        return isResolver;
+    }
+
+    public void setResolver(boolean resolver) {
+        isResolver = resolver;
+    }
+
+    public EntityContextResolver getResolver() {
+        return resolver;
+    }
+
+    public void setResolver(EntityContextResolver resolver) {
+        this.resolver = resolver;
     }
 
     /**
@@ -68,11 +91,21 @@ public class SecurityNodeConnection {
         this.connectionTo = toEntity;
         this.fieldName = withField;
         this.associationNode = associationNode;
+        this.filter = new ArrayList<NodeFilter>();
+        this.filter.add(filter);
+    }
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, List<NodeFilter> filter) {
+        this.connectionTo = toEntity;
+        this.fieldName = withField;
+        this.associationNode = associationNode;
         this.filter = filter;
     }
 
     public SecurityNodeConnection(String connectionTo, String fieldName, String associationNode) {
-        this(connectionTo, fieldName, associationNode, null);
+        this.connectionTo = connectionTo;
+        this.fieldName = fieldName;
+        this.associationNode = associationNode;
+        this.filter = null;
     }
 
     public SecurityNodeConnection(String connectionTo, String fieldName) {
@@ -84,6 +117,12 @@ public class SecurityNodeConnection {
         this.connectionTo = connectionTo;
         this.fieldName = fieldName;
         this.isReferenceInSelf = isReferenceInSelf;
+    }
+
+    public SecurityNodeConnection(String toEntity, EntityContextResolver resolver) {
+        isResolver = true;
+        this.resolver = resolver;
+        connectionTo = toEntity;
     }
 
 }

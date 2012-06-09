@@ -2,7 +2,8 @@
     "keyFields" : ["body.schoolId", "body.studentId"],
 	"references" :
 	[{
-        "fieldPath" : "body.schoolId","ref" :
+        "fieldPath" : "body.schoolId",
+        "ref" :
         {
 	        "collectionName" : "school",
 	        "choiceOfFields" :
@@ -20,7 +21,8 @@
         }
     },
     { 
-        "fieldPath" : "body.studentId","ref" :
+        "fieldPath" : "body.studentId",
+        "ref" :
         {
 	        "collectionName" : "student",
 	        "choiceOfFields" :

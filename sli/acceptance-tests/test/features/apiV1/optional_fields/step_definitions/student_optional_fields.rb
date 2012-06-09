@@ -23,11 +23,11 @@ end
 
 Given /^optional field "([^\"]*)"$/ do |field|
   if !defined? @queryParams
-    @queryParams = [ "optionalFields=#{field}" ]
+    @queryParams = [ "views=#{field}" ]
   else
     @fields = @queryParams[0].split("=")[1];
     @fields = @fields + ",#{field}"
-    @queryParams[0] = "optionalFields=#{@fields}"
+    @queryParams[0] = "views=#{@fields}"
   end
 end
 

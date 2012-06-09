@@ -1,4 +1,4 @@
-@RALLY_US2281 @test
+@RALLY_US2281 @RALLY_US206
 Feature: Complete onboarding workflow for sandbox and prodution
 
 Background: 
@@ -23,7 +23,7 @@ When the developer click link in verification email
 Then an account entry is made in ldap with "Approved" status
 And an approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PROVISIONING_APPLICATION>"
-And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
+And the email has a "<URL_TO_PORTAL>"
 And a "<APPLICATION_DEVELOPER>" roles is a added for the user in ldap
 When the user clicks on "<URL_TO_PROVISIONING_APPLICATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
@@ -83,7 +83,7 @@ When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
 And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
 And the SLC operator approves the vendor account for "<USER_EMAIL>"
 Then an approval email is sent to the "<USER_EMAIL>"
-And the email has a "<URL_TO_APPLICATION_REGISTRATION>"
+And the email has a "<URL_TO_PORTAL>"
 
 @production
 Scenario: District admin provisions LZ for an Ed-Org

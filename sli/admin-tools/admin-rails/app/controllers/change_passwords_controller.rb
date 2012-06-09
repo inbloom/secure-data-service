@@ -33,12 +33,13 @@ class ChangePasswordsController < ApplicationController
         begin
           check = Check.get("")
           email = check["external_id"]
+          fullName = check["full_name"]
           update_info = {
               :email => "#{email}",
               :password   => "#{@change_password.new}"
           }
           response =  APP_LDAP_CLIENT.update_user_info(update_info)
-
+          ApplicationMailer.notify_password_change("vummalaneni@wgen.net", fullName)
           format.html { redirect_to new_change_password_path, notice: 'Your password has been modified successfully.' }
           format.json { render :json => @change_password, status: :created, location: @change_password }
         rescue Exception => e

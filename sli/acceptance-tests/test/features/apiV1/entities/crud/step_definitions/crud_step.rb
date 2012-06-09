@@ -28,7 +28,18 @@ end
 
 $entityData = {
   "gradingPeriod" => {
-    "gradingPeriod" => "Summer Semester", 
+    "gradingPeriodIdentity" => {
+      "educationalOrgIdentity" => [{
+        "educationOrgIdentificationCode" => [
+          {
+              "ID" => "Daybreak Elementary School",
+              "identificationSystem" => "School"
+          }
+        ]
+      }],
+      "gradingPeriod" => "First Six Weeks",
+      "schoolYear" => "2011-2012"
+    },
     "beginDate" => "2012-07-01",
     "endDate" => "2012-07-31",
     "totalInstructionalDays" => 20
@@ -53,8 +64,8 @@ $entityData = {
     }]
   },
   "studentAcademicRecord" => {
-    "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
+    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4", 
+    "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904"
   },
   "student" => {
     "birthData" => {
@@ -75,8 +86,8 @@ $entityData = {
     "cohortType" => "Extracurricular Activity",
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "9f5cb095-8e99-49a9-b130-bedfa20639d2",
-    "programId" => ["cb292c7d-3503-414a-92a2-dc76a1585d79"]
+    "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
+    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
     "courseTitle" => "Chinese 1",
@@ -88,7 +99,7 @@ $entityData = {
     }],
     "courseLevel" => "Basic or remedial",
     "courseLevelCharacteristics" => ["Advanced Placement"],
-    "gradesOffered" => "Eighth grade",
+    "gradesOffered" => ["Eighth grade"],
     "subjectArea" => "Foreign Language and Literature",
     "courseDescription" => "Intro to Chinese",
     "dateCourseAdopted" => "2001-01-01",
@@ -101,7 +112,7 @@ $entityData = {
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -111,10 +122,10 @@ $entityData = {
         {"description" => "Long disciplinary Action 3"}
     ]],
     "disciplineDate" => "2012-01-28",
-    "disciplineIncidentId" => ["0e26de79-22aa-5d67-9201-5113ad50a03b"],
-    "studentId" => ["7a86a6a7-1f80-4581-b037-4a9328b9b650"],
-    "responsibilitySchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
-    "assignmentSchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
+    "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4"],
+    "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
@@ -125,7 +136,7 @@ $entityData = {
         {"shortDescription" => "Behavior 012 description"},
         {"codeValue" => "BEHAVIOR 012"}
     ]],
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
@@ -136,7 +147,7 @@ $entityData = {
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
     "dateAssigned" => "2012-02-14", 
-    "sectionId" => "58c9ef19-c172-4798-8e6e-c73e68ffb5a3"
+    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -166,9 +177,9 @@ $entityData = {
     "educationalEnvironment" => "Off-school center",
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
-    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
-    "sessionId" => "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e",
-    "courseId" => "53777181-3519-4111-9210-529350429899"
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
+    "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41"
   },
   "session" => {
     "sessionName" => "Spring 2012",
@@ -177,7 +188,7 @@ $entityData = {
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
-    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] 
+    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",
@@ -273,7 +284,7 @@ $entityData = {
       "numberOfDaysAbsent" => 15,
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
-      "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992"
+      "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378"
       #"gradingPeriodId" => "TODO"
   }
 }

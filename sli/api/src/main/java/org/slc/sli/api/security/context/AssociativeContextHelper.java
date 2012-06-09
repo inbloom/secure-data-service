@@ -1,20 +1,20 @@
 package org.slc.sli.api.security.context;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Resolves Context based permissions.
@@ -35,12 +35,15 @@ public class AssociativeContextHelper {
      * @param principal user currently accessing the system
      * @return List of string ids
      */
-    public List<String> findAccessible(Entity principal, List<String> associativeNames) {
+    public List<String> findAccessible(final Entity principal, final List<String> associativeResourceNames) {
+        return findAccessible(Arrays.asList(principal.getEntityId()), principal.getType(), associativeResourceNames);
+    }
 
+    public List<String> findAccessible(final Collection<String> ids, final String idsEntityName, final List<String> associativeNames) {
         List<AssociationDefinition> associativeContextPath = getDefinitions(associativeNames);
 
-        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
-        String searchType = principal.getType();
+        List<String> foundIds = new ArrayList<String>(ids);
+        String searchType = idsEntityName;
         for (AssociationDefinition ad : associativeContextPath) {
             List<String> keys = getAssocKeys(searchType, ad);
             String sourceKey = keys.get(0);
@@ -48,17 +51,17 @@ public class AssociativeContextHelper {
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(9999);
-            neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", ids));
+            neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", foundIds));
             Iterable<Entity> entities = this.repository.findAll(ad.getStoredCollectionName(), neutralQuery);
 
-            ids.clear();
+            foundIds.clear();
             for (Entity e : entities) {
-                ids.add((String) e.getBody().get(targetKey));
+                foundIds.add((String) e.getBody().get(targetKey));
             }
             searchType = getTargetType(searchType, ad);
         }
 
-        return ids;
+        return foundIds;
     }
 
     private List<AssociationDefinition> getDefinitions(List<String> associativeNames) {

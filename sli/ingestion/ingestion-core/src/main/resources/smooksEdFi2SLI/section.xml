@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+                      xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+                      xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="sections" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="section" />
+  </jb:bean>
+
+  <jb:bean beanId="section" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'section'</jb:expression>
+    <jb:wiring property="metaData" beanIdRef="sectionMeta" />
+    <jb:wiring property="body" beanIdRef="sectionBody" />
+  </jb:bean>
+
+  <jb:bean beanId="sectionMeta" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="externalId" data="attributes uniqueSectionCode" />
+  </jb:bean>
+
+  <jb:bean beanId="sectionBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="sessionId" data="attributes sessionId" />
+    <jb:value property="schoolId" data="attributes schoolId" />
+    <jb:value property="courseId" data="attributes courseId" />
+    <jb:wiring property="availableCredit" beanIdRef="availableCreditValue" />
+    <jb:value property="educationEnvironment" data="attributes educationEnvironment" />
+    <jb:value property="populationServed" data="attributes populationServed" />
+    <jb:value property="sequenceOfCourse" data="attributes sequenceOfCourse" decoder="Integer" />
+    <jb:value property="mediumOfInstruction" data="attributes mediumOfInstruction" />
+    <jb:value property="uniqueSectionCode" data="attributes uniqueSectionCode" />
+    <jb:wiring property="programReference" beanIdRef="programReferenceArray" />
+  </jb:bean>
+
+  <jb:bean beanId="availableCreditValue" class="java.util.HashMap" createOnElement="availableCredit">
+    <jb:value property="creditType" data="attributes avaliableCredit creditType" />
+    <jb:value property="creditConversion" data="attributes availableCredit creditConversion"/>
+    <jb:value property="credit" data="attributes availableCredit credit" />
+  </jb:bean>
+
+  <jb:bean beanId="programReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:value data="attributes programReference element" />
+  </jb:bean>
+
+</smooks-resource-list>

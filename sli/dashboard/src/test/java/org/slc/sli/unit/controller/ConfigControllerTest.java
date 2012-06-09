@@ -50,8 +50,8 @@ public class ConfigControllerTest extends ControllerTestBase {
 
     @Test
     public void testSave() throws Exception {
-        ConfigMap configMap =
-            loadFile(Config.class.getClassLoader().getResource(CONFIG_MAP_LOCATION).getFile(), ConfigMap.class);
+        ConfigMap configMap = loadFile(Config.class.getClassLoader().getResource(CONFIG_MAP_LOCATION).getFile(),
+                ConfigMap.class);
         try {
             String response = configController.saveConfig(configMap);
             Assert.assertEquals("Success", response);
@@ -92,6 +92,12 @@ public class ConfigControllerTest extends ControllerTestBase {
             }
 
             @Override
+            public GenericEntity getUserCoursesAndSections(String token, Object key, Data config) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
             public EdOrgKey getUserEdOrg(String token) {
                 // TODO Auto-generated method stub
                 return null;
@@ -109,7 +115,8 @@ public class ConfigControllerTest extends ControllerTestBase {
             }
         });
         configController.setPortalWSManager(new PortalWSManagerImpl() {
-            public String getHeader(String token) {
+            @Override
+            public String getHeader(boolean isAdmin) {
                 return null;
             }
         });
@@ -118,7 +125,7 @@ public class ConfigControllerTest extends ControllerTestBase {
         try {
             model = configController.getConfig(request);
         } catch (IllegalAccessException e) {
-            //this exception is thrown because not admin
+            // this exception is thrown because not admin
             model = null;
         }
         Assert.assertNull(model);

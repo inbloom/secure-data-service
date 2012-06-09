@@ -52,6 +52,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final String OAUTH_CODE = "code";
     private static final String ENTRY_URL = "ENTRY_URL";
+    private static final String STATE_PARAMETER = "state";
     private static final String HEADER_USER_AGENT = "User-Agent";
     private static final String HEADER_AJAX_INDICATOR = "X-Requested-With";
     private static final String AJAX_REQUEST = "XmlHttpRequest";
@@ -224,10 +225,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         
         LOG.info(LOG_MESSAGE_AUTH_INITIATING, new Object[] { request.getRemoteAddr() });
         
-        session.setAttribute(ENTRY_URL, request.getRequestURL());
-        
         // The request token doesn't matter for OAuth 2.0 which is why it's null
         String authUrl = service.getAuthorizationUrl(null);
+        
+      //State is keyword used by idp to forward parameters
+      //Adding requestUrl as state, to allow idp to send it back in the redirect
+        authUrl += "&" + STATE_PARAMETER + "=" + request.getRequestURL().toString();
         response.sendRedirect(authUrl);        
     }
     
@@ -237,10 +240,16 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         
         Verifier verifier = new Verifier(request.getParameter(OAUTH_CODE));
         Token accessToken = service.getAccessToken(null, verifier);
-        session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-        Object entryUrl = session.getAttribute(ENTRY_URL);
+        
+        //setting cookie, instead of saving oauth_token in session
+        saveCookieWithToken(request, response, accessToken.getToken());
+        
+        //State is keyword used by idp to forward parameters
+        //Retrieving entryUrl from state parameter added in initiatingAuthentication
+        String entryUrl = request.getParameter(STATE_PARAMETER);
+
         if (entryUrl != null) {
-            response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+            response.sendRedirect(entryUrl);
         } else {
             response.sendRedirect(request.getRequestURI());
         }        

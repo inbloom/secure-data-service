@@ -10,18 +10,23 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.impl.DefaultProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -30,6 +35,8 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -59,44 +66,90 @@ public class JobReportingProcessor implements Processor {
 
     private static final int ERRORS_RESULT_LIMIT = 100;
 
+    @Value("${sli.ingestion.staging.clearOnCompletion}")
+    private String clearOnCompletion;
+
+    @Value("${sli.ingestion.topic.command}")
+    private String commandTopicUri;
+
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Override
     public void process(Exchange exchange) {
 
-        String batchJobId = getBatchJobId(exchange);
-        if (batchJobId != null) {
-            processJobReporting(batchJobId);
-        } else {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
+        } else {
+            processJobReporting(exchange, workNote);
+        }
+
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+            template.start();
+            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
+            template.stop();
+        } catch (Exception e) {
+            LogUtil.error(LOG, "Error sending `that's all folks` message to the orchestra", e);
         }
     }
 
-    private void processJobReporting(String batchJobId) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
         try {
+
+            populateJobFromStageCollection(batchJobId);
+
             job = batchJobDAO.findBatchJobById(batchJobId);
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(job, hasErrors);
+            writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            deleteNeutralRecordFiles(job);
-
+            if ("true".equals(clearOnCompletion)) {
+                neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
+            } else if ("transformed".equals(clearOnCompletion)) {
+                neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(
+                        workNote.getBatchJobId());
+                LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+                        workNote.getBatchJobId());
+            }
             if (job != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, job);
+                BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
             }
         }
     }
 
-    private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
+    private void populateJobFromStageCollection(String jobId) {
+        NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
+
+        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+        Iterator<Stage> it = stages.iterator();
+        Stage tempStage;
+
+        while (it.hasNext()) {
+            tempStage = it.next();
+
+            job.addStage(tempStage);
+        }
+
+        batchJobDAO.saveBatchJob(job);
+    }
+
+    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
         FileLock lock = null;
@@ -125,6 +178,14 @@ public class JobReportingProcessor implements Processor {
 
             writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
 
+            String purgeMessage = (String) exchange.getProperty("purge.complete");
+
+            if (purgeMessage != null) {
+
+                writeInfoLine(jobReportWriter, purgeMessage);
+
+            }
+
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
@@ -149,11 +210,17 @@ public class JobReportingProcessor implements Processor {
         try {
             Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_RESULT_LIMIT);
             LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
+
+            int countErrors = 0;
+            int countWarnings = 0;
+
             for (Error error : errors) {
-                String externalResourceId = getExternalResourceId(error.getResourceId(), job);
+                String externalResourceId = error.getResourceId();
 
                 PrintWriter errorWriter = null;
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+
+                    countErrors++;
 
                     hasErrors = true;
                     errorWriter = getErrorWriter("error", job.getId(), externalResourceId, resourceToErrorMap,
@@ -166,6 +233,8 @@ public class JobReportingProcessor implements Processor {
                     }
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
+                    countWarnings++;
+
                     errorWriter = getErrorWriter("warn", job.getId(), externalResourceId, resourceToWarningMap,
                             landingZone);
 
@@ -175,6 +244,12 @@ public class JobReportingProcessor implements Processor {
                         LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                     }
                 }
+
+                if (countErrors > 1000 || countWarnings > 1000) {
+                    LOG.info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
+                    break;
+                }
+
             }
 
         } catch (IOException e) {
@@ -216,23 +291,39 @@ public class JobReportingProcessor implements Processor {
         return writer;
     }
 
-    private static String getExternalResourceId(String resourceId, NewBatchJob job) {
-        if (resourceId != null) {
-            ResourceEntry resourceEntry = job.getResourceEntry(resourceId);
-            if (resourceEntry != null) {
-                return resourceEntry.getExternallyUploadedResourceId();
-            }
-        }
-        return null;
-    }
-
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
-        for (Metrics metric : metrics) {
+        Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
 
+        for (Metrics m : metrics) {
+
+            if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                // metrics exists, we should aggregate
+                Metrics temp = new Metrics(m.getResourceId());
+
+                temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+
+                temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+
+                combinedMetricsMap.put(m.getResourceId(), temp);
+
+            } else {
+                // adding metrics to the map
+                combinedMetricsMap.put(m.getResourceId(),
+                        new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+            }
+
+        }
+
+        Collection<Metrics> combinedMetrics = combinedMetricsMap.values();
+
+        for (Metrics metric : combinedMetrics) {
             ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
             if (resourceEntry == null) {
                 LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
@@ -274,24 +365,6 @@ public class JobReportingProcessor implements Processor {
         writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
         writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
-    }
-
-    // TODO move this into a dedicated cleanup processor routing stage run on error or normal
-    // completion
-    private void deleteNeutralRecordFiles(NewBatchJob job) {
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            if (resourceEntry.getResourceName() != null
-                    && FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                File nrFile = new File(resourceEntry.getResourceName());
-                if (!nrFile.delete()) {
-                    LOG.warn("Failed to delete neutral record file " + resourceEntry.getResourceName());
-                }
-            }
-        }
-    }
-
-    private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
@@ -363,9 +436,12 @@ public class JobReportingProcessor implements Processor {
                 ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                 this.getClass().getName(), // className
                 messageType, // Alpha MH (logLevel)
-                userRoles,
-                message); // Alpha MH (logMessage)
+                userRoles, message); // Alpha MH (logMessage)
 
         audit(event);
+    }
+
+    public void setCommandTopicUri(String commandTopicUri) {
+        this.commandTopicUri = commandTopicUri;
     }
 }

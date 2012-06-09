@@ -11,6 +11,10 @@
 	<artifactId>xsd</artifactId>
 	<name>XSD (W3C XML Schema)</name>
 
+	<properties>
+      <sli.home>${project.parent.parent.basedir}</sli.home>
+	</properties>
+
 	<dependencies>
 
 		<!-- Apache Commons IO Dependency -->

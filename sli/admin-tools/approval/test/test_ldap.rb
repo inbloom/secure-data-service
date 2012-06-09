@@ -272,7 +272,8 @@ class TestLdap < Test::Unit::TestCase
       :destinationIndicator => "submitted",
       :homeDirectory        => "-",
       :uidNumber            => "500", 
-      :gidNumber            => "500"
+      :gidNumber            => "500", 
+      :description          => "tenant = IL\r\n\r\nedOrg=IL-DAYBREAK\r\n\r\n"
     }
 
 
@@ -285,18 +286,111 @@ class TestLdap < Test::Unit::TestCase
     found = @ldap.read_user(uid)
     assert !!found
     assert found[:homedir] == "-"
+    assert found[:tenant] == "IL"
+    assert found[:edorg] == "IL-DAYBREAK"
 
     test_user_info = {
       :email      => uid,
-      :homedir    => "/home/example"
+      :homedir    => "/home/example",
+      :tenant     => "IL-NEW",
+      :edorg      => found[:edorg]
     }
 
     @ldap.update_user_info(test_user_info)
     found = @ldap.read_user(uid)
     assert !!found
     assert found[:homedir] == test_user_info[:homedir]
+    assert found[:tenant] == test_user_info[:tenant]
+    assert found[:edorg] == test_user_info[:edorg]
 
-    @ldap.delete_user(uid)    
+    @ldap.delete_user(uid)
+  end 
+
+  def test_email_with_plus
+    plus_email = "jdoe+test1@example.com"
+    @ldap.delete_user(plus_email)
+    test_user_info = {
+      :first      => "Jon",
+      :last       => "Do", 
+      :email      => plus_email,
+      :password   => "mysecret",
+      :emailtoken => "xyz",
+      :homedir    => "-", 
+      :status     => "submitted",
+      :emailAddress => plus_email
+    }
+    @ldap.create_user(test_user_info)
+
+    found_user = @ldap.read_user(plus_email)
+    assert found_user[:emailAddress] == test_user_info[:emailAddress]
+    assert found_user[:email] == test_user_info[:email]
+
+    @ldap.delete_user(test_user_info[:email])
+  end
+
+  def test_invalidpassword
+    # create a user 
+    @ldap.delete_user(Jd_email)    
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => Jd_email,
+      :password   => "b",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted",
+      :emailAddress => Jd_email
+    }
+
+    if @password_policy
+      assert_raise InvalidPasswordException do
+        @ldap.create_user(test_user_info)
+      end
+    end
+
+    assert_nothing_raised InvalidPasswordException do 
+      test_user_info[:password] = "secret"
+      @ldap.create_user(test_user_info)
+    end 
+
+    if @password_policy
+      assert_raise InvalidPasswordException do 
+        test_user_info[:password] = "a"
+        @ldap.update_user_info(test_user_info)
+      end 
+    end 
+
+    assert_nothing_raised InvalidPasswordException do 
+      test_user_info[:password] = "anothersecret"
+      @ldap.update_user_info(test_user_info)
+    end
+
+    @ldap.delete_user(test_user_info[:email])
+  end 
+
+  def test_authenticate
+    # create a user 
+    @ldap.delete_user(Jd_email)    
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => Jd_email,
+      :password   => "secret",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted",
+      :emailAddress => Jd_email
+    }
+    @ldap.create_user(test_user_info)
+
+    # authenticate with that user 
+    assert @ldap.authenticate(Jd_email, "secret")
+
+    # and make sure that an incorrect password or user cannot authenticate
+    assert !(@ldap.authenticate(Jd_email, "wrongpassword"))
+    assert !(@ldap.authenticate("xyz" + Jd_email, "secret"))
+
+    @ldap.delete_user(test_user_info[:email])
   end 
 
   def test_email_with_plus

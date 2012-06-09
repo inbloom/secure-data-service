@@ -1,17 +1,18 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
-import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Provides data about students and transcript history to construct the custom
@@ -39,9 +40,14 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
         List<String> sectionIds = optionalFieldAppenderHelper.getIdList(studentSectionAssociations, ParameterConstants.SECTION_ID);
         List<EntityBody> sections = optionalFieldAppenderHelper.queryEntities(ResourceNames.SECTIONS, "_id", sectionIds);
 
+        //get the studentAcademicRecords
+        List<EntityBody> studentAcademicRecords = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
+                ParameterConstants.STUDENT_ID, studentIds);
+        List<String> studentAcademicRecordIds = optionalFieldAppenderHelper.getIdList(studentAcademicRecords, "id");
+
         //get the transcripts
         List<EntityBody> studentTranscripts = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS,
-                ParameterConstants.STUDENT_ID, studentIds);
+               ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, studentAcademicRecordIds);
 
         //get the sessions
         List<String> sessionIds = optionalFieldAppenderHelper.getIdList(sections, ParameterConstants.SESSION_ID);
@@ -76,8 +82,16 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                         (String) sectionForStudent.get(ParameterConstants.COURSE_ID));
 
                 //get the student transcripts for the student
-                List<EntityBody> studentTranscriptsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentTranscripts,
-                        ParameterConstants.STUDENT_ID, studentId);
+                List<EntityBody> studentAcademicRecordsForStudent = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
+                        ParameterConstants.STUDENT_ID, Arrays.asList(studentId));
+                List<String> studentAcademicRecordIdsForStudent = optionalFieldAppenderHelper.getIdList(studentAcademicRecordsForStudent, "id");
+
+                List<EntityBody> studentTranscriptsForStudent = new ArrayList<EntityBody>();
+
+                for (String studentAcademicRecordId : studentAcademicRecordIdsForStudent) {
+                    studentTranscriptsForStudent.addAll(optionalFieldAppenderHelper.getEntitySubList(studentTranscripts,
+                            ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, studentAcademicRecordId));
+                }
 
                 //get the student transcripts for the student and the course
                 List<EntityBody> studentTranscriptsForStudentAndCourse = optionalFieldAppenderHelper.getEntitySubList(studentTranscriptsForStudent,
