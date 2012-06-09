@@ -22,15 +22,15 @@
    "endpoints":[
       {
          "name":"Application Registration",
-         "description":"Register an application that can access SLC API.",
+         "description":"Register and manage applications that can access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "Application Developer"
          ]
       },
       {
-         "name":"Application Approval",
-         "description":"Approve applications that can access the platform.",
+         "name":"Application Registration Approval",
+         "description":"Approve applications to access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "SLC Operator"

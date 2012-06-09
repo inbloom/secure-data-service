@@ -183,6 +183,7 @@ class AppsController < ApplicationController
     result = {}
     user_tenant = get_tenant
     state_ed_orgs.each do |ed_org|
+
       # In sandbox mode, only show edorgs for the current user's tenant
       filter_tenant = APP_CONFIG["is_sandbox"] && (!ed_org.metaData.attributes.has_key?("tenantId") || ed_org.metaData.tenantId != user_tenant)
 
@@ -200,5 +201,5 @@ class AppsController < ApplicationController
     end
     result
   end
-
+ 
 end
