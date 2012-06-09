@@ -84,6 +84,7 @@ public class NodeDateFilter extends NodeFilter {
 
                 for (Entity entity : referenceEntities) {
                     String endDateStr = (String) entity.getBody().get(endDateParamName);
+
                     String refId = (String) entity.getBody().get(referenceId);
                     if (returnIds.contains(refId)) {
                         continue; // refId already added to returnIds
