@@ -3,6 +3,7 @@ package org.slc.sli.manager;
 import java.util.List;
 
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.Manager.EntityMapping;
@@ -26,4 +27,6 @@ public interface UserEdOrgManager {
      * @return staff info
      */
     GenericEntity getStaffInfo(String token);
+    @EntityMapping("userCoursesSections")
+    GenericEntity getUserCoursesAndSections(String token, Object schoolIdObj, Data config);
 }

@@ -71,8 +71,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
-    "cohortId" => ["a50121a2-c566-401b-99a5-71eb5cab5f4f"],
+    "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
+    "cohortId" => ["b408635d-8fd5-11e1-86ec-0021701f543f"],
     "beginDate" => "2012-02-29",
     "endDate" => "2012-03-29",
     "studentRecordAccess" => true

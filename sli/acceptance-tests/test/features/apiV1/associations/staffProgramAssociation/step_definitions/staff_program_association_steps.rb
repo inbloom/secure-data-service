@@ -70,8 +70,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
-    "programId" => ["e8d33606-d114-4ee4-878b-90ac7fc3df16"],
+    "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
+    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"],
     "beginDate" => "2012-01-01"
 }
 end

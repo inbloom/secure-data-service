@@ -53,6 +53,10 @@ Given /^I do not teach "([^\"]*)"$/ do |studentId|
   # nothing to do here...id already transformed
 end
 
+Given /^I am associated to the student through a program$/ do
+  # nothing to do
+end
+
 Given /^my school is "([^\"]*)"$/ do |schoolId|
   # nothing to do here...id already transformed
 end
