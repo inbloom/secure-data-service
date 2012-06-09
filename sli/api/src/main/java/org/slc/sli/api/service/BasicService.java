@@ -53,6 +53,15 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final String METADATA = "metaData";
+    private static final String collectionsExcluded = "tenant, userSession, realm, userAccount, roles,  application, applicationAuthorization";
+    private static final Set<String> NOT_BY_TENANT = new HashSet<String>();
+    
+    static {
+        String [] collections = collectionsExcluded.split(",");
+        for(String collection : collections) {
+            NOT_BY_TENANT.add(collection);
+        }
+    }
     
     private String collectionName;
     private List<Treatment> treatments;
@@ -235,6 +244,7 @@ public class BasicService implements EntityService {
             neutralQuery = new NeutralQuery();
         }
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        this.addDefaultQueryParams(neutralQuery);
         
         Entity entity = repo.findOne(collectionName, neutralQuery);
         
@@ -242,9 +252,29 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
         
-        //
-        
         return makeEntityBody(entity);
+    }
+    
+    /**
+     * The purpose of this method is to add the default parameters to a neutral query. At inception, this method
+     * add the Tenant ID to a neutral query.   
+     * @param query
+     *     The query returned is the same as the query passed.
+     * @return
+     *    The modified neutral query
+     */
+    private NeutralQuery addDefaultQueryParams(NeutralQuery query) {
+        if(query == null) {
+            query = new NeutralQuery();
+        }
+        
+        //Add tenant ID
+        if(!NOT_BY_TENANT.contains(collectionName) ) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();                
+            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
+        }
+        
+        return query;
     }
     
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
