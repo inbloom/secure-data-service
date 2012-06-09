@@ -39,13 +39,14 @@ Scenario: Leader accessing a student that is not in his/her school, but was befo
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
 
-Scenario: Educator accessing a student that he/she does not teach, and it is out of the grace period
+Scenario: Educator accessing a student that he/she does not teach, but is associated to through a program
   Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
   And I do not teach "<'LUCRETIA NAGAI'>"
   And I taught "<'LUCRETIA NAGAI'>" in "<'FALL 2001'>"
   And "<'FALL 2001 END DATE'>" is outside of the grace period
+  And I am associated to the student through a program
   When I make an API call to get "<'LUCRETIA NAGAI'>"
-  Then I should receive a return code of 403
+  Then I should receive a return code of 200
   When I am logged in using "rrogers" "rrogers1234" to realm "IL"
   And I make an API call to get "<'LUCRETIA NAGAI'>"
   Then I should receive a return code of 200

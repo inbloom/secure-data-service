@@ -1,6 +1,8 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,6 +16,8 @@ public class SecurityNodeConnection {
     private String connectionTo = "";
     private String associationNode = "";
     private boolean isReferenceInSelf = false;
+    private boolean isResolver = false;
+    private EntityContextResolver resolver = null;
     private List<NodeFilter> filter;
 
     /**
@@ -60,6 +64,22 @@ public class SecurityNodeConnection {
         return isReferenceInSelf;
     }
 
+    public boolean isResolver() {
+        return isResolver;
+    }
+
+    public void setResolver(boolean resolver) {
+        isResolver = resolver;
+    }
+
+    public EntityContextResolver getResolver() {
+        return resolver;
+    }
+
+    public void setResolver(EntityContextResolver resolver) {
+        this.resolver = resolver;
+    }
+
     /**
      * @param associationNode the associationNode to set
      */
@@ -97,6 +117,12 @@ public class SecurityNodeConnection {
         this.connectionTo = connectionTo;
         this.fieldName = fieldName;
         this.isReferenceInSelf = isReferenceInSelf;
+    }
+
+    public SecurityNodeConnection(String toEntity, EntityContextResolver resolver) {
+        isResolver = true;
+        this.resolver = resolver;
+        connectionTo = toEntity;
     }
 
 }

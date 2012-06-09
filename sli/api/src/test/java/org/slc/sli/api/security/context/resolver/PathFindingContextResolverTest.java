@@ -3,17 +3,6 @@
  */
 package org.slc.sli.api.security.context.resolver;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +23,17 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 /**
  * @author rlatta
@@ -74,7 +74,7 @@ public class PathFindingContextResolverTest {
 
     @Test
     public void testCanResolve() throws Exception {
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
+        assertFalse(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
         assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.TEACHER));
         assertFalse(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.TEACHER));
     }
