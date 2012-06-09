@@ -685,7 +685,7 @@ public class BasicService implements EntityService {
         // they don't contain mongo
         // entries
         
-        if (getAuths().contains(Right.FULL_ACCESS)) {
+        if (isPublic()) {
             return new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, AllowAllEntityContextResolver.SUPER_LIST);
         }
         
@@ -693,16 +693,23 @@ public class BasicService implements EntityService {
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
         if (type != null && type.equals(EntityNames.STAFF) &&
- !(defn.getType().equals(EntityNames.SCHOOL)
-                        || !(defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION))
-                        || !(defn.getType().equals(EntityNames.LEARNINGSTANDARD)) || !(defn.getType()
-                        .equals(EntityNames.LEARNINGOBJECTIVE)))) {
+ !((defn.getType().equals(EntityNames.SCHOOL)) || (defn.getType()
+                        .equals(EntityNames.EDUCATION_ORGANIZATION)))) {
             securityField = "metaData.edOrgs";
         }
 
         NeutralCriteria securityCriteria = new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false);
 
         return securityCriteria;
+    }
+
+    private boolean isPublic() {
+        if (getAuths().contains(Right.FULL_ACCESS)) {
+            return getAuths().contains(Right.FULL_ACCESS);
+        } else {
+            return (defn.getType().equals(EntityNames.LEARNINGOBJECTIVE) || defn.getType().equals(
+                    EntityNames.LEARNINGSTANDARD));
+        }
     }
     
     /**
