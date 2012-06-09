@@ -246,7 +246,17 @@ class SLCFixer
   def fix_miscellany
     #StudentTranscriptAssociation
     @db['studentTranscriptAssociation'].find.each do |trans|
-      edorg = student_edorgs(trans['body']['studentId'])
+      edorg = []
+      edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])	  
+      edorg << student_edorgs(trans['body']['studentId'])
+      
+      @db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}).each {
+      	|sar|       	
+      	studentId = sar['body']['studentId']
+      	edorg << student_edorgs(studentId)        
+      }
+      
+      edorg = edorg.flatten.uniq
       stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg)
     end
   
