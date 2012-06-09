@@ -1,12 +1,13 @@
 package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
+import java.util.List;
+
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AttendanceEventGenerator;
-import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -22,22 +23,29 @@ public class InterchangeStudentAttendanceGenerator {
      *
      * @return
      */
-    public static void generate(InterchangeWriter<InterchangeStudentAttendance> writer) {
-        writeEntitiesToInterchange(writer);        
+    public static InterchangeStudentAttendance generate() {
+
+        InterchangeStudentAttendance interchange = new InterchangeStudentAttendance();
+        List<AttendanceEvent> interchangeObjects = interchange.getAttendanceEvent();
+
+        addEntitiesToInterchange(interchangeObjects);
+
+        return interchange;
     }
 
     /**
-     * Generate the individual Student Attendance Association entities and write them out.
+     * Generate the individual Student Attendance Association entities.
      *
+     * @param interchangeObjects
      */
-    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentAttendance> writer) {
+    private static void addEntitiesToInterchange(List<AttendanceEvent> interchangeObjects) {
 
-        generateStudentAttendanceEventAssoc(MetaRelations.STUDENT_MAP.values(), writer);
+        generateStudentAttendanceEventAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
 
-    private static void generateStudentAttendanceEventAssoc(Collection<StudentMeta> studentMetas, 
-            InterchangeWriter<InterchangeStudentAttendance> writer) {
+    private static void generateStudentAttendanceEventAssoc(List<AttendanceEvent> interchangeObjects,
+            Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -59,7 +67,7 @@ public class InterchangeStudentAttendanceGenerator {
                                 studentMeta.schoolIds.get(0), sectionId);
                     }
 
-                    writer.marshal(attendanceEvent);
+                    interchangeObjects.add(attendanceEvent);
 
                     objGenCounter++;
                 }

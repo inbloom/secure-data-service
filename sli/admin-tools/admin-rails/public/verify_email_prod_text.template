@@ -1,0 +1,12 @@
+<%= firstName  %>,
+
+Thank you for registering for a developer account with the Shared Learning Collaborative.
+      
+Please follow this link to confirm that this is your email address.
+
+<%= userEmailValidationLink %>
+
+*Note* - After you have confirmed your email address, your account must be approved by an SLC Administrator. For any issues, please email <%= supportEmail %>
+     
+Thanks,
+The Shared Learning Collaborative.

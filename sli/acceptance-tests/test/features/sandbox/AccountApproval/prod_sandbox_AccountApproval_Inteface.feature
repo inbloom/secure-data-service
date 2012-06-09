@@ -11,7 +11,7 @@ And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" lo
 Scenario: As a slc operator I want to see a list of all the accounts and their correct status
 Given there are accounts in requests pending in the system
 When I hit the Admin Application Account Approval page
-Then I see a table with headings of "Vendor" and "Username" and "Last Update" and "Status" and "Actions"
+Then I see a table with headings of "Vendor" and "User Name" and "Last Update" and "Status" and "Action"
 And on the next line there is vendor name in the "Vendor" column
 And User Name in the "User Name" column
 And last update date in the "Last Updated" column

@@ -15,7 +15,6 @@ import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.FastStudentGenerator;
-import org.slc.sli.test.generators.MediumStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -40,13 +39,13 @@ public class InterchangeStudentParentGenerator {
      *
      * @return
      */
-    public static InterchangeStudentParent generate()  throws Exception  {
+    public static InterchangeStudentParent generate() {
 
         InterchangeStudentParent interchange = new InterchangeStudentParent();
         List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
-        
+
         return interchange;
     }
 
@@ -54,10 +53,9 @@ public class InterchangeStudentParentGenerator {
      * Generate the individual parent Association entities.
      *
      * @param interchangeObjects
-     * @throws Exception 
      */
 
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateStudents(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
@@ -74,29 +72,18 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param studentMetas
-     * @throws Exception 
      */
     private static void generateStudents(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
         for (StudentMeta studentMeta : studentMetas) {
 
-            Student student = null;
+            Student student;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                try {
-					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                student = null;
             } else {
-                try {
-					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                student = FastStudentGenerator.generateLowFi(studentMeta.id);
             }
 
             interchangeObjects.add(student);
@@ -113,10 +100,9 @@ public class InterchangeStudentParentGenerator {
      *
      * @param interchangeObjects
      * @param parentMetas
-     * @throws Exception 
      */
 
-    private static void generateParents(List<Object> interchangeObjects, Collection<ParentMeta> parentMetas ) throws Exception {
+    private static void generateParents(List<Object> interchangeObjects, Collection<ParentMeta> parentMetas ) {
 
 
         long startTime = System.currentTimeMillis();
@@ -127,8 +113,7 @@ public class InterchangeStudentParentGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 parent = null;
             } else {
-                //parent = ParentGenerator.generate(parentMeta.id, parentMeta.isMale);
-            	parent = ParentGenerator.generateMediumFi(parentMeta.id, parentMeta.isMale);
+                parent = ParentGenerator.generate(parentMeta.id, parentMeta.isMale);
             }
 
             interchangeObjects.add(parent);

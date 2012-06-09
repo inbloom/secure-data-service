@@ -9,18 +9,28 @@
 
     <json:reader rootName="json" />
 
-    <jb:bean beanId="session" class="java.util.ArrayList" createOnElement="#document">
-        <jb:wiring beanIdRef="Sessions" />
+    <jb:bean beanId="schoolSessionAssociations" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="schoolSessionAssociation" />
     </jb:bean>
 
-    <jb:bean beanId="Sessions" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'session'</jb:expression>
+    <jb:bean beanId="schoolSessionAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'schoolSessionAssociation'</jb:expression>
         <jb:wiring property="body" beanIdRef="ssBody" />
-        <jb:wiring property="metaData" beanIdRef="sessionMeta" />
     </jb:bean>
 
     <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:wiring property="schoolSessionAssociation" beanIdRef="SchoolSessionAssociationType" />
+        <jb:wiring property="session" beanIdRef="sessionType" />
+        <jb:value property="schoolId" data="attributes schoolId" />
+        <jb:value property="sessionId" data="attributes sessionId" />
+    </jb:bean>
+
+    <jb:bean beanId="sessionType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'session'</jb:expression>
+        <jb:wiring property="body" beanIdRef="sessionBody" />
+        <jb:wiring property="metaData" beanIdRef="sessionMetaData" />
+    </jb:bean>
+    <jb:bean beanId="sessionMetaData" class="java.util.HashMap" createOnElement="attributes" />
+    <jb:bean beanId="sessionBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="sessionName" data="attributes sessionName" />
         <jb:value property="schoolYear" data="attributes schoolYear" />
         <jb:value property="term" data="attributes term" />
@@ -31,23 +41,8 @@
         <jb:value property="schoolId" data="attributes schoolId" />
     </jb:bean>
 
-  <jb:bean beanId="sessionMeta" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="externalId" data="attributes sessionName" />
-  </jb:bean>
-
-    <jb:bean beanId="SchoolSessionAssociationType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'schoolSessionAssociation'</jb:expression>
-        <jb:wiring property="body" beanIdRef="SchoolSessionAssociationBody" />
-        <jb:wiring property="metaData" beanIdRef="sessionMetaData" />
-    </jb:bean>
-
-    <jb:bean beanId="SchoolSessionAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="schoolId" data="attributes schoolId" />
-        <jb:value property="sessionId" data="attributes sessionId" />
-    </jb:bean>
-
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes gradingPeriodReference element" />
+      <jb:value data="attributes gradingPeriodReference element" />
     </jb:bean>
 
 </smooks-resource-list>

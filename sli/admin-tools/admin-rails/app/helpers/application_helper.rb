@@ -2,6 +2,9 @@ require 'approval'
 
 module ApplicationHelper
 
+  EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
+  EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer Account - Email Confirmation"
+  
 
   REST_HEADER = {
     "Content-Type" => "application/json",
@@ -49,15 +52,29 @@ module ApplicationHelper
   def self.send_user_verification_email(validate_base, guid)
     
     user_email_info = get_email_info guid
-    email_address = user_email_info["email_address"]
-    email_token = get_email_token(email_address)
+    email_token = get_email_token(user_email_info["email_address"])
+    
+    userEmailValidationLink = "__URI__/user_account_validation/#{email_token}"
+    if(APP_CONFIG["is_sandbox"])
+    template=File.open("#{Rails.root}/public/verify_email_sandbox_text.template"){|file| file.read}
+    else
+     template=File.open("#{Rails.root}/public/verify_email_prod_text.template"){|file| file.read}
+    end
+    email_content = ERB.new(template)
+    template_data={:firstName => user_email_info['first_name'],
+        :userEmailValidationLink => userEmailValidationLink,
+        :supportEmail => APP_CONFIG['support_email']}
+    email_message = email_content.result(ErbBinding.new(template_data).get_binding)
+      
     if (email_token.nil?)
       return false
     end
-    userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
-    
-    ApplicationMailer.verify_email(email_address,user_email_info['first_name'],userEmailValidationLink).deliver
-    
+    APP_EMAILER.send_approval_email({
+      :email_addr => user_email_info["email_address"],
+      :name       => user_email_info["first_name"]+" "+user_email_info["last_name"],
+      :subject    => (APP_CONFIG["is_sandbox"]?EMAIL_SUBJECT_SANDBOX : EMAIL_SUBJECT_PROD),
+      :content    => email_message
+    })
     true
   end
   

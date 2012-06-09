@@ -113,52 +113,12 @@ Then /^an email is sent to the requestor with a link to provision sandbox and a 
   verifyEmail
 end
 
-# TODO: Remove this mock class once we get rid of the emailer from Approval Engine completely.
-class MockTransitionActionConfig
-  def initialize(emailer, is_sandbox)
-    @emailer = emailer
-    @is_sandbox = is_sandbox
-  end
-
-  def transition(user)
-    if user[:status] == ApprovalEngine::STATE_APPROVED
-      # TODO: Below should not be hardcoded and should be configurable by admin.
-      email = {
-          :email_addr => user[:email],
-          :name       => "#{user[:first]} #{user[:last]}"
-      }
-      if @is_sandbox
-        email[:subject] = "Welcome to the SLC Developer Sandbox"
-        email[:content] = "Hello,\n\n" <<
-            "Your request for developer account has been approved. There are some additional steps needed before you can use your sandbox environment.\n\n" <<
-            "To provision your landing zone go to:\n" <<
-            "__URI__/landing_zone\n\n" <<
-            "To register your applications go to:\n" <<
-            "__URI__/apps\n\n" <<
-            "Thank you,\n" <<
-            "SLC Operator"
-      else
-        email[:subject] = "Welcome to the SLC Developer Program"
-        email[:content] = "Hello,\n\n" <<
-            "Your request for vendor account has been approved.\n\n" <<
-            "To register your applications go to:\n" <<
-            "__URI__/apps\n\n" <<
-            "Thank you,\n" <<
-            "SLC Operator"
-      end
-      @emailer.send_approval_email email
-    end
-
-  end
-end
-
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 
   email = Emailer.new email_conf
-  transition_action_config = MockTransitionActionConfig.new(email, !prod)
-  ApprovalEngine.init(@ldap, email, transition_action_config, !prod)
+  ApprovalEngine.init(@ldap, email, nil, !prod)
 end
 
 def verifyEmail
@@ -175,19 +135,12 @@ def verifyEmail
     found = true if content != nil
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Welcome to the SLC Developer Sandbox"), "Subject in email is not correct")
+    assert(subject.include?("Welcome to the SLC Developer"), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
     assert(email != nil, "email was not received")
     assert(email.to[0] == @userinfo[:email], "email address was incorrect")
-    expected_subject = ""
-    if @prod
-      expected_subject = "Welcome to the SLC Developer Program"
-    else
-      expected_subject = "Welcome to the SLC Developer Sandbox"
-    end
-
-    assert(email.subject.include?(expected_subject), "email subject should be <#{expected_subject}> but was <#{email.subject}>")
+    assert(email.subject.include?("Welcome to the SLC Developer"), "email did not have correct subject")
   end
 end

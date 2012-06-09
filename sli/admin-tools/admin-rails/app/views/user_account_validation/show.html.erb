@@ -1,27 +1,10 @@
-<% if @validation_result == UserAccountValidation::ACCOUNT_VERIFICATION_COMPLETE %>
-    <div class="page-header">
-      <h1>Email Confirmed</h1>
-    </div>
-    <pre>
-    <p>
-      <b>What to look for next</b>
 
-      <% if APP_CONFIG['is_sandbox'] %><% else%>An SLC Administrator reviews each account to maintain the privacy of the students and teachers we are serving.<% end%> You will be receiving an email with more information about your account.
+<p>
+  <H1><b><%= @validation_result['status'] %></b></H1>
+  <br>
+  <%= @validation_result['message'] %>
 
-      <b>For other questions:</b>
+  <br/><br/>
 
-      If any other support related questions should arise, feel free to email customer support at <%= APP_CONFIG['support_email'] %>
-    </p>
-    </pre>
-<% else %>
-    <div class="page-header">
-      <h1><%= @validation_result['status'] %></h1>
-    </div>
-    <pre>
-    <p>
-    <b>Error! </b><%= @validation_result['message'] %>
-    <br/><br/>
-    </p>
-    </pre>
+</p>
 
-<% end %>

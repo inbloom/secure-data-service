@@ -196,7 +196,7 @@ public class CohortResourceTest {
         }
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void testDelete() {
         //create one entity
         Response createResponse = cohortResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -206,8 +206,15 @@ public class CohortResourceTest {
         Response response = cohortResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        @SuppressWarnings("unused")
-        Response getResponse = cohortResource.read(id, httpHeaders, uriInfo);
+        try {
+            @SuppressWarnings("unused")
+            Response getResponse = cohortResource.read(id, httpHeaders, uriInfo);
+            fail("should have thrown EntityNotFoundException");
+        } catch (EntityNotFoundException e) {
+            return;
+        } catch (Exception e) {
+            fail("threw wrong exception: " + e);
+        }
     }
 
     @Test
