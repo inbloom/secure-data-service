@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,77 +37,77 @@ import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
- * 
+ *
  * It is very important this bean prototype scope, since one service is needed per
  * entity/association.
  */
 @Scope("prototype")
 @Component("basicService")
 public class BasicService implements EntityService {
-    
+
     private static final String ADMIN_SPHERE = "Admin";
     private static final String PUBLIC_SPHERE = "Public";
-    
+
     private static final int MAX_RESULT_SIZE = 9999;
-    
+
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final String METADATA = "metaData";
     private static final String collectionsExcluded = "tenant, userSession, realm, userAccount, roles,  application, applicationAuthorization";
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>();
-    
+
     static {
-        String [] collections = collectionsExcluded.split(",");
-        for(String collection : collections) {
+        String[] collections = collectionsExcluded.split(",");
+        for (String collection : collections) {
             NOT_BY_TENANT.add(collection);
         }
     }
-    
+
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
-    
+
     private Right readRight;
     private Right writeRight; // this is possibly the worst named variable ever
-    
+
     @Autowired
     private Repository<Entity> repo;
-    
+
     @Autowired
     private ContextResolverStore contextResolverStore;
-    
+
     @Autowired
     private SchemaDataProvider provider;
-    
+
     @Autowired
     private IdConverter idConverter;
-    
+
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
-    
+
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.readRight = readRight;
         this.writeRight = writeRight;
     }
-    
+
     public BasicService(String collectionName, List<Treatment> treatments) {
         this(collectionName, treatments, Right.READ_GENERAL, Right.WRITE_GENERAL);
     }
-    
+
     @Override
     public long count(NeutralQuery neutralQuery) {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
-        
+
         List<String> allowed = findAccessible();
-        
+
         if (allowed.isEmpty() && readRight != Right.ANONYMOUS_ACCESS) {
             return 0;
         }
-        
+
         Set<String> ids = new HashSet<String>();
         List<NeutralCriteria> criterias = neutralQuery.getCriteria();
         for (NeutralCriteria criteria : criterias) {
@@ -117,7 +118,7 @@ public class BasicService implements EntityService {
             }
         }
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        
+
         if (allowed.size() >= 0 && readRight != Right.ANONYMOUS_ACCESS) {
             if (ids.isEmpty()) {
                 localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
@@ -127,13 +128,13 @@ public class BasicService implements EntityService {
                 localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
             }
         }
-        
+
         return repo.count(collectionName, localNeutralQuery);
     }
-    
+
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     * 
+     *
      * @param neutralQuery
      *            all parameters to be included in query
      * @return the body of the entity
@@ -145,62 +146,62 @@ public class BasicService implements EntityService {
         this.addDefaultQueryParams(neutralQuery);
         
         List<String> allowed = findAccessible();
-        
+
         if (allowed.isEmpty()) {
             return Collections.emptyList();
         }
-        
+
         // super list logic --> only true when using DefaultEntityContextResolver
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-        
+
         for (Entity entity : entities) {
             if (allowed.contains(entity.getEntityId())) {
                 results.add(entity.getEntityId());
             }
         }
-        
+
         return results;
     }
-    
+
     @Override
     public String create(EntityBody content) {
         // DE260 - Logging of possibly sensitive data
         // LOG.debug("Creating a new entity in collection {} with content {}", new Object[] {
         // collectionName, content });
-        
+
         // if service does not allow anonymous write access, check user rights
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkRights(determineWriteAccess(content, ""));
         }
-        
+
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
-    
+
     @Override
     public void delete(String id) {
         // DE260 - Logging of possibly sensitive data
         // LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
-        
+
         checkAccess(writeRight, id);
-        
+
         try {
             cascadeDelete(id);
         } catch (RuntimeException re) {
             debug(re.toString());
         }
-        
+
         if (!repo.delete(collectionName, id)) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         deleteAttachedCustomEntities(id);
     }
-    
+
     @Override
     public boolean update(String id, EntityBody content) {
         debug("Updating {} in {}", id, collectionName);
-        
+
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkAccess(determineWriteAccess(content, ""), id);
         }
@@ -208,78 +209,105 @@ public class BasicService implements EntityService {
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         this.addDefaultQueryParams(query);
         Entity entity = repo.findOne(collectionName, query);
+
+        //Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        
+
         EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
             info("No change detected to {}", id);
             return false;
         }
-        
+
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
         repo.update(collectionName, entity);
-        
+
         return true;
     }
-    
+
     @Override
     public EntityBody get(String id) {
         checkAccess(readRight, id);
-        Entity entity = getRepo().findById(collectionName, id);
+        // change to accommodate tenantId:
+        // findById does not support NeutralQuery and therefore cannot be used any more
+        // Entity entity = getRepo().findById(collectionName, id);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        this.addDefaultQueryParams(neutralQuery);
+
+        Entity entity = getRepo().findOne(collectionName, neutralQuery);
+
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
         return makeEntityBody(entity);
     }
-    
+
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
         checkFieldAccess(neutralQuery);
-        
+
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
         }
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
         this.addDefaultQueryParams(neutralQuery);
-        
+
         Entity entity = repo.findOne(collectionName, neutralQuery);
-        
+
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
-        
+
         return makeEntityBody(entity);
     }
-    
+
     /**
-     * The purpose of this method is to add the default parameters to a neutral query. At inception, this method
-     * add the Tenant ID to a neutral query.   
+     * The purpose of this method is to add the default parameters to a neutral query. At inception,
+     * this method
+     * add the Tenant ID to a neutral query.
+     *
      * @param query
-     *     The query returned is the same as the query passed.
+     *            The query returned is the same as the query passed.
      * @return
-     *    The modified neutral query
+     *         The modified neutral query
      */
     private NeutralQuery addDefaultQueryParams(NeutralQuery query) {
-        if(query == null) {
+        if (query == null) {
             query = new NeutralQuery();
         }
-        
-        //Add tenant ID
-        if(!NOT_BY_TENANT.contains(collectionName) ) {
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();                
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
+
+        // Add tenant ID
+        if (!NOT_BY_TENANT.contains(collectionName)) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            // make sure a criterion for tenantId has not already been added to this query
+            boolean addCrit = true;
+            List<NeutralCriteria> criteria = query.getCriteria();
+            if (criteria != null) {
+                ListIterator<NeutralCriteria> li = criteria.listIterator();
+                while (li.hasNext()) {
+                    if ("metadata.tenantId".equals(li.next().getKey())) {
+                        addCrit = false;
+                        break;
+                    }
+                }
+            }
+            // add the tenant ID if it's not already there
+            if (addCrit) {
+                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
+            }
         }
-        
         return query;
     }
-    
+
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
         if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
             return new ArrayList<EntityBody>();
@@ -287,7 +315,7 @@ public class BasicService implements EntityService {
             throw new AccessDeniedException("Access to resource denied.");
         }
     }
-    
+
     private List<Entity> makeEntityList(Iterable<Entity> items) {
         List<Entity> myList = new ArrayList<Entity>();
         for (Entity item : items) {
@@ -295,67 +323,69 @@ public class BasicService implements EntityService {
         }
         return myList;
     }
-    
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
-        
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(MAX_RESULT_SIZE);
-        
+        this.addDefaultQueryParams(neutralQuery);
+
         return get(ids, neutralQuery);
     }
-    
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids, NeutralQuery neutralQuery) {
         if (!ids.iterator().hasNext()) {
             return Collections.emptyList();
         }
-        
+
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
-        
+
         List<String> allowed = findAccessible();
         List<String> idList = new ArrayList<String>();
-        
+
         for (String id : ids) {
             idList.add(id);
         }
-        
+
         if (!idList.isEmpty()) {
             if (neutralQuery == null) {
                 neutralQuery = new NeutralQuery();
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(MAX_RESULT_SIZE);
             }
-            
+
             if (allowed.size() > 0) {
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
             }
-            
+
             neutralQuery.addCriteria(new NeutralCriteria("_id", "in", idList));
-            
+            this.addDefaultQueryParams(neutralQuery);
+
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-            
+
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
                 results.add(makeEntityBody(e));
             }
-            
+
             return results;
         }
-        
+
         return Collections.emptyList();
     }
-    
+
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
-        
+
         List<String> allowed = findAccessible();
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        
+
         if (readRight == Right.ANONYMOUS_ACCESS) {
             debug("super list logic --> {} service allows anonymous access", collectionName);
         } else if (allowed.isEmpty()) {
@@ -372,35 +402,36 @@ public class BasicService implements EntityService {
                     ids.addAll(idList);
                 }
             }
-            
+
             if (!ids.isEmpty()) {
                 Set<String> allowedSet = new HashSet<String>(allowed);
                 ids.retainAll(allowedSet);
-                
+
                 List<String> finalIds = new ArrayList<String>(ids);
                 localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
             } else {
                 localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
             }
         }
-        
+
         List<EntityBody> results = new ArrayList<EntityBody>();
         this.addDefaultQueryParams(localNeutralQuery);
+
         for (Entity entity : repo.findAll(collectionName, localNeutralQuery)) {
             results.add(makeEntityBody(entity));
         }
-        
+
         if (results.isEmpty()) {
             return noEntitiesFound(neutralQuery);
         }
-        
+
         return results;
     }
-    
+
     @Override
     public boolean exists(String id) {
         checkRights(readRight);
-        
+
         boolean exists = false;
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
@@ -409,10 +440,10 @@ public class BasicService implements EntityService {
         if (repo.findAll(collectionName, query) != null) {
             exists = true;
         }
-        
+
         return exists;
     }
-    
+
     /**
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
@@ -420,16 +451,17 @@ public class BasicService implements EntityService {
     @Override
     public EntityBody getCustom(String id) {
         checkAccess(readRight, id);
-        
+
         String clientId = getClientId();
-        
+
         debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
                 getEntityDefinition().getType(), id, clientId });
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
-        
+        this.addDefaultQueryParams(query);
+
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         if (entity != null) {
             EntityBody clonedBody = new EntityBody(entity.getBody());
@@ -438,7 +470,7 @@ public class BasicService implements EntityService {
             return null;
         }
     }
-    
+
     /**
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
@@ -446,26 +478,26 @@ public class BasicService implements EntityService {
     @Override
     public void deleteCustom(String id) {
         checkAccess(writeRight, id);
-        
+
         String clientId = getClientId();
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         this.addDefaultQueryParams(query);
         
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
-        
+
         if (entity == null) {
             throw new EntityNotFoundException(id);
         }
-        
+
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-        
+
         debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
-    
+
     /**
      * TODO: refactor clientId, entityId out of body into root of mongo document
      * TODO: entity collection should be per application
@@ -473,24 +505,24 @@ public class BasicService implements EntityService {
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) {
         checkAccess(writeRight, id);
-        
+
         String clientId = getClientId();
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         this.addDefaultQueryParams(query);
         
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
-        
+
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
                     new String[] { getEntityDefinition().getType(), id, clientId });
             return;
         }
-        
+
         EntityBody clonedEntity = new EntityBody(customEntity);
-        
+
         if (entity != null) {
             debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     getEntityDefinition().getType(), id, clientId });
@@ -510,7 +542,7 @@ public class BasicService implements EntityService {
             getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
-    
+
     private String getClientId() {
         String clientId = clientInfo.getClientId();
         if (clientId == null) {
@@ -518,31 +550,31 @@ public class BasicService implements EntityService {
         }
         return clientId;
     }
-    
+
     /**
      * given an entity, make the entity body to expose
-     * 
+     *
      * @param entity
      * @return
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
-        
+
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
-        
+
         if (readRight != Right.ANONYMOUS_ACCESS) {
             // Blank out fields inaccessible to the user
             filterFields(toReturn, "");
         }
-        
+
         return toReturn;
     }
-    
+
     /**
      * given an entity body that was exposed, return the version with the treatments reversed
-     * 
+     *
      * @param content
      * @return
      */
@@ -553,11 +585,11 @@ public class BasicService implements EntityService {
         }
         return sanitized;
     }
-    
+
     /**
      * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
      * still exists so that authorization/context can be checked.
-     * 
+     *
      * @param sourceId
      *            ID that was deleted, where anything else with that ID should also be deleted
      */
@@ -586,7 +618,7 @@ public class BasicService implements EntityService {
             }
         }
     }
-    
+
     private void deleteAttachedCustomEntities(String sourceId) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
@@ -596,11 +628,11 @@ public class BasicService implements EntityService {
             getRepo().delete(CUSTOM_ENTITY_COLLECTION, id);
         }
     }
-    
+
     /**
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
-     * 
+     *
      * @param right
      *            needed Right for action
      * @param entityId
@@ -611,16 +643,16 @@ public class BasicService implements EntityService {
      *             if actor doesn't have association path to given entity
      */
     private void checkAccess(Right right, String entityId) {
-        
+
         // Check that user has the needed right
         checkRights(right);
-        
+
         // Check that target entity actually exists
         if (repo.findById(collectionName, entityId) == null) {
             warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
-        
+
         if (right != Right.ANONYMOUS_ACCESS) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !findAccessible().contains(entityId)) {
@@ -628,26 +660,26 @@ public class BasicService implements EntityService {
             }
         }
     }
-    
+
     private void checkRights(Right neededRight) {
-        
+
         // anonymous access is always granted
         if (neededRight == Right.ANONYMOUS_ACCESS) {
             return;
         }
-        
+
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
-        
+
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             if (Right.READ_GENERAL.equals(neededRight)) {
                 neededRight = Right.READ_PUBLIC;
             }
         }
-        
+
         Collection<GrantedAuthority> auths = getAuths();
-        
+
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
         } else if (auths.contains(neededRight)) {
@@ -656,7 +688,7 @@ public class BasicService implements EntityService {
             throw new AccessDeniedException("Insufficient Privileges");
         }
     }
-    
+
     private Collection<GrantedAuthority> getAuths() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (readRight != Right.ANONYMOUS_ACCESS) {
@@ -664,48 +696,48 @@ public class BasicService implements EntityService {
         }
         return auth.getAuthorities();
     }
-    
+
     private List<String> findAccessible() {
-        
+
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         if (principal == null) {
             throw new AccessDeniedException("Principal cannot be found");
         }
-        
+
         Entity entity = principal.getEntity();
         String type = entity != null ? entity.getType() : null;   // null for super admins because
         // they don't contain mongo
         // entries
-        
+
         if (getAuths().contains(Right.FULL_ACCESS)) {  // Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
-        
+
         EntityContextResolver resolver = contextResolverStore.findResolver(type, defn.getType());
         return resolver.findAccessible(principal.getEntity());
     }
-    
+
     /**
      * Removes fields user isn't entitled to see
-     * 
+     *
      * @param eb
      */
     @SuppressWarnings("unchecked")
     private void filterFields(Map<String, Object> eb, String prefix) {
-        
+
         Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        
+
         if (!auths.contains(Right.FULL_ACCESS)) {
-            
+
             List<String> toRemove = new LinkedList<String>();
             for (Map.Entry<String, Object> entry : eb.entrySet()) {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
-                
+
                 String fieldPath = prefix + fieldName;
                 Right neededRight = getNeededRight(fieldPath);
-                
+
                 debug("Field {} requires {}", fieldPath, neededRight);
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
@@ -715,54 +747,54 @@ public class BasicService implements EntityService {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 }
             }
-            
+
             for (String fieldName : toRemove) {
                 eb.remove(fieldName);
             }
         }
     }
-    
+
     /**
      * Returns the needed right for a field by examining the schema
-     * 
+     *
      * @param fieldPath
      *            The field name
      * @return
      */
     protected Right getNeededRight(String fieldPath) {
         Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
-        
+
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
-        
+
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             if (Right.READ_GENERAL.equals(neededRight)) {
                 neededRight = Right.READ_PUBLIC;
             }
         }
-        
+
         return neededRight;
     }
-    
+
     /**
      * Checks query params for access restrictions
-     * 
+     *
      * @param query
      *            The query to check
      */
     protected void checkFieldAccess(NeutralQuery query) {
-        
+
         if (query != null) {
             // get the authorities
             Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication()
                     .getAuthorities();
-            
+
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     // get the needed right for the field
                     Right neededRight = getNeededRight(criteria.getKey());
-                    
+
                     if (!auths.contains(neededRight)) {
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
@@ -770,10 +802,10 @@ public class BasicService implements EntityService {
             }
         }
     }
-    
+
     /**
      * Figures out if writing to restricted fields
-     * 
+     *
      * @param eb
      *            data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
@@ -784,18 +816,18 @@ public class BasicService implements EntityService {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             toReturn = Right.ADMIN_ACCESS;
         } else {
-            
+
             for (Map.Entry<String, Object> entry : eb.entrySet()) {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
-                
+
                 if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 } else {
                     String fieldPath = prefix + fieldName;
                     Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
                     debug("Field {} requires {}", fieldPath, neededRight);
-                    
+
                     if (neededRight == Right.WRITE_RESTRICTED) {
                         toReturn = Right.WRITE_RESTRICTED;
                         break;
@@ -803,13 +835,13 @@ public class BasicService implements EntityService {
                 }
             }
         }
-        
+
         return toReturn;
     }
-    
+
     /**
      * Creates the metaData HashMap to be added to the entity created in mongo.
-     * 
+     *
      * @return Map containing important metadata for the created entity.
      */
     private Map<String, Object> createMetadata() {
@@ -824,7 +856,7 @@ public class BasicService implements EntityService {
         metadata.put("tenantId", principal.getTenantId());
         return metadata;
     }
-    
+
     /**
      * Set the entity definition for this service.
      * There is a circular dependency between BasicService and EntityDefinition, so they both can't
@@ -833,24 +865,24 @@ public class BasicService implements EntityService {
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;
     }
-    
+
     @Override
     public EntityDefinition getEntityDefinition() {
         return defn;
     }
-    
+
     protected String getCollectionName() {
         return collectionName;
     }
-    
+
     protected List<Treatment> getTreatments() {
         return treatments;
     }
-    
+
     protected Repository<Entity> getRepo() {
         return repo;
     }
-    
+
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
         this.clientInfo = clientInfo;
     }
