@@ -35,6 +35,8 @@ public class InternalIdNormalizer {
 
     private static final Logger LOG = LoggerFactory.getLogger( InternalIdNormalizer.class);
 
+    private static final String CACHE_NAMESPACE = "oldId";
+
     @Autowired
     private CacheProvider cacheProvider;
 
@@ -271,7 +273,7 @@ public class InternalIdNormalizer {
     }
 
     private String composeKey(String collection, String tenantId, String criteria) {
-        return String.format("%s_%s_%s", collection, tenantId, criteria);
+        return String.format("%s_%s_%s_%s", CACHE_NAMESPACE, collection, tenantId, criteria);
     }
 
 }

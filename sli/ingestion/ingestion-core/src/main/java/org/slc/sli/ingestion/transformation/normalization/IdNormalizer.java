@@ -44,6 +44,8 @@ public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
+    private static final String CACHE_NAMESPACE = "newId";
+
     @Autowired
     @Qualifier( value = "mongoEntityRepository")
     private Repository<Entity> entityRepository;
@@ -309,7 +311,7 @@ public class IdNormalizer {
             collection = "staff";
         }
 
-        List<String> ids = checkInCache(collection, filter);
+        List<String> ids = checkInCache(collection, tenantId, filter);
 
         if (CollectionUtils.isEmpty(ids)) {
             @SuppressWarnings("deprecation")
@@ -321,13 +323,13 @@ public class IdNormalizer {
                 }
             }
 
-            cache(ids, collection, filter);
+            cache(ids, collection, tenantId, filter);
         }
         return ids;
     }
 
-    private void cache(List<String> ids, String collection, Query filter) {
-        String key = composeKey(collection, filter);
+    private void cache(List<String> ids, String collection, String tenantId, Query filter) {
+        String key = composeKey(collection, tenantId, filter);
 
         cacheProvider.add(key, ids);
 
@@ -341,9 +343,9 @@ public class IdNormalizer {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private List<String> checkInCache(String collection, Query filter) {
+    private List<String> checkInCache(String collection, String tenantId, Query filter) {
         List<String> ids;
-        String key = composeKey(collection, filter);
+        String key = composeKey(collection, tenantId, filter);
         Object val = cacheProvider.get(key);
 
         LOG.info("IdNormalizer Cache {} for {}", val == null ? "MISS" : "HIT", key);
@@ -359,7 +361,7 @@ public class IdNormalizer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private String composeKey(String collection, Query filter) {
+    private String composeKey(String collection, String tenantId, Query filter) {
 
         Map map = filter.getQueryObject().toMap();
 
@@ -367,7 +369,7 @@ public class IdNormalizer {
         sortedMap.putAll(map);
 
         String hash = DigestUtils.sha256Hex( sortedMap.toString() );
-        return String.format("%s_%s", collection, hash );
+        return String.format("%s_%s_%s_%s", CACHE_NAMESPACE, collection, tenantId, hash );
 
     }
 
