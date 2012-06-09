@@ -34,7 +34,7 @@ class ChangePasswordsController < ApplicationController
           email = check["external_id"]
 
           if !APP_LDAP_CLIENT.authenticate(email, @change_password.old_pass) && !APP_LDAP_CLIENT.authenticate_secure(email, @change_password.old_pass)
-            @change_password.errors.add(:base, "Unable to verify old password, please check your old password.")
+            @change_password.errors.add(:base, "Unable to verify old password, please try again.")
             format.html { render action: "new" }
             format.json { render json: @change_password.errors, status: :unprocessable_entity }
           else
@@ -50,8 +50,14 @@ class ChangePasswordsController < ApplicationController
 
               format.html { redirect_to new_change_password_path, notice: 'Your password has been modified successfully.' }
               format.json { render :json => @change_password, status: :created, location: @change_password }
+
+            rescue InvalidPasswordException => e
+              APP_CONFIG['password_policy'].each { |msg| @user_account_registration.errors.add(:new_pass, msg) }
+              format.html { render action: "new" }
+              format.json { render json: @change_password.errors, status: :unprocessable_entity }
+
             rescue Exception => e
-              @change_password.errors.add(:base, "Unable to change password, please check your new password.")
+              @change_password.errors.add(:base, "Unable to change password, please try again.")
               format.html { render action: "new" }
               format.json { render json: @change_password.errors, status: :unprocessable_entity }
             end

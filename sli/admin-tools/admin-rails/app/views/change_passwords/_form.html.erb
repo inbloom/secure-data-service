@@ -6,7 +6,7 @@
   <% end %>
   <% if @change_password.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@change_password.errors.count, "error") %> prohibited from changing password:</h2>
+      <h2><%= pluralize(@change_password.errors.count, "error") %> prevented your password change attempt.</h2>
       <br>
       <br>
       <ul>
