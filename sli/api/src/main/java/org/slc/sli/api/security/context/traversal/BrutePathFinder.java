@@ -13,8 +13,6 @@ import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.StudentSectionAssociationEndDateFilter;
-import org.slc.sli.api.security.context.resolver.TeacherToStaffCohortAssociationEndDateFilter;
-import org.slc.sli.api.security.context.resolver.TeacherToStaffProgramAssociationEndDateFilter;
 import org.slc.sli.api.security.context.resolver.StudentGracePeriodNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgStaffIDNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
@@ -52,12 +50,6 @@ public class BrutePathFinder implements SecurityPathFinder {
 
     @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
-
-    @Autowired
-    private TeacherToStaffCohortAssociationEndDateFilter teacherToStaffCohortAssociationEndDateFilter;
-
-    @Autowired
-    private TeacherToStaffProgramAssociationEndDateFilter teacherToStaffProgramAssociationEndDateFilter;
 
     @Autowired
     private TeacherStudentResolver teacherStudentResolver;
