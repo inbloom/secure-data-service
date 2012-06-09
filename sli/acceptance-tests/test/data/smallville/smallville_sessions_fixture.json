@@ -1,5 +1,0 @@
-{"_id":"67ce204b-9999-4a11-aacb-000000000002","type":"session","body":{"schoolYear":"Year_2009_2010","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":"67ce204b-9999-4a11-aacb-000000000001","type":"session","body":{"schoolYear":"Year_2011_2012","term":"Fall_Semester","endDate":"2011-12-31","beginDate":"2011-09-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":"67ce204b-9999-4a11-aacb-000000000000","type":"session","body":{"schoolYear":"Year_2010_2011","term":"Spring_Semester","endDate":"2011-06-31","beginDate":"2011-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":"67ce204b-9999-4a11-aacb-000000000004","type":"session","body":{"schoolYear":"Year_2010_2011","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":"67ce204b-9999-4a11-aacb-000000000003","type":"session","body":{"schoolYear":"Year_2008_2009","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}

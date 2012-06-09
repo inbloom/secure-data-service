@@ -1,7 +1,5 @@
 package org.slc.sli.web.entity;
 
-import java.util.UUID;
-
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -12,7 +10,8 @@ import javax.validation.constraints.Size;
  */
 public class SafeUUID {
     @Size(max = 36, message = "Not a valid UUID")
-    @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+    @Pattern(regexp = "[A-Za-z0-9-]{50}")
+//    @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
     String uuid;
 
     public SafeUUID() {
@@ -27,8 +26,8 @@ public class SafeUUID {
     }
 
     public void setId(String uuid) {
-        if (uuid != null) {
-            this.uuid = UUID.fromString(uuid).toString();
-        }
+//        if (uuid != null) {
+            this.uuid = uuid;
+//        }
     }
 }
