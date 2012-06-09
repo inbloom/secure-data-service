@@ -25,10 +25,11 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 public class TimestampSplitStrategy implements SplitStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(TimestampSplitStrategy.class);
 
-    @Value("${sli.ingestion.splitChunkSize}")
+    @Value("${sli.ingestion.split.chunk.size}")
     private int splitChunkSize;
 
-    private double thresholdPct = 0.30;
+    @Value("${sli.ingestion.split.threshold.percentage}")
+    private double thresholdPercentage;
 
     private NeutralRecordAccess neutralRecordAccess;
 
@@ -36,7 +37,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
     public List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         List<WorkNote> workNotesForEntity = new ArrayList<WorkNote>();
 
-        int numRecords = countRecordsForEntity(stagedEntity, jobId);
+        long numRecords = countRecordsForEntity(stagedEntity, jobId);
 
         long minTime = neutralRecordAccess.getMinCreationTimeForEntity(stagedEntity, jobId);
         long maxTime = neutralRecordAccess.getMaxCreationTimeForEntity(stagedEntity, jobId);
@@ -55,7 +56,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 workNotesForEntity.add(wn);
             }
 
-            LOG.info("Created {} WorkNotes for {}.", collectionWorkNotes.size(),
+            LOG.info("Created {} WorkNotes for collection: {}.", collectionWorkNotes.size(),
                     stagedEntity.getCollectionNameAsStaged());
 
         } else {
@@ -67,6 +68,16 @@ public class TimestampSplitStrategy implements SplitStrategy {
         return workNotesForEntity;
     }
 
+    /**
+     * Recursively constructs a list of work notes for the specified job and entity.
+     * 
+     * @param workNotes current set of work notes for the staged entity.
+     * @param jobId current job id.
+     * @param stagedEntity entity current in staging database.
+     * @param minTime used for performing queries into data store.
+     * @param maxTime used for performing queries into data store.
+     * @return list of work notes for staged entity.
+     */
     private List<WorkNote> constructCollectionWorkNotes(List<WorkNote> workNotes, String jobId,
             IngestionStagedEntity stagedEntity, long minTime, long maxTime) {
 
@@ -94,10 +105,10 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 long recordsInRightChunk = getCountOfRecords(collectionName, pivot, maxTime, jobId);
                 long recordsInLeftChunk = recordsCountInSegment - recordsInRightChunk;
 
-                LOG.info("Interval = {} / {} ", minTime, maxTime);
-                LOG.info("Total ms in interval = {}", intervalElapsedTime);
-                LOG.info("Right Interval (Start / End) {} / {} ", pivot, maxTime);
-                LOG.info("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
+                LOG.debug("Interval = {} / {} ", minTime, maxTime);
+                LOG.debug("Total ms in interval = {}", intervalElapsedTime);
+                LOG.debug("Right Interval (Start / End) {} / {} ", pivot, maxTime);
+                LOG.debug("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
                         + splitFactor, recordsInLeftChunk, recordsInRightChunk);
 
                 done = true;
@@ -111,20 +122,20 @@ public class TimestampSplitStrategy implements SplitStrategy {
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)
                             || chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
 
-                        LOG.info("Adding left + right work notes");
+                        LOG.debug("Adding left + right work notes");
 
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
                         workNotes.add(left);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
 
-                        LOG.info("Recursing on left + adding right work note");
+                        LOG.debug("Recursing on left + adding right work note");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     }
                 } else if (chunkMatch(recordsInRightChunk, MatchEnumeration.small)) {
                     // RIGHT SIDE IS TOO SMALL
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
-                        LOG.info("Adding left + right work notes");
+                        LOG.debug("Adding left + right work notes");
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
                         workNotes.add(left);
 
@@ -132,7 +143,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
-                        LOG.info("Adding left + right work notes");
+                        LOG.debug("Adding left + right work notes");
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
                         workNotes.add(left);
 
@@ -140,26 +151,26 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.info("Reintervaling - moving interval to the left (left side is too heavy)");
+                        LOG.debug("Reintervaling - moving interval to the left (left side is too heavy)");
                         splitFactor = splitFactor / 2;
                         done = false;
                     }
                 } else {
                     // RIGHT SIDE IS TOO LARGE
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
-                        LOG.info("Adding left work note + recursing on the right");
+                        LOG.debug("Adding left work note + recursing on the right");
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
                         workNotes.add(left);
 
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
-                        LOG.info("Reintervaling - moving interval to the right (right side is too heavy)");
+                        LOG.debug("Reintervaling - moving interval to the right (right side is too heavy)");
                         splitFactor = splitFactor + (splitFactor / 2);
                         done = false;
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.info("Recursing on both left and right");
+                        LOG.debug("Recursing on both left and right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     }
@@ -168,22 +179,22 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 splitAttempts++;
 
                 if (splitAttempts > 20 && !done) {
-                    LOG.info("Split Max reached.");
+                    LOG.debug("Split Max reached.");
 
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.info("Recursing on left");
+                        LOG.debug("Recursing on left");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     } else {
-                        LOG.info("Adding left work note");
+                        LOG.debug("Adding left work note");
                         WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
                         workNotes.add(left);
                     }
 
                     if (chunkMatch(recordsInRightChunk, MatchEnumeration.large)) {
-                        LOG.info("Recursing on right");
+                        LOG.debug("Recursing on right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     } else {
-                        LOG.info("Adding right work note");
+                        LOG.debug("Adding right work note");
                         WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
                         workNotes.add(right);
                     }
@@ -192,17 +203,29 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 }
             }
         }
-
         return workNotes;
     }
 
+    /**
+     * Matches whether the current record count will return the specified enumerated value.
+     * 
+     * @param count Current record count.
+     * @param matchEnum Evaluation of record count translated into enumeration.
+     * @return true (if record count returns specified enumeration), false otherwise.
+     */
     private boolean chunkMatch(long count, MatchEnumeration matchEnum) {
         return matchEnum == checkRecordsInChunk(count);
     }
 
+    /**
+     * Evaluates the size of the chunk (given the number of records).
+     * 
+     * @param count Number of records in chunk.
+     * @return Enumeration that signals whether more work is required in splitting the chunk.
+     */
     private MatchEnumeration checkRecordsInChunk(long count) {
-        int splitChunkUpperBound = (int) (splitChunkSize * (1 + thresholdPct));
-        int splitChunkLowerBound = (int) (splitChunkSize * (1 - thresholdPct));
+        int splitChunkUpperBound = (int) (splitChunkSize * (1 + thresholdPercentage));
+        int splitChunkLowerBound = (int) (splitChunkSize * (1 - thresholdPercentage));
 
         if (count <= splitChunkUpperBound) {
             if (count >= splitChunkLowerBound) {
@@ -217,23 +240,41 @@ public class TimestampSplitStrategy implements SplitStrategy {
         return neutralRecordAccess.countCreationTimeWithinRange(collectionName, min, max, jobId);
     }
 
-    private int countRecordsForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        // potentially unsafe cast but it was decided that it is unlikely for us to hit max int
-        // size for a staging db collection count.
-        int numRecords = (int) neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(),
+    /**
+     * Get the count of the number of records in the staging database for the specified entity.
+     * 
+     * @param stagedEntity entity to perform count() on in staging database.
+     * @param jobId current job id.
+     * @return long representing the number of records in the staging database.
+     */
+    private long countRecordsForEntity(IngestionStagedEntity stagedEntity, String jobId) {
+        long numRecords = neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(),
                 jobId);
         LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
         return numRecords;
     }
 
+    /**
+     * Private enumeration for evaluating chunk sizes.
+     */
     private enum MatchEnumeration {
         good, small, large
     }
 
+    /**
+     * Sets neutral record access for entities to be chunked.
+     * 
+     * @param neutralRecordAccess access into data store for retrieving records.
+     */
     public void setNeutralRecordAccess(NeutralRecordAccess neutralRecordAccess) {
         this.neutralRecordAccess = neutralRecordAccess;
     }
 
+    /**
+     * Sets the split chunk size for entities when creating work notes.
+     * 
+     * @param splitChunkSize how many entities each work note should specify.
+     */
     public void setSplitChunkSize(int splitChunkSize) {
         this.splitChunkSize = splitChunkSize;
     }
