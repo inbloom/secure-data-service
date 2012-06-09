@@ -277,7 +277,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$" + "&move="
                         + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed="
-                        + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=5000")
+                        + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("ctlFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(controlFilePreProcessor).to(workItemQueueUri);
@@ -285,7 +285,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
-                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=5000")
+                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("zipFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor).choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop")
@@ -294,7 +294,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from(
                 "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
                         + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
-                        + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=5000")
+                        + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("noextract-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(noExtractProcessor).to("direct:postExtract");
