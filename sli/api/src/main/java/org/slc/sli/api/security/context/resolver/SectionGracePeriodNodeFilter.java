@@ -58,8 +58,8 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
             Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, query);
 
             //filter out the relevant ids
-            return new ArrayList<Entity>(getEntityIds(toResolve, ParameterConstants.SESSION_ID,
-                    getIds(sessions, ID)));
+            return getFilteredEntities(toResolve,getEntityIds(sessions, ParameterConstants.SESSION_ID,
+                    getIds(sessions, ID)),referenceField);
         }
 
         return toResolve;
@@ -89,6 +89,24 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         return ids;
     }
 
+    private List<Entity> getFilteredEntities(List<Entity> entitiesToResolve,Set<String> keys,String referenceField){
+        List<Entity> filteredEntities = new ArrayList<Entity>();
+
+        if (entitiesToResolve == null) return filteredEntities;
+
+        for (Entity entity : entitiesToResolve) {
+            String keyId = entity.getEntityId();
+            if(referenceField != null && !referenceField.isEmpty()){
+                keyId = (String) entity.getBody().get(referenceField);
+            }
+            if (keys.contains(keyId)) {
+                filteredEntities.add(entity);
+            }
+        }
+
+        return filteredEntities;
+
+    }
     /**
      * Returns a list of entity ids that matches the id key and the given
      * list of keys
@@ -97,22 +115,20 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
      * @param keys The list of key ids to match
      * @return
      */
-    protected Set<Entity> getEntityIds(Iterable<Entity> entities, String idKey, Set<String> keys) {
-        Set<Entity> filteredEntities = new HashSet<Entity>();
+    protected Set<String> getEntityIds(Iterable<Entity> entities, String idKey, Set<String> keys) {
+        Set<String> ids = new HashSet<String>();
 
-        if (entities == null) return filteredEntities;
+        if (entities == null) return ids;
 
         for (Entity entity : entities) {
-            String keyId = entity.getEntityId();
-            if(idKey != null && !idKey.isEmpty()){
-                keyId = (String) entity.getBody().get(idKey);
-            }
+            String keyId = (String) entity.getBody().get(idKey);
+
             if (keys.contains(keyId)) {
-                filteredEntities.add(entity);
+                ids.add(entity.getEntityId());
             }
         }
 
-        return filteredEntities;
+        return ids;
     }
 
     private List<String> getReferencedIds(List<Entity> toResolve,String referenceField){
