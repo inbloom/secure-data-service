@@ -134,9 +134,6 @@ public class AuthController {
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
         
-        if (redirectUri == null) {
-            model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
-        }
         
         // Create session
         
