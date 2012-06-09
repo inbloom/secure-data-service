@@ -23,10 +23,10 @@ class ChangePassword < SessionResource
     
   def confirm_new
     if self.new_pass != self.confirmation
-      errors[:base] << "New password and Confirmation password should match"
+      errors[:new_pass] << "New password and Confirmation password should match"
     end
     if self.new_pass == self.old_pass
-      errors[:base] <<"Old password and New password should be different"
+      errors[:new_pass] <<"Old password and New password should be different"
     end
   end
 end

@@ -6,13 +6,16 @@
   <% end %>
   <% if @change_password.errors.any? %>
     <div id="error_explanation">
-      <h4><%= pluralize(@change_password.errors.count, "error") %> prohibited from changing password:</h4>
-    </div>
-      <ul style="color:red">
-      <% @change_password.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+      <h2><%= pluralize(@change_password.errors.count, "error") %> prohibited from changing password:</h2>
+      <br>
+      <br>
+      <ul>
+        <% @change_password.errors[:base].each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
       </ul>
+    </div>
+
   <% end %>
   
   <div class="field">
@@ -66,8 +69,8 @@
     <table>
         <tr>
           <td id="SubmitButton"><%= f.submit "Submit", 
-            :id => "submitChangePasswordButton"%> or </td>
-          <td id="CancelLink"><%= link_to "Cancel", change_passwords_path %></td>
+            :id => "submitChangePasswordButton"%></td>
+          <td id="CancelLink"></td>
         </tr>
     </table>
   </div>

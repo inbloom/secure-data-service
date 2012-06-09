@@ -34,6 +34,7 @@ SLIAdmin::Application.routes.draw do
   end
 
   get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
+  get 'change_passwords', :to => 'change_passwords#new'
   post 'developer_approval/submit_user', :to => 'developer_approval#submit_user'
   post 'developer_approval/update_user', :to => 'developer_approval#update_user'
   post 'developer_approval/update_eula_status', :to => 'developer_approval#update_eula_status'
@@ -50,6 +51,7 @@ SLIAdmin::Application.routes.draw do
   match "/eula" => "eulas#show", :via => :get
   match "/eula" => "eulas#create", :via => :post 
   match "/registration" => "user_account_registrations#new", :via => :get
+  match "/changePassword" => "change_passwords#new", :via => :get
 
   root :to => 'roles#index'
 
