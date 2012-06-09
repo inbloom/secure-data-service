@@ -1,5 +1,24 @@
 package org.slc.sli.api.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
@@ -17,24 +36,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -164,7 +165,9 @@ public class BasicService implements EntityService {
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkRights(determineWriteAccess(content, ""));
         }
-
+        
+        checkReferences(content);
+        
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
 
@@ -468,7 +471,43 @@ public class BasicService implements EntityService {
             getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
-
+    
+    private void checkReferences(EntityBody eb) {
+        for (Map.Entry<String, Object> entry : eb.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            
+            String fieldPath = fieldName;
+            String entityType = provider.getReferencingEntity(defn.getType(), fieldPath);
+            if (entityType != null) {
+                debug("Field {} is referencing {}", fieldPath, entityType);
+                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                        .getPrincipal();
+                EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(),
+                        entityType);
+                List<String> accessible = resolver.findAccessible(principal.getEntity());
+                if (value instanceof List) {
+                    List<String> valuesList = (List<String>) value;
+                    for (String cur : valuesList) {
+                        if (!accessible.contains(cur) && repo.findById(entityType, cur) != null) {
+                            debug("{} in {} is not accessible", value, entityType);
+                            throw new AccessDeniedException(
+                                    "Cannot create an association to an entity you don't have access to");
+                        }
+                    }
+                } else {
+                    if (value != null && !accessible.contains(value) && repo.findById(entityType, (String) value) != null) {
+                        debug("{} in {} is not accessible", value, entityType);
+                        throw new AccessDeniedException(
+                                "Cannot create an association to an entity you don't have access to");
+                    }
+                }
+                
+            }
+        }
+    }
+        
+    
     private String getClientId() {
         String clientId = clientInfo.getClientId();
         if (clientId == null) {
