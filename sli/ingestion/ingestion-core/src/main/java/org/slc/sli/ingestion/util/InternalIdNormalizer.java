@@ -261,7 +261,6 @@ public class InternalIdNormalizer {
         String key = composeKey(collection, tenantId, criteria);
         String found = (String) cacheProvider.get( key );
 
-        LOG.info("Cache {} for {}", found == null ? "MISS" : "HIT", key);
 
         return found;
     }
