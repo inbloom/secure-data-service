@@ -128,7 +128,7 @@ Examples:
 | "school"                       | "schools"                 | 5 |
 | "section"                      | "sections"                | 93 |
 | "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 17 |
+| "staff"                        | "staff"                   | 21 |
 | "student"                      | "students"                | 82 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
