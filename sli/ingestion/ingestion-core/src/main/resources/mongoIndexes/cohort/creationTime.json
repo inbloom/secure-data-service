@@ -1,0 +1,7 @@
+{
+    "collection": "cohort",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}
