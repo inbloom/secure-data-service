@@ -118,7 +118,7 @@ Examples:
 | "cohort"                       | "cohorts"                 | 4 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     | 2 |
+| "disciplineIncident"           | "disciplineIncidents"     | 1 |
 | "educationOrganization"        | "educationOrganizations"  | 59 |
 | "gradebookEntry"               | "gradebookEntries"        | 3 |
 | "learningObjective"            | "learningObjectives"      | 5 |

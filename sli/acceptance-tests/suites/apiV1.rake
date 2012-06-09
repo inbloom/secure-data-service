@@ -327,7 +327,7 @@ end
 
 desc "Run V1 Simple CRUD Test"
 task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud_rc")
+  runTests("test/features/apiV1/entities/crud")
 end
 
 desc "Run V1 Blacklist/Whitelist input Tests"
