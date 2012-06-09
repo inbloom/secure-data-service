@@ -1,12 +1,6 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +9,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.domain.Entity;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
@@ -64,7 +65,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         for (Entity assoc : teacherSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || (dateFilter.isDateBeforeEndDate(teacherSectionGraceDate, endDate))) {
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(endDate, teacherSectionGraceDate))) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
@@ -76,7 +77,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, currentDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -101,8 +102,8 @@ public class TeacherStudentResolver implements EntityContextResolver {
         for (Entity assoc : staffProgramAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
-                    programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
+                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, currentDate)) {
+                    programIds.addAll((List<String>)assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
         }
@@ -114,7 +115,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -138,8 +139,8 @@ public class TeacherStudentResolver implements EntityContextResolver {
         for (Entity assoc : staffCohortAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate)) {
-                    cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
+                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
+                    cohortIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.COHORT_ID));
                 }
             }
         }
@@ -151,7 +152,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentCohortAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(dateFilter.getCurrentDate(), endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
