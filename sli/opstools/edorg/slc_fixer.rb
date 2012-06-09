@@ -80,19 +80,23 @@ class SLCFixer
   def fix_assessments
     saa = @db['studentAssessmentAssociation']
     saa.find.each do |assessment|
-      edOrg = student_edorgs(assessment['body']['studentId'])
+      edOrg = []
+      student_edorg = student_edorgs(assessment['body']['studentId'])
+      old_edorg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
+      edOrg << student_edorg << old_edorg
+      edOrg = edOrg.flatten.uniq
       stamp_id(saa, assessment['_id'], edOrg)
-      stamp_id(@db['assessment'], @db['assessment'].find_one({"_id" => assessment['body']['assessmentId']})['_id'], edOrg)
+      stamp_id(@db['assessment'], assessment['body']['assessmentId'], edOrg)
     end
-    ssa = @db['sectionAssessmentAssociation']
-    ssa.find.each do |assessment|
+    saa = @db['sectionAssessmentAssociation']
+    saa.find.each do |assessment|
       edorgs = []
       assessment_edOrg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
       section_edorg = old_edorgs(@db['section'], assessment['body']['sectionId'])
       edorgs << assessment_edOrg << section_edorg
       edorgs = edorgs.flatten.uniq
       stamp_id(@db['assessment'], assessment['body']['assessmentId'], edorgs)
-      stamp_id(ssa, assessment['_id'], edorgs)
+      stamp_id(saa, assessment['_id'], edorgs)
     end
   end
 
@@ -287,7 +291,7 @@ class SLCFixer
       return temp.flatten.uniq
     end
     return @student_hash[id] if @student_hash.has_key? id
-    nil
+    []
   end
   
   def old_edorgs(collection, id)
