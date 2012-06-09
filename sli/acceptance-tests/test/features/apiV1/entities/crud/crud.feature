@@ -136,5 +136,5 @@ Examples:
 | "userAccount"                  | "userAccounts"            | 2 |
 | "grade"                        | "grades"                  | 2 |
 | "studentCompetency"            | "studentCompetencies"     | 2 |
-| "gradingPeriod"                | "gradingPeriods"          | 1 |
+| "gradingPeriod"                | "gradingPeriods"          | 2 |
 | "reportCard"                   | "reportCards"             | 2 |

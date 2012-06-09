@@ -176,11 +176,11 @@ class SLCFixer
       
 	  gradingPeriodReferences = session['body']['gradingPeriodReference']
 	  unless gradingPeriodReferences.nil?
-    	gradingPeriodReferences.find.each do |gradingPeriodRef|
+    	gradingPeriodReferences.each { |gradingPeriodRef|
 	      old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
-	      value = (old << edorg).flatten.uniq
+	      value = (old << edorg).flatten.uniq	      
 	  	  stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
-	    end
+	    }
 	  end
       
     end
