@@ -116,8 +116,8 @@ Examples:
 | "cohort"                       | "cohorts"                 | 4 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     | 2 |
-| "educationOrganization"        | "educationOrganizations"  | 46 |
+| "disciplineIncident"           | "disciplineIncidents"     | 1 |
+| "educationOrganization"        | "educationOrganizations"  | 59 |
 | "gradebookEntry"               | "gradebookEntries"        | 3 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
@@ -126,7 +126,7 @@ Examples:
 | "school"                       | "schools"                 | 5 |
 | "section"                      | "sections"                | 93 |
 | "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 17 |
+| "staff"                        | "staff"                   | 21 |
 | "student"                      | "students"                | 82 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
@@ -134,5 +134,5 @@ Examples:
 | "userAccount"                  | "userAccounts"            | 2 |
 | "grade"                        | "grades"                  | 2 |
 | "studentCompetency"            | "studentCompetencies"     | 2 |
-| "gradingPeriod"                | "gradingPeriods"          | 2 |
+| "gradingPeriod"                | "gradingPeriods"          | 1 |
 | "reportCard"                   | "reportCards"             | 2 |

@@ -173,6 +173,16 @@ class SLCFixer
       edorg = edorg.flatten.uniq
       stamp_id(sessions, session['_id'], edorg)
       @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}).each {|assoc| stamp_id(@db['schoolSessionAssociation'], assoc['_id'], edorg)}
+      
+	  gradingPeriodReferences = session['body']['gradingPeriodReference']
+	  unless gradingPeriodReferences.nil?
+    	gradingPeriodReferences.find.each do |gradingPeriodRef|
+	      old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
+	      value = (old << edorg).flatten.uniq
+	  	  stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
+	    end
+	  end
+      
     end
   end
 
@@ -202,7 +212,7 @@ class SLCFixer
     @db['grade'].find.each do |grade|
       edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
       stamp_id(@db['grade'], grade['_id'], edorg)
-      stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
+#      stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
     end
   end
 
