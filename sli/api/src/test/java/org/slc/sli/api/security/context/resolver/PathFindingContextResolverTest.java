@@ -26,6 +26,7 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,17 +97,17 @@ public class PathFindingContextResolverTest {
         assertTrue("Can resolve teacher to section", resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
-                        eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
+                        eq("teacherId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "5", "6", "7" }));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(
+                        eq("sectionId"), eq("studentId"), any(List.class), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "8", "9", "10" }));
         when(mockHelper.getAssocKeys(eq(EntityNames.STUDENT), any(AssociationDefinition.class))).thenReturn(
                 Arrays.asList(new String[] { "studentId", "sectionId" }));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("studentId"), eq("sectionId"), any(List.class))).thenReturn(finalList);
+                        eq("studentId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(finalList);
         
         List<String> returned = resolver.findAccessible(mockEntity);
         // assertTrue(returned.size() == finalList.size());

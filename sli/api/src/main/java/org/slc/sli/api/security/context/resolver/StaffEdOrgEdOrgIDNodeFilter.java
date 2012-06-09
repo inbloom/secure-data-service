@@ -25,16 +25,6 @@ public class StaffEdOrgEdOrgIDNodeFilter extends NodeDateFilter {
     public void setParameters() {
         setParameters(ZERO, END_DATE);
     }
-   /* @Override
-    public List<Entity> filterEntities(List<Entity> toResolve) {
-
-        setParameters(ZERO, END_DATE);
-        List<Entity> edOrgEntitySet = super.filterIds(toResolve);
-
-        setParameters(ZERO, END_DATE);
-        edOrgEntitySet.addAll(super.filterIds(toResolve));
-        return edOrgEntitySet;
-    }*/
 }
 
 

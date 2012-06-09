@@ -44,8 +44,6 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffEdOrgEdOrgIDNodeFilterTest {
-   /* private static final String ED_ORG_REF = "educationOrganizationReference";
-
     @InjectMocks
     @Spy
     StaffEdOrgEdOrgIDNodeFilter nodeFilter = new StaffEdOrgEdOrgIDNodeFilter(); //class under test
@@ -60,65 +58,10 @@ public class StaffEdOrgEdOrgIDNodeFilterTest {
     public void setup() {
     }
 
-    @Test
-    public void testFilterIds() {
-        List<Entity> schoolAssociations = getSchoolAssociations();
-        List<Entity> edorgAssociations = getEdorgAssociations();
-
-        when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn("2012-04-03");
-
-        when(mockHelper.getReferenceEntities(eq(EntityNames.STAFF_ED_ORG_ASSOCIATION),
-                eq(ED_ORG_REF), any(List.class))).thenReturn(edorgAssociations);
-
-        when(mockHelper.getReferenceEntities(eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION),
-                eq(ParameterConstants.SCHOOL_ID), any(List.class))).thenReturn(schoolAssociations);
-
-        List<String> ids = new ArrayList<String>();
-        ids.add("1");
-        ids.add("2");
-        ids.add("3");
-        ids.add("14");
-        ids.add("15");
-        ids.add("16");
-
-        List<String> returnedIds = nodeFilter.filterIds(ids);
-        assertNotNull("Should not be null", returnedIds);
-        assertEquals("Should match", 4, returnedIds.size());
-        assertTrue("Should be true", returnedIds.contains("1"));
-        assertTrue("Should be true", returnedIds.contains("3"));
-        assertTrue("Should be true", returnedIds.contains("14"));
-        assertTrue("Should be true", returnedIds.contains("15"));
-
+     @Test
+    public void testSetParameters() {
+        nodeFilter.setParameters();
+        assertEquals("Should match", "0", nodeFilter.getGracePeriod());
+        assertEquals("Should match", "endDate", nodeFilter.getFilterDateParam());
     }
-
-    private List<Entity> getSchoolAssociations() {
-        List<Entity> list = new ArrayList<Entity>();
-
-        list.add(createEntity("schoolId", "1", "endDate", "2012-08-03"));
-        list.add(createEntity("schoolId", "2", "endDate", "2012-01-03"));
-        list.add(createEntity("schoolId", "3", "someKey", "7"));
-
-        return list;
-    }
-    private List<Entity> getEdorgAssociations() {
-        List<Entity> list = new ArrayList<Entity>();
-
-        list.add(createEntity("educationOrganizationReference", "14", "exitWithdrawDate", ""));
-        list.add(createEntity("educationOrganizationReference", "15", "endDate", "2012-08-03"));
-        list.add(createEntity("educationOrganizationReference", "16", "endDate", "2012-01-03"));
-
-        return list;
-    }
-
-    private Entity createEntity(String key1, String value1,
-                                String key2, String value2) {
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.put(key1, value1);
-        body.put(key2, value2);
-
-        Entity mockEntity = mock(Entity.class);
-        when(mockEntity.getBody()).thenReturn(body);
-
-        return mockEntity;
-    }*/
 }
