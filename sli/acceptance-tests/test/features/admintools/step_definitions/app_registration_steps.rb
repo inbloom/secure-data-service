@@ -317,7 +317,8 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
     imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
-    ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
+    #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
+    ids = imap.search(["TO", email])
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
     subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
     found = true if content != nil

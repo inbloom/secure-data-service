@@ -29,8 +29,6 @@ class ApplicationMailer < ActionMailer::Base
   @edorgId = edorgId
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
-
-  default from: "noreply@slidev.org"
   
   def notify_operator(support_email, app)
     user_info = APP_LDAP_CLIENT.read_user(support_email)
