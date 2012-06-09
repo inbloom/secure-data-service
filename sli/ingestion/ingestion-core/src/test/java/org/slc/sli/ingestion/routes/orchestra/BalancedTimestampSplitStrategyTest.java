@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +24,20 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class TimestampSplitStrategyTest {
+public class BalancedTimestampSplitStrategyTest {
 
     private static String jobId = "it doesn't matter what your job id is!";
 
     @Autowired
-    private TimestampSplitStrategy timestampSplitStrategy;
+    private BalancedTimestampSplitStrategy balancedTimestampSplitStrategy;
 
     @Test
     public void testOneChunk() {
         String collectionName = "student";
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
-        timestampSplitStrategy.setSplitChunkSize(50);
-        List<WorkNote> workNotes = timestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        balancedTimestampSplitStrategy.setSplitChunkSize(50);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
         assertEquals(1, workNotes.size());
     }
@@ -48,22 +47,21 @@ public class TimestampSplitStrategyTest {
         String collectionName = "student";
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
-        timestampSplitStrategy.setSplitChunkSize(25);
-        List<WorkNote> workNotes = timestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        balancedTimestampSplitStrategy.setSplitChunkSize(25);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
         assertEquals(2, workNotes.size());
     }
 
     @Test
-    @Ignore
     public void testManyChunks() {
         String collectionName = "student";
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
-        timestampSplitStrategy.setSplitChunkSize(5);
-        List<WorkNote> workNotes = timestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        balancedTimestampSplitStrategy.setSplitChunkSize(5);
+        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
-        assertEquals(10, workNotes.size());
+        assertEquals(11, workNotes.size());
     }
 
     @SuppressWarnings("unused")

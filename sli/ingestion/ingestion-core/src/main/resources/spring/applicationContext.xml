@@ -125,7 +125,7 @@
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
 
-  <bean id="timestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.TimestampSplitStrategy">
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
     <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
   </bean>
 
