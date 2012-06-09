@@ -42,7 +42,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (toEntity.equals(EntityNames.LEARNINGOBJECTIVE) || toEntity.equals(EntityNames.LEARNINGSTANDARD)) {
+        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNINGOBJECTIVE) || toEntity.equals(EntityNames.LEARNINGSTANDARD))) {
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
 
