@@ -18,13 +18,13 @@
   <div class="field">
     <table>
         <tr class="field">
-            <td class="form-inline"><%= f.label :old ,"Old Password"%><span style="color:red"> *</span><br />
-                <%= f.password_field :old %>
+            <td class="form-inline"><%= f.label :old_pass ,"Old Password"%><span style="color:red"> *</span><br />
+                <%= f.password_field :old_pass %>
             </td>
-            <% if @change_password.errors[:old].any? %>
+            <% if @change_password.errors[:old_pass].any? %>
                 <td id="error_explanation">
                   <ul>
-                  <% @change_password.errors[:old].each do |msg| %>
+                  <% @change_password.errors[:old_pass].each do |msg| %>
                     <li><%= msg %></li>
                   <% end %>
                   </ul>
@@ -32,13 +32,13 @@
             <%end%>
         </tr>
         <tr class="field">
-            <td class="form-inline"><%= f.label :new ,"New Password"%><span style="color:red"> *</span><br />
-                <%= f.password_field :new %>
+            <td class="form-inline"><%= f.label :new_pass ,"New Password"%><span style="color:red"> *</span><br />
+                <%= f.password_field :new_pass %>
             </td>
-            <% if @change_password.errors[:new].any? %>
+            <% if @change_password.errors[:new_pass].any? %>
                 <td id="error_explanation">
                   <ul>
-                  <% @change_password.errors[:new].each do |msg| %>
+                  <% @change_password.errors[:new_pass].each do |msg| %>
                     <li><%= msg %></li>
                   <% end %>
                   </ul>
