@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -25,7 +25,7 @@ import org.slc.sli.domain.Repository;
  *
  */
 @Component
-public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
+public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
 
     private static final String REFERENCE = "parentEducationAgencyReference";
 
@@ -36,8 +36,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     private Repository<Entity> repo;
 
     @Override
-    public List<Entity> filterEntities(List<Entity> entitiesToResolve,String referenceField) {
-        List<String> ids = getReferencedIds(entitiesToResolve,referenceField);
+    public List<String> addAssociatedIds(List<String> ids) {
         Set<String> parents = fetchParents(new HashSet<String>(ids));
         Set<String> blacklist = getBlacklist();
         Set<String> toReturn = new HashSet<String>(ids);
@@ -58,7 +57,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
 
         }
         toReturn.addAll(parents);
-        return getFilteredEntities(entitiesToResolve,toReturn,referenceField);
+        return new ArrayList<String>(toReturn);
     }
 
     /**
@@ -144,41 +143,5 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
 
         debug("Blacklisted Edorgs = {}", blacklist.toString());
         return blacklist;
-    }
-
-    private List<String> getReferencedIds(List<Entity> toResolve,String referenceField){
-        List<String> foundIds = new ArrayList<String>();
-
-        if(referenceField != null && !referenceField.isEmpty()){
-            for (Entity e : toResolve) {
-                Map<String, Object> body = e.getBody();
-                foundIds.add((String) body.get(referenceField));
-            }
-        }
-        else{
-            for (Entity e : toResolve) {
-                foundIds.add(e.getEntityId());
-            }
-        }
-        return foundIds;
-    }
-
-    private List<Entity> getFilteredEntities(List<Entity> entitiesToResolve,Set<String> keys,String referenceField){
-        List<Entity> filteredEntities = new ArrayList<Entity>();
-
-        if (entitiesToResolve == null) return filteredEntities;
-
-        for (Entity entity : entitiesToResolve) {
-            String keyId = entity.getEntityId();
-            if(referenceField != null && !referenceField.isEmpty()){
-                keyId = (String) entity.getBody().get(referenceField);
-            }
-            if (keys.contains(keyId)) {
-                filteredEntities.add(entity);
-            }
-        }
-
-        return filteredEntities;
-
     }
 }

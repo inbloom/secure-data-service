@@ -14,7 +14,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
@@ -135,11 +135,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
             }
 
-            /*if (connection.getFilter() != null) {
-                for (NodeFilter filter : connection.getFilter()) {
-                    idSet = filter.filterIds(idSet);
-                }
-            }*/
+            if (connection.getAggregator() != null) {
+                idSet = connection.getAggregator().addAssociatedIds(idSet);
+            }
 
             previousIdSet = idSet;
             ids.addAll(idSet);

@@ -41,7 +41,13 @@ public final class SecurityNodeBuilder {
         node.addConnection(connection);
         return this;
     }
-    
+    public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode,
+                                             NodeFilter filter,NodeAggregator aggregator) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter,aggregator);
+        node.addConnection(connection);
+        return this;
+    }
+
     public SecurityNodeBuilder addConnection(String toEntity, String withField) {
         SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField);
         node.addConnection(connection);

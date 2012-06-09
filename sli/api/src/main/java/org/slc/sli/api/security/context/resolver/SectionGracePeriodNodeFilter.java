@@ -58,7 +58,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
             Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, query);
 
             //filter out the relevant ids
-            return getFilteredEntities(toResolve,getEntityIds(sessions, ParameterConstants.SESSION_ID,
+            return getFilteredEntities(toResolve,getEntityIds(sections, ParameterConstants.SESSION_ID,
                     getIds(sessions, ID)),referenceField);
         }
 
