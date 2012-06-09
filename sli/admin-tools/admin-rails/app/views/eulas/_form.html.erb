@@ -1,12 +1,18 @@
 <div class="page-header">
   <h1>Terms and Conditions</h1>
 </div>
-<p>In order to begin developing for the SLC you will need to agree to our Terms and Conditions.</p>
+<p></p>
 <p><b>Step 2 of 3</b></p>
-<%= form_for(:eula) do |f| %>
-    <pre class="pre-scrollable">
+<p></p>
+    <pre style="font-size:12px;padding-left: 20px;padding-right: 20px">
+    	
+    	<% if APP_CONFIG['is_sandbox'] %>
+    	Welcome. You are requesting access to the sandbox environment of the Shared Learning Collaborative. By using this portion of the developer website (the “Site”) and accessing the Shared Learning Collaborative sandbox environment, you represent that you will follow the responsibilities and conditions outlined in the <a style="text-decoration:underline;font-style: italic" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and <a style="text-decoration:underline;font-style: italic" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a> for the site, inclusive of sandbox usage. Be good.
+    	<% else %>
         <%= render :file => '../../public/license.txt' %>
+        <% end %>
     </pre>
+<%= form_for(:eula) do |f| %>
     <div class="form-actions">
       <%= f.submit "I Accept",
                    :id => "acceptEulaButton", :class => "btn btn-primary" %>
