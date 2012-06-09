@@ -17,4 +17,10 @@ public class NullCacheProvider implements CacheProvider {
         return null;
     }
 
+    @Override
+    public void flush() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

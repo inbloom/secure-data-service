@@ -1,9 +1,6 @@
 package org.slc.sli.ingestion.cache;
 
-import java.util.concurrent.ExecutionException;
-
 import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.internal.OperationFuture;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
 import org.slf4j.Logger;
@@ -36,6 +33,9 @@ public class MemcachedCacheProvider implements CacheProvider {
         return client;
     }
 
+    /**
+     * Asynchronously sets the value of this key in the memcached instance.
+     */
     @Override
     public void add(String key, Object value) {
 
@@ -43,27 +43,26 @@ public class MemcachedCacheProvider implements CacheProvider {
 
         LOG.debug("Adding {} {}", key, value);
 
-        OperationFuture<Boolean> status = client.set(key, 0, value);
-
-        // Assuming we need to block until completion?
-        Boolean completed = false;
-        try {
-            completed = status.get();
-        } catch (ExecutionException ex) {
-            LOG.error("Error adding key", ex);
-        } catch (InterruptedException ex) {
-            LOG.error("Error adding key", ex);
-        }
-
-        LOG.debug("Completed add: {}", completed);
+        client.set(key, 0, value);
 
     }
 
     @Override
     public Object get(String key) {
-        Object val =  client.get(key);
+        Object val = client.get(key);
 
-        LOG.debug("Memcached {} for {}", val == null ? "MISS" : "HIT", key);
+        LOG.debug("Memcached {} for {} ", val == null ? "MISS" : "HIT", key);
+        if (val != null) {
+
+            LOG.debug("Found {} for key {}", val, key);
+        }
         return val;
+    }
+
+    @Override
+    public void flush() {
+
+        client.flush();
+
     }
 }

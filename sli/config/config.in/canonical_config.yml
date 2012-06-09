@@ -135,7 +135,7 @@ default:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.ingestion.cache.type: none
         sli.ingestion.cache.servers: 
-
+        sli.ingestion.cache.flush.policy: newfile
 
     dashboard: &DASHBOARD-DEFAULT
 

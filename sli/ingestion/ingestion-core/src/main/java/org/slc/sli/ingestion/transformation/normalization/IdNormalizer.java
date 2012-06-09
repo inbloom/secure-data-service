@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -365,7 +366,8 @@ public class IdNormalizer {
         SortedMap<?, ?> sortedMap = new TreeMap();
         sortedMap.putAll(map);
 
-        return String.format("%s_%s", collection, sortedMap.toString());
+        String hash = DigestUtils.sha256Hex( sortedMap.toString() );
+        return String.format("%s_%s", collection, hash );
 
     }
 

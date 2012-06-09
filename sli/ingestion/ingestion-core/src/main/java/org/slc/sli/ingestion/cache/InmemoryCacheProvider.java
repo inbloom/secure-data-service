@@ -23,4 +23,9 @@ public class InmemoryCacheProvider implements CacheProvider {
         return cache.get(key);
     }
 
+    @Override
+    public void flush() {
+       cache.clear();
+    }
+
 }

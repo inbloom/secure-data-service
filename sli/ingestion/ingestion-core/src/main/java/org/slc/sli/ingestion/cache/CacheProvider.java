@@ -11,4 +11,6 @@ public interface CacheProvider {
     public void add( String key, Object value );
 
     public Object get ( String key ) ;
+
+    public void flush();
 }
