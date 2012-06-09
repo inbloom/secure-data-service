@@ -1166,8 +1166,8 @@ nxteam:
         sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
 
-        sli.ingestion.mongotemplate.writeConcern: NORMAL
-        sli.default.mongotemplate.writeConcern: NORMAL
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
         sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
