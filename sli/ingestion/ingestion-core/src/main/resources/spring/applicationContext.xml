@@ -64,7 +64,7 @@
   <import resource="processor-context.xml" />
   <import resource="classpath:/spring/base-applicationContext.xml" />
   <import resource="idRefResolution-context.xml" />
- 
+
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
   <import resource="classpath:/spring/validation.xml" />
@@ -124,6 +124,10 @@
   <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="timestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.TimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 
 </beans>
 
