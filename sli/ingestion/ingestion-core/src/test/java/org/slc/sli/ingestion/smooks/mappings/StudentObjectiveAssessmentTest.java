@@ -62,6 +62,7 @@ public class StudentObjectiveAssessmentTest {
         
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> scoreResultList = (List<Map<String, Object>>) entity.get("scoreResults");
+        
         Assert.assertTrue(scoreResultList != null);
         Map<String, Object> scoreResult = (Map<String, Object>) scoreResultList.get(0);
         Assert.assertTrue(scoreResult != null);

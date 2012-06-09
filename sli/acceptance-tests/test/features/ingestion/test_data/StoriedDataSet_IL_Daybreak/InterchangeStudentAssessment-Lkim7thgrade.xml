@@ -24,7 +24,6 @@
       <GradeLevelWhenAssessed>Seventh grade</GradeLevelWhenAssessed>
       <PerformanceLevels>
            <CodeValue>AW</CodeValue>
-           <Description>Academic Warning</Description>
       </PerformanceLevels>
       <StudentReference>
            <StudentIdentity>
@@ -57,7 +56,6 @@
       <GradeLevelWhenAssessed>Seventh grade</GradeLevelWhenAssessed>
       <PerformanceLevels>
            <CodeValue>MS</CodeValue>
-           <Description>Meets Standards</Description>
       </PerformanceLevels>
       <StudentReference>
            <StudentIdentity>
@@ -90,7 +88,6 @@
       <GradeLevelWhenAssessed>Seventh grade</GradeLevelWhenAssessed>
       <PerformanceLevels>
            <CodeValue>ES</CodeValue>
-           <Description>Exceeds Standards</Description>
       </PerformanceLevels>
       <StudentReference>
            <StudentIdentity>
