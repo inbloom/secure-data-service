@@ -108,6 +108,14 @@ class SLCFixer
       stamp_id(dia, incident['_id'], edorg)
       stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg)
     end
+    di = @db['disciplineIncident']
+    di.find.each do |discipline|
+      edorgs = []
+      edorgs << dig_edorg_out(discipline)
+      edorgs << discipline['body']['schoolId']
+      edorgs = edorgs.flatten.uniq
+      stamp_id(di, discipline['_id'], edorgs)
+    end
   end
 
   def fix_parents
@@ -174,15 +182,14 @@ class SLCFixer
       stamp_id(sessions, session['_id'], edorg)
       @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}).each {|assoc| stamp_id(@db['schoolSessionAssociation'], assoc['_id'], edorg)}
       
-	  gradingPeriodReferences = session['body']['gradingPeriodReference']
-	  unless gradingPeriodReferences.nil?
-    	gradingPeriodReferences.each { |gradingPeriodRef|
-	      old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
-	      value = (old << edorg).flatten.uniq	      
-	  	  stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
-	    }
-	  end
-      
+  	  gradingPeriodReferences = session['body']['gradingPeriodReference']
+  	  unless gradingPeriodReferences.nil?
+      	gradingPeriodReferences.each do |gradingPeriodRef|
+  	      old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
+  	      value = (old << edorg).flatten.uniq	      
+  	  	  stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
+  	    end
+  	  end      
     end
   end
 
@@ -289,6 +296,10 @@ class SLCFixer
     else
       doc = collection.find_one({"_id" => id})
     end
+    dig_edorg_out doc
+  end
+  
+  def dig_edorg_out(doc)
     begin
       old = doc['metaData']['edOrgs']
     rescue
