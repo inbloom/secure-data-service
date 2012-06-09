@@ -48,7 +48,7 @@ public class StudentGradeRelations {
     
     public static final Random RAND                                   = new Random();
     private static List<SectionMeta> SECTIONS                         = null;
-    private static final int GRADING_PERIOD_START_YEAR                = 2011;
+    private static final int GRADING_PERIOD_START_YEAR                = 1996;
     private static final int GRADING_PERIOD_MAX_START_YEAR            = 2030;
     private static final int GRADING_PERIOD_INTERVAL                  = GRADING_PERIOD_MAX_START_YEAR - GRADING_PERIOD_START_YEAR;
     

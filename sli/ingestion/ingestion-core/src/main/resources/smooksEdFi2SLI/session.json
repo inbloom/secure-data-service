@@ -3,7 +3,7 @@
     "references" :
     [
         {
-           "fieldPath" : "body.gradingPeriodReference",
+            "fieldPath" : "body.gradingPeriodReference",
             "ref" :
             {
                 "collectionName" : "gradingPeriod",
@@ -13,24 +13,10 @@
                 [
                     [
                         {
-                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                            "path" : "metaData.externalId",
                             "values" :
                             [{
-                                "valueSource" : "body.gradingPeriodReference.gradingPeriod"
-                            }]
-                        },
-                        {
-                            "path" : "body.gradingPeriodIdentity.schoolYear",
-                            "values" :
-                            [{
-                                "valueSource" : "body.gradingPeriodReference.schoolYear"
-                            }]
-                        },
-                        {
-                            "path" : "body.gradingPeriodIdentity.stateOrganizationId",
-                            "values" :
-                            [{
-                                "valueSource" : "body.gradingPeriodReference.stateOrganizationId"
+                                "valueSource" : "body.gradingPeriodReference.GradingPeriodIdentity"
                             }]
                         }
                     ]

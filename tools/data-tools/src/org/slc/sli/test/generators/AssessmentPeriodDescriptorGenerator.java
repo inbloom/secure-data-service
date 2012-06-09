@@ -22,10 +22,8 @@ public class AssessmentPeriodDescriptorGenerator {
 
     public static AssessmentPeriodDescriptorType getAssessmentPeriodDescriptorType(String assessPeriodDescIdString) {
         AssessmentPeriodDescriptorType assessPeriodDescType = new AssessmentPeriodDescriptorType();
-        assessPeriodDescType.setCodeValue(assessPeriodDescIdString);
-//        assessPeriodDescType.getCodeValueOrShortDescriptionOrDescription().add(
-//                OBJECT_FACTORY.createAssessmentPeriodDescriptorTypeCodeValue(assessPeriodDescIdString));
-
+        assessPeriodDescType.getCodeValueOrShortDescriptionOrDescription().add(
+                OBJECT_FACTORY.createAssessmentPeriodDescriptorTypeCodeValue(assessPeriodDescIdString));
         return assessPeriodDescType;
     }
 }

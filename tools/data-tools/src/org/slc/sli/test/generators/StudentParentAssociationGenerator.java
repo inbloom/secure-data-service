@@ -3,10 +3,11 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.ParentReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.RelationType;
 import org.slc.sli.test.edfi.entities.StudentParentAssociation;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.meta.ParentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 
 public class StudentParentAssociationGenerator {
    public static Random random = new Random();
@@ -46,25 +47,13 @@ public class StudentParentAssociationGenerator {
         StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
 
         try {
-        	
-        	Ref parentRef = new Ref (parentId);
-        	ParentReferenceType prt = new ParentReferenceType();
-        	prt.setRef(parentRef);
-        	studentParentAssociation.setParentReference(prt);
-        	
-        	Ref studentRef = new Ref (studentId);
-        	StudentReferenceType srt = new StudentReferenceType();
-        	srt.setRef(studentRef);
-        	studentParentAssociation.setStudentReference(srt);
-        	
-        	/* original
+
             StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentParentAssociation.setStudentReference(srt);
 
             ParentReferenceType prt = ParentGenerator.getParentReferenceType(parentId);
-        	
+
             studentParentAssociation.setParentReference(prt);
-            */
             if(isMale)
                 studentParentAssociation.setRelation(RelationType.FATHER);
             else

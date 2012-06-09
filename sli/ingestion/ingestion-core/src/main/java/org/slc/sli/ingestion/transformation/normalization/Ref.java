@@ -54,5 +54,4 @@ public class Ref {
     public boolean isOptional() {
         return optional;
     }
-
 }

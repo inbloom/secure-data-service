@@ -1,6 +1,7 @@
 package org.slc.sli.test.utils;
 
 import java.io.OutputStream;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -12,7 +13,7 @@ import javax.xml.bind.Marshaller;
  *
  */
 public class JaxbUtils {
-    
+
     /**
      * Marshal the provided object using System.out
      *

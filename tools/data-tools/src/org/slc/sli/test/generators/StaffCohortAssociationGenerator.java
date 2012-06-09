@@ -29,7 +29,7 @@ public class StaffCohortAssociationGenerator {
      */
     public static StaffCohortAssociation generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
-        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
+        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
         Set<String> staffIds = cohortMeta.staffIds;
         
         return generateLowFi(cohortId, staffIds, schoolId);

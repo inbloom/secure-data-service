@@ -76,6 +76,54 @@
                                     ]
                                 ]
                     }
+                },
+                {
+                    "fieldPath" : "body.gradingPeriodId",
+                    "ref" :
+                    {
+                        "collectionName" : "gradingPeriod",
+                        "refObjectPath" : "body.gradingPeriodId",
+                        "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.schoolYear"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.gradingPeriod"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.ID",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.edOrgId"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.educationOrgIdentificationCode.identificationSystem",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.edOrgIdentCode"
+                                                    }]
+                                        },
+                                        {
+                                            "path" : "body.gradingPeriodIdentity.educationalOrgIdentity.stateOrganizationId",
+                                            "values" :
+                                                    [{
+                                                        "valueSource" : "body.gradingPeriodId.stateOrgId"
+                                                    }]
+                                        }
+                                    ]
+                                ]
+                    }
                 }
             ]
 }
