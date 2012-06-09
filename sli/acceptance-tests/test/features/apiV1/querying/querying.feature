@@ -26,9 +26,9 @@ Scenario Outline: Confirm ability to use all API query operators with different 
     | "gradingPeriods" | "beginDate"             | "<="     | "2012-01-01"       | 1                 | "date"    |
     | "gradingPeriods" | "beginDate"             | ">"      | "2012-01-01"       | 0                 | "date"    |
     | "gradingPeriods" | "beginDate"             | "<"      | "2012-01-01"       | 1                 | "date"    |
-    | "gradingPeriods" | "beginDate"             | ">="     | "2012-01-01"       | 1                 | "date"    |
+    | "gradingPeriods" | "beginDate"             | ">="     | "2011-07-01"       | 1                 | "date"    |
     | "gradingPeriods" | "beginDate"             | "!="     | "2012-01-01"       | 1                 | "date"    |
-    | "gradingPeriods" | "beginDate"             | "="      | "2012-01-01"       | 1                 | "date"    |
+    | "gradingPeriods" | "beginDate"             | "="      | "2011-08-01"       | 1                 | "date"    |
     | "students"       | "economicDisadvantaged" | "<="     | "true"             | 8                 | "boolean" |
     | "students"       | "economicDisadvantaged" | ">"      | "true"             | 0                 | "boolean" |
     | "students"       | "economicDisadvantaged" | "<"      | "true"             | 7                 | "boolean" |
