@@ -67,20 +67,18 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
      */
     public List<String> getChildEducationOrganizations(String parentEdOrgStateId) {
         NeutralQuery stateQuery = new NeutralQuery();
-        List<String> myEdOrgsIds = new ArrayList<String>();
         stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", parentEdOrgStateId));
         
         Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
         
-        if(stateEdOrg != null) {
-            NeutralQuery childrenQuery = new NeutralQuery();
-            childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg.getEntityId()));
-            Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
-    
-            for (Entity cur : myEdOrgs) {
-                String stateOrgId = (String) cur.getBody().get("stateOrganizationId");
-                myEdOrgsIds.add(stateOrgId);
-            }
+        NeutralQuery childrenQuery = new NeutralQuery();
+        childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg.getEntityId()));
+        Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
+
+        List<String> myEdOrgsIds = new ArrayList<String>();
+        for (Entity cur : myEdOrgs) {
+            String stateOrgId = (String) cur.getBody().get("stateOrganizationId");
+            myEdOrgsIds.add(stateOrgId);
         }
         return myEdOrgsIds;
     }

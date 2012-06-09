@@ -65,10 +65,7 @@ public class StudentDisciplineAssociationGenerator {
         
         // construct and add the disciplineIncident Reference       
         ReferenceType dir = new ReferenceType();
-        DisciplineIncident di = new DisciplineIncident();
-        di.setId(disciplineIncidentId);
-//        dir.setId(disciplineIncidentId);
-        dir.setRef(di);
+        dir.setId(disciplineIncidentId);
         assoc.setDisciplineIncidentReference(dir);
 
         return assoc;

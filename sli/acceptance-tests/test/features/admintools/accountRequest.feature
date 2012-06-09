@@ -26,12 +26,12 @@ Scenario: As a user I request for a production account
   And an email verification link for "<USER_ACCOUNT>" is generated
 # Verify email address
   When I visit "<VALID VERIFICATION LINK>"
-  Then I should see the text "Email Confirmed"
-  And I should see the text "You will be receiving an email with more information about your account."
+  Then I should see the text "Registration Complete!"
+  And I should see the text "An administrator will email you when your account is ready."
 # Unhappy path: already verified
   When I visit "<ALREADY VERIFIED LINK>"
   Then I should see the text "Account validation failed!"
-  And I should see the text "This account was previously verified."
+  And I should see the text "Account previously verified."
 # Unhappy path: invalid link
   When I visit "<INVALID VERIFICATION LINK>"
   Then I should see the text "Account validation failed!"
@@ -128,8 +128,8 @@ Scenario: As a user I request for a sandbox account
   Then I am directed to an acknowledgement page.
   And an email verification link for "<USER_ACCOUNT>" is generated
   When I visit "<VALID VERIFICATION LINK>"
-  Then I should see the text "Email Confirmed"
-  And I should see the text "You will be receiving an email with more information about your account."
+  Then I should see the text "Registration Complete!"
+  And I should see the text "An administrator will email you when your account is ready."
 
 @sandbox
 Scenario: As an slc operator I want to check if a user accepted EULA

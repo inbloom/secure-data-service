@@ -10,20 +10,6 @@ class MockEmailer
 	end
 end
 
-class MockTransitionActionConfig
-  def initialize(emailer, is_sandbox)
-    @emailer = emailer
-    @is_sandbox = is_sandbox
-  end
-
-  def transition(user)
-    if user && user[:status] == ApprovalEngine::ACTION_APPROVE
-      puts 'Sending approval email'
-      @emailer.send_approval_email()
-    end
-  end
-end
-
 class TestApprovalEngine < Test::Unit::TestCase
 	def setup
 		# define two basic users 
@@ -54,8 +40,8 @@ class TestApprovalEngine < Test::Unit::TestCase
 		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		#@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
-    @transition_action_config = MockTransitionActionConfig.new(@mock_emailer, is_sandbox)
-		ApprovalEngine.init(@ldap, @mock_emailer, @transition_action_config, is_sandbox)
+
+		ApprovalEngine.init(@ldap, TransitionActionConfig.new(@mock_emailer, is_sandbox), is_sandbox)
 		@ldap.get_user_groups(@jd_email).each do |g|
 			@ldap.remove_user_group(@jd_email, g)
 		end
@@ -110,6 +96,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 
 		ApprovalEngine.remove_user(@td_email)
 		ApprovalEngine.remove_user(@jd_email)
+
 		#ApprovalEngine.remove_user(@jd_email)
 		#assert(!ApprovalEngine.user_exists?(@jd_email))
 		#assert(ApprovalEngine.get_roles(@jd_email) == [])

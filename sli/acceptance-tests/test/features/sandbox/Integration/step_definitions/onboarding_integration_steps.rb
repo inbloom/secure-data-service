@@ -1,4 +1,4 @@
-require "selenium-webdriver" 
+require "selenium-webdriver"
 require "mongo" 
 require 'approval' 
 require 'rumbster'
@@ -142,7 +142,7 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
 end
 
 Then /^an approval email is sent to the "([^"]*)"$/ do |email|
-  sleep(10)
+  sleep(5)
   @email = email
   verifyEmail()
   approval_email_subject="Welcome to the SLC Developer"

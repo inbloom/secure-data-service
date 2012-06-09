@@ -8,8 +8,6 @@
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
         <% error = " error" %>
-    <% elsif is_password_field && @user_account_registration.errors[password_field].any? %>
-        <% error = " error" %>
     <% end %>
     <%= tag("div", :class => "control-group#{error}") %>
     <div class="control-label">
@@ -34,7 +32,15 @@
 
       <% if @user_account_registration.errors[field].any? %>
             <span class="help-inline">
-              <%= @user_account_registration.errors[field][0] %>
+              <% if @user_account_registration.errors[field].size > 1 %>
+                  <ul>
+                    <% @user_account_registration.errors[field].each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+              <% else %>
+                  <%= @user_account_registration.errors[field][0] %>
+              <% end %>
             </span>
       <% end %>
     </div>
@@ -44,7 +50,7 @@
 <%= form_for(@user_account_registration) do |f| %>
     <% if @user_account_registration.errors.any? %>
         <div class="alert alert-error">
-          There was an error processing your registration. Please fix any highlighted fields below.
+          <%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:
         </div>
     <% end %>
     <fieldset>
@@ -57,13 +63,13 @@
       <div style="margin-bottom: 9px;">
         <span style="color:red;">*</span> = required fields
       </div>
-      <%# recaptcha section %>
-      <% if APP_CONFIG['recaptcha_disable'] == true %>
-          <span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
-      <% end %>
-      <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
-      <%= tag("div", :class => "control-group#{error}") %>
-      <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
+	  <%# recaptcha section %>
+	  <% if APP_CONFIG['recaptcha_disable'] == true %>
+		<span style="color:red; font-weight:bold;">Captcha validation is disabled to allow automated testing.</span>
+	  <% end %>
+	  <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
+	  <%= tag("div", :class => "control-group#{error}") %>
+	  <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
       <% if @user_account_registration.errors[:recaptcha].any? %>
             <span class="help-inline">
 				<%= @user_account_registration.errors[:recaptcha][0] %>

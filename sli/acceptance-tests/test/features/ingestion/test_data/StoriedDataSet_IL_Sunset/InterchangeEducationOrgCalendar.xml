@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-
-	<GradingPeriod id="GP_1_SCHS">
-        <GradingPeriodIdentity>
-          <GradingPeriod>End of Year</GradingPeriod>
-          <SchoolYear>2011-2012</SchoolYear>
-          <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-        </GradingPeriodIdentity>
-		<BeginDate>2011-09-01</BeginDate>
-		<EndDate>2011-12-01</EndDate>
-		<TotalInstructionalDays>90</TotalInstructionalDays>
-	</GradingPeriod>
-
 	<Session>
 		<SessionName>Fall 2011 Sunset Central High School</SessionName>
 		<SchoolYear>2011-2012</SchoolYear>
@@ -25,6 +13,12 @@
 				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<GradingPeriodReference ref="GP_1_SCHS"/>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<GradingPeriod>End of Year</GradingPeriod>
+				<SchoolYear>2011-2012</SchoolYear>
+				<StateOrganizationId>1</StateOrganizationId>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
 	</Session>
 </InterchangeEducationOrgCalendar>

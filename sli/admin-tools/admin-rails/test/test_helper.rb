@@ -65,9 +65,6 @@ class ActiveSupport::TestCase
 
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json
-      
-      #Support email
-      mock.get "/api/rest/v1/system/support/email/", {"Accept" => "application/json"}, {"email" => "email@email.com"}.to_json
 
       #mock.get "/api/rest/educationOrganization-associations", {"Accept" => "application/json"}, [@ed_org_fixtures["assoc_one"]].to_json
       #ed org associations

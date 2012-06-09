@@ -11,7 +11,6 @@
 @RALLY_US1964
 @RALLY_US2033
 @RALLY_US2081
-@RALLY_DE621
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -109,7 +108,6 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
        | student                     | 1                   | metaData.externalId      | 800000025                  | string               |
        | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
-       | staff                       | 2                   | body.race                | White                      | string               |	   
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
        | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
@@ -269,7 +267,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 340 records." in the resulting batch job file
+    And I should see "Processed 339 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
@@ -277,8 +275,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 3" in the resulting batch job file

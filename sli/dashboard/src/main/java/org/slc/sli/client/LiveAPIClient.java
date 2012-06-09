@@ -765,7 +765,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
         String url = getApiUrl() + STUDENT_ACADEMIC_RECORD_URL;
-        if (params != null && params.size() != 0) {
+        if (params != null || params.size() != 0) {
             url += "?" + buildQueryString(params);
         }
 

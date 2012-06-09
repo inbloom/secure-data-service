@@ -37,7 +37,6 @@ admin:
     updated_on: 1331670018
     vendor: SLI
     metaData:
-        createdBy: dudewithbademail
         updated: 10000000
         created: 10000000
 waffles:
@@ -65,7 +64,6 @@ waffles:
     installed: true
     vendor: SLI
     metaData:
-        createdBy: dude@email.com
         updated: 10000000
         created: 10000000
         

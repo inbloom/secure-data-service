@@ -3,8 +3,6 @@ package org.slc.sli.test.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Source;
@@ -13,9 +11,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 public class ValidateSchema {
 
@@ -47,7 +43,6 @@ public class ValidateSchema {
 
         }
 
-        long totalErrorCount = 0;
         for (File file : new File(xmlDir).listFiles()) {
             if (file.isFile()) {
                 String fname = file.getName();
@@ -62,50 +57,10 @@ public class ValidateSchema {
                     Validator validator = schema.newValidator();
                     Source source = new StreamSource(file);
 
-                    final Map<String, List<Integer>> errorReport = new HashMap<String, List<Integer>>();
                     try {
-
-                            validator.setErrorHandler(new ErrorHandler() {
-
-                            @Override
-                            public void warning(SAXParseException exception) throws SAXException {
-                                handle(exception);
-                            }
-
-                            @Override
-                            public void fatalError(SAXParseException exception) throws SAXException {
-                                handle(exception);
-                            }
-
-                            @Override
-                            public void error(SAXParseException exception) throws SAXException {
-                                handle(exception);
-                            }
-                                                        
-                            private void handle(SAXParseException exception) {
-                                String error = exception.getMessage();
-                                if(!errorReport.containsKey(error)) { 
-                                    errorReport.put(error, new LinkedList<Integer>());
-                                }
-                                errorReport.get(error).add(new Integer(exception.getLineNumber()));
-                            }
-                            
-                        });
                         validator.validate(source);
-                        totalErrorCount += errorReport.size(); 
-                        if(errorReport.size() > 0) {                            
-                            System.out.println("Errors for " + file.getCanonicalPath() + ". [" + schemaFile + "]");
-                            for(String error: errorReport.keySet()) {
-                                List<Integer> lines = errorReport.get(error);
-                                System.out.println("Lines  "  + ((lines.size() > 5 )? (lines.subList(0, 4) + "..."):(lines)) + lines.size() + " errors. " + error);
-                            }
-                            System.out.println("");
-                        }
-                        else {
-                            System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
-                            System.out.println("");
-                        }
-                                               
+                        System.out.println(file.getCanonicalPath() + " is valid. [" + schemaFile + "]");
+                        System.out.println("");
                     } catch (SAXException ex) {
                         System.out.println("** ERROR **" + file.getCanonicalPath() + " is not valid. [" + schemaFile
                                 + "]");
@@ -115,8 +70,6 @@ public class ValidateSchema {
                 }
             }
         }
-        if(totalErrorCount > 0) 
-            System.out.println("                                ******************************************" + totalErrorCount + " ERRORS" + "**************************************************");
         return null;
     }
 

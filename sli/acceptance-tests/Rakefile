@@ -253,14 +253,13 @@ end
 task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/context_security")
-  
-#  Rake::Task["v1ProgramSecurityTests"].execute
-#  Rake::Task["v1ParentSecurityTests"].execute
-#  Rake::Task["v1AttendanceSecurityTests"].execute
-#  Rake::Task["v1CohortSecurityTests"].execute
-#  Rake::Task["v1DisciplineActionSecurityTests"].execute
-#  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
+
+  Rake::Task["v1ProgramSecurityTests"].execute
+  Rake::Task["v1ParentSecurityTests"].execute
+  Rake::Task["v1AttendanceSecurityTests"].execute
+  Rake::Task["v1CohortSecurityTests"].execute
+  Rake::Task["v1DisciplineActionSecurityTests"].execute
+  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -566,6 +565,8 @@ task :importSandboxData do
     "studentSectionAssociation" => "studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "educationOrganization_fixture.json",
+    "educationOrganizationSchoolAssociation" => "school_educationOrganization_fixture.json",
+    "educationOrganizationAssociation" => "educationOrganizationAssociation_fixture.json",
     "aggregationDefinition" => "aggregationdefinition_fixture.json",
     "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture.json",
     "schoolSessionAssociation" => "schoolSessionAssociation_fixture.json",
@@ -613,7 +614,7 @@ task :importSandboxData do
     "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
     "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
   ]
-  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
+  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")    
 end
 
 desc "Import Unified Data Set"

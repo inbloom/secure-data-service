@@ -52,12 +52,13 @@ Examples:
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "c549e272-9a7b-4c02-aff7-b105ed76c904"       |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
@@ -99,6 +100,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "beginDate"              | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
