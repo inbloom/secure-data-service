@@ -1,3 +1,18 @@
-The status of <%= @app.name %> has been changed to <%= @app.registration.status %>.
-You may log into <%= apps_url(:only_path => false) %> at any time to review your status and
-make changes once your application is approved.
+<html>
+<body>
+<p>
+<%= @firstName %>,
+</p>
+<p>
+Congratulations, your <b><%= @app.name %></b> application has been approved.
+</p>
+<p>
+The next step is to grant access to your application to States and Districts in the SLC.
+You can grant access here: 
+<%= apps_url(:only_path => false) %>
+</p>
+<p>
+<div>Thanks!</div>
+<div>-The Shared Learning Collaborative</div>
+</body>
+</html>

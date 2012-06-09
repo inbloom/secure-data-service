@@ -1,5 +1,6 @@
 require "selenium-webdriver"
 require 'json'
+require 'net/imap'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -309,3 +310,20 @@ Then /^the Registration Status field is Registered$/ do
   #Nothing to show anymore
 end
 
+Then /^a notification email is sent to "([^"]*)"$/ do |email|
+    sleep 2
+    defaultUser = email.split("@")[0]
+    defaultPassword = "#{defaultUser}1234"
+    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+    imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    imap.examine('INBOX')
+    ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
+    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
+    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+    found = true if content != nil
+    @email_content = content
+    @email_subject = subject
+    puts subject,content
+    imap.disconnect
+    assert(found, "Email was not found on SMTP server")
+end
