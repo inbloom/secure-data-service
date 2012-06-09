@@ -142,6 +142,7 @@ public class BasicService implements EntityService {
     public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
+        this.addDefaultQueryParams(neutralQuery);
         
         List<String> allowed = findAccessible();
         
@@ -203,8 +204,10 @@ public class BasicService implements EntityService {
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkAccess(determineWriteAccess(content, ""), id);
         }
-        
-        Entity entity = repo.findById(collectionName, id);
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        this.addDefaultQueryParams(query);
+        Entity entity = repo.findOne(collectionName, query);
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -382,7 +385,7 @@ public class BasicService implements EntityService {
         }
         
         List<EntityBody> results = new ArrayList<EntityBody>();
-        
+        this.addDefaultQueryParams(localNeutralQuery);
         for (Entity entity : repo.findAll(collectionName, localNeutralQuery)) {
             results.add(makeEntityBody(entity));
         }
@@ -399,7 +402,11 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         
         boolean exists = false;
-        if (repo.findById(collectionName, id) != null) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        this.addDefaultQueryParams(query);
+        
+        if (repo.findAll(collectionName, query) != null) {
             exists = true;
         }
         
@@ -445,6 +452,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
+        this.addDefaultQueryParams(query);
         
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         
@@ -471,6 +479,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
+        this.addDefaultQueryParams(query);
         
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         
@@ -492,8 +501,12 @@ public class BasicService implements EntityService {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
+            
+            Map<String, Object> metadata = new HashMap<String, Object>();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
             metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
+            metaData.put("tenantId", principal.getTenantId());
             getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
@@ -556,6 +569,7 @@ public class BasicService implements EntityService {
                 EntityService referencingEntityService = referencingEntity.getService();
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria(referenceField + "=" + sourceId));
+                this.addDefaultQueryParams(neutralQuery);
                 try {
                     // list all entities that have the deleted entity's ID in their reference field
                     for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
@@ -576,6 +590,7 @@ public class BasicService implements EntityService {
     private void deleteAttachedCustomEntities(String sourceId) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", sourceId, false));
+        this.addDefaultQueryParams(query);
         Iterable<String> ids = getRepo().findAllIds(CUSTOM_ENTITY_COLLECTION, query);
         for (String id : ids) {
             getRepo().delete(CUSTOM_ENTITY_COLLECTION, id);
