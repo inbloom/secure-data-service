@@ -622,7 +622,11 @@ public class BasicService implements EntityService {
             return allowed.contains(entityId);
         } else {
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(securityCriteria);
+
+            //account for super list
+            if (allowed.size() > 0) {
+                query.addCriteria(securityCriteria);
+            }
             query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
 
             Entity entity = repo.findOne(collectionName, query);
