@@ -77,8 +77,6 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
                                 Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter))
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId")
-                        .addConnection(EntityNames.COHORT, ParameterConstants.COHORT_ID, ResourceNames.STAFF_COHORT_ASSOCIATIONS, teacherToStaffCohortAssociationEndDateFilter)
-                        .addConnection(EntityNames.PROGRAM, ParameterConstants.PROGRAM_ID, ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, teacherToStaffProgramAssociationEndDateFilter)
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
@@ -204,9 +202,10 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION).construct());
         nodeMap.put(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SECTION_ASSESSMENT_ASSOCIATION).construct());
 
-        // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.EDUCATION_ORGANIZATION);
         excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT);
+        excludePath.add(EntityNames.TEACHER + EntityNames.COHORT);
+        excludePath.add(EntityNames.TEACHER + EntityNames.PROGRAM);
 
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
         excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
