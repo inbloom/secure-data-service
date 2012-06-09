@@ -30,7 +30,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>18</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode> 
@@ -42,7 +42,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>10</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-English-Usage</ObjectiveAssessmentIdentificationCode> 
@@ -54,7 +54,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>8</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode> 
@@ -66,7 +66,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>30</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Mathematics</ObjectiveAssessmentIdentificationCode> 
@@ -78,7 +78,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
@@ -90,7 +90,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>7</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Algebra</ObjectiveAssessmentIdentificationCode> 
@@ -102,7 +102,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>14</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
@@ -114,7 +114,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>23</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Reading</ObjectiveAssessmentIdentificationCode> 
@@ -126,7 +126,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>11</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode> 
@@ -138,7 +138,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>12</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode> 
@@ -150,7 +150,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>4</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Science</ObjectiveAssessmentIdentificationCode> 
@@ -162,7 +162,7 @@
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>6</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_188"/> 
+       <StudentAssessmentReference ref="saa_188"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Writing</ObjectiveAssessmentIdentificationCode> 
