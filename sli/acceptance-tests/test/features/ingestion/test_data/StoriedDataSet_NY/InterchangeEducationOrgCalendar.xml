@@ -2232,7 +2232,9 @@
 	<!-- GradingPeriods for the 2011-2012 school year -->
 	<GradingPeriod id="GRDP_20110822">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>10000000121</StateOrganizationId>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>10000000121</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2292,7 +2294,9 @@
 
 	<GradingPeriod id="GRDP_20111010">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>10000000121</StateOrganizationId>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>10000000121</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2472,7 +2476,9 @@
 
 	<GradingPeriod id="GRDP_20120124">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000111</StateOrganizationId>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>1000000111</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>
@@ -2525,7 +2531,9 @@
 
 	<GradingPeriod id="GRDP_20120125">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000111</StateOrganizationId>
+			<EducationOrgIdentificationCode IdentificationSystem="School">
+				<ID>1000000111</ID>
+			</EducationOrgIdentificationCode>
 			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
 		</GradingPeriodIdentity>

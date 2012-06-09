@@ -4,22 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -37,163 +33,112 @@ public class IdNormalizer {
 
     private Repository<Entity> entityRepository;
 
-    @Autowired
-    private EntityConfigFactory entityConfigurations;
-
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
-        if (entityConfig.getReferences() != null) {
+        if (entityConfig.getReferences() == null) {
+            return;
+        }
 
-            String resolvedReferences = "";
-            String collectionName = null;
+        String resolvedReferences = "";
+        String collectionName = null;
 
-            try {
-                for (RefDef reference : entityConfig.getReferences()) {
+        try {
+            for (RefDef reference : entityConfig.getReferences()) {
 
-                    int numRefInstances = getNumRefInstances(entity, reference.getRef());
-                    collectionName = reference.getRef().getCollectionName();
+                int numRefInstances = getNumRefInstances(entity, reference.getRef());
+                collectionName = reference.getRef().getCollectionName();
 
-                    resolvedReferences += "       collectionName = " + collectionName;
+                resolvedReferences += "       collectionName = " + collectionName;
 
-                    for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
-                        for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                            for (Field field : fields) {
-                                for (FieldValue fv : field.getValues()) {
-                                    if (fv.getRef() == null) {
-                                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
-                                                reference.getRef(), refIndex);
-                                        try {
-                                            Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                            if (entityValue != null) {
-                                                if (!(entityValue instanceof Collection)) {
-                                                    resolvedReferences += ", value = " + entityValue.toString() + "\n";
-                                                }
+                for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
+                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        for (Field field : fields) {
+                            for (FieldValue fv : field.getValues()) {
+                                if (fv.getRef() == null) {
+                                    String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
+                                            reference.getRef(), refIndex);
+                                    try {
+                                        Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                        if (entityValue != null) {
+                                            if (!(entityValue instanceof Collection)) {
+                                                resolvedReferences += ", value = " + entityValue.toString() + "\n";
                                             }
-                                        } catch (Exception e) {
-                                            if (!reference.getRef().isOptional()) {
-                                                LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                        + " for bean " + entity.getType());
-                                                String errorMessage = "ERROR: Failed to resolve a reference"
-                                                        + "\n"
-                                                        + "       Entity "
-                                                        + entity.getType()
-                                                        + ": Reference to "
-                                                        + collectionName
-                                                        + " is incomplete because the following reference field is not resolved: "
-                                                        + valueSourcePath
-                                                                .substring(valueSourcePath.lastIndexOf('.') + 1);
+                                        }
+                                    } catch (Exception e) {
+                                        if (!reference.getRef().isOptional()) {
+                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                                    + " for bean " + entity.getType());
+                                            String errorMessage = "ERROR: Failed to resolve a reference"
+                                                    + "\n"
+                                                    + "       Entity "
+                                                    + entity.getType()
+                                                    + ": Reference to "
+                                                    + collectionName
+                                                    + " is incomplete because the following reference field is not resolved: "
+                                                    + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
 
-                                                errorReport.error(errorMessage, this);
-                                            }
+                                            errorReport.error(errorMessage, this);
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                }
 
-                    String fieldPath = reference.getFieldPath();
+                String fieldPath = reference.getFieldPath();
 
-                    List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
-                            errorReport);
+                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
+                        errorReport);
 
-                    if (ids == null || ids.size() == 0) {
-                        if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
-                            LOG.error("Error with entity " + entity.getType() + " missing required reference "
-                                    + collectionName);
-                            String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
-                                    + entity.getType() + ": Missing reference to " + collectionName;
-
-                            errorReport.error(errorMessage, this);
-                        }
-                        continue;
-                    }
-
-                    if (ids.size() != numRefInstances) {
-                        LOG.error("Error in number of resolved internal ids for entity " + entity.getType()
-                                + ": Expected " + numRefInstances + ", got " + ids.size() + " references to "
+                if (ids == null || ids.size() == 0) {
+                    if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
+                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
                                 + collectionName);
-                        String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
-                                + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
-                                + ids.size() + " references to " + collectionName;
+                        String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
+                                + entity.getType() + ": Missing reference to " + collectionName;
 
                         errorReport.error(errorMessage, this);
                     }
-
-                    if (errorReport.hasErrors()) {
-                        continue;
-                    }
-
-                    if (reference.getRef().isRefList()) {
-                        // for lists of references set the properties on each element of the
-                        // resolved ID
-                        // list
-                        for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                            String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
-                            PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
-                        }
-                    } else {
-                        PropertyUtils.setProperty(entity, reference.getFieldPath(), ids.get(0));
-                    }
-
-                }
-            } catch (Exception e) {
-                LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
-                String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity "
-                        + entity.getType() + ": Reference to " + collectionName + " cannot be resolved" + "\n";
-                if (resolvedReferences != null && !resolvedReferences.equals("")) {
-                    errorMessage += "     The failure can be identified with the following reference information: "
-                            + "\n" + resolvedReferences;
+                    continue;
                 }
 
-                errorReport.error(errorMessage, this);
+                if (ids.size() != numRefInstances) {
+                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
+                            + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
+                    String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
+                            + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
+                            + ids.size() + " references to " + collectionName;
+
+                    errorReport.error(errorMessage, this);
+                }
+
+                if (errorReport.hasErrors()) {
+                    continue;
+                }
+
+                if (reference.getRef().isRefList()) {
+                    // for lists of references set the properties on each element of the resolved ID
+                    // list
+                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
+                        PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
+                    }
+                } else {
+                    PropertyUtils.setProperty(entity, reference.getFieldPath(), ids.get(0));
+                }
+
             }
-        }
-
-        resolveSubEntities(entity, tenantId, entityConfig, errorReport);
-    }
-
-    private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
-        Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
-        if (subEntityConfigs != null) {
-            for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
-                String pathString = entry.getKey();
-                boolean optional = pathString.endsWith("?");
-                String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
-                EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
-                try {
-                    Object subEntityObject = PropertyUtils.getProperty(entity, path);
-                    if (subEntityObject == null) {
-                        if (optional) {
-                            continue;
-                        } else {
-                            errorReport.error("Unable to find property " + path, this);
-                        }
-                    }
-                    if (subEntityObject instanceof List) {
-                        for (Object subEntityInstance : (List<?>) subEntityObject) {
-                            resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
-                        }
-                    } else {
-                        resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
-                    }
-                } catch (Exception e) {
-                    LOG.error("Error parsing " + entity, e);
-                }
+        } catch (Exception e) {
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                        + resolvedReferences;
             }
-        }
-    }
 
-    @SuppressWarnings("unchecked")
-    protected void resolveSubEntity(String tenantId, ErrorReport errorReport, EntityConfig subEntityConfig,
-            Object subEntityInstance) {
-        try {
-            NeutralRecord nr = new NeutralRecord();
-            nr.setAttributes((Map<String, Object>) subEntityInstance);
-            Entity subEntity = new NeutralRecordEntity(nr);
-            resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
-        } catch (ClassCastException e) {
-            LOG.error("error resolving " + subEntityInstance, e);
+            errorReport.error(errorMessage, this);
         }
     }
 
@@ -295,7 +240,7 @@ public class IdNormalizer {
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
                                         LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                + " for bean " + entity.getType(), e);
+                                                + " for bean " + entity.getType());
                                         String errorMessage = "ERROR: Failed to resolve a reference"
                                                 + "\n"
                                                 + "       Entity "

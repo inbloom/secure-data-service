@@ -30,9 +30,13 @@ $entityData = {
   "gradingPeriod" => {
     "gradingPeriodIdentity" => {
       "educationalOrgIdentity" => [{
-        "stateOrganizationId" => "Daybreak Elementary School",
+        "educationOrgIdentificationCode" => [
+          {
+              "ID" => "Daybreak Elementary School",
+              "identificationSystem" => "School"
+          }
+        ]
       }],
-      "stateOrganizationId" => "Daybreak Elementary School",
       "gradingPeriod" => "First Six Weeks",
       "schoolYear" => "2011-2012"
     },
@@ -138,13 +142,7 @@ $entityData = {
     "organizationCategories" => ["State Education Agency"],
     "stateOrganizationId" => "15",
     "nameOfInstitution" => "Gotham City School District", 
-    "address" => [
-              "streetNumberName" => "111 Ave C",
-              "city" => "Chicago",
-              "stateAbbreviation" => "IL",
-              "postalCode" => "10098",
-              "nameOfCounty" => "Wake"
-              ]
+    "address" => []
   },
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
