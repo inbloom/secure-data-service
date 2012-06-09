@@ -1,15 +1,15 @@
 package org.slc.sli.api.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Collections;
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.EntityDefinition;
@@ -689,7 +689,10 @@ public class BasicService implements EntityService {
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
         if (type != null && type.equals(EntityNames.STAFF) &&
-                !(defn.getType().equals(EntityNames.SCHOOL) || (defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)))) {
+ !(defn.getType().equals(EntityNames.SCHOOL)
+                        || !(defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION))
+                        || !(defn.getType().equals(EntityNames.LEARNINGSTANDARD)) || !(defn.getType()
+                        .equals(EntityNames.LEARNINGOBJECTIVE)))) {
             securityField = "metaData.edOrgs";
         }
 
