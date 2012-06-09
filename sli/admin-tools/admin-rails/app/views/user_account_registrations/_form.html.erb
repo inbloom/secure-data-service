@@ -64,6 +64,11 @@
       <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
       <%= tag("div", :class => "control-group#{error}") %>
       <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
+      <div style="margin-bottom:10px;margin-top:10px;font-style:italic;font-size:12px" >
+      	<b>Note:</b> in order to complete the registration process, you will be required to accept the 
+      	<a style="text-decoration:underline" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and 
+      	<a style="text-decoration:underline" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a><br/>
+      </div>
       <% if @user_account_registration.errors[:recaptcha].any? %>
             <span class="help-inline">
 				<%= @user_account_registration.errors[:recaptcha][0] %>
