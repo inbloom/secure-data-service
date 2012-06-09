@@ -122,17 +122,22 @@ public class JobReportingProcessor implements Processor {
     private void populateJobFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
 
-        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
-        Iterator<Stage> it = stages.iterator();
-        Stage tempStage;
+        if (job != null) {
+            List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+            Iterator<Stage> it = stages.iterator();
+            Stage tempStage;
 
-        while (it.hasNext()) {
-            tempStage = it.next();
+            while (it.hasNext()) {
+                tempStage = it.next();
 
-            job.addStage(tempStage);
+                job.addStage(tempStage);
+            }
+
+            batchJobDAO.saveBatchJob(job);
         }
-
-        batchJobDAO.saveBatchJob(job);
+        else {
+            LOG.warn( "Couldn't find job {}", jobId );
+        }
     }
 
     private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {

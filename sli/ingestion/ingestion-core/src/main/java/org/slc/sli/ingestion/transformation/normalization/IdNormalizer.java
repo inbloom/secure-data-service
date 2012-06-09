@@ -345,7 +345,7 @@ public class IdNormalizer {
         String key = composeKey(collection, filter);
         Object val = cacheProvider.get(key);
 
-        LOG.info("Cache {} for {}", val == null ? "MISS" : "HIT", key);
+        LOG.info("IdNormalizer Cache {} for {}", val == null ? "MISS" : "HIT", key);
 
         if (val == null) {
             ids = new ArrayList<String>();
