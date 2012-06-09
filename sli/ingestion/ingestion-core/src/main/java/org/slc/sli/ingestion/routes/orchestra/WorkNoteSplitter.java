@@ -27,7 +27,7 @@ public class WorkNoteSplitter {
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
     @Autowired
-    private SplitStrategy splitStrategy;
+    private SplitStrategy balancedTimestampSplitStrategy;
 
     /**
      * Splits the work that can be processed in parallel next round into individual WorkNotes.
@@ -61,7 +61,7 @@ public class WorkNoteSplitter {
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
 
-            List<WorkNote> workNotesForEntity = splitStrategy.splitForEntity(stagedEntity, jobId);
+            List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
             workNoteList.addAll(workNotesForEntity);
         }
