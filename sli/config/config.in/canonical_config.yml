@@ -100,7 +100,7 @@ default:
 
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
-        sli.ingestion.processor.xml: concurrent 
+        sli.ingestion.processor.xml: serial 
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
