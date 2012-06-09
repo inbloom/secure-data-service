@@ -34,7 +34,16 @@
 
       <% if @user_account_registration.errors[field].any? %>
             <span class="help-inline">
-              <%= @user_account_registration.errors[field][0] %>
+	          <% if @user_account_registration.errors[field].size == 1 %>
+	            <%= @user_account_registration.errors[field][0] %>
+			  <% else %>
+			     <ul>
+				   <% @user_account_registration.errors[field].each_with_index do |err, i| %>
+				     <%= "</ul></span><span class='help-inline'><ul>".html_safe if i > 0 && i % 2 == 0 %>
+				     <li><%= err %></li>
+				   <% end %>
+				 </ul>
+			  <% end %>
             </span>
       <% end %>
     </div>

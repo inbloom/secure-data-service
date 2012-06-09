@@ -61,10 +61,9 @@ public class DataForASchool {
 
     /**
      * @param args
-     * @throws Exception
      * @throws JAXBException
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         String root = "data";
         System.out.println(new Date());
 
@@ -87,7 +86,7 @@ public class DataForASchool {
         this.prefix = "a" + prefix;
     }
 
-    public void generateData(String path, boolean display, boolean validate, int iteration) throws Exception {
+    public void generateData(String path, boolean display, boolean validate, int iteration) {
         prepareData(iteration);
         saveInterchanges(path);
         if (display)
@@ -120,7 +119,7 @@ public class DataForASchool {
         System.out.println("DONE");
     }
 
-    public void printOnScreen() throws Exception {
+    public void printOnScreen() {
         try {
             printInterchangeEducationOrganization(System.out);
             printInterchangeMasterSchedule(System.out);
@@ -344,7 +343,7 @@ public class DataForASchool {
         marshaller.marshal(interchangeAssessmentMetadata, ps);
     }
 
-    public void printInterchangeStaffAssociation(PrintStream ps) throws Exception {
+    public void printInterchangeStaffAssociation(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStaffAssociation.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);

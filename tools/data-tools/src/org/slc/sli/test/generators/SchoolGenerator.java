@@ -16,8 +16,6 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
-import org.slc.sli.test.edfi.entities.ProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.School;
 import org.slc.sli.test.edfi.entities.SchoolCategoriesType;
 import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
@@ -84,7 +82,7 @@ public class SchoolGenerator {
 
     public static EducationalOrgReferenceType getEducationalOrgReferenceType(String schoolId) {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.setStateOrganizationId(schoolId);
+        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         return eor;
@@ -166,8 +164,8 @@ public class SchoolGenerator {
             EducationOrgIdentificationCode code = new EducationOrgIdentificationCode();
             code.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
             code.setID("SchoolId");
-            edOrgIdenType.getEducationOrgIdentificationCode().add(code);
-
+            edOrgIdenType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(code);
+            
             EducationalOrgReferenceType edOrgRef = new EducationalOrgReferenceType();
             edOrgRef.setEducationalOrgIdentity(edOrgIdenType);
             school.setLocalEducationAgencyReference(edOrgRef);
@@ -175,11 +173,11 @@ public class SchoolGenerator {
         }
         return schools;
     }
-
+    
     public static EducationalOrgReferenceType getEducationalOrgReferenceType(School school)
     {
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-        eoit.getEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
+        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().addAll(school.getEducationOrgIdentificationCode());
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
     	return eor;
@@ -192,20 +190,11 @@ public class SchoolGenerator {
         return school;
     }
 
-    public static School generateLowFi(String schoolId, String leaId, String programId) {
+    public static School generateLowFi(String schoolId, String leaId) {
         School school = new School();
         school.setId(schoolId);
 
-        // support school references in two ways:
-        // 1. StateOrganizationId
-        // 2. IdentificationSystem and ID
         school.setStateOrganizationId(schoolId);
-
-        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
-        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.FEDERAL);
-        eoic.setID(schoolId);
-        school.getEducationOrgIdentificationCode().add(eoic);
-
         school.setNameOfInstitution(schoolId);
         school.setShortNameOfInstitution(schoolId.replaceAll("[a-z]", ""));
         school.setWebSite("http://www." + schoolId.replaceAll("[ a-z:]", "") + "School.edu");
@@ -263,23 +252,13 @@ public class SchoolGenerator {
         school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL);
 
         // construct and add the SEA reference
-//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-//        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
-//
-//        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
-//        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
-//
-//        school.setLocalEducationAgencyReference(leaRef);
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
 
-        Ref leaRef = new Ref(leaId);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        eort.setRef(leaRef);
-        school.setLocalEducationAgencyReference(eort);
+        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-        Ref programRef = new Ref(programId);
-        ProgramReferenceType prt = new ProgramReferenceType();
-        prt.setRef(programRef);
-        school.getProgramReference().add(prt);
+        school.setLocalEducationAgencyReference(leaRef);
 
         return school;
     }

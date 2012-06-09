@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
-import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
@@ -37,7 +36,7 @@ public class StaffProgramAssociationGenerator {
     public static StaffProgramAssociation generateLowFi(ProgramMeta programMeta) {
         Set<String> staffIds = programMeta.staffIds;
         String programId = programMeta.id;
-        String schoolId = programMeta.orgId;
+        String schoolId = programMeta.schoolId;
 
         StaffProgramAssociation staffProgram = new StaffProgramAssociation();
         
@@ -47,15 +46,14 @@ public class StaffProgramAssociationGenerator {
             StaffIdentityType sit = new StaffIdentityType();
             sit.setStaffUniqueStateId(staffId);
             StaffReferenceType srt = new StaffReferenceType();
-            srt.setRef(new Ref(staffId));
+            srt.setStaffIdentity(sit);
             staffReferences.add(srt);
         }
 
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
         pi.setProgramId(programId);
-        //pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        pi.setStateOrganizationId(schoolId);
+        pi.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setProgramIdentity(pi);
         List<ProgramReferenceType> programReferences = staffProgram.getProgramReference();

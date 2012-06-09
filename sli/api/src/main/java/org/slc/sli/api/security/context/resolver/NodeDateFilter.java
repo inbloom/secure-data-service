@@ -1,11 +1,5 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +7,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.domain.Entity;
 
 /**
  * Filters the entity by a given date
@@ -83,13 +84,14 @@ public class NodeDateFilter extends NodeFilter {
 
                 for (Entity entity : referenceEntities) {
                     String endDateStr = (String) entity.getBody().get(endDateParamName);
+
                     String refId = (String) entity.getBody().get(referenceId);
                     if (returnIds.contains(refId)) {
                         continue; // refId already added to returnIds
                     }
 
                     if (startDateParamName.isEmpty()) {
-                        if (isDateBeforeEndDate(endDateStr, curDateWithGracePeriod)) {
+                        if (isFirstDateBeforeSecondDate(endDateStr, curDateWithGracePeriod)) {
                             returnIds.add(refId);
                         }
                     } else {
@@ -124,19 +126,19 @@ public class NodeDateFilter extends NodeFilter {
      * Returns true when first date is before or second date.
      * Determines 'is date is before end date'.
      *
-     * @param formattedDateString
-     * @param formattedEndDateString
+     * @param formattedFirstDateString
+     * @param formattedSecondDateString
      * @return
      */
-    protected boolean isDateBeforeEndDate(String formattedDateString, String formattedEndDateString) {
+    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) {
 
         Date date = null, endDate = null;
         boolean retValue = true;
 
         try {
-            if (formattedDateString != null && !formattedDateString.equals("")) {
-                date = formatter.parse(formattedDateString);
-                endDate = formatter.parse(formattedEndDateString);
+            if (formattedFirstDateString != null && !formattedFirstDateString.equals("")) {
+                date = formatter.parse(formattedFirstDateString);
+                endDate = formatter.parse(formattedSecondDateString);
 
                 if (date.before(endDate)) {
                     retValue = false;
