@@ -14,7 +14,6 @@
     </ScoreResults>
     <PerformanceLevels>
       <CodeValue>Level 2</CodeValue>
-      <Description>Below Benchmark</Description>
     </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
@@ -40,7 +39,6 @@
     </ScoreResults>
     <PerformanceLevels>
       <CodeValue>Level 1</CodeValue>
-      <Description>At or Above Benchmark</Description>
     </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
@@ -66,7 +64,6 @@
     </ScoreResults>
     <PerformanceLevels>
       <CodeValue>Level 3</CodeValue>
-      <Description>Well Below Benchmark</Description>
     </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
@@ -92,7 +89,6 @@
     </ScoreResults>
     <PerformanceLevels>
       <CodeValue>Level 2</CodeValue>
-      <Description>Below Benchmark</Description>
     </PerformanceLevels>
     <StudentReference>
       <StudentIdentity>
