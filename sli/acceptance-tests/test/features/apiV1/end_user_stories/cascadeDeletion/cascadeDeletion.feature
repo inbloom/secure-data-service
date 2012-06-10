@@ -21,9 +21,6 @@ Scenario: Delete a school and confirm deletion of related entities, associations
     When I navigate to GET "/<SECTION URI>/<SECTION ID>"
     Then I should receive a return code of 404
     When I navigate to GET "/<SECTION ASSESSMENT ASSOCIATION URI>/<SECTION ASSESSMENT ASSOCIATION ID>"
-#cascadeDelete fails to delete secured entities.
-#Currently returns 403 instead of 404 because entity is not deleted.
-#should be changed back to 404 when this defect is resolved.
-    Then I should receive a return code of 403
+    Then I should receive a return code of 404
     When I navigate to GET "/<ASSESSMENT URI>/<ASSESSMENT ID>"
     Then I should receive a return code of 200
