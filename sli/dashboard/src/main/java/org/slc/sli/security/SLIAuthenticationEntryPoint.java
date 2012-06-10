@@ -1,6 +1,7 @@
 package org.slc.sli.security;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -249,7 +250,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String entryUrl = request.getParameter(STATE_PARAMETER);
 
         if (entryUrl != null) {
-            response.sendRedirect(entryUrl);
+            response.sendRedirect(URLEncoder.encode(entryUrl, "UTF-8"));
         } else {
             response.sendRedirect(request.getRequestURI());
         }        
