@@ -1809,7 +1809,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
@@ -1818,7 +1822,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -2243,10 +2251,10 @@
 					<xs:documentation>The legal document or authorization giving
 						authorization to perform teaching assignment services.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="loginId" type="identificationCode"
