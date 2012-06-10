@@ -100,7 +100,7 @@ public class SecurityNodeConnection {
         this.filter = new ArrayList<NodeFilter>();
         this.filter.add(filter);
     }
-    public SecurityNodeConnection(String toEntity, String withField, String associationNode, NodeFilter filter,NodeAggregator nodeAggregator) {
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, NodeFilter filter, NodeAggregator nodeAggregator) {
         this.connectionTo = toEntity;
         this.fieldName = withField;
         this.associationNode = associationNode;

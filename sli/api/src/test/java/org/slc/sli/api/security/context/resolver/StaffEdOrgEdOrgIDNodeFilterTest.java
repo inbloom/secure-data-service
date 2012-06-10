@@ -7,8 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -18,20 +16,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.List;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Unit Tests

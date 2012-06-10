@@ -55,7 +55,7 @@ public class NodeDateFilter extends NodeFilter {
     }
 
     @Override
-    public List<Entity> filterEntities(List<Entity> toResolve,String referenceField) {
+    public List<Entity> filterEntities(List<Entity> toResolve, String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         List<Entity> returnEntityList = new ArrayList<Entity>();

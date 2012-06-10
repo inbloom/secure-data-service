@@ -42,7 +42,7 @@ public class TeacherToStudentSchoolAssociationResolver implements
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
         List<String> associationIds = helper.findEntitiesContainingReference(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-                "studentId", studentIds,Arrays.asList((NodeFilter)graceFilter));
+                "studentId", studentIds, Arrays.asList((NodeFilter) graceFilter));
 
         debug("Accessable student-school association IDS [ {} ]", associationIds);
         return associationIds;

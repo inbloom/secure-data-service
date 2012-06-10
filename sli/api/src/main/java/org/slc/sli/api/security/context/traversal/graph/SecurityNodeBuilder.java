@@ -44,8 +44,8 @@ public final class SecurityNodeBuilder {
         return this;
     }
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode,
-                                             NodeFilter filter,NodeAggregator aggregator) {
-        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter,aggregator);
+                                             NodeFilter filter, NodeAggregator aggregator) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter, aggregator);
         node.addConnection(connection);
         return this;
     }
@@ -72,7 +72,7 @@ public final class SecurityNodeBuilder {
     }
 
     public SecurityNodeBuilder addConnection(String toEntity, EntityContextResolver resolver) {
-        node.addConnection( new SecurityNodeConnection(toEntity, resolver) );
+        node.addConnection(new SecurityNodeConnection(toEntity, resolver));
         return this;
     }
 }

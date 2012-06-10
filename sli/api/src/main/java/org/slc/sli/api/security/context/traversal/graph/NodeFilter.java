@@ -11,6 +11,6 @@ import org.slc.sli.domain.Entity;
  */
 public abstract class NodeFilter {
 
-    public abstract List<Entity> filterEntities(List<Entity> toResolve,String referenceField);
+    public abstract List<Entity> filterEntities(List<Entity> toResolve, String referenceField);
 
 }

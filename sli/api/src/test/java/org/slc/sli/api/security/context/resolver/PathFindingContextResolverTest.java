@@ -15,7 +15,6 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;

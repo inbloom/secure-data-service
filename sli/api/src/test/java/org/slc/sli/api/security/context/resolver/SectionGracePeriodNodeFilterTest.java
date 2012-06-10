@@ -109,7 +109,7 @@ public class SectionGracePeriodNodeFilterTest {
                 eq("_id"), any(List.class))).thenReturn(sections);
         when(mockRepo.findAll(eq("session"), any(NeutralQuery.class))).thenReturn(sessions);
 
-        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc,"sectionId");
+        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc, "sectionId");
         List<String> returnedIds = getReturnedIds(returnedEntities);
 
         assertNotNull("Should not be null", returnedIds);
@@ -123,7 +123,7 @@ public class SectionGracePeriodNodeFilterTest {
         List<Entity> studentSecAssoc = getStudentSectionAssociation();
         when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn(StringUtils.EMPTY);
 
-        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc,"sectionId");
+        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc, "sectionId");
         List<String> returnedIds = getReturnedIds(returnedEntities);
         assertNotNull("Should not be null", returnedIds);
         assertEquals("Should match", 3, returnedIds.size());
@@ -178,9 +178,9 @@ public class SectionGracePeriodNodeFilterTest {
 
         return mockEntity;
     }
-    private List<String> getReturnedIds(List<Entity> entityList){
-        List<String> ids=new ArrayList<String>();
-        for(Entity e:entityList){
+    private List<String> getReturnedIds(List<Entity> entityList) {
+        List<String> ids = new ArrayList<String>();
+        for (Entity e : entityList) {
             ids.add(e.getEntityId());
         }
         return ids;
