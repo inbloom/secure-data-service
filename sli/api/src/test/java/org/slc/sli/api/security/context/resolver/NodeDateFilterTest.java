@@ -139,7 +139,7 @@ public class NodeDateFilterTest {
     private List<String> getReturnedIds(List<Entity> entityList, String refId) {
         List<String> ids = new ArrayList<String>();
         for (Entity e : entityList) {
-            ids.add(e.getBody(refId));
+            ids.add(e.getBody().get(refId).toString());
         }
         return ids;
     }
