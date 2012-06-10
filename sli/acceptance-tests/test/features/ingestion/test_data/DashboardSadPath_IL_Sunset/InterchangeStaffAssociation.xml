@@ -138,7 +138,7 @@
 		<StaffClassification>Principal</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!--Adriana Gillespie IT Support (IT Administrator) Sunset Central High School-->
 	<Staff>
@@ -202,7 +202,7 @@
 		<StaffClassification>School Administrative Support Staff</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!--Winnie Goodman Researcher (Aggregate Viewer) Sunset Central High School-->
 	<Staff>
@@ -266,7 +266,7 @@
 		<StaffClassification>Specialist/Consultant</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!--Dr. Liza Logan, District Superintendent (Leader) Sunset School District 4526-->
 	<Staff>
@@ -329,7 +329,7 @@
 		<StaffClassification>Superintendent</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!--Josef Washington, IT Support (IT Administrator) Sunset School District 4526-->
 	<Staff>
@@ -392,7 +392,7 @@
 		<StaffClassification>LEA System Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!--Jon Vasquez, Researcher (Aggregate Viewer) Sunset School District 4526-->
 	<Staff>
@@ -455,6 +455,6 @@
 		<StaffClassification>Specialist/Consultant</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 </InterchangeStaffAssociation>
