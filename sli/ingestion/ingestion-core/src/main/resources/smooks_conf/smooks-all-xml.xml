@@ -1167,7 +1167,7 @@
   </jb:bean>
 
   <jb:bean beanId="studentAssItemParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
-    <jb:value property="studentTestResultRef" data="StudentAssessmentItem/StudentTestAssessmentReference/@ref" />
+    <jb:value property="studentTestResultRef" data="StudentAssessmentItem/StudentAssessmentReference/@ref" />
     <jb:value property="studentObjectiveAssessmentRef" data="StudentAssessmentItem/StudentObjectiveAssessmentReference/@ref" />
     <jb:value property="assessmentItemIdentificatonCode" data="StudentAssessmentItem/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
   </jb:bean>
@@ -1625,7 +1625,7 @@
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelDescriptorsArray" />
     <jb:value property="objectiveAssessmentRef" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:value property="studentTestAssessmentRef" data="StudentTestAssessmentReference/@ref" />
+    <jb:value property="studentTestAssessmentRef" data="StudentAssessmentReference/@ref" />
   </jb:bean>
 
   <jb:bean beanId="ScoreResultsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">

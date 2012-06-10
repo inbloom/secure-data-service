@@ -14,11 +14,11 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #staff cohort association data
-  when "ASSOCIATION COUNT" then 3
+  when "ASSOCIATION COUNT" then 11
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
-  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
+  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 3
-  when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
+  when "RESOLUTION COUNT FOR ENDPOINT 2" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT" then 2
   when "ASSOCIATION ID - SINGLE" then "b4e31b1a-8e55-8803-722c-14d8087c0712"
