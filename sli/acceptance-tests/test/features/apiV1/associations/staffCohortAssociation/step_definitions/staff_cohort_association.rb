@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #staff cohort association data
-  when "ASSOCIATION COUNT" then 8
+  when "ASSOCIATION COUNT" then 11
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 3
