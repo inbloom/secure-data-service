@@ -14,19 +14,7 @@ end
 
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("student", "student_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("attendance", "attendance_fixture.json")
-  setFixture("section", "section_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
-  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
-  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
-  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
-  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/xml/xml.feature")
 end
 
@@ -332,7 +320,7 @@ end
 
 desc "Run V1 Simple CRUD Test"
 task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud_rc")
+  runTests("test/features/apiV1/entities/crud")
 end
 
 desc "Run V1 Blacklist/Whitelist input Tests"

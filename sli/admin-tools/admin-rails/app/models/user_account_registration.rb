@@ -6,7 +6,7 @@ class UserAccountRegistration
 
   attr_accessor :email, :firstName, :lastName, :password, :vendor
 
-  validates_presence_of :firstName, :lastName, :password, :password_confirmation
+  validates_presence_of :firstName, :lastName, :email, :password, :password_confirmation
   validates :email, :email => true
   validates :password, :confirmation => true #password_confirmation attr
   validates_presence_of :vendor unless APP_CONFIG["is_sandbox"]

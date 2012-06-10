@@ -21,7 +21,7 @@ import org.slc.sli.domain.Repository;
  * @author vmcglaughlin
  *
  */
-@Component
+//@Component
 public class StaffProgramResolver implements EntityContextResolver {
 
     @Autowired
