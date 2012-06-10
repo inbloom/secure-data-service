@@ -65,7 +65,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         for (Entity assoc : teacherSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(endDate, teacherSectionGraceDate))) {
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(teacherSectionGraceDate, endDate))) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
@@ -77,7 +77,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, currentDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -102,7 +102,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         for (Entity assoc : staffProgramAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, currentDate)) {
+                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                     programIds.addAll((List<String>)assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
@@ -115,7 +115,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -135,11 +135,12 @@ public class TeacherStudentResolver implements EntityContextResolver {
         Iterable<Entity> staffCohortAssociations = helper.getReferenceEntities(EntityNames.STAFF_COHORT_ASSOCIATION, ParameterConstants.STAFF_ID, Arrays.asList(principal.getEntityId()));
 
         // filter on end_date to get list of cohortIds
+        final String currentDate = dateFilter.getCurrentDate();
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
+                if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                     cohortIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.COHORT_ID));
                 }
             }
@@ -152,7 +153,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentCohortAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(endDate, dateFilter.getCurrentDate())) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
