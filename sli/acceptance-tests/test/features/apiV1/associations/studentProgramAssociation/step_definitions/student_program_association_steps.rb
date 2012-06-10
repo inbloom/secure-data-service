@@ -9,11 +9,12 @@ require_relative '../../../utils/api_utils.rb'
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM
 ###############################################################################
+#id = 11                                         if human_readable_id == "ASSOCIATION COUNT"
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 15                                         if human_readable_id == "ASSOCIATION COUNT"
+  id = 15                                         if human_readable_id == "ASSOCIATION COUNT"  
   id = 1                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 7                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                          if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
