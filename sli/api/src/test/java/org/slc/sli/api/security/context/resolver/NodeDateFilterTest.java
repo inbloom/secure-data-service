@@ -63,9 +63,7 @@ public class NodeDateFilterTest {
     public void testIsFirstDateBeforeSecondDate() {
         assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", "2012-08-03"));
 
-        assertFalse("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", null));
         assertFalse("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", ""));
-
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "2012-05-12"));
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("", "2012-05-12"));
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "somevalue"));
