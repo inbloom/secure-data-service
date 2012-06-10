@@ -60,7 +60,7 @@ public class BasicService implements EntityService {
     static {
         String[] collections = collectionsExcluded.split(",");
         for (String collection : collections) {
-            NOT_BY_TENANT.add(collection);
+            NOT_BY_TENANT.add(collection.trim());
         }
     }
 
