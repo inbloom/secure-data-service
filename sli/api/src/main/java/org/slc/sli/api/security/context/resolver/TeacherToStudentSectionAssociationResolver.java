@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.context.resolver;
 
-<<<<<<< HEAD
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;

@@ -138,6 +138,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
                     idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
                             new ArrayList<String>(ids), connection.getFilter());
                     }
+            }
 
             if (connection.getAggregator() != null) {
                 idSet = connection.getAggregator().addAssociatedIds(idSet);

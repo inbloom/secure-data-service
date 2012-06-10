@@ -62,6 +62,6 @@ public class StaffEdOrgEdOrgIDNodeFilterTest {
     public void testSetParameters() {
         nodeFilter.setParameters();
         assertEquals("Should match", "0", nodeFilter.getGracePeriod());
-        assertEquals("Should match", "endDate", nodeFilter.getFilterDateParam());
+        assertEquals("Should match", "endDate", nodeFilter.getEndDateParamName());
     }
 }
