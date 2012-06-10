@@ -5,7 +5,7 @@ require 'mongo'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
-Before do 
+Before do
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
@@ -20,36 +20,24 @@ When /^I hit User Registration for sandbox$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+'/registration')
 end
 
-When /^the number of accounts already created in database is equal to <NUMBER_OF_DEVELOPER_ACCOUNTS>$/ do
-  userAccountCollection = @db["userAccount"]
-  (1..(@user_account_maximum)).each do |x|
-    userAccountCollection.insert({
-      "userName"    => "test#{x}@test.com",
-      "firstName"   => "FN",
-      "lastName"    => "LN#{x}",
-      "vendor"      => "TestVendor",
-      "validated"   => "false",
-      "environment" => "Sandbox"
-    })
-  end
-  assert(@db["waitingListUserAccount"].count <= 0)
+When /^the number of accounts already created in LDAP is equal to <NUMBER_OF_DEVELOPER_ACCOUNTS>$/ do
+   # TODO DE821 -- implement this
 end
 
 Then /^I get an error message$/ do
-  assertWithWait("Waitlist Email") {@driver.find_element(:id, "new_waitlist_user") != nil}
+   # TODO DE821 -- implement this
 end
 
 When /^when I enter my email address$/ do
-  @driver.find_element(:id, "waitlist_user_email").clear
-  @driver.find_element(:id, "waitlist_user_email").send_keys "blah@blah.com"
+   # TODO DE821 -- implement this
 end
 
 When /^click "([^"]*)"$/ do |arg1|
-  @driver.find_element(:name, "commit").click
+   # TODO DE821 -- implement this
 end
 
 Then /^my email address is stored in the database$/ do
-  assert(@db["waitingListUserAccount"].count >= 1)
+   # TODO DE821 -- implement this
 end
 
 Then /^I get a success message$/ do

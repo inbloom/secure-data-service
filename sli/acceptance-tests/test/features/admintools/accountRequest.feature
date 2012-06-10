@@ -8,7 +8,6 @@ Background:
 @production
 Scenario: As a user I request for a production account
   Given I go to the production account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -50,11 +49,11 @@ Scenario: As an slc operator I want to register unique user accounts in the syst
   And when I click "Submit"
   Then I receive an error that the account already exists
 
-@production
+@wip @production
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query the database for EULA acceptance
+  When I query LDAP for EULA acceptance
   Then I get 1 record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
@@ -68,10 +67,9 @@ Scenario: Clicking the "cancel" button - registration form
   And when I click "Cancel"
   Then I am redirected to the hosting website
 
-@production
+@wip DE821 @production
 Scenario: Clicking the "reject" button - EULA page
   Given I go to the production account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -85,7 +83,7 @@ Scenario: Clicking the "reject" button - EULA page
   And I am redirected to a page with terms and conditions
   And when I click "Reject"
   Then I am redirected to the hosting website
-  And the account for "<USER_ACCOUNT>" is removed from SLI database
+  And the account for "<USER_ACCOUNT>" is removed from LDAP
 
 @production
 Scenario: Unhappy path: invalid form inputs
@@ -112,7 +110,6 @@ Scenario: Unhappy path: invalid form inputs
 @sandbox
 Scenario: As a user I request for a sandbox account
   Given I go to the sandbox account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -131,11 +128,11 @@ Scenario: As a user I request for a sandbox account
   Then I should see the text "Email Confirmed"
   And I should see the text "You will be receiving an email with more information about your account."
 
-@sandbox
+@wip DE821 @sandbox
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query the database for EULA acceptance
+  When I query LDAP for EULA acceptance
   Then I get 1 record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"

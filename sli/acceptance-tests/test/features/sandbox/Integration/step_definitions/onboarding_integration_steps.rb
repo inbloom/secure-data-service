@@ -1,22 +1,22 @@
 require "selenium-webdriver"
-require "mongo" 
-require 'approval' 
+require "mongo"
+require 'approval'
 require 'rumbster'
 require 'message_observers'
 require 'net/imap'
-require 'active_support/inflector' 
-require_relative '../../../utils/sli_utils.rb' 
-require_relative '../../../utils/selenium_common.rb' 
+require 'active_support/inflector'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
 
 
 SAMPLE_DATA_SET1_CHOICE = "ed_org_IL"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
-Before do 
+Before do
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-   
+
 end
 
 After do |scenario|
@@ -42,10 +42,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "devldapuser@slidev.org"                                   if human_readable_id == "Tenant_ID"
   #need to figure out what landing zone path is for real user provision instead of sunsetadmin
   id = "devldapuser@slidev.org"                                if human_readable_id == "Landing_zone_directory"
-  
+
   id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
   id = "mreynolds/StateEdorg"                                            if human_readable_id == "Prod_Landing_zone_directory"
-  
+
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
   id = "apps"                                             if human_readable_id == "URL_TO_APPLICATION_REGISTRATION"
@@ -74,14 +74,14 @@ Given /^I have a SMTP\/Email server configured$/ do
 
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
-  
+
   @admin_url = PropLoader.getProps['admintools_server_url']
   url=@admin_url+"/user_account_registrations/new"
-  @prod = false 
+  @prod = false
   initializeApprovalAndLDAP(@email_conf, @prod)
   clear_users()
   @driver.get url
-end 
+end
 
 Given /^there is no registered account for "([^"]*)" in the SLI database$/ do |email|
   removeUser(email)
@@ -94,7 +94,7 @@ end
 Given /^the developer type in first name "([^"]*)" and last name "([^"]*)"$/ do|first_name, last_name|
   fill_field("firstname",first_name)
   fill_field("lastname",last_name)
-    
+
 end
 
 Given /^the developer type in email "([^"]*)" and password "([^"]*)"$/ do |email, pass|
@@ -212,7 +212,7 @@ Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "
     end
     assert(found,"#{arg1} is not added in the application table")
     end
-                                                                                 
+
 end
 
 Then /^a request for a Landing zone is made with "([^"]*)" and "([^"]*)"$/ do |arg1, arg2|
@@ -247,7 +247,7 @@ Then /^the landing zone "([^"]*)" is saved in Ldap$/ do |landing_zone_path|
   puts user
   #after fix login issue for real user to provision instead of sunsetadmin, need to uncomment out
   assert(user[:homedir].include?(landing_zone_path),"landing zone: #{landing_zone_path} is not saved in Ldap")
-  
+
 end
 
 Then /^the tenantId "([^"]*)" is saved in Ldap$/ do |tenantId|
@@ -269,7 +269,7 @@ end
 Given /^I go to the production account registration page$/ do
   @admin_url = PropLoader.getProps['admintools_server_url']
   url="#{@admin_url}/registration"
-  @prod = true 
+  @prod = true
   initializeApprovalAndLDAP(@email_conf, @prod)
   clear_users()
   @driver.get url
@@ -296,7 +296,7 @@ end
 When /^the state super admin accesses the "([^"]*)"$/ do |link|
    @admin_url = PropLoader.getProps['admintools_server_url']
    url=@admin_url+"/"+link
-   @prod = true 
+   @prod = true
    initializeApprovalAndLDAP(@email_conf, @prod)
    @driver.get url
 end
@@ -313,11 +313,11 @@ end
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
    ldapBase=PropLoader.getProps['ldap_base']
-  # ldapBase = "ou=DevTest,dc=slidev,dc=org" 
-   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{") 
+  # ldapBase = "ou=DevTest,dc=slidev,dc=org"
+   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
    email = Emailer.new @email_conf
    ApprovalEngine.init(@ldap, email, nil, !prod)
- end 
+ end
 
 
 def verifyEmail
@@ -327,7 +327,7 @@ def verifyEmail
     imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
-    
+
     ids = imap.search(["FROM", @email_sender_name,"TO",@email])
     #puts ids
     content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
@@ -351,7 +351,7 @@ end
 def getVerificationLink
   if @email_content.include? "http://"
   link="http://"+@email_content.split("http://")[-1].split("\n")[0]
-  else 
+  else
   link="https://"+@email_content.split("https://")[-1].split("\n")[0]
   end
 end
@@ -360,8 +360,6 @@ def removeUser(email)
   if ApprovalEngine.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
-  coll = @db["userAccount"]
-  coll.remove("body.userName" => email)
 end
 
 def fill_field(field,value)
@@ -388,5 +386,5 @@ def clear_tenant
 end
 
 def clear_users
-  @ldap.delete_user('devldapuser@slidev.org')    
+  @ldap.delete_user('devldapuser@slidev.org')
 end
