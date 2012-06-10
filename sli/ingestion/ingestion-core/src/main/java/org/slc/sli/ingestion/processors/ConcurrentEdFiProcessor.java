@@ -59,7 +59,7 @@ public class ConcurrentEdFiProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
-    @Value("sli.ingestion.staging.index.policy")
+    @Value("${sli.ingestion.staging.index.policy}")
     private String stagingIndexPolicy;
 
     @Override
