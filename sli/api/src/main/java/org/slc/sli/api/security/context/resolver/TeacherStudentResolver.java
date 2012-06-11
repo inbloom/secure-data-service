@@ -31,7 +31,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
     private StudentSectionAssociationEndDateFilter dateFilter;
 
     @Value("${sli.security.gracePeriod}")
-    private String teacherSectionGracePeriod;
+    private String sectionGracePeriod;
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -61,11 +61,11 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        final String teacherSectionGraceDate = helper.getFilterDate(teacherSectionGracePeriod, calendar);
+        final String sectionGraceDate = helper.getFilterDate(sectionGracePeriod, calendar);
 
         for (Entity assoc : teacherSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(teacherSectionGraceDate, endDate))) {
+            if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate))) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
@@ -77,7 +77,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
         List<String> studentIds = new ArrayList<String>();
         for (Entity assoc : studentSectionAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate)) {
                 studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
             }
         }
@@ -103,7 +103,7 @@ public class TeacherStudentResolver implements EntityContextResolver {
             if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
                 if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
-                    programIds.addAll((List<String>)assoc.getBody().get(ParameterConstants.PROGRAM_ID));
+                    programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
             }
         }
