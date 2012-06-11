@@ -136,8 +136,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
-                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
-                        objectiveAssessments);
+                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
+                        getJob(), objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
                     LOG.info("Found objective assessment: {}", objectiveAssessmentRef);

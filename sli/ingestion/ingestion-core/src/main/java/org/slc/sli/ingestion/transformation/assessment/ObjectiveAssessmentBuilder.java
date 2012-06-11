@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +35,10 @@ public class ObjectiveAssessmentBuilder {
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
     public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
+    public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
+    
+    @Autowired
+    private CacheProvider cacheProvider;
     
     /**
      * Gets the specified objective assessment by first performing a look up on its '_id'
@@ -40,13 +50,24 @@ public class ObjectiveAssessmentBuilder {
      *            set of objective assessments to search for single objective assessment in.
      * @return Map representing the objective assessment.
      */
-    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentId,
-            Map<Object, NeutralRecord> objectiveAssessments) {
-        Map<String, Object> assessment = getObjectiveAssessment(objectiveAssessmentId, BY_ID, objectiveAssessments);
+    public Map<String, Object> getObjectiveAssessment(NeutralRecordMongoAccess access, Job job,
+            String objectiveAssessmentId) {
+        
+        String tenantId = job.getProperty("tenantId");
+        String batchJobId = job.getId();
+        
+        Map<String, Object> cached = getFromCache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId);
+        if (cached != null) {
+            return cached;
+        }
+        
+        LOG.debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
+        
+        Map<String, Object> assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_ID);
         if (assessment == null || assessment.isEmpty()) {
-            LOG.info("Couldn't find objective assessment: {} using its id --> Using identification code.",
+            LOG.debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
-            assessment = getObjectiveAssessment(objectiveAssessmentId, BY_IDENTIFICATION_CDOE, objectiveAssessments);
+            assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
             
             if (assessment == null || assessment.isEmpty()) {
                 LOG.warn(
@@ -54,11 +75,17 @@ public class ObjectiveAssessmentBuilder {
                         objectiveAssessmentId);
                 assessment = null;
             } else {
-                LOG.info("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
+                LOG.debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
             }
         } else {
-            LOG.info("Found objective assessment: {} using its id.", objectiveAssessmentId);
+            LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
+
+        if (assessment != null) {
+            LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
+            cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
+        }
+        
         return assessment;
     }
     
@@ -73,9 +100,10 @@ public class ObjectiveAssessmentBuilder {
      *            set of objective assessments to search for single objective assessment in.
      * @return Map representing the current objective assessment (containing all children as well).
      */
-    public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, String by,
-            Map<Object, NeutralRecord> objectiveAssessments) {
+    public Map<String, Object> getObjectiveAssessment(NeutralRecordMongoAccess access, String batchJobId,
+            String objectiveAssessmentRef, String by) {
         Set<String> parentObjs = Collections.emptySet();
+        Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
         return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by, objectiveAssessments);
     }
     
@@ -138,5 +166,44 @@ public class ObjectiveAssessmentBuilder {
             }
         }
         return null;
+    }
+    
+    /**
+     * Returns collection entities found in staging ingestion database. If a work note was not
+     * provided for
+     * the job, then all entities in the collection will be returned.
+     * 
+     * @param collectionName
+     *            name of collection to be queried for.
+     */
+    public Map<Object, NeutralRecord> loadAllObjectiveAssessments(NeutralRecordMongoAccess access, String batchJobId) {
+        Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
+        Iterable<NeutralRecord> data = access.getRecordRepository().findAllForJob(OBJECTIVE_ASSESSMENT, batchJobId,
+                new NeutralQuery(0));
+        Iterator<NeutralRecord> itr = data.iterator();
+        NeutralRecord record = null;
+        while (itr.hasNext()) {
+            record = itr.next();
+            all.put(record.getRecordId(), record);
+        }
+        return all;
+    }
+    
+    private Map<String, Object> getFromCache(String collection, String tenantId, String criteria) {
+        String key = composeKey(collection, tenantId, criteria);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> found = (Map<String, Object>) cacheProvider.get(key);
+        
+        return found;
+    }
+    
+    private void cache(String collection, String tenantId, String criteria, Map<String, Object> value) {
+        String key = composeKey(collection, tenantId, criteria);
+        cacheProvider.add(key, value);
+    }
+    
+    private String composeKey(String collection, String tenantId, String criteria) {
+        return String.format("%s_%s_%s", tenantId, collection, criteria);
     }
 }
