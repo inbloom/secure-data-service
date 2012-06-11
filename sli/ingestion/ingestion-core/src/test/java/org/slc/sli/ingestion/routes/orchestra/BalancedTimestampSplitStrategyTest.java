@@ -61,7 +61,7 @@ public class BalancedTimestampSplitStrategyTest {
         balancedTimestampSplitStrategy.setSplitChunkSize(5);
         List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
-        assertEquals(11, workNotes.size());
+        assertEquals(10, workNotes.size());
     }
 
     @SuppressWarnings("unused")

@@ -73,8 +73,10 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         String collectionName = stagedEntity.getCollectionNameAsStaged();
         long recordsInRange = getCountOfRecords(collectionName, min, max, jobId);
 
-        if (recordsInRange <= splitChunkSize || (max - min <= 1)) {
-            LOG.info("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
+        if (recordsInRange <= splitChunkSize * (1.0 + thresholdPct) || (max - min <= 1)) {
+            // we are within our target chunksize + margin.
+            // OR we have a chunk size that cannot be partitioned further.
+            LOG.debug("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
             return singleWorkNoteList(min, max, stagedEntity, jobId);
         }
 
@@ -102,22 +104,22 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
     private long findGoodPivot(long minTime, long maxTime, long recordsInRange, String collectionName, String jobId) {
         boolean pivotIsGood = false;
         long targetRecordCount = recordsInRange / 2;
-        long pivotLower = minTime;
-        long pivotUpper = maxTime;
+        long pivotLowerBound = minTime;
+        long pivotUpperBound = maxTime;
 
-        long pivot = minTime + ((maxTime - minTime) / 2);
+        long pivot = pivotLowerBound + ((pivotUpperBound - pivotLowerBound) / 2);
         while (!pivotIsGood) {
             long previousPivot = pivot;
             long recordsLeftOfPivot = getCountOfRecords(collectionName, minTime, pivot, jobId);
 
-            if (recordsLeftOfPivot <= targetRecordCount * (1.0 - thresholdPct)) {
+            if (recordsLeftOfPivot < targetRecordCount * (1.0 - thresholdPct)) {
                 // move pivot right
-                pivotLower = pivot;
-                pivot = pivot + ((pivotUpper - pivot) / 2);
-            } else if (recordsLeftOfPivot >= targetRecordCount * (1.0 + thresholdPct)) {
+                pivotLowerBound = pivot;
+                pivot = pivot + ((pivotUpperBound - pivot) / 2);
+            } else if (recordsLeftOfPivot > targetRecordCount * (1.0 + thresholdPct)) {
                 // move pivot left
-                pivotUpper = pivot;
-                pivot = pivot - ((pivot - pivotLower) / 2);
+                pivotUpperBound = pivot;
+                pivot = pivot - ((pivot - pivotLowerBound) / 2);
             } else {
                 pivotIsGood = true;
             }
