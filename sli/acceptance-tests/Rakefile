@@ -298,6 +298,17 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
+  else                                                   Wo
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Change Password Selenium Tests"
+task :changePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/change_password.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
   else
     raise "Tests have failed"
   end

@@ -7,6 +7,7 @@ class ApplicationMailer < ActionMailer::Base
   VERIFY_EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
   PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "SLC Landing Zone Setup"
+  PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
 
   def welcome_email(user)
     @firstName = user[:first]
@@ -14,6 +15,11 @@ class ApplicationMailer < ActionMailer::Base
     @portal_link = APP_CONFIG["portal_url"]
     @apps_link = "#{APP_CONFIG['email_replace_uri']}/apps"
     mail(:to => user[:emailAddress], :subject => (APP_CONFIG["is_sandbox"]?WELCOME_EMAIL_SUBJECT_SANDBOX : WELCOME_EMAIL_SUBJECT_PROD))
+  end
+
+  def notify_password_change(email_address, fullName)
+    @fullName = fullName
+    mail(:to => email_address, :subject => PASSWORD_CHANGE_SUBJECT )
   end
   
   def verify_email(email_address, firstName, userEmailValidationLink)
