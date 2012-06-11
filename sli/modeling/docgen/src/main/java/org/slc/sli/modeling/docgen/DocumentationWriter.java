@@ -25,14 +25,13 @@ import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Feature;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.UmlPackage;
+import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
 import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
@@ -123,18 +122,18 @@ public final class DocumentationWriter {
             throw new NullPointerException("value");
         }
         switch (value) {
-            case ZERO: {
-                return "0";
-            }
-            case ONE: {
-                return "1";
-            }
-            case UNBOUNDED: {
-                return "*";
-            }
-            default: {
-                throw new AssertionError(value);
-            }
+        case ZERO: {
+            return "0";
+        }
+        case ONE: {
+            return "1";
+        }
+        case UNBOUNDED: {
+            return "*";
+        }
+        default: {
+            throw new AssertionError(value);
+        }
         }
     }
 
@@ -211,7 +210,7 @@ public final class DocumentationWriter {
             try {
                 xsw.writeStartElement(DocumentationElements.NAMESPACE.getLocalPart());
                 try {
-                    xsw.writeCharacters(getNamespace(parent, model));
+                    xsw.writeCharacters(NamespaceHelper.getNamespace(parent, model));
                 } finally {
                     xsw.writeEndElement();
                 }
@@ -225,16 +224,6 @@ public final class DocumentationWriter {
                 xsw.writeEndElement();
             }
         }
-    }
-
-    private static final String getNamespace(final Type type, final ModelIndex model) {
-        for (final ModelElement whereUsed : model.whereUsed(type.getId())) {
-            if (whereUsed instanceof UmlPackage) {
-                final UmlPackage pkg = (UmlPackage) whereUsed;
-                return pkg.getName();
-            }
-        }
-        return "";
     }
 
     private static final void writeEnumType(final EnumType enumType, final ModelIndex model, final XMLStreamWriter xsw)

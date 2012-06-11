@@ -17,7 +17,5 @@ public interface WadlHandler {
 
     void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
 
-    void beginMethod(Method method, Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
-
-    void endMethod(Method method, Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
+    void method(Method method, Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
 }

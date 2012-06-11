@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmi2Java.cmdline;
+package org.slc.sli.modeling.sdkgen;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,7 +31,7 @@ import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
-public final class JavaGenerator {
+public final class Level3PojoGenerator {
 
     public static void main(final String[] args) {
         try {
@@ -40,6 +40,30 @@ public final class JavaGenerator {
                     "./../../modeling/shtick/src/main/java/org/slc/sli/shtick/pojo", "org.slc.sli.shtick.pojo", config);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static final void doModel(final ModelIndex model, final File dir, final String targetPkgName,
+            final JavaGenConfig config) throws FileNotFoundException {
+        for (final ClassType classType : model.getClassTypes()) {
+            final String fileName = classType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            final List<String> importNames = new ArrayList<String>();
+            importNames.add("java.math.*");
+            importNames.add("java.util.*");
+            ClassTypeHelper.writeClassType(targetPkgName, importNames, classType, model, file, config);
+        }
+        for (final EnumType enumType : model.getEnumTypes()) {
+            final String fileName = enumType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            writeEnumType(targetPkgName, enumType, model, file, config);
+        }
+        for (final DataType dataType : model.getDataTypes().values()) {
+            final String fileName = dataType.getName().concat(".java");
+            final File file = new File(dir, fileName);
+            if (!NamespaceHelper.getNamespace(dataType, model).equals("http://www.w3.org/2001/XMLSchema")) {
+                writeDataType(targetPkgName, dataType, model, file, config);
+            }
         }
     }
 
@@ -76,7 +100,11 @@ public final class JavaGenerator {
             try {
                 writeDataType(targetPkgName, dataType, model, outstream, config);
             } finally {
-                CloseableHelper.closeQuiet(outstream);
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
@@ -162,7 +190,11 @@ public final class JavaGenerator {
             try {
                 writeEnumType(targetPkgName, enumType, model, outstream, config);
             } finally {
-                CloseableHelper.closeQuiet(outstream);
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (final FileNotFoundException e) {
             e.printStackTrace();

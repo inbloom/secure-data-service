@@ -23,7 +23,11 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
         this.xmlSchemas = Collections.unmodifiableList(new ArrayList<XmlSchema>(xmlSchemas));
     }
 
+    @Override
     public SdkGenElement getElement(final QName name) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
         for (final XmlSchema xmlSchema : xmlSchemas) {
             final XmlSchemaElement element = xmlSchema.getElementByName(name);
             if (element != null) {
