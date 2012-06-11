@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import javax.xml.namespace.QName;
 
+import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
@@ -63,8 +64,12 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
                 jsw.writeComment(method.getId());
                 jsw.beginStmt();
                 try {
-                    jsw.write("List<Entity> " + method.getId()
-                            + "(final String token) throws IOException, SLIDataStoreException");
+                    jsw.write("List<Entity> " + method.getId());
+                    jsw.write("(");
+                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(method, resource,
+                            resources, application, ancestors);
+                    jsw.writeParams(params);
+                    jsw.write(") throws IOException, SLIDataStoreException");
                     @SuppressWarnings("unused")
                     // Perhaps modify this method to generate a different naming scheme?
                     final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);

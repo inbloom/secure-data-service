@@ -23,6 +23,11 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     private static final String LF = "\n";
     private static final String DBLQTE = "\"";
 
+    /**
+     * Keep state so that we can make some smarter choices.
+     */
+    private boolean insideInterface = false;
+
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
@@ -146,6 +151,7 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(name);
         beginBlock();
+        insideInterface = true;
     }
 
     @Override
@@ -237,12 +243,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
-    public void writeOverride() throws IOException {
-        writer.write("@Override");
-        writer.write(CR);
-    }
-
-    @Override
     public void writeComment(final String comment) throws IOException {
         writer.write(CR);
         writer.write("/**");
@@ -331,10 +331,36 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void writeOverride() throws IOException {
+        writer.write("@Override");
+        writer.write(CR);
+    }
+
+    @Override
     public void writePackage(final String name) throws IOException {
         writer.write("package");
         writer.write(SPACE);
         writer.write(name);
         writer.write(SEMICOLON);
+    }
+
+    @Override
+    public void writeParams(final List<JavaParam> params) throws IOException {
+        boolean first = true;
+        for (final JavaParam param : params) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            if (!insideInterface && param.isFinal()) {
+                writer.write("final");
+                writer.write(SPACE);
+            }
+            writer.write(param.getType());
+            writer.write(SPACE);
+            writer.write(param.getName());
+        }
     }
 }

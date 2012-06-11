@@ -52,4 +52,6 @@ public interface JavaStreamWriter extends Flushable, Closeable {
     void writeOverride() throws IOException;
 
     void writePackage(String name) throws IOException;
+
+    void writeParams(List<JavaParam> params) throws IOException;
 }

@@ -7,6 +7,8 @@ import java.util.Stack;
 
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
+import org.slc.sli.modeling.rest.Param;
+import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 
@@ -14,6 +16,24 @@ public final class WadlHelper {
 
     private WadlHelper() {
         // Prevent normal initialization.
+    }
+
+    /**
+     * Returns a list of request parameters for the specified method.
+     * <p>
+     * This method is safe in the case that the method has no request child.
+     * </p>
+     */
+    public static List<Param> getRequestParams(final Method method) {
+        if (method == null) {
+            throw new NullPointerException();
+        }
+        final Request request = method.getRequest();
+        if (request != null) {
+            return request.getParams();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public static final String computeId(final Method method, final Resource resource, final Resources resources,
@@ -52,9 +72,9 @@ public final class WadlHelper {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
-    public static final List<String> reverse(final List<String> strings) {
-        final LinkedList<String> result = new LinkedList<String>();
-        for (final String s : strings) {
+    public static final <T> List<T> reverse(final List<T> strings) {
+        final LinkedList<T> result = new LinkedList<T>();
+        for (final T s : strings) {
             result.addFirst(s);
         }
         return Collections.unmodifiableList(result);
