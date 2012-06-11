@@ -5,12 +5,19 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.constants.v1.PathConstants;
 
 /**
  * @author jstokes
  */
 public final class StandardLevel2ClientManual implements Level2ClientManual {
+
+    // TODO: pull in via properties
+    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1/";
+
+    private static final String SEP = "/";
 
     private final Level1Client client;
 
@@ -30,7 +37,13 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         if (studentIds == null) {
             throw new NullPointerException("studentIds");
         }
-        return null;  // To change body of implemented methods use File | Settings | File Templates.
+
+        try {
+            return client.getRequest(token, new URL(
+                    BASE_URL + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
+        } catch (URISyntaxException e) {
+            throw new AssertionError(e);
+        }
     }
 
     @Override
@@ -38,8 +51,9 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         if (token == null) {
             throw new NullPointerException("token");
         }
+
         try {
-            return client.getRequest(token, new URL("TODO"));
+            return client.getRequest(token, new URL(BASE_URL + PathConstants.STUDENTS));
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
