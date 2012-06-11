@@ -1,5 +1,4 @@
 require "selenium-webdriver"
-require "mongo"
 require 'approval'
 require 'active_support/inflector'
 require_relative '../../utils/sli_utils.rb'
@@ -7,7 +6,6 @@ require_relative '../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
   @baseUrl = PropLoader.getProps['admintools_server_url']
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
@@ -40,11 +38,6 @@ Given /^I go to the account registration page$/ do
   @driver.get userRegAppUrl
 end
 
-Given /^there is no registered account for "([^\"]*)" in the SLI database$/ do |email|
-  removeUser(email)
-  step "the account for \"#{email}\" is removed from SLI database"
-end
-
 Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
   removeUser(email)
   assert(!ApprovalEngine.user_exists?(email), "#{email} still exists in LDAP")
@@ -61,7 +54,9 @@ Given /^I go to the sandbox account registration page$/ do
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
-   # DE821 TODO - implement this using LDAP
+   assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
+   user = ApprovalEngine.get_user(email)
+   assert(usr[:status] == ApprovalEngine.STATE_APPROVED, "#{email} is not approved.")
 end
 
 ###############################################################################
@@ -75,8 +70,10 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
     ]").send_keys(value)
 end
 
-When /^I query LDAP for EULA acceptance$/ do
-# DE821 TODO -- implement this
+When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|
+   assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
+   user = ApprovalEngine.get_user(email)
+   assert(usr[:status] == ApprovalEngine.STATE_EULA_ACCEPTED, "#{email} did not accept the EULA.")
 end
 
 When /^I visit "([^\"]*)"$/ do |link|
@@ -166,9 +163,8 @@ Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
          "Cannot find error message \"#{errorMsg}\"")
 end
 
-Then /^the account for "([^\"]*)" is removed from SLI database$/ do |email|
-  records = getRecordsFromMongo("body.userName", email)
-  assert(records.size == 0, "Account for #{email} is not removed")
+Then /^the account for "([^\"]*)" is removed from LDAP$/ do |email|
+   assert(ApprovalEngine.user_exists?(email), "Account for #{email} is not removed")
 end
 
 ###############################################################################
