@@ -116,9 +116,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         factory.makeEntity(EntityNames.LEARNINGOBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
         factory.makeEntity(EntityNames.LEARNINGSTANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS)
-                .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
-                .buildAndRegister(this);
         factory.makeEntity(EntityNames.WAITING_LIST_USER_ACCOUNT, ResourceNames.WAITING_LIST_USER_ACCOUNTS)
         .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
         .buildAndRegister(this);
