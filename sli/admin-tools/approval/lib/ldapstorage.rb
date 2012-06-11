@@ -107,8 +107,8 @@ class LDAPStorage
 
     # Initialize the module
     def initialize(host, port, base, username, password)
-         @people_base = "ou=people,#{base}"
-         @group_base  = "ou=groups,#{base}"
+        @people_base = "ou=people,#{base}"
+        @group_base  = "ou=groups,#{base}"
         @ldap_conf = { 
             :host => host,
             :port => port,
@@ -164,7 +164,7 @@ class LDAPStorage
         end
         
         LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-			value = e_user_info[rec_k]
+            value = e_user_info[rec_k]
             attributes[ldap_k] = value 
         end
 
