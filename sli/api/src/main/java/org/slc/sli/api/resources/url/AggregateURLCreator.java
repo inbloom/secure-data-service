@@ -32,7 +32,7 @@ public class AggregateURLCreator extends URLCreator {
         List<EmbeddedLink> urls = new ArrayList<EmbeddedLink>();
         
         // iterate through the aggregations and build the embedded links list
-        BasicService.addDefaultQueryParams(neutralQuery, ResourceConstants.ENTITY_TYPE_AGGREGATION);
+//        BasicService.addDefaultQueryParams(neutralQuery, ResourceConstants.ENTITY_TYPE_AGGREGATION);
         for (Entity e : repo.findAll(ResourceConstants.ENTITY_TYPE_AGGREGATION, neutralQuery)) {
             urls.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), ResourceUtil.getURI(uriInfo,
                     ResourceConstants.ENTITY_EXPOSE_TYPE_AGGREGATIONS, e.getEntityId()).toString()));

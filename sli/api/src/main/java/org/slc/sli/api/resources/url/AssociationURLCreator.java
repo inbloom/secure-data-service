@@ -69,7 +69,7 @@ public class AssociationURLCreator extends URLCreator {
                     debug("entityDef type : {}", entityDef.getType());
                     
                     // get the actual associations
-                    BasicService.addDefaultQueryParams(neutralQuery, assoc.getStoredCollectionName());
+//                    BasicService.addDefaultQueryParams(neutralQuery, assoc.getStoredCollectionName());
                     Iterable<Entity> entityList = repo.findAll(assoc.getStoredCollectionName(), neutralQuery);
                     debug("assoc type : {}", assoc.getType());
                     

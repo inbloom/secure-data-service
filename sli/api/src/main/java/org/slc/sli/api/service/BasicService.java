@@ -304,7 +304,7 @@ public class BasicService implements EntityService {
      * @return
      *         The modified neutral query
      */
-    public static NeutralQuery addDefaultQueryParams(NeutralQuery query, String collectionName) {
+    protected NeutralQuery addDefaultQueryParams(NeutralQuery query, String collectionName) {
         if (query == null) {
             query = new NeutralQuery();
         }
@@ -314,8 +314,7 @@ public class BasicService implements EntityService {
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             if(principal == null || principal.getTenantId() == null) {
-//                debug("A user is attempting to access collection: " + collectionName + "with null tenantId." );
-                System.err.println("A user is attempting to access collection: " + collectionName + "with null tenantId." );
+                debug("A user is attempting to access collection: " + collectionName + "with null tenantId." );
                 return query;
             }
             // make sure a criterion for tenantId has not already been added to this query
@@ -324,7 +323,7 @@ public class BasicService implements EntityService {
             if (criteria != null) {
                 ListIterator<NeutralCriteria> li = criteria.listIterator();
                 while (li.hasNext()) {
-                    if ("metadata.tenantId".equals(li.next().getKey())) {
+                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
                         addCrit = false;
                         break;
                     }
@@ -774,7 +773,7 @@ public class BasicService implements EntityService {
         // Check that target entity actually exists
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, entityId));
-        BasicService.addDefaultQueryParams(query, collectionName);
+        this.addDefaultQueryParams(query, collectionName);
         if (repo.findOne(collectionName, query) == null) {
 //        if (repo.findById(collectionName, entityId) == null) {
             warn("Could not find {}", entityId);
