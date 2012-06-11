@@ -59,6 +59,52 @@ expected={"900K" => {
   "teacherSectionAssociation"=>3125
   },
     
+       "1M" => {
+  "assessment"=>163,
+  "attendance"=>446208,#????
+  "calendarDate"=>24,
+  "cohort"=>12,
+  "course"=>288,
+  "courseOffering"=>0,
+  "courseSectionAssociation"=>0,
+  "disciplineAction"=>810,
+  "disciplineIncident"=>5742,
+  "educationOrganization"=>8,
+  "educationOrganizationAssociation"=>135,
+  "educationOrganizationSchoolAssociation"=>0,
+  "gradebookEntry"=>0,
+  "gradingPeriod"=>48,
+  "learningObjective"=>45,
+  "parent"=>5977,
+  "program"=>9,
+  "school"=>0,
+  "schoolSessionAssociation"=>8, 
+  "section"=>4032,
+  "sectionAssessmentAssociation"=>0,
+  "sectionSchoolAssociation"=>0,
+  "session"=>12,
+  "sessionCourseAssociation"=>0,
+  "staff"=>459,
+  "staffCohortAssociation"=>0,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>145,
+  "student"=>3984,
+  "studentAcademicRecord"=>0,
+  "studentAssessmentAssociation"=>39840,
+  "studentCohortAssociation"=>99103,
+  "studentDisciplineIncidentAssociation"=>396198,
+  "studentParentAssociation"=>5977,
+  "studentProgramAssociation"=>78047,
+  "studentSchoolAssociation"=>3984,
+  "studentSectionAssociation"=>55776,
+  "studentSectionGradebookEntry"=>3984,
+  "studentTranscriptAssociation"=>0,
+  "teacher"=>0,
+  "teacherSchoolAssociation"=>324,
+  "teacherSectionAssociation"=>4032
+  },
+  
+    
   "8M" => {
   "assessment"=>163,
   "attendance"=>30544,#3420928
