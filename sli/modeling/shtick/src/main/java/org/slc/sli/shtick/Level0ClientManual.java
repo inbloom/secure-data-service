@@ -1,4 +1,4 @@
-package org.slc.sli.shtick.client;
+package org.slc.sli.shtick;
 
 
 import javax.ws.rs.core.Response;
