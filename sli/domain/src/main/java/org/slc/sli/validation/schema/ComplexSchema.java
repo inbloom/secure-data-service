@@ -1,6 +1,5 @@
 package org.slc.sli.validation.schema;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -72,16 +71,18 @@ public class ComplexSchema extends NeutralSchema {
                 NeutralSchema schema = entry.getValue();
                 AppInfo appInfo = schema.getAppInfo();
                 if (appInfo != null && appInfo.isRequired()) {
-                    Object element = entityMap.get(entry.getKey());
-                    if (element == null) {
+                    if (!entityMap.containsKey(entry.getKey())) {
                         isValid = false;
-                    } else if (element instanceof Collection) {
-                        if (((Collection<?>) element).isEmpty()) {
-                            isValid = false;
-                        }
-                    } else if (element instanceof Map) {
-                        if (((Map<?, ?>) element).isEmpty()) {
-                            isValid = false;
+                    } else {
+                        Object element = entityMap.get(entry.getKey());
+                        if (element instanceof List) {
+                            if (((List<?>) element).isEmpty()) {
+                                isValid = false;
+                            }
+                        } else if (element instanceof Map) {
+                            if (((Map<?, ?>) element).isEmpty()) {
+                                isValid = false;
+                            }
                         }
                     }
 
