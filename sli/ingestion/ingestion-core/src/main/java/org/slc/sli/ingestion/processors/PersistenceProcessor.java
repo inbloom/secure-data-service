@@ -180,15 +180,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         try {
 
-            Map<Object, NeutralRecord> records = getCollectionFromDb(collectionToPersistFrom, job.getId(), workNote);
+            Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
 
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : records.entrySet()) {
+            for (NeutralRecord neutralRecord : records) {
                 numFailed = 0;
 
                 recordNumber++;
                 persistedFlag = false;
-
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
 
@@ -501,29 +499,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
-
-    public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName, String jobId, WorkNote workNote) {
+    public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+                .lt(workNote.getRangeMaximum());
         Query query = new Query();
-
-        Iterable<NeutralRecord> data;
-
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
         query.addCriteria(limiter);
 
-        data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName, query, jobId);
-
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
-        while (neutralRecordIterator.hasNext()) {
-            tempNr = neutralRecordIterator.next();
-            collection.put(tempNr.getRecordId(), tempNr);
-        }
-
-        LOG.info("Retrieved " + collection.size() + " records from staged collection " + collectionName + " for interval " + workNote.getRangeMinimum() + " / " + workNote.getRangeMaximum());
-
-        return collection;
+        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName,
+                query, jobId);
+        return data;
     }
 
     @Override
