@@ -83,6 +83,7 @@ development_sb:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    maximum_user_count: 500
     
 team:
     <<: *common
@@ -135,6 +136,7 @@ team_sb:
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    maximum_user_count: 500
     
 test:
     <<: *common
