@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -54,6 +53,6 @@ public class AllowAllEntityContextResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         // Only include allow-all resolver for specific entities that are supposed to be completely public
-        return EntityNames.WAITING_LIST_USER_ACCOUNT.equals(toEntityType);
+        return false;
     }
 }
