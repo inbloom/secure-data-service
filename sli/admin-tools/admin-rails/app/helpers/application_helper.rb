@@ -50,6 +50,9 @@ module ApplicationHelper
     if (email_token.nil?)
       return false
     end
+    
+    ApprovalEngine.change_user_status(email_address, "accept_eula")
+    
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
     ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
     true
