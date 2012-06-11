@@ -15,15 +15,15 @@ Scenario Outline:  SEA/LEA user with a valid Default SLI Role making API call
 Given  I am valid SEA/LEA end user <Username> with password <Password>
 And I have a Role attribute returned from the "SLI"
 And the role attribute equals <AnyDefaultSLIRole>
-And I am authenticated on "SLI"
+And I am authenticated on "IL"
 When I make a REST API call 
 Then I get the JSON response displayed
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |
-| "educator"      | "educator1234"      | "Educator"         |
+| "linda.kim"      | "linda.kim1234"      | "Educator"         |
 #| "aggregator"    | "aggregator1234"    | "Aggregate Viewer" |  We need data and associated getters and setters for aggregate data before we can run this specific test
-| "administrator" | "administrator1234" | "IT Administrator" |
-| "leader"        | "leader1234"        | "Leader"           |
+| "jstevenson" | "jstevenson1234" | "IT Administrator" |
+| "sbantu"        | "sbantu1234"        | "Leader"           |
 
 Scenario:  SEA/LEA user with an invalid Default SLI Role making API call
  
@@ -46,8 +46,8 @@ Then I get response that I am not authorized to do that operation because I do n
 #@wip
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
-Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
-And I am authenticated on "SLI"
+Given  I am valid SEA/LEA end user "jstevenson" with password "jstevenson1234" 
+And I am authenticated on "IL"
 And the role attribute equals "IT Administrator"
 And "IT Administrator" is allowed to change Student address
 When I make an API call to change the Student address to "1234 Somewhere"
@@ -59,15 +59,15 @@ Then the Student address is changed
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
-And I am authenticated on "SLI"
+And I am authenticated on "IL"
 And the role attribute equals <Role>
 And <Role> is not allowed to change Student address
 When I make an API call to change the Student address to "9876 Nowhere"
 Then a message is displayed that the <Role> role does not allow this action 
 Examples:
 | Username   | Password       | Role       |
-| "educator" | "educator1234" | "Educator" |
-| "leader"   | "leader1234"   | "Leader"   |
+| "linda.kim" | "linda.kim1234" | "Educator" |
+| "sbantu"   | "sbantu1234"   | "Leader"   |
 
 Scenario: Unauthorized SLI Default Role trying to view Student object
 
@@ -82,8 +82,8 @@ Then a message is displayed that the "Aggregate Viewer" role cannot view this da
 #@wip
 Scenario: Authorized SLI Default Role trying to view Student restricted field
 
-Given  I am valid SEA/LEA end user "leader" with password "leader1234"
-And I am authenticated on "SLI"
+Given  I am valid SEA/LEA end user "sbantu" with password "sbantu1234"
+And I am authenticated on "IL"
 And the role attribute equals "Leader"
 And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data

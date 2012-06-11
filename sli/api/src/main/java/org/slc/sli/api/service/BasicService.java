@@ -60,15 +60,8 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final String METADATA = "metaData";
-    private static final String collectionsExcluded = "tenant, userSession, realm, userAccount, roles,  application, applicationAuthorization";
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>();
-
-    static {
-        String[] collections = collectionsExcluded.split(",");
-        for (String collection : collections) {
-            NOT_BY_TENANT.add(collection.trim());
-        }
-    }
+    private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
+    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -590,7 +583,6 @@ public class BasicService implements EntityService {
         }
     }
     
-    //DE719 -- Need to fix this method
     private void checkReferences(EntityBody eb) {
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
@@ -615,7 +607,7 @@ public class BasicService implements EntityService {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
-                            neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
+                            neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, cur));
 //                            this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -627,7 +619,8 @@ public class BasicService implements EntityService {
                         }
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
-                        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
+                        this.addDefaultQueryParams(neutralQuery, entityType);
+                        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, (String) value));
 //                        this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -644,7 +637,7 @@ public class BasicService implements EntityService {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
-                            neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
+                            neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, cur));
 //                            this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -656,7 +649,7 @@ public class BasicService implements EntityService {
                         }
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
-                        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
+                        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, (String) value));
 //                        this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -793,7 +786,6 @@ public class BasicService implements EntityService {
      * @param entityId The id to check
      * @return
      */
-    //DE719 - Need to check this one
     private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
         NeutralCriteria securityCriteria = findAccessible(toType);
         List<String> allowed = (List<String>) securityCriteria.getValue();
