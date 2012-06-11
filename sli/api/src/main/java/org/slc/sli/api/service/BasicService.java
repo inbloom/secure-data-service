@@ -591,7 +591,6 @@ public class BasicService implements EntityService {
         }
     }
     
-    //DE719 -- Need to fix this method
     private void checkReferences(EntityBody eb) {
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
@@ -612,7 +611,7 @@ public class BasicService implements EntityService {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
-                            neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
+                            neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, cur));
                             this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -624,7 +623,7 @@ public class BasicService implements EntityService {
                         }
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
-                        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
+                        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, (String) value));
                         this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -641,7 +640,7 @@ public class BasicService implements EntityService {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
-                            neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
+                            neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, cur));
                             this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -653,7 +652,7 @@ public class BasicService implements EntityService {
                         }
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
-                        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
+                        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, (String) value));
                         this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
@@ -794,7 +793,6 @@ public class BasicService implements EntityService {
      * @param entityId The id to check
      * @return
      */
-    //DE719 - Need to check this one
     private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
         NeutralCriteria securityCriteria = findAccessible(toType);
         List<String> allowed = (List<String>) securityCriteria.getValue();
