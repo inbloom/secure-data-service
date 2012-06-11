@@ -102,13 +102,18 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                 jsw.writeOverride();
                 jsw.beginStmt();
                 try {
+                    // FIXME: This method call does not have any parameters.
                     jsw.write("public List<Entity> " + method.getId()
                             + "(final String token) throws IOException, SLIDataStoreException");
                     jsw.beginBlock();
                     try {
                         jsw.write("try");
                         jsw.beginBlock();
-                        jsw.beginStmt().write("return client.getRequest(token, new URL(\"TODO\"))").endStmt();
+                        // FIXME: This URI does not have a substitution for the template parameter.
+                        final String uri = computeURI(resource, resources, application, ancestors);
+
+                        jsw.beginStmt().write("final String url = ").dblQte().write(uri).dblQte().endStmt();
+                        jsw.beginStmt().write("return client.getRequest(token, new URL(url))").endStmt();
                         jsw.endBlock();
                         jsw.write("catch(final URISyntaxException e)");
                         jsw.beginBlock();
@@ -151,5 +156,29 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
     public void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Computes the URI for the specified resource and its ancestors.
+     */
+    private static final String computeURI(final Resource resource, final Resources resources, final Application app,
+            final Stack<Resource> ancestors) {
+        final List<String> steps = WadlHelper.toSteps(resource, ancestors);
+
+        final StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (final String step : steps) {
+            if (WadlHelper.isVersion(step)) {
+                // Ignore
+            } else {
+                if (first) {
+                    first = false;
+                } else {
+                    sb.append("/");
+                }
+                sb.append(step);
+            }
+        }
+        return sb.toString();
     }
 }
