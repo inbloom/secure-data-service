@@ -43,6 +43,8 @@ Scenario: Read endpoint1 of an association and confirm presentation of links
      And in each entity, I should receive a link named "<ASSOCIATION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>"
      And in each entity, I should receive a link named "<ENDPOINT2 RESOLUTION LINK NAME>" with URI "/<ENDPOINT1 URI>/<ENDPOINT1 ID>/<ASSOCIATION URI>/<ENDPOINT2 URI>"
 
+#DE719
+@wip
 Scenario: Read endpoint2 of an association and confirm presentation of links
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID>/<ENDPOINT2 URI>"
     Then I should receive a return code of 200

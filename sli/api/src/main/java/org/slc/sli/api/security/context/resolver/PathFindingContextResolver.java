@@ -17,6 +17,7 @@ import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
+import org.slc.sli.api.service.BasicService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -96,6 +97,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.isReferenceInSelf()) {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
+                BasicService.addDefaultQueryParams(neutralQuery, repoName);
                 Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
                 for (Entity entity : entities) {
                     Object fieldData = entity.getBody().get(connection.getFieldName());

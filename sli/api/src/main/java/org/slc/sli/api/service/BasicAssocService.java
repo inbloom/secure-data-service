@@ -84,10 +84,12 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<String> srcId = getIds(content, sourceKey);
         List<String> targetId = getIds(content, targetKey);
         
-        Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id",
-                "=", srcId, false)));
-        Iterable<Entity> targetEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id",
-                "=", targetId, false)));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", "=", srcId, false));
+        BasicService.addDefaultQueryParams(query, sourceCollection);
+        Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, query);
+        query = new NeutralQuery(new NeutralCriteria("_id", "=", targetId, false));
+        BasicService.addDefaultQueryParams(query, sourceCollection);
+        Iterable<Entity> targetEntities = repo.findAll(sourceCollection, query);
         
         for (Entity sourceEntity : sourceEntities) {
             for (Entity targetEntity : targetEntities) {
@@ -217,6 +219,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        BasicService.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         final Iterable<String> results = getRepo().findAllIds(otherEntityDefn.getStoredCollectionName(),
                 localNeutralQuery);
@@ -260,6 +263,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
+        BasicService.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().findAll(getCollectionName(), localNeutralQuery);
     }
@@ -268,6 +272,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
             final NeutralQuery neutralQuery) {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
+        BasicService.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }

@@ -1,5 +1,7 @@
 package org.slc.sli.api.jersey;
 
+import java.security.Principal;
+
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
@@ -34,6 +36,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
+        Principal p = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     private void recordStartTime(ContainerRequest request) {

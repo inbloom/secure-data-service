@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.service.BasicService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -127,6 +128,7 @@ public class AssociativeContextHelper {
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(9999);
+        BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }

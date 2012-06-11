@@ -45,6 +45,8 @@ Examples:
 | "IL"  | "ejane"  | "ejane1234" | "Watson Elementary School"  | "Elizabeth Jane" |
 | "IL"  | "jdoe"   | "jdoe1234"  | "Fry High School"           | "John Doe 1"     |
 
+#DE719
+@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Teachers within own School
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
