@@ -3,8 +3,8 @@
 <% end %>
 
 <%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
-<% def print(f, field, field_name, is_password_field, password_field = nil) %>
-    <% required = required?(@user_account_registration, field) %>
+<% def print(f, field, field_name, is_password_field, password_field = nil, is_force_required = false) %>
+    <% required = is_force_required || required?(@user_account_registration, field) %>
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
         <% error = " error" %>
@@ -62,7 +62,7 @@
       <% print f, :vendor, "Company", false %>
       <% print f, :email, "Email", false %>
       <% print f, :password, "Password", true, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation %>
+      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation, true %>
       <div style="margin-bottom: 9px;">
         <span style="color:red;">*</span> = required fields
       </div>
