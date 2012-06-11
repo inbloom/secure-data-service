@@ -39,7 +39,7 @@ Scenario: As a user I request for a production account
 @production
 Scenario: As an slc operator I want to register unique user accounts in the system
   Given I go to the production account registration page
-  And there is an approved account with login name "<USER_ACCOUNT>"
+  And there is an pending account with login name "<USER_ACCOUNT>"
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
@@ -52,13 +52,12 @@ Scenario: As an slc operator I want to register unique user accounts in the syst
 @production
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
-  And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query LDAP for EULA acceptance
-  Then I get 1 record for "<USER_ACCOUNT>"
+  And there is an pending account with login name "<USER_ACCOUNT>"
+  When I query LDAP for EULA acceptance for account with login name "<USER_ACCOUNT>"
+  Then I get a record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "<USER_ACCOUNT_EMAIL>"
-  And "Environment" is "Production"
   And "Vendor" is "Acme Corp"
 
 @production

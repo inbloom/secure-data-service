@@ -53,10 +53,10 @@ Given /^I go to the sandbox account registration page$/ do
   initializeApprovalAndLDAP(@emailConf, @prod)
 end
 
-Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
+Given /^there is an (\w+) account with login name "([^\"]*)"$/ do |status, email|
    assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
    user = ApprovalEngine.get_user(email)
-   assert(user[:status] == ApprovalEngine.STATE_APPROVED, "#{email} is not approved.")
+   assert(user[:status] == status, "#{email} has status #{user[:status]}, expected #{status}.")
 end
 
 ###############################################################################
@@ -73,7 +73,7 @@ end
 When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|
    assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
    user = ApprovalEngine.get_user(email)
-   assert(usr[:status] == ApprovalEngine.STATE_EULA_ACCEPTED, "#{email} did not accept the EULA.")
+   assert(user[:status] == "eula-accepted" || user[:status] == "pending" || user[:status] == "approved", "#{email} did not accept the EULA.")
 end
 
 When /^I visit "([^\"]*)"$/ do |link|
@@ -128,24 +128,23 @@ Then /^I am directed to an acknowledgement page.$/ do
   assertText("Be on the lookout for a confirmation email.")
 end
 
-Then /^I get (\d+) record for "([^\"]*)"$/ do |count, email|
-  foundRecords = 0
-  @validatedRecords.each do |record|
-    if (record["body"]["userName"] == email)
-      foundRecords = foundRecords + 1
-    end
-  end
-  assert(foundRecords == convert(count), "Expected #{count}, received #{foundRecords}")
+Then /^I get a record for "([^\"]*)"$/ do |email|
+  @record = ApprovalEngine.get_user(email)
+  @record.should_not == nil
 end
 
 Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|
-  key = toCamelCase(inKey)
-  if (@validatedRecords.size == 1)
-    assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{inKey},
-        received #{@validatedRecords[0]["body"][key]}")
-  else
-    raise("Error: received more than 1 record (unhandled case)")
-  end
+  key_map = { "First Name" => :first, "Last Name" => :last, "Email" => :email, "Vendor" => :vendor }
+  @record.should_not == nil
+  @record[key_map[inKey]].should == value
+  
+  # key = toCamelCase(inKey)
+  # if (@validatedRecords.size == 1)
+  #   assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{inKey},
+  #       received #{@validatedRecords[0]["body"][key]}")
+  # else
+  #   raise("Error: received more than 1 record (unhandled case)")
+  # end
 end
 
 Then /^an email verification link for "([^\"]*)" is generated$/ do |email|
@@ -164,7 +163,7 @@ Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
 end
 
 Then /^the account for "([^\"]*)" is removed from LDAP$/ do |email|
-   assert(ApprovalEngine.user_exists?(email), "Account for #{email} is not removed")
+  assert(ApprovalEngine.user_exists?(email) == false, "Account for #{email} is not removed.")
 end
 
 ###############################################################################
