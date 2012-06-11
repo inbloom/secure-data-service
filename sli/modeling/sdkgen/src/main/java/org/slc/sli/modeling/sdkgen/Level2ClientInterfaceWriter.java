@@ -63,7 +63,8 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
                 jsw.writeComment(method.getId());
                 jsw.beginStmt();
                 try {
-                    jsw.write("List<Entity> " + method.getId() + "() throws IOException, SLIDataStoreException");
+                    jsw.write("List<Entity> " + method.getId()
+                            + "(final String token) throws IOException, SLIDataStoreException");
                     @SuppressWarnings("unused")
                     // Perhaps modify this method to generate a different naming scheme?
                     final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);

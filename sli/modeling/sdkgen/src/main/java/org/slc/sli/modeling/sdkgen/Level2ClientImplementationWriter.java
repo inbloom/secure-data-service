@@ -52,6 +52,7 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
         try {
             jsw.writePackage(packageName);
             jsw.writeImport("java.io.IOException");
+            jsw.writeImport("java.net.URISyntaxException");
             jsw.writeImport("java.net.URL");
             jsw.writeImport("java.util.ArrayList");
             jsw.writeImport("java.util.Collections");
@@ -59,14 +60,11 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginClass(className, interfaces);
             // Attributes
-            // jsw.writeAttribute("sliClient", "SLIClient");
+            jsw.writeAttribute("client", "Level1Client");
             // Write Initializer
-            jsw.write("public "
-                    + className
-                    + "(final URL apiServerUrl, final String clientId, final String clientSecret, final URL callbackURL)");
+            jsw.write("public " + className + "(final Level1Client client)");
             jsw.beginBlock();
-            // jsw.beginStmt().write("sliClient = new BasicClient(apiServerUrl, clientId, clientSecret, callbackURL)")
-            // .endStmt();
+            jsw.beginStmt().write("this.client = client").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -104,11 +102,18 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                 jsw.writeOverride();
                 jsw.beginStmt();
                 try {
-                    jsw.write("public List<Entity> " + method.getId() + "() throws IOException, SLIDataStoreException");
+                    jsw.write("public List<Entity> " + method.getId()
+                            + "(final String token) throws IOException, SLIDataStoreException");
                     jsw.beginBlock();
                     try {
-                        jsw.beginStmt().write("final List<Entity> entities = new ArrayList<Entity>()").endStmt();
-                        jsw.beginStmt().write("return Collections.unmodifiableList(entities)").endStmt();
+                        jsw.write("try");
+                        jsw.beginBlock();
+                        jsw.beginStmt().write("return client.getRequest(token, new URL(\"TODO\"))").endStmt();
+                        jsw.endBlock();
+                        jsw.write("catch(final URISyntaxException e)");
+                        jsw.beginBlock();
+                        jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+                        jsw.endBlock();
                     } finally {
                         jsw.endBlock();
                     }
@@ -120,6 +125,12 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             throw new RuntimeException(e);
         }
     }
+
+    // try {
+    // return client.getRequest(token, new URL("TODO"));
+    // } catch (URISyntaxException e) {
+    // throw new AssertionError(e);
+    // }
 
     @Override
     public void beginResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
