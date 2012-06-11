@@ -13,4 +13,8 @@ public class SLIDataStoreException extends Exception {
     public SLIDataStoreException(Throwable e) {
         super(e);
     }
+
+    public SLIDataStoreException(String message) {
+        super(message);
+    }
 }

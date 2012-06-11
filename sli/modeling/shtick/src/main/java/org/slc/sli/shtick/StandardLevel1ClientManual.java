@@ -46,7 +46,7 @@ public class StandardLevel1ClientManual implements Level1ClientManual {
             throw new SLIDataStoreException(e);
         }
 
-        throw new SLIDataStoreException();
+        throw new SLIDataStoreException("Parsed object was not Array or Object");
     }
 
 }
