@@ -103,7 +103,7 @@ public class LocalEducationAgencyGenerator {
         localEducationAgency.setLEACategory(LEACategoryType.CHARTER);
 
         // construct and add the SEA reference
-        /*
+
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(seaId);
 
@@ -111,18 +111,17 @@ public class LocalEducationAgencyGenerator {
         seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
         localEducationAgency.setStateEducationAgencyReference(seaRef);
-        
-        */
+  
         
 //        	Ref leaRef = new Ref(leaMeta.id);
 //        	EducationalOrgReferenceType eortype = new EducationalOrgReferenceType();
 //        	eortype.setRef(leaRef);
 //        	localEducationAgency.setLocalEducationAgencyReference(eortype);
         
-        	Ref seaRef = new Ref(seaId);
-        	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        	eort.setRef(seaRef);
-        	localEducationAgency.setStateEducationAgencyReference(eort);
+//        	Ref seaRef = new Ref(seaId);
+//        	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+//        	eort.setRef(seaRef);
+//        	localEducationAgency.setStateEducationAgencyReference(eort);
         	
         
         for (String pid:leaMeta.programs.keySet()){
