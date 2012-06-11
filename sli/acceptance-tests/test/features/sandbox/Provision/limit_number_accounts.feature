@@ -10,8 +10,15 @@ And there is number_of_developer_accounts property in the configuration file for
 Scenario: As a Developer I get to create an account if there are less than 100 developer accounts
 When the number of accounts already created in LDAP is equal to <NUMBER_OF_DEVELOPER_ACCOUNTS>
 And I hit User Registration for sandbox
+Then I get an error message 
+
+@wip DE821
+Scenario: As a Developer I want to register for the waiting list for new developer accounts in the sandbox environment
+When the number of accounts already created in database is equal to <NUMBER_OF_DEVELOPER_ACCOUNTS>
+And I hit User Registration for sandbox
 Then I get an error message
-#When when I enter my email address
-#And click "Submit"
-#Then my email address is stored in the database
-#And I get a success message
+And I am presented with the waiting list screen
+When when I enter my email address "<USER_ACCOUNT_EMAIL>"
+And click "Submit"
+Then there is an LDAP account with my login name "<USER_ACCOUNT_EMAIL>"
+And I get a success message
