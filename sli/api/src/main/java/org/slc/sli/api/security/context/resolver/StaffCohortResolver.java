@@ -20,7 +20,7 @@ import org.slc.sli.domain.Repository;
  * @author vmcglaughlin
  *
  */
-@Component
+//@Component
 public class StaffCohortResolver implements EntityContextResolver {
 
     @Autowired
@@ -34,7 +34,7 @@ public class StaffCohortResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.STAFF.equals(fromEntityType) && EntityNames.COHORT.equals(toEntityType);
+        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType))&& EntityNames.COHORT.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +47,7 @@ public class StaffCohortResolver implements EntityContextResolver {
         referenceIds.add(principal.getEntityId());
 
         List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId", referenceIds);
-        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.COHORT); 
+        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.COHORT);
 
         if (references.isEmpty() && createdContext.isEmpty()) {
             return new ArrayList<String>();

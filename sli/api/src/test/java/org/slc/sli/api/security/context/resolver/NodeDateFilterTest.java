@@ -60,13 +60,13 @@ public class NodeDateFilterTest {
     }
 
     @Test
-    public void testIsResolvable() {
-        assertTrue("Should be true", nodeFilter.isDateBeforeEndDate("2012-08-03", "2012-02-03"));
-        assertTrue("Should be true", nodeFilter.isDateBeforeEndDate(null, "2012-02-03"));
-        assertTrue("Should be true", nodeFilter.isDateBeforeEndDate("", "2012-02-03"));
-        assertFalse("Should be false", nodeFilter.isDateBeforeEndDate("2012-05-12", "2012-06-03"));
-        assertFalse("Should be false", nodeFilter.isDateBeforeEndDate("2012-05-12", ""));
-        assertFalse("Should be false", nodeFilter.isDateBeforeEndDate("somevalue", "2012-06-03"));
+    public void testIsFirstDateBeforeSecondDate() {
+        assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", "2012-08-03"));
+
+        assertFalse("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", ""));
+        assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "2012-05-12"));
+        assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("", "2012-05-12"));
+        assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "somevalue"));
     }
 
     @Test
@@ -89,8 +89,9 @@ public class NodeDateFilterTest {
         ids.add("5");
         ids.add("6");
 
-        nodeFilter.setParameters(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, "2000", "exitWithdrawDate");
-        List<String> returnedIds = nodeFilter.filterIds(ids);
+        nodeFilter.setParameters("2000", "exitWithdrawDate");
+        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSchoolAssociations, "studentId");
+        List<String> returnedIds = getReturnedIds(returnedEntities, "studentId");
         assertNotNull("Should not be null", returnedIds);
         assertEquals("Should match", 5, returnedIds.size());
         assertTrue("Should be true", returnedIds.contains("1"));
@@ -99,8 +100,9 @@ public class NodeDateFilterTest {
         assertTrue("Should be true", returnedIds.contains("5"));
         assertTrue("Should be true", returnedIds.contains("6"));
 
-        nodeFilter.setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_ID, "0", "endDate");
-        List<String> returnStudentIds = nodeFilter.filterIds(ids);
+        nodeFilter.setParameters("0", "endDate");
+        returnedEntities = nodeFilter.filterEntities(studentSchoolAssociations, "studentId");
+        List<String> returnStudentIds = getReturnedIds(returnedEntities, "studentId");
         assertNotNull("Should not be null", returnStudentIds);
         assertEquals("Should match", 5, returnStudentIds.size());
         assertTrue("Should be true", returnStudentIds.contains("1"));
@@ -133,5 +135,12 @@ public class NodeDateFilterTest {
         when(mockEntity.getBody()).thenReturn(body);
 
         return mockEntity;
+    }
+    private List<String> getReturnedIds(List<Entity> entityList, String refId) {
+        List<String> ids = new ArrayList<String>();
+        for (Entity e : entityList) {
+            ids.add(e.getBody().get(refId).toString());
+        }
+        return ids;
     }
 }

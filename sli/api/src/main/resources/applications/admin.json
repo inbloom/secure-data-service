@@ -84,6 +84,20 @@
          "roles":[
             "SLC Operator"
             ]
+      },
+      {
+      "name":"Change Password",
+         "description":"Change your password",
+         "url":"${bootstrap.app.admin.url}/changePassword",
+         "roles":[
+            "SLC Operator",
+            "Ingestion User",
+            "Realm Administrator",
+            "Application Developer",
+            "LEA Administrator",
+            "SEA Administrator",
+            "Application Developer"
+            ]
       }
    ]
 }

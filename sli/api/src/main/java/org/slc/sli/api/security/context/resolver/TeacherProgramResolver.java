@@ -41,7 +41,7 @@ public class TeacherProgramResolver implements EntityContextResolver {
         final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : staffProgramAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 programIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
             }
         }

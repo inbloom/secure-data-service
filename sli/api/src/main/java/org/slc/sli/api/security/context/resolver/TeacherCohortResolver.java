@@ -41,7 +41,7 @@ public class TeacherCohortResolver implements EntityContextResolver {
         final String currentDate = dateFilter.getCurrentDate();
         for (Entity assoc : staffCohortAssociations) {
             String endDate = (String) assoc.getBody().get(ParameterConstants.END_DATE);
-            if (endDate == null || endDate.isEmpty() || dateFilter.isDateBeforeEndDate(currentDate, endDate)) {
+            if (endDate == null || endDate.isEmpty() || dateFilter.isFirstDateBeforeSecondDate(currentDate, endDate)) {
                 cohortIds.addAll((List<String>) assoc.getBody().get(ParameterConstants.COHORT_ID));
             }
         }

@@ -43,6 +43,10 @@ class UserAccountRegistrationsController < ApplicationController
         redirectPage=response["redirect"]
         @user_account_registration.errors.add(:email,response["error"])
         session[:guuid]=response["guuid"]
+      rescue InvalidPasswordException => e
+        APP_CONFIG['password_policy'].each { |msg| @user_account_registration.errors.add(:password, msg) }
+        redirectPage = false
+        render500 = false
       rescue Exception => e
         logger.info { e.message }
         render500=true

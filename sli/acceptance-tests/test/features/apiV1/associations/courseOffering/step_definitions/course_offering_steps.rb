@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #course offering data
-  id = 6                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -48,6 +48,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "53777181-3519-4111-9210-529350429899"   if human_readable_id == "INACCESSIBLE REFERENCE"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"

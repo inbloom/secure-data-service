@@ -399,8 +399,6 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
 |<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
 |<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                      |<empty>      |2007-05-14     |End of school year |
-|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
-|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab

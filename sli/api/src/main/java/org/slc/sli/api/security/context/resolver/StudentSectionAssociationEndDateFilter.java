@@ -22,6 +22,6 @@ public class StudentSectionAssociationEndDateFilter extends NodeDateFilter {
 
     @PostConstruct
     public void setParameters() {
-        setParameters(EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_ID, gracePeriodVal, END_DATE);
+        setParameters(gracePeriodVal, END_DATE);
     }
 }

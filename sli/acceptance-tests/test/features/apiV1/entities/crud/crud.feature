@@ -113,9 +113,9 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 3 |
+| "assessment"                   | "assessments"             | 5 |
 | "attendance"                   | "attendances"             | 1 |
-| "cohort"                       | "cohorts"                 | 3 |
+| "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 2 |
 | "disciplineIncident"           | "disciplineIncidents"     | 2 |
@@ -124,12 +124,12 @@ Examples:
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
 | "parent"                       | "parents"                 | 2 |
-| "program"                      | "programs"                | 2 |
+| "program"                      | "programs"                | 5 |
 | "school"                       | "schools"                 | 5 |
 | "section"                      | "sections"                | 93 |
 | "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 17 |
-| "student"                      | "students"                | 82 |
+| "staff"                        | "staff"                   | 21 |
+| "student"                      | "students"                | 83 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
