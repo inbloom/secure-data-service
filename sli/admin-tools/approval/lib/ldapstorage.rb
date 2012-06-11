@@ -235,7 +235,9 @@ class LDAPStorage
 
             dn = get_DN(found_user[:cn])
             Net::LDAP.open(@ldap_conf) do |ldap|
+
                 if !ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+                    puts "LDAP ERROR: #{user}"
                     raise ldap_ex(ldap, "Could not update user status for user #{user[:email]}")
                 end
             end

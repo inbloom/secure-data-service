@@ -6,7 +6,7 @@ require 'emailer'
 module ApprovalEngine
     # define the possible states of the finite state machine (FSM)
     STATE_SUBMITTED     = "submitted"
-    STATE_EULA_ACCEPTED = "eula_accepted"
+    STATE_EULA_ACCEPTED = "eula-accepted"
     STATE_PENDING       = "pending"
     STATE_REJECTED      = "rejected"
     STATE_APPROVED      = "approved"
@@ -78,6 +78,7 @@ module ApprovalEngine
         status = user[:status]
         target = FSM[status]
 
+        puts "STATUS: #{status}      TARGET: #{target}     new status: #{target.key?(transition)}        transition:#{transition}"
         if (!target) || (!target.key?(transition))
             raise "Current status '#{user[:status]}' does not allow transition '#{transition}'."
         end
@@ -91,7 +92,7 @@ module ApprovalEngine
         user[:status] = target[transition]
         case [status, target[transition]]
             when [STATE_SUBMITTED, STATE_EULA_ACCEPTED]
-                user[:emailtoken] = Digest::MD5.hexdigest(@@email_secret + user_info[:email] + user_info[:first] + user_info[:last])
+                user[:emailtoken] = Digest::MD5.hexdigest(@@email_secret + user[:email] + user[:first] + user[:last])
                 @@storage.update_status(user)
             when [STATE_EULA_ACCEPTED, STATE_PENDING]
                 @@storage.update_status(user)
