@@ -1,0 +1,7 @@
+{
+    "collection": "disciplineIncident",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}
