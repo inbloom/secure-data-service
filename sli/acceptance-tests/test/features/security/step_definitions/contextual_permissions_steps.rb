@@ -107,7 +107,7 @@ Given /^my School is "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the school "[^"]*")$/ do |arg1|
-  restHttpGet("/schools/"+arg1)
+  restHttpGet("/v1/schools/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -123,7 +123,7 @@ Then /^I should get a message that I am not authorized$/ do
 end
 
 When /^I make an API call to get (the teacher "[^"]*")$/ do |arg1|
-  restHttpGet("/teachers/"+arg1)
+  restHttpGet("/v1/teachers/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -139,7 +139,7 @@ Then /^I receive a JSON response that includes the teacher "([^"]*)" and its att
 end
 
 When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
-  restHttpGet("/teacher-school-associations/"+arg1+"/targets")
+  restHttpGet("/v1/schools/" + arg1 + "/teacherSchoolAssociations/teachers")
   assert(false, "#{arg1} Response from rest-client GET is nil")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
@@ -158,7 +158,7 @@ Then /^I receive a JSON response that includes a (list of teachers from school "
 end
 
 When /^I make an API call to get the list of sections taught by (the teacher "[^"]*")$/ do |arg1|
-  restHttpGet("/teacher-section-associations/"+arg1+"/targets")
+  restHttpGet("/v1/teachers/" + arg1 + "/teacherSectionAssociations/sections")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -180,7 +180,7 @@ Given /^I teach in "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the section "[^"]*")$/ do |arg1|
-  restHttpGet("/sections/"+arg1)
+  restHttpGet("/v1/sections/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -192,7 +192,7 @@ Then /^I receive a JSON response that includes the section "([^"]*)" and its att
 end
 
 When /^I make an API call to get a list of students in (the section "[^"]*")$/ do |arg1|
-  restHttpGet("/student-section-associations/"+arg1+"/targets")
+  restHttpGet("/v1/sections/" + arg1 + "/studentSectionAssociations/students")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -214,7 +214,7 @@ Given /^I teach the student "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
-  restHttpGet("/students/"+arg1)
+  restHttpGet("/v1/students/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

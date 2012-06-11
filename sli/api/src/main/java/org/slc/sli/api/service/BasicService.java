@@ -331,7 +331,7 @@ public class BasicService implements EntityService {
     }
 
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
-        this.addDefaultQueryParams(neutralQuery, collectionName);
+        //this.addDefaultQueryParams(neutralQuery, collectionName);
         if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
             return new ArrayList<EntityBody>();
         } else {
@@ -446,17 +446,16 @@ public class BasicService implements EntityService {
             }
         }
 
-            if (allowed.size() > 0) {
-                //add the security criteria
-                localNeutralQuery.addCriteria(securityCriteria);
-            }
+        if (allowed.size() > 0) {
+            //add the security criteria
+            localNeutralQuery.addCriteria(securityCriteria);
+        }
             
         List<EntityBody> results = new ArrayList<EntityBody>();
         this.addDefaultQueryParams(localNeutralQuery, collectionName);
 
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, localNeutralQuery);
         for (Entity entity : entities) {
-
             results.add(makeEntityBody(entity));
         }
 
