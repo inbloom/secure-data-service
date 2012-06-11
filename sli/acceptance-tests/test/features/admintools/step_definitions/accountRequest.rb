@@ -56,7 +56,7 @@ end
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
    assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
    user = ApprovalEngine.get_user(email)
-   assert(usr[:status] == ApprovalEngine.STATE_APPROVED, "#{email} is not approved.")
+   assert(user[:status] == ApprovalEngine.STATE_APPROVED, "#{email} is not approved.")
 end
 
 ###############################################################################

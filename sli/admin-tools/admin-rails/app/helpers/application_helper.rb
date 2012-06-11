@@ -62,30 +62,6 @@ module ApplicationHelper
     ApprovalEngine.user_exists?(email)
   end
 
-  # Returns a map containing values for email_address, first_name, and last_name.
-  #
-  # Input Parameters:
-  #   - guid : identifier of record containing an email address
-  #
-  # Returns : first, last, and user name on associated record
-  #
-  def self.get_email_info(guid)
-
-    url = API_BASE + "/" + guid
-    res = RestClient.get(url, REST_HEADER){|response, request, result| response }
-
-    if (res.code==200)
-      jsonDocument = JSON.parse(res.body)
-      return {
-        "email_address" => jsonDocument["userName"],
-        "first_name" => jsonDocument["firstName"],
-        "last_name" => jsonDocument["lastName"],
-      }
-    else
-      return UNKNOWN_EMAIL
-    end
-  end
-
   # Add all relevant information for a new user to the backend.
   #
   # Input Parameters:
