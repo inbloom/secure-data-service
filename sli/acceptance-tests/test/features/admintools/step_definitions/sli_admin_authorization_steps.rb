@@ -41,6 +41,7 @@ And /^I login$/ do
 end
 
 Then /^the api should generate a (\d+) error$/ do |arg1|
+  sleep 1
   puts @driver.current_url
   assert(@driver.current_url.end_with?("api/rest/saml/sso/post"), "Should have gotten an error")
 end

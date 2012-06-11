@@ -14,7 +14,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.api.service.BasicService;
@@ -92,50 +92,58 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNode next = path.get(i);
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
-            String repoName = getResourceName(current, next, connection);
-            debug("Getting Ids From {}", repoName);
-            if (connection.isReferenceInSelf()) {
-                NeutralQuery neutralQuery = new NeutralQuery();
-                neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
-//                BasicService.addDefaultQueryParams(neutralQuery, repoName);
-                Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
-                for (Entity entity : entities) {
-                    Object fieldData = entity.getBody().get(connection.getFieldName());
-                    if (fieldData != null) {
-                        if (fieldData instanceof String) {
-                            String id = (String) fieldData;
-                            if (!id.isEmpty()) {
-                                idSet.add(id);
-                            }
-                        } else if (fieldData instanceof ArrayList) {
-                            ids.addAll((ArrayList<String>) fieldData);
-                        }
-                    }
-                }
-            } else if (isAssociative(next, connection)) {
-                AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
-                List<String> keys = new ArrayList<String>();
-                try {
-                    keys = helper.getAssocKeys(current.getName(), ad);
-                } catch (IllegalArgumentException e) {
-                    keys = helper.getAssocKeys(current.getType(), ad);
-                }
-                idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
-                        connection.getFieldName(), new ArrayList<String>(ids));
-            } else if (connection.getAssociationNode().length() != 0) {
-                idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
-                        new ArrayList<String>(ids));
+
+            if (connection.isResolver()) {
+                idSet = connection.getResolver().findAccessible(principal);
 
             } else {
-                idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
-                        new ArrayList<String>(ids));
+                String repoName = getResourceName(current, next, connection);
+                debug("Getting Ids From {}", repoName);
+                if (connection.isReferenceInSelf()) {
+                    NeutralQuery neutralQuery = new NeutralQuery();
+                    neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
+//                BasicService.addDefaultQueryParams(neutralQuery, repoName);
+                    Iterable<Entity> entityIterableList = repository.findAll(repoName, neutralQuery);
+                    List<Entity> entitiesToResolve = new ArrayList<Entity>();
+                    for (Entity entityInList : entityIterableList) {
+                        entitiesToResolve.add(entityInList);
+                    }
+                    entitiesToResolve = helper.filterEntities(entitiesToResolve, connection.getFilter(), "");
+                    for (Entity entity : entitiesToResolve) {
+                        Object fieldData = entity.getBody().get(connection.getFieldName());
+                        if (fieldData != null) {
+                            if (fieldData instanceof String) {
+                                String id = (String) fieldData;
+                                if (!id.isEmpty()) {
+                                    idSet.add(id);
+                                }
+                            } else if (fieldData instanceof ArrayList) {
+                                ids.addAll((ArrayList<String>) fieldData);
+                            }
+                        }
+                    }
+                } else if (isAssociative(next, connection)) {
+                    AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
+                    List<String> keys = new ArrayList<String>();
+                    try {
+                        keys = helper.getAssocKeys(current.getName(), ad);
+                    } catch (IllegalArgumentException e) {
+                        keys = helper.getAssocKeys(current.getType(), ad);
+                    }
+                    idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
+                            connection.getFieldName(), new ArrayList<String>(ids), connection.getFilter());
+                } else if (connection.getAssociationNode().length() != 0) {
+                    idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
+                            new ArrayList<String>(ids), connection.getFilter());
 
+                } else {
+                    idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
+                            new ArrayList<String>(ids), connection.getFilter());
+                    }
             }
 
-            if (connection.getFilter() != null) {
-                for (NodeFilter filter : connection.getFilter()) {
-                    idSet = filter.filterIds(idSet);
-                }
+            if (connection.getAggregator() != null) {
+                idSet = connection.getAggregator().addAssociatedIds(idSet);
             }
 
             previousIdSet = idSet;

@@ -20,7 +20,7 @@ Feature: Security for discipline action CRUD
     Then I get a message that I am not authorized
 
  Scenario: Unauthorized authenticated user tries to hit the disciplineAction URL directly
-    Given I am user "sbantu" in IDP "IL"
+    Given I am user "akopel" in IDP "IL"
     When I make an API call to get the disciplineAction "DISC-ACT-1"
     Then I get a message that I am not authorized
 

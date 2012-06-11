@@ -62,8 +62,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "e1af7127-743a-4437-ab15-5b0dacd1bde0",
-    "disciplineIncidentId" => "0e26de79-22aa-5d67-9201-5113ad50a03b",    
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+    "disciplineIncidentId" => "0e26de79-22ea-5d67-9201-5113ad50a03b",    
     "studentParticipationCode" => "Reporter"
   }
 end

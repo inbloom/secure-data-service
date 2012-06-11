@@ -14,11 +14,11 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #staff cohort association data
-  when "ASSOCIATION COUNT" then 3
+  when "ASSOCIATION COUNT" then 11
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
-  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
+  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 3
-  when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
+  when "RESOLUTION COUNT FOR ENDPOINT 2" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT" then 2
   when "ASSOCIATION ID - SINGLE" then "b4e31b1a-8e55-8803-722c-14d8087c0712"
@@ -71,8 +71,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
-    "cohortId" => ["a50121a2-c566-401b-99a5-71eb5cab5f4f"],
+    "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
+    "cohortId" => ["b408635d-8fd5-11e1-86ec-0021701f543f"],
     "beginDate" => "2012-02-29",
     "endDate" => "2012-03-29",
     "studentRecordAccess" => true

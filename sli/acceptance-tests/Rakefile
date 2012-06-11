@@ -61,6 +61,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
+  addSecurityData()
+  
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
@@ -258,6 +260,7 @@ task :apiV1EntitySecurityTests do
   Rake::Task["v1CohortSecurityTests"].execute
   Rake::Task["v1DisciplineActionSecurityTests"].execute
   Rake::Task["v1DisciplineIncidentSecurityTests"].execute
+  Rake::Task["v1StaffSecurityTests"].execute
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -320,6 +323,17 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Device and Agent Tests"
+task :deviceTests => [:realmInit] do
+  runTests("test/features/device")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -612,7 +626,7 @@ task :importSandboxData do
     "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
     "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
   ]
-  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
+  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")    
 end
 
 desc "Import Unified Data Set"
@@ -638,6 +652,15 @@ task :importUnifiedData => [:realmInit] do
     "teacherSectionAssociation" => "unified_data/uds_teacherSectionAssociation.json"
   ]
   setMultipleFixtureFiles(testHash)
+end
+
+desc "Apply security denormalization"
+task :addSecurityData do
+	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+end
+
+def addSecurityData()
+	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
 end
 
 desc "Help information for this Rakefile"

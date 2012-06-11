@@ -47,16 +47,16 @@ import org.slc.sli.util.JsonConverter;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
 public class LiveAPIClientTest {
-    
+
     private static final String EDORGS_URL = "/v1/educationOrganizations/";
     private static final String CUSTOM_DATA = "/custom";
-    
+
     private LiveAPIClient client;
     private RESTClient mockRest;
-    
+
     @Value("${api.server.url}")
     private String apiUrl;
-    
+
     @Before
     public void setUp() throws Exception {
         if (System.getProperty("env") == null) {
@@ -66,19 +66,19 @@ public class LiveAPIClientTest {
         client = new LiveAPIClient();
         client.setApiUrl(apiUrl);
         mockRest = mock(RESTClient.class);
-        
+
         client.setRestClient(mockRest);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         client = null;
         mockRest = null;
     }
-    
+
     @Test
     public void testGetEdOrgCustomData() throws Exception {
-        
+
         String token = "token";
         String id = "id";
         String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
@@ -87,19 +87,19 @@ public class LiveAPIClientTest {
                 + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
                 + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
                 + "}}";
-        
+
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(
                 JsonConverter.toJson(new LiveAPIClient.CustomEntityWrapper(json)));
         ConfigMap customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
         assertEquals("component_1", customConfig.getComponentConfig("component_1").getId());
-        
+
     }
-    
+
     @Test
     public void testPutEdOrgCustomData() throws Exception {
-        
+
         String token = "token";
         String id = "id";
         String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
@@ -115,30 +115,30 @@ public class LiveAPIClientTest {
                 .putJsonRequestWHeaders(Mockito.anyString(), Mockito.anyString(), Mockito.anyObject());
         client.putEdOrgCustomData(token, id, customConfig);
         String customJson = restClientAnswer.getJson();
-        
+
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(customJson);
         customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
         assertEquals("component_1", customConfig.getComponentConfig("component_1").getId());
-        
+
     }
-    
+
     private static class RestClientAnswer implements Answer {
-        
+
         private String json;
-        
+
         @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
             json = (String) invocation.getArguments()[2];
             return null;
         }
-        
+
         public String getJson() {
             return json;
         }
     }
-    
+
     @Test
     public void testGetSessionsByYear() throws Exception {
         List<GenericEntity> sessions;
@@ -146,7 +146,7 @@ public class LiveAPIClientTest {
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn("[]");
         sessions = client.getSessionsByYear(null, null);
         assertEquals(sessions.size(), 0);
-        
+
         url = client.getApiUrl() + "/v1/sessions/?schoolYear=2011-2012";
         String json = "[{session: \"Yes\"}, {session: \"No\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
@@ -154,7 +154,7 @@ public class LiveAPIClientTest {
         assertNotNull(sessions);
         assertTrue(sessions.size() == 2);
     }
-    
+
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
@@ -162,7 +162,7 @@ public class LiveAPIClientTest {
         assertNotNull(attendance);
         assertEquals(0, attendance.size());
         String url = client.getApiUrl() + "/v1/students/1000/attendances";
-        
+
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
@@ -170,9 +170,9 @@ public class LiveAPIClientTest {
         assertNotNull(attendance);
         assertEquals(2, attendance.size());
         assertEquals("yes", attendance.get(0).get("attendance"));
-        
+
         url = client.getApiUrl() + "/v1/students/1000/attendances?eventDate>=2011-07-13&eventDate<=2012-07-13";
-        
+
         json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
@@ -181,115 +181,115 @@ public class LiveAPIClientTest {
         assertEquals(2, attendance.size());
         assertEquals("yes", attendance.get(0).get("attendance"));
     }
-    
+
     @Test
     public void testGetCourses() {
         String url = client.getApiUrl()
                 + "/v1/sections/56789/studentSectionAssociations/students?views=transcript";
         String token = "token";
-        
+
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("subjectArea", "math");
         params.put("includeFields", "courseId,courseTitle");
-        
+
         String json = "[{courseId: \"123456\",courseTitle:\"Math 1\"},{courseId: \"987654\",courseTitle:\"French 1\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        
+
         List<GenericEntity> courses = client.getCourses(token, "56789", params);
         assertEquals("Size should match", 2, courses.size());
         assertEquals("course id should match", "123456", courses.get(0).get("courseId"));
         assertEquals("course title should match", "Math 1", courses.get(0).get("courseTitle"));
     }
-    
+
     @Test
     public void testGetStudentTranscriptAssociations() {
         String url = client.getApiUrl()
                 + "/v1/students/56789/studentTranscriptAssociations?courseId=123456&includeFields=finalLetterGradeEarned,studentId";
         String token = "token";
-        
+
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "finalLetterGradeEarned,studentId");
-        
+
         String json = "[{finalLetterGradeEarned: \"A\",studentId:\"56789\"},{finalLetterGradeEarned: \"C\",studentId:\"56789\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        
+
         List<GenericEntity> assocs = client.getStudentTranscriptAssociations(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
         assertEquals("student id should match", "56789", assocs.get(0).get("studentId"));
         assertEquals("finalLetterGradeEarned should match", "A", assocs.get(0).get("finalLetterGradeEarned"));
     }
-    
+
     @Test
     public void testGetSections() {
         String url = client.getApiUrl()
                 + "/v1/students/56789/studentSectionAssociations/sections?courseId=123456&includeFields=sessionId";
         String token = "token";
-        
+
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "sessionId");
-        
+
         String json = "[{sessionId:\"98765\"},{sessionId:\"99999\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        
+
         List<GenericEntity> assocs = client.getSections(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
         assertEquals("student id should match", "98765", assocs.get(0).get("sessionId"));
     }
-    
+
     @Test
     public void testGetEntity() {
         String url = client.getApiUrl() + "/v1/sessions/56789?includeFields=schoolYear,term";
         String token = "token";
-        
+
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("includeFields", "schoolYear,term");
-        
+
         String json = "{schoolYear:\"2008-2009\",term:\"Fall Semester\"}";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        
+
         GenericEntity entity = client.getEntity(token, "sessions", "56789", params);
         assertNotNull("should not be null", entity);
         assertEquals("school year should match", "2008-2009", entity.get("schoolYear"));
         assertEquals("term should match", "Fall Semester", entity.get("term"));
     }
-    
+
     @Test
     public void testGetStudentSectionGradebookEntries() {
         String url = client.getApiUrl()
                 + "/v1/studentSectionGradebookEntries?sectionId=1234&studentId=5678&includeFields=numericGradeEarned,dateFulfilled";
         String token = "token";
-        
+
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("studentId", "5678");
         params.put("sectionId", "1234");
         params.put("includeFields", "numericGradeEarned,dateFulfilled");
-        
+
         String json = "[{numericGradeEarned:\"84.0\",dateFulfilled:\"2011-10-30\"},{numericGradeEarned:\"98.0\",dateFulfilled:\"2011-11-20\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        
+
         List<GenericEntity> gradebookEntries = client.getStudentSectionGradebookEntries(token, "5678", params);
         assertEquals("Size should match", 2, gradebookEntries.size());
         assertEquals("numeric grade should match", "84.0", gradebookEntries.get(0).get("numericGradeEarned"));
         assertEquals("dateFulfilled should match", "2011-10-30", gradebookEntries.get(0).get("dateFulfilled"));
     }
-    
+
     @Test
     public void testBuildQueryString() {
         // build the params
         Map<String, String> params = new HashMap<String, String>();
         params.put("courseId", "123456");
         params.put("includeFields", "finalLetterGradeEarned,studentId");
-        
+
         // String query = client.b
     }
-    
+
     @Ignore
     @Test
     public void testGetSchools() {
@@ -298,20 +298,12 @@ public class LiveAPIClientTest {
             public String getId(String token) {
                 return null;
             }
-            
+
             @Override
-            public List<GenericEntity> getSectionsForTeacher(String teacherId, String token) {
+            public List<GenericEntity> getSectionsForTeacher(String teacherId, String token, String schoolId) {
                 return null;
             }
-            
-            @Override
-            public List<GenericEntity> matchSchoolToCourses(List<GenericEntity> schools,
-                    List<GenericEntity> sections, String token) {
-                LinkedList<GenericEntity> list = new LinkedList<GenericEntity>();
-                list.add(new GenericEntity());
-                return list;
-            }
-            
+
         };
         SecurityContextHolder.getContext().setAuthentication(new Authentication() {
             @Override
@@ -319,37 +311,37 @@ public class LiveAPIClientTest {
                 // TODO Auto-generated method stub
                 return null;
             }
-            
+
             @Override
             public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
                 // TODO Auto-generated method stub
-                
+
             }
-            
+
             @Override
             public boolean isAuthenticated() {
                 // TODO Auto-generated method stub
                 return false;
             }
-            
+
             @Override
             public Object getPrincipal() {
                 // TODO Auto-generated method stub
                 return null;
             }
-            
+
             @Override
             public Object getDetails() {
                 // TODO Auto-generated method stub
                 return null;
             }
-            
+
             @Override
             public Object getCredentials() {
                 // TODO Auto-generated method stub
                 return null;
             }
-            
+
             @Override
             public Collection<GrantedAuthority> getAuthorities() {
                 // TODO Auto-generated method stub
@@ -358,15 +350,15 @@ public class LiveAPIClientTest {
         });
         String token = "fakeToken";
         String[] ids = { "1", "2" };
-        
+
         List<GenericEntity> result = liveClient.getSchools(token, Arrays.asList(ids));
         assertEquals(result.size(), 1);
     }
-    
+
     @Test
     public void testGetStudents() {
         LiveAPIClient liveClient = new LiveAPIClient() {
-            
+
             @Override
             public GenericEntity getStudent(String token, String id) {
                 return new GenericEntity();
@@ -377,7 +369,7 @@ public class LiveAPIClientTest {
         List<GenericEntity> result = liveClient.getStudents(token, Arrays.asList(ids));
         assertEquals(result.size(), 2);
     }
-    
+
     @Test
     public void testGetStudentAssessments() {
         String token = "fakeToken";
@@ -391,11 +383,11 @@ public class LiveAPIClientTest {
                 return list;
             }
         };
-        
+
         List<GenericEntity> result = liveClient.getStudentAssessments(token, id);
         assertEquals(result.size(), 1);
     }
-    
+
     @Test
     public void testGetSection() {
         LiveAPIClient liveClient = new LiveAPIClient() {
@@ -407,7 +399,7 @@ public class LiveAPIClientTest {
                 list.add(ge);
                 return list;
             }
-            
+
             @Override
             public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
@@ -418,14 +410,14 @@ public class LiveAPIClientTest {
         GenericEntity section = liveClient.getSection("1", "fakeToken");
         assertEquals(section.get("uniqueSectionCode"), "section");
         assertEquals(section.get("sectionName"), "section");
-        
+
     }
-    
+
     @Test
     public void testGetSession() {
         client.getSession(null, null);
     }
-    
+
     @Test
     public void testGetId() {
         LiveAPIClient liveClient = new LiveAPIClient() {
@@ -444,7 +436,7 @@ public class LiveAPIClientTest {
         };
         assertEquals(liveClient.getId("token"), "9d32fcd6-4148-4b6c-8c8b-b87ae9ef5a4b");
     }
-    
+
     @Test
     public void testGetSectionsForTeacher() {
         LiveAPIClient liveClient = new LiveAPIClient() {
@@ -456,21 +448,21 @@ public class LiveAPIClientTest {
                 list.add(ge);
                 return list;
             }
-            
+
             @Override
             public GenericEntity getSection(String id, String token) {
                 return new GenericEntity();
             }
-            
+
         };
-        
-        List<GenericEntity> result = liveClient.getSectionsForTeacher(null, null);
+
+        List<GenericEntity> result = liveClient.getSectionsForTeacher(null, null, null);
         assertEquals(result.size(), 1);
     }
-    
+
     @Test
     public void testGetHomeroomForStudent() {
-        
+
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
             public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
@@ -486,7 +478,7 @@ public class LiveAPIClientTest {
                 }
                 return list;
             }
-            
+
             @Override
             public GenericEntity getSection(String sectionId, String token) {
                 GenericEntity section = new GenericEntity();
@@ -494,7 +486,7 @@ public class LiveAPIClientTest {
                 return section;
             }
         };
-        
+
         GenericEntity ge = liveClient.getHomeRoomForStudent(null, "one");
         assertEquals(ge.get(Constants.ATTR_NAME), "section");
         ge = liveClient.getHomeRoomForStudent(null, "two");
@@ -502,7 +494,7 @@ public class LiveAPIClientTest {
         ge = liveClient.getHomeRoomForStudent(null, "empty");
         assertEquals(ge, null);
     }
-    
+
     @Test
     public void testGetTeacherForSection() {
         LiveAPIClient liveClient = new LiveAPIClient() {
@@ -517,7 +509,7 @@ public class LiveAPIClientTest {
                 list.add(ge);
                 return list;
             }
-            
+
             @Override
             public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity teacher = new GenericEntity();
@@ -525,13 +517,13 @@ public class LiveAPIClientTest {
                 return teacher;
             }
         };
-        
+
         GenericEntity ge = liveClient.getTeacherForSection(null, "fakeToken");
         assertEquals(ge.get(Constants.ATTR_NAME), "teacher");
         ge = liveClient.getTeacherForSection(null, "empty");
         assertEquals(ge, null);
     }
-    
+
     // Test student enrollment, by mocking out calls to API
     @Test
     public void testGetStudentEnrollment() {
@@ -543,7 +535,7 @@ public class LiveAPIClientTest {
         links.add(link);
         student.put(Constants.ATTR_LINKS, links);
         LiveAPIClient liveClient = new LiveAPIClient() {
-            
+
             /*
              * Mock out call to studentSchoolAssociations to return a fake association when a call
              * is made.
@@ -561,7 +553,7 @@ public class LiveAPIClientTest {
                 associations.add(studentSchoolAssociation);
                 return associations;
             }
-            
+
             /*
              * Mock out call to schools to return a fake school when a call is made via the api.
              */
@@ -571,9 +563,9 @@ public class LiveAPIClientTest {
                 school.put(Constants.ATTR_NAME, "schoolName");
                 return school;
             }
-            
+
         };
-        
+
         // Make the getStudentEnrollment call and assert that the school returned in the call is the
         // faked out school in the earlier call
         List<GenericEntity> enrollment = liveClient.getStudentEnrollment("fakeToken", student);
@@ -581,7 +573,7 @@ public class LiveAPIClientTest {
         Map<String, String> school = (Map<String, String>) firstEnrollment.get(Constants.ATTR_SCHOOL);
         assertEquals(school.get(Constants.ATTR_NAME), "schoolName");
     }
-    
+
     // Test student enrollment, by mocking out calls to API
     @Test
     public void testGetParentsForStudent() {

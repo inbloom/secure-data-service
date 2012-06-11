@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student school association data
-  id = 180                                      if human_readable_id == "ASSOCIATION COUNT"
+  id = 181                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 60                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 27                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -67,8 +67,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-     "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992",
-     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
+     "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
      "entryGradeLevel" => "First grade",
      "entryDate" => "2011-09-01"
   }

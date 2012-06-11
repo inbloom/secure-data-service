@@ -59,6 +59,7 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
+        ApplicationMailer.notify_developer(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -78,6 +79,7 @@ class AppsController < ApplicationController
         reg.status = "UNREGISTERED"
       end
       if @app.update_attribute("registration", reg)
+        #ApplicationMailer.notify_operator(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -114,6 +116,9 @@ class AppsController < ApplicationController
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
+        if !APP_CONFIG["is_sandbox"]
+            ApplicationMailer.notify_operator(session[:support_email], @app).deliver
+        end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js
@@ -172,14 +177,16 @@ class AppsController < ApplicationController
       parameter = false
     end
   end
-  
+
   def get_district_hierarchy
     state_ed_orgs = EducationOrganization.all
-
     result = {}
-
+    user_tenant = get_tenant
     state_ed_orgs.each do |ed_org|
-      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil
+      # In sandbox mode, only show edorgs for the current user's tenant
+      filter_tenant = APP_CONFIG["is_sandbox"] && (!ed_org.metaData.attributes.has_key?("tenantId") || ed_org.metaData.tenantId != user_tenant)
+
+      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil or filter_tenant
       current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution, "stateOrganizationId" => ed_org.stateOrganizationId}
       child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
       child_ed_orgs.each do |child_ed_org|

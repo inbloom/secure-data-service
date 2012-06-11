@@ -8,9 +8,13 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 //import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+
+
+//import org.slc.sli.api.client.constants.v1.ParameterConstants;
 
 /**
  * Resolves which StudentSectionAssociation a given teacher is allowed to see.
@@ -32,9 +36,10 @@ public class TeacherToStudentSectionAssociationResolver implements EntityContext
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<String> studentIds = nodeDateFilter.filterIds(helper.findAccessible(principal, Arrays.asList(
-                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS)));
+        List<String> studentIds = helper.findAccessible(principal, Arrays.asList(
+                ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
 
-        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId", studentIds);
+        return helper.findEntitiesContainingReference(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId", studentIds,
+                Arrays.asList((NodeFilter) nodeDateFilter));
     }
 }

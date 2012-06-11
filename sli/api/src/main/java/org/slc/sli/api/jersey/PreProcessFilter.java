@@ -36,7 +36,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
-        Principal p = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     private void recordStartTime(ContainerRequest request) {
