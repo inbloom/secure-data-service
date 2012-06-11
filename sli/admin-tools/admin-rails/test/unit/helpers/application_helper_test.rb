@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'mocha'
 
 class ApplicationHelperTest < ActionView::TestCase
   USER_ACCOUNT = {
@@ -27,10 +28,14 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "send user verification email where there is a problem" do
-    ApplicationHelper.stubs(:get_email_info).returns(MOCK_EMAIL_INFO)
-    ApplicationHelper.stubs(:get_email_token).returns(nil)
-    Emailer.any_instance.stubs(:send_approval_email).returns({:emailToken=>"abcde"})
-    ApplicationHelper.send_user_verification_email("http://whatever", "12345")
+    user = { :first => 'First', :email => 'email@wgen.net', :emailtoken => 'token' }
+    ApprovalEngine.expects(:change_user_status).with(user[:email], "accept_eula").once()
+    ApprovalEngine.expects(:get_user).with(user[:email]).returns(user).once()
+    msg = mock()
+    msg.expects(:deliver).once()
+    ApplicationMailer.expects(:verify_email).with( user[:email], user[:first], anything()).returns(msg).once()
+    
+    assert_equal true, ApplicationHelper.send_user_verification_email("unused junk", user[:email])
   end
 
   test "get valid email info" do

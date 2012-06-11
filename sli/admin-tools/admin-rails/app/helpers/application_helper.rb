@@ -26,7 +26,7 @@ module ApplicationHelper
   #     Nothing
   #
   def self.remove_user_account(email)
-    ApprovalEngine.remove_user(email)
+    ApprovalEngine.remove_user(email) unless email == nil
   end
 
   # Gets the email address for the supplied GUID and sends them a confirmation-request
@@ -165,11 +165,6 @@ module ApplicationHelper
   # Returns an individual user via their email token or nil if the user does not exist.
   def self.get_user_with_emailtoken(email_token)
     return ApprovalEngine.get_user_emailtoken(email_token)
-  end
-
-  #remove user with address
-  def self.remove_user(email_address)
-    ApprovalEngine.remove_user(email_address)
   end
 
   def required?(obj, attr)
