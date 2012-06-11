@@ -1,0 +1,8 @@
+{
+    "collection": "disciplineIncident",
+    "indexFields":
+    [
+        {"name" : "body.id", "order" : "1"},
+     
+    ]
+}
