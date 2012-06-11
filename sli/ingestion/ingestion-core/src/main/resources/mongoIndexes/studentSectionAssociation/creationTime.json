@@ -1,7 +1,0 @@
-{
-    "collection": "studentSectionAssociation",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}

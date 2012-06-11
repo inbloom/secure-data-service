@@ -1,7 +1,0 @@
-{
-    "collection": "studentTranscriptAssociation_transformed",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}

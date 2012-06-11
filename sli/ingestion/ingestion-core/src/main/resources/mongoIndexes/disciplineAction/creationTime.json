@@ -1,7 +1,0 @@
-{
-    "collection": "disciplineAction",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}

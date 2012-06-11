@@ -1,7 +1,0 @@
-{
-    "collection": "attendance",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}

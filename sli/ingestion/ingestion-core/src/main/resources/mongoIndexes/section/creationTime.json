@@ -1,7 +1,0 @@
-{
-    "collection": "section",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}

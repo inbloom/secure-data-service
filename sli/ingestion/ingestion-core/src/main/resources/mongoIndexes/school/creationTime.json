@@ -1,7 +1,0 @@
-{
-    "collection": "school",
-    "indexFields":
-    [
-        {"name" : "creationTime" , "order" : "1"}
-    ]
-}
