@@ -3785,23 +3785,6 @@
 
   </jb:bean>
 
- <jb:bean beanId="StudentCompetency_CompetencyLevelDescriptors" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentGrade/StudentCompetency/CompetencyLevel">
-    <jb:wiring beanIdRef="competencyLevelCodeValue" />
-    <jb:wiring beanIdRef="competencyLevelDescription" />
-  </jb:bean>
-
-  <jb:bean beanId="competencyLevelDescription" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentCompetency/CompetencyLevel/Description">
-    <jb:value property="description" data="StudentCompetency/CompetencyLevel/Description" />
-  </jb:bean>
-
-  <jb:bean beanId="competencyLevelCodeValue" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentCompetency/CompetencyLevel/CodeValue">
-    <jb:value property="codeValue" data="StudentCompetency/CompetencyLevel/CodeValue" />
-  </jb:bean>
-
-
   <jb:bean beanId="StudentCompetency_StudentCompetencyObjectiveReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentCompetency">
     <jb:wiring property="StudentCompetencyObjectiveIdentity" beanIdRef="StudentCompetency_StudentCompetencyObjectiveIdentity" />
