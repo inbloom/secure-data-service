@@ -16,7 +16,7 @@ Examples:
 	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Rebecca Braverman"|
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Staff access data from another school
 
 Given I am logged in using <Username> <Password> to realm <Realm>

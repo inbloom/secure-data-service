@@ -46,7 +46,7 @@ Examples:
 | "IL"  | "jdoe"   | "jdoe1234"  | "Fry High School"           | "John Doe 1"     |
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Teachers within own School
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -61,7 +61,7 @@ Examples:
 | "NY"  | "ejane"   | "ejane1234"   | "Parker-Dust Middle School" |
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Teachers not in own School
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -103,7 +103,7 @@ Examples:
 #Section
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get own list of Sections
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -129,7 +129,7 @@ Examples:
 | "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" |
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get own Section
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -159,7 +159,7 @@ Examples:
 #Student
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they teach
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -174,7 +174,7 @@ Examples:
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they do not teach
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -188,7 +188,7 @@ Examples:
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
