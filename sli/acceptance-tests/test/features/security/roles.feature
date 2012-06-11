@@ -9,7 +9,7 @@ Feature: SLI Default Roles and Permissions
  so that  SEA/LEA end user can do CRUD on the entities stored in the data store, based on the SLI Default Role
   
 #DE719
-@wip
+#@wip
 Scenario Outline:  SEA/LEA user with a valid Default SLI Role making API call
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>
@@ -43,7 +43,7 @@ When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
 #DE719
-@wip
+#@wip
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user "administrator" with password "administrator1234" 
@@ -55,7 +55,7 @@ Then the Student address is changed
 
 
 #DE719
-@wip
+#@wip
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
@@ -79,7 +79,7 @@ When I make an API call to view a Student's data
 Then a message is displayed that the "Aggregate Viewer" role cannot view this data
 
 #DE719
-@wip
+#@wip
 Scenario: Authorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "leader" with password "leader1234"
