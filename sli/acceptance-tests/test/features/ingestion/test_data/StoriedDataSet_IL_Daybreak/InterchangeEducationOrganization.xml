@@ -1,2369 +1,2351 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
-    <StateOrganizationId>IL</StateOrganizationId>
-    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>State Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
-    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
-    </OrganizationCategories>
-    <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
-    </Address>
-    <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
-  <School>
-    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>South Daybreak Elementary</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave A</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>11011</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-      <GradeLevel>Kindergarten</GradeLevel>
-      <GradeLevel>First grade</GradeLevel>
-      <GradeLevel>Second grade</GradeLevel>
-      <GradeLevel>Third grade</GradeLevel>
-      <GradeLevel>Fourth grade</GradeLevel>
-      <GradeLevel>Fifth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Elementary School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
-    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>East Daybreak Junior High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave B</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>10112</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-3312</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-      <GradeLevel>Sixth grade</GradeLevel>
-      <GradeLevel>Seventh grade</GradeLevel>
-      <GradeLevel>Eighth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>Junior High School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
-    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
-      <ID>Daybreak Central High</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
-    <OrganizationCategories>
-      <OrganizationCategory>School</OrganizationCategory>
-    </OrganizationCategories>
-    <Address AddressType="Physical">
-      <StreetNumberName>111 Ave C</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>10098</PostalCode>
-      <NameOfCounty>Wake</NameOfCounty>
-    </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(917)-555-0216</TelephoneNumber>
-    </Telephone>
-    <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
-    </GradesOffered>
-    <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
-    </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-
-  <Course>
-    <CourseTitle>3rd Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>3rd Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>4th Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>4th Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>5th Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>5th Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>1st Grade Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>1st Grade Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <CompetencyLevels id="CL-G1-1">
-      <CodeValue>CL-G1-1</CodeValue>
-      <Description>Express complete thoughts.</Description>
-    </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-2">
-      <CodeValue>CL-G1-2</CodeValue>
-      <Description>Write multiple sentences about the same topic.</Description>
-    </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-3">
-      <CodeValue>CL-G1-3</CodeValue>
-      <Description>Add on to writing in response to questions.</Description>
-    </CompetencyLevels>
-    <CompetencyLevels id="CL-G1-4">
-      <CodeValue>CL-G1-4</CodeValue>
-      <Description>Write for a variety of purposes.</Description>
-    </CompetencyLevels>
-  </Course>
-  <Course>
-    <CourseTitle>8th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>8th Grade English</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>6th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>6th Grade English</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-
-  <Course>
-    <CourseTitle>American Literature</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>American Literature</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Spec. Elective: Debate Clinic</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Spec. Elective: Debate Clinic</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-
-  <!-- courses for progress history -->
-  <Course>
-    <CourseTitle>7th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade English</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>7th Grade Composition</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade Composition</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Kindergarten Homeroom</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Kindergarten Homeroom</ID>
-    </CourseCode>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>10th Grade Writing</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>10th Grade Writing</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>10th Grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>10th Grade English</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  
-  <!-- courses used for report cards for Carmen Ortiz -->
-  <Course>
-    <CourseTitle>Algebra II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Algebra II</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>State History II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>State History II</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Earth Sciences II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Earth Sciences II</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Vocal Performance II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Vocal Performance II</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Algebra I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Algebra I</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>State History I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>State History I</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Earth Sciences I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Earth Sciences I</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Vocal Performance I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Vocal Performance I</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Weight Training</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Weight Training</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>English 9B ELL</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>English 9B ELL</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Basic Math II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Basic Math II</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>World History II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>World History II</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Environmental Studies II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Environmental Studies II</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Vocal Ensemble II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Vocal Ensemble II</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Track and Field</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Track and Field</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>English 9A ELL</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>English 9A ELL</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Basic Math I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Basic Math I</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>World History I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>World History I</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Environmental Studies I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Environmental Studies I</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Vocal Ensemble I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Vocal Ensemble I</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Yoga and Fitness</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Yoga and Fitness</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>ELA 8B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>ELA 8B</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Pre-Algebra II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Pre-Algebra II</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>U.S. History II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>U.S. History II</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>6th Grade Math</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>6th Grade Math</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>    
-  <Course>
-    <CourseTitle>7th Grade Math</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>7th Grade Math</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>  
-  <Course>
-    <CourseTitle>Science 8B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 8B</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Choir B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Choir B</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 8B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 8B</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>ELA 8A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>ELA 8A</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Pre-Algebra I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Pre-Algebra I</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>U.S. History I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>U.S. History I</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 8A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 8A</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Choir A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Choir A</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 8A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 8A</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-
-  <!-- courses used for report cards for Matt Sollars.
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+	<StateEducationAgency>
+		<StateOrganizationId>IL</StateOrganizationId>
+		<NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>State Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address>
+			<StreetNumberName>123 Street</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>00000</PostalCode>
+		</Address>
+	</StateEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+		<NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address>
+			<StreetNumberName>123 Street</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>00000</PostalCode>
+		</Address>
+		<LEACategory>Independent</LEACategory>
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+	</LocalEducationAgency>
+	<School>
+		<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>South Daybreak Elementary</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Physical">
+			<StreetNumberName>111 Ave A</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>11011</PostalCode>
+			<NameOfCounty>Wake</NameOfCounty>
+		</Address>
+		<Telephone InstitutionTelephoneNumberType="Main">
+			<TelephoneNumber>(917)-555-0212</TelephoneNumber>
+		</Telephone>
+		<GradesOffered>
+			<GradeLevel>Kindergarten</GradeLevel>
+			<GradeLevel>First grade</GradeLevel>
+			<GradeLevel>Second grade</GradeLevel>
+			<GradeLevel>Third grade</GradeLevel>
+			<GradeLevel>Fourth grade</GradeLevel>
+			<GradeLevel>Fifth grade</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>Elementary School</SchoolCategory>
+		</SchoolCategories>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+	<School>
+		<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>East Daybreak Junior High</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Physical">
+			<StreetNumberName>111 Ave B</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>10112</PostalCode>
+			<NameOfCounty>Wake</NameOfCounty>
+		</Address>
+		<Telephone InstitutionTelephoneNumberType="Main">
+			<TelephoneNumber>(917)-555-3312</TelephoneNumber>
+		</Telephone>
+		<GradesOffered>
+			<GradeLevel>Sixth grade</GradeLevel>
+			<GradeLevel>Seventh grade</GradeLevel>
+			<GradeLevel>Eighth grade</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>Junior High School</SchoolCategory>
+		</SchoolCategories>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+	<School>
+		<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>Daybreak Central High</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>Daybreak Central High</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Physical">
+			<StreetNumberName>111 Ave C</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>10098</PostalCode>
+			<NameOfCounty>Wake</NameOfCounty>
+		</Address>
+		<Telephone InstitutionTelephoneNumberType="Main">
+			<TelephoneNumber>(917)-555-0216</TelephoneNumber>
+		</Telephone>
+		<GradesOffered>
+			<GradeLevel>Ninth grade</GradeLevel>
+			<GradeLevel>Tenth grade</GradeLevel>
+			<GradeLevel>Eleventh grade</GradeLevel>
+			<GradeLevel>Twelfth grade</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>High School</SchoolCategory>
+		</SchoolCategories>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+	<Course>
+		<CourseTitle>3rd Grade Homeroom</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>3rd Grade Homeroom</ID>
+		</CourseCode>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>4th Grade Homeroom</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>4th Grade Homeroom</ID>
+		</CourseCode>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>5th Grade Homeroom</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>5th Grade Homeroom</ID>
+		</CourseCode>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>1st Grade Homeroom</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>1st Grade Homeroom</ID>
+		</CourseCode>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<CompetencyLevels id="CL-G1-1">
+			<Description>Express complete thoughts.</Description>
+		</CompetencyLevels>
+		<CompetencyLevels id="CL-G1-2">
+			<Description>Write multiple sentences about the same topic.</Description>
+		</CompetencyLevels>
+		<CompetencyLevels id="CL-G1-3">
+			<Description>Add on to writing in response to questions.</Description>
+		</CompetencyLevels>
+		<CompetencyLevels id="CL-G1-4">
+			<Description>Write for a variety of purposes.</Description>
+		</CompetencyLevels>
+	</Course>
+	<Course>
+		<CourseTitle>8th Grade English</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>8th Grade English</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>6th Grade English</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>6th Grade English</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>American Literature</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>American Literature</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Spec. Elective: Debate Clinic</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Spec. Elective: Debate Clinic</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<!-- courses for progress history -->
+	<Course>
+		<CourseTitle>7th Grade English</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>7th Grade English</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>7th Grade Composition</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>7th Grade Composition</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Kindergarten Homeroom</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Kindergarten Homeroom</ID>
+		</CourseCode>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>10th Grade Writing</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>10th Grade Writing</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>10th Grade English</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>10th Grade English</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<!-- courses used for report cards for Carmen Ortiz -->
+	<Course>
+		<CourseTitle>Algebra II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Algebra II</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>State History II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>State History II</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Earth Sciences II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Earth Sciences II</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Vocal Performance II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Vocal Performance II</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Algebra I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Algebra I</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>State History I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>State History I</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Earth Sciences I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Earth Sciences I</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Vocal Performance I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Vocal Performance I</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Weight Training</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Weight Training</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>English 9B ELL</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>English 9B ELL</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Basic Math II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Basic Math II</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>World History II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>World History II</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Environmental Studies II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Environmental Studies II</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Vocal Ensemble II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Vocal Ensemble II</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Track and Field</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Track and Field</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>English 9A ELL</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>English 9A ELL</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Basic Math I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Basic Math I</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>World History I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>World History I</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Environmental Studies I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Environmental Studies I</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Vocal Ensemble I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Vocal Ensemble I</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Yoga and Fitness</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Yoga and Fitness</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>Daybreak Central High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>ELA 8B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>ELA 8B</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Pre-Algebra II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Pre-Algebra II</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>U.S. History II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>U.S. History II</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>6th Grade Math</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>6th Grade Math</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>7th Grade Math</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>7th Grade Math</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 8B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 8B</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Choir B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Choir B</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 8B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 8B</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>ELA 8A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>ELA 8A</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Pre-Algebra I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Pre-Algebra I</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>U.S. History I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>U.S. History I</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 8A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 8A</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Choir A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Choir A</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 8A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 8A</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<!-- courses used for report cards for Matt Sollars.
        Note that 7th Grade English and 7th Grade Composition have already been defined. -->
-  <Course>
-    <CourseTitle>Math 7B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 7B</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>State History II-G7</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>State History II-G7</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 7B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 7B</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Spanish II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Spanish II</ID>
-    </CourseCode>
-    <SubjectArea>Foreign Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Jazz Band</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Jazz Band</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 7A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 7A</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>State History I-G7</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>State History I-G7</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 7A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 7A</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Spanish I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Spanish I</ID>
-    </CourseCode>
-    <SubjectArea>Foreign Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Conditioning</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Conditioning</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>ELA 6B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>ELA 6B</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 6B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 6B</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>World History II-G6</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>World History II-G6</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 6B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 6B</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Drama II</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Drama II</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Nutrition</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Nutrition</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>ELA 6A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>ELA 6A</ID>
-    </CourseCode>
-    <SubjectArea>English Language and Literature</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 6A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 6A</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>World History I-G6</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>World History I-G6</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 6A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 6A</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Drama I</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Drama I</ID>
-    </CourseCode>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Team Sports</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Team Sports</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Reading 5B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Reading 5B</ID>
-    </CourseCode>
-    <SubjectArea>Reading</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Writing 5B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Writing 5B</ID>
-    </CourseCode>
-    <SubjectArea>Writing</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 5B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 5B</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-
-  <Course>
-    <CourseTitle>Geography-5</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Geography-5</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 5B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 5B</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 5B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 5B</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Reading 5A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Reading 5A</ID>
-    </CourseCode>
-    <SubjectArea>Reading</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Writing 5A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Writing 5A</ID>
-    </CourseCode>
-    <SubjectArea>Writing</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 5A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 5A</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 4A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 4A</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 3A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 3A</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Government-5</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Government-5</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 5A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 5A</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 5A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 5A</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Reading 4B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Reading 4B</ID>
-    </CourseCode>
-    <SubjectArea>Reading</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Writing 4B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Writing 4B</ID>
-    </CourseCode>
-    <SubjectArea>Writing</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Math 4B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Math 4B</ID>
-    </CourseCode>
-    <SubjectArea>Mathematics</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Geography-4</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Geography-4</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 4B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 4B</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 4B</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 4B</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Reading 4A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Reading 4A</ID>
-    </CourseCode>
-    <SubjectArea>Reading</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Writing 4A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Writing 4A</ID>
-    </CourseCode>
-    <SubjectArea>Writing</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Government-4</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Government-4</ID>
-    </CourseCode>
-    <SubjectArea>Social Studies</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Science 4A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Science 4A</ID>
-    </CourseCode>
-    <SubjectArea>Science</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-  <Course>
-    <CourseTitle>Phys-Ed 4A</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Phys-Ed 4A</ID>
-    </CourseCode>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
-    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <MinimumAvailableCredit>
-      <Credit>1</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>1</Credit>
-    </MaximumAvailableCredit>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </Course>
-
-  <Program>
-    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-	<ProgramType>Regular Education</ProgramType>
-	<ProgramSponsor>State Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 1</CodeValue>
-	  <ShortDescription>Short description for acceptance test program 1</ShortDescription>
-	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>
-	</Services>
-  </Program>
-  <Program>
-    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	<ProgramType>Remedial Education</ProgramType>
-	<ProgramSponsor>Local Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 2</CodeValue>
-	  <ShortDescription>Short description for acceptance test program 2</ShortDescription>
-	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>
-	</Services>
-  </Program>
+	<Course>
+		<CourseTitle>Math 7B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 7B</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>State History II-G7</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>State History II-G7</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 7B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 7B</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Spanish II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Spanish II</ID>
+		</CourseCode>
+		<SubjectArea>Foreign Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Jazz Band</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Jazz Band</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 7A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 7A</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>State History I-G7</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>State History I-G7</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 7A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 7A</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Spanish I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Spanish I</ID>
+		</CourseCode>
+		<SubjectArea>Foreign Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Conditioning</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Conditioning</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>ELA 6B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>ELA 6B</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 6B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 6B</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>World History II-G6</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>World History II-G6</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 6B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 6B</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Drama II</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Drama II</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Nutrition</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Nutrition</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>ELA 6A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>ELA 6A</ID>
+		</CourseCode>
+		<SubjectArea>English Language and Literature</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 6A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 6A</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>World History I-G6</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>World History I-G6</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 6A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 6A</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Drama I</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Drama I</ID>
+		</CourseCode>
+		<SubjectArea>Fine and Performing Arts</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Team Sports</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Team Sports</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>East Daybreak Junior High</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Reading 5B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Reading 5B</ID>
+		</CourseCode>
+		<SubjectArea>Reading</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Writing 5B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Writing 5B</ID>
+		</CourseCode>
+		<SubjectArea>Writing</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 5B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 5B</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Geography-5</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Geography-5</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 5B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 5B</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 5B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 5B</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Reading 5A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Reading 5A</ID>
+		</CourseCode>
+		<SubjectArea>Reading</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Writing 5A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Writing 5A</ID>
+		</CourseCode>
+		<SubjectArea>Writing</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 5A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 5A</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 4A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 4A</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 3A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 3A</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Government-5</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Government-5</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 5A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 5A</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 5A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 5A</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Reading 4B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Reading 4B</ID>
+		</CourseCode>
+		<SubjectArea>Reading</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Writing 4B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Writing 4B</ID>
+		</CourseCode>
+		<SubjectArea>Writing</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Math 4B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Math 4B</ID>
+		</CourseCode>
+		<SubjectArea>Mathematics</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Geography-4</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Geography-4</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 4B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 4B</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 4B</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 4B</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Reading 4A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Reading 4A</ID>
+		</CourseCode>
+		<SubjectArea>Reading</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Writing 4A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Writing 4A</ID>
+		</CourseCode>
+		<SubjectArea>Writing</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Government-4</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Government-4</ID>
+		</CourseCode>
+		<SubjectArea>Social Studies</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Science 4A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Science 4A</ID>
+		</CourseCode>
+		<SubjectArea>Science</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Course>
+		<CourseTitle>Phys-Ed 4A</CourseTitle>
+		<NumberOfParts>1</NumberOfParts>
+		<CourseCode IdentificationSystem="CSSC course code">
+			<ID>Phys-Ed 4A</ID>
+		</CourseCode>
+		<SubjectArea>Physical, Health, and Safety Education</SubjectArea>
+		<DateCourseAdopted>2000-01-01</DateCourseAdopted>
+		<HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+		<MinimumAvailableCredit>
+			<Credit>1</Credit>
+		</MinimumAvailableCredit>
+		<MaximumAvailableCredit>
+			<Credit>1</Credit>
+		</MaximumAvailableCredit>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<EducationOrgIdentificationCode IdentificationSystem="School">
+					<ID>South Daybreak Elementary</ID>
+				</EducationOrgIdentificationCode>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</Course>
+	<Program>
+		<ProgramId>ACC-TEST-PROG-1</ProgramId>
+		<ProgramType>Regular Education</ProgramType>
+		<ProgramSponsor>State Education Agency</ProgramSponsor>
+		<Services>
+			<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+		</Services>
+	</Program>
+	<Program>
+		<ProgramId>ACC-TEST-PROG-2</ProgramId>
+		<ProgramType>Remedial Education</ProgramType>
+		<ProgramSponsor>Local Education Agency</ProgramSponsor>
+		<Services>
+			<ShortDescription>Short description for acceptance test program 2</ShortDescription>
+		</Services>
+	</Program>
 </InterchangeEducationOrganization>
