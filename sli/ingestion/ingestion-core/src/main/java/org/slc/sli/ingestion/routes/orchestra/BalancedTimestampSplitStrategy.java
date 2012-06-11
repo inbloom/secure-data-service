@@ -23,11 +23,14 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 @Component
 public class BalancedTimestampSplitStrategy implements SplitStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(BalancedTimestampSplitStrategy.class);
+    
+    private static final int SINGLE_BATCH_SIZE = 1;
 
     @Value("${sli.ingestion.split.chunk.size}")
     private int splitChunkSize;
 
-    private double thresholdPct = 0.30;
+    @Value("${sli.ingestion.split.threshold.percentage}")
+    private double splitThresholdPercentage;
 
     private NeutralRecordAccess neutralRecordAccess;
 
@@ -41,7 +44,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         long numRecords = getCountOfRecords(stagedEntity.getCollectionNameAsStaged(), minTime, maxTime, jobId);
 
         if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
-            LOG.info("Creating many WorkNotes for {} collection.", stagedEntity.getCollectionNameAsStaged());
+            LOG.debug("Creating many WorkNotes for {} collection.", stagedEntity.getCollectionNameAsStaged());
 
             workNotesForEntity = partitionWorkNotes(minTime, maxTime, stagedEntity, jobId);
 
@@ -73,7 +76,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         String collectionName = stagedEntity.getCollectionNameAsStaged();
         long recordsInRange = getCountOfRecords(collectionName, min, max, jobId);
 
-        if (recordsInRange <= splitChunkSize * (1.0 + thresholdPct) || (max - min <= 1)) {
+        if (recordsInRange <= splitChunkSize * (1.0 + splitThresholdPercentage) || (max - min <= 1)) {
             // we are within our target chunksize + margin.
             // OR we have a chunk size that cannot be partitioned further.
             LOG.debug("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
@@ -112,11 +115,11 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
             long previousPivot = pivot;
             long recordsLeftOfPivot = getCountOfRecords(collectionName, minTime, pivot, jobId);
 
-            if (recordsLeftOfPivot < targetRecordCount * (1.0 - thresholdPct)) {
+            if (recordsLeftOfPivot < targetRecordCount * (1.0 - splitThresholdPercentage)) {
                 // move pivot right
                 pivotLowerBound = pivot;
                 pivot = pivot + ((pivotUpperBound - pivot) / 2);
-            } else if (recordsLeftOfPivot > targetRecordCount * (1.0 + thresholdPct)) {
+            } else if (recordsLeftOfPivot > targetRecordCount * (1.0 + splitThresholdPercentage)) {
                 // move pivot left
                 pivotUpperBound = pivot;
                 pivot = pivot - ((pivot - pivotLowerBound) / 2);
@@ -133,8 +136,8 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
     }
 
     private List<WorkNote> singleWorkNoteList(long min, long max, IngestionStagedEntity entity, String jobId) {
-        List<WorkNote> workNoteList = new ArrayList<WorkNote>(1);
-        workNoteList.add(WorkNoteImpl.createBatchedWorkNote(jobId, entity, min, max, 1));
+        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
+        workNoteList.add(WorkNoteImpl.createBatchedWorkNote(jobId, entity, min, max, SINGLE_BATCH_SIZE));
         return workNoteList;
     }
 
@@ -145,9 +148,12 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
     public void setNeutralRecordAccess(NeutralRecordAccess neutralRecordAccess) {
         this.neutralRecordAccess = neutralRecordAccess;
     }
-
+    
     public void setSplitChunkSize(int splitChunkSize) {
         this.splitChunkSize = splitChunkSize;
     }
-
+    
+    public void setSplitThresholdPercentage(double splitThresholdPercentage) {
+        this.splitThresholdPercentage = splitThresholdPercentage;
+    }
 }
