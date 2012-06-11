@@ -26,7 +26,7 @@ Examples:
 	|Username    |Password        |Realm|Role      |District     |Data|
 	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"|
         #DE719
-	#|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"|
+	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"|
 	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"|
 	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Dale Reiss"|
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
