@@ -47,6 +47,12 @@ module ApprovalEngine
         "Application Developer"
     ]
 
+    # all the user states that should be included in the user count 
+    COUNTABLE_STATES = Set.new [
+        STATE_PENDING,
+        STATE_APPROVED
+    ]
+
     ## backend storage
     @@storage                  = nil
     @@transition_action_config = nil
@@ -78,7 +84,6 @@ module ApprovalEngine
         status = user[:status]
         target = FSM[status]
 
-        puts "STATUS: #{status}      TARGET: #{target}     new status: #{target.key?(transition)}        transition:#{transition}"
         if (!target) || (!target.key?(transition))
             raise "Current status '#{user[:status]}' does not allow transition '#{transition}'."
         end
@@ -92,7 +97,7 @@ module ApprovalEngine
         user[:status] = target[transition]
         case [status, target[transition]]
             when [STATE_SUBMITTED, STATE_EULA_ACCEPTED]
-                user[:emailtoken] = Digest::MD5.hexdigest(@@email_secret + user[:email] + user[:first] + user[:last])
+                set_emailtoken(user)
                 @@storage.update_status(user)
             when [STATE_EULA_ACCEPTED, STATE_PENDING]
                 @@storage.update_status(user)
@@ -202,6 +207,12 @@ module ApprovalEngine
         end
     end
 
+    def ApprovalEngine.get_user_count
+        users = get_users
+        users = users.select { |u| COUNTABLE_STATES.include?(u[:status]) }
+        return users.length
+    end
+
     # Returns an individual user via their email address or nil if the user does not exist.
     def ApprovalEngine.get_user(email_address)
         user = @@storage.read_user(email_address)
@@ -253,5 +264,18 @@ module ApprovalEngine
 
     def ApprovalEngine.get_roles(email_address)
         @@storage.get_user_groups(email_address)
+    end
+
+    #############################################################
+    # Private methods
+    #############################################################
+    private 
+
+    def ApprovalEngine.set_emailtoken(user)
+        user_info = {
+            :email => user[:email],
+            :emailtoken => Digest::MD5.hexdigest(@@email_secret + user[:email] + user[:first] + user[:last])
+        }
+        update_user_info(user_info)
     end
 end

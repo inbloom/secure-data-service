@@ -18,7 +18,6 @@ class MockTransitionActionConfig
 
   def transition(user)
     if user && user[:status] == ApprovalEngine::ACTION_APPROVE
-      puts 'Sending approval email'
       @emailer.send_approval_email()
     end
   end
@@ -35,7 +34,7 @@ class TestApprovalEngine < Test::Unit::TestCase
             :email      => @jd_email,
             :password   => "secret", 
             :vendor     => "Acme Inc.",
-            :emailtoken => @jd_emailtoken,
+#            :emailtoken => @jd_emailtoken,
             :status     => "submitted",
             :homedir    => "/home/exampleuser",
             :emailAddress => @jd_email
@@ -84,7 +83,6 @@ class TestApprovalEngine < Test::Unit::TestCase
         assert(user)
         assert(user[:email] == @jd_email)
         assert(user[:status] == ApprovalEngine::STATE_EULA_ACCEPTED)
-        puts "USER: #{user}"
 
         ApprovalEngine.verify_email(user[:emailtoken])
         if !is_sandbox
@@ -114,12 +112,20 @@ class TestApprovalEngine < Test::Unit::TestCase
         # move the other user to rejected state 
         if !is_sandbox
             ApprovalEngine.change_user_status(@td_email, ApprovalEngine::ACTION_ACCEPT_EULA)
-            ApprovalEngine.verify_email(td_emailtoken)
+            user = ApprovalEngine.get_user(@td_email)
+            ApprovalEngine.verify_email(user[:emailtoken])
             ApprovalEngine.change_user_status(@td_email, ApprovalEngine::ACTION_REJECT)
             assert(@ldap.read_user(@td_email)[:status] == ApprovalEngine::STATE_REJECTED)
             roles = ApprovalEngine.get_roles(@td_email) 
             assert(roles == [], "Expected empty roles but got #{roles}")
+
+            user = ApprovalEngine.get_user(@td_email)
+            ApprovalEngine.change_user_status(@td_email, user[:transitions][0])
+            user = ApprovalEngine.get_user(@td_email)
+            assert(user[:status] == ApprovalEngine::STATE_APPROVED)
         end
+
+        # make sure we have two 
 
         ApprovalEngine.remove_user(@td_email)
         ApprovalEngine.remove_user(@jd_email)
@@ -136,7 +142,7 @@ class TestApprovalEngine < Test::Unit::TestCase
         regular_workflow(true)
     end
 
-    def xtest_sandbox
+    def test_sandbox
         regular_workflow(false)
     end
 end

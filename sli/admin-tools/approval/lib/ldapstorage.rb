@@ -75,6 +75,7 @@ class LDAPStorage
 
     # these values are injected when the user is created 
     ENTITY_CONSTANTS = {
+        :emailtoken => "-",
         :uidnumber  => CONST_GROUPID_NUM,
         :gidnumber  => CONST_USERID_NUM,
         :vendor     => "none",
@@ -237,7 +238,6 @@ class LDAPStorage
             Net::LDAP.open(@ldap_conf) do |ldap|
 
                 if !ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
-                    puts "LDAP ERROR: #{user}"
                     raise ldap_ex(ldap, "Could not update user status for user #{user[:email]}")
                 end
             end
