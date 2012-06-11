@@ -1,0 +1,2 @@
+module ChangePasswordsHelper
+end

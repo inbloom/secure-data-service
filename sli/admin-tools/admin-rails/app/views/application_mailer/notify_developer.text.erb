@@ -1,0 +1,9 @@
+<%= @firstName %>,
+
+Congratulations, your application, <%= @app.name %>, is approved.
+
+To request access to state and district data, follow this link:
+<%= url_for(:controller=>"apps", :action=>"edit", :id=>@app.to_param, :only_path => false) %>
+
+Thank you,
+The Shared Learning Collaborative

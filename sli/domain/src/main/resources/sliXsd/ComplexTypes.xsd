@@ -1756,7 +1756,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
@@ -1765,7 +1769,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -2190,10 +2198,10 @@
 					<xs:documentation>The legal document or authorization giving
 						authorization to perform teaching assignment services.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="loginId" type="identificationCode"
@@ -5764,6 +5772,14 @@
       <xs:element name="schoolYear" type="schoolYearType">
         <xs:annotation>
           <xs:documentation>The identifier for the school year.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="stateOrganizationId" type="identificationCode">
+        <xs:annotation>
+          <xs:documentation>The identifier assigned to an education agency by
+                            the State
+                            Education Agency (SEA). Also known as the State LEA ID.
+          </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">

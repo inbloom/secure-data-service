@@ -45,11 +45,11 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    @password_policy = false 
+    # @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    # @password_policy = false 
 
-    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
-    #@password_policy = true 
+    @ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+    @password_policy = true 
 
     @ldap.delete_user(Jd_email)
     @ldap.delete_user(Td_email)
@@ -71,10 +71,7 @@ class TestLdap < Test::Unit::TestCase
 
   def assert_equal_user_info(expected, actual)
     All_keys.each do |x| 
-      if x.to_s.downcase == "password"
-#        assert_equal "{MD5}#{Digest::MD5.base64digest(expected[x])}", actual[x]
-        assert_equal expected[x], actual[x]
-      elsif x.to_s.downcase != "cn"
+      if (x.to_s.downcase != "password") && (x.to_s.downcase != "cn")
         assert_equal expected[x], actual[x]
       end
     end
@@ -133,7 +130,6 @@ class TestLdap < Test::Unit::TestCase
       :first      => "#{found_user[:first]}UpdateTest",
       :last       => "#{found_user[:last]}UpdateTest", 
       :email      => found_user[:email],
-      :password   => "#{found_user[:password]}UpdateTest", 
       :vendor     => "#{found_user[:vendor]}UpdateTest",
       :emailtoken => "#{found_user[:emailtoken]}UpdateTest",
       :status     => "#{found_user[:status]}UpdateTest",
@@ -234,15 +230,22 @@ class TestLdap < Test::Unit::TestCase
     desc = desc[:description][0]
     assert !desc || (desc.strip == "")
 
-    test_user_info[:tenant] = "testtenant"
-    @ldap.update_user_info(test_user_info)
+    tu_update = {
+      :email => test_user_info[:email],
+      :tenant => "testtenant"
+    }
+    @ldap.update_user_info(tu_update)
+
     ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
     assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
     desc = ldap_raw[0][:description][0]
     assert desc.strip == "tenant=testtenant"
 
-    test_user_info[:edorg] = "testedorg"
-    @ldap.update_user_info(test_user_info)
+    tu_update = {
+      :email => test_user_info[:email],
+      :edorg => "testedorg"
+    }
+    @ldap.update_user_info(tu_update)
     ldap_raw = @ldap.search_users_raw("*#{Jd_email}*")
     assert ldap_raw && (ldap_raw[0]) && ldap_raw[0][:description] && ldap_raw[0][:description][0]
     desc = ldap_raw[0][:description][0]
@@ -302,6 +305,9 @@ class TestLdap < Test::Unit::TestCase
     assert found[:homedir] == test_user_info[:homedir]
     assert found[:tenant] == test_user_info[:tenant]
     assert found[:edorg] == test_user_info[:edorg]
+
+    # authenticate
+    assert @ldap.authenticate(uid, "secret")
 
     @ldap.delete_user(uid)
   end 
@@ -390,7 +396,10 @@ class TestLdap < Test::Unit::TestCase
     assert !(@ldap.authenticate(Jd_email, "wrongpassword"))
     assert !(@ldap.authenticate("xyz" + Jd_email, "secret"))
 
-    @ldap.delete_user(test_user_info[:email])
+    #@ldap.delete_user(test_user_info[:email])
   end 
+
+
+
 end
 

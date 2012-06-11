@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
         session[:edOrg] = check["edOrg"]
+        session[:external_id] = check["external_id"]
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
@@ -101,6 +102,18 @@ class ApplicationController < ActionController::Base
 
   def is_sea_admin?
     session[:roles].include? "SEA Administrator"
+  end
+
+  def is_realm_admin?
+    session[:roles].include?("Realm Administrator")
+  end
+
+  def is_ingestion_user?
+    session[:roles].include?("Ingestion User")
+  end
+
+  def is_it_admin?
+    session[:roles].include?("IT Administrator")
   end
 
   def get_tenant

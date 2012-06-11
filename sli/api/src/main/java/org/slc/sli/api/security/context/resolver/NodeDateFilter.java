@@ -1,5 +1,11 @@
 package org.slc.sli.api.security.context.resolver;
 
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,13 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.domain.Entity;
 
 /**
  * Filters the entity by a given date
@@ -69,7 +68,7 @@ public class NodeDateFilter extends NodeFilter {
                     String endDateStr = (String) entity.getBody().get(endDateParamName);
 
                     if (startDateParamName.isEmpty()) {
-                        if (isFirstDateBeforeSecondDate(endDateStr, curDateWithGracePeriod)) {
+                        if (endDateStr == null || endDateStr.isEmpty() || isFirstDateBeforeSecondDate(curDateWithGracePeriod, endDateStr)) {
                             returnEntityList.add(entity);
                         }
                     } else {
@@ -109,24 +108,14 @@ public class NodeDateFilter extends NodeFilter {
      * @return
      */
     protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) {
-
-        Date date = null, endDate = null;
-        boolean retValue = true;
-
         try {
-            if (formattedFirstDateString != null && !formattedFirstDateString.equals("")) {
-                date = formatter.parse(formattedFirstDateString);
-                endDate = formatter.parse(formattedSecondDateString);
-
-                if (date.before(endDate)) {
-                    retValue = false;
-                }
-            }
-
+            Date date = formatter.parse(formattedFirstDateString);
+            Date endDate = formatter.parse(formattedSecondDateString);
+            return date.before(endDate);
         } catch (ParseException e) {
-            retValue = false;
+            warn("parse exception {} {}", formattedFirstDateString, formattedSecondDateString);
+            return false;
         }
-        return retValue;
     }
 
     protected String getCurrentDate() {
