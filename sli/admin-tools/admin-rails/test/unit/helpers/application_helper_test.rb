@@ -38,23 +38,6 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal true, ApplicationHelper.send_user_verification_email("unused junk", user[:email])
   end
 
-  test "get valid email info" do
-    RestClient.stubs(:get).returns(MockResponse.new(200,true,MOCK_EMAIL_INFO_FROM_API))
-    res = ApplicationHelper.get_email_info "1234567890"
-    assert_equal(res["email_address"], "bob@bob.com")
-    assert_equal(res["first_name"], "Bob")
-    assert_equal(res["last_name"], "Roberts")
-
-  end
-
-  test "get email info but info is unkown" do
-    RestClient.stubs(:get).returns(MockResponse.new(404))
-    res = ApplicationHelper.get_email_info "1234567890"
-    assert_equal(res["email_address"], "UNKNOWN")
-    assert_equal(res["first_name"], "UNKNOWN")
-    assert_equal(res["last_name"], "UNKNOWN")
-  end
-
   def test_get_user_with_emailtoken
     ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"test@test.com"})
     res=ApplicationHelper.get_user_with_emailtoken("12345")
