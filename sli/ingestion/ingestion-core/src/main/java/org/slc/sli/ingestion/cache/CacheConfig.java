@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.cache;
 
+import net.spy.memcached.ConnectionFactoryBuilder.Locator;
 import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
@@ -27,6 +28,7 @@ public class CacheConfig {
 
         MemcachedClientFactoryBean bean = new MemcachedClientFactoryBean();
         bean.setServers(cacheServers);
+        bean.setLocatorType( Locator.CONSISTENT );
         bean.setProtocol(Protocol.BINARY);
 
         return bean;

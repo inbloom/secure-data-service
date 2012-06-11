@@ -1162,7 +1162,7 @@ nxteam:
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.cache.type: memcached
-        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211
+        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211
         
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
