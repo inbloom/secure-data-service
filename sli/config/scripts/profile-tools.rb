@@ -10,6 +10,7 @@ if ARGV.count<3
   exit
 end
 
+profileCollSize = 1024000000
 connection = Mongo::Connection.new(ARGV[0], ARGV[1])
 db = connection.db("sli")
 
@@ -20,7 +21,9 @@ if actionMode.to_s == "setup"
   
   db.profiling_level = :off
   profileColl = db.drop_collection('system.profile')
-  coll = db.create_collection("system.profile",:capped => true, :size=>1024000000, :max=>1024000000)
+  
+  puts "system.profile collection size = " + profileCollSize.to_s
+  coll = db.create_collection("system.profile",:capped => true, :size=>profileCollSize, :max=>profileCollSize)
   
   puts ""
   
