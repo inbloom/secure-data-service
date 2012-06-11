@@ -37,8 +37,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<Object, NeutralRecord> studentAssessments;
     
-    private Map<Object, NeutralRecord> objectiveAssessments;
-    
     @Autowired
     private ObjectiveAssessmentBuilder builder;
     
@@ -47,7 +45,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public StudentAssessmentCombiner() {
         studentAssessments = new HashMap<Object, NeutralRecord>();
-        objectiveAssessments = new HashMap<Object, NeutralRecord>();
     }
     
     /**
@@ -67,11 +64,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
         studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
-        objectiveAssessments = loadAllObjectiveAssessments();
         LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
                 studentAssessments.size());
-        LOG.info("{} is loaded into local storage.  Total Count = {}", OBJECTIVE_ASSESSMENT,
-                objectiveAssessments.size());
     }
     
     /**
@@ -136,8 +130,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
-                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(objectiveAssessmentRef,
-                        objectiveAssessments);
+                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
+                        getJob(), objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
                     LOG.info("Found objective assessment: {}", objectiveAssessmentRef);

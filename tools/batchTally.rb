@@ -157,8 +157,12 @@ puts "Job started: #{jobStart.getlocal}"
 if ! jobEnd.nil?
   puts "Job ended: #{jobEnd.getlocal}"
 end
-puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{(transformedRecordCount / wallClockForPits )}\e[0m"
+pitRPS = (transformedRecordCount / wallClockForPits )
+
+puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{pitRPS}\e[0m"
 puts "PIT RPS (persistence / pit wall-clock)  \e[35m#{(persistedRecordCount / wallClockForPits )}\e[0m"
+
+jobRps = transformedRecordCount / totalJobTime.round()
 
 if  !totalJobTime.nil?
   puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
@@ -166,6 +170,7 @@ if  !totalJobTime.nil?
   puts "Total Job time #{totalJobTime} sec"
 
 end
-
+dataSet = id.slice(0, id.index("_"))
+puts "PIT #{pitRPS} Job: #{jobRps}  Jobtime: #{(totalJobTime/60).round()} minutes Dataset: #{dataSet}"
 puts "ALL DONE"
 
