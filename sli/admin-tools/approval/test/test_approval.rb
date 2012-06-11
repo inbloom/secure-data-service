@@ -123,6 +123,12 @@ class TestApprovalEngine < Test::Unit::TestCase
             ApprovalEngine.change_user_status(@td_email, user[:transitions][0])
             user = ApprovalEngine.get_user(@td_email)
             assert(user[:status] == ApprovalEngine::STATE_APPROVED)
+
+            pending_or_approved = ApprovalEngine.get_users().select do |u|
+                ([ApprovalEngine::STATE_APPROVED, ApprovalEngine::STATE_PENDING]).include?(u[:status])
+            end
+
+            assert(ApprovalEngine.get_user_count == pending_or_approved.length)
         end
 
         # make sure we have two 

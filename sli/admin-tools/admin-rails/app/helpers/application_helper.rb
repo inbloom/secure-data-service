@@ -38,18 +38,16 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.send_user_verification_email(validate_base, email)
-    user = ApprovalEngine.get_user(email)
-    if (user == nil)
-      return false
-    end
+  def self.send_user_verification_email(validate_base, email_address)    
+    ApprovalEngine.change_user_status(email_address, "accept_eula")
+    user = ApprovalEngine.get_user(email_address)
     first_name = user[:first]
-    email_address = user[:email]
     email_token = user[:emailtoken]
     
     if (email_token.nil?)
       return false
     end
+    
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
     ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
     true
