@@ -20,9 +20,12 @@
       value="file:${sli.conf}" />
   </bean>
 
-  <!-- MONGODB CONFIG -->
-  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}"
-    host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
+   <!-- MONGODB CONFIG -->
+   <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
+      <mongo:options connections-per-host="${sli.ingestion.queue.pit.concurrentConsumers}" auto-connect-retry="true" />
+   </mongo:mongo>
+  
+  <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
   <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
   <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="mongoDbFactory">
