@@ -44,7 +44,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #update related field data
   id = "staffReference"                         if human_readable_id == "UPDATE FIELD"
   id = "87b82ed6-27d7-4af4-866f-be1693af549a"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "269be4c9-a806-4051-a02d-15a7af3ffe3e"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "ca58001c-5cda-46e3-930e-063fe3111b3a"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"

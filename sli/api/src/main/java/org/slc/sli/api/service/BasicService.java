@@ -229,6 +229,8 @@ public class BasicService implements EntityService {
             info("No change detected to {}", id);
             return false;
         }
+        
+        checkReferences(content);
 
         info("new body is {}", sanitized);
         entity.getBody().clear();

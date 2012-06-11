@@ -36,6 +36,7 @@
     <jb:bean beanId="gradingPeriodIdentity" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="schoolYear" data="attributes gradingPeriodIdentity schoolYear" />
         <jb:value property="gradingPeriod" data="attributes gradingPeriodIdentity gradingPeriod" />
+        <jb:value property="stateOrganizationId" data="attributes gradingPeriodIdentity stateOrganizationId" />
         <jb:wiring property="educationalOrgIdentity" beanIdRef="educationalOrgIdentity_array" />
     </jb:bean>
 
