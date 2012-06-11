@@ -597,6 +597,10 @@ public class BasicService implements EntityService {
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
             Object value = entry.getValue();
+
+            if (value == null) {
+                continue;
+            }
             
             String fieldPath = fieldName;
             String entityType = provider.getReferencingEntity(defn.getType(), fieldPath);
@@ -614,7 +618,7 @@ public class BasicService implements EntityService {
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
                             neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
-                            this.addDefaultQueryParams(neutralQuery, entityType);
+//                            this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
                             if (!accessible.contains(cur) && entity != null) {
@@ -626,7 +630,7 @@ public class BasicService implements EntityService {
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
                         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
-                        this.addDefaultQueryParams(neutralQuery, entityType);
+//                        this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
                         if (value != null && !accessible.contains(value) && entity != null) {
@@ -643,7 +647,7 @@ public class BasicService implements EntityService {
                         for (String cur : valuesList) {
                             NeutralQuery neutralQuery = new NeutralQuery();
                             neutralQuery.addCriteria(new NeutralCriteria("_id", "=", cur));
-                            this.addDefaultQueryParams(neutralQuery, entityType);
+//                            this.addDefaultQueryParams(neutralQuery, entityType);
 
                             Entity entity = getRepo().findOne(entityType, neutralQuery);
                             if (!isEntityAllowed(cur, entityType, entityType) && entity != null) {
@@ -655,7 +659,7 @@ public class BasicService implements EntityService {
                     } else {
                         NeutralQuery neutralQuery = new NeutralQuery();
                         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", (String) value));
-                        this.addDefaultQueryParams(neutralQuery, entityType);
+//                        this.addDefaultQueryParams(neutralQuery, entityType);
 
                         Entity entity = getRepo().findOne(entityType, neutralQuery);
                         if (!isEntityAllowed((String) value, entityType, entityType) && entity != null) {
