@@ -54,7 +54,7 @@ public class ResolveCreatorsEntitiesHelper {
         String userId = user.getEntity().getEntityId();
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
         nq.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-        BasicService.addDefaultQueryParams(nq, EntityNames.EDUCATION_ORGANIZATION);
+//        BasicService.addDefaultQueryParams(nq, EntityNames.EDUCATION_ORGANIZATION);
         List<String> createdIds = (List<String>) repo.findAllIds(toEntity, nq);
 
         return createdIds;

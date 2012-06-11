@@ -128,7 +128,7 @@ public class AssociativeContextHelper {
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(9999);
-        BasicService.addDefaultQueryParams(neutralQuery, collectionName);
+//        BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }

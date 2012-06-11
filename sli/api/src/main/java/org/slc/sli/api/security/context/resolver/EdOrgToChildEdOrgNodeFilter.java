@@ -73,7 +73,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
         NeutralQuery stateQuery = new NeutralQuery();
         List<String> myEdOrgsIds = new ArrayList<String>();
         stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", parentEdOrgStateId));
-        BasicService.addDefaultQueryParams(stateQuery, EntityNames.EDUCATION_ORGANIZATION);
+//        BasicService.addDefaultQueryParams(stateQuery, EntityNames.EDUCATION_ORGANIZATION);
 
         Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
         

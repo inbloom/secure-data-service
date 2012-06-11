@@ -140,6 +140,7 @@ end
 
 When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
   restHttpGet("/teacher-school-associations/"+arg1+"/targets")
+  assert(false, "#{arg1} Response from rest-client GET is nil")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
