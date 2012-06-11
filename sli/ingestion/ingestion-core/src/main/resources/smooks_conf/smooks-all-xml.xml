@@ -2852,7 +2852,6 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
     <jb:expression property="recordType">'staffCohortAssociation'</jb:expression>
-    <jb:expression property="association">true</jb:expression>
     <jb:wiring property="attributes" beanIdRef="staffCohortAssociationAttributes" />
   </jb:bean>
 

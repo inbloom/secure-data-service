@@ -1,9 +1,0 @@
-{
-    "collection": "staffCohortAssociation",
-    "indexFields":
-    [
-        {"name" : "body.cohortId", "order" : "1"},
-        {"name" : "body.staffId", "order" : "1"},
-        {"name" : "metaData.tenantId", "order" : "1"}
-    ]
-}
