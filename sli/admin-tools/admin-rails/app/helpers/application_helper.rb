@@ -26,7 +26,7 @@ module ApplicationHelper
   #     Nothing
   #
   def self.remove_user_account(email)
-    # TODO remove account from LDAP
+    ApprovalEngine.remove_user(email)
   end
 
   # Gets the email address for the supplied GUID and sends them a confirmation-request
@@ -38,18 +38,20 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.send_user_verification_email(validate_base, guid)
-
-    user_email_info = get_email_info guid
-    email_address = user_email_info["email_address"]
-    email_token = get_email_token(email_address)
+  def self.send_user_verification_email(validate_base, email)
+    user = ApprovalEngine.get_user(email)
+    if (user == nil)
+      return false
+    end
+    first_name = user[:first]
+    email_address = user[:email]
+    email_token = user[:emailtoken]
+    
     if (email_token.nil?)
       return false
     end
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
-
-    ApplicationMailer.verify_email(email_address,user_email_info['first_name'],userEmailValidationLink).deliver
-
+    ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
     true
   end
 
