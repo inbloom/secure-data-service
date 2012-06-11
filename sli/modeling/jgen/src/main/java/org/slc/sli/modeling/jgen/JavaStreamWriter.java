@@ -33,6 +33,10 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void endStmt() throws IOException;
 
+    void parenL() throws IOException;
+
+    void parenR() throws IOException;
+
     JavaStreamWriter write(String text) throws IOException;
 
     void writeAccessor(String name, String typeName) throws IOException;

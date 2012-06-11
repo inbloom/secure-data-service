@@ -16,6 +16,7 @@ import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
+import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
@@ -66,8 +67,8 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
                 try {
                     jsw.write("List<Entity> " + method.getId());
                     jsw.write("(");
-                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(method, resource,
-                            resources, application, ancestors);
+                    final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
                     jsw.writeParams(params);
                     jsw.write(") throws IOException, SLIDataStoreException");
                     @SuppressWarnings("unused")

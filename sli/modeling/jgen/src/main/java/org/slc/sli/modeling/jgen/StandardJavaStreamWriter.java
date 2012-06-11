@@ -215,14 +215,24 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write("get");
         writer.write(titleCase(name));
-        writer.write(LPAREN);
-        writer.write(RPAREN);
+        parenL();
+        parenR();
         beginBlock();
         writer.write("return");
         writer.write(SPACE);
         writer.write(camelCase(name));
         writer.write(SEMICOLON);
         endBlock();
+    }
+
+    @Override
+    public void parenL() throws IOException {
+        writer.write(LPAREN);
+    }
+
+    @Override
+    public void parenR() throws IOException {
+        writer.write(RPAREN);
     }
 
     @Override

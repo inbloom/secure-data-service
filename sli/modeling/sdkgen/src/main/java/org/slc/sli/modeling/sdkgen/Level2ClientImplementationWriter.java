@@ -18,6 +18,7 @@ import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
+import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
@@ -107,18 +108,16 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                     jsw.write("public ");
                     jsw.write("List<Entity> " + method.getId());
                     jsw.write("(");
-                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(method, resource,
-                            resources, application, ancestors);
+                    final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
                     jsw.writeParams(params);
                     jsw.write(") throws IOException, SLIDataStoreException");
                     jsw.beginBlock();
                     try {
                         jsw.write("try");
                         jsw.beginBlock();
-                        // FIXME: This URI does not have a substitution for the template parameter.
                         final String uri = computeURI(resource, resources, application, ancestors);
-
-                        jsw.beginStmt().write("final String url = ").dblQte().write(uri).dblQte().endStmt();
+                        writeURLString(uri, templateParams);
                         jsw.beginStmt().write("return client.getRequest(token, new URL(url))").endStmt();
                         jsw.endBlock();
                         jsw.write("catch(final URISyntaxException e)");
@@ -165,6 +164,31 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
     }
 
     /**
+     * Writes a statement that declares a string with substitution parameters.
+     *
+     * @param uri
+     *            The URI computed from the WADL with curly braces for template parameters.
+     * @param templateParams
+     *            The template parameters from left to right.
+     */
+    private void writeURLString(final String uri, final List<Param> templateParams) throws IOException {
+        // FIXME: This URI does not have a substitution for the template parameter.
+        final String uriFormatString = computeURIFormatString(uri, templateParams);
+
+        jsw.beginStmt();
+        jsw.write("final String url = String.format");
+        jsw.parenL();
+        jsw.dblQte().write(uriFormatString).dblQte();
+        for (final Param templateParam : templateParams) {
+            jsw.write(", ");
+            jsw.write(templateParam.getName());
+        }
+        jsw.parenR();
+
+        jsw.endStmt();
+    }
+
+    /**
      * Computes the URI for the specified resource and its ancestors.
      */
     private static final String computeURI(final Resource resource, final Resources resources, final Application app,
@@ -186,5 +210,13 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             }
         }
         return sb.toString();
+    }
+
+    private static final String computeURIFormatString(final String uri, final List<Param> templateParams) {
+        String result = uri;
+        for (final Param templateParam : templateParams) {
+            result = result.replace("{" + templateParam.getName() + "}", "%s");
+        }
+        return result;
     }
 }
