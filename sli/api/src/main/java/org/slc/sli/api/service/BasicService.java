@@ -771,11 +771,7 @@ public class BasicService implements EntityService {
         checkRights(right);
 
         // Check that target entity actually exists
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, entityId));
-        this.addDefaultQueryParams(query, collectionName);
-        if (repo.findOne(collectionName, query) == null) {
-//        if (repo.findById(collectionName, entityId) == null) {
+        if (repo.findById(collectionName, entityId) == null) {
             warn("Could not find {}", entityId);
             throw new EntityNotFoundException(entityId);
         }
