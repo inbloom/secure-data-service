@@ -68,7 +68,7 @@ Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
   array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "John Doe 3"
-  array = [] if arg1 == "Emily Jane"
+  array = ["eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d"] if arg1 == "Emily Jane"
   array
 end
 
