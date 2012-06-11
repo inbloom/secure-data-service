@@ -28,6 +28,7 @@ db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":
 db["disciplineIncident"].ensureIndex({"body.schoolId":1, "body.staffId":1});
 db["disciplineIncident"].ensureIndex({"body.staffId":1, "body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
+db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1});
 db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1,"type":1});
 db["educationOrganization"].ensureIndex({"_id":1,"type":1,"body.parentEducationAgencyReference":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
