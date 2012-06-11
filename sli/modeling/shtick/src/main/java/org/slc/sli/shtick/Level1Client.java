@@ -10,7 +10,7 @@ import org.slc.sli.api.client.Entity;
 /**
  * @author jstokes
  */
-public interface Level1ClientManual {
+public interface Level1Client {
     // SliDataStore = http code exception
     List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
 }

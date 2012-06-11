@@ -21,12 +21,12 @@ import org.slc.sli.api.client.Entity;
 /**
  * @author jstokes
  */
-public final class StandardLevel1ClientManual implements Level1ClientManual {
+public final class StandardLevel1Client implements Level1Client {
 
-    private final Level0ClientManual client;
+    private final Level0Client client;
     private final ObjectMapper mapper;
 
-    public StandardLevel1ClientManual(final Level0ClientManual client) {
+    public StandardLevel1Client(final Level0Client client) {
         if (client == null) {
             throw new NullPointerException("client");
         }

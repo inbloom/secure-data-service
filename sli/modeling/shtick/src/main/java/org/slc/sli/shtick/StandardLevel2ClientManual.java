@@ -12,9 +12,9 @@ import org.slc.sli.api.client.Entity;
  */
 public final class StandardLevel2ClientManual implements Level2ClientManual {
 
-    private final Level1ClientManual client;
+    private final Level1Client client;
 
-    public StandardLevel2ClientManual(final Level1ClientManual client) {
+    public StandardLevel2ClientManual(final Level1Client client) {
         if (client == null) {
             throw new NullPointerException("client");
         }

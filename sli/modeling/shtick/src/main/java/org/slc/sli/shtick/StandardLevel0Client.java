@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 /**
  * @author jstokes
  */
-public final class StandardLevel0ClientManual implements Level0ClientManual {
+public final class StandardLevel0Client implements Level0Client {
     /**
      * Header name used for specifying the bearer token.
      */
@@ -23,7 +23,7 @@ public final class StandardLevel0ClientManual implements Level0ClientManual {
 
     private final Client client;
 
-    public StandardLevel0ClientManual() {
+    public StandardLevel0Client() {
         this.client = ClientFactory.newClient();
     }
 
