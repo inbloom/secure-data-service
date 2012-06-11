@@ -1,5 +1,7 @@
 common: &common
     recaptcha_disable: true
+    terms_url: http://dev.slcedu.org/legal/terms-service
+    privacy_policy_url: http://dev.slcedu.org/legal/privacy
     # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
@@ -25,8 +27,6 @@ development:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
@@ -51,8 +51,6 @@ local-acceptance-tests:
     email_replace_uri: http://local.slidev.org:2000
     admin_realm: Shared Learning Infrastructure  
     redirect_slc_url: http://www.slcedu.org 
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
@@ -77,12 +75,11 @@ development_sb:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    sample_data_url: http://www.slcedu.org
     
 team:
     <<: *common
@@ -103,8 +100,6 @@ team:
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
@@ -129,12 +124,11 @@ team_sb:
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
+    sample_data_url: http://www.slcedu.org
     
 test:
     <<: *common
@@ -152,8 +146,6 @@ test:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org    
     support_email: support@slidev.org
@@ -178,8 +170,6 @@ production:
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org

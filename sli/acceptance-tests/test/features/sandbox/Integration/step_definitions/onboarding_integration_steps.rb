@@ -145,7 +145,7 @@ Then /^an approval email is sent to the "([^"]*)"$/ do |email|
   sleep(10)
   @email = email
   verifyEmail()
-  approval_email_subject="Welcome to the SLC Developer"
+  approval_email_subject="Welcome to the Shared Learning Collaborative"
   found=@email_subject.downcase.include?(approval_email_subject.downcase)
   assert(found,"didnt receive approval email!")
 end

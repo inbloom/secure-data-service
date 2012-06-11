@@ -185,20 +185,25 @@ class LDAPStorage
     end
   end
 
-  def authenticate(email_address, password)
+  def authenticate(uid, password)
+    # retrieve the raw user record 
+    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, uid)
+    user = search_map_user_fields(filter, 1, true)[0]
+    return false if !user
+
     local_conf = @ldap_conf.clone
     local_conf[:auth] = {
         :method => :simple,
-        :username => get_DN(email_address),
+        :username => user[:dn],
         :password => password
     }
     ldap = Net::LDAP.new local_conf
     return ldap.bind
   end
 
-  def authenticate_secure(email_address, password)
-    return authenticate(email_address, ldap_md5password(password))
-  end
+  # def authenticate_secure(email_address, password)
+  #   return authenticate(email_address, ldap_md5password(password))
+  # end
 
   # returns extended user_info
   def read_user(email_address)
