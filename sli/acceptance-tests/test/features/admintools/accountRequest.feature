@@ -49,7 +49,7 @@ Scenario: As an slc operator I want to register unique user accounts in the syst
   And when I click "Submit"
   Then I receive an error that the account already exists
 
-@wip @production
+@production
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
@@ -67,7 +67,7 @@ Scenario: Clicking the "cancel" button - registration form
   And when I click "Cancel"
   Then I am redirected to the hosting website
 
-@wip DE821 @production
+@production
 Scenario: Clicking the "reject" button - EULA page
   Given I go to the production account registration page
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
@@ -128,7 +128,7 @@ Scenario: As a user I request for a sandbox account
   Then I should see the text "Email Confirmed"
   And I should see the text "You will be receiving an email with more information about your account."
 
-@wip DE821 @sandbox
+@sandbox
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
