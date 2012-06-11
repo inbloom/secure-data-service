@@ -3,7 +3,7 @@ package org.slc.sli.shtick;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -15,8 +15,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
-
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  * @author jstokes
@@ -51,10 +51,12 @@ public final class StandardLevel1Client implements Level1Client {
         try {
             final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
             if (element instanceof ArrayNode) {
-                return mapper.readValue(element, new TypeReference<List<Entity>>() {
+                return mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
                 });
             } else if (element instanceof ObjectNode) {
-                return Arrays.asList(mapper.readValue(element, Entity.class));
+                List<Entity> list = new ArrayList<Entity>();
+                list.add(mapper.readValue(element, GenericEntity.class));
+                return list;
             }
         } catch (final JsonParseException e) {
             throw new SLIDataStoreException(e);
