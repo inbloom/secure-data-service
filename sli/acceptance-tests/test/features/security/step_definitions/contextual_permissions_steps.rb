@@ -98,6 +98,15 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array
 end
 
+Transform /the staff "[^"]*"/ do |arg1|
+  id = nil
+  case arg1
+  when /Rick Rogers/
+    id = "/v1/staff/85585b27-5368-4f10-a331-3abcaf3a3f4c"
+  end
+  id
+end
+
 Given /^I have a Role attribute that equals "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
 end
@@ -108,6 +117,12 @@ end
 
 When /^I make an API call to get (the school "[^"]*")$/ do |arg1|
   restHttpGet("/schools/"+arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get (the staff "[^"]*")$/ do |arg1|
+  puts #{arg1}
+  restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
