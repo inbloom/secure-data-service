@@ -14,10 +14,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student assessment association data
   #DE719 changed 11 to 31
-  id = 31                                      if human_readable_id == "ASSOCIATION COUNT"
+  id = 11                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   #DE719 Changed 3 to  23
-  id = 23                                      if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                      if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID"
