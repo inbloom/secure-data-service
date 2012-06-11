@@ -15,7 +15,7 @@ module ApplicationHelper
     "first_name" => "UNKNOWN",
     "last_name" => "UNKNOWN",
   }
-  
+
   # Looks up the provided GUID (record) through the API, removes (deletes) that record,
   # and removes the associated user from the LDAP.
   #
@@ -47,7 +47,7 @@ module ApplicationHelper
   #     Nothing
   #
   def self.send_user_verification_email(validate_base, guid)
-    
+
     user_email_info = get_email_info guid
     email_address = user_email_info["email_address"]
     email_token = get_email_token(email_address)
@@ -55,12 +55,12 @@ module ApplicationHelper
       return false
     end
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
-    
+
     ApplicationMailer.verify_email(email_address,user_email_info['first_name'],userEmailValidationLink).deliver
-    
+
     true
   end
-  
+
   # Checks if the user account exists.
   # Input Parameters:
   #   - email - user id (email)
@@ -69,7 +69,7 @@ module ApplicationHelper
   def self.user_exists?(email)
     ApprovalEngine.user_exists?(email)
   end
-  
+
   # Returns a map containing values for email_address, first_name, and last_name.
   #
   # Input Parameters:
@@ -78,7 +78,7 @@ module ApplicationHelper
   # Returns : first, last, and user name on associated record
   #
   def self.get_email_info(guid)
-    
+
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
 
@@ -89,11 +89,11 @@ module ApplicationHelper
         "first_name" => jsonDocument["firstName"],
         "last_name" => jsonDocument["lastName"],
       }
-    else 
+    else
       return UNKNOWN_EMAIL
     end
   end
-  
+
   # Add all relevant information for a new user to the backend.
   #
   # Input Parameters:
@@ -117,7 +117,7 @@ module ApplicationHelper
   #     :password => "secret",
   #     :vendor => "Acme Inc."
   # }
-  # 
+  #
   def self.add_user(userAccountRegistration)
     new_user = {
       :first           => userAccountRegistration.firstName,
@@ -139,8 +139,8 @@ module ApplicationHelper
   # and included in a click through link that the user received in an email (as a query parameter).
   #
   def self.verify_email(emailtoken)
-   # APP_LDAP_CLIENT.verify_email(emailtoken)
-   ApprovalEngine.verify_email(emailtoken)
+    # APP_LDAP_CLIENT.verify_email(emailtoken)
+    ApprovalEngine.verify_email(emailtoken)
   end
 
   # Update the user information that was submitted via the add_user method.
@@ -183,12 +183,12 @@ module ApplicationHelper
   def required?(obj, attr)
     target = (obj.class == Class) ? obj : obj.class
     target.validators_on(attr).map(&:class).include?(
-        ActiveModel::Validations::PresenceValidator)
+    ActiveModel::Validations::PresenceValidator)
   end
 
 end
 class ErbBinding < OpenStruct
-    def get_binding
-      return binding()
-    end
+  def get_binding
+    return binding()
   end
+end
