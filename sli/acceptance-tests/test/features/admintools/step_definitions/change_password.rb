@@ -15,7 +15,7 @@ Given /^I am a SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |
 end
 
 When /^I hit the Change Password URL$/ do
-  @driver.get(PropLoader.getProps['change_password_url'])
+  @driver.get(PropLoader.getProps['admintools_server_url'] + "/change_password/new")
 end
 
 Then /^I am redirected to the Change Password page$/ do
