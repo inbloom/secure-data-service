@@ -378,13 +378,7 @@ module CreateEntityHash
         "nameOfInstitution" => "school name",
         "stateOrganizationId" => "12345678",
         "gradesOffered" => ["First grade", "Second grade"],
-      "address"=>[
-      "streetNumberName" => "111 Ave C",
-      "city" => "Chicago",
-      "stateAbbreviation" => "IL",
-      "postalCode" => "10098",
-      "nameOfCounty" => "Wake"
-      ],
+        "address"=>[],
         "organizationCategories" => ["School"],
         "schoolCategories" => ["Elementary School"],
         ]
