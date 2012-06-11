@@ -163,7 +163,7 @@ Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
 end
 
 Then /^the account for "([^\"]*)" is removed from LDAP$/ do |email|
-   assert(ApprovalEngine.user_exists?(email), "Account for #{email} is not removed")
+  assert(ApprovalEngine.user_exists?(email) == false, "Account for #{email} is not removed.")
 end
 
 ###############################################################################
