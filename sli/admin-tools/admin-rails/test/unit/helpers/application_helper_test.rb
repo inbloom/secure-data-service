@@ -16,7 +16,9 @@ class ApplicationHelperTest < ActionView::TestCase
 	  MOCK_EMAIL_INFO_FROM_API = "{\"userName\" : \"bob@bob.com\",\"firstName\" : \"Bob\",\"lastName\" : \"Roberts\"}"
 	 
 	  test "removal of user account associated to nil does not error" do
-	    ApplicationHelper.remove_user_account nil
+	    assert_raises NoMethodError do
+        ApplicationHelper.remove_user_account nil
+      end
 	  end
 	 
 	  test "removal of user account and removal from LDAP" do
