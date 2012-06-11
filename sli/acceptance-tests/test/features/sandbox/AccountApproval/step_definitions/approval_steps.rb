@@ -48,6 +48,8 @@ Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, s
   # delete if there and create a new user to set fixture
   ApprovalEngine.remove_user(@userinfo[:email])
   ApprovalEngine.add_disabled_user(@userinfo)
+  
+  ApprovalEngine.change_user_status(@userinfo[:email], "accept_eula")
 
   # set status manually to pending to test Approval Engine transitions
   if @prod
