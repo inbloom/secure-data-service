@@ -1,9 +1,9 @@
 package org.slc.sli.shtick;
 
-import org.slc.sli.shtick.pojo.Student;
-
 import java.io.IOException;
 import java.util.List;
+
+import org.slc.sli.shtick.pojo.Student;
 
 /**
  * @author jstokes

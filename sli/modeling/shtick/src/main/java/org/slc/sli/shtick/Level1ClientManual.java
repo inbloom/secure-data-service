@@ -1,12 +1,11 @@
 package org.slc.sli.shtick;
 
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.shtick.SLIDataStoreException;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
+
+import org.slc.sli.api.client.Entity;
 
 /**
  * @author jstokes
