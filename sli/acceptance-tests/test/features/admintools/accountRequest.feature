@@ -131,10 +131,9 @@ Scenario: As a user I request for a sandbox account
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query LDAP for EULA acceptance
-  Then I get 1 record for "<USER_ACCOUNT>"
+  When I query LDAP for EULA acceptance for account with login name "<USER_ACCOUNT>"
+  Then I get a record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "<USER_ACCOUNT_EMAIL>"
-  And "Environment" is "Sandbox"
   And "Vendor" is "Acme Corp"
