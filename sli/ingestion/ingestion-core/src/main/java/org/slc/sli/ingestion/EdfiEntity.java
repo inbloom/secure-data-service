@@ -166,7 +166,7 @@ public enum EdfiEntity {
     
     RESTRAINT_EVENT("restraintEvent", Arrays.asList(STUDENT, SCHOOL, PROGRAM, EDUCATION_ORGANIZATION)),
     
-    STAFF_COHORT_ASSOCIATION("staffCohortAssociation", Arrays.asList(STAFF, COHORT)),
+    STAFF_COHORT_ASSOCIATION("staffCohortAssociation", Arrays.asList(STAFF, TEACHER, COHORT)),
     
     STUDENT_COHORT_ASSOCIATION("studentCohortAssociation", Arrays.asList(STUDENT, COHORT)),
     
