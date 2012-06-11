@@ -32,7 +32,7 @@ class ChangePasswordsController < ApplicationController
       if @change_password.valid? == true
           email = session[:external_id]
 
-          if !APP_LDAP_CLIENT.authenticate(email, @change_password.old_pass) && !APP_LDAP_CLIENT.authenticate_secure(email, @change_password.old_pass)
+          if !APP_LDAP_CLIENT.authenticate(email, @change_password.old_pass)
             @change_password.errors.add(:base, "Unable to verify old password, please try again.")
             format.html { render action: "new" }
             format.json { render json: @change_password.errors, status: :unprocessable_entity }
