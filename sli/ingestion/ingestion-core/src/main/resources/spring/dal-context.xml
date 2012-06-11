@@ -71,6 +71,7 @@
 
   <bean id="mongoIndexManager" class="org.slc.sli.ingestion.dal.MongoIndexManager" scope="singleton" init-method="init">
     <property name="indexRootDir" value="classpath:mongoIndexes/**/*.json" />
+    <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
   </bean>
 
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">

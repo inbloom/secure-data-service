@@ -28,6 +28,8 @@ public final class MongoIndexManager {
 
     private String indexRootDir;
 
+    private Map<String, Set<String>> entityPersistTypeMap;
+
     /**
      * Init function used by Spring. Load indexes map for all collections
      */
@@ -36,29 +38,84 @@ public final class MongoIndexManager {
 
         List<MongoIndexConfig> mongoIndexConfigs = indexResolver.findAllIndexes(indexRootDir);
 
-        int count = 0;
         try {
-            for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
-                List<IndexDefinition> indexList;
-                String collectionName = mongoIndexConfig.getCollection();
+            spliceInBaselineIndexes(mongoIndexConfigs);
 
-                if (!collectionIndexes.containsKey(collectionName)) {
-                    indexList = new ArrayList<IndexDefinition>();
-                } else {
-                    indexList = collectionIndexes.get(collectionName);
-                }
-
-                if (mongoIndexConfig.getOptions() != null && !mongoIndexConfig.getOptions().isEmpty()) {
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(),
-                            mongoIndexConfig.getOptions(), count++));
-                } else {
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), count++));
-                }
-                collectionIndexes.put(collectionName, indexList);
-            }
+            loadIndexMap(mongoIndexConfigs);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to create the indexes");
+        }
+    }
+
+    private void spliceInBaselineIndexes(List<MongoIndexConfig> mongoIndexConfigs) {
+        MongoIndexConfig allCollectionsConfig = null;
+
+        for (MongoIndexConfig config : mongoIndexConfigs) {
+            if ("all_collections".equals(config.getCollection())) {
+                allCollectionsConfig = config;
+                break;
+            }
+        }
+
+        if (allCollectionsConfig != null) {
+            List<MongoIndexConfig> newConfigs = cloneConfigEntryForAll(allCollectionsConfig);
+            mongoIndexConfigs.addAll(newConfigs);
+            mongoIndexConfigs.remove(allCollectionsConfig);
+        }
+    }
+
+    private List<MongoIndexConfig> cloneConfigEntryForAll(MongoIndexConfig allCollectionsConfig) {
+        List<MongoIndexConfig> newConfigs = new ArrayList<MongoIndexConfig>();
+
+        for (String collectionName : entityPersistTypeMap.get("oldPipelineEntities")) {
+            MongoIndexConfig config = cloneConfigEntry(allCollectionsConfig, collectionName);
+            newConfigs.add(config);
+        }
+
+        for (String collectionName : entityPersistTypeMap.get("newPipelinePlainEntities")) {
+            MongoIndexConfig config = cloneConfigEntry(allCollectionsConfig, collectionName);
+            newConfigs.add(config);
+        }
+
+        for (String collectionName : entityPersistTypeMap.get("newPipelineTransformedEntities")) {
+            MongoIndexConfig config = cloneConfigEntry(allCollectionsConfig, collectionName);
+            newConfigs.add(config);
+
+            MongoIndexConfig configTransformed = cloneConfigEntry(allCollectionsConfig, collectionName + "_transformed");
+            newConfigs.add(configTransformed);
+        }
+
+        return newConfigs;
+    }
+
+    private MongoIndexConfig cloneConfigEntry(MongoIndexConfig allCollectionsConfig, String collectionName) {
+        MongoIndexConfig config = new MongoIndexConfig();
+        config.setCollection(collectionName);
+        config.setIndexFields(allCollectionsConfig.getIndexFields());
+        config.setOptions(allCollectionsConfig.getOptions());
+        return config;
+    }
+
+    private void loadIndexMap(List<MongoIndexConfig> mongoIndexConfigs) {
+        int count = 0;
+        for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
+            List<IndexDefinition> indexList;
+            String collectionName = mongoIndexConfig.getCollection();
+
+            if (!collectionIndexes.containsKey(collectionName)) {
+                indexList = new ArrayList<IndexDefinition>();
+            } else {
+                indexList = collectionIndexes.get(collectionName);
+            }
+
+            if (mongoIndexConfig.getOptions() != null && !mongoIndexConfig.getOptions().isEmpty()) {
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), mongoIndexConfig.getOptions(),
+                        count++));
+            } else {
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), count++));
+            }
+            collectionIndexes.put(collectionName, indexList);
         }
     }
 
@@ -163,5 +220,9 @@ public final class MongoIndexManager {
 
     public void setCollectionIndexes(Map<String, List<IndexDefinition>> collectionIndexes) {
         this.collectionIndexes = collectionIndexes;
+    }
+
+    public void setEntityPersistTypeMap(Map<String, Set<String>> entityPersistTypeMap) {
+        this.entityPersistTypeMap = entityPersistTypeMap;
     }
 }
