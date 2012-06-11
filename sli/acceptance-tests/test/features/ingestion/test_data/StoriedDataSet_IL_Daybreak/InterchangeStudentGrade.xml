@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
 	<!-- learning objectives for kindergartners -->
 	<StudentCompetencyObjective>
@@ -11596,12 +11597,12 @@
 				</LearningObjectiveId>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		<!-- commenting out - LearningObjective or StudentCompetencyObjective should appear - not both -->
+		<!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
 		<!--StudentCompetencyObjectiveReference>
-			<StudentCompetencyObjectiveIdentity>
-				<StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
-			</StudentCompetencyObjectiveIdentity>
-		</StudentCompetencyObjectiveReference-->
+        <StudentCompetencyObjectiveIdentity>
+          <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+        </StudentCompetencyObjectiveIdentity>
+      </StudentCompetencyObjectiveReference-->
 		<CompetencyLevel>
 			<CodeValue>3</CodeValue>
 		</CompetencyLevel>
@@ -11625,12 +11626,12 @@
 				</LearningObjectiveId>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		<!-- commenting out - LearningObjective or StudentCompetencyObjective should appear - not both -->
-		<!--StudentCompetencyObjectiveReference>
-			<StudentCompetencyObjectiveIdentity>
-				<StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
-			</StudentCompetencyObjectiveIdentity>
-		</StudentCompetencyObjectiveReference-->
+		<!-- LearningObjective OR StudentCompetencyObjective reference - not both -->
+		<!-- StudentCompetencyObjectiveReference>
+        <StudentCompetencyObjectiveIdentity>
+          <StudentCompetencyObjectiveId>SCO-K-2</StudentCompetencyObjectiveId>
+        </StudentCompetencyObjectiveIdentity>
+      </StudentCompetencyObjectiveReference-->
 		<CompetencyLevel>
 			<CodeValue>2</CodeValue>
 		</CompetencyLevel>
@@ -12288,14 +12289,13 @@
 				<StudentUniqueStateId>800000025</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
-		<!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
+		<!-- id does not exist in this file-->
+		<!-- GradingPeriodReference ref="GRDP_20070527"/-->
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<GradingPeriod>End of Year</GradingPeriod>
 				<SchoolYear>2010-2011</SchoolYear>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>South Daybreak Elementary</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</GradingPeriodIdentity>
 		</GradingPeriodReference>
 	</ReportCard>
@@ -13111,14 +13111,13 @@
 				<StudentUniqueStateId>100000017</StudentUniqueStateId>
 			</StudentIdentity>
 		</StudentReference>
-		<!-- GradingPeriodReference ref="GRDP_20110527" -->
+		<!-- id does not exist in this file -->
+		<!-- GradingPeriodReference ref="GRDP_20070527"/-->
 		<GradingPeriodReference>
 			<GradingPeriodIdentity>
 				<GradingPeriod>End of Year</GradingPeriod>
 				<SchoolYear>2010-2011</SchoolYear>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>South Daybreak Elementary</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</GradingPeriodIdentity>
 		</GradingPeriodReference>
 	</ReportCard>

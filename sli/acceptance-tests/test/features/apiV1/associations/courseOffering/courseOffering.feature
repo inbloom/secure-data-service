@@ -105,6 +105,22 @@ Scenario: Non-happy path: Attempt to create association with invalid reference f
     When I navigate to POST "/<ASSOCIATION URI>"
     Then I should receive a return code of 400
 
+Scenario: Non-happy path: Attempt to create association with reference user does not have access to
+   Given a valid association json document for a "<ASSOCIATION TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INACCESSIBLE REFERENCE>"
+    When I navigate to POST "/<ASSOCIATION URI>"
+    Then I should receive a return code of 403
+    
+Scenario: Non-happy path: Attempt to update association with reference user does not have access to
+   Given format "application/json"
+    When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
+    Then "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 FIELD EXPECTED VALUE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INACCESSIBLE REFERENCE>"
+     And I navigate to PUT "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
+    Then I should receive a return code of 403
+     And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
+     And "<ENDPOINT2 FIELD>" should be "<ENDPOINT2 FIELD EXPECTED VALUE>"
+
 Scenario: Non-happy path: Attempt to read a non-existing association
     When I navigate to GET "/<ASSOCIATION URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404

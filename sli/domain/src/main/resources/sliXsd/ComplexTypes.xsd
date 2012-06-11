@@ -5827,6 +5827,14 @@
           <xs:documentation>The identifier for the school year.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="stateOrganizationId" type="identificationCode">
+        <xs:annotation>
+          <xs:documentation>The identifier assigned to an education agency by
+                            the State
+                            Education Agency (SEA). Also known as the State LEA ID.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
         <xs:annotation>
           <xs:documentation>The identifier for the educational organization.</xs:documentation>
