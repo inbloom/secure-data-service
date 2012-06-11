@@ -1,10 +1,6 @@
 
 class ChangePassword < SessionResource
 
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
-  extend ActiveModel::Naming
-
   attr_accessor :old_pass, :new_pass, :confirmation
    
   validates_presence_of :old_pass, :new_pass, :confirmation
@@ -26,7 +22,7 @@ class ChangePassword < SessionResource
       errors[:new_pass] << "New passwords do not match."
     end
     if self.new_pass == self.old_pass
-      errors[:new_pass] <<"Old password and New password should be different."
+      errors[:new_pass] << "The new password must be different from the old password."
     end
   end
 end

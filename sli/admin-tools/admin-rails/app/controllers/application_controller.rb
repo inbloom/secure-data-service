@@ -62,6 +62,7 @@ class ApplicationController < ActionController::Base
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
         session[:edOrg] = check["edOrg"]
+        session[:external_id] = check["external_id"]
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)

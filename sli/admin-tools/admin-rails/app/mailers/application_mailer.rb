@@ -7,7 +7,7 @@ class ApplicationMailer < ActionMailer::Base
   VERIFY_EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
   PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "SLC Landing Zone Setup"
-  PASSWORD_CHANGE_SUBJECT = "Password Changed"
+  PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
 
   def welcome_email(user)
     @firstName = user[:first]

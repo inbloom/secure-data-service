@@ -9,6 +9,7 @@ dashboard_api_server_uri: "http://local.slidev.org:8080"
 realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 
 admintools_server_url: "http://local.slidev.org:3000"
+change_password_url: "http://local.slidev.org:3000/changePassword"
 api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 sli_idp_server_url: "https://devapp1.slidev.org/sp/"
