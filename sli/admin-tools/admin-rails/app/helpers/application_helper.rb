@@ -25,16 +25,8 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.remove_user_account(guid)
-    if (guid.nil?)
-      return
-    end
-    res = RestClient.get(API_BASE + "/" + guid, REST_HEADER){|response, request, result| response }
-    if (res.code==200)
-      jsonDocument = JSON.parse(res.body)
-      remove_user(jsonDocument["userName"])
-      res = RestClient.delete(API_BASE+"/"+guid, REST_HEADER){|response, request, result| response }
-    end
+  def self.remove_user_account(email)
+    # TODO remove account from LDAP
   end
 
   # Gets the email address for the supplied GUID and sends them a confirmation-request
