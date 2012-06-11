@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -349,9 +351,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
             
+            
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
+                if (!edOrgsBelongToTenant(edOrgs)) {
+                    EntityBody body = new EntityBody();
+                    body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();  
+                }
+                
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
             }
@@ -360,13 +369,44 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to update application.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
-        // we don't allow create apps to have the boostrap flag
-        app.remove("bootstrap");
-        
+
+        //we don't allow created apps to have the bootstrap flag
+        if (!oldApp.containsKey("bootstrap"))
+            app.remove("bootstrap");
+
         return super.update(uuid, app, headers, uriInfo);
     }
     
+    /**
+     * In sandbox mode, a user can only authorize edorgs stamped with the user's own tenant ID,
+     * which is the external ID (email address) of the user.
+     * 
+     * @param edOrgs
+     * @return
+     */
+    private boolean edOrgsBelongToTenant(List<String> edOrgs) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        SLIPrincipal principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+        String sandboxTenant = principal.getExternalId();
+        EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
+        
+        for (String edOrgId : edOrgs) {
+            
+            EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
+            if (entity != null && entity.containsKey("metaData")) {
+                @SuppressWarnings("rawtypes")
+                Map metaData = (Map) entity.get("metaData");
+                if (!sandboxTenant.equals(metaData.get("tenantId"))) {
+                    debug("EdOrg {} does not belong to tenant {}.", edOrgId, sandboxTenant);
+                    return false;
+                }
+            } else {
+                debug("Did not find metadata for {}", edOrgId);
+            }
+        }
+        return true;
+    }
+
     private void iterateEdOrgs(String uuid, List<String> edOrgs) {
         for (String edOrg : edOrgs) {
             NeutralQuery query = new NeutralQuery();

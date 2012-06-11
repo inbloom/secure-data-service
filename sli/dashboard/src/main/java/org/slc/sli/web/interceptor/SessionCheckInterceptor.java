@@ -5,18 +5,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonObject;
+
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.security.SLIAuthenticationEntryPoint;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
+import org.slc.sli.web.controller.ErrorController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import com.google.gson.JsonObject;
 
 /**
  * Intercepts all incoming requests and ensures user is authenticated against api
  * @author svankina
+ * @author rbloh
  *
  */
 public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
@@ -51,8 +53,13 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
                     c.setMaxAge(0);
                 }
             }
-            response.sendRedirect(request.getRequestURI());
-            return false;
+            
+            // Only redirect if not error page
+            if (!(request.getServletPath().equalsIgnoreCase(ErrorController.EXCEPTION_URL) || request.getServletPath()
+                    .equalsIgnoreCase(ErrorController.TEST_EXCEPTION_URL))) {
+                response.sendRedirect(request.getRequestURI());
+                return false;
+            }
         }
         
         return true;

@@ -1,5 +1,0 @@
-{"_id":{"$binary":"EUqZmUsgzmcCAAAAAADLqg==","$type":"03"},"type":"session","body":{"schoolYear":"Year_2009_2010","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":{"$binary":"EUqZmUsgzmcBAAAAAADLqg==","$type":"03"},"type":"session","body":{"schoolYear":"Year_2011_2012","term":"Fall_Semester","endDate":"2011-12-31","beginDate":"2011-09-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":{"$binary":"EUqZmUsgzmcAAAAAAADLqg==","$type":"03"},"type":"session","body":{"schoolYear":"Year_2010_2011","term":"Spring_Semester","endDate":"2011-06-31","beginDate":"2011-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":{"$binary":"EUqZmUsgzmcEAAAAAADLqg==","$type":"03"},"type":"session","body":{"schoolYear":"Year_2010_2011","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}
-{"_id":{"$binary":"EUqZmUsgzmcDAAAAAADLqg==","$type":"03"},"type":"session","body":{"schoolYear":"Year_2008_2009","term":"Spring_Semester","endDate":"2010-06-31","beginDate":"2010-01-01","totalInstructionalDays":90},"tenantId":"Zork"}

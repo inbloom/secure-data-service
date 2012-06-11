@@ -1,2 +1,0 @@
-{"_id":{"$binary":"EUqZmUsgzmcBAAAAAADKqg==","$type":"03"},"type":"educationOrganizationAssociation","body":{"educationOrganizationParentId":"67ce204b-9999-4a11-aabe-000000000000","educationOrganizationChildId":"67ce204b-9999-4a11-aabe-000000000001"},"tenantId":"Zork"}
-{"_id":{"$binary":"EUqZmUsgzmcAAAAAAADKqg==","$type":"03"},"type":"educationOrganizationAssociation","body":{"educationOrganizationParentId":"67ce204b-9999-4a11-aabe-000000000000","educationOrganizationChildId":"1d303c61-88d4-404a-ba13-d7c5cc324bc5"},"tenantId":"Zork"}

@@ -22,10 +22,18 @@
    "endpoints":[
       {
          "name":"Application Registration",
-         "description":"Register an application that can access SLC API.",
+         "description":"Register and manage applications that can access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
-            "SLC Operator", "Application Developer"
+            "Application Developer"
+         ]
+      },
+      {
+         "name":"Application Registration Approval",
+         "description":"Approve applications to access the platform.",
+         "url":"${bootstrap.app.admin.url}/apps",
+         "roles":[
+            "SLC Operator"
          ]
       },
       {
@@ -76,14 +84,6 @@
          "roles":[
             "SLC Operator"
             ]
-       },
-       {
-         "name":"Realm Management",
-         "description":"Manage realm settings.",
-         "url":"${bootstrap.app.admin.url}/realm_management/",
-         "roles":[
-           "Realm Administrator"
-         ]
       }
    ]
 }

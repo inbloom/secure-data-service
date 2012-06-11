@@ -29,9 +29,14 @@ class UserAccountRegistrationsController < ApplicationController
     @user_account_registration.errors.clear
     
     if @user_account_registration.valid? == false || captcha_valid == false
+     # perform validation on fields even if captcha response is invalid.  Otherwise, user has to solve captcha just to get form feedback, which is super annoying.
      redirectPage=false
      render500=false
      @user_account_registration.errors.add :recaptcha, "Invalid Captcha Response" unless captcha_valid
+     if @user_account_registration.errors[:email].include?("An account with this email already exists") && captcha_valid == false
+       # to avoid bots being able to check for valid emails, only display existing email message if captcha is valid
+       @user_account_registration.errors[:email].reject! { |x| x == "An account with this email already exists" }
+     end 
     else
       begin
         response=UserAccountRegistrationsHelper.register_user(@user_account_registration)

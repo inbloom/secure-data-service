@@ -253,9 +253,8 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        // TODO: uncomment when ingestion supports this
-        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
-        // xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
+        xmlFilePath);
     }
 
     /**
@@ -271,9 +270,8 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
 
-        // TODO: uncomment when ingestion supports this
-        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
-        // xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
+        xmlFilePath);
     }
 
     /**
@@ -288,13 +286,10 @@ public class StateEdFiXmlGenerator {
         String xmlFilePath = rootOutputPath + "/InterchangeStudentDiscipline.xml";
 
         JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath));
-        
-        
-        
 
         // TODO: uncomment when ingestion supports this
-        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
-        // xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentDiscipline",
+        xmlFilePath);
     }
 
     /**

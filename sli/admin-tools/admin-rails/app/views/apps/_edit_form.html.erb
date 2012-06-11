@@ -12,10 +12,12 @@
 <div class="well row">
   <div class="span4">
     Client ID<br />
+    <p><em> The client ID needed to perform OAuth</em></p>
     <%=client_field_value(app, :client_id)%>
   </div>
   <div class="span4">
     Shared Secret<br/>
+    <p><em> The shared secret needed to perform OAuth</em></p>
     <%= client_field_value(app, :client_secret) %>
   </div>
 </div>
@@ -82,7 +84,7 @@
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
   <% isNew = @district_hierarchy == nil %>
   
-  <% if !isNew and !app.pending? %>
+  <% if !isNew and !app.pending? and !app.bootstrap %>
   <div class ="<%= "field edorgs" if !isNew and !app.pending? %> <%= "yellow" if app.in_progress? %>">
     <h3>Enable</h2>
     <h6>Choose the states or Districts you would like to have access to your application.</h6>
