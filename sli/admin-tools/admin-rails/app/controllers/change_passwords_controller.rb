@@ -70,7 +70,7 @@ class ChangePasswordsController < ApplicationController
       
   def check_allowed_user
       roles = session[:roles]
-      if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || roles.include?("Realm Administrator")==true || roles.include?("Ingestion User")==true || roles.include?("IT Administrator")==true)
+      if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_it_admin? || is_ingestion_user?)
         render_403
       end
   end

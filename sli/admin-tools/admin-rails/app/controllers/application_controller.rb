@@ -104,6 +104,18 @@ class ApplicationController < ActionController::Base
     session[:roles].include? "SEA Administrator"
   end
 
+  def is_realm_admin?
+    session[:roles].include?("Realm Administrator")
+  end
+
+  def is_ingestion_user?
+    session[:roles].include?("Ingestion User")
+  end
+
+  def is_it_admin?
+    session[:roles].include?("IT Administrator")
+  end
+
   def get_tenant
     check = Check.get ""
     if APP_CONFIG["is_sandbox"]
