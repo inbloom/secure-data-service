@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -25,7 +25,7 @@ import org.slc.sli.domain.Repository;
  *
  */
 @Component
-public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
+public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
 
     private static final String REFERENCE = "parentEducationAgencyReference";
 
@@ -36,7 +36,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     private Repository<Entity> repo;
 
     @Override
-    public List<String> filterIds(List<String> ids) {
+    public List<String> addAssociatedIds(List<String> ids) {
         Set<String> parents = fetchParents(new HashSet<String>(ids));
         Set<String> blacklist = getBlacklist();
         Set<String> toReturn = new HashSet<String>(ids);

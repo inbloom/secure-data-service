@@ -29,8 +29,9 @@ class ApplicationMailer < ActionMailer::Base
   @edorgId = edorgId
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
-
+  
   def notify_operator(support_email, app)
+    user_info = APP_LDAP_CLIENT.read_user(support_email)
     @app = app
     if !@app.nil? and support_email =~ /\w+@\w+\.\w+/
       mail(:to => support_email, :subject => "A new application has been registered")
@@ -39,9 +40,11 @@ class ApplicationMailer < ActionMailer::Base
   
   def notify_developer(app)
     logger.debug {"Mailing to: #{app.metaData.createdBy}"}
+    user_info = APP_LDAP_CLIENT.read_user(app.metaData.createdBy)
+    @firstName = user_info[:first]
     @app = app
     if !@app.nil? and @app.metaData.createdBy =~ /\w+@\w+\.\w+/
-      mail(:to => app.metaData.createdBy, :subject => "The status of #{app.name} has been updated.")
+      mail(:to => app.metaData.createdBy, :subject => "SLC - Your Application Has Been Approved")
     end
   end
 end

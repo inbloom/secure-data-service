@@ -13,7 +13,6 @@
 			<value>system.namespaces</value>
             <value>system.users</value>
             <value>system.profile</value>
-            <value>userAccount</value>
     </util:list>
 
 <bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">

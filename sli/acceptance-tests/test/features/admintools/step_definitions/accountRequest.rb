@@ -61,12 +61,7 @@ Given /^I go to the sandbox account registration page$/ do
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
-  records = getRecordsFromMongo("body.userName", email)
-  assert(records.size != 0, "No record found for #{email}")
-  assert(records.size == 1, "More than one records found for #{email}")
-  records.each do |record|
-    assert(record["body"]["validated"] == true, "#{email} is not validated")
-  end
+   # DE821 TODO - implement this using LDAP
 end
 
 ###############################################################################
@@ -80,9 +75,8 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
     ]").send_keys(value)
 end
 
-When /^I query the database for EULA acceptance$/ do
-  coll = @db["userAccount"]
-  @validatedRecords = coll.find("body.validated" => true).to_a
+When /^I query LDAP for EULA acceptance$/ do
+# DE821 TODO -- implement this
 end
 
 When /^I visit "([^\"]*)"$/ do |link|
@@ -209,12 +203,4 @@ def removeUser(email)
   if ApprovalEngine.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
-  coll = @db["userAccount"]
-  coll.remove("body.userName" => email)
-end
-
-def getRecordsFromMongo(field, value)
-  @prod ? env = "Production" : env = "Sandbox"
-  coll = @db["userAccount"]
-  return coll.find(field => value, "body.environment" => env).to_a
 end

@@ -46,7 +46,6 @@
 		 <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>act1</CodeValue>
-                <Description>American Literature I</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>
@@ -56,7 +55,6 @@
 		<AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>act2</CodeValue>
-                <Description>American Literature II</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>
@@ -81,7 +79,6 @@
 		 <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>Math110</CodeValue>
-                <Description>Mathematics I</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>
@@ -205,7 +202,6 @@
 		 <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>REA001</CodeValue>
-                <Description>Story Reading</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>
@@ -255,7 +251,6 @@
 		 <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>Sci001</CodeValue>
-                <Description>Computer Science</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>
@@ -270,7 +265,6 @@
 		 <AssessmentPerformanceLevel>
             <PerformanceLevel>
                 <CodeValue>pld0</CodeValue>
-                <Description>pld0</Description>
             </PerformanceLevel>
             <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
             <MinimumScore>0</MinimumScore>

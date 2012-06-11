@@ -2,10 +2,10 @@ require 'rest-client'
 require 'json'
 class UserAccountRegistrationsController < ApplicationController
   include ReCaptcha::AppHelper
-  
+
   skip_before_filter :handle_oauth
   before_filter :check_for_cancel, :only => [:create, :update]
-  
+
   # GET /user_account_registrations/new
   # GET /user_account_registrations/new.json
   def new
@@ -27,7 +27,7 @@ class UserAccountRegistrationsController < ApplicationController
     Rails.logger.debug "User Account Registration = #{@user_account_registration}"
     captcha_valid = validate_recap(params, @user_account_registration.errors)
     @user_account_registration.errors.clear
-    
+
     if @user_account_registration.valid? == false || captcha_valid == false
      # perform validation on fields even if captcha response is invalid.  Otherwise, user has to solve captcha just to get form feedback, which is super annoying.
      redirectPage=false
@@ -36,18 +36,22 @@ class UserAccountRegistrationsController < ApplicationController
      if @user_account_registration.errors[:email].include?("An account with this email already exists") && captcha_valid == false
        # to avoid bots being able to check for valid emails, only display existing email message if captcha is valid
        @user_account_registration.errors[:email].reject! { |x| x == "An account with this email already exists" }
-     end 
+     end
     else
       begin
         response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
         redirectPage=response["redirect"]
         @user_account_registration.errors.add(:email,response["error"])
         session[:guuid]=response["guuid"]
+      rescue InvalidPasswordException => e
+        APP_CONFIG['password_policy'].each { |msg| @user_account_registration.errors.add(:password, msg) }
+        redirectPage = false
+        render500 = false
       rescue Exception => e
         logger.info { e.message }
         render500=true
       end
-      
+
     end
     respond_to do |format|
         if redirectPage==true
@@ -71,10 +75,9 @@ private
     "content_type" => "json",
     "accept" => "application/json"
   }
-      
+
   def user_limit_reached?
-    res = RestClient.get(APP_CONFIG['api_base']+"/v1/userAccounts/createCheck", URL_HEADER){|response, request, result| response }
-    "false" == JSON.parse(res)['canCreate']
+    # TODO DE821 -- implement this
   end
 
     #redirect cancel
