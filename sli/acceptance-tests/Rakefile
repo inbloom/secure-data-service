@@ -214,7 +214,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests, :provisionSandboxUserAccountLimitTests] do
+task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -470,18 +470,6 @@ runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
-end
-
-desc "Run Provisioning User Account Limit Tests"
-task :provisionSandboxUserAccountLimitTests do
-  @tags = ["~@wip", "@sandbox"]
-  runTests("test/features/sandbox/Provision/limit_number_accounts.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 ############################################################
