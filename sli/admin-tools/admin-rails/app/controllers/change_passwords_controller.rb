@@ -43,10 +43,12 @@ class ChangePasswordsController < ApplicationController
                 :password   => "#{@change_password.new_pass}"
               }
               response =  APP_LDAP_CLIENT.update_user_info(update_info)
-              fullName = session[:full_name]
-              ApplicationMailer.notify_password_change(email, fullName).deliver
 
-              format.html { redirect_to new_change_password_path, notice: 'Your password has been successfully modified.' }
+              fullName = session[:full_name]
+              emailAddress = APP_LDAP_CLIENT.read_user(email)[:emailAddress]
+              ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
+
+              format.html { redirect_to new_change_password_path, notice: 'Your password has been successfully modified.'}
               format.json { render :json => @change_password, status: :created, location: @change_password }
 
             rescue InvalidPasswordException => e
@@ -70,7 +72,7 @@ class ChangePasswordsController < ApplicationController
       
   def check_allowed_user
       roles = session[:roles]
-      if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_it_admin? || is_ingestion_user?)
+      if roles == nil || !(is_operator? || is_sea_admin? || is_lea_admin? || is_developer? || is_realm_admin? || is_ingestion_user?)
         raise ActiveResource::ForbiddenAccess, caller
       end
   end
