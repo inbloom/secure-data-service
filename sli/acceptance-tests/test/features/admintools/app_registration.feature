@@ -55,10 +55,10 @@ And I see the details of "NewApp"
 And all the fields are read only 
 
 Scenario: SLC Operator denies application registration request
-Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And the pending apps are on top
 And application "NewApp" is pending approval
@@ -84,10 +84,10 @@ And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request
 
-Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And I see all the applications registered on SLI
 And I see all the applications pending registration
@@ -98,10 +98,10 @@ And the 'Approve' button is disabled for application "NewApp"
 And a notification email is sent to "developer-email@slidev.org"
 
 Scenario: SLC Operator un-registers already-registered application
-Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And application "NewApp" is registered
 When I click on 'Deny' next to application "NewApp"

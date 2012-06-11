@@ -53,8 +53,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "portal"                                           if human_readable_id == "URL_TO_PORTAL"
 
   id = "account_managements" if human_readable_id == "ACCOUNT_MANAGEMENT_APP"
-  id = "slcoperator" if human_readable_id == "SLC_OPERATOR_USER"
-  id = "slcoperator1234" if human_readable_id == "SLC_OPERATOR_PASS"
+  id = "slcoperator-email@slidev.org" if human_readable_id == "SLC_OPERATOR_USER"
+  id = "slcoperator-email1234" if human_readable_id == "SLC_OPERATOR_PASS"
 
   #return the translated value
   id

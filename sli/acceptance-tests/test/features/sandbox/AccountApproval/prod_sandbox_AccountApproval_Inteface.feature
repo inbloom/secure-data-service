@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 And I navigate to the account management page
-And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 
 @production
 Scenario: As a slc operator I want to see a list of all the accounts and their correct status
