@@ -108,6 +108,18 @@ Scenario: Non-happy path: Attempt to create association with invalid reference f
     When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to POST "/<ASSOCIATION URI>"
     Then I should receive a return code of 400
+    
+Scenario: Non-happy path: Attempt to create association with reference for endpoint 1 user does not have access to
+   Given a valid association json document for a "<ASSOCIATION TYPE>"
+    When I set the "<ENDPOINT1 FIELD>" to "<INACCESSIBLE REFERENCE 1>"
+    When I navigate to POST "/<ASSOCIATION URI>"
+    Then I should receive a return code of 403
+
+Scenario: Non-happy path: Attempt to create association with reference for endpoint 2 user does not have access to
+   Given a valid association json document for a "<ASSOCIATION TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INACCESSIBLE REFERENCE 2>"
+    When I navigate to POST "/<ASSOCIATION URI>"
+    Then I should receive a return code of 403
 
 Scenario: Non-happy path: Attempt to read a non-existing association
     When I navigate to GET "/<ASSOCIATION URI>/<INVALID REFERENCE>"

@@ -12,7 +12,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -30,13 +39,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -82,6 +84,9 @@ public class BasicService implements EntityService {
 
     @Autowired
     private EdOrgContextResolver edOrgContextResolver;
+    
+    @Autowired
+    private BasicDefinitionStore definitionStore;
     
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
@@ -512,25 +517,27 @@ public class BasicService implements EntityService {
             String entityType = provider.getReferencingEntity(defn.getType(), fieldPath);
             if (entityType != null) {
                 debug("Field {} is referencing {}", fieldPath, entityType);
+                String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
+                entityType = collectionName;
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
                 EntityContextResolver resolver = contextResolverStore.findResolver(principal.getEntity().getType(),
-                        entityType);
+                        collectionName);
                 List<String> accessible = resolver.findAccessible(principal.getEntity());
 
                 if (!principal.getEntity().getType().equals(EntityNames.STAFF)) {
                     if (value instanceof List) {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
-                            if (!accessible.contains(cur) && repo.findById(entityType, cur) != null) {
-                                debug("{} in {} is not accessible", value, entityType);
+                            if (!accessible.contains(cur) && repo.findById(collectionName, cur) != null) {
+                                debug("{} in {} is not accessible", value, collectionName);
                                 throw new AccessDeniedException(
                                         "Cannot create an association to an entity you don't have access to");
                             }
                         }
                     } else {
-                        if (value != null && !accessible.contains(value) && repo.findById(entityType, (String) value) != null) {
-                            debug("{} in {} is not accessible", value, entityType);
+                        if (value != null && !accessible.contains(value) && repo.findById(collectionName, (String) value) != null) {
+                            debug("{} in {} is not accessible", value, collectionName);
                             throw new AccessDeniedException(
                                     "Cannot create an association to an entity you don't have access to");
                         }
@@ -541,15 +548,15 @@ public class BasicService implements EntityService {
                     if (value instanceof List) {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
-                            if (!isEntityAllowed(cur, entityType, entityType) && repo.findById(entityType, cur) != null) {
-                                debug("{} in {} is not accessible", value, entityType);
+                            if (!isEntityAllowed(cur, collectionName, entityType) && repo.findById(collectionName, cur) != null) {
+                                debug("{} in {} is not accessible", value, collectionName);
                                 throw new AccessDeniedException(
                                         "Cannot create an association to an entity you don't have access to");
                             }
                         }
                     } else {
-                        if (!isEntityAllowed((String) value, entityType, entityType) && repo.findById(entityType, (String) value) != null) {
-                            debug("{} in {} is not accessible", value, entityType);
+                        if (!isEntityAllowed((String) value, collectionName, entityType) && repo.findById(collectionName, (String) value) != null) {
+                            debug("{} in {} is not accessible", value, collectionName);
                             throw new AccessDeniedException(
                                     "Cannot create an association to an entity you don't have access to");
                         }
@@ -770,8 +777,7 @@ public class BasicService implements EntityService {
             return getAuths().contains(Right.FULL_ACCESS);
         } else {
             return (defn.getType().equals(EntityNames.LEARNINGOBJECTIVE) || defn.getType().equals(
-                    EntityNames.LEARNINGSTANDARD))
-                    || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
+                    EntityNames.LEARNINGSTANDARD));
         }
     }
 
