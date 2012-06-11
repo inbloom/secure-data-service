@@ -348,7 +348,6 @@ public class IdNormalizer {
         String key = composeKey(collection, tenantId, filter);
         Object val = cacheProvider.get(key);
 
-        LOG.info("IdNormalizer Cache {} for {}", val == null ? "MISS" : "HIT", key);
 
         if (val == null) {
             ids = new ArrayList<String>();

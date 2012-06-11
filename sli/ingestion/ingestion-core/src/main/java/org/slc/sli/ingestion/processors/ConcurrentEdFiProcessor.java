@@ -12,6 +12,7 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
@@ -58,6 +59,9 @@ public class ConcurrentEdFiProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
+    @Value("${sli.ingestion.staging.index.policy}")
+    private String stagingIndexPolicy;
+
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
@@ -82,15 +86,23 @@ public class ConcurrentEdFiProcessor implements Processor {
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
-            if (fileEntryList.size() > 0) {
-                // prepare staging database
-                setupStagingDatabase(batchJobId);
+            if ("pre".equals(stagingIndexPolicy)) {
+                if (fileEntryList.size() > 0) {
+                    // prepare staging database
+                    setupStagingDatabase(batchJobId);
+                }
             }
 
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
 
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
+            if ("post".equals(stagingIndexPolicy)) {
+                if (fileEntryList.size() > 0) {
+                    // prepare staging database
+                    setupStagingDatabase(batchJobId);
+                }
+            }
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
 
         } catch (Exception exception) {
