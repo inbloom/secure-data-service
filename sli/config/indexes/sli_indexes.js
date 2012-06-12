@@ -83,14 +83,14 @@ db["sessionCourseAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.exte
 db["staff"].ensureIndex({"_id":1,"type":1});
 db["staff"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
-db["staffCohortAssociation"].ensureIndex({"body.cohortId":1, "body.staffId":1});
-db["staffCohortAssociation"].ensureIndex({"body.staffId":1, "body.cohortId":1});
+db["staffCohortAssociation"].ensureIndex({"body.cohortId":1});
+db["staffCohortAssociation"].ensureIndex({"body.staffId":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"body.educationOrganizationReference":1, "body.staffReference":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"body.staffReference":1, "body.educationOrganizationReference":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["staffProgramAssociation"].ensureIndex({"body.programId":1, "body.staffId":1});
-db["staffProgramAssociation"].ensureIndex({"body.staffId":1, "body.programId":1});
+db["staffProgramAssociation"].ensureIndex({"body.programId":1});
+db["staffProgramAssociation"].ensureIndex({"body.staffId":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});

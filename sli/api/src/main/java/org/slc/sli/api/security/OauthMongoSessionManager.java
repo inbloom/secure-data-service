@@ -99,7 +99,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         Entity sessionEntity = sessionId == null ? null : repo.findById(SESSION_COLLECTION, sessionId);
 
-        if (sessionEntity == null) {
+        if (sessionEntity == null || isExpired(sessionEntity)) {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
@@ -111,6 +111,15 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         appSessions.add(newAppSession(clientId, redirectUri, state, samlId, isInstalled));
 
         repo.update(SESSION_COLLECTION, sessionEntity);
+    }
+
+    private boolean isExpired(Entity sessionEntity) {
+        long expiration = (Long) sessionEntity.getBody().get("expiration");
+        if (expiration < System.currentTimeMillis()) {
+            debug("session has expired.");
+            return true;
+        }
+        return false;
     }
 
     @Override
