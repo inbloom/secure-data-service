@@ -138,23 +138,11 @@
 
   </util:map>
 
-  <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-    <!--<entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
-        <bean class="org.milyn.Smooks">
-          <constructor-arg type="java.lang.String"
-            value="idRefResolution/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference.xml" />
-        </bean>
-    </entry>-->
-
-  </util:map>
-
-  <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
-    <property name="idRefConfigs" ref="idRefConfigs" />
- </bean>
-
-  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver">
+  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver" scope="prototype">
     <property name="idRefConfigs" ref="ftlIdRefConfigs" />
   </bean>
+
+  <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver"/>
 
   <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler" scope="prototype">
     <property name="preValidators">
@@ -165,8 +153,6 @@
     </property>
     <property name="supportedResolvers" ref="strategyConfig" />
   </bean>
-
-  <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
 
   <util:map id="strategyConfig">
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="freeMarkerExtendedReferenceResolver" />
@@ -190,7 +176,6 @@
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
-    <!-- <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="smooksExtendedReferenceResolver" /> -->
 
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="freeMarkerExtendedReferenceResolver" />
 

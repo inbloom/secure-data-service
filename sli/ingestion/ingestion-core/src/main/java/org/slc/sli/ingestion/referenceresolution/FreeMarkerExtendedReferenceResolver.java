@@ -28,10 +28,6 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
 
     private Map<String, String> idRefConfigs;
 
-    public FreeMarkerExtendedReferenceResolver() {
-        smooksResolver.setIdRefConfigs(new ConcurrentHashMap<String, Smooks>());
-    }
-
     /**
      * resolve the reference
      *

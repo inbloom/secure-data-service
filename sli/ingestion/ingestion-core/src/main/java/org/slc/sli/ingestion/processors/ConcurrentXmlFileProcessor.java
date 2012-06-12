@@ -9,14 +9,6 @@ import java.util.concurrent.FutureTask;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -34,6 +26,13 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionCallable;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * Concurrently processes XML files.
@@ -47,10 +46,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
 
+    private ApplicationContext context;
+
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    private ApplicationContext applicationContext;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -72,7 +71,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            List<FutureTask<Boolean>> futureResolutions = resolveFilesInFuture(newJob.getResourceEntries());
+            List<FutureTask<Boolean>> futureResolutions = resolveFilesInFuture(newJob);
             boolean hasErrors = aggregateFutureResults(futureResolutions);
 
             setExchangeHeaders(exchange, hasErrors);
@@ -84,10 +83,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         }
     }
 
-    private List<FutureTask<Boolean>> resolveFilesInFuture(List<ResourceEntry> resources) {
+    private List<FutureTask<Boolean>> resolveFilesInFuture(NewBatchJob newJob) {
         List<FutureTask<Boolean>> resolutionTaskList = new ArrayList<FutureTask<Boolean>>();
 
-        for (ResourceEntry resource : resources) {
+        for (ResourceEntry resource : newJob.getResourceEntries()) {
             // TODO change the Abstract handler to work with ResourceEntry so we can avoid
             // this kludge here and elsewhere
             if (resource.getResourceFormat() != null
@@ -100,10 +99,11 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
                 fileEntry.setFile(new File(resource.getResourceName()));
 
-                IdRefResolutionHandler idRefResolutionHandler = applicationContext.getBean(
-                        "IdReferenceResolutionHandler", IdRefResolutionHandler.class);
+                IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",
+                        IdRefResolutionHandler.class);
 
-                Callable<Boolean> idRefCallable = new IdRefResolutionCallable(idRefResolutionHandler, fileEntry);
+                Callable<Boolean> idRefCallable = new IdRefResolutionCallable(idRefResolutionHandler, fileEntry,
+                        newJob, batchJobDAO);
                 FutureTask<Boolean> resolutionTask = IngestionExecutor.execute(idRefCallable);
                 resolutionTaskList.add(resolutionTask);
 
@@ -149,6 +149,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        this.context = applicationContext;
     }
 }
