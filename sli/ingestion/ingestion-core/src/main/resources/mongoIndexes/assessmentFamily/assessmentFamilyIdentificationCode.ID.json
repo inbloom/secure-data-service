@@ -2,6 +2,6 @@
     "collection": "assessmentFamily",
     "indexFields":
     [
-        {"name" : "body.AssessmentFamilyIdentificationCode.ID", "order" : "1"},
+        {"name" : "body.AssessmentFamilyIdentificationCode.ID", "order" : "1"}
     ]
 }

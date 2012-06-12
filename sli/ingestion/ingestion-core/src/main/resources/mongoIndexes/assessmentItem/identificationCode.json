@@ -2,6 +2,6 @@
     "collection": "assessmentItem",
     "indexFields":
     [
-        {"name" : "body.identificationCode", "order" : "1"},
+        {"name" : "body.identificationCode", "order" : "1"}
     ]
 }

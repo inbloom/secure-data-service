@@ -2,6 +2,6 @@
     "collection": "school",
     "indexFields":
     [
-        {"name" : "body.stateOrganizationId", "order" : "1"},
+        {"name" : "body.stateOrganizationId", "order" : "1"}
     ]
 }

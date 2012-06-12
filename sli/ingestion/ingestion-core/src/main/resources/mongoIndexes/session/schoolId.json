@@ -2,6 +2,6 @@
     "collection": "session",
     "indexFields":
     [
-        {"name" : "body.schoolId", "order" : "1"},
+        {"name" : "body.schoolId", "order" : "1"}
     ]
 }

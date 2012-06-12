@@ -2,6 +2,6 @@
     "collection": "assessmentItem",
     "indexFields":
     [
-        {"name" : "localId", "order" : "1"},
+        {"name" : "localId", "order" : "1"}
     ]
 }
