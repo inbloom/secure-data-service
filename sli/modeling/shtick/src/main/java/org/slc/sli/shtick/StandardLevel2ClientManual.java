@@ -28,7 +28,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     public StandardLevel2ClientManual(final String baseUrl) {
-        this(baseUrl, new StandardLevel1Client());
+        this(baseUrl, new JsonLevel1Client());
     }
 
     @Override

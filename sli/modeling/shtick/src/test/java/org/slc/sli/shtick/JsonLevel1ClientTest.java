@@ -16,13 +16,13 @@ import static org.junit.Assert.fail;
 /**
  * @author jstokes
  */
-public class StandardLevel1ClientTest {
+public class JsonLevel1ClientTest {
 
     private Level1Client level1Client;
 
     @Before
     public void setup() {
-        level1Client = new StandardLevel1Client();
+        level1Client = new JsonLevel1Client();
     }
 
     @Test
