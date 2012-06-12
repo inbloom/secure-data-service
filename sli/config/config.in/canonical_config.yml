@@ -1158,7 +1158,7 @@ nxteam:
         sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
-        sli.ingestion.processor.xml: serial 
+        sli.ingestion.processor.xml:  concurrent
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.pit.concurrentConsumers: 20
         sli.ingestion.cache.type: memcached
