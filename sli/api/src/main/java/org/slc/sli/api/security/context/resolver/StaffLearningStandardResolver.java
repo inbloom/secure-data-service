@@ -16,7 +16,7 @@ import org.slc.sli.domain.Repository;
  * @author dliu
  * 
  */
-@Component
+//@Component
 public class StaffLearningStandardResolver implements EntityContextResolver {
 
     @Autowired

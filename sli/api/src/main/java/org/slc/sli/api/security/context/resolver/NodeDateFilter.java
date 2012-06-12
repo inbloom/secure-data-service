@@ -27,14 +27,6 @@ public class NodeDateFilter extends NodeFilter {
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected String getEntityName() {
-        return entityName;
-    }
-
-    protected String getReferenceId() {
-        return referenceId;
-    }
-
     protected String getGracePeriod() {
         return gracePeriod;
     }
@@ -51,52 +43,39 @@ public class NodeDateFilter extends NodeFilter {
         this.startDateParamName = startDateParamName;
     }
 
-    private String entityName;
-    private String referenceId;
     private String gracePeriod;
     private String endDateParamName;
     private String startDateParamName;
 
-    public void setParameters(String entityName, String referenceId, String gracePeriod, String endDateParamName) {
-        this.entityName = entityName;
-        this.referenceId = referenceId;
+    public void setParameters(String gracePeriod, String endDateParamName) {
         this.gracePeriod = gracePeriod;
         this.endDateParamName = endDateParamName;
         this.startDateParamName = "";
     }
 
-
     @Override
-    public List<String> filterIds(List<String> toResolve) {
+    public List<Entity> filterEntities(List<Entity> toResolve, String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        List<String> returnIds = new ArrayList<String>();
+        List<Entity> returnEntityList = new ArrayList<Entity>();
 
-        if (entityName != null && referenceId != null && gracePeriod != null && endDateParamName != null) {
+        if (gracePeriod != null && endDateParamName != null) {
             //get the filter date
             String curDateWithGracePeriod = helper.getFilterDate(gracePeriod, calendar);
 
             if (!toResolve.isEmpty()) {
-                //get the entities
-                Iterable<Entity> referenceEntities = helper.getReferenceEntities(entityName,
-                        referenceId, toResolve);
-
-                for (Entity entity : referenceEntities) {
+                for (Entity entity : toResolve) {
                     String endDateStr = (String) entity.getBody().get(endDateParamName);
-                    String refId = (String) entity.getBody().get(referenceId);
-                    if (returnIds.contains(refId)) {
-                        continue; // refId already added to returnIds
-                    }
 
                     if (startDateParamName.isEmpty()) {
-                        if (isDateBeforeEndDate(endDateStr, curDateWithGracePeriod)) {
-                            returnIds.add(refId);
+                        if (endDateStr == null || endDateStr.isEmpty() || isFirstDateBeforeSecondDate(curDateWithGracePeriod, endDateStr)) {
+                            returnEntityList.add(entity);
                         }
                     } else {
                         String startDateStr = (String) entity.getBody().get(startDateParamName);
                         String curDate = getCurrentDate();
                         if (isDateInRange(curDate, startDateStr, endDateStr)) {
-                            returnIds.add(refId);
+                            returnEntityList.add(entity);
                         }
                     }
 
@@ -104,7 +83,7 @@ public class NodeDateFilter extends NodeFilter {
             }
         }
 
-        return returnIds;
+        return returnEntityList;
     }
 
     protected boolean isDateInRange(String date, String startDate, String endDate) {
@@ -124,29 +103,19 @@ public class NodeDateFilter extends NodeFilter {
      * Returns true when first date is before or second date.
      * Determines 'is date is before end date'.
      *
-     * @param formattedDateString
-     * @param formattedEndDateString
+     * @param formattedFirstDateString
+     * @param formattedSecondDateString
      * @return
      */
-    protected boolean isDateBeforeEndDate(String formattedDateString, String formattedEndDateString) {
-
-        Date date = null, endDate = null;
-        boolean retValue = true;
-
+    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) {
         try {
-            if (formattedDateString != null && !formattedDateString.equals("")) {
-                date = formatter.parse(formattedDateString);
-                endDate = formatter.parse(formattedEndDateString);
-
-                if (date.before(endDate)) {
-                    retValue = false;
-                }
-            }
-
+            Date date = formatter.parse(formattedFirstDateString);
+            Date endDate = formatter.parse(formattedSecondDateString);
+            return date.before(endDate);
         } catch (ParseException e) {
-            retValue = false;
+            warn("parse exception {} {}", formattedFirstDateString, formattedSecondDateString);
+            return false;
         }
-        return retValue;
     }
 
     protected String getCurrentDate() {

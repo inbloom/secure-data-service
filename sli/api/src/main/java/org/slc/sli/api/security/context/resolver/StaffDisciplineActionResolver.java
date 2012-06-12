@@ -16,7 +16,7 @@ import org.slc.sli.domain.Entity;
  * @author syau
  *
  */
-@Component
+//@Component
 public class StaffDisciplineActionResolver implements EntityContextResolver {
 
     @Autowired

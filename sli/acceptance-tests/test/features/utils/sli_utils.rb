@@ -21,6 +21,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_IL" => "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85",
                 "cgray_IL" => "1cf7a5d4-75a2-ba63-8b53-b5f95131cc48",
                 "rbraverman_IL" => "2cf7a5d4-78a1-ca42-8b74-b5f95131ac21",
+                "manthony_IL" => "2cfda5e4-74a1-7a4b-8274-a5f5c134ac61",
                 "mario.sanchez_NY" => "8cfba5a4-39a1-ca39-8413-b5697131ac85",
                 "educator_SLI" => "4cf7a5d4-37a1-ca11-8b13-b5f95131ac85",
                 "leader_SLI" => "4cf7a5d4-37a1-ca22-8b13-b5f95131ac85",
@@ -377,7 +378,13 @@ module CreateEntityHash
         "nameOfInstitution" => "school name",
         "stateOrganizationId" => "12345678",
         "gradesOffered" => ["First grade", "Second grade"],
-        "address"=>[],
+      "address"=>[
+      "streetNumberName" => "111 Ave C",
+      "city" => "Chicago",
+      "stateAbbreviation" => "IL",
+      "postalCode" => "10098",
+      "nameOfCounty" => "Wake"
+      ],
         "organizationCategories" => ["School"],
         "schoolCategories" => ["Elementary School"],
         ]

@@ -49,11 +49,15 @@ Transform /^<([^"]*)>$/ do |val|
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
+  when "INACCESSIBLE REFERENCE 1" then "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d"
+  when "INACCESSIBLE REFERENCE 2" then "0e26de79-22aa-5d67-9201-5113ad50a03b"
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then $createdId = @newId
   when "VALIDATION" then "Validation failed"
   end
 end
+
+
 
 
 ###############################################################################

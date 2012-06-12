@@ -1,11 +1,14 @@
 <% if APP_CONFIG["is_sandbox"] %>
-Welcome <%= @firstName %>!
+Welcome <%= @firstName %>,
 
-You have selected the sample data set for your SLC sandbox.
+You have successfully created a landing zone for your educational organization on the Shared Learning Collaborative sandbox.
      
-If you elected to use sample data provided by the SLC, it can be accessed at the server below.You will need to sftp to the server below and upload the data file in order for it to be ingested by the system.
+If you selected one of the sample data sets, you can download them from:
+<%=APP_CONFIG['sample_data_url']%>
+
+sftp to the directory below and upload the file in order for it to be ingested by the system.
      
-If you elected to use your own data you will need to sftp to the server below and upload the data file you created in order for it to be ingested by the system.
+To use your own data, sftp to the directory below and upload the data file you created in order for it to be ingested by the system.
           
 Server: <%= @serverName %>
 Ed-Org: <%= @edorgId %>
@@ -14,11 +17,11 @@ Ed-Org: <%= @edorgId %>
 Thank you,
 The Shared Learning Collaborative
 <% else %>
-Welcome <%= @firstName %>!
+Welcome <%= @firstName %>,
 
-You have successfully created a landing zone for your education organization.
+You have successfully created a landing zone for your educational organization.
      
-To load your data you will need to sftp to the server below and upload the data file you created in order for it to be ingested by the system.
+To load your data, sftp to the directory below and upload the data file you created in order for it to be ingested by the system.
 
 Server: <%= @serverName %>
 Ed-Org: <%= @edorgId %>

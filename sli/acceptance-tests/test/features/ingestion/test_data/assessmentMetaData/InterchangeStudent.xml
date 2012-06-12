@@ -7,16 +7,13 @@
       <LastSurname>Tam</LastSurname>
     </Name>
     <Sex>Female</Sex>
-    <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
     <Race/>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
     <Section504Disabilities/>
-    <DisplacementStatus/>
-    <BirthData>
-      <BirthDate>2006-07-02</BirthDate>
-    </BirthData>
   </Student>
 
 </InterchangeStudentParent>

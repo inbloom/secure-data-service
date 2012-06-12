@@ -1,6 +1,8 @@
 package org.slc.sli.security;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -230,7 +232,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         
       //State is keyword used by idp to forward parameters
       //Adding requestUrl as state, to allow idp to send it back in the redirect
-        authUrl += "&" + STATE_PARAMETER + "=" + request.getRequestURL().toString();
+        authUrl += "&" + STATE_PARAMETER + "=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
         response.sendRedirect(authUrl);        
     }
     
@@ -249,7 +251,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String entryUrl = request.getParameter(STATE_PARAMETER);
 
         if (entryUrl != null) {
-            response.sendRedirect(entryUrl);
+            response.sendRedirect(URLDecoder.decode(entryUrl, "UTF-8"));
         } else {
             response.sendRedirect(request.getRequestURI());
         }        

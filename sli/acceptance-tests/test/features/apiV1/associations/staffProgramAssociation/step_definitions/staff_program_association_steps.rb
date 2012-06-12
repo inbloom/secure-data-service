@@ -13,11 +13,11 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #staff program association data
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 8                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
   id = "9d19301f-54c7-48ae-b1c3-0ec1bd11fcec"   if human_readable_id == "ASSOCIATION ID - SINGLE"
@@ -55,6 +55,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "8f403e29-2a65-643e-6fac-5ccb53000db2"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "cb292c7d-3503-414a-92a2-dc76a1585d79"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"

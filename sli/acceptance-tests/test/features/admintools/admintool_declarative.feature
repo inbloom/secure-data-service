@@ -16,7 +16,7 @@ And the following collections are empty in datastore:
 And I am not authenticated to SLI IDP
 And I have tried to access the SLI Default Roles Admin Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+When I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am now authenticated to SLI IDP
 And I should be redirected to the SLI Default Roles Admin Page
 And I should see following map of entry counts in the corresponding collections:

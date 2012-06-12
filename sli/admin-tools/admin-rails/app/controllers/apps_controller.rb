@@ -59,8 +59,7 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        #TODO send an email to the developer...
-        # ApplicationMailer.notify_operator(@app).deliver
+        ApplicationMailer.notify_developer(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -80,7 +79,7 @@ class AppsController < ApplicationController
         reg.status = "UNREGISTERED"
       end
       if @app.update_attribute("registration", reg)
-        # ApplicationMailer.notify_operator(@app).deliver
+        #ApplicationMailer.notify_operator(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -117,8 +116,12 @@ class AppsController < ApplicationController
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
-        #TODO send an email to the operator
-        # ApplicationMailer.notify_operator(session[:support_email], @app).deliver
+        if !APP_CONFIG["is_sandbox"]
+            # Want to read the created_by on the @app, which is stamped during the created.
+            # Tried @app.reload and it didn't work
+            creator_email = App.find(@app.id).created_by
+            ApplicationMailer.notify_operator(session[:support_email], @app, creator_email).deliver
+        end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js

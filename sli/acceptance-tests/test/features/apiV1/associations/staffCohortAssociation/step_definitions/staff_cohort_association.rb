@@ -14,11 +14,11 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #staff cohort association data
-  when "ASSOCIATION COUNT" then 3
+  when "ASSOCIATION COUNT" then 11
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
-  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
+  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 3
-  when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
+  when "RESOLUTION COUNT FOR ENDPOINT 2" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT" then 2
   when "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT" then 2
   when "ASSOCIATION ID - SINGLE" then "b4e31b1a-8e55-8803-722c-14d8087c0712"
@@ -58,6 +58,8 @@ Transform /^<([^"]*)>$/ do |val|
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
+  when "INACCESSIBLE REFERENCE 1" then "8f403e29-2a65-643e-6fac-5ccb53000db2" 
+  when "INACCESSIBLE REFERENCE 2" then "a50121a2-c566-401b-99a5-71eb5cab5f4f"   
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then @newId
   when "VALIDATION" then "Validation failed"

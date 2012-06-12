@@ -7,59 +7,6 @@
 	<xs:include schemaLocation="SimpleTypes.xsd" />
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
-
-	<xs:complexType name="userAccount">
-		<xs:annotation>
-			<xs:documentation>
-				This entity represents a developer's user account.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="userName" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>
-						The user's login ID.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="firstName" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>
-						The user's first name.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="lastName" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>
-						The user's last name.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="environment" type="environmentType">
-				<xs:annotation>
-					<xs:documentation>
-						The environment the user account could access.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="validated" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Indicator of whether the user
-						has validated his or her account.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="vendor" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>
-						The user's vendor/company ID (if applicable).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="assessment">
 		<xs:annotation>
 			<xs:documentation>
@@ -335,9 +282,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!--This is how we associate the assessment item and the objective assessment 
-				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation> 
-				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation> 
+			<!--This is how we associate the assessment item and the objective assessment
+				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation>
+				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation>
 				</xs:annotation> </xs:element> -->
 			<xs:element name="identificationCode" type="identificationCode">
 				<xs:annotation>
@@ -531,39 +478,39 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<!-- <xs:complexType name="location"> <xs:annotation> <xs:documentation>This 
-		entity represents the physical space where students gather for a particular 
-		class/section. The location may be an indoor or outdoor area designated for 
-		the purpose of meeting the educational needs of students. </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="classroomIdentificationCode" 
-		type="classroomIdentificationCode"> <xs:annotation> <xs:documentation>A unique 
-		number or alphanumeric code assigned to a room by a school, school system, 
-		state, or other agency or entity. </xs:documentation> </xs:annotation> </xs:element> 
-		<xs:element name="maximumNumberOfSeats" type="xs:int" minOccurs="0"> <xs:annotation> 
-		<xs:documentation>The most number of seats the class can maintain. </xs:documentation> 
-		</xs:annotation> </xs:element> <xs:element name="optimalNumberOfSeats" type="xs:int" 
-		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that 
-		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element> 
-		</xs:sequence> </xs:complexType> --> <!-- <xs:complexType name="meetingTime"> <xs:annotation> <xs:documentation>This 
-		entity represents the set of elements defining the meeting time for a class 
-		period for a bell schedule. </xs:documentation> </xs:annotation> <xs:sequence> 
-		<xs:element name="classPeriodName" type="xs:string"> <xs:annotation> <xs:documentation>The 
-		class period associated with the meeting time for a bell schedule. </xs:documentation> 
-		</xs:annotation> </xs:element> <xs:element name="weekNumber"> <xs:annotation> 
-		<xs:documentation>The week number (out of the number of weeks in the cycle) 
-		for this meeting time. </xs:documentation> </xs:annotation> <xs:simpleType> 
-		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive 
-		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element 
-		name="meetingDates"> <xs:annotation> <xs:documentation>Dates the meetings 
-		occur</xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="xs:date"></xs:list> 
-		</xs:simpleType> </xs:element> <xs:element name="startTime" type="xs:time"> 
-		<xs:annotation> <xs:documentation>An indication of the time of day the class 
-		begins. </xs:documentation> </xs:annotation> </xs:element> <xs:element name="endTime" 
-		type="xs:time"> <xs:annotation> <xs:documentation>An indication of the time 
-		of day the class ends. </xs:documentation> </xs:annotation> </xs:element> 
-		<xs:element name="officialAttendancePeriod" type="xs:boolean" minOccurs="0"> 
-		<xs:annotation> <xs:documentation>Indicator of whether this meeting time 
-		is used for official daily attendance. </xs:documentation> </xs:annotation> 
+	<!-- <xs:complexType name="location"> <xs:annotation> <xs:documentation>This
+		entity represents the physical space where students gather for a particular
+		class/section. The location may be an indoor or outdoor area designated for
+		the purpose of meeting the educational needs of students. </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="classroomIdentificationCode"
+		type="classroomIdentificationCode"> <xs:annotation> <xs:documentation>A unique
+		number or alphanumeric code assigned to a room by a school, school system,
+		state, or other agency or entity. </xs:documentation> </xs:annotation> </xs:element>
+		<xs:element name="maximumNumberOfSeats" type="xs:int" minOccurs="0"> <xs:annotation>
+		<xs:documentation>The most number of seats the class can maintain. </xs:documentation>
+		</xs:annotation> </xs:element> <xs:element name="optimalNumberOfSeats" type="xs:int"
+		minOccurs="0"> <xs:annotation> <xs:documentation>The number of seats that
+		is most favorable to the class. </xs:documentation> </xs:annotation> </xs:element>
+		</xs:sequence> </xs:complexType> --> <!-- <xs:complexType name="meetingTime"> <xs:annotation> <xs:documentation>This
+		entity represents the set of elements defining the meeting time for a class
+		period for a bell schedule. </xs:documentation> </xs:annotation> <xs:sequence>
+		<xs:element name="classPeriodName" type="xs:string"> <xs:annotation> <xs:documentation>The
+		class period associated with the meeting time for a bell schedule. </xs:documentation>
+		</xs:annotation> </xs:element> <xs:element name="weekNumber"> <xs:annotation>
+		<xs:documentation>The week number (out of the number of weeks in the cycle)
+		for this meeting time. </xs:documentation> </xs:annotation> <xs:simpleType>
+		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive
+		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
+		name="meetingDates"> <xs:annotation> <xs:documentation>Dates the meetings
+		occur</xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="xs:date"></xs:list>
+		</xs:simpleType> </xs:element> <xs:element name="startTime" type="xs:time">
+		<xs:annotation> <xs:documentation>An indication of the time of day the class
+		begins. </xs:documentation> </xs:annotation> </xs:element> <xs:element name="endTime"
+		type="xs:time"> <xs:annotation> <xs:documentation>An indication of the time
+		of day the class ends. </xs:documentation> </xs:annotation> </xs:element>
+		<xs:element name="officialAttendancePeriod" type="xs:boolean" minOccurs="0">
+		<xs:annotation> <xs:documentation>Indicator of whether this meeting time
+		is used for official daily attendance. </xs:documentation> </xs:annotation>
 		</xs:element> </xs:sequence> </xs:complexType> -->
 	<xs:complexType name="miscellaneousEvent">
 		<xs:annotation>
@@ -1382,14 +1329,14 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation> 
-		<xs:documentation> An association between the section and bell schedule. 
-		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime"> 
-		<xs:sequence> <xs:element name="bellScheduleId" type="xs:string"> <xs:annotation> 
-		<xs:documentation> The bell schedule the section is scheduled in </xs:documentation> 
-		</xs:annotation> </xs:element> <xs:element name="sectionId" type="xs:string"> 
-		<xs:annotation> <xs:documentation> The section being offered </xs:documentation> 
-		</xs:annotation> </xs:element> </xs:sequence> </xs:extension> </xs:complexContent> 
+	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
+		<xs:documentation> An association between the section and bell schedule.
+		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">
+		<xs:sequence> <xs:element name="bellScheduleId" type="xs:string"> <xs:annotation>
+		<xs:documentation> The bell schedule the section is scheduled in </xs:documentation>
+		</xs:annotation> </xs:element> <xs:element name="sectionId" type="xs:string">
+		<xs:annotation> <xs:documentation> The section being offered </xs:documentation>
+		</xs:annotation> </xs:element> </xs:sequence> </xs:extension> </xs:complexContent>
 		</xs:complexType> -->
 	<xs:complexType name="session">
 		<xs:annotation>
@@ -1530,7 +1477,7 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" minOccurs="0" 
+					<xs:element maxOccurs="unbounded" minOccurs="0"
                         name="gradesOffered"
 						type="gradeLevelType">
 						<xs:annotation>
@@ -1809,7 +1756,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 			<xs:element name="endDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
@@ -1818,7 +1769,11 @@
 						member's employment, contract or relationship with
 						the LEA.
 					</xs:documentation>
-				</xs:annotation>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -2243,10 +2198,10 @@
 					<xs:documentation>The legal document or authorization giving
 						authorization to perform teaching assignment services.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
+                    <xs:appinfo>
+                        <sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+                        <sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="loginId" type="identificationCode"
@@ -4671,12 +4626,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The 
-		general racial category which most clearly reflects the individual's recognition 
-		of his or her community or with which the individual most identifies. </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType" 
-		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero 
-		or more racial categories associated with the student or staff. </xs:documentation> 
+	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The
+		general racial category which most clearly reflects the individual's recognition
+		of his or her community or with which the individual most identifies. </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType"
+		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero
+		or more racial categories associated with the student or staff. </xs:documentation>
 		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType> -->
 
 	<xs:complexType name="accountabilityRating">
@@ -5538,16 +5493,16 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<!-- <xs:complexType name="eventBellScheduleAssociation"> <xs:annotation> 
-		<xs:documentation> An association between the section and bell schedule. 
-		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime"> 
-		<xs:sequence> <xs:element name="bellScheduleId" type="xs:string"> <xs:annotation> 
-		<xs:documentation>The bell schedule the event is scheduled in. </xs:documentation> 
-		<xs:appinfo> <sli:ReferenceType>bellSchedule</sli:ReferenceType> </xs:appinfo> 
-		</xs:annotation> </xs:element> <xs:element name="miscellaneousEventId" type="xs:string"> 
-		<xs:annotation> <xs:documentation>The section being offered</xs:documentation> 
-		<xs:appinfo> <sli:ReferenceType>miscellaneousEvent</sli:ReferenceType> </xs:appinfo> 
-		</xs:annotation> </xs:element> </xs:sequence> </xs:extension> </xs:complexContent> 
+	<!-- <xs:complexType name="eventBellScheduleAssociation"> <xs:annotation>
+		<xs:documentation> An association between the section and bell schedule.
+		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">
+		<xs:sequence> <xs:element name="bellScheduleId" type="xs:string"> <xs:annotation>
+		<xs:documentation>The bell schedule the event is scheduled in. </xs:documentation>
+		<xs:appinfo> <sli:ReferenceType>bellSchedule</sli:ReferenceType> </xs:appinfo>
+		</xs:annotation> </xs:element> <xs:element name="miscellaneousEventId" type="xs:string">
+		<xs:annotation> <xs:documentation>The section being offered</xs:documentation>
+		<xs:appinfo> <sli:ReferenceType>miscellaneousEvent</sli:ReferenceType> </xs:appinfo>
+		</xs:annotation> </xs:element> </xs:sequence> </xs:extension> </xs:complexContent>
 		</xs:complexType> -->
 	<xs:complexType name="feederSchoolType">
 		<xs:annotation>
@@ -5817,6 +5772,14 @@
       <xs:element name="schoolYear" type="schoolYearType">
         <xs:annotation>
           <xs:documentation>The identifier for the school year.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="stateOrganizationId" type="identificationCode">
+        <xs:annotation>
+          <xs:documentation>The identifier assigned to an education agency by
+                            the State
+                            Education Agency (SEA). Also known as the State LEA ID.
+          </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
@@ -6414,21 +6377,21 @@
 				minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-	<!-- <xs:complexType name="bellSchedule"> <xs:annotation> <xs:documentation>BellSchedule 
-		This entity represents the schedule of class period meeting times. Associations: 
-		EventBellScheduleAssociation, SectionBellScheduleAssociation </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="bellScheduleName" type="xs:string"> 
-		<xs:annotation> <xs:documentation> Name or title of the bell schedule. </xs:documentation> 
-		</xs:annotation> </xs:element> <xs:element name="gradeLevels"> <xs:annotation> 
-		<xs:documentation> The grade levels the particular bell schedule applies 
-		to. </xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="gradeLevelType"> 
-		</xs:list> </xs:simpleType> </xs:element> <xs:element name="weeksInCycle"> 
-		<xs:annotation> <xs:documentation> The number of weeks in which the meeting 
-		time schedules repeat. </xs:documentation> </xs:annotation> <xs:simpleType> 
-		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive 
-		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element 
-		maxOccurs="unbounded" name="sessionsOffered" type="xs:string"> <xs:annotation> 
-		<xs:documentation> The sessions associated with this bell schedule. </xs:documentation> 
+	<!-- <xs:complexType name="bellSchedule"> <xs:annotation> <xs:documentation>BellSchedule
+		This entity represents the schedule of class period meeting times. Associations:
+		EventBellScheduleAssociation, SectionBellScheduleAssociation </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="bellScheduleName" type="xs:string">
+		<xs:annotation> <xs:documentation> Name or title of the bell schedule. </xs:documentation>
+		</xs:annotation> </xs:element> <xs:element name="gradeLevels"> <xs:annotation>
+		<xs:documentation> The grade levels the particular bell schedule applies
+		to. </xs:documentation> </xs:annotation> <xs:simpleType> <xs:list itemType="gradeLevelType">
+		</xs:list> </xs:simpleType> </xs:element> <xs:element name="weeksInCycle">
+		<xs:annotation> <xs:documentation> The number of weeks in which the meeting
+		time schedules repeat. </xs:documentation> </xs:annotation> <xs:simpleType>
+		<xs:restriction base="xs:int"> <xs:minInclusive value="1" /> <xs:maxInclusive
+		value="52" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
+		maxOccurs="unbounded" name="sessionsOffered" type="xs:string"> <xs:annotation>
+		<xs:documentation> The sessions associated with this bell schedule. </xs:documentation>
 		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType> -->
 	<xs:complexType name="behaviorDescriptor">
 		<xs:annotation>
@@ -7244,9 +7207,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!-- learningObjective and studentCompetencyObjective were wrapped in 
-				<xs:choice>, and one and only one should be chosen, so minOccurs="0" is not 
-				correct. I will leave it like this here - this should be changed when the 
+			<!-- learningObjective and studentCompetencyObjective were wrapped in
+				<xs:choice>, and one and only one should be chosen, so minOccurs="0" is not
+				correct. I will leave it like this here - this should be changed when the
 				resources are implemented. -->
 			<!--<xs:choice> -->
 			<xs:element name="learningObjectiveId" type="reference"

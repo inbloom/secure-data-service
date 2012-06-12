@@ -1,5 +1,6 @@
 package org.slc.sli.validation.schema;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +71,25 @@ public class ComplexSchema extends NeutralSchema {
             for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
                 NeutralSchema schema = entry.getValue();
                 AppInfo appInfo = schema.getAppInfo();
-                if (appInfo != null && appInfo.isRequired() && !entityMap.containsKey(entry.getKey())) {
-                    addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
-                            ErrorType.REQUIRED_FIELD_MISSING,
-                            errors);
-                    isValid = false;
+                if (appInfo != null && appInfo.isRequired()) {
+                    Object element = entityMap.get(entry.getKey());
+                    if (element == null) {
+                        isValid = false;
+                    } else if (element instanceof Collection) {
+                        if (((Collection<?>) element).isEmpty()) {
+                            isValid = false;
+                        }
+                    } else if (element instanceof Map) {
+                        if (((Map<?, ?>) element).isEmpty()) {
+                            isValid = false;
+                        }
+                    }
+
+                    if (!isValid) {
+                        addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
+                                ErrorType.REQUIRED_FIELD_MISSING,
+                                errors);
+                    }
                 }
             }
 
@@ -101,7 +116,7 @@ public class ComplexSchema extends NeutralSchema {
                         myEntityMap.put(fieldName, convertedFieldValue);
                     } else {
                         isValid = false;
-                        
+
                         // Return immediately since errors list was not indicated
                         if (errors == null) {
                             return false;

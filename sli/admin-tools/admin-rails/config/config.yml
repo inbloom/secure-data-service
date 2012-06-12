@@ -1,4 +1,15 @@
+common: &common
+    recaptcha_disable: true
+    terms_url: http://dev.slcedu.org/legal/terms-service
+    privacy_policy_url: http://dev.slcedu.org/legal/privacy
+    # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    # update me when password policy changes
+    password_policy: ["password must satisfy password policy"]
+
 development:
+    <<: *common
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
@@ -16,17 +27,13 @@ development:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rcportal.slidev.org/portal
-    recaptcha_disable: true
-# TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    
 local-acceptance-tests:
+    <<: *common
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
@@ -44,17 +51,13 @@ local-acceptance-tests:
     email_replace_uri: http://local.slidev.org:2000
     admin_realm: Shared Learning Infrastructure  
     redirect_slc_url: http://www.slcedu.org 
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rcportal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    
 development_sb:
+    <<: *common
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
@@ -72,17 +75,15 @@ development_sb:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    sample_data_url: http://www.slcedu.org
+    maximum_user_count: 500
+    
 team:
+    <<: *common
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
@@ -100,17 +101,13 @@ team:
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rcportal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    
 team_sb:
+    <<: *common
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
@@ -128,17 +125,15 @@ team_sb:
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rc2portal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    maximum_user_count: 500
+    sample_data_url: http://www.slcedu.org
+    
 test:
+    <<: *common
     api_base: https://devapp1.slidev.org/api/rest
     ldap_host: ldap.slidev.org
     ldap_port: 389
@@ -153,17 +148,13 @@ test:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org    
     support_email: support@slidev.org
     portal_url: https://rcportal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    
 production:
+    <<: *common
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
@@ -181,13 +172,7 @@ production:
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
-    terms_url: http://www.slcedu.org
-    privacy_policy_url: http://www.slcedu.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     support_email: support@slidev.org
     portal_url: https://rcportal.slidev.org/portal
-    recaptcha_disable: true
-    # TODO: use some to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
-    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
-    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs

@@ -9,23 +9,22 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  *
  */
 @Component
-public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
+public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
 
     private static final String REFERENCE = "parentEducationAgencyReference";
 
@@ -36,8 +35,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
     private Repository<Entity> repo;
 
     @Override
-    public List<String> filterIds(List<String> ids) {
-        Set<String> parents = fetchParents(new HashSet<String>(ids));
+    public List<String> addAssociatedIds(List<String> ids) {
         Set<String> blacklist = getBlacklist();
         Set<String> toReturn = new HashSet<String>(ids);
         Queue<String> toResolve = new LinkedList<String>(ids);
@@ -56,7 +54,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeFilter {
             }
 
         }
-        toReturn.addAll(parents);
         return new ArrayList<String>(toReturn);
     }
 

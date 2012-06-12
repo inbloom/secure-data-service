@@ -9,7 +9,7 @@
 			    <xs:documentation>
 			         Defines that is allowed to use an application.
 			         Typically the application list will be associated with an educational organization.
-			         
+
 			    </xs:documentation>
 				<xs:appinfo>
 					<sli:SecuritySphere>Admin</sli:SecuritySphere>
@@ -24,11 +24,11 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element name="authId" type="xs:string" minOccurs="1"/>
-				<xs:element name="appIds" minOccurs="1">
-					<xs:simpleType>
-						<xs:list itemType="xs:string"/>
-					</xs:simpleType>
-				</xs:element>
+               <xs:element name="appIds" minOccurs="0" maxOccurs="unbounded">
+                   <xs:simpleType>
+                      <xs:restriction base="xs:string"/>
+                   </xs:simpleType>
+               </xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

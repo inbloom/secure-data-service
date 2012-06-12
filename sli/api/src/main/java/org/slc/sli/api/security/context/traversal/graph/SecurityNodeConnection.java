@@ -20,6 +20,12 @@ public class SecurityNodeConnection {
     private EntityContextResolver resolver = null;
     private List<NodeFilter> filter;
 
+    public NodeAggregator getAggregator() {
+        return aggregator;
+    }
+
+    private NodeAggregator aggregator = null;
+
     /**
      * @return the fieldName
      */
@@ -93,6 +99,14 @@ public class SecurityNodeConnection {
         this.associationNode = associationNode;
         this.filter = new ArrayList<NodeFilter>();
         this.filter.add(filter);
+    }
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, NodeFilter filter, NodeAggregator nodeAggregator) {
+        this.connectionTo = toEntity;
+        this.fieldName = withField;
+        this.associationNode = associationNode;
+        this.filter = new ArrayList<NodeFilter>();
+        this.filter.add(filter);
+        this.aggregator = nodeAggregator;
     }
     public SecurityNodeConnection(String toEntity, String withField, String associationNode, List<NodeFilter> filter) {
         this.connectionTo = toEntity;
