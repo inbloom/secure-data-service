@@ -9,7 +9,6 @@ import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -55,23 +54,13 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     @Override
     public Boolean call() throws Exception {
         LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
-        IngestionFileEntry fileEntry = processResolution(entry, entry.getErrorReport());
-        boolean hasErrors = aggregateAndLogResolutionErrors(fileEntry);
+
+        resolver.handle(entry, entry.getErrorReport());
+
+        boolean hasErrors = aggregateAndLogResolutionErrors(entry);
+
         LOG.info("Finished IdRefResolutionCallable for: " + entry.getFileName());
         return hasErrors;
-    }
-
-    /**
-     * Process id reference resolution using the specified handler.
-     *
-     * @param fileEntry
-     *            ingestion file entry.
-     * @param errorReport
-     *            error report.
-     * @return ingestion file entry (contains faults and errors).
-     */
-    private IngestionFileEntry processResolution(IngestionFileEntry fileEntry, ErrorReport errorReport) {
-        return resolver.handle(fileEntry, errorReport);
     }
 
     /**
