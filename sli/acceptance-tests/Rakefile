@@ -45,7 +45,19 @@ $collectionSet = ["student",
                   "studentAcademicRecord",
                   "grade",
                   "studentCompetency",
-                  "reportCard"]
+                  "reportCard",
+                  "cohort",
+                  "courseOffering",
+                  "learningObjective",
+                  "learningStandard",
+                  "gradingPeriod",
+                  "staffCohortAssociation",
+                  "staffProgramAssociation",
+                  "studentCohortAssociation",
+                  "studentProgramAssociation",
+                  "disciplineAction",
+                  "disciplineIncident",
+                  "studentDisciplineIncidentAssociation"]
 
 #######################################################################################################
 # Helper defs
@@ -201,6 +213,11 @@ task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
   end
 end
 
+
+desc "Run Security MegaTest"
+task :apiMegaTests => [:realmInit, :importSecuredData] do
+    runTests("test/features/apiV1/entities/student_security")
+end
 
 #desc "Run Liferay Tests"
 #task :liferay => [:liferayTest] do
@@ -545,6 +562,30 @@ task :importStoriedData do
   $collectionSet.each do |collection|
     testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
   end
+  setMultipleFixtureFiles(testHash)
+end
+
+desc "Import Secured Data Set"
+task :importSecuredData do
+  $collectionSet.each do |collection|
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --eval db.#{collection}.drop()"
+  end
+  testHash = Hash[
+    "cohort" => "secured/cohort.json",
+    "educationOrganization" => "secured/educationOrganization.json",
+    "program" => "secured/program.json",
+    "section" => "secured/section.json",
+    "staff" => "secured/staff.json",
+    "staffCohortAssociation" => "secured/staffCohortAssociation.json",
+    "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
+    "staffProgramAssociation" => "secured/staffProgramAssociation.json",
+    "student" => "secured/student.json",
+    "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
+    "studentSectionAssociation" => "secured/studentSectionAssociation.json",
+    "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
+    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
+    
+  ]
   setMultipleFixtureFiles(testHash)
 end
 
