@@ -61,8 +61,10 @@ sleep(1)
        :tenantId => tenantId
    }
 
-  emailToken=ApprovalEngine.add_disabled_user(user_info)
-  ApprovalEngine.verify_email(emailToken)
+  ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(user_info[:emailtoken])
   #ApprovalEngine.change_user_status(@email,"approve",true)
   #clear_edOrg()
   #clear_tenant()

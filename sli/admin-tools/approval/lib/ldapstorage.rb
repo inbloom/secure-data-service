@@ -75,6 +75,7 @@ class LDAPStorage
 
   # these values are injected when the user is created
   ENTITY_CONSTANTS = {
+        :emailtoken => "-",
       :uidnumber  => CONST_GROUPID_NUM,
       :gidnumber  => CONST_USERID_NUM,
       :vendor     => "none",
@@ -107,8 +108,8 @@ class LDAPStorage
 
   # Initialize the module
   def initialize(host, port, base, username, password)
-    @people_base = "ou=people,#{base}"
-    @group_base  = "ou=groups,#{base}"
+        @people_base = "ou=people,#{base}"
+        @group_base  = "ou=groups,#{base}"
     @ldap_conf = {
         :host => host,
         :port => port,
@@ -185,32 +186,33 @@ class LDAPStorage
     end
   end
 
-  def authenticate(email_address, password)
+  def authenticate(uid, password)
+    # retrieve the raw user record 
+    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, uid)
+    user = search_map_user_fields(filter, 1, true)[0]
+    return false if !user
+
     local_conf = @ldap_conf.clone
     local_conf[:auth] = {
         :method => :simple,
-        :username => get_DN(email_address),
+        :username => user[:dn],
         :password => password
     }
     ldap = Net::LDAP.new local_conf
     return ldap.bind
   end
 
-  def authenticate_secure(email_address, password)
-    return authenticate(email_address, ldap_md5password(password))
-  end
-
-  # returns extended user_info
-  def read_user(email_address)
-    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
-    return search_map_user_fields(filter, 1)[0]
-  end
-
-  # returns extended user_info for the given emailtoken (see create_user) or nil
-  def read_user_emailtoken(emailtoken)
-    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-    return search_map_user_fields(filter, 1)[0]
-  end
+    # returns extended user_info
+    def read_user(email_address)
+        filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
+        return search_map_user_fields(filter, 1)[0]
+    end
+    
+    # returns extended user_info for the given emailtoken (see create_user) or nil 
+    def read_user_emailtoken(emailtoken)
+        filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
+        return search_map_user_fields(filter, 1)[0]        
+    end
 
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
@@ -239,6 +241,7 @@ class LDAPStorage
 
       dn = get_DN(found_user[:cn])
       Net::LDAP.open(@ldap_conf) do |ldap|
+
         if !ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
           raise ldap_ex(ldap, "Could not update user status for user #{user[:email]}")
         end
@@ -440,14 +443,6 @@ class LDAPStorage
     end
   end
 
-  def ldap_password(plaintext)
-    plaintext
-    # "{MD5}#{Digest::MD5.base64digest(plaintext)}"
-  end
-
-  def ldap_md5password(plaintext)
-    "{MD5}#{Digest::MD5.base64digest(plaintext)}"
-  end
 end
 
 # usage 
