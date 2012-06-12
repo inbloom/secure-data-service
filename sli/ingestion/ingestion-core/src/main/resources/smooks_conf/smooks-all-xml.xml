@@ -111,12 +111,14 @@
     <jb:value property="ratingProgram" data="School/AccountabilityRatings/RatingProgram" />
   </jb:bean>
 
-  <jb:bean beanId="school_programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
-    <jb:wiring beanIdRef="school_programReferenceTypeMap" />
+  <jb:bean beanId="school_programReferenceTypeArray" class="java.util.ArrayList" 
+      createOnElement="InterchangeEducationOrganization/School">
+      <jb:wiring beanIdRef="school_programReferenceTypeMap" />
   </jb:bean>
   
-  <jb:bean beanId="school_programReferenceTypeMap" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/ProgramReference/ProgramIdentity">
-    <jb:value property="programId" data="School/ProgramReference/ProgramIdentity/ProgramId" />
+  <jb:bean beanId="school_programReferenceTypeMap" class="java.util.HashMap" 
+      createOnElement="InterchangeEducationOrganization/School/ProgramReference/ProgramIdentity">
+      <jb:value property="programId" data="School/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="gradesOfferedTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
@@ -205,11 +207,13 @@
     <jb:value property="ratingProgram" data="StateEducationAgency/AccountabilityRatings/RatingProgram" />
   </jb:bean>
   
-  <jb:bean beanId="stateEducationAgency_programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+  <jb:bean beanId="stateEducationAgency_programReferenceTypeArray" class="java.util.ArrayList" 
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency">
     <jb:wiring beanIdRef="stateEducationAgency_programReferenceTypeMap" />
   </jb:bean>
   
-  <jb:bean beanId="stateEducationAgency_programReferenceTypeMap" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/StateEducationAgency/ProgramReference/ProgramIdentity">
+  <jb:bean beanId="stateEducationAgency_programReferenceTypeMap" class="java.util.HashMap" 
+    createOnElement="InterchangeEducationOrganization/StateEducationAgency/ProgramReference/ProgramIdentity">
     <jb:value property="programId" data="StateEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
   
@@ -307,10 +311,6 @@
     <jb:value property="ratingDate" data="LocalEducationAgency/AccountabilityRatings/RatingDate" />
     <jb:value property="ratingOrganization" data="LocalEducationAgency/AccountabilityRatings/RatingOrganization" />
     <jb:value property="ratingProgram" data="LocalEducationAgency/AccountabilityRatings/RatingProgram" />
-  </jb:bean>
-
-  <jb:bean beanId="" class="java.util.ArrayList" createOnElement="">
-    <jb:value data="" />
   </jb:bean>
   
   <jb:bean beanId="localEducationOrganization_programReferenceTypeArray" class="java.util.ArrayList" 
@@ -2647,7 +2647,11 @@
 
   <jb:bean beanId="staffProgramAssociation_programIdArray" class="java.util.ArrayList"
     createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
-    <jb:value data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
+    <jb:wiring beanIdRef="staffProgramAssociation_programIdMap" />
+  </jb:bean>
+  <jb:bean beanId="staffProgramAssociation_programIdMap" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/ProgramReference/ProgramIdentity">
+    <jb:value property="programId" data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <!-- Start Cohort mapping -->
