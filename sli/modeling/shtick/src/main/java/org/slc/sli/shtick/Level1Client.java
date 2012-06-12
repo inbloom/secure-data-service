@@ -15,4 +15,9 @@ public interface Level1Client {
     List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
 
     void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
+
+    void createRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
+
+    void updateRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
+
 }

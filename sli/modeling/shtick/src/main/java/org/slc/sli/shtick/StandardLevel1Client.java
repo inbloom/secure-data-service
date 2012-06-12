@@ -68,6 +68,48 @@ public final class StandardLevel1Client implements Level1Client {
         }
     }
 
+    @Override
+    public void createRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+            SLIDataStoreException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+
+        if(data == null){
+            throw  new NullPointerException("data");
+        }
+
+        final Response response = client.createRequest(token, data, url, MediaType.APPLICATION_JSON);
+
+        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+            throw new SLIDataStoreException("failed to create entity: " + url.toString());
+        }
+    }
+
+    @Override
+    public void updateRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+            SLIDataStoreException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+
+        if(data == null){
+            throw  new NullPointerException("data");
+        }
+
+        final Response response = client.updateRequest(token, data, url, MediaType.APPLICATION_JSON);
+
+        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+            throw new SLIDataStoreException("failed to update entity: " + url.toString());
+        }
+    }
+
     private List<Entity> deserialize(final Response response) throws IOException, SLIDataStoreException {
         try {
             final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
