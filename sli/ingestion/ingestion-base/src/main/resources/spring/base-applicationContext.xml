@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:context="http://www.springframework.org/schema/context"
   xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -26,6 +27,13 @@
         <value>classpath:ingestion.properties</value>
       </list>
     </property>
+  </bean>
+
+  <bean id="ingestionPropertiesPlaceholder"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass" value="org.slc.sli.ingestion.util.LogUtil" />
+    <property name="targetMethod" value="setIncludeExceptionMessage" />
+   <property name="arguments" value="${sli.ingestion.exception.message.log}"/>
   </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->

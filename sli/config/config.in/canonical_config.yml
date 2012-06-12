@@ -122,6 +122,9 @@ default:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        # ingestion exception message logging
+        sli.ingestion.exception.message.log: true
+
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context
@@ -169,9 +172,9 @@ default:
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
-        bootstrap.app.admin.name: Admin Apps 
+        bootstrap.app.admin.name: Admin Apps
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
-        bootstrap.app.admin.version: 0.0 
+        bootstrap.app.admin.version: 0.0
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
         bootstrap.app.databrowser.name: SLC Data Browser
@@ -657,7 +660,7 @@ local:
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
-        
+
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
 
@@ -727,14 +730,14 @@ local:
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
-        
+
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: Local
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
-        
+
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
