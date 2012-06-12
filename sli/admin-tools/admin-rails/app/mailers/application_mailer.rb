@@ -37,6 +37,7 @@ class ApplicationMailer < ActionMailer::Base
   end
   
   def notify_operator(support_email, app, creator_email)
+    @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
     user_info = APP_LDAP_CLIENT.read_user(support_email)
     @firstName = user_info[:first]
     dev_info = APP_LDAP_CLIENT.read_user(creator_email) 
@@ -49,6 +50,7 @@ class ApplicationMailer < ActionMailer::Base
   
   def notify_developer(app)
     logger.debug {"Mailing to: #{app.metaData.createdBy}"}
+    @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
     user_info = APP_LDAP_CLIENT.read_user(app.metaData.createdBy)
     @firstName = user_info[:first]
     @app = app
