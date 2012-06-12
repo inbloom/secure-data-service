@@ -568,7 +568,10 @@ end
 desc "Import Secured Data Set"
 task :importSecuredData do
   $collectionSet.each do |collection|
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --eval db.#{collection}.drop()"
+    begin
+      sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME}m --quiet --eval db.#{collection}.drop()"
+    rescue
+    end
   end
   testHash = Hash[
     "cohort" => "secured/cohort.json",
