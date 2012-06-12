@@ -13,6 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Factory for entity configurations
@@ -45,7 +46,7 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
-                LOG.error("Error loading entity type " + entityType, e);
+                LogUtil.error(LOG, "Error loading entity type " + entityType, e);
                 entityConfigurations.put(entityType, NOT_FOUND);
             } finally {
                 IOUtils.closeQuietly(configIs);
