@@ -68,6 +68,11 @@ public final class MongoIndexManager {
     private List<MongoIndexConfig> cloneConfigEntryForAll(MongoIndexConfig allCollectionsConfig) {
         List<MongoIndexConfig> newConfigs = new ArrayList<MongoIndexConfig>();
 
+        for (String collectionName : entityPersistTypeMap.get("stagedOnlyEntities")) {
+            MongoIndexConfig config = cloneConfigEntry(allCollectionsConfig, collectionName);
+            newConfigs.add(config);
+        }
+
         for (String collectionName : entityPersistTypeMap.get("oldPipelineEntities")) {
             MongoIndexConfig config = cloneConfigEntry(allCollectionsConfig, collectionName);
             newConfigs.add(config);
