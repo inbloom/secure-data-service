@@ -416,7 +416,8 @@ public final class InterchangeStudentGradeGenerator {
 
                     CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
                     competencyLevelRef.setRef(competencyLevel);
-
+                    competencyLevelRef.setCodeValue("codevalue0");
+                    
                     studentCompetency.setCompetencyLevel(competencyLevelRef);
                     studentCompetency.setId(ID_PREFIX_LO + reportCardId + "_" + loId + "_" + studentId);
                     
@@ -454,6 +455,7 @@ public final class InterchangeStudentGradeGenerator {
 
                     CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
                     competencyLevelRef.setRef(competencyLevel);
+                    competencyLevelRef.setCodeValue("codevalue0");
 
                     studentCompetency.setCompetencyLevel(competencyLevelRef);
 

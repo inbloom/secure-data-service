@@ -166,7 +166,7 @@ public class SessionGenerator {
             session.setEndDate("2012-01-" + finalRoll );
         }
         else
-        	session.setEndDate("2012-06-" + + roll);
+        	session.setEndDate("2012-11-" + roll);
         
         
 //        session.setBeginDate("2012-01-01");

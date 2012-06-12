@@ -38,35 +38,35 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     public static final int TOTAL_SEAS =1;
     public static final int LEAS_PER_SEA =1;
-    public static final int STAFF_PER_SEA = 135;
-    public static final int SCHOOLS_PER_LEA = 6;
-    public static final int COURSES_PER_SCHOOL = 48;
-    public static final int SESSIONS_PER_SCHOOL = 2;
-    public static final int SECTIONS_PER_COURSE_SESSION = 7;
-    public static final int TEACHERS_PER_SCHOOL = 54;
-    public static final int STUDENTS_PER_SCHOOL = 664;
+    public static final int STAFF_PER_SEA = 2;
+    public static final int SCHOOLS_PER_LEA = 1;
+    public static final int COURSES_PER_SCHOOL = 1;
+    public static final int SESSIONS_PER_SCHOOL = 1;
+    public static final int SECTIONS_PER_COURSE_SESSION = 1;
+    public static final int TEACHERS_PER_SCHOOL = 1;
+    public static final int STUDENTS_PER_SCHOOL = 2;
     public static final int PROGRAMS_PER_SCHOOL = 1;
     public static final int PROGRAMS_PER_SEA = 1;
-    public static final int STAFF_PER_PROGRAM = 15;
+    public static final int STAFF_PER_PROGRAM = 1;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 1;
-    public static final int FREE_STANDING_COHORT_SIZE = 146;
-    public static final int STAFF_PER_FREE_STANDING_COHORT = 5;
+    public static final int FREE_STANDING_COHORT_SIZE = 1;
+    public static final int STAFF_PER_FREE_STANDING_COHORT = 1;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
-    public static final int ASSESSMENTS_PER_STUDENT = 10;
-    public static final int ATTENDANCE_PER_STUDENT_SECTION = 8;
-    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 717;
-    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 957;
+    public static final int ASSESSMENTS_PER_STUDENT = 1;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
+    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 1;
+    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 1;
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 3000;
-    public static final int ESC_PER_SEA = 2;
-    public static final int PROGRAMS_PER_LEA=2;
+    public static final int ESC_PER_SEA = 1;
+    public static final int PROGRAMS_PER_LEA=1;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
-    public static final int FEEDER_RELATIONSHIPS = 2;
-    public static final int COURSES_PER_STUDENT = 15;
-    public static final int SECTIONS_PER_STUDENT = 14;
-    public static final int CALENDER_PER_SESSIONS = 2;
-    public static final int GRADINGPERIOD_PER_CALENDAR = 2;
+    public static final int FEEDER_RELATIONSHIPS = 1;
+    public static final int COURSES_PER_STUDENT = 1;
+    public static final int SECTIONS_PER_STUDENT = 1;
+    public static final int CALENDER_PER_SESSIONS = 1;
+    public static final int GRADINGPERIOD_PER_CALENDAR = 1;
     public static final int GRADUATION_PLAN_PER_SCHOOL=1;
-    public static final int GRADING_PERIOD_PER_SESSIONS=2;
+    public static final int GRADING_PERIOD_PER_SESSIONS=1;
     
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
@@ -94,8 +94,8 @@ public final class MetaRelations {
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
     public static final Map<String, GraduationPlanMeta> GRADUATION_PLAN_MAP = new TreeMap<String, GraduationPlanMeta>();
 
-    public static final String SEA_PREFIX = "NY";
-    public static final String FIRST_TEACHER_ID = "cgray";
+    public static final String SEA_PREFIX = "CAP";
+    public static final String FIRST_TEACHER_ID = "lroslin";
     
     /**
      * Construct the meta relationships necessary for XML interchanges
