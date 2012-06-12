@@ -18,7 +18,7 @@ $studentHash = {
 
 Transform /the student "([^"]*)"/ do |arg1|
   base = "00000000-abcd-0000-0000-0000000000"
-  base << arg1..match(/(\d+)/)[0]
+  base << arg1.match(/(\d+)/)[0]
   base
 end
 
