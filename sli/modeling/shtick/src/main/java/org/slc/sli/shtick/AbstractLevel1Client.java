@@ -21,6 +21,8 @@ import java.util.List;
  */
 public abstract class AbstractLevel1Client implements Level1Client {
 
+    private static final String LOCATION_HEADER = "location";
+
     final Level0Client client;
     final ObjectMapper mapper;
 
@@ -59,7 +61,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public void createRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+    public URL postRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
             SLIDataStoreException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -73,13 +75,15 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
         final Response response = client.createRequest(token, data, url, getMediaType());
 
-        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+        if (response.getStatus() != Response.Status.CREATED.getStatusCode()) {
             throw new SLIDataStoreException("failed to create entity: " + url.toString());
         }
+
+        return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
     }
 
     @Override
-    public void updateRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+    public void putRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
             SLIDataStoreException {
         if (token == null) {
             throw new NullPointerException("token");

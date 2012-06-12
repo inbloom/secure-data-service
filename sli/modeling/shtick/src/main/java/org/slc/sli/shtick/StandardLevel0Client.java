@@ -5,6 +5,7 @@ import java.net.URL;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientFactory;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 
@@ -20,6 +21,8 @@ public final class StandardLevel0Client implements Level0Client {
      * Header value used for specifying the bearer token.
      */
     private static final String HEADER_VALUE_AUTHORIZATION_FORMAT = "Bearer %s";
+
+    private static final String HEADER_VALUE_CONTENT_TYPE = "content-type";
 
     private final Client client;
 
@@ -72,7 +75,7 @@ public final class StandardLevel0Client implements Level0Client {
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
 
-        return builder.buildPost(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+        return builder.buildPost(Entity.entity(data, mediaType)).invoke();
     }
 
     @Override
@@ -95,6 +98,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
         final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
+        builder.header(HEADER_VALUE_CONTENT_TYPE, mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
         return builder;
     }
