@@ -16,9 +16,8 @@ public interface Level1Client {
 
     void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
 
-    //TODO: should we return entity id here?
-    void createRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
+    URL postRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
 
-    void updateRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
+    void putRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, SLIDataStoreException;
 
 }
