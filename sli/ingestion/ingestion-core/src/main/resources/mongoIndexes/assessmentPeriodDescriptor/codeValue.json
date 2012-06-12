@@ -2,6 +2,6 @@
     "collection": "assessmentPeriodDescriptor",
     "indexFields":
     [
-        {"name" : "body.codeValue", "order" : "1"},
+        {"name" : "body.codeValue", "order" : "1"}
     ]
 }
