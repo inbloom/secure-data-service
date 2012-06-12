@@ -12,4 +12,8 @@ public interface Level0Client {
     Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException;
 
     Response deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException;
+
+    Response createRequest(final String token, final String data, final URL url, final String mediaType) throws  URISyntaxException;
+
+    Response updateRequest(final String token, final String data, final URL url, final String mediaType) throws  URISyntaxException;
 }

@@ -55,6 +55,40 @@ public final class StandardLevel0Client implements Level0Client {
         return builder.buildDelete().invoke();
     }
 
+    @Override
+    public Response createRequest(final String token, final String data, final URL url, final String mediaType)
+            throws  URISyntaxException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+        if(data == null){
+            throw  new NullPointerException("data");
+        }
+        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+
+        return  builder.buildPost(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+    }
+
+    @Override
+    public Response updateRequest(final String token, final String data, final URL url, final String mediaType)
+            throws  URISyntaxException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+        if(data == null){
+            throw  new NullPointerException("data");
+        }
+        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+
+        return  builder.buildPut(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+    }
+
 
     private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
         final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
