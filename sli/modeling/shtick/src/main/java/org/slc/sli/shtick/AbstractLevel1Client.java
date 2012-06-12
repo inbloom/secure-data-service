@@ -67,12 +67,11 @@ public abstract class AbstractLevel1Client implements Level1Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
-
-        if(data == null){
-            throw  new NullPointerException("data");
+        if (data == null) {
+            throw new NullPointerException("data");
         }
 
-        final Response response = client.createRequest(token, data, url, MediaType.APPLICATION_JSON);
+        final Response response = client.createRequest(token, data, url, getMediaType());
 
         if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
             throw new SLIDataStoreException("failed to create entity: " + url.toString());
@@ -88,12 +87,11 @@ public abstract class AbstractLevel1Client implements Level1Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
-
-        if(data == null){
-            throw  new NullPointerException("data");
+        if (data == null) {
+            throw new NullPointerException("data");
         }
 
-        final Response response = client.updateRequest(token, data, url, MediaType.APPLICATION_JSON);
+        final Response response = client.updateRequest(token, data, url, getMediaType());
 
         if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
             throw new SLIDataStoreException("failed to update entity: " + url.toString());

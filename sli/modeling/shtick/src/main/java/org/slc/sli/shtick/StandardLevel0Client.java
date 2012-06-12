@@ -38,6 +38,7 @@ public final class StandardLevel0Client implements Level0Client {
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
+
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         return builder.buildGet().invoke();
     }
@@ -50,6 +51,7 @@ public final class StandardLevel0Client implements Level0Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
+
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
 
         return builder.buildDelete().invoke();
@@ -64,12 +66,13 @@ public final class StandardLevel0Client implements Level0Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
-        if(data == null){
+        if (data == null) {
             throw  new NullPointerException("data");
         }
+
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
 
-        return  builder.buildPost(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+        return builder.buildPost(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
     }
 
     @Override
@@ -81,14 +84,14 @@ public final class StandardLevel0Client implements Level0Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
-        if(data == null){
-            throw  new NullPointerException("data");
+        if (data == null) {
+            throw new NullPointerException("data");
         }
+
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
 
-        return  builder.buildPut(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+        return builder.buildPut(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
     }
-
 
     private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
         final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
