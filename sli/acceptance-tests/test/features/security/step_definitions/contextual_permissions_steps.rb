@@ -86,14 +86,13 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d"] if arg1 == "WES-English"
-  array = ["eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
+  array = ["eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d"] if arg1 == "WES-Math"
   array = ["eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d"] if arg1 == "PDMS-Trig"
   array = ["eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d",
+           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d", 
            "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d"] if arg1 == "PDMS-Geometry"
   array
 end
