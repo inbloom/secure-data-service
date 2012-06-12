@@ -148,25 +148,25 @@
 
   </util:map>
 
-  <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
+  <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver" scope="prototype">
     <property name="idRefConfigs" ref="idRefConfigs" />
  </bean>
 
-  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver">
+  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver" scope="prototype">
     <property name="idRefConfigs" ref="ftlIdRefConfigs" />
   </bean>
+  
+  <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" scope="prototype"/>
 
   <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler" scope="prototype">
     <property name="preValidators">
       <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" scope="prototype" />
         <ref bean="xsdValidator" />
       </util:list>
     </property>
     <property name="supportedResolvers" ref="strategyConfig" />
   </bean>
-
-  <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
 
   <util:map id="strategyConfig">
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="freeMarkerExtendedReferenceResolver" />
