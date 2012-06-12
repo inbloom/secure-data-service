@@ -26,6 +26,8 @@ import org.slc.sli.api.client.util.URLBuilder;
  * for field constraints // TODO: Update javadoc
  *
  * WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP
+ *
+ * @author chung
  */
 public class FieldLevelTestServlet extends HttpServlet {
     private BasicClient client;
@@ -44,15 +46,18 @@ public class FieldLevelTestServlet extends HttpServlet {
         client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
 
         String testType = req.getParameter("testType");
+        if (testType == null) {
+            throw new ServletException("Parameter \"testType\" not specified.");
+        }
         if (testType.equals("create")) {
             testCreateInvalidData();
         } else if (testType.equals("update")) {
             testUpdateInvalidData();
         } else {
-            throw new ServletException("Unknown test type");
+            throw new ServletException(String.format("Unknown test type: %s", testType));
         }
 
-        req.getRequestDispatcher("WEB-INF/awesome.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/pass.jsp").forward(req, resp);
     }
 
     @Override

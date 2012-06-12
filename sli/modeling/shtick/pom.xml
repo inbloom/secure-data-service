@@ -15,12 +15,13 @@
       <sli.home>${project.parent.parent.basedir}</sli.home>
 	</properties>
 
-	<dependencies>
+  <dependencies>
 
-    <dependency>
-      <groupId>org.slc.sli</groupId>
-      <artifactId>client-api</artifactId>
-    </dependency>
+        <dependency>
+          <groupId>org.slc.sli</groupId>
+          <artifactId>client-api</artifactId>
+        </dependency>
+
 		<!-- Apache Commons IO Dependency -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -54,10 +55,45 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.fasterxml</groupId>
       <artifactId>jackson-xml-databind</artifactId>
       <version>0.6.1</version>
     </dependency>
 
   </dependencies>
+
+  <build>
+    <finalName>shtick</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>maven-jetty-plugin</artifactId>
+            <version>${maven.jetty.version}</version>
+            <configuration>
+                <scanIntervalSeconds>5</scanIntervalSeconds>
+                <systemProperties>
+                    <systemProperty>
+                        <name>sli.env</name>
+                        <value>${sli.env}</value>
+                    </systemProperty>
+                    <systemProperty>
+                        <name>sli.conf</name>
+                        <value>${sli.conf}</value>
+                    </systemProperty>
+                </systemProperties>
+
+                <connectors>
+                    <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                        <port>8081</port>
+                    </connector>
+                </connectors>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
 </project>
