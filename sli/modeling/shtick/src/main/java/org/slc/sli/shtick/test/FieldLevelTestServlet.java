@@ -45,19 +45,21 @@ public class FieldLevelTestServlet extends HttpServlet {
         callbackUrl = URLBuilder.create("http://local.slidev.org:8081/sample/callback").build();
         client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
 
+        String testResult = "";
         String testType = req.getParameter("testType");
         if (testType == null) {
             throw new ServletException("Parameter \"testType\" not specified.");
         }
         if (testType.equals("create")) {
-            testCreateInvalidData();
+            testResult = testCreateInvalidData();
         } else if (testType.equals("update")) {
-            testUpdateInvalidData();
+            testResult = testUpdateInvalidData();
         } else {
             throw new ServletException(String.format("Unknown test type: %s", testType));
         }
 
-        req.getRequestDispatcher("WEB-INF/pass.jsp").forward(req, resp);
+        req.setAttribute("testResult", testResult);
+        req.getRequestDispatcher("WEB-INF/result.jsp").forward(req, resp);
     }
 
     @Override
@@ -65,19 +67,22 @@ public class FieldLevelTestServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void testCreateInvalidData() {
+    private String testCreateInvalidData() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestInvalidStudentBody());
         try {
             Response response = client.create(student);
             if (response.getStatus() != 400) {
-                throw new ServletException("Response code is not 400");
+                return TestResultConstants.ERROR_400;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
-    private void testUpdateInvalidData() {
+    private String testUpdateInvalidData() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestValidStudentBody());
         try {
             Response response = client.create(student);
@@ -89,11 +94,14 @@ public class FieldLevelTestServlet extends HttpServlet {
             student.getData().put("sex", "Neutral");
             response = client.update(student);
             if (response.getStatus() != 400) {
-                throw new ServletException("Response code is not 400");
+                return TestResultConstants.ERROR_400;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
     private Map<String, Object> createTestValidStudentBody() {

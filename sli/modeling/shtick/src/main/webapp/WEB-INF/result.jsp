@@ -5,9 +5,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Pass</title>
+    <title>Test Result</title>
 </head>
 <body>
-<p>Pass</p>
+<p><%= request.getAttribute("testResult") %></p>
 </body>
 </html>

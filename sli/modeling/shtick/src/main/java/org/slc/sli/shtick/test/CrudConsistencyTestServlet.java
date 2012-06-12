@@ -44,25 +44,27 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         callbackUrl = URLBuilder.create("http://local.slidev.org:8081/sample/callback").build();
         client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
 
+        String testResult = "";
         String testType = req.getParameter("testType");
         if (testType == null) {
             throw new ServletException("Parameter \"testType\" not specified.");
         }
         if (testType.equals("create")) {
-            testCreate();
+            testResult = testCreate();
         } else if (testType.equals("read")) {
-            testRead();
+            testResult = testRead();
         } else if (testType.equals("update")) {
-            testUpdate();
+            testResult = testUpdate();
         } else if (testType.equals("delete")) {
-            testDelete();
+            testResult = testDelete();
         } else if (testType.equals("assoc-crud")) {
-            testAssociationCrud();
+            testResult = testAssociationCrud();
         } else {
             throw new ServletException(String.format("Unknown test type: %s", testType));
         }
 
-        req.getRequestDispatcher("WEB-INF/pass.jsp").forward(req, resp);
+        req.setAttribute("testResult", testResult);
+        req.getRequestDispatcher("WEB-INF/result.jsp").forward(req, resp);
     }
 
     @Override
@@ -70,38 +72,41 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void testCreate() {
+    private String testCreate() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestStudentBody());
         try {
             Response response = client.create(student);
             List<Entity> collection = new ArrayList<Entity>();
             if (response.getStatus() != 201) {
-                throw new ServletException("Response code is not 201");
+                return TestResultConstants.ERROR_201;
             }
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             String id = location.substring(location.lastIndexOf("/") + 1);
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                throw new ServletException("Response code is not 200");
+                return TestResultConstants.ERROR_200;
             }
             if (collection != null && collection.size() == 1) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
                 if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
-                    throw new ServletException("Response contains incorrect values");
+                    return "Failed - Response contains incorrect values";
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
-    private void testRead() {
+    private String testRead() {
         // already tested read in other tests
-        return;
+        return TestResultConstants.PASSED;
     }
 
-    private void testUpdate() {
+    private String testUpdate() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestStudentBody());
         try {
             Response response = client.create(student);
@@ -115,27 +120,30 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                         "2817 Oakridge Farm Lane");
                 response = client.update(student);
                 if (response.getStatus() != 204) {
-                    throw new ServletException("Response code is not 204");
+                    return TestResultConstants.ERROR_204;
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                throw new ServletException("Response code is not 200");
+                return TestResultConstants.ERROR_200;
             }
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
-                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
-                        "streetNumberName");
+                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0)
+                        .get("streetNumberName");
                 if (!address.equals("2817 Oakridge Farm Lane")) {
-                    throw new ServletException("Response contains incorrect values");
+                    return "Failed - Response contains incorrect values";
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
-    private void testDelete() {
+    private String testDelete() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestStudentBody());
         try {
             Response response = client.create(student);
@@ -147,19 +155,22 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 student = collection.get(0);
                 response = client.delete(student);
                 if (response.getStatus() != 204) {
-                    throw new ServletException("Response code is not 204");
+                    return TestResultConstants.ERROR_204;
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (!(response.getStatus() == 404)) {
-                throw new ServletException("Response code is not 404");
+                return TestResultConstants.ERROR_404;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
-    private void testAssociationCrud() {
+    private String testAssociationCrud() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestStudentBody());
         Entity school = new GenericEntity(ResourceNames.SCHOOLS, createTestSchoolBody());
         try {
@@ -176,7 +187,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                     createTestStudentSchoolAssocBody(studentId, schoolId));
             response = client.create(studentSchoolAssoc);
             if (response.getStatus() != 201) {
-                throw new ServletException("Response code is not 201");
+                return TestResultConstants.ERROR_201;
             }
 
             // Read
@@ -185,13 +196,13 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             List<Entity> collection = new ArrayList<Entity>();
             client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                throw new ServletException("Response code is not 200");
+                return TestResultConstants.ERROR_200;
             }
             if (collection != null && collection.size() == 1) {
                 studentSchoolAssoc = collection.get(0);
                 String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
                 if (!entryDate.equals("2011-09-01")) {
-                    throw new ServletException("Response contains incorrect values");
+                    return "Failed - Response contains incorrect values";
                 }
             }
 
@@ -199,29 +210,32 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             studentSchoolAssoc.getData().put("entryDate", "2011-10-01");
             response = client.update(studentSchoolAssoc);
             if (response.getStatus() != 204) {
-                throw new ServletException("Response code is not 204");
+                return TestResultConstants.ERROR_204;
             }
             client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 studentSchoolAssoc = collection.get(0);
                 String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
                 if (!entryDate.equals("2011-10-01")) {
-                    throw new ServletException("Response contains incorrect values");
+                    return "Failed - Response contains incorrect values";
                 }
             }
 
             // Delete
             response = client.delete(studentSchoolAssoc);
             if (response.getStatus() != 204) {
-                throw new ServletException("Response code is not 204");
+                return TestResultConstants.ERROR_204;
             }
             response = client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 404) {
-                throw new ServletException("Response code is not 404");
+                return TestResultConstants.ERROR_404;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return e.toString();
         }
+
+        return TestResultConstants.PASSED;
     }
 
     private Map<String, Object> createTestStudentBody() {
