@@ -306,14 +306,14 @@ Examples:
 | "staff16" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
 
 
-| "staff1"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
-| "staff1"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
+| "staff1"  | "student47"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
+| "staff1"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
 | "staff1"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
-| "staff6"  | "studentX"     | 200       | "includes"      | "excludes"   | 403        | district-staff can see student in another school within district |
-| "staff6"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can' see student in another school outside district |
+| "staff6"  | "student47"     | 200       | "includes"      | "excludes"   | 403        | district-staff can see student in another school within district |
+| "staff6"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can' see student in another school outside district |
 | "staff6"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
-| "staff11" | "studentX"     | 200       | "includes"      | "excludes"   | 403        | state-staff can see student in school within state |
-| "staff11" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can' see student in another school outside state |
+| "staff11" | "student47"     | 200       | "includes"      | "excludes"   | 403        | state-staff can see student in school within state |
+| "staff11" | "student51"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can' see student in another school in other district |
 | "staff11" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
 
 
