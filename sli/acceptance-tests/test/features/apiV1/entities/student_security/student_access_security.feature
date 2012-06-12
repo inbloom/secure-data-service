@@ -292,3 +292,24 @@ Examples:
 | "Sstaff3" | "student3"     | 403       | "excludes"      | "excludes"   | 204        | state-staff as IT Admin can't access student because the student is not currently enrolled |
 | "Sstaff4" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View can't access student because the student is not currently enrolled |
 | "Sstaff5" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
+
+| "sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
+| "sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
+| "dstaff1" | "studentX"     | 200       | "includes"      | "excludes"   | 403        | district-staff can see student in another school within district |
+| "dstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can' see student in another school outside district |
+| "dstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
+| "Sstaff1" | "studentX"     | 200       | "includes"      | "excludes"   | 403        | state-staff can see student in school within state |
+| "Sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can' see student in another school outside state |
+| "Sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
+
+
+
+Scenario Outline: Staff accessing lists of students at differing levels
+  Given I am user <User> in IDP "SEC"
+  When I make an API call to get my student list
+  Then I should see a count of <Count>
+Examples:
+| User      | Count | Comment |
+| "sstaff1" | 0     | School-staff should see all students currently enrolled at the school. |
+| "dstaff1" | 0     | District-staff should see all students currently enrolled at the schools in their district. |
+| "Sstaff1" | 0     | State-staff should see all students currently enrolled at the schools in their state. |
