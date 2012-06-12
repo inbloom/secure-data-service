@@ -18,7 +18,7 @@ import org.slc.sli.test.edfi.entities.meta.PerformanceLevelDescriptorMeta;
 public class AssessmentMetaRelations {
 
     // knobs to control number of entities to create
-    public static final int ASSESSMENTS = 2;
+    public static final int ASSESSMENTS = 1;
     public static final int OBJ_ASSESS_PER_DEPENDANT = 1;
     public static final int LEARN_OBJ_PER_OBJ_ASSES = 1;
     public static final int ASSESS_ITEM_PER_DEPENDANT = 2;
