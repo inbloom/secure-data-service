@@ -69,10 +69,10 @@ public class StudentObjectiveAssessmentGenerator {
 //                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
         PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
         pldt.setPerformanceLevelMet(true);
-        pldt.setCodeValue(randomPerfLevelDescId);
-        pldt.setDescription(randomPerfLevelDescId);
-        // TODO do NOT check this in - uncomment this after debugging other error
-//        soa.getPerformanceLevels().add(pldt);
+        // TODO uncomment when DE864 is fixed
+//        pldt.setCodeValue(randomPerfLevelDescId);
+//        pldt.setDescription(randomPerfLevelDescId);
+        soa.getPerformanceLevels().add(pldt);
         
         // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
