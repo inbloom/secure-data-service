@@ -81,14 +81,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             if (studentAssessmentAssociationId != null) {
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessments(studentAssessmentAssociationId);
                 if (studentObjectiveAssessments.size() > 0) {
-                    LOG.info("found {} student objective assessments for student assessment id: {}.",
+                    LOG.debug("found {} student objective assessments for student assessment id: {}.",
                             studentObjectiveAssessments.size(), studentAssessmentAssociationId);
                     attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
                 }
                 
                 List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItems(studentAssessmentAssociationId);
                 if (studentAssessmentItems.size() > 0) {
-                    LOG.info("found {} student assessment items for student assessment id: {}.",
+                    LOG.debug("found {} student assessment items for student assessment id: {}.",
                             studentAssessmentItems.size(), studentAssessmentAssociationId);
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
@@ -133,7 +133,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         getJob(), objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
-                    LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
+                    LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 } else {
                     LOG.warn("Failed to find objective assessment: {} for student assessment: {}",
