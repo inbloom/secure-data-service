@@ -39,7 +39,9 @@ end
 
 When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
   @format = "application/vnd.slc+json"
-  restHttpGet("/v1/students/"+arg1)
+  student_uri ="/v1/students/"+arg1
+  restHttpGet(student_uri)
+ 
   assert(@res != nil, "Response from rest-client GET is nil")
   
   if (@res.code == 403) 
@@ -59,25 +61,21 @@ When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client PUT is nil")  
 end
 
-Then /^I see the response ("[^"]*") restricted data and ("[^"]*") general data$/ do |arg1, arg2|
-
-  expectedGeneral = false
-  expectedRestricted = false
+Then /^I see the response "([^"]*)" restricted data and "([^"]*)" general data$/ do |arg1, arg2|
+  puts arg2
+  expectedGeneral = (arg2 === "includes" ? true : false)
+  expectedRestricted = (arg1 === "includes" ? true : false)
   actualGeneral = false
   actualRestricted = false
   
-  expectedRestricted = true if arg1 == "includes" 
-  expectedGeneral = true if arg2 == "includes"
-  
   begin
     dataH = JSON.parse(@res.body)
-    actualGeneral = true if dataH['name'] != nil
-    actualRestricted = true if dataH['economicDisadvantaged'] != nil
+    actualGeneral = true if dataH.include? 'name'
+    actualRestricted = true if dataH.include? 'economicDisadvantaged'
   rescue
   end
-  
-  assert(expectedGeneral == actualGeneral, "Expectations for seeing general data is incorrect.")
-  assert(expectedRestricted == actualGeneral, "Expectations for seeing restricted data is incorrect.")
+  assert(expectedRestricted == actualRestricted, "Expectations for seeing restricted data is incorrect.")
+  assert(expectedGeneral == actualGeneral, "Expectations for seeing general data is incorrect. Expected #{expectedGeneral}, Actual #{actualGeneral}")
 end
 
 When /^I make an API call to get my student list$/ do
