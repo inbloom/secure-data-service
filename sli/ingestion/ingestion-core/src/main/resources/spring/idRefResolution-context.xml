@@ -196,9 +196,9 @@
 
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentAssessmentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference" value-ref="freeMarkerExtendedReferenceResolver" />

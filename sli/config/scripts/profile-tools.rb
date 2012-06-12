@@ -1,45 +1,203 @@
+#!/usr/bin/env ruby 
+
 require 'rubygems'
 require 'mongo'
 require 'fileutils'
 require 'socket'
 require 'net/sftp'
 
-if ARGV.count<3
-  puts "\e[31m ./profile-tools.rb host port exectuion-mode \e[0m"
-  puts "\e[31mNeed to specify execution mode: [setup|export|parse]\e[0m"
-  exit
+@SUPPORTED_ACTIONS = ["1", "2", "3", "4"]
+
+def clearProfiles(serverConfigurations)
+  profileColSize = 1024000000
+  
+  serverConfigurations.each do |sConf|
+      temp = sConf.split(":")
+      if (temp.length == 3)
+        puts "Clearning system.profile for: " + temp[0].to_s + ":" + temp[1].to_s + " - " + temp[2].to_s
+        
+        connection = Mongo::Connection.new(temp[0].to_s, temp[1].to_s)
+        db = connection.db(temp[2].to_s)
+        
+        existingProfiling = db.profiling_level.to_s
+        puts "Original profiling level = " + existingProfiling
+        
+        db.profiling_level = :off
+        profileColl = db.drop_collection('system.profile')
+        coll = db.create_collection("system.profile",:capped => true, :size=>profileColSize, :max=>profileColSize)
+        
+        if existingProfiling == "all"
+          db.profiling_level = :all
+        elsif existingProfiling == "slow_only"
+          db.profiling_level = :slow_only
+        else
+          db.profiling_level = :off
+        end
+        
+      else
+        puts "Configuration " + sConf + " is not valid!"
+      end
+    end
 end
 
-profileCollSize = 1024000000
-connection = Mongo::Connection.new(ARGV[0], ARGV[1])
-db = connection.db("sli")
-
-actionMode=ARGV[2]
-
-if actionMode.to_s == "setup"
-  puts "Refreshing system.profile collection"
-  
-  db.profiling_level = :off
-  profileColl = db.drop_collection('system.profile')
-  
-  puts "system.profile collection size = " + profileCollSize.to_s
-  coll = db.create_collection("system.profile",:capped => true, :size=>profileCollSize, :max=>profileCollSize)
-  
-  puts ""
-  
-  puts "Setting db profiling level to ALL (2)"
-  db.profiling_level = :all
-  puts "Current profiling level = " + db.profiling_level.to_s
-  
-elsif actionMode.to_s == "export"
-  puts "Exporting system.profile collection"
-  `#{"mongodump --db sli --collection system.profile"}`
-  `#{"bsondump dump/sli/system.profile.bson > dump/sli/system.profile.json"}`
-  
-elsif actionMode.to_s == "parse"
-  puts "Parsing and reviewing system profile"
-  `#{"python parse-profile-dump.py dump/sli/system.profile.json ../indexes/sli_indexes.js"}`
-  
-else
-  puts "Invalid execution mode is specified.  Supported execution modes are: [setup|export|parse]"
+def setProfilingLevel(serverConfigurations)
+  serverConfigurations.each do |sConf|
+      temp = sConf.split(":")
+      if (temp.length == 4)
+        puts "Setting Profiling levels for: " + temp[0].to_s + ":" + temp[1].to_s + " - " + temp[2].to_s + " - " + temp[3]
+        
+        connection = Mongo::Connection.new(temp[0].to_s, temp[1].to_s)
+        db = connection.db(temp[2].to_s)
+        
+        existingProfiling = db.profiling_level.to_s
+        puts "Original profiling level = " + existingProfiling
+        
+        if temp[3] == "all"
+          db.profiling_level = :all
+        elsif temp[3] == "slow_only"
+          db.profiling_level = :slow_only
+        else
+          db.profiling_level = :off
+        end
+        
+        existingProfiling = db.profiling_level.to_s
+        puts "Profiling level is set to = " + existingProfiling
+        
+      else
+        puts "Configuration " + sConf + " is not valid!"
+      end
+    end
 end
+
+def exportProfiling(serverConfigurations)
+  serverConfigurations.each do |sConf|
+      temp = sConf.split(":")
+      if (temp.length == 3)
+        puts "Exporting system.profile collection for: " + temp[0].to_s + ":" + temp[1].to_s + " - " + temp[2].to_s
+        
+        connection = Mongo::Connection.new(temp[0].to_s, temp[1].to_s)
+        db = connection.db(temp[2].to_s)
+
+        `#{"mongodump --host " + temp[0] + " --db " + temp[2].to_s + " --collection system.profile"}`
+        `#{"bsondump dump/sli/system.profile.bson > dump/sli/system.profile.json"}`
+        puts "Exported system.properties to dump/sli/system.properties.json file\n\n"
+        
+        puts "Parsing and reviewing system profile"
+        `#{"python parse-profile-dump.py dump/sli/system.profile.json ../indexes/sli_indexes.js"}`
+                
+      else
+        puts "Configuration " + sConf + " is not valid!"
+      end
+    end
+end
+
+def setAndClearProfile(mode)
+  done = "false"
+  
+  if mode == "all"
+    puts "\n2. database system.profile collection clearing + profiling level setup"
+    puts "Select server+db on which to clear system.profile collection and set profiling level.  Expected syntax: host1:port1:dbName2:profilingLevel1,host2:port2:dbName2:profilingLevel2,...,hostN:portN:dbNameN:profilingLevelN\n\n"
+  elsif mode == "clear"
+    puts "\n2. system.profile collection clearing"
+    puts "Select server+db on which to clear system.profile collection.  Expected syntax: host1:port1:dbName2,host2:port2:dbName2,...,hostN:portN:dbNameN\n\n"
+  elsif mode == "export"
+    puts "\n2. system.profile collection export and analysis"
+    puts "Select server+db on which to export system.profile collection.  Expected syntax: host1:port1:dbName2,host2:port2:dbName2,...,hostN:portN:dbNameN\n\n"
+  else
+    puts "\n2. database profiling level setup"
+    puts "Select server+db on which to clear system.profile collection.  Expected syntax: host1:port1:dbName2:profilingLevel1,host2:port2:dbName2:profilingLevel2,...,hostN:portN:dbNameN:profilingLevelN\n\n"
+  end
+  
+  until done == "true"
+    puts "Please enter desired configurations"
+    input = gets.chomp
+    
+    confValid = "true"
+        
+    puts "You have selected [" + input + "] which will clear "
+    serverConfigurations = input.split(",")
+    serverConfigurations.each do |sConf|
+      temp = sConf.split(":")
+      if (temp.length == 4 && (mode == "all" || mode == "set"))
+        puts " -- " + temp[0].to_s + " : " + temp[1].to_s + " - " + temp[2].to_s + " - " + temp[3].to_s
+      elsif (temp.length == 3 && (mode == "clear" || mode == "export"))
+        puts " -- " + temp[0].to_s + " : " + temp[1].to_s + " - " + temp[2].to_s
+      else
+        puts "Configuration " + sConf + " is not valid"
+        confValid = "false"
+      end
+    end
+    
+    if confValid == "true"
+      puts "Is this correct (Y/n)"
+      confirmation = gets.chomp
+      
+      if confirmation == "Y"
+        if mode == "all"
+          # clear + set
+          clearProfiles(serverConfigurations)
+          setProfilingLevel(serverConfigurations)
+        elsif mode == "clear"
+          # clear
+          clearProfiles(serverConfigurations)
+        elsif mode == "set"
+          #set
+          setProfilingLevel(serverConfigurations)
+        elsif mode == "export"
+          #export
+          exportProfiling(serverConfigurations)
+        else
+          puts "NOT SUPPORTED OPERATION."
+        end
+        
+        done = "true"
+      end
+    end
+  end
+end
+
+def getActionFromUser()
+  action = ""
+  done = "false"
+  
+  puts "\n1. Select operation"
+  puts "Configured operations: 1: Clear system.profile, 2: Set profiling level, 3: Clear+set, 4: export and review system.profile\n\n"
+    
+  until done == "true"
+    puts "Please enter desired operation"
+    action = gets.chomp
+    if @SUPPORTED_ACTIONS.include?(action)
+      done = "true"
+    else
+      puts "Invalid operation selected.  Supported Operations are " + @SUPPORTED_ACTIONS.to_s
+    end
+  end
+  
+  return action
+end
+
+def startMongoTools()
+  puts "Mongo Profiling Tools"
+  
+  selectedAction = getActionFromUser()
+  puts "Selected action = " + selectedAction
+  
+  case selectedAction
+  when "1"
+    setAndClearProfile("clear")
+  when "2"
+    setAndClearProfile("set")
+  when "4"
+    setAndClearProfile("export")
+  when "3"
+    setAndClearProfile("all")
+  else
+    puts "UNSUPPORTED OPERATION.  Exiting."
+  end
+   
+end
+
+#Start MongoTools
+startMongoTools()
+
+
