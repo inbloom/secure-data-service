@@ -49,10 +49,10 @@ When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
   else
     dataH = JSON.parse(@res.body)
     
-    dataH['address'] = [Hash["streetNumberName" => "arg1",
+    dataH['address'] = [{"streetNumberName" => "arg1",
                            "city" => "Urbania",
                            "stateAbbreviation" => "NC",
-                           "postalCode" => "12345"]]
+                           "postalCode" => "12345"}]
     
     data = dataH.to_json
   end
@@ -62,7 +62,6 @@ When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
 end
 
 Then /^I see the response "([^"]*)" restricted data and "([^"]*)" general data$/ do |arg1, arg2|
-  puts arg2
   expectedGeneral = (arg2 === "includes" ? true : false)
   expectedRestricted = (arg1 === "includes" ? true : false)
   actualGeneral = false
