@@ -1,0 +1,7 @@
+{
+    "collection": "school",
+    "indexFields":
+    [
+        {"name" : "body.stateOrganizationId", "order" : "1"},
+    ]
+}

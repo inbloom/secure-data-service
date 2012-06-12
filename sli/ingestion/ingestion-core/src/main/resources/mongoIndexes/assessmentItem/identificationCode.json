@@ -1,0 +1,7 @@
+{
+    "collection": "assessmentItem",
+    "indexFields":
+    [
+        {"name" : "body.identificationCode", "order" : "1"},
+    ]
+}
