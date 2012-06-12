@@ -196,7 +196,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
             try {
                 for (IndexDefinition definition : mongoIndexManager.getCollectionIndexes().get(collectionName)) {
-                    LOG.debug("Adding Index: {}", definition);
+                    LOG.info("Adding Index: {}", definition);
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {

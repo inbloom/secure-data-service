@@ -185,10 +185,10 @@ public final class MongoIndexManager {
         for (IndexDefinition index : collectionIndexes.get(collection)) {
 
             try {
-                LOG.info("Ensuring index : {} on collection {} ", index, collection );
+
                 repository.ensureIndex(index, collection);
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes", e);
+                LOG.error("Failed to create mongo indexes" , e );
             }
         }
     }
