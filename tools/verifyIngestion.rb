@@ -198,12 +198,12 @@ expected={"900K" => {
   
    # TODO
     "25M" => {
-  "assessment"=>4,
+  "assessment"=>163,
   "attendance"=>1026278,#10262784
   "calendarDate"=>552,
   "cohort"=>92,
   "course"=>6624,
-  "courseOffering"=>13248,
+  "courseOffering"=>0,
   "courseSectionAssociation"=>0,
   "disciplineAction"=>44022,
   "disciplineIncident"=>44022,
@@ -214,18 +214,18 @@ expected={"900K" => {
   "gradingPeriod"=>1104,
   "learningObjective"=>38,
   "parent"=>137192,
-  "program"=>47,
+  "program"=>145,
   "school"=>0,
-  "schoolSessionAssociation"=>0, 
+  "schoolSessionAssociation"=>72, 
   "section"=>92736,
   "sectionAssessmentAssociation"=>0,
   "sectionSchoolAssociation"=>0,
   "session"=>276,
   "sessionCourseAssociation"=>0,
-  "staff"=>135,
+  "staff"=>7587,
   "staffCohortAssociation"=>92,
   "staffEducationOrganizationAssociation"=>135,
-  "staffProgramAssociation"=>145,
+  "staffProgramAssociation"=>135,
   "student"=>91632,
   "studentAcademicRecord"=>0,
   "studentAssessmentAssociation"=>916320,
@@ -237,8 +237,8 @@ expected={"900K" => {
   "studentSectionAssociation"=>1282848,
   "studentSectionGradebookEntry"=>0,
   "studentTranscriptAssociation"=>0,
-  "teacher"=>7452,
-  "teacherSchoolAssociation"=>2484,
+  "teacher"=>0,
+  "teacherSchoolAssociation"=>7452,
   "teacherSectionAssociation"=>92736
   }
   
