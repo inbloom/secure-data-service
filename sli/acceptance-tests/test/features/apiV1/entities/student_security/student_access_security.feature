@@ -4,7 +4,7 @@ I want to test all combinations and permiations of accessing student data
 
 Scenario Outline: Teacher views students through Section
 
-  Given I am user <User> in IDP "AA"
+  Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
     And the response <Restricted Data> restricted data and <General Data> general data
@@ -55,7 +55,7 @@ Scenario Outline: Teacher views students through Section
 
 Scenario Outline: Teacher views students through Cohort
 
-  Given I am user <User> in IDP "AA"
+  Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
     And the response <Restricted Data> restricted data and <General Data> general data
@@ -142,7 +142,7 @@ Scenario Outline: Teacher views students through Cohort
 
 Scenario Outline: Teacher views students through program
 
-  Given I am user <User> in IDP "AA"
+  Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
     And the response <Restricted Data> restricted data and <General Data> general data
