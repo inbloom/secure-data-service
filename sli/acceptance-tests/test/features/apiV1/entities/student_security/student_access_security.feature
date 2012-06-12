@@ -57,7 +57,7 @@ Scenario Outline: Teacher views students through Cohort
   Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
-    And the response <Restricted Data> restricted data and <General Data> general data
+    And I see the response <Restricted Data> restricted data and <General Data> general data
     When I make an API call to update the student <Student>
     Then I should receive a return code of <Write Code>
   Examples:
@@ -144,7 +144,7 @@ Scenario Outline: Teacher views students through program
   Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
-    And the response <Restricted Data> restricted data and <General Data> general data
+    And I see the response <Restricted Data> restricted data and <General Data> general data
     When I make an API call to update the student <Student>
     Then I should receive a return code of <Write Code>
   Examples:
@@ -232,7 +232,7 @@ Scenario Outline: Staff attempts to access specific students as various roles
 Given I am user <User> in IDP "SEC"
 When I make an API call to get the student <Student>
   Then I should receive a return code of <Read Code>
-  And the response <Restricted Data> restricted data and <General Data> general data
+  And I see the response <Restricted Data> restricted data and <General Data> general data
   When I make an API call to update the student <Student>
   Then I should receive a return code of <Write Code>
 Examples:
