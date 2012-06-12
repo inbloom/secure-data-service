@@ -20,3 +20,13 @@ Scenario: Zombie Bug 2: Infinate redirect loop when accessing Databrowser while 
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "badadmin" "badadmin1234" for the "Simple" login page
 	Then I should see a message that I am forbidden
+
+Scenario: Zombie Bug 3: Infinite redirect loop when accessing Databrowser while having expired session
+	
+	Given I have an open web browser
+	And I have a _tla cookie set to an expired session
+	And I navigated to the Data Browser Home URL
+	And I was redirected to the Realm page
+	And I choose realm "Illinois Sunset School District 4526" in the drop-down list
+	And I click on the realm page Go button
+	And I was redirected to the "Simple" IDP Login page
