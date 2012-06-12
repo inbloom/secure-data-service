@@ -38,8 +38,27 @@ public final class StandardLevel0Client implements Level0Client {
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
+        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        return builder.buildGet().invoke();
+    }
+
+    @Override
+    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+
+        return builder.buildDelete().invoke();
+    }
+
+
+    private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
         final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
-        return builder.buildGet().invoke();
+        return builder;
     }
 }

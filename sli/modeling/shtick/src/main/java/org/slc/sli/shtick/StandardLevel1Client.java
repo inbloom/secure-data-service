@@ -52,6 +52,22 @@ public final class StandardLevel1Client implements Level1Client {
         return deserialize(response);
     }
 
+    @Override
+    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, SLIDataStoreException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+
+        final Response response = client.deleteRequest(token, url, MediaType.APPLICATION_JSON);
+
+        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+            throw new SLIDataStoreException("Delete of entity failed: " + url.toString());
+        }
+    }
+
     private List<Entity> deserialize(final Response response) throws IOException, SLIDataStoreException {
         try {
             final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);

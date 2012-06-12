@@ -41,4 +41,26 @@ public class StandardLevel0ClientTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testDeleteRequest() {
+        try {
+            Response actualResponse = client.deleteRequest(TestingConstants.TESTING_TOKEN,
+                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
+                    MediaType.APPLICATION_JSON);
+            assertNotNull(actualResponse);
+            assertEquals(Response.noContent().build().getStatus(), actualResponse.getStatus());
+
+            Response deletedResponse = client.getRequest(TestingConstants.TESTING_TOKEN,
+                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
+                    MediaType.APPLICATION_JSON);
+            assertNotNull(actualResponse);
+            assertEquals(Response.status(Response.Status.NOT_FOUND).build().getStatus(), deletedResponse.getStatus());
+
+        } catch (MalformedURLException e) {
+            fail(e.getMessage());
+        } catch (URISyntaxException e) {
+            fail(e.getMessage());
+        }
+    }
 }

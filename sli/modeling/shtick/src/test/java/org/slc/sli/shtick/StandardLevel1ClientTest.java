@@ -48,4 +48,9 @@ public class StandardLevel1ClientTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testDeleteRequest() {
+
+    }
 }
