@@ -1,6 +1,6 @@
 Feature: Acceptance test cases proving access to student or no access to student determines access to related student data.
 
-Scenario Outline: Expected
+Scenario Outline: Validate access to student related data based on accessor's context.
 	
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     And I navigate to GET <URI OF CONTEXT BASED ENTITY>
