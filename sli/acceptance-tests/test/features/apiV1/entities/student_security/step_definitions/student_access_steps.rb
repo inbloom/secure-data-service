@@ -76,8 +76,8 @@ Then /^I see the response ("[^"]*") restricted data and ("[^"]*") general data$/
   rescue
   end
   
-  assert(exectedGeneral == actualGeneral, "Expected response #{arg2} general data, actual = #{actualGeneral}")
-  assert(expectedRestricted == actualGeneral, "Expected response #{arg1} general data, actual = #{actualRestricted}")
+  assert(expectedGeneral == actualGeneral, "Expectations for seeing general data is incorrect.")
+  assert(expectedRestricted == actualGeneral, "Expectations for seeing restricted data is incorrect.")
 end
 
 When /^I make an API call to get my student list$/ do
