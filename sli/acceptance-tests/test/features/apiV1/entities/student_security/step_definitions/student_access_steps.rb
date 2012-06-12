@@ -84,9 +84,12 @@ Then /^I see the response "(.*?)" restricted data and "(.*?)" general data$/ do 
 end
 
 When /^I make an API call to get my student list$/ do
-  pending # express the regexp above with the code you wish you had
+  @format = "application/vnd.slc+json"
+  restHttpGet("/v1/students/")
+  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I should see a count of (\d+)$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  data = JSON.pares(@res.body)
+  assert(data.count == arg1, "Count should match")
 end
