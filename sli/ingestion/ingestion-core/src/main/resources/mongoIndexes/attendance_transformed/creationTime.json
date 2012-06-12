@@ -1,0 +1,7 @@
+{
+    "collection": "attendance_transformed",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}
