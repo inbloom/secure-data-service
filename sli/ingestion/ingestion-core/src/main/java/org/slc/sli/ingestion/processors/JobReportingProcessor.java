@@ -108,11 +108,11 @@ public class JobReportingProcessor implements Processor {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
             cleanupStagingDatabase(workNote);
-            broadcastFlushStats(exchange, workNote);
 
             if (job != null) {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
+                broadcastFlushStats(exchange, workNote);
             }
         }
     }
