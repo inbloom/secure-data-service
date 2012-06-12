@@ -61,7 +61,7 @@ expected={"900K" => {
     
        "1M" => {
   "assessment"=>163,
-  "attendance"=>446208,#????
+  "attendance"=>3984,
   "calendarDate"=>24,
   "cohort"=>12,
   "course"=>288,
