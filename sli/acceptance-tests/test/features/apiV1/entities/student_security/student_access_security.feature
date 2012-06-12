@@ -1,4 +1,4 @@
-@wip
+
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
 
