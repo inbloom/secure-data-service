@@ -1,0 +1,46 @@
+{
+    "keyFields" : ["metaData.externalId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.parentEducationAgencyReference",
+            "ref" :
+            {
+                "collectionName" : "educationOrganization",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.parentEducationAgencyReference"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.programReference",
+            "ref" :
+            {
+                "collectionName" : "program",
+                "isRefList" : true,
+                "refObjectPath" : "body.programReference",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.programReference.ID"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

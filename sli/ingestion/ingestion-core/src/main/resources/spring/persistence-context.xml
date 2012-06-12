@@ -41,7 +41,6 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
-    <value>school</value>
     <value>schoolSessionAssociation</value>
     <value>staff</value>
     <value>staffEducationOrganizationAssociation</value>
@@ -66,6 +65,7 @@
     <value>localEducationAgency</value>
     <value>program</value>
     <value>reportCard</value>
+    <value>school</value>
     <value>section</value>
     <value>session</value>
     <value>staffCohortAssociation</value>
