@@ -180,7 +180,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void ensureIndexesForJob(String batchJobId) {
-        LOG.info("ENSURING ALL INDEXES FOR A DB");
+        LOG.info("ENSURING ALL INDEXES FOR A DB {} ", batchJobId );
 
         Set<String> collectionNames = mongoIndexManager.getCollectionIndexes().keySet();
         Iterator<String> it = collectionNames.iterator();
@@ -203,6 +203,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 LogUtil.error(LOG, "Failed to create mongo indexes for collection " + collectionName, e);
             }
         }
+
+        LOG.info( "DONE ENSURING INDEXES FOR JOB {} ", batchJobId );
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {

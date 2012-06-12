@@ -179,6 +179,7 @@ public final class MongoIndexManager {
         }
 
         if (!collectionIndexes.containsKey(collection)) {
+            LOG.info( "Collection indexes doesn't contain key {} ", collection );
             return;
         }
 
