@@ -581,8 +581,10 @@ task :importSecuredData do
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
+    "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
-    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json",
+    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
+    
   ]
   setMultipleFixtureFiles(testHash)
 end

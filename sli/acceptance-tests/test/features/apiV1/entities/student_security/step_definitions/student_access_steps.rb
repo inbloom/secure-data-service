@@ -103,7 +103,7 @@ When /^I make an API call to update (the student "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client PUT is nil")  
 end
 
-Then /^the response ("[^"]*") restricted data and ("[^"]*") general data$/ do |arg1, arg2|
+Then /^I see the response ("[^"]*") restricted data and ("[^"]*") general data$/ do |arg1, arg2|
   expectedGeneral = false
   expectedRestricted = false
   actualGeneral = false

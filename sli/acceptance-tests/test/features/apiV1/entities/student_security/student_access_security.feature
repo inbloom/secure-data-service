@@ -57,7 +57,7 @@ Scenario Outline: Teacher views students through Cohort
   Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
-    And the response <Restricted Data> restricted data and <General Data> general data
+    And I see the response <Restricted Data> restricted data and <General Data> general data
     When I make an API call to update the student <Student>
     Then I should receive a return code of <Write Code>
   Examples:
@@ -144,7 +144,7 @@ Scenario Outline: Teacher views students through program
   Given I am user <User> in IDP "SEC"
   When I make an API call to get the student <Student>
     Then I should receive a return code of <Read Code>
-    And the response <Restricted Data> restricted data and <General Data> general data
+    And I see the response <Restricted Data> restricted data and <General Data> general data
     When I make an API call to update the student <Student>
     Then I should receive a return code of <Write Code>
   Examples:
@@ -232,10 +232,11 @@ Scenario Outline: Staff attempts to access specific students as various roles
 Given I am user <User> in IDP "SEC"
 When I make an API call to get the student <Student>
   Then I should receive a return code of <Read Code>
-  And the response <Restricted Data> restricted data and <General Data> general data
+    And I see the response <Restricted Data> restricted data and <General Data> general data
   When I make an API call to update the student <Student>
   Then I should receive a return code of <Write Code>
 Examples:
+| User      | Student        | Read Code | Restricted Data | General Data | Write Code |Comment |
 | "sstaff1" | "student1"     | 200       | "excludes"      | "includes"   | 403        | school-staff as Educator access student because the student is currently enrolled |
 | "sstaff2" | "student1"     | 200       | "includes"      | "includes"   | 403        | school-staff as Leader   access student because the student is currently enrolled |
 | "sstaff3" | "student1"     | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled |
