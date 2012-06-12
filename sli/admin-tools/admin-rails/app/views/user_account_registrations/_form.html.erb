@@ -3,7 +3,7 @@
 <% end %>
 
 <%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
-<% def print(f, field, field_name, is_password_field, password_field = nil, is_force_required = false) %>
+<% def print(f, field, field_name, is_password_field, tab_index, password_field = nil, is_force_required = false) %>
     <% required = is_force_required || required?(@user_account_registration, field) %>
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
@@ -23,12 +23,12 @@
     </div>
     <div class="controls">
       <% if is_password_field %>
-          <%= f.password_field password_field %>
+          <%= f.password_field password_field, :tabindex => tab_index %>
       <% else %>
           <% if required %>
-              <%= f.text_field field %>
+              <%= f.text_field field, :tabindex => tab_index %>
           <% else %>
-              <%= f.text_field field, :placeholder => "optional" %>
+              <%= f.text_field field, :placeholder => "optional", :tabindex => tab_index %>
           <% end %>
       <% end %>
 
@@ -57,12 +57,12 @@
         </div>
     <% end %>
     <fieldset>
-      <% print f, :firstName, "First Name", false %>
-      <% print f, :lastName, "Last Name", false %>
-      <% print f, :vendor, "Company", false %>
-      <% print f, :email, "Email", false %>
-      <% print f, :password, "Password", true, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation, true %>
+      <% print f, :firstName, "First Name", false, 1 %>
+      <% print f, :lastName, "Last Name", false, 2 %>
+      <% print f, :vendor, "Company", false, 3 %>
+      <% print f, :email, "Email", false, 4 %>
+      <% print f, :password, "Password", true, 5, :password %>
+      <% print f, :confirmation, "Re-enter Password", true, 6, :password_confirmation, true %>
       <div style="margin-bottom: 9px;">
         <span style="color:red;">*</span> = required fields
       </div>
@@ -72,7 +72,9 @@
       <% end %>
       <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
       <%= tag("div", :class => "control-group#{error}") %>
-      <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
+      <div class="controls">
+        <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
+      </div>
       <div style="margin-bottom:10px;margin-top:10px;font-style:italic;font-size:12px" >
       	<b>Note:</b> in order to complete the registration process, you will be required to accept the 
       	<a style="text-decoration:underline" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and 
