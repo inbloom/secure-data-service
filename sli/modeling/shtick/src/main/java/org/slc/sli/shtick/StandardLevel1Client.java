@@ -26,12 +26,17 @@ public final class StandardLevel1Client implements Level1Client {
     private final Level0Client client;
     private final ObjectMapper mapper;
 
-    public StandardLevel1Client(final Level0Client client) {
+    protected StandardLevel1Client(final Level0Client client) {
         if (client == null) {
             throw new NullPointerException("client");
         }
+
         this.client = client;
         this.mapper = new ObjectMapper();
+    }
+
+    public StandardLevel1Client() {
+        this(new StandardLevel0Client());
     }
 
     @Override

@@ -22,7 +22,7 @@ public class StandardLevel1ClientTest {
 
     @Before
     public void setup() {
-        level1Client = new StandardLevel1Client(new StandardLevel0Client());
+        level1Client = new StandardLevel1Client();
     }
 
     @Test

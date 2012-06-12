@@ -14,18 +14,21 @@ import org.slc.sli.api.client.constants.v1.PathConstants;
  */
 public final class StandardLevel2ClientManual implements Level2ClientManual {
 
-    // TODO: pull in via properties
-    private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1/";
-
+    private final String baseUrl;
     private static final String SEP = "/";
-
     private final Level1Client client;
 
-    public StandardLevel2ClientManual(final Level1Client client) {
-        if (client == null) {
-            throw new NullPointerException("client");
+    protected StandardLevel2ClientManual(final String baseUrl, final Level1Client client) {
+        if (baseUrl == null) {
+            throw new NullPointerException("baseUrl");
         }
+
         this.client = client;
+        this.baseUrl = baseUrl;
+    }
+
+    public StandardLevel2ClientManual(final String baseUrl) {
+        this(baseUrl, new StandardLevel1Client());
     }
 
     @Override
@@ -40,7 +43,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
 
         try {
             return client.getRequest(token, new URL(
-                    BASE_URL + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
+                    baseUrl + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
@@ -53,7 +56,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
 
         try {
-            return client.getRequest(token, new URL(BASE_URL + PathConstants.STUDENTS));
+            return client.getRequest(token, new URL(baseUrl + PathConstants.STUDENTS));
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
