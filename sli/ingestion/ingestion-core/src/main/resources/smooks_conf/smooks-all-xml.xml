@@ -54,7 +54,7 @@
     <jb:value property="titleIPartASchoolDesignation" data="School/TitleIPartASchoolDesignation" />
     <jb:value property="magnetSpecialProgramEmphasisSchool" data="School/MagnetSpecialProgramEmphasisSchool" />
     <jb:value property="administrativeFundingControl" data="School/AdministrativeFundingControl" />
-    <jb:value property="parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationOrgIdentity/StateOrganizationId" />
+    <jb:value property="parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
@@ -255,7 +255,7 @@
     <jb:wiring property="accountabilityRatings" beanIdRef="localEducationOrganization_accountabilityRatingsTypeArray" />
     <jb:wiring property="programReference" beanIdRef="localEducationOrganization_programReferenceTypeArray" />
     <jb:value property="parentEducationAgencyReference"
-      data="LocalEducationAgency/StateEducationAgencyReference/EducationOrgIdentity/StateOrganizationId" />
+      data="LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
