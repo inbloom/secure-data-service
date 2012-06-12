@@ -67,7 +67,9 @@ public class InterchangeStudentEnrollmentGenerator {
 			GraduationPlan graduationPlan;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-				graduationPlan = null;
+                // lowFi generator fulfills mediumFi requirements for now
+				graduationPlan = GraduationPlanGenerator
+                        .generateLowFi(graduationPlanMeta.id);
 			} else {
 				graduationPlan = GraduationPlanGenerator
 						.generateLowFi(graduationPlanMeta.id);
@@ -100,7 +102,8 @@ public class InterchangeStudentEnrollmentGenerator {
                 StudentSchoolAssociation studentSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentSchool = null;
+                    // lowFi generator fulfills mediumFi requirements for now
+                    studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 } else {
                     studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 }
@@ -132,7 +135,9 @@ public class InterchangeStudentEnrollmentGenerator {
                 StudentSectionAssociation studentSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentSection = null;
+                    // lowFi generator fulfills mediumFi requirements for now
+                    studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
+                            studentMeta.schoolIds.get(0), sectionId);
                 } else {
                     studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
                             studentMeta.schoolIds.get(0), sectionId);

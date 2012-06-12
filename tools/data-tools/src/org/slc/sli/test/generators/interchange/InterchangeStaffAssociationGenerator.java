@@ -89,10 +89,9 @@ public class InterchangeStaffAssociationGenerator {
             Teacher teacher;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                teacher = null;
+                teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             } else {
-                //teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
-            	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
+                teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
             }
 
             interchangeObjects.add(teacher);
@@ -112,7 +111,7 @@ public class InterchangeStaffAssociationGenerator {
                 TeacherSchoolAssociation teacherSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    teacherSchool = null;
+                    teacherSchool = TeacherSchoolAssociationGenerator.generateMediumFi(teacherMeta, schoolId);
                 } else {
                     teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
                 }
@@ -138,7 +137,7 @@ public class InterchangeStaffAssociationGenerator {
                 TeacherSectionAssociation teacherSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    teacherSection = null;
+                    teacherSection = TeacherSectionAssociationGenerator.generateMediumFi(teacherMeta, sectionId);
                 } else {
                     teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
                 }
@@ -168,11 +167,9 @@ public class InterchangeStaffAssociationGenerator {
             Staff staff;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staff = null;
-            } else {
-                //staff = StaffGenerator.generateLowFi(staffMeta.id);
                 staff = StaffGenerator.generateMediumFi(staffMeta.id);
-                
+            } else {
+                staff = StaffGenerator.generateLowFi(staffMeta.id);
             }
 
             interchangeObjects.add(staff);
@@ -191,7 +188,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffEducationOrgEmploymentAssociation staffEdOrgEmploymentAssoc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffEdOrgEmploymentAssoc = null;
+                staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateMediumFi(staffMeta);
             } else {
                 staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateLowFi(staffMeta);
             }
@@ -212,7 +209,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffEdOrgAssignmentAssoc = null;
+                staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateMediumFi(staffMeta);
             } else {
                 staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateLowFi(staffMeta);
             }
@@ -239,7 +236,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffProgramAssociation staffProgramAssociation;
             
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffProgramAssociation = null;
+                staffProgramAssociation = StaffProgramAssociationGenerator.generateMediumFi(programMeta);
             } else {
                 staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }

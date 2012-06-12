@@ -32,9 +32,6 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public final class MetaRelations {
     
-    // default fidelity of data generation
-    public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
-    
     // knobs to control number of entities to create
     public static final int TOTAL_SEAS =1;
     public static final int LEAS_PER_SEA =1;
@@ -133,7 +130,7 @@ public final class MetaRelations {
         
         Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
         
-        Map<String, ProgramMeta> programmForSea = buildProgramsForSEA(seaMeta);
+        Map<String, ProgramMeta> programForSea = buildProgramsForSEA(seaMeta);
         
         buildLeasForSea(seaMeta, staffForSea);
         

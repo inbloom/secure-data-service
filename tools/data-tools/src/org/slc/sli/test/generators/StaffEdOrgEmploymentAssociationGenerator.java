@@ -11,6 +11,10 @@ import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 
 public class StaffEdOrgEmploymentAssociationGenerator {
 
+    public static StaffEducationOrgEmploymentAssociation generateMediumFi(StaffMeta staffMeta) {
+        return generateLowFi(staffMeta);
+    }
+    
     public static StaffEducationOrgEmploymentAssociation generateLowFi(StaffMeta staffMeta) {
         StaffEducationOrgEmploymentAssociation staffEdOrgEmploymentAssoc = new StaffEducationOrgEmploymentAssociation();
 

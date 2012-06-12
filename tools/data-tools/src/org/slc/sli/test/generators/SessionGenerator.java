@@ -147,6 +147,10 @@ public class SessionGenerator {
         }
     }
 
+    public static Session generateMidFi(String id, String schoolId, List<String> calendarList) {
+        return generateLowFi(id, schoolId, calendarList);
+    }
+    
     public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
         Session session = new Session();
         Random random = new Random();

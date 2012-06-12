@@ -27,6 +27,11 @@ public class StaffProgramAssociationGenerator {
     private static String endDate = "2012-03-04";
     private static Boolean HAS_STUDENT_RECORD_ACCESS = true;
     
+    public static StaffProgramAssociation generateMediumFi(ProgramMeta programMeta) {
+        // TODO update if midFi requirements go beyond lowFi for this entity
+        return generateLowFi(programMeta);
+    }
+    
     /**
      * Generates a StaffProgramAssociation.
      *

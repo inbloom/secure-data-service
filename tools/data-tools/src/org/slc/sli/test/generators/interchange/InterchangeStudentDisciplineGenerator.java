@@ -68,7 +68,8 @@ public class InterchangeStudentDisciplineGenerator {
             DisciplineIncident retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             } else {
                 retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             }
@@ -90,7 +91,8 @@ public class InterchangeStudentDisciplineGenerator {
             DisciplineAction retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             } else {
                 retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             }
@@ -113,7 +115,8 @@ public class InterchangeStudentDisciplineGenerator {
             List<StudentDisciplineIncidentAssociation> retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = new ArrayList<StudentDisciplineIncidentAssociation>(0);
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             } else {
                 retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             }

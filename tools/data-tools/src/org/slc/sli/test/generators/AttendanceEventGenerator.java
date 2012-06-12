@@ -22,12 +22,37 @@ public class AttendanceEventGenerator {
     
     private static String[] attendance = {"In Attendance","Excused Absence","Unexcused Absence", "Tardy", "Early departure"};
 
-    public static AttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
+    public static AttendanceEvent generateMidFi(String studentID, String schoolID, String sectionCode) {
         AttendanceEvent ae = new AttendanceEvent();
 
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
         ae.setAttendanceEventCategory(getAttendanceEventCategoryTypeMedFi());
+        ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
+        ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
+
+        if (INCLUDE_OPTIONAL_DATA) {
+            ae.setAttendanceEventType(getAttendanceEventType());
+            ae.setAttendanceEventReason("My dog ate my homework.");
+            ae.setEducationalEnvironment(getEducationalEnvironmentType());
+
+            SectionReferenceType sectionReferenceType = new SectionReferenceType();
+            SectionIdentityType sectionIdentityType = new SectionIdentityType();
+            sectionIdentityType.setUniqueSectionCode(sectionCode);
+            sectionIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolID);
+            sectionReferenceType.setSectionIdentity(sectionIdentityType);
+            ae.setSectionReference(sectionReferenceType);
+        }
+
+        return ae;
+    }
+    
+    public static AttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
+        AttendanceEvent ae = new AttendanceEvent();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
+        ae.setAttendanceEventCategory(AttendanceEventCategoryType.fromValue(attendance[0]));
         ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
         ae.setSchoolReference(SchoolGenerator.getEducationalOrgReferenceType(schoolID));
 

@@ -11,7 +11,11 @@ import org.slc.sli.test.edfi.entities.CalendarEventType;
 public class CalendarDateGenerator {
     static Random generator = new Random();
 
-    public static CalendarDate getCalendarDate(String id) {
+    public static CalendarDate generateMidFi(String id) {
+        return generateLowFi(id);
+    }
+
+    public static CalendarDate generateLowFi(String id) {
         CalendarDate cd = new CalendarDate();
         
         cd.setId(id);
@@ -21,9 +25,7 @@ public class CalendarDateGenerator {
         cd.setCalendarEvent(getCalendarEventType());
 
         return cd;
-    }
-
-    
+    }    
 
     public static CalendarEventType getCalendarEventType() {
         int roll = generator.nextInt(8) + 1;

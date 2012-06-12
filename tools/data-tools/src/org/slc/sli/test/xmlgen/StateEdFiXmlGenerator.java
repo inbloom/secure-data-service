@@ -51,6 +51,8 @@ public class StateEdFiXmlGenerator {
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
 
+    // total number of entities generated
+    public static long totalCount = 0;
 
     /**
      * used to determine the output directory for generated interchange and control files

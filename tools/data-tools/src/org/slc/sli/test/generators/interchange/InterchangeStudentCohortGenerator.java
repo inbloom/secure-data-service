@@ -67,7 +67,7 @@ public class InterchangeStudentCohortGenerator {
             Cohort retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                retVal = CohortGenerator.generateMidFi(cohortMeta);
             } else {
                 retVal = CohortGenerator.generateLowFi(cohortMeta);
             }
@@ -89,7 +89,7 @@ public class InterchangeStudentCohortGenerator {
             StaffCohortAssociation retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                retVal = StaffCohortAssociationGenerator.generateMedFi(cohortMeta);
             } else {
                 retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
@@ -112,7 +112,7 @@ public class InterchangeStudentCohortGenerator {
             List<StudentCohortAssociation> retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = new ArrayList<StudentCohortAssociation>(0);
+                retVal = StudentCohortAssociationGenerator.generateMedFi(cohortMeta);
             } else {
                 retVal = StudentCohortAssociationGenerator.generateLowFi(cohortMeta);
             }

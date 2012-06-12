@@ -74,7 +74,8 @@ public class InterchangeAssessmentMetadataGenerator {
             LearningStandard learningStandard;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                learningStandard = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             } else {
                 learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             }
@@ -94,7 +95,8 @@ public class InterchangeAssessmentMetadataGenerator {
             LearningObjective learningObjective;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                learningObjective = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                learningObjective = LearningObjectiveGenerator.generateLowFi(learningObjectiveMeta);
             } else {
                 learningObjective = LearningObjectiveGenerator.generateLowFi(learningObjectiveMeta);
             }
@@ -114,7 +116,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentItem assessmentItem;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessmentItem = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             } else {
                 assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             }
@@ -134,7 +137,8 @@ public class InterchangeAssessmentMetadataGenerator {
             PerformanceLevelDescriptor perfLevelDesc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                perfLevelDesc = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             } else {
                 perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             }
@@ -155,7 +159,8 @@ public class InterchangeAssessmentMetadataGenerator {
             ObjectiveAssessment objectiveAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);//update by lina
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);
             } else {
                 objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);
             }
@@ -177,7 +182,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentPeriodDescriptor assessPeriodDesc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessPeriodDesc = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             } else {
                 assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             }
@@ -197,7 +203,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentFamily assessmentFamily;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessmentFamily = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessmentFamily = AssessmentFamilyGenerator.generateLowFi(assessmentFamilyMeta);
             } else {
                 assessmentFamily = AssessmentFamilyGenerator.generateLowFi(assessmentFamilyMeta);
             }
@@ -217,7 +224,8 @@ public class InterchangeAssessmentMetadataGenerator {
             Assessment assessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessment = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             } else {
                 assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             }

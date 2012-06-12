@@ -213,7 +213,8 @@ public class InterchangeEdOrgGenerator {
             School school;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                school = null;
+                // if medFi requirements expand beyond the lowFi generator, implement and change this call
+                school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             } else {
                 school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             }
@@ -240,7 +241,7 @@ public class InterchangeEdOrgGenerator {
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	//course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
-            	course = null;
+            	course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
             } else {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
                 course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
@@ -267,7 +268,8 @@ public class InterchangeEdOrgGenerator {
             Program program;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                program = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                program = ProgramGenerator.generateLowFi(programMeta.id);
             } else {
                 program = ProgramGenerator.generateLowFi(programMeta.id);
             }

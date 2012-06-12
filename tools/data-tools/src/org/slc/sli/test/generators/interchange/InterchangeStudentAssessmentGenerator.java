@@ -78,7 +78,7 @@ public class InterchangeStudentAssessmentGenerator {
             StudentAssessment studentAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentAssessment = null;
+                studentAssessment = StudentAssessmentGenerator.generateMidFi(studentAssessmentMeta);
             } else {
                 studentAssessment = StudentAssessmentGenerator.generateLowFi(studentAssessmentMeta);
             }
@@ -104,7 +104,7 @@ public class InterchangeStudentAssessmentGenerator {
                 StudentObjectiveAssessment studentObjectiveAssessment;
                 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentObjectiveAssessment = null;
+                    studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateMidFi(studentAssessment);
                 } else {
                     studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
                 }
@@ -128,14 +128,14 @@ public class InterchangeStudentAssessmentGenerator {
         for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
             if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
                 StudentAssessmentItem studentAssessmentItem;
+                AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
+                AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
+                aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                airt.setAssessmentItemIdentity(aiit);
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentAssessmentItem = null;
+                    studentAssessmentItem = StudentAssessmentItemGenerator.generateMidFi(studentAssessmentMeta.getId()+"."+count, airt);
                 } else {
-                    AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
-                    AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
-                    aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
-                    airt.setAssessmentItemIdentity(aiit);
                     studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+"."+count, airt);
                 }
 

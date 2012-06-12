@@ -53,7 +53,8 @@ public class InterchangeStudentAttendanceGenerator {
                     AttendanceEvent attendanceEvent;
 
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                        attendanceEvent = null;
+                        attendanceEvent = AttendanceEventGenerator.generateMidFi(studentMeta.id,
+                                studentMeta.schoolIds.get(0), sectionId);
                     } else {
                         attendanceEvent = AttendanceEventGenerator.generateLowFi(studentMeta.id,
                                 studentMeta.schoolIds.get(0), sectionId);
