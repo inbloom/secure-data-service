@@ -10,5 +10,7 @@ Scenario Outline: Validate access to student related data based on accessor's co
     Then I should receive a return code of 403
     Examples:
     | URI OF CONTEXT BASED ENTITY                                               |
-#   | "/v1/studentSectionGradebookEntries/AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE" |
+    | "/v1/studentAcademicRecords/56afc8d4-6c91-48f9-8a11-de527c1131b7"         |
+    | "/v1/attendances/4beb72d4-0f76-4071-92b4-61982dba7a7b"                    |
+    | "/v1/courseTranscripts/36aeeabf-ee9b-46e6-8039-13320bf15226"              |
 	
