@@ -28,7 +28,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
-    private static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     private static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
     private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentRef";
@@ -82,14 +81,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             if (studentAssessmentAssociationId != null) {
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessments(studentAssessmentAssociationId);
                 if (studentObjectiveAssessments.size() > 0) {
-                    LOG.info("found {} student objective assessments for student assessment id: {}.",
+                    LOG.debug("found {} student objective assessments for student assessment id: {}.",
                             studentObjectiveAssessments.size(), studentAssessmentAssociationId);
                     attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
                 }
                 
                 List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItems(studentAssessmentAssociationId);
                 if (studentAssessmentItems.size() > 0) {
-                    LOG.info("found {} student assessment items for student assessment id: {}.",
+                    LOG.debug("found {} student assessment items for student assessment id: {}.",
                             studentAssessmentItems.size(), studentAssessmentAssociationId);
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
@@ -134,7 +133,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         getJob(), objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
-                    LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
+                    LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 } else {
                     LOG.warn("Failed to find objective assessment: {} for student assessment: {}",
@@ -194,26 +193,5 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
         }
         return studentAssessmentItems;
-    }
-    
-    /**
-     * Returns collection entities found in staging ingestion database. If a work note was not
-     * provided for
-     * the job, then all entities in the collection will be returned.
-     * 
-     * @param collectionName
-     *            name of collection to be queried for.
-     */
-    public Map<Object, NeutralRecord> loadAllObjectiveAssessments() {
-        Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                OBJECTIVE_ASSESSMENT, getWorkNote().getBatchJobId(), new NeutralQuery(0));
-        Iterator<NeutralRecord> itr = data.iterator();
-        NeutralRecord record = null;
-        while (itr.hasNext()) {
-            record = itr.next();
-            all.put(record.getRecordId(), record);
-        }
-        return all;
     }
 }

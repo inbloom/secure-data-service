@@ -1,8 +1,0 @@
-{
-    "collection": "disciplineIncident",
-    "indexFields":
-    [
-        {"name" : "metaData.tenantId", "order" : "1"},
-        {"name" : "metaData.externalId", "order" : "1"}
-    ]
-}

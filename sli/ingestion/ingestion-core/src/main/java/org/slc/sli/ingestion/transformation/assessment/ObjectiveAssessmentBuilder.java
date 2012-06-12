@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.cache.CacheProvider;
@@ -18,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -178,8 +179,13 @@ public class ObjectiveAssessmentBuilder {
      */
     public Map<Object, NeutralRecord> loadAllObjectiveAssessments(NeutralRecordMongoAccess access, String batchJobId) {
         Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
-        Iterable<NeutralRecord> data = access.getRecordRepository().findAllForJob(OBJECTIVE_ASSESSMENT, batchJobId,
-                new NeutralQuery(0));
+        
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where("creationTime").gt(0));
+        
+        Iterable<NeutralRecord> data = access.getRecordRepository().findByQueryForJob(OBJECTIVE_ASSESSMENT, query,
+                batchJobId);
+        
         Iterator<NeutralRecord> itr = data.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {
