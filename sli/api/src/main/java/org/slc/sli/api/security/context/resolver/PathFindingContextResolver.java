@@ -3,12 +3,7 @@
  */
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -23,6 +18,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -53,6 +50,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
     private String fromEntity;
     private String toEntity;
 
+    @Resource(name = "securityCache")
+    private Map<String, Set<String>> securityCache;
+
     /*
      * @see
      * org.slc.sli.api.security.context.resolver.EntityContextResolver#canResolve(java.lang.String,
@@ -67,6 +67,14 @@ public class PathFindingContextResolver implements EntityContextResolver {
         }
         Set<String> entities = pathFinder.getNodeMap().keySet();
         return (entities.contains(fromEntityType) && entities.contains(toEntityType));
+    }
+
+    private void warmSecurityCache(String type, Set<String> ids) {
+        if (securityCache.containsKey(type)) {
+            securityCache.get(type).addAll(ids);
+        } else {
+            securityCache.put(type, new HashSet<String>(ids));
+        }
     }
 
     /*
@@ -91,9 +99,15 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNode next = path.get(i);
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
+
+            if (securityCache.containsKey(next.getType())) {
+                ids.addAll(securityCache.get(next.getType()));
+                current = path.get(i);
+                continue;
+            }
+
             if (connection.isResolver()) {
                 idSet = connection.getResolver().findAccessible(principal);
-
             } else {
                 String repoName = getResourceName(current, next, connection);
                 debug("Getting Ids From {}", repoName);
@@ -145,6 +159,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
             previousIdSet = idSet;
             ids.addAll(idSet);
+
+            warmSecurityCache(next.getType(), new HashSet<String>(idSet));
+
             current = path.get(i);
         }
         debug("We found {} ids", ids);
