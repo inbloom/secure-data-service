@@ -1,0 +1,7 @@
+{
+    "collection": "session",
+    "indexFields":
+    [
+        {"name" : "body.schoolId", "order" : "1"},
+    ]
+}
