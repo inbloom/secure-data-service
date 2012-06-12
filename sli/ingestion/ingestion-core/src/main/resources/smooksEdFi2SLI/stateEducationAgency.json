@@ -16,7 +16,7 @@
                             "path" : "metaData.externalId",
                             "values" :
                             [{
-                                "valueSource" : "body.programReference.ID"
+                                "valueSource" : "body.programReference.programId"
                             }]
                         }
                     ]
