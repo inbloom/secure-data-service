@@ -1171,7 +1171,6 @@ nxteam:
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
-        sli.ingestion.staging.index.policy: post
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
