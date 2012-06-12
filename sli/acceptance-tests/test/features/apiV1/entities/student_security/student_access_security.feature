@@ -241,12 +241,15 @@ Examples:
 | "sstaff3" | "student1"     | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled |
 | "sstaff4" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View access student because the student is currently enrolled |
 | "sstaff5" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
+| "sstaff6" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
+
 
 | "sstaff1" | "student2"     | 200       | "excludes"      | "includes"   | 403        | school-staff as Educator access student because the student is currently enrolled with no end-date |
 | "sstaff2" | "student2"     | 200       | "includes"      | "includes"   | 403        | school-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "sstaff3" | "student2"     | 200       | "includes"      | "includes"   | 204        | school-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "sstaff4" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "sstaff5" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
+| "sstaff6" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
 
 
 | "sstaff1" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Educator can't access student because the student is not currently enrolled |
@@ -254,25 +257,30 @@ Examples:
 | "sstaff3" | "student3"     | 403       | "excludes"      | "excludes"   | 204        | school-staff as IT Admin can't access student because the student is not currently enrolled |
 | "sstaff4" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View can't access student because the student is not currently enrolled |
 | "sstaff5" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
-
+| "sstaff5" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
+| "sstaff6" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
 
 | "dstaff1" | "student1"     | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled |
 | "dstaff2" | "student1"     | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled |
 | "dstaff3" | "student1"     | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled |
 | "dstaff4" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled |
 | "dstaff5" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
+| "dstaff6" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
 | "dstaff1" | "student2"     | 200       | "excludes"      | "includes"   | 403        | district-staff as Educator access student because the student is currently enrolled with no end-date |
 | "dstaff2" | "student2"     | 200       | "includes"      | "includes"   | 403        | district-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "dstaff3" | "student2"     | 200       | "includes"      | "includes"   | 204        | district-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "dstaff4" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "dstaff5" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
+| "dstaff6" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
 
 | "dstaff1" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Educator can't access student because the student is not currently enrolled |
 | "dstaff2" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Leader   can't access student because the student is not currently enrolled |
 | "dstaff3" | "student3"     | 403       | "excludes"      | "excludes"   | 204        | district-staff as IT Admin can't access student because the student is not currently enrolled |
 | "dstaff4" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View can't access student because the student is not currently enrolled |
 | "dstaff5" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
+| "dstaff6" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
+
 
 
 | "Sstaff1" | "student1"     | 200       | "excludes"      | "includes"   | 403        | state-staff as Educator access student because the student is currently enrolled |
@@ -280,18 +288,23 @@ Examples:
 | "Sstaff3" | "student1"     | 200       | "includes"      | "includes"   | 204        | state-staff as IT Admin access student because the student is currently enrolled |
 | "Sstaff4" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View access student because the student is currently enrolled |
 | "Sstaff5" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
+| "Sstaff6" | "student1"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
 
 | "Sstaff1" | "student2"     | 200       | "excludes"      | "includes"   | 403        | state-staff as Educator access student because the student is currently enrolled with no end-date |
 | "Sstaff2" | "student2"     | 200       | "includes"      | "includes"   | 403        | state-staff as Leader   access student because the student is currently enrolled with no end-date |
 | "Sstaff3" | "student2"     | 200       | "includes"      | "includes"   | 204        | state-staff as IT Admin access student because the student is currently enrolled with no end-date |
 | "Sstaff4" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View access student because the student is currently enrolled with no end-date |
 | "Sstaff5" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
+| "Sstaff6" | "student2"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
+
 
 | "Sstaff1" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
 | "Sstaff2" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
 | "Sstaff3" | "student3"     | 403       | "excludes"      | "excludes"   | 204        | state-staff as IT Admin can't access student because the student is not currently enrolled |
 | "Sstaff4" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View can't access student because the student is not currently enrolled |
 | "Sstaff5" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
+| "Sstaff6" | "student3"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
+
 
 | "sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "sstaff1" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
