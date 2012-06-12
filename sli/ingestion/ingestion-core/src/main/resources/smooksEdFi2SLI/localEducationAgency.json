@@ -20,6 +20,27 @@
                     ]
                 ]
             }
+        },
+        {
+            "fieldPath" : "body.programReference",
+            "ref" :
+            {
+                "collectionName" : "program",
+                "isRefList" : true,
+                "refObjectPath" : "body.programReference",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.programReference.ID"
+                            }]
+                        }
+                    ]
+                ]
+            }
         }
     ]
 }
