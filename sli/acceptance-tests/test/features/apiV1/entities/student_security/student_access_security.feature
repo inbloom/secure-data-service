@@ -324,6 +324,6 @@ Scenario Outline: Staff accessing lists of students at differing levels
   Then I should see a count of <Count>
 Examples:
 | User      | Count | Comment |
-| "staff1"  | 0     | School-staff should see all students currently enrolled at the school. |
-| "staff6"  | 0     | District-staff should see all students currently enrolled at the schools in their district. |
-| "staff11" | 0     | State-staff should see all students currently enrolled at the schools in their state. |
+| "staff1"  | 46    | School-staff should see all students currently enrolled at the school. |
+| "staff6"  | 50    | District-staff should see all students currently enrolled at the schools in their district. |
+| "staff11" | 54    | State-staff should see all students currently enrolled at the schools in their state. |

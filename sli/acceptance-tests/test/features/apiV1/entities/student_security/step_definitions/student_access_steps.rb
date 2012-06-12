@@ -84,6 +84,7 @@ When /^I make an API call to get my student list$/ do
 end
 
 Then /^I should see a count of (\d+)$/ do |arg1|
-  data = JSON.pares(@res.body)
-  assert(data.count == arg1, "Count should match")
+  data = JSON.parse(@res.body)
+  puts @res.body
+  assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
 end
