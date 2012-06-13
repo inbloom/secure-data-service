@@ -37,10 +37,11 @@
 </script>
 </head>
 <body>
-<#include "layout/layout_header.ftl">
-<#include "${page_to_include}">
-
-
+<div class="wrapper">
+	<#include "layout/layout_header.ftl">
+	<#include "${page_to_include}">
+	<div class="clear"></div>
+</div>
 <#include "layout/layout_footer.ftl">
 </body>
 </html>

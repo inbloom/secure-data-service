@@ -260,6 +260,24 @@ SLC.namespace('SLC.util', (function () {
 			});
 		}
 		
+		function placeholderFix() {
+			$('[placeholder]').focus(function() {
+				var input = $(this);
+				if (input.val() === input.attr('placeholder')) {
+					input.val('');
+					input.removeClass('placeholder');
+				}
+			}).blur(function () {
+				var input = $(this);
+				if (input.val() === '' || input.val() === input.attr('placeholder')) {
+					input.addClass('placeholder');
+					input.val(input.attr('placeholder'));
+				}
+			}).blur(); 
+			
+			return true;
+		}
+		
 		return {
 			counter: counter,
 			compareInt: compareInt,
@@ -282,7 +300,8 @@ SLC.namespace('SLC.util', (function () {
 			displayErrorMessage: displayErrorMessage,
 			hideErrorMessage: hideErrorMessage,
 			setDropDownOptions: setDropDownOptions,
-			selectDropDownOption: selectDropDownOption
+			selectDropDownOption: selectDropDownOption,
+			placeholderFix: placeholderFix
 		};
 	}())
 );

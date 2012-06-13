@@ -9,6 +9,19 @@
 html, body {
 	height: 100%;
 }
+
+.placeholder {
+	color: #999;
+}
+
+footer { display: block; }
+
+.wrapper { 
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin-bottom: -25px;
+}
 .body-container {
 	min-height: 100%;
 	height: auto !important;
@@ -34,6 +47,9 @@ input {
 
 #sli_footer {
 	clear: both;
+	position: absolute !important;
+	height: 20px;
+	bottom: auto !important;
 }
 .panel {
     margin-bottom: 30px;
@@ -169,7 +185,7 @@ h7 {
 	width: 460px;
 	margin: 165px auto 0 auto;
 	text-align: center;
-	height: 40x;
+	height: 40px;
 	padding-top: 36px;
 }
 
@@ -213,7 +229,6 @@ h7 {
 th.ui-th-column div {
     white-space: normal !important;height: auto !important;padding: 4px 5px;text-align: left;
 }
-.ui-jqgrid-bdiv {border-collapse: collapse;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow td {
 	font-size:13px;
 	color: #333333; 
@@ -343,6 +358,7 @@ th.ui-th-column div {
     clear: left;
     padding: 20px;
     padding-top:5px;
+    min-height: 100%;
 }
 
 #viewSelection
@@ -497,7 +513,7 @@ th.ui-th-column div {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   vertical-align: middle;
   background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -mozr-gradient(top, #ffffff, #e6e6e6);
 /*  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);*/
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
   background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
@@ -903,6 +919,8 @@ button.btn.small, input[type="submit"].btn.small {
   float:left;
 }
 
+
+
 #populationSelect .btn .optionText {
     white-space: nowrap;
     overflow: hidden;
@@ -1135,6 +1153,7 @@ text-decoration: none;
     text-align: center;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     vertical-align: middle;
+    margin-top: -3px;
 }
 .btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
     background-color: #E6E6E6;

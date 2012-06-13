@@ -38,6 +38,13 @@
 </#macro>
 
 <#noescape>
+
+<!--[if lt IE 9]>
+	<script>
+		document.createElement("footer"); // need to move this code in javascript
+	</script>
+<![endif]-->
+
 <script>
 	var contextRootPath = '${CONTEXT_ROOT_PATH}',
 		pageTitle;
@@ -45,7 +52,9 @@
 	SLC.dataProxy.loadAll(${viewDataConfig});
   
 	pageTitle = SLC.dataProxy.getLayoutName();
-	$("<title></title>").html(pageTitle).appendTo("head");
+	document.title = pageTitle;
+	
+	setTimeout(SLC.util.placeholderFix, 500);;
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">

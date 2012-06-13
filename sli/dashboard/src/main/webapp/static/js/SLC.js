@@ -24,3 +24,4 @@ SLC.namespace = function (ns_string, func) {
 	
 	return parent;
 };
+
