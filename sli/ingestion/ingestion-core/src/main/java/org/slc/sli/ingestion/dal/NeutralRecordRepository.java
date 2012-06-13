@@ -65,7 +65,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
-        this.stampTenantId(body);
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
         neutralRecord.setAttributes(body);
@@ -77,7 +76,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         if(body == null) {
             body = new HashMap<String, Object>();
         }
-        this.stampTenantId(body);
         neutralRecord.setAttributes(body);
         return create(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
     }

@@ -136,33 +136,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     
     @Override
     public T create(String type, Map<String, Object> body) {
-        stampTenantId(body);
         return create(type, body, type);
-    }
-    
-    protected void stampTenantId(Map<String, Object> body) {
-   
-        if (body == null) {
-            return;
-        }
-        
-        Map<String, Object> metaData = (Map<String, Object>) body.get("metaData");
-        if (metaData == null) {
-            metaData = new HashMap<String, Object>();
-        }
-        
-        String tenantId = TenantContext.getTenantId();
-        if (tenantId == null) {
-            tenantId = "";
-        }
-        
-        metaData.put("tenantId", tenantId);
-        body.put("metaData", metaData);
     }
     
     @Override
     public T create(String type, Map<String, Object> body, String collectionName) {
-        stampTenantId(body);
         return create(type, body, new HashMap<String, Object>(), collectionName);
     }
     
@@ -322,7 +300,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
      */
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
-        this.stampTenantId(body);
         String id = getRecordId(record);
         if (StringUtils.isEmpty(id)) {
             return false;
