@@ -22,6 +22,8 @@ public final class StandardLevel0Client implements Level0Client {
      */
     private static final String HEADER_VALUE_AUTHORIZATION_FORMAT = "Bearer %s";
 
+    private static final String UNEXPECTED_STATUS_CODE_ERROR = "Expected status code: %s, Actual status code: %s";
+
     private static final String HEADER_VALUE_CONTENT_TYPE = "content-type";
 
     private final Client client;
@@ -31,7 +33,9 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException {
+    public Response getRequest(final String token, final URL url, final String mediaType)
+            throws URISyntaxException, HttpRestException {
+
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -43,11 +47,15 @@ public final class StandardLevel0Client implements Level0Client {
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
-        return builder.buildGet().invoke();
+        final Response response = builder.buildGet().invoke();
+
+        checkResponse(response, Response.Status.OK);
+
+        return response;
     }
 
     @Override
-    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException {
+    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException, HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -56,13 +64,16 @@ public final class StandardLevel0Client implements Level0Client {
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Response response = builder.buildDelete().invoke();
 
-        return builder.buildDelete().invoke();
+        checkResponse(response, Response.Status.NO_CONTENT);
+
+        return response;
     }
 
     @Override
     public Response createRequest(final String token, final String data, final URL url, final String mediaType)
-            throws  URISyntaxException {
+            throws URISyntaxException, HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -74,13 +85,16 @@ public final class StandardLevel0Client implements Level0Client {
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Response response = builder.buildPost(Entity.entity(data, mediaType)).invoke();
 
-        return builder.buildPost(Entity.entity(data, mediaType)).invoke();
+        checkResponse(response, Response.Status.CREATED);
+
+        return response;
     }
 
     @Override
     public Response updateRequest(final String token, final String data, final URL url, final String mediaType)
-            throws  URISyntaxException {
+            throws URISyntaxException, HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -92,8 +106,11 @@ public final class StandardLevel0Client implements Level0Client {
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Response response = builder.buildPut(Entity.entity(data, mediaType)).invoke();
 
-        return builder.buildPut(javax.ws.rs.client.Entity.entity(data, mediaType)).invoke();
+        checkResponse(response, Response.Status.CREATED);
+
+        return response;
     }
 
     private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
@@ -101,5 +118,12 @@ public final class StandardLevel0Client implements Level0Client {
         builder.header(HEADER_VALUE_CONTENT_TYPE, mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
         return builder;
+    }
+
+    private void checkResponse(Response response, Response.Status expected) throws HttpRestException {
+        if (response.getStatus() != expected.getStatusCode()) {
+            throw new HttpRestException(String.format(UNEXPECTED_STATUS_CODE_ERROR,
+                    expected.getStatusCode(), response.getStatus()));
+        }
     }
 }

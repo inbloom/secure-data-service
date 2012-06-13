@@ -40,7 +40,13 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        final Response response = client.getRequest(token, url, getMediaType());
+        final Response response;
+
+        try {
+            response = client.getRequest(token, url, getMediaType());
+        } catch (HttpRestException e) {
+            throw new SLIDataStoreException(e);
+        }
         return deserialize(response);
     }
 
@@ -53,10 +59,10 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        final Response response = client.deleteRequest(token, url, getMediaType());
-
-        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
-            throw new SLIDataStoreException("Delete of entity failed: " + url.toString());
+        try {
+            client.deleteRequest(token, url, getMediaType());
+        } catch (HttpRestException e) {
+            throw new SLIDataStoreException(e);
         }
     }
 
@@ -73,10 +79,11 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        final Response response = client.createRequest(token, data, url, getMediaType());
-
-        if (response.getStatus() != Response.Status.CREATED.getStatusCode()) {
-            throw new SLIDataStoreException("failed to create entity: " + url.toString());
+        final Response response;
+        try {
+            response = client.createRequest(token, data, url, getMediaType());
+        } catch (HttpRestException e) {
+            throw new SLIDataStoreException(e);
         }
 
         return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
@@ -95,10 +102,10 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        final Response response = client.updateRequest(token, data, url, getMediaType());
-
-        if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
-            throw new SLIDataStoreException("failed to update entity: " + url.toString());
+        try {
+            client.updateRequest(token, data, url, getMediaType());
+        } catch (HttpRestException e) {
+            throw new SLIDataStoreException(e);
         }
     }
 
