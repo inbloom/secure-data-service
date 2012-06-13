@@ -71,7 +71,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-        template.save(record, collectionName);
+        template.insert(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
 
         return record;
