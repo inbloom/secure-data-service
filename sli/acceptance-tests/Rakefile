@@ -583,6 +583,8 @@ task :importSecuredData do
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
+    "studentCohortAssociation" => "secured/studentCohortAssociation.json",
+    "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
