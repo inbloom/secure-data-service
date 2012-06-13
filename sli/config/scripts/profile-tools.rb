@@ -8,6 +8,12 @@ require 'net/sftp'
 
 @SUPPORTED_ACTIONS = ["1", "2", "3", "4"]
 
+
+#Hosts - can we make this default?
+# nxmongo10.slidev.org:27017:sli:all,nxmongo11.slidev.org:27017:sli:all,nxmongo12.slidev.org:27017:sli:all,nxmongo13.slidev.org:27017:sli:all,nxmongo14.slidev.org:27017:sli:all,nxmongo15.slidev.org:27017:sli:all,nxmongo16.slidev.org:27017:sli:all,nxmongo17.slidev.org:27017:sli:all,nxmongo18.slidev.org:27017:sli:all,nxmongo19.slidev.org:27017:sli:all,nxmongo20.slidev.org:27017:sli:all,nxmongo21.slidev.org:27017:sli:all
+
+#nxmongo6.slidev.org:27017:is:all,nxmongo7.slidev.org:27017:is:all, nxmongo8.slidev.org:27017:is:all,nxmongo9.slidev.org:27017:is:all
+
 def clearProfiles(serverConfigurations)
   profileColSize = 1024000000
   
