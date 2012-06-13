@@ -117,7 +117,7 @@ Examples:
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 3 |
 | "disciplineIncident"           | "disciplineIncidents"     | 3 |
-| "educationOrganization"        | "educationOrganizations"  | 59 |
+| "educationOrganization"        | "educationOrganizations"  | 58 |
 | "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
@@ -131,7 +131,7 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 5 |
 | "teacher"                      | "teachers"                | 5 |
-| "grade"                        | "grades"                  | 2 |
+| "grade"                        | "grades"                  | 3 |
 | "studentCompetency"            | "studentCompetencies"     | 3 |
 | "gradingPeriod"                | "gradingPeriods"          | 2 |
 | "reportCard"                   | "reportCards"             | 3 |

@@ -59,7 +59,8 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        ApplicationMailer.notify_developer(@app).deliver
+        user_info = APP_LDAP_CLIENT.read_user(@app.metaData.createdBy)
+        ApplicationMailer.notify_developer(@app, user_info[:first]).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -120,7 +121,9 @@ class AppsController < ApplicationController
             # Want to read the created_by on the @app, which is stamped during the created.
             # Tried @app.reload and it didn't work
             creator_email = App.find(@app.id).created_by
-            ApplicationMailer.notify_operator(session[:support_email], @app, creator_email).deliver
+            user_info = APP_LDAP_CLIENT.read_user(session[:support_email])
+            dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+            ApplicationMailer.notify_operator(session[:support_email], @app, user_info[:first], "#{dev_info[:first]} #{dev_info[:last]}").deliver
         end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }

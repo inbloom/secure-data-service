@@ -36,21 +36,20 @@ class ApplicationMailer < ActionMailer::Base
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
   
-  def notify_operator(support_email, app, creator_email)
-    user_info = APP_LDAP_CLIENT.read_user(support_email)
-    @firstName = user_info[:first]
-    dev_info = APP_LDAP_CLIENT.read_user(creator_email) 
-    @dev_name = "#{dev_info[:first]} #{dev_info[:last]}"
+  def notify_operator(support_email, app, first_name, dev_name)
+    @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
+    @firstName = first_name
+    @dev_name = dev_name
     @app = app
     if !@app.nil? and support_email =~ /(\w|-)+@\w+\.\w+/
       mail(:to => support_email, :subject => 'SLC - New Application Notification')
     end
   end
   
-  def notify_developer(app)
+  def notify_developer(app, first_name)
     logger.debug {"Mailing to: #{app.metaData.createdBy}"}
-    user_info = APP_LDAP_CLIENT.read_user(app.metaData.createdBy)
-    @firstName = user_info[:first]
+    @portal_link = "#{APP_CONFIG['portal_url']}/web/guest/admin"
+    @firstName = first_name
     @app = app
     if !@app.nil? and @app.metaData.createdBy =~ /(\w|-)+@\w+\.\w+/
       mail(:to => app.metaData.createdBy, :subject => 'SLC - Your Application Is Approved')

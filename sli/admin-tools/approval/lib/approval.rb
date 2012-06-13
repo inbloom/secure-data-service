@@ -213,6 +213,10 @@ module ApprovalEngine
         return users.length
     end
 
+    def ApprovalEngine.get_user_count_ignore_states
+      return get_users.length
+    end
+
     # Returns an individual user via their email address or nil if the user does not exist.
     def ApprovalEngine.get_user(email_address)
         user = @@storage.read_user(email_address)
