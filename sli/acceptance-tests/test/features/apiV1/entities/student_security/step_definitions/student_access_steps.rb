@@ -85,6 +85,5 @@ end
 
 Then /^I should see a count of (\d+)$/ do |arg1|
   data = JSON.parse(@res.body)
-  puts @res.body
   assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
 end

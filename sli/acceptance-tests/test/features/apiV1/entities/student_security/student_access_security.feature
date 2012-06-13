@@ -309,11 +309,11 @@ Examples:
 | "staff1"  | "student47"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
 | "staff1"  | "student54"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
-| "staff6"  | "student47"     | 200       | "includes"      | "excludes"   | 403        | district-staff can see student in another school within district |
-| "staff6"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can' see student in another school outside district |
+| "staff6"  | "student47"     | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
+| "staff6"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
 | "staff6"  | "student54"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
-| "staff11" | "student47"     | 200       | "includes"      | "excludes"   | 403        | state-staff can see student in school within state |
-| "staff11" | "student51"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can' see student in another school in other district |
+| "staff11" | "student47"     | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
+| "staff11" | "student51"     | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
 | "staff11" | "student54"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
 
 
@@ -324,6 +324,6 @@ Scenario Outline: Staff accessing lists of students at differing levels
   Then I should see a count of <Count>
 Examples:
 | User      | Count | Comment |
-| "staff1"  | 46    | School-staff should see all students currently enrolled at the school. |
-| "staff6"  | 50    | District-staff should see all students currently enrolled at the schools in their district. |
-| "staff11" | 54    | State-staff should see all students currently enrolled at the schools in their state. |
+| "staff1"  | 45    | School-staff should see all students currently enrolled at the school. |
+| "staff6"  | 47    | District-staff should see all students currently enrolled at the schools in their district. |
+| "staff11" | 49    | State-staff should see all students currently enrolled at the schools in their state. |
