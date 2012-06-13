@@ -19,13 +19,8 @@ public class StandardLevel2ClientTest {
     private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
     private static final Map<String, String> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
-    @Before
-    public void setup() {
-    }
-
-    @Test
-    public void testGetStudents() {
-        final Level2Client client = new StandardLevel2Client(BASE_URL);
+    private void doGetStudents(final Level1Client inner) {
+        final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
         try {
             final List<Entity> students = client.getStudents(TestingConstants.TESTING_TOKEN, EMPTY_QUERY_ARGS);
             assertNotNull(students);
@@ -36,9 +31,8 @@ public class StandardLevel2ClientTest {
         }
     }
 
-    @Test
-    public void testGetStudentsById() {
-        final Level2Client client = new StandardLevel2Client(BASE_URL);
+    private void doGetStudentsById(final Level1Client inner) {
+        final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
         try {
             final List<Entity> students = client.getStudentsById(TestingConstants.TESTING_TOKEN,
                     TestingConstants.TEST_STUDENT_ID, EMPTY_QUERY_ARGS);
@@ -53,9 +47,28 @@ public class StandardLevel2ClientTest {
         }
     }
 
+    @Before
+    public void setup() {
+    }
+
     // @Test
     public void testDeleteRequest() {
 
+    }
+
+    @Test
+    public void testGetStudentsByIdUsingJson() {
+        doGetStudentsById(new JsonLevel1Client());
+    }
+
+    @Test
+    public void testGetStudentsUsingJson() {
+        doGetStudents(new JsonLevel1Client());
+    }
+
+    @Test
+    public void testGetStudentsUsingStAX() {
+        doGetStudents(new StAXLevel1Client());
     }
 
 }
