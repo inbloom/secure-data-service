@@ -18,7 +18,7 @@ Scenario Outline: Validate access to student related data based on accessor's co
     | URI OF CONTEXT BASED ENTITY                                                       |
     | "/v1/studentAcademicRecords/56afc8d4-6c91-48f9-8a11-de527c1131b7"                 |
     | "/v1/attendances/4beb72d4-0f76-4071-92b4-61982dba7a7b"                            |
-    | "/v1/courseTranscripts/36aeeabf-ee9b-46e6-8039-13320bf15226"                      |
+    | "/v1/courseTranscripts/36aeeabf-ee9b-46e6-8039-13320bf12346"                      |
     | "/v1/studentAssessments/e5e13e61-01aa-066b-efe0-710f7a011115"             |
     | "/v1/disciplineActions/9e26de6c-225b-9f67-9201-8113ad50a03b"                      |
     | "/v1/studentDisciplineIncidentAssociations/20120613-8d5a-c796-76e3-d77d5d497e6c"  |
