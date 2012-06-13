@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -34,7 +34,7 @@ public class TeacherToStudentSchoolAssociationResolver implements
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(toEntityType);
+        return false;
     }
 
     @Override
