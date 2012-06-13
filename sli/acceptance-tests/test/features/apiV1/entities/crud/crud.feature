@@ -111,27 +111,27 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 5 |
+| "assessment"                   | "assessments"             | 6 |
 | "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
-| "disciplineAction"             | "disciplineActions"       | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     | 2 |
+| "disciplineAction"             | "disciplineActions"       | 3 |
+| "disciplineIncident"           | "disciplineIncidents"     | 3 |
 | "educationOrganization"        | "educationOrganizations"  | 59 |
-| "gradebookEntry"               | "gradebookEntries"        | 3 |
+| "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
-| "parent"                       | "parents"                 | 2 |
+| "parent"                       | "parents"                 | 3 |
 | "program"                      | "programs"                | 5 |
 | "school"                       | "schools"                 | 5 |
 | "section"                      | "sections"                | 93 |
 | "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 21 |
+| "staff"                        | "staff"                   | 22 |
 | "student"                      | "students"                | 83 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
-| "teacher"                      | "teachers"                | 4 |
+| "studentSectionGradebookEntry" | "studentGradebookEntries" | 5 |
+| "teacher"                      | "teachers"                | 5 |
 | "grade"                        | "grades"                  | 2 |
-| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "studentCompetency"            | "studentCompetencies"     | 3 |
 | "gradingPeriod"                | "gradingPeriods"          | 2 |
-| "reportCard"                   | "reportCards"             | 2 |
+| "reportCard"                   | "reportCards"             | 3 |
