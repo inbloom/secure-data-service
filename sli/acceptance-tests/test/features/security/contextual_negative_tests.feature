@@ -5,7 +5,7 @@ Scenario Outline: Validate access to student related data based on accessor's co
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     And I navigate to GET <URI OF CONTEXT BASED ENTITY>
     Then I should receive a return code of 200
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    Given I am logged in using "stweed" "token-only-no-password" to realm "IL"
     And I navigate to GET <URI OF CONTEXT BASED ENTITY>
     Then I should receive a return code of 403
     Examples:
