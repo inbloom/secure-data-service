@@ -6,10 +6,9 @@ package org.slc.sli.shtick.test;
  * @author chung
  */
 public class TestResultConstants {
-    public static final String ERROR_200 = "Failed - response code is not 200";
-    public static final String ERROR_201 = "Failed - response code is not 201";
-    public static final String ERROR_204 = "Failed - response code is not 204";
-    public static final String ERROR_400 = "Failed - response code is not 400";
-    public static final String ERROR_404 = "Failed - response code is not 404";
+    public static final String PARAMETER_TEST_TYPE_ERROR = "Parameter \"testType\" not specified";
+    public static final String UNKNOWN_TEST_TYPE_ERROR = "Error - unknown test type: %s";
+    public static final String STATUS_CODE_ERROR = "Status code error - expected %s, received %s";
+    public static final String GENERIC_ERROR = "Error - %s - see console for stack trace";
     public static final String PASSED = "Passed";
 }

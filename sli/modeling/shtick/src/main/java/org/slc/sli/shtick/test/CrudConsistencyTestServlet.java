@@ -18,6 +18,7 @@ import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.api.client.util.URLBuilder;
+import org.slc.sli.shtick.StandardLevel2ClientManual;
 
 /**
  * Servlet for testing API crud consistency
@@ -47,9 +48,8 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         String testResult = "";
         String testType = req.getParameter("testType");
         if (testType == null) {
-            throw new ServletException("Parameter \"testType\" not specified.");
-        }
-        if (testType.equals("create")) {
+            testResult = TestResultConstants.PARAMETER_TEST_TYPE_ERROR;
+        } else if (testType.equals("create")) {
             testResult = testCreate();
         } else if (testType.equals("read")) {
             testResult = testRead();
@@ -60,7 +60,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         } else if (testType.equals("assoc-crud")) {
             testResult = testAssociationCrud();
         } else {
-            throw new ServletException(String.format("Unknown test type: %s", testType));
+            testResult = String.format(TestResultConstants.UNKNOWN_TEST_TYPE_ERROR, testType);
         }
 
         req.setAttribute("testResult", testResult);
@@ -78,13 +78,13 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             Response response = client.create(student);
             List<Entity> collection = new ArrayList<Entity>();
             if (response.getStatus() != 201) {
-                return TestResultConstants.ERROR_201;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
             }
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             String id = location.substring(location.lastIndexOf("/") + 1);
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                return TestResultConstants.ERROR_200;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
             }
             if (collection != null && collection.size() == 1) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
@@ -95,14 +95,26 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;
     }
 
     private String testRead() {
-        // already tested read in other tests
+
+        // this is using StandardLevel2ClientManual for testing purposes
+
+        StandardLevel2ClientManual client = new StandardLevel2ClientManual("http://local.slidev.org:8080/api/rest/v1/");
+        List<String> idList = new ArrayList<String>();
+        idList.add("d2462231-4f6c-452e-9b29-4a63ad92138e");
+        try {
+            List<Entity> student = client.getStudentsByStudentId("cacd9227-5b14-4685-babe-31230476cf3b", idList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return String.format("Failed - %s", e.toString());
+        }
+
         return TestResultConstants.PASSED;
     }
 
@@ -120,12 +132,12 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                         "2817 Oakridge Farm Lane");
                 response = client.update(student);
                 if (response.getStatus() != 204) {
-                    return TestResultConstants.ERROR_204;
+                    return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                return TestResultConstants.ERROR_200;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
             }
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
@@ -137,7 +149,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -155,16 +167,16 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 student = collection.get(0);
                 response = client.delete(student);
                 if (response.getStatus() != 204) {
-                    return TestResultConstants.ERROR_204;
+                    return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
                 }
             }
             response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (!(response.getStatus() == 404)) {
-                return TestResultConstants.ERROR_404;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -187,7 +199,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                     createTestStudentSchoolAssocBody(studentId, schoolId));
             response = client.create(studentSchoolAssoc);
             if (response.getStatus() != 201) {
-                return TestResultConstants.ERROR_201;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
             }
 
             // Read
@@ -196,7 +208,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             List<Entity> collection = new ArrayList<Entity>();
             client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 200) {
-                return TestResultConstants.ERROR_200;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
             }
             if (collection != null && collection.size() == 1) {
                 studentSchoolAssoc = collection.get(0);
@@ -210,7 +222,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             studentSchoolAssoc.getData().put("entryDate", "2011-10-01");
             response = client.update(studentSchoolAssoc);
             if (response.getStatus() != 204) {
-                return TestResultConstants.ERROR_204;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
             }
             client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
@@ -224,15 +236,15 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             // Delete
             response = client.delete(studentSchoolAssoc);
             if (response.getStatus() != 204) {
-                return TestResultConstants.ERROR_204;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
             }
             response = client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() != 404) {
-                return TestResultConstants.ERROR_404;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;

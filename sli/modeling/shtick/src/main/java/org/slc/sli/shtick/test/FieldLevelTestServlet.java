@@ -48,14 +48,13 @@ public class FieldLevelTestServlet extends HttpServlet {
         String testResult = "";
         String testType = req.getParameter("testType");
         if (testType == null) {
-            throw new ServletException("Parameter \"testType\" not specified.");
-        }
-        if (testType.equals("create")) {
+            testResult = TestResultConstants.PARAMETER_TEST_TYPE_ERROR;
+        } else if (testType.equals("create")) {
             testResult = testCreateInvalidData();
         } else if (testType.equals("update")) {
             testResult = testUpdateInvalidData();
         } else {
-            throw new ServletException(String.format("Unknown test type: %s", testType));
+            testResult = String.format(TestResultConstants.UNKNOWN_TEST_TYPE_ERROR, testType);
         }
 
         req.setAttribute("testResult", testResult);
@@ -72,11 +71,11 @@ public class FieldLevelTestServlet extends HttpServlet {
         try {
             Response response = client.create(student);
             if (response.getStatus() != 400) {
-                return TestResultConstants.ERROR_400;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 400, response.getStatus());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -94,11 +93,11 @@ public class FieldLevelTestServlet extends HttpServlet {
             student.getData().put("sex", "Neutral");
             response = client.update(student);
             if (response.getStatus() != 400) {
-                return TestResultConstants.ERROR_400;
+                return String.format(TestResultConstants.STATUS_CODE_ERROR, 400, response.getStatus());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return e.toString();
+            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
         }
 
         return TestResultConstants.PASSED;
