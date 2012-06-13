@@ -56,17 +56,38 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.net.URISyntaxException");
             jsw.writeImport("java.net.URL");
-            jsw.writeImport("java.util.ArrayList");
-            jsw.writeImport("java.util.Collections");
             jsw.writeImport("java.util.List");
+            jsw.writeImport("java.util.Map");
             jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginClass(className, interfaces);
             // Attributes
+            jsw.writeAttribute("baseUrl", "String");
             jsw.writeAttribute("client", "Level1Client");
             // Write Initializer
-            jsw.write("public " + className + "(final Level1Client client)");
+            writeCanonicalInitializer(application);
+            writeConvenienceInitializer(application);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void writeCanonicalInitializer(final Application application) {
+        try {
+            jsw.write("public " + className + "(final String baseUrl, final Level1Client client)");
             jsw.beginBlock();
+            jsw.beginStmt().write("this.baseUrl = baseUrl").endStmt();
             jsw.beginStmt().write("this.client = client").endStmt();
+            jsw.endBlock();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void writeConvenienceInitializer(final Application application) {
+        try {
+            jsw.write("public " + className + "(final String baseUrl)");
+            jsw.beginBlock();
+            jsw.beginStmt().write("this(baseUrl, new JsonLevel1Client())").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -117,8 +138,12 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                         jsw.write("try");
                         jsw.beginBlock();
                         final String uri = computeURI(resource, resources, application, ancestors);
-                        writeURLString(uri, templateParams);
-                        jsw.beginStmt().write("return client.getRequest(token, new URL(url))").endStmt();
+                        final JavaParam urlParam = new JavaParam("path", "String", true);
+                        writeURLString(urlParam, uri, templateParams);
+                        jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)")
+                                .endStmt();
+                        jsw.beginStmt().write("final URL url = builder.build()").endStmt();
+                        jsw.beginStmt().write("return client.getRequest(token, url)").endStmt();
                         jsw.endBlock();
                         jsw.write("catch(final URISyntaxException e)");
                         jsw.beginBlock();
@@ -171,12 +196,13 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
      * @param templateParams
      *            The template parameters from left to right.
      */
-    private void writeURLString(final String uri, final List<Param> templateParams) throws IOException {
+    private void writeURLString(final JavaParam param, final String uri, final List<Param> templateParams)
+            throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
 
         jsw.beginStmt();
-        jsw.write("final String url = String.format");
+        jsw.write("final String ").write(param.getName()).write(" = String.format");
         jsw.parenL();
         jsw.dblQte().write(uriFormatString).dblQte();
         for (final Param templateParam : templateParams) {

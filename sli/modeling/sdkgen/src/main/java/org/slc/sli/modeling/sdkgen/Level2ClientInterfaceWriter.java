@@ -50,6 +50,7 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
             jsw.writePackage(packageName);
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.util.List");
+            jsw.writeImport("java.util.Map");
             jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginInterface(className);
         } catch (final IOException e) {
