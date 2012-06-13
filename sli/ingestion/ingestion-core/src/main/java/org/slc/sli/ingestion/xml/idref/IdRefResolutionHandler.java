@@ -25,6 +25,12 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.util.StopWatch;
+
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -32,64 +38,61 @@ import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.util.StopWatch;
 
 /**
  * @author okrook
- * 
+ *
  */
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements
         MessageSourceAware {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
-    
+
     private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
     private static final QName REF_RESOLVED_ATTR = new QName("refResolved");
-    
+
     private static final String NEW_LINE = System.getProperty("line.separator");
-    
+
     private static final XMLInputFactory INPUT_FACTORY = XMLInputFactory.newInstance();
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
-    
+
+    private static final String ENCODING = "UTF-8";
+
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
-    
+
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
         File file = fileEntry.getFile();
-        
+
         file = process(file, errorReport);
-        
+
         fileEntry.setFile(file);
-        
+
         return fileEntry;
     }
-    
+
     protected File process(File xml, ErrorReport errorReport) {
         StopWatch sw = new StopWatch("Processing " + xml.getName());
-        
+
         sw.start("Find IDRefs to resolve");
         Set<String> idRefsToResolve = findIDRefsToResolve(xml, errorReport);
         sw.stop();
-        
+
         if (idRefsToResolve.isEmpty()) {
             return xml;
         }
-        
+
         Map<String, File> refContent = null;
         File semiResolvedXml = null;
-        
+
         try {
             sw.start("Find matching entities");
             refContent = findMatchingEntities(xml, idRefsToResolve, errorReport);
             sw.stop();
-            
+
             sw.start("Resolve IDRefs");
             semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
             sw.stop();
@@ -100,13 +103,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 }
             }
         }
-        
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("ID Ref time {}", sw.prettyPrint());
         } else {
             LOG.info("ID Ref time {}", sw.shortSummary());
         }
-        
+
         if (semiResolvedXml == null) {
             return xml;
         } else {
@@ -114,139 +117,139 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return process(xml, errorReport);
         }
     }
-    
+
     protected Set<String> findIDRefsToResolve(final File xml, ErrorReport errorReport) {
         final Set<String> idRefs = new HashSet<String>();
-        
+
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
-            
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 if (xmlEvent.isStartElement()) {
                     StartElement start = xmlEvent.asStartElement();
-                    
+
                     return start.getAttributeByName(REF_RESOLVED_ATTR) == null
                             && start.getAttributeByName(REF_ATTR) != null;
                 }
-                
+
                 return false;
             }
-            
+
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) {
                 StartElement start = xmlEvent.asStartElement();
-                
+
                 Attribute ref = start.getAttributeByName(REF_ATTR);
-                
+
                 idRefs.add(ref.getValue());
             }
-            
+
             @Override
             public boolean canAcceptMore() {
                 return true;
             }
-            
+
         };
-        
+
         browse(xml, collectIdRefsToResolve, errorReport);
-        
+
         return idRefs;
     }
-    
+
     protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids,
             final ErrorReport errorReport) {
         final Map<String, File> refContent = new HashMap<String, File>();
-        
+
         for (String id : ids) {
             refContent.put(id, null);
         }
-        
+
         XmlEventVisitor collectRefContent = new XmlEventVisitor() {
             private int idsToProcess = ids.size();
-            
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 if (xmlEvent.isStartElement()) {
                     StartElement start = xmlEvent.asStartElement();
-                    
+
                     Attribute id = start.getAttributeByName(ID_ATTR);
-                    
+
                     return id != null && refContent.containsKey(id.getValue()) && refContent.get(id.getValue()) == null;
                 }
-                
+
                 return false;
             }
-            
+
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 StartElement start = xmlEvent.asStartElement();
-                
+
                 Attribute id = start.getAttributeByName(ID_ATTR);
-                
+
                 File content = getContent(xml, xmlEvent, eventReader, errorReport);
                 refContent.put(id.getValue(), content);
-                
+
                 idsToProcess--;
             }
-            
+
             @Override
             public boolean canAcceptMore() {
                 return idsToProcess > 0;
             }
-            
+
         };
-        
+
         browse(xml, collectRefContent, errorReport);
-        
+
         return refContent;
     }
-    
+
     protected File resolveIdRefs(final File xml, final Map<String, File> refContent, final ErrorReport errorReport) {
         File newXml = null;
-        
+
         BufferedOutputStream out = null;
         XMLEventWriter writer = null;
-        
+
         try {
             newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
-            
+
             out = new BufferedOutputStream(new FileOutputStream(newXml));
-            
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out , ENCODING );
             final XMLEventWriter wr = writer;
-            
+
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
                 Stack<StartElement> parents = new Stack<StartElement>();
-                
+
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
                     return true;
                 }
-                
+
                 @Override
                 public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
-                    
+
                     File contentToAdd = null;
-                    
+
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
                         parents.push(start);
-                        
+
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
-                        
+
                         if (refResolved == null) {
                             Attribute id = start.getAttributeByName(ID_ATTR);
                             Attribute ref = start.getAttributeByName(REF_ATTR);
-                            
+
                             if (ref != null && refContent.containsKey(ref.getValue())) {
                                 @SuppressWarnings("unchecked")
                                 Iterator<Attribute> attrs = start.getAttributes();
                                 ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
-                                
+
                                 while (attrs.hasNext()) {
                                     newAttrs.add(attrs.next());
                                 }
-                                
+
                                 if (id != null && id.getValue().equals(ref.getValue())) {
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
                                     errorReport.warning(
@@ -257,7 +260,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                             contentToAdd == null ? "false" : "true"));
                                 }
-                                
+
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
                             }
@@ -265,58 +268,58 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     } else if (xmlEvent.isEndElement()) {
                         parents.pop();
                     }
-                    
+
                     wr.add(xmlEvent);
-                    
+
                     if (xmlEvent.isStartDocument()) {
                         XMLEvent newLine = EVENT_FACTORY.createCharacters(NEW_LINE);
                         wr.add(newLine);
                     }
-                    
+
                     if (contentToAdd != null) {
                         addContent(contentToAdd, wr, errorReport);
                     }
                 }
-                
+
                 @Override
                 public boolean canAcceptMore() {
                     return true;
                 }
-                
+
                 private String getCurrentXPath() {
                     StringBuffer sb = new StringBuffer();
-                    
+
                     for (StartElement start : parents) {
                         sb.append('/').append(start.getName().getLocalPart());
                     }
-                    
+
                     return sb.toString();
                 }
             };
-            
+
             browse(xml, replaceRefContent, errorReport);
-            
+
             writer.flush();
         } catch (Exception e) {
             closeResources(writer, out);
-            
+
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
-            
+
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
             closeResources(writer, out);
         }
-        
+
         return newXml;
     }
-    
+
     private File resolveRefs(String currentXPath, Map<String, File> refContent, Attribute ref, ErrorReport errorReport) {
-        
+
         File contentToAdd = refContent.get(ref.getValue());
-        
+
         if (contentToAdd != null) {
             ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
             if (rrs == null) {
@@ -333,14 +336,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()),
                             IdRefResolutionHandler.class);
                 }
-                
+
                 File oldContentToAdd = contentToAdd;
                 contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
-                
+
                 if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
                     org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
                 }
-                
+
                 refContent.put(ref.getValue(), contentToAdd);
             }
         } else {
@@ -348,20 +351,20 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
                     IdRefResolutionHandler.class);
         }
-        
+
         return contentToAdd;
     }
-    
+
     private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
         BufferedInputStream xmlStream = null;
         XMLEventReader eventReader = null;
         try {
             xmlStream = new BufferedInputStream(new FileInputStream(xml));
-            
+
             eventReader = INPUT_FACTORY.createXMLEventReader(xmlStream);
-            
+
             browse(eventReader, browser);
-            
+
         } catch (Exception e) {
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
@@ -374,71 +377,71 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     eventReader = null;
                 }
             }
-            
+
             IOUtils.closeQuietly(xmlStream);
         }
     }
-    
+
     private void browse(XMLEventReader eventReader, XmlEventVisitor browser) throws XMLStreamException {
         while (eventReader.hasNext() && browser.canAcceptMore()) {
             XMLEvent xmlEvent = eventReader.nextEvent();
-            
+
             if (browser.isSupported(xmlEvent)) {
                 browser.visit(xmlEvent, eventReader);
             }
         }
     }
-    
+
     private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader, final ErrorReport errorReport) {
         File snippet = null;
-        
+
         BufferedOutputStream out = null;
         XMLEventWriter writer = null;
-        
+
         try {
             snippet = File.createTempFile("snippet", ".xml", xml.getParentFile());
-            
+
             out = new BufferedOutputStream(new FileOutputStream(snippet));
-            
+
             writer = OUTPUT_FACTORY.createXMLEventWriter(out);
-            
+
             final XMLEventWriter wr = writer;
-            
+
             XmlEventVisitor writeRefContent = new XmlEventVisitor() {
                 Stack<StartElement> parents = new Stack<StartElement>();
                 Map<String, Integer> parentIds = new HashMap<String, Integer>();
-                
+
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
                     return true;
                 }
-                
+
                 @Override
                 public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
                         pushParent(start);
-                        
+
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
-                        
+
                         if (refResolved == null) {
                             Attribute ref = start.getAttributeByName(REF_ATTR);
-                            
+
                             // Set "ref" as unresolved if circular reference is detected
                             if (ref != null && isParent(ref.getValue())) {
                                 @SuppressWarnings("unchecked")
                                 Iterator<Attribute> attrs = start.getAttributes();
                                 ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
-                                
+
                                 while (attrs.hasNext()) {
                                     newAttrs.add(attrs.next());
                                 }
-                                
+
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                
+
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
-                                
+
                                 errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5",
                                         ref.getValue()), IdRefResolutionHandler.class);
                             }
@@ -446,15 +449,15 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     } else if (xmlEvent.isEndElement()) {
                         popParent();
                     }
-                    
+
                     wr.add(xmlEvent);
                 }
-                
+
                 @Override
                 public boolean canAcceptMore() {
                     return !parents.isEmpty();
                 }
-                
+
                 private void pushParent(StartElement parent) {
                     parents.push(parent);
                     Attribute id = parent.getAttributeByName(ID_ATTR);
@@ -465,11 +468,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         } else {
                             count = count++;
                         }
-                        
+
                         parentIds.put(id.getValue(), count);
                     }
                 }
-                
+
                 private void popParent() {
                     StartElement parent = parents.pop();
                     Attribute id = parent.getAttributeByName(ID_ATTR);
@@ -482,17 +485,17 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         }
                     }
                 }
-                
+
                 private boolean isParent(String id) {
                     return parentIds.containsKey(id);
                 }
             };
-            
+
             // persist the input event manually
             writeRefContent.visit(xmlEvent, eventReader);
-            
+
             browse(eventReader, writeRefContent);
-            
+
             writer.flush();
         } catch (Exception e) {
             closeResources(writer, out);
@@ -501,22 +504,22 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         } finally {
             closeResources(writer, out);
         }
-        
+
         return snippet;
     }
-    
+
     private void addContent(File contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) {
         XmlEventVisitor addToXml = new XmlEventVisitor() {
-            
+
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 if (xmlEvent.isStartElement()) {
                     StartElement start = xmlEvent.asStartElement();
-                    
+
                     @SuppressWarnings("unchecked")
                     Iterator<Attribute> attrs = start.getAttributes();
                     ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
-                    
+
                     // Strip out "id" attribute if found, so it does not interfere with
                     // findMatchingEntities logic
                     while (attrs.hasNext()) {
@@ -525,30 +528,30 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             newAttrs.add(attribute);
                         }
                     }
-                    
+
                     xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                             start.getNamespaces());
                 }
-                
+
                 xmlEventWriter.add(xmlEvent);
             }
-            
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 return !(xmlEvent.isStartDocument() || xmlEvent.isEndDocument());
             }
-            
+
             @Override
             public boolean canAcceptMore() {
                 return true;
             }
         };
-        
+
         browse(contentToAdd, addToXml, errorReport);
     }
-    
+
     private void closeResources(XMLEventWriter writer, BufferedOutputStream out) {
-        
+
         if (writer != null) {
             try {
                 writer.close();
@@ -557,18 +560,18 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             }
         }
         IOUtils.closeQuietly(out);
-        
+
     }
-    
+
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-    
+
     public Map<String, ReferenceResolutionStrategy> getSupportedResolvers() {
         return supportedResolvers;
     }
-    
+
     public void setSupportedResolvers(Map<String, ReferenceResolutionStrategy> supportedResolvers) {
         this.supportedResolvers = supportedResolvers;
     }
