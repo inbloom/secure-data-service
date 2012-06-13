@@ -48,8 +48,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
-  id = "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
-  id = "53777181-3519-4111-9210-529350429899"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
+  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "c8083321-c403-4852-80f7-a52fbd59acd9"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
