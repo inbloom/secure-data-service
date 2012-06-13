@@ -62,6 +62,9 @@ default:
         sli.mongodb.user:
         sli.mongodb.pass:
 
+        #Connection pool
+        sli.mongodb.connections: 20
+
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost

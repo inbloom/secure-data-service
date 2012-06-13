@@ -22,7 +22,7 @@
 
    <!-- MONGODB CONFIG -->
    <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
-      <mongo:options connections-per-host="${sli.ingestion.queue.pit.concurrentConsumers}" auto-connect-retry="true" />
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" />
    </mongo:mongo>
   
   <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
