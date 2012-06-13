@@ -3,18 +3,13 @@
  */
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
-import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.api.service.BasicService;
@@ -53,6 +48,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     private String fromEntity;
     private String toEntity;
+
+    @Autowired
+    private SecurityCachingStrategy securityCachingStrategy;
 
     /*
      * @see
@@ -93,9 +91,15 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
 
+            //look up the cache if it exists
+            if (securityCachingStrategy.contains(current.getName() + next.getName())) {
+                ids.addAll(securityCachingStrategy.retrieve(current.getName() + next.getName()));
+                current = path.get(i);
+                continue;
+            }
+
             if (connection.isResolver()) {
                 idSet = connection.getResolver().findAccessible(principal);
-
             } else {
                 String repoName = getResourceName(current, next, connection);
                 debug("Getting Ids From {}", repoName);
@@ -148,6 +152,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
             previousIdSet = idSet;
             ids.addAll(idSet);
+            //add the new ids to the cache
+            securityCachingStrategy.warm(current.getName() + next.getName(), new HashSet<String>(idSet));
+
             current = path.get(i);
         }
         debug("We found {} ids", ids);

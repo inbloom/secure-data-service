@@ -103,7 +103,7 @@ public class AuthController {
             public Object execute() {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.setOffset(0);
-                neutralQuery.setLimit(9999);
+                neutralQuery.setLimit(0);
                 Iterable<String> realmList = getRealmEntityService().listIds(neutralQuery);
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
