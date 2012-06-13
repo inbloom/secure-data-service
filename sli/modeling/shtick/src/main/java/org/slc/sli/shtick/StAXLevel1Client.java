@@ -165,6 +165,12 @@ public final class StAXLevel1Client implements Level1Client {
         throw new AssertionError();
     }
 
+    /**
+     * The return value might be a {@link Map} or {@link String}.
+     * <p>
+     * The {@link Map} occurs when child elements are detected. The {@link String} is otherwise.
+     * </p>
+     */
     private static final Object readValue(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
         final StringBuilder sb = new StringBuilder();
@@ -180,7 +186,11 @@ public final class StAXLevel1Client implements Level1Client {
             }
             case XMLStreamConstants.END_ELEMENT: {
                 if (elementName.equals(reader.getName())) {
-                    return data;
+                    if (data.size() > 0) {
+                        return data;
+                    } else {
+                        return sb.toString();
+                    }
                 } else {
                     throw new AssertionError(reader.getName());
                 }

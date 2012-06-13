@@ -23,7 +23,7 @@ public final class Level2ClientJavaHelper {
                 javaParams.add(new JavaParam(param.getName(), javaType, true));
             }
         }
-        javaParams.add(new JavaParam("queryArgs", "Map<String,String>", true));
+        javaParams.add(new JavaParam("queryArgs", "Map<String,Object>", true));
         return Collections.unmodifiableList(javaParams);
     }
 }

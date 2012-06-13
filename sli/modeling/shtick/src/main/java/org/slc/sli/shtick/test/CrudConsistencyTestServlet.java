@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -113,7 +114,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         idList.add("d2462231-4f6c-452e-9b29-4a63ad92138e");
         try {
             List<Entity> student = client.getStudentsById(rrogersToken, idList.get(0),
-                    Collections.<String, String>emptyMap());
+                    Collections.<String, Object>emptyMap());
             if (student.size() != 1) {
                  return String.format(TestResultConstants.ERROR_GENERIC,
                          String.format("received %s student record(s)", student.size()));
