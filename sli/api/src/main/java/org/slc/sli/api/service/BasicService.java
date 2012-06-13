@@ -1,7 +1,6 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -691,16 +690,17 @@ public class BasicService implements EntityService {
             return allowed.contains(entityId);
         } else {
             NeutralQuery query = new NeutralQuery();
-
-            //account for super list
-            if (allowed.size() > 0) {
+            if (allowed.size() >= 0) {
                 query.addCriteria(securityCriteria);
             }
-            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
+            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityId));
+            Entity found = repo.findOne(collectionName, query);
+            if (found == null) {
+                return false;
+            } else {
+                return found.getEntityId().equals(entityId);
+            }
 
-            Entity entity = repo.findOne(collectionName, query);
-
-            return (entity != null);
         }
     }
     
