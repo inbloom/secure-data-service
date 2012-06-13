@@ -88,10 +88,10 @@ public class BasicService implements EntityService {
 
     @Autowired
     private EdOrgContextResolver edOrgContextResolver;
-    
+
     @Autowired
     private BasicDefinitionStore definitionStore;
-    
+
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
         this.collectionName = collectionName;
         this.treatments = treatments;
@@ -111,7 +111,7 @@ public class BasicService implements EntityService {
 
         NeutralCriteria securityCriteria = findAccessible(defn.getType());
         List<String> allowed = (List<String>) securityCriteria.getValue();
-        
+
         if (allowed.isEmpty() && readRight != Right.ANONYMOUS_ACCESS) {
             return 0;
         }
@@ -159,7 +159,7 @@ public class BasicService implements EntityService {
 
         NeutralCriteria securityCriteria = findAccessible(defn.getType());
         List<String> allowed = (List<String>) securityCriteria.getValue();
-        
+
         if (allowed.isEmpty()) {
             return Collections.emptyList();
         }
@@ -195,7 +195,7 @@ public class BasicService implements EntityService {
         }
 
         checkReferences(content);
-        
+
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
 
@@ -243,7 +243,7 @@ public class BasicService implements EntityService {
             info("No change detected to {}", id);
             return false;
         }
-        
+
         checkReferences(content);
 
         info("new body is {}", sanitized);
@@ -456,7 +456,7 @@ public class BasicService implements EntityService {
             //add the security criteria
             localNeutralQuery.addCriteria(securityCriteria);
         }
-            
+
         List<EntityBody> results = new ArrayList<EntityBody>();
         this.addDefaultQueryParams(localNeutralQuery, collectionName);
 
@@ -480,7 +480,7 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         this.addDefaultQueryParams(query, collectionName);
-        
+
         Iterable<Entity> entities = repo.findAll(collectionName, query);
 
         if (entities != null && entities.iterator().hasNext()) {
@@ -533,7 +533,7 @@ public class BasicService implements EntityService {
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         this.addDefaultQueryParams(query, collectionName);
-        
+
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
 
         if (entity == null) {
@@ -560,7 +560,7 @@ public class BasicService implements EntityService {
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
         this.addDefaultQueryParams(query, collectionName);
-        
+
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
 
         if (entity != null && entity.getBody().equals(customEntity)) {
@@ -581,7 +581,7 @@ public class BasicService implements EntityService {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[]{
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
-            
+
             Map<String, Object> metadata = new HashMap<String, Object>();
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
@@ -590,7 +590,7 @@ public class BasicService implements EntityService {
             getRepo().create(CUSTOM_ENTITY_COLLECTION, clonedEntity, metaData, CUSTOM_ENTITY_COLLECTION);
         }
     }
-    
+
     private void checkReferences(EntityBody eb) {
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
@@ -599,7 +599,7 @@ public class BasicService implements EntityService {
             if (value == null) {
                 continue;
             }
-            
+
             String fieldPath = fieldName;
             String entityType = provider.getReferencingEntity(defn.getType(), fieldPath);
             if (entityType != null) {
@@ -649,12 +649,12 @@ public class BasicService implements EntityService {
                         }
                     }
                 }
-                
+
             }
         }
     }
-        
-    
+
+
     private String getClientId() {
         String clientId = clientInfo.getClientId();
         if (clientId == null) {
@@ -797,7 +797,7 @@ public class BasicService implements EntityService {
 
         }
     }
-    
+
     private void checkRights(Right neededRight) {
 
         // anonymous access is always granted
@@ -1055,7 +1055,10 @@ public class BasicService implements EntityService {
         }
         metadata.put("isOrphaned", "true");
         metadata.put("createdBy", createdBy);
-        metadata.put("tenantId", principal.getTenantId());
+        if (!ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            // tenant id added to metadata only for non-admin sphere entities (DE887)
+            metadata.put("tenantId", principal.getTenantId());
+        }
         //add the edorgs for staff
         createEdOrgMetaDataForStaff(principal, metadata);
 
@@ -1079,7 +1082,7 @@ public class BasicService implements EntityService {
             metaData.put("edOrgs", edOrgIds);
         }
     }
-    
+
     /**
      * Set the entity definition for this service.
      * There is a circular dependency between BasicService and EntityDefinition, so they both can't
