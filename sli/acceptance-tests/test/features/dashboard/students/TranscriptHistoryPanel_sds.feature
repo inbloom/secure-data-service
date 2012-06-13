@@ -185,7 +185,7 @@ Feature: Student Transcript History Panel
     Then their name shown in profile is "Carmen Daniella Ortiz"
     And their id shown in proflie is "900000016"
     And their grade is "11"
-    And the teacher is "!"
+    #And the teacher is "!"
     And the class is "!"
     And the lozenges count is "0"
 

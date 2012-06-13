@@ -5,37 +5,40 @@
 </#if>
 
 <AssessmentIdentity>
-<#list assessment as a>
-    <#if (a.AssessmentIdentificationCode[0])??>
+    <#list assessment.AssessmentIdentificationCode as identificationCode>
     <AssessmentIdentificationCode 
-    <#if (a.AssessmentIdentificationCode.@IdentificationSystem[0])??>
-    IdentificationSystem="${a.AssessmentIdentificationCode.@IdentificationSystem}"
+    <#if (identificationCode.@IdentificationSystem[0])??>
+    IdentificationSystem="${identificationCode.@IdentificationSystem}"
     </#if>
-    <#if (a.AssessmentIdentificationCode.@AssigningOrganizationCode[0])??>
-    AssigningOrganizationCode="${a.AssessmentIdentificationCode.@AssigningOrganizationCode}"
+    <#if (identificationCode.@AssigningOrganizationCode[0])??>
+    AssigningOrganizationCode="${identificationCode.@AssigningOrganizationCode}"
     </#if>
     >
-        <ID>${a.AssessmentIdentificationCode.ID}</ID>
+        <ID>${identificationCode.ID}</ID>
     </AssessmentIdentificationCode>
+    </#list>
+    <#if (assessment.AssessmentFamilyTitle[0])??>
+        <AssessmentFamilyTitle>${assessment.AssessmentFamilyTitle}</AssessmentFamilyTitle>
+    <#elseif (assessment.AssessmentFamilyReference[0])??>
+        <#if (assessment.AssessmentFamilyReference.AssessmentFamilyIdentity[0])??>
+            <#if (assessment.AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle[0])??>
+                <AssessmentFamilyTitle>${assessment.AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle}</AssessmentFamilyTitle>
+            </#if>
+        </#if>
     </#if>
-    <#if (a.AssessmentFamilyTitle[0])??>
-        <AssessmentFamilyTitle>${a.AssessmentFamilyTitle}</AssessmentFamilyTitle>
+    <#if (assessment.AssessmentTitle[0])??>
+        <AssessmentTitle>${assessment.AssessmentTitle}</AssessmentTitle>
     </#if>
-    <#if (a.AssessmentTitle[0])??>
-        <AssessmentTitle>${a.AssessmentTitle}</AssessmentTitle>
+    <#if (assessment.AssessmentCategory[0])??>
+        <AssessmentCategory>${assessment.AssessmentCategory}</AssessmentCategory>
     </#if>
-    <#if (a.AssessmentCategory[0])??>
-        <AssessmentCategory>${a.AssessmentCategory}</AssessmentCategory>
+    <#if (assessment.AcademicSubject[0])??>
+        <AcademicSubject>${assessment.AcademicSubject}</AcademicSubject>
     </#if>
-    <#if (a.AcademicSubject[0])??>
-        <AcademicSubject>${a.AcademicSubject}</AcademicSubject>
+    <#if (assessment.GradeLevelAssessed[0])??>
+        <GradeLevelAssessed>${assessment.GradeLevelAssessed}</GradeLevelAssessed>
     </#if>
-    <#if (a.GradeLevelAssessed[0])??>
-        <GradeLevelAssessed>${a.GradeLevelAssessed}</GradeLevelAssessed>
+    <#if (assessment.Version[0])??>
+        <Version>${assessment.Version}</Version>
     </#if>
-    <#if (a.Version[0])??>
-        <Version>${a.Version}</Version>
-    </#if>
-</#list>
-
 </AssessmentIdentity>
