@@ -71,7 +71,7 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
                     final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
                     final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
                     jsw.writeParams(params);
-                    jsw.write(") throws IOException, SLIDataStoreException");
+                    jsw.write(") throws IOException, HttpRestException");
                     @SuppressWarnings("unused")
                     // Perhaps modify this method to generate a different naming scheme?
                     final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);

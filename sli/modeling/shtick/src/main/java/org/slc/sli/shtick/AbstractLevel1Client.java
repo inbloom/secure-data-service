@@ -32,7 +32,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, SLIDataStoreException {
+    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -42,16 +42,12 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
         final Response response;
 
-        try {
-            response = client.getRequest(token, url, getMediaType());
-        } catch (HttpRestException e) {
-            throw new SLIDataStoreException(e);
-        }
+        response = client.getRequest(token, url, getMediaType());
         return deserialize(response);
     }
 
     @Override
-    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, SLIDataStoreException {
+    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -59,16 +55,12 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        try {
-            client.deleteRequest(token, url, getMediaType());
-        } catch (HttpRestException e) {
-            throw new SLIDataStoreException(e);
-        }
+        client.deleteRequest(token, url, getMediaType());
     }
 
     @Override
     public URL postRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
-            SLIDataStoreException {
+            HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -80,18 +72,14 @@ public abstract class AbstractLevel1Client implements Level1Client {
         }
 
         final Response response;
-        try {
-            response = client.createRequest(token, data, url, getMediaType());
-        } catch (HttpRestException e) {
-            throw new SLIDataStoreException(e);
-        }
+        response = client.createRequest(token, data, url, getMediaType());
 
         return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
     }
 
     @Override
     public void putRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
-            SLIDataStoreException {
+            HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -102,14 +90,11 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        try {
-            client.updateRequest(token, data, url, getMediaType());
-        } catch (HttpRestException e) {
-            throw new SLIDataStoreException(e);
-        }
+        client.updateRequest(token, data, url, getMediaType());
+
     }
 
-    private List<Entity> deserialize(final Response response) throws IOException, SLIDataStoreException {
+    private List<Entity> deserialize(final Response response) throws IOException {
         try {
             final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
             if (element instanceof ArrayNode) {
@@ -121,10 +106,9 @@ public abstract class AbstractLevel1Client implements Level1Client {
                 return list;
             }
         } catch (final JsonParseException e) {
-            throw new SLIDataStoreException(e);
+            throw new RuntimeException(e);
         }
-
-        throw new SLIDataStoreException("Parsed element was not Array or Object");
+        throw new AssertionError();
     }
 
     protected abstract String getMediaType();

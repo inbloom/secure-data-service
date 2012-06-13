@@ -132,7 +132,7 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                     final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
                     final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
                     jsw.writeParams(params);
-                    jsw.write(") throws IOException, SLIDataStoreException");
+                    jsw.write(") throws IOException, HttpRestException");
                     jsw.beginBlock();
                     try {
                         jsw.write("try");
