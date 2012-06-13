@@ -135,7 +135,6 @@ public final class StAXLevel1Client implements Level1Client {
 
     private static final Entity readEntity(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
-        final String type = "???";
         final Map<String, Object> data = new HashMap<String, Object>();
         while (reader.hasNext()) {
             reader.next();
@@ -148,7 +147,8 @@ public final class StAXLevel1Client implements Level1Client {
             }
             case XMLStreamConstants.END_ELEMENT: {
                 if (elementName.equals(reader.getName())) {
-                    return new GenericEntity(type, data);
+                    // Our best guess for the type is the local-name of the element.
+                    return new GenericEntity(elementName.getLocalPart(), data);
                 } else {
                     throw new AssertionError(reader.getName());
                 }

@@ -22,6 +22,7 @@ public final class StandardLevel0Client implements Level0Client {
      */
     private static final String HEADER_VALUE_AUTHORIZATION_FORMAT = "Bearer %s";
 
+    @SuppressWarnings("unused")
     private static final String HEADER_VALUE_CONTENT_TYPE = "content-type";
 
     private final Client client;
@@ -33,7 +34,6 @@ public final class StandardLevel0Client implements Level0Client {
     @Override
     public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
             HttpRestException {
-
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -47,13 +47,11 @@ public final class StandardLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildGet().invoke();
 
-        checkResponse(response, Response.Status.OK);
-
-        return response;
+        return checkResponse(response, Response.Status.OK);
     }
 
     @Override
-    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException,
+    public Response deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
             HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -61,13 +59,14 @@ public final class StandardLevel0Client implements Level0Client {
         if (url == null) {
             throw new NullPointerException("url");
         }
+        if (mediaType == null) {
+            throw new NullPointerException("mediaType");
+        }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildDelete().invoke();
 
-        checkResponse(response, Response.Status.NO_CONTENT);
-
-        return response;
+        return checkResponse(response, Response.Status.NO_CONTENT);
     }
 
     @Override
@@ -76,19 +75,20 @@ public final class StandardLevel0Client implements Level0Client {
         if (token == null) {
             throw new NullPointerException("token");
         }
+        if (data == null) {
+            throw new NullPointerException("data");
+        }
         if (url == null) {
             throw new NullPointerException("url");
         }
-        if (data == null) {
-            throw new NullPointerException("data");
+        if (mediaType == null) {
+            throw new NullPointerException("mediaType");
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildPost(Entity.entity(data, mediaType)).invoke();
 
-        checkResponse(response, Response.Status.CREATED);
-
-        return response;
+        return checkResponse(response, Response.Status.CREATED);
     }
 
     @Override
@@ -103,13 +103,14 @@ public final class StandardLevel0Client implements Level0Client {
         if (data == null) {
             throw new NullPointerException("data");
         }
+        if (mediaType == null) {
+            throw new NullPointerException("mediaType");
+        }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildPut(Entity.entity(data, mediaType)).invoke();
 
-        checkResponse(response, Response.Status.CREATED);
-
-        return response;
+        return checkResponse(response, Response.Status.CREATED);
     }
 
     private Invocation.Builder createBuilder(final String token, final URL url, final String mediaType)
@@ -128,9 +129,17 @@ public final class StandardLevel0Client implements Level0Client {
         return builder;
     }
 
-    private void checkResponse(Response response, Response.Status expected) throws HttpRestException {
+    private Response checkResponse(final Response response, final Response.Status expected) throws HttpRestException {
+        if (response == null) {
+            throw new NullPointerException("response");
+        }
+        if (expected == null) {
+            throw new NullPointerException("expected");
+        }
         if (response.getStatus() != expected.getStatusCode()) {
             throw new HttpRestException(response.getStatus());
+        } else {
+            return response;
         }
     }
 }
