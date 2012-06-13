@@ -1,3 +1,4 @@
+@RALLY_DE842
 Feature: Acceptance test cases proving access to student or no access to student determines access to related student data.
 
 Scenario Outline: Validate access to student related data based on accessor's context.
