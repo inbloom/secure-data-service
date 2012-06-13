@@ -97,7 +97,6 @@ Examples:
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       |
 
 #Section
-
 Scenario Outline: Authenticated Educator makes API call to get own list of Sections
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -132,7 +131,7 @@ Examples:
 | Realm | Username  | Password      | Section          |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Science101" |
 | "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
-| "IL"  | "ejane"   | "ejane1234"   | "WES-Math"       |
+| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
@@ -144,8 +143,8 @@ Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | Section          |
 | "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
-| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       |
-| "IL"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
+| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       |
+| "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 #Student
@@ -159,7 +158,7 @@ Examples:
 | Realm | Username  | Password      | Section          |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Science101" |
 | "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
-| "IL"  | "ejane"   | "ejane1234"   | "WES-Math"       |
+| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
@@ -171,7 +170,7 @@ Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | Section          |
 | "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
-| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       |
+| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       |
 | "IL"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
