@@ -4,7 +4,6 @@ import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class SimpleSecurityCachingStrategy implements SecurityCachingStrategy {
         if (securityCache.containsKey(cacheId)) {
             securityCache.get(cacheId).addAll(ids);
         } else {
-            securityCache.put(cacheId, new HashSet<String>(ids));
+            securityCache.put(cacheId, ids);
         }
     }
 
