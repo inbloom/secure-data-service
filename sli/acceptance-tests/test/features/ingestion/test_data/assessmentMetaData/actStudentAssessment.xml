@@ -17,6 +17,7 @@
           <Result>28</Result> 
       </ScoreResults>  
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
       <StudentReference> 
            <StudentIdentity> 
                 <StudentUniqueStateId>42</StudentUniqueStateId> 
@@ -34,13 +35,15 @@
    <StudentObjectiveAssessment id="SOA_ACT-Math-Pre-Algebral_1"> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
-       </ScoreResults> 
+       </ScoreResults>
+       <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
        <StudentAssessmentReference ref="saa_act_1"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
            </ObjectiveAssessmentIdentity> 
        </ObjectiveAssessmentReference> 
+       
    </StudentObjectiveAssessment> 
 
    <StudentObjectiveAssessment id="SOA_ACT-Math-Plane-Geometry_1"> 
