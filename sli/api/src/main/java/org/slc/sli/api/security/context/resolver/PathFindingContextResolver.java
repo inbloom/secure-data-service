@@ -9,7 +9,7 @@ import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
-import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
@@ -18,8 +18,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -50,8 +48,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
     private String fromEntity;
     private String toEntity;
 
-    @Resource(name = "securityCache")
-    private Map<String, Set<String>> securityCache;
+    @Autowired
+    private SecurityCachingStrategy securityCachingStrategy;
 
     /*
      * @see
@@ -67,14 +65,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
         }
         Set<String> entities = pathFinder.getNodeMap().keySet();
         return (entities.contains(fromEntityType) && entities.contains(toEntityType));
-    }
-
-    private void warmSecurityCache(String type, Set<String> ids) {
-        if (securityCache.containsKey(type)) {
-            securityCache.get(type).addAll(ids);
-        } else {
-            securityCache.put(type, new HashSet<String>(ids));
-        }
     }
 
     /*
@@ -100,8 +90,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
 
-            if (securityCache.containsKey(next.getType())) {
-                ids.addAll(securityCache.get(next.getType()));
+            //look up the cache if it exists
+            if (securityCachingStrategy.contains(current.getName() + next.getName())) {
+                ids.addAll(securityCachingStrategy.retrieve(current.getName() + next.getName()));
                 current = path.get(i);
                 continue;
             }
@@ -159,8 +150,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
             previousIdSet = idSet;
             ids.addAll(idSet);
-
-            warmSecurityCache(next.getType(), new HashSet<String>(idSet));
+            //add the new ids to the cache
+            securityCachingStrategy.warm(current.getName() + next.getName(), new HashSet<String>(idSet));
 
             current = path.get(i);
         }

@@ -52,7 +52,7 @@ public class BasicService implements EntityService {
     private static final String ADMIN_SPHERE = "Admin";
     private static final String PUBLIC_SPHERE = "Public";
 
-    private static final int MAX_RESULT_SIZE = 9999;
+    private static final int MAX_RESULT_SIZE = 0;
 
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";

@@ -2,8 +2,15 @@ package org.slc.sli.api.security.context.resolver;
 
 import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Calendar;
+import java.util.TreeSet;
+import java.util.Arrays;
 
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,8 +19,6 @@ import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
-
-import javax.annotation.Resource;
 
 /**
  * Resolves Teachers context to Students. Finds accessible students through section, program, and cohort associations.
@@ -30,8 +35,11 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Value("${sli.security.gracePeriod}")
     private String sectionGracePeriod;
 
-    @Resource(name = "securityCache")
-    private Map<String, Set<String>> securityCache;
+    @Autowired
+    private SecurityCachingStrategy securityCachingStrategy;
+
+    private static final String FROM_ENTITY = "teacher";
+    private static final String TO_ENTITY = "student";
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
@@ -43,26 +51,17 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         Set<String> ids = new TreeSet<String>();
 
-        if (!securityCache.containsKey("student")) {
+        if (!securityCachingStrategy.contains(FROM_ENTITY + TO_ENTITY)) {
             ids.addAll(findAccessibleThroughSection(principal));
             ids.addAll(findAccessibleThroughCohort(principal));
             ids.addAll(findAccessibleThroughProgram(principal));
 
-            warmSecurityCache("student", ids);
+            securityCachingStrategy.warm(FROM_ENTITY + TO_ENTITY, new HashSet<String>(ids));
         } else {
-            ids = securityCache.get("student");
+            ids = securityCachingStrategy.retrieve(FROM_ENTITY + TO_ENTITY);
         }
 
         return new ArrayList<String>(ids);
-    }
-
-    private void warmSecurityCache(String type, Set<String> ids) {
-        if (securityCache.containsKey(type)) {
-            securityCache.get(type).addAll(ids);
-
-        } else {
-            securityCache.put(type, new HashSet<String>(ids));
-        }
     }
 
     private List<String> findAccessibleThroughSection(Entity principal) {
