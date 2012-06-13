@@ -10,6 +10,6 @@ import org.slc.sli.api.client.Entity;
  */
 public interface Level2ClientManual {
 
-    List<Entity> getStudentsByStudentId(String token, List<String> studentIds) throws IOException, SLIDataStoreException;
-    List<Entity> getStudents(String token) throws IOException, SLIDataStoreException;
+    List<Entity> getStudentsByStudentId(String token, List<String> studentIds) throws IOException, HttpRestException;
+    List<Entity> getStudents(String token) throws IOException, HttpRestException;
 }

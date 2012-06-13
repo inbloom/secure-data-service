@@ -37,34 +37,30 @@ public final class StAXLevel1Client implements Level1Client {
 
     @Override
     public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            SLIDataStoreException {
-        try {
-            final Response response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
-            return deserialize(response);
-        } catch (final HttpRestException e) {
-            throw new SLIDataStoreException(e);
-        }
+            HttpRestException {
+        final Response response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
+        return deserialize(response);
     }
 
     @Override
     public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            SLIDataStoreException {
+            HttpRestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public URL postRequest(final String token, final String data, final URL url) throws URISyntaxException,
-            IOException, SLIDataStoreException {
+            IOException, HttpRestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public void putRequest(final String token, final String data, final URL url) throws URISyntaxException,
-            IOException, SLIDataStoreException {
+            IOException, HttpRestException {
         throw new UnsupportedOperationException("TODO");
     }
 
-    private List<Entity> deserialize(final Response response) throws IOException, SLIDataStoreException {
+    private List<Entity> deserialize(final Response response) throws IOException {
         final String readEntity = response.readEntity(String.class);
         final StringReader sw = new StringReader(readEntity);
         final XMLInputFactory factory = XMLInputFactory.newInstance();

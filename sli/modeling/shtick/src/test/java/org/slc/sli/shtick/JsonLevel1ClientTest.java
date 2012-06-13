@@ -47,7 +47,7 @@ public class JsonLevel1ClientTest {
             fail(e.getMessage());
         } catch (IOException e) {
             fail(e.getMessage());
-        } catch (SLIDataStoreException e) {
+        } catch (HttpRestException e) {
             fail(e.getMessage());
         }
     }
@@ -66,7 +66,7 @@ public class JsonLevel1ClientTest {
             assertNotNull(loc);
         } catch (URISyntaxException e) {
             fail(e.getMessage());
-        } catch (SLIDataStoreException e) {
+        } catch (HttpRestException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {
             fail(e.getMessage());
