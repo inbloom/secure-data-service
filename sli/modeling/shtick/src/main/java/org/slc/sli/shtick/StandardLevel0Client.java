@@ -31,8 +31,8 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response getRequest(final String token, final URL url, final String mediaType)
-            throws URISyntaxException, HttpRestException {
+    public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+            HttpRestException {
 
         if (token == null) {
             throw new NullPointerException("token");
@@ -53,7 +53,8 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException, HttpRestException {
+    public Response deleteRequest(String token, URL url, final String mediaType) throws URISyntaxException,
+            HttpRestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -79,7 +80,7 @@ public final class StandardLevel0Client implements Level0Client {
             throw new NullPointerException("url");
         }
         if (data == null) {
-            throw  new NullPointerException("data");
+            throw new NullPointerException("data");
         }
 
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
@@ -111,9 +112,18 @@ public final class StandardLevel0Client implements Level0Client {
         return response;
     }
 
-    private Invocation.Builder createBuilder(String token, URL url, String mediaType) throws URISyntaxException {
+    private Invocation.Builder createBuilder(final String token, final URL url, final String mediaType)
+            throws URISyntaxException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        if (url == null) {
+            throw new NullPointerException("url");
+        }
+        if (mediaType == null) {
+            throw new NullPointerException("mediaType");
+        }
         final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
-        builder.header(HEADER_VALUE_CONTENT_TYPE, mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
         return builder;
     }
