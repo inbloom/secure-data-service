@@ -14,4 +14,7 @@ Scenario Outline: Validate access to student related data based on accessor's co
     | "/v1/attendances/4beb72d4-0f76-4071-92b4-61982dba7a7b"                    |
     | "/v1/courseTranscripts/36aeeabf-ee9b-46e6-8039-13320bf15226"              |
     | "/v1/studentAssessments/e5e13e61-01aa-066b-efe0-710f7a011115"             |
+	| "/v1/parents/45e42971-ce8e-4dff-98cf-66535887760a"             			|
+	| "/v1/grades/ef42e2a2-9942-11e1-a8a9-68a86d21d918"            				|
+	| "/v1/studentSectionGradebookEntries/ab3b4a69-5434-f906-e51b-d63ef970ef8f" |
 	
