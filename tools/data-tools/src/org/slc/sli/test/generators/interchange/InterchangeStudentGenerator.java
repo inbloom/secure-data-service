@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -26,12 +28,17 @@ public class InterchangeStudentGenerator {
      * @return
      */
     public static InterchangeStudent generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudent interchange = new InterchangeStudent();
         List<Student> interchangeObjects = interchange.getStudent();
 
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -69,7 +76,7 @@ public class InterchangeStudentGenerator {
 
         }
 
-        System.out.println("generated " + studentMetas.size() + " Student objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + studentMetas.size() + " Student objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 

@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.slc.sli.test.edfi.entities.AssessmentItem;
 import org.slc.sli.test.edfi.entities.AssessmentPeriodDescriptor;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
+import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.LearningObjective;
 import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
@@ -37,12 +40,19 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 public class InterchangeAssessmentMetadataGenerator {
 
     public static InterchangeAssessmentMetadata generate() {
+        long startTime = System.currentTimeMillis();
+
         InterchangeAssessmentMetadata interchange = new InterchangeAssessmentMetadata();
         List<ComplexObjectType> interchangeObjects = interchange
                 .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
 
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        
         return interchange;
     }
 
@@ -83,7 +93,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(learningStandard);
         }
 
-        System.out.println("generated " + learningStandardMetas.size() + " LearningStandard objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + learningStandardMetas.size() + " LearningStandard objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -104,7 +114,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(learningObjective);
         }
 
-        System.out.println("generated " + learningObjectiveMetas.size() + " LearningObjective objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + learningObjectiveMetas.size() + " LearningObjective objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -125,7 +135,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessmentItem);
         }
 
-        System.out.println("generated " + assessmentItemMetas.size() + " AssessmentItem objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + assessmentItemMetas.size() + " AssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -146,7 +156,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(perfLevelDesc);
         }
 
-        System.out.println("generated " + perfLevelDescMetas.size() + " PerformanceLevelDescriptor objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + perfLevelDescMetas.size() + " PerformanceLevelDescriptor objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -169,7 +179,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(objectiveAssessment);
         }
 
-        System.out.println("generated " + objAssessMetas.size() + " ObjectiveAssessment objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objAssessMetas.size() + " ObjectiveAssessment objects in: "
                 + (System.currentTimeMillis() - startTime));
         return objAssessMap;
     }
@@ -191,7 +201,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessPeriodDesc);
         }
 
-        System.out.println("generated " + assessPeriodDescMetas.size() + " AssessmentPeriodDescriptor objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + assessPeriodDescMetas.size() + " AssessmentPeriodDescriptor objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -212,7 +222,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessmentFamily);
         }
 
-        System.out.println("generated " + assessmentFamilyMetas.size() + " AssessmentFamily objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + assessmentFamilyMetas.size() + " AssessmentFamily objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -233,7 +243,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessment);
         }
 
-        System.out.println("generated " + assessmentMetas.size() + " Assessment objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + assessmentMetas.size() + " Assessment objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 }

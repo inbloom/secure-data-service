@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,14 +63,20 @@ public class InterchangeEdOrgGenerator {
      * @throws Exception
      */
     public static InterchangeEducationOrganization generate() throws Exception {
-
+        long startTime = System.currentTimeMillis();
         
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
+
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        
         return interchange;
     }
 
@@ -118,7 +126,7 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(sea);
         }
 
-        System.out.println("generated " + seaMetas.size() + " StateEducationAgency objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + seaMetas.size() + " StateEducationAgency objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -144,7 +152,7 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(esc);
         }
 
-        System.out.println("generated " + escMetas.size() + " EducationServiceCenter objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + escMetas.size() + " EducationServiceCenter objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
     
@@ -169,7 +177,7 @@ public class InterchangeEdOrgGenerator {
             }
         }
 
-        System.out.println("generated " + MetaRelations.FEEDER_RELATIONSHIPS + " FeederSchoolAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + MetaRelations.FEEDER_RELATIONSHIPS + " FeederSchoolAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
     
@@ -195,7 +203,7 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(lea);
         }
 
-        System.out.println("generated " + leaMetas.size() + " LocalEducationAgency objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + leaMetas.size() + " LocalEducationAgency objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -222,7 +230,7 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(school);
         }
 
-        System.out.println("generated " + schoolMetas.size() + " School objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + schoolMetas.size() + " School objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -252,7 +260,7 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(course);
         }
 
-        System.out.println("generated " + courseMetas.size() + " Course objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + courseMetas.size() + " Course objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -263,6 +271,7 @@ public class InterchangeEdOrgGenerator {
      * @param programMetas
      */
     private static void generatePrograms(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+        long startTime = System.currentTimeMillis();
         for (ProgramMeta programMeta : programMetas) {
 
             Program program;
@@ -276,5 +285,9 @@ public class InterchangeEdOrgGenerator {
 
             interchangeObjects.add(program);
         }
+
+        System.out.println(REPORT_INDENTATION + "generated " + programMetas.size() + " Program objects in: "
+                + (System.currentTimeMillis() - startTime));
+
     }
 }

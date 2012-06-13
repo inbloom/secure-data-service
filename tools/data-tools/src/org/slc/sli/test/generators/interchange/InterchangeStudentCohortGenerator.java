@@ -1,6 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.ArrayList;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -33,12 +34,14 @@ public class InterchangeStudentCohortGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeStudentCohort interchange = new InterchangeStudentCohort();
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         List<Object> interchangeObjects = interchange.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentCohort entries in: "
-                + (System.currentTimeMillis() - startTime));
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -62,6 +65,8 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateCohortData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             Cohort retVal;
@@ -72,8 +77,11 @@ public class InterchangeStudentCohortGenerator {
                 retVal = CohortGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.add(retVal);
+            count++;
         }
         
+        System.out.println(REPORT_INDENTATION + "generated " + count + " Cohort objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -84,6 +92,8 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateStaffCohortAssociationData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             StaffCohortAssociation retVal;
@@ -94,8 +104,11 @@ public class InterchangeStudentCohortGenerator {
                 retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.add(retVal);
+            count++;
         }
         
+        System.out.println(REPORT_INDENTATION + "generated " + count + " StaffCohortAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -106,6 +119,8 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateStudentCohortAssociation(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             
@@ -117,7 +132,11 @@ public class InterchangeStudentCohortGenerator {
                 retVal = StudentCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.addAll(retVal);
+            count += retVal.size();
         }
+        
+        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentCohortAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
     
 }

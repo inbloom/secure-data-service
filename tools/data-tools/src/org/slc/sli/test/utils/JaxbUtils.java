@@ -39,8 +39,8 @@ public class JaxbUtils {
             marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
             marshaller.marshal(objectToMarshal, outputStream);
 
-            System.out.println("marshaled " + objectToMarshal.getClass() + " in: "
-                    + (System.currentTimeMillis() - startTime));
+//            System.out.println("marshaled " + objectToMarshal.getClass() + " in: "
+//                    + (System.currentTimeMillis() - startTime));
         } else {
             throw new IllegalArgumentException("Cannot marshal null object");
         }

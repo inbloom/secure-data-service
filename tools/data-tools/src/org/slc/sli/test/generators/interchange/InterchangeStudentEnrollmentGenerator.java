@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -30,13 +32,18 @@ public class InterchangeStudentEnrollmentGenerator {
      * @return
      */
     public static InterchangeStudentEnrollment generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
         List<Object> interchangeObjects = interchange
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -80,7 +87,7 @@ public class InterchangeStudentEnrollmentGenerator {
 			objGenCounter++;
 		}
 
-		System.out.println("generated " + objGenCounter
+		System.out.println(REPORT_INDENTATION + "generated " + objGenCounter
 				+ " GraduationPlan objects in: "
 				+ (System.currentTimeMillis() - startTime));
    }
@@ -114,7 +121,7 @@ public class InterchangeStudentEnrollmentGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " StudentSchoolAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSchoolAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -149,7 +156,7 @@ public class InterchangeStudentEnrollmentGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " StudentSectionAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 

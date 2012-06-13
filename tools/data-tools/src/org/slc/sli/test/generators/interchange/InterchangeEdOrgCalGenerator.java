@@ -1,6 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.Calendar;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -39,12 +40,17 @@ public class InterchangeEdOrgCalGenerator {
      * @return
      */
     public static InterchangeEducationOrgCalendar generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -103,7 +109,7 @@ public class InterchangeEdOrgCalGenerator {
 			interchangeObjects.add(gradingPeriod);
 		}
 
-		System.out.println("generated " + gradingPeriodMetas.size()
+		System.out.println(REPORT_INDENTATION + "generated " + gradingPeriodMetas.size()
 				+ " GradingPeriod objects in: "
 				+ (System.currentTimeMillis() - startTime));
 	}
@@ -124,7 +130,7 @@ public class InterchangeEdOrgCalGenerator {
              interchangeObjects.add(calendar);
          }
 
-         System.out.println("generated " + calendarMetas.size() + " Calendar objects in: "
+         System.out.println(REPORT_INDENTATION + "generated " + calendarMetas.size() + " Calendar objects in: "
                  + (System.currentTimeMillis() - startTime));
      }
 
@@ -153,7 +159,7 @@ public class InterchangeEdOrgCalGenerator {
             interchangeObjects.add(session);
         }
 
-        System.out.println("generated " + sessionMetas.size() + " Session objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + sessionMetas.size() + " Session objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 }

@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -40,13 +42,17 @@ public class InterchangeStaffAssociationGenerator {
      * @throws Exception 
      */
     public static InterchangeStaffAssociation generate() throws Exception {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
         List<Object> interchangeObjects = interchange
                 .getStaffOrStaffEducationOrgEmploymentAssociationOrStaffEducationOrgAssignmentAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -97,7 +103,7 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(teacher);
         }
 
-        System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + teacherMetas.size() + " Teacher objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -122,7 +128,7 @@ public class InterchangeStaffAssociationGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -148,7 +154,7 @@ public class InterchangeStaffAssociationGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " TeacherSectionAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " TeacherSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -175,7 +181,7 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staff);
         }
 
-        System.out.println("generated " + staffMetas.size() + " Staff objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " Staff objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -196,7 +202,7 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgEmploymentAssoc);
         }
 
-        System.out.println("generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -217,7 +223,7 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgAssignmentAssoc);
         }
 
-        System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
     
@@ -245,7 +251,7 @@ public class InterchangeStaffAssociationGenerator {
             count++;
         }
         
-        System.out.println("generated " + count + " StaffProgramAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + count + " StaffProgramAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
         
     }

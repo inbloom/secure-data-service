@@ -248,7 +248,6 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentProgram() throws Exception {
-
         InterchangeStudentProgram studentProgram = InterchangeStudentProgramGenerator.generate();
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentProgram.xml";
@@ -270,7 +269,7 @@ public class StateEdFiXmlGenerator {
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentCohort.xml";
 
-        JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
+        JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath, "UTF-8"));
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
         xmlFilePath);
@@ -287,7 +286,7 @@ public class StateEdFiXmlGenerator {
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentDiscipline.xml";
 
-        JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath));
+        JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath, "UTF-8"));
 
         // TODO: uncomment when ingestion supports this
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentDiscipline",

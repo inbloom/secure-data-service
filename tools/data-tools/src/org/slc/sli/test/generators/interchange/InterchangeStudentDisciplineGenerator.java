@@ -1,6 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.ArrayList;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -34,12 +35,13 @@ public class InterchangeStudentDisciplineGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeStudentDiscipline interchange = new InterchangeStudentDiscipline();
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
         List<Object> interchangeObjects = interchange.getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentDiscipline entries in: "
-                + (System.currentTimeMillis() - startTime));
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -63,6 +65,7 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineIncidentMetas
      */
     private static void generateDisciplineIncidentData(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             DisciplineIncident retVal;
@@ -76,6 +79,8 @@ public class InterchangeStudentDisciplineGenerator {
             interchangeObjects.add(retVal);
         }
         
+        System.out.println(REPORT_INDENTATION + "generated " + disciplineIncidentMetas.size() + " DisciplineIncident objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -86,6 +91,7 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineActionMetas
      */
     private static void generateDisciplineActionData(List<Object> interchangeObjects, Collection<DisciplineActionMeta> disciplineActionMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (DisciplineActionMeta disciplineActionMeta : disciplineActionMetas) {
             DisciplineAction retVal;
@@ -99,6 +105,8 @@ public class InterchangeStudentDisciplineGenerator {
             interchangeObjects.add(retVal);
         }
         
+        System.out.println(REPORT_INDENTATION + "generated " + disciplineActionMetas.size() + " DisciplineAction objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
 
     /**
@@ -109,7 +117,9 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineIncidentMetas
      */
     private static void generateStudentDisciplineIncidentAssociation(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
-
+        long startTime = System.currentTimeMillis();
+        long count = 0;
+        
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             
             List<StudentDisciplineIncidentAssociation> retVal;
@@ -121,7 +131,11 @@ public class InterchangeStudentDisciplineGenerator {
                 retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             }
             interchangeObjects.addAll(retVal);
+            count += retVal.size();
         }
+
+        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentDisciplineIncidentAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
     }
     
 }

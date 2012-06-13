@@ -29,6 +29,8 @@ public class InterchangeWriter<T> {
     private static final boolean FORMAT_INTERCHANGE_XML = true;
     private static final boolean SINGLE_LINE_MARSHALLING = true;
 
+    public static final String REPORT_INDENTATION = "  ";
+    
     private String interchangeName = null;
     private String xmlFilePath = null;
 
@@ -39,6 +41,7 @@ public class InterchangeWriter<T> {
     private Marshaller streamMarshaller = null;
     
     private long interchangeStartTime;
+    private long marshaledCount;
     
     public InterchangeWriter(Class<T> interchange) {
         
@@ -46,7 +49,7 @@ public class InterchangeWriter<T> {
         interchangeName = interchange.getSimpleName();
         xmlFilePath = StateEdFiXmlGenerator.rootOutputPath + "/" + interchangeName + ".xml";
 
-        System.out.println("Creating interchange " + interchangeName);
+        System.out.println(interchangeName + " started");
         try {
             JAXBContext context = JAXBContext.newInstance(interchange);
             streamMarshaller = context.createMarshaller();
@@ -103,9 +106,6 @@ public class InterchangeWriter<T> {
     
     public void close() {
         
-      System.out.println("generated and marshaled in: "
-      + (System.currentTimeMillis() - interchangeStartTime));
-
         try {
             if (FORMAT_INTERCHANGE_XML && SINGLE_LINE_MARSHALLING) {
                 defaultWriter.writeCharacters("\n");
@@ -117,6 +117,9 @@ public class InterchangeWriter<T> {
             e.printStackTrace();
             System.exit(1);  // fail fast for now
         }
+        
+        System.out.println(interchangeName + ": generated " + marshaledCount + " entries in "
+                + (System.currentTimeMillis() - interchangeStartTime) + "\n");
 
         streamMarshaller = null;
     }
@@ -139,6 +142,7 @@ public class InterchangeWriter<T> {
                 } else {
                     streamMarshaller.marshal(objectToMarshal, writer);
                 }
+                marshaledCount++;
             } catch (JAXBException e) {
                 e.printStackTrace();
                 System.exit(1);  // fail fast for now

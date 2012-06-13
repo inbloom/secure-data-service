@@ -3,6 +3,8 @@
  */
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -41,12 +43,17 @@ public class InterchangeStudentParentGenerator {
      * @return
      */
     public static InterchangeStudentParent generate()  throws Exception  {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudentParent interchange = new InterchangeStudentParent();
         List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
+        System.out.println(interchange.getClass().getSimpleName() + ": started");
+
         addEntitiesToInterchange(interchangeObjects);
         
+        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
+                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
         return interchange;
     }
 
@@ -103,7 +110,7 @@ public class InterchangeStudentParentGenerator {
 
         }
 
-        System.out.println("generated " + studentMetas.size() + " Student objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + studentMetas.size() + " Student objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -134,7 +141,7 @@ public class InterchangeStudentParentGenerator {
             interchangeObjects.add(parent);
         }
 
-        System.out.println("generated " + parentMetas.size() + " Parent objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + parentMetas.size() + " Parent objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
@@ -167,7 +174,7 @@ public class InterchangeStudentParentGenerator {
 
          }
 
-        System.out.println("generated " + objGenCounter + " StudentParentAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentParentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
