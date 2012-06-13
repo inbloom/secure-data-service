@@ -149,8 +149,6 @@ Examples:
 
 #Student
 
-#DE719
-#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they teach
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -164,8 +162,6 @@ Examples:
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
-#DE719
-#@wip
 Scenario Outline: Authenticated Educator makes API call to get list of Students in section they do not teach
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"
@@ -178,8 +174,6 @@ Examples:
 | "IL"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
-#DE719
-#@wip
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Educator"

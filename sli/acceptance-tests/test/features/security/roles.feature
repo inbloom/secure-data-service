@@ -8,8 +8,6 @@ Feature: SLI Default Roles and Permissions
  As an SLI Admin, I want to be able to enforce rights on the entity attribute level,
  so that  SEA/LEA end user can do CRUD on the entities stored in the data store, based on the SLI Default Role
   
-#DE719
-#@wip
 Scenario Outline:  SEA/LEA user with a valid Default SLI Role making API call
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>
@@ -42,8 +40,6 @@ And I am authenticated on "SLI"
 When I make a REST API call
 Then I get response that I am not authorized to do that operation because I do not have a valid SLI Default Role
 
-#DE719
-#@wip
 Scenario: Authorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user "jstevenson" with password "jstevenson1234" 
@@ -54,8 +50,6 @@ When I make an API call to change the Student address to "1234 Somewhere"
 Then the Student address is changed
 
 
-#DE719
-#@wip
 Scenario Outline: Unauthorized SLI Default Role trying to edit Student attribute
  
 Given  I am valid SEA/LEA end user <Username> with password <Password>  
@@ -78,8 +72,6 @@ And "Aggregate Viewer" is not allowed to view Student data
 When I make an API call to view a Student's data
 Then a message is displayed that the "Aggregate Viewer" role cannot view this data
 
-#DE719
-#@wip
 Scenario: Authorized SLI Default Role trying to view Student restricted field
 
 Given  I am valid SEA/LEA end user "sbantu" with password "sbantu1234"
