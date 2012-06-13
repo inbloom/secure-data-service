@@ -3,6 +3,7 @@ package org.slc.sli.shtick.test;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.api.client.util.URLBuilder;
-import org.slc.sli.shtick.StandardLevel2ClientManual;
+import org.slc.sli.shtick.StandardLevel2Client;
 
 /**
  * Servlet for testing API crud consistency
@@ -95,7 +96,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -103,16 +104,23 @@ public class CrudConsistencyTestServlet extends HttpServlet {
 
     private String testRead() {
 
-        // this is using StandardLevel2ClientManual for testing purposes
+        // this is using StandardLevel2Client for testing purposes
+        // should use level 3
 
-        StandardLevel2ClientManual client = new StandardLevel2ClientManual("http://local.slidev.org:8080/api/rest/v1/");
+        StandardLevel2Client client = new StandardLevel2Client("http://local.slidev.org:8080/api/rest/v1/");
+        String rrogersToken = "cacd9227-5b14-4685-babe-31230476cf3b";
         List<String> idList = new ArrayList<String>();
         idList.add("d2462231-4f6c-452e-9b29-4a63ad92138e");
         try {
-            List<Entity> student = client.getStudentsByStudentId("cacd9227-5b14-4685-babe-31230476cf3b", idList);
+            List<Entity> student = client.getStudentsById(rrogersToken, idList.get(0),
+                    Collections.<String, String>emptyMap());
+            if (student.size() != 1) {
+                 return String.format(TestResultConstants.ERROR_GENERIC,
+                         String.format("received %s student record(s)", student.size()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format("Failed - %s", e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -149,7 +157,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -176,7 +184,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -244,7 +252,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;

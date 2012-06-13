@@ -75,7 +75,7 @@ public class FieldLevelTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
@@ -97,7 +97,7 @@ public class FieldLevelTestServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.GENERIC_ERROR, e.toString());
+            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         }
 
         return TestResultConstants.PASSED;
