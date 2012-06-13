@@ -14,6 +14,7 @@ import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 
 public final class SdkGenTypeWrapper implements SdkGenType {
 
+    @SuppressWarnings("unused")
     private final XmlSchemaType xsdType;
 
     public SdkGenTypeWrapper(final XmlSchemaType xsdType) {
@@ -34,19 +35,16 @@ public final class SdkGenTypeWrapper implements SdkGenType {
         return sb.toString();
     }
 
+    @SuppressWarnings("unused")
     public static SdkGenType foo(final XmlSchemaObjectCollection items, final int depth) {
         for (int i = 0; i < items.getCount(); i++) {
             final XmlSchemaObject item = items.getItem(i);
             if (item instanceof XmlSchemaElement) {
                 final XmlSchemaElement element = (XmlSchemaElement) item;
-                System.out.println(element.getName());
-                System.out.println(element.getMinOccurs());
-                System.out.println(element.getMaxOccurs() == Long.MAX_VALUE);
                 foo(element.getSchemaType(), depth + 1);
                 return new SdkGenElementTypeWrapper();
             } else if (item instanceof XmlSchemaChoice) {
                 final XmlSchemaChoice choice = (XmlSchemaChoice) item;
-                System.out.println("choice");
                 return new SdkGenChoiceTypeWrapper();
             } else {
                 throw new AssertionError(item);
@@ -74,8 +72,8 @@ public final class SdkGenTypeWrapper implements SdkGenType {
                 return null;
             }
         } else if (xmlSchemaType instanceof XmlSchemaSimpleType) {
+            @SuppressWarnings("unused")
             final XmlSchemaSimpleType simpleType = (XmlSchemaSimpleType) xmlSchemaType;
-            System.out.println(simpleType.getName());
             return new SdkGenSimpleTypeWrapper();
         } else {
             throw new AssertionError(xmlSchemaType);
