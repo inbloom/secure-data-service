@@ -74,7 +74,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             // We decided that if tenantId is null then we will query on blank string.
             // This may need to be revisited.
             if (tenantId == null) {
-                tenantId = "";
+                return query;
             }
             
             // make sure a criterion for tenantId has not already been added to this query
@@ -107,7 +107,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *         tenant id.
      */
     protected Criteria createTenantCriteria(String collectionName) {
-        if (!NOT_BY_TENANT.contains(collectionName)) {
+        if (NOT_BY_TENANT.contains(collectionName)) {
             return null;
         }
         String tenantId = TenantContext.getTenantId();
@@ -115,7 +115,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // We decided that if tenantId is null then we will query on blank string.
         // This may need to be revisited.
         if (tenantId == null) {
-            tenantId = "";
+            return null;
         }
         Criteria c = new Criteria("metaData.tenantId");
         c.is(tenantId);
@@ -188,11 +188,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // exist, then we append.
         try {
             String tenantId = TenantContext.getTenantId();
-            if (tenantId == null) {
-                tenantId = "";
+            BasicDBObject obj = null;
+            
+            if (tenantId != null) {
+                obj = new BasicDBObject("metaData.tenantId", tenantId);
+                obj.append("_id", databaseId);
+            } else {
+                obj = new BasicDBObject("_id", databaseId);
             }
-            BasicDBObject obj = new BasicDBObject("metaData.tenantId", tenantId);
-            obj.append("_id", databaseId);
+            
             return template.getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
@@ -392,10 +396,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // We decided that if TenantId is null, then we will search on blank.
         // This option may need to be revisted.
         String tenantId = TenantContext.getTenantId();
-        if (tenantId == null) {
-            tenantId = "";
+        BasicDBObject obj = null;
+        
+        if (tenantId != null) {
+            obj = new BasicDBObject("metaData.tenantId", tenantId);
+        } else {
+            obj = new BasicDBObject();
         }
-        BasicDBObject obj = new BasicDBObject("metaData.tenantId", tenantId);
         
         template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
