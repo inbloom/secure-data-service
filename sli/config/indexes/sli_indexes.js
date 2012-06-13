@@ -6,7 +6,7 @@ db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});
 db["assessment"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["attendance"].ensureIndex({"body.schoolId":1, "body.studentId":1});
 db["attendance"].ensureIndex({"body.studentId":1, "body.schoolId":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1, "body.schoolId":1},{unique:true});
+db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1, "body.schoolId":1});
 db["cohort"].ensureIndex({"body.educationOrgId":1, "body.programId":1});
 db["cohort"].ensureIndex({"body.programId":1, "body.educationOrgId":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
