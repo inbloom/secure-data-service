@@ -112,7 +112,7 @@ Examples:
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
 | "assessment"                   | "assessments"             | 5 |
-| "attendance"                   | "attendances"             | 1 |
+| "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 2 |
