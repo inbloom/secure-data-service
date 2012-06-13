@@ -92,6 +92,14 @@
 
 	<ObjectiveAssessment id="ACTMathematicsPreAlgebra">
 		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
+         <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Math110</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
 		<!-- <AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference> -->
 	</ObjectiveAssessment>
 
