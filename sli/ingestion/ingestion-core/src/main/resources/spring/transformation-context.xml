@@ -122,14 +122,7 @@
   <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
   </bean>
 
-  <bean id="sessionEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SessionEdFi2SLITransformer"
-    parent="smooksEdFi2SLITransformer">
-  </bean>
-
   <util:map id="transformers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.transformation.EdFi2SLITransformer">
-    <entry key="session">
-      <ref local="sessionEdFi2SLITransformer"/>
-    </entry>
   </util:map>
 
   <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
@@ -217,19 +210,19 @@
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="reportCard" />
   </bean>
-  
+
   <bean id="teacherSchoolAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="teacherSchoolAssociation" />
   </bean>
-  
+
   <bean id="teacherSectionAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="teacherSectionAssociation" />
   </bean>
-  
+
   <bean id="studentSectionGradebookEntryTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
@@ -241,7 +234,7 @@
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="studentCompetency" />
   </bean>
-  
+
   <bean id="courseTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />

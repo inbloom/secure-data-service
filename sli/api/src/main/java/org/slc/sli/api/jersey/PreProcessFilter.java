@@ -1,5 +1,7 @@
 package org.slc.sli.api.jersey;
 
+import java.security.Principal;
+
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 

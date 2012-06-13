@@ -9,4 +9,9 @@ module UserAccountRegistrationsHelper
     
     ApplicationHelper.add_user(user_account_registration)
   end
+
+  def increment_counter
+    @counter = 0 if !@counter
+    @counter = @counter + 1
+  end
 end

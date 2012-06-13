@@ -3,7 +3,7 @@
 <% end %>
 
 <%# TODO: The method below is pretty ugly. Will fix when I actually figure out what I'm doing :) %>
-<% def print(f, field, field_name, is_password_field, password_field = nil, is_force_required = false) %>
+<% def print(f, field, field_name, is_password_field, tab_index, password_field = nil, is_force_required = false) %>
     <% required = is_force_required || required?(@user_account_registration, field) %>
     <% error = "" %>
     <% if @user_account_registration.errors[field].any? %>
@@ -23,12 +23,12 @@
     </div>
     <div class="controls">
       <% if is_password_field %>
-          <%= f.password_field password_field %>
+          <%= f.password_field password_field, :tabindex => tab_index %>
       <% else %>
           <% if required %>
-              <%= f.text_field field %>
+              <%= f.text_field field, :tabindex => tab_index %>
           <% else %>
-              <%= f.text_field field, :placeholder => "optional" %>
+              <%= f.text_field field, :placeholder => "optional", :tabindex => tab_index %>
           <% end %>
       <% end %>
 
@@ -38,11 +38,11 @@
 	            <%= @user_account_registration.errors[field][0] %>
 			  <% else %>
 			     <ul>
-				   <% @user_account_registration.errors[field].each_with_index do |err, i| %>
-				     <%= "</ul></span><span class='help-inline'><ul>".html_safe if i > 0 && i % 2 == 0 %>
-				     <li><%= err %></li>
-				   <% end %>
-				 </ul>
+                   <% @user_account_registration.errors[field].each_with_index do |err, i| %>
+                       <%= "</ul></span><span class='help-inline'><ul>".html_safe if i > 0 && i % 2 == 0 %>
+                       <li><%= err %></li>
+                   <% end %>
+                 </ul>
 			  <% end %>
             </span>
       <% end %>
@@ -57,12 +57,12 @@
         </div>
     <% end %>
     <fieldset>
-      <% print f, :firstName, "First Name", false %>
-      <% print f, :lastName, "Last Name", false %>
-      <% print f, :vendor, "Company", false %>
-      <% print f, :email, "Email", false %>
-      <% print f, :password, "Password", true, :password %>
-      <% print f, :confirmation, "Re-enter Password", true, :password_confirmation, true %>
+      <% print f, :firstName, "First Name", false, increment_counter %>
+      <% print f, :lastName, "Last Name", false, increment_counter %>
+      <% print f, :vendor, "Company", false, increment_counter %>
+      <% print f, :email, "Email", false, increment_counter %>
+      <% print f, :password, "Password", true, increment_counter, :password %>
+      <% print f, :confirmation, "Re-enter Password", true, increment_counter, :password_confirmation, true %>
       <div style="margin-bottom: 9px;">
         <span style="color:red;">*</span> = required fields
       </div>
@@ -72,17 +72,19 @@
       <% end %>
       <% error = " error" if @user_account_registration.errors[:recaptcha].any? %>
       <%= tag("div", :class => "control-group#{error}") %>
-      <%= get_captcha(:options => {:theme => 'clean', :tabindex => 7, :lang => 'en'}, :ssl => 'true').html_safe %>
-      <div style="margin-bottom:10px;margin-top:10px;font-style:italic;font-size:12px" >
-      	<b>Note:</b> in order to complete the registration process, you will be required to accept the 
-      	<a style="text-decoration:underline" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and 
-      	<a style="text-decoration:underline" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a><br/>
+      <div class="controls">
+        <%= get_captcha(:options => {:theme => 'white', :tabindex => increment_counter, :lang => 'en'}, :ssl => 'true').html_safe %>
       </div>
       <% if @user_account_registration.errors[:recaptcha].any? %>
             <span class="help-inline">
 				<%= @user_account_registration.errors[:recaptcha][0] %>
 			</span>
       <% end %>
+      </div>
+      <div style="margin-bottom:10px;margin-top:10px;font-style:italic;font-size:12px" >
+        <b>Note:</b> in order to complete the registration process, you will be required to accept the
+        <a style="text-decoration:underline" href=<%=APP_CONFIG['terms_url'] %> target="_blank">Terms of Use</a> and
+        <a style="text-decoration:underline" href=<%= APP_CONFIG['privacy_policy_url']%> target="_blank">Privacy Policy</a><br/>
       </div>
 
       <div class="form-actions">

@@ -94,7 +94,7 @@ And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
 And their grade is "8"
-And the teacher is "Mrs Linda Kim"
+#And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
@@ -221,7 +221,7 @@ And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
 And their id shown in proflie is "100000017"
 And their grade is "1"
-And the teacher is "Ms Rebecca Braverman"
+#And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 And there are "4" Tabs
@@ -353,7 +353,7 @@ And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
 And their id shown in proflie is "900000016"
 And their grade is "11"
-And the teacher is "!"
+#And the teacher is "!"
 #And the class is "American Literature"
 And the lozenges count is "0"
 And there are "4" Tabs
