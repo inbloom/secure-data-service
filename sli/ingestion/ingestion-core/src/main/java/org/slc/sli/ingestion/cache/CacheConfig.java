@@ -20,6 +20,11 @@ public class CacheConfig {
     @Value("${sli.ingestion.cache.type}")
     private String cacheType;
 
+    /** Timeout in ms */
+    @Value("${sli.ingestion.cache.opTimeout}")
+    private long opTimeout;
+
+
     @Value("${sli.ingestion.cache.servers}")
     private String cacheServers;
 
@@ -30,6 +35,7 @@ public class CacheConfig {
         bean.setServers(cacheServers);
         bean.setLocatorType( Locator.CONSISTENT );
         bean.setProtocol(Protocol.BINARY);
+        bean.setOpTimeout( opTimeout );
 
         return bean;
     }
@@ -42,6 +48,8 @@ public class CacheConfig {
             MemcachedClientFactoryBean bean = getMemcachedClientFactoryBean();
 
             MemcachedCacheProvider provider = new MemcachedCacheProvider(bean);
+
+
             return provider;
         } else if ( "inmemory".equals( cacheType ) ) {
             return new InmemoryCacheProvider();

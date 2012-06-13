@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.cache;
 
 import net.spy.memcached.MemcachedClient;
+import net.spy.memcached.OperationTimeoutException;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
 import org.slf4j.Logger;
@@ -49,12 +50,17 @@ public class MemcachedCacheProvider implements CacheProvider {
 
     @Override
     public Object get(String key) {
-        Object val = client.get(key);
+        Object val = null;
+        try {
+            val = client.get(key);
 
-        LOG.debug("Memcached {} for {} ", val == null ? "MISS" : "HIT", key);
-        if (val != null) {
+            LOG.debug("Memcached {} for {} ", val == null ? "MISS" : "HIT", key);
+            if (val != null) {
 
-            LOG.debug("Found {} for key {}", val, key);
+                LOG.debug("Found {} for key {}", val, key);
+            }
+        } catch (OperationTimeoutException ex) {
+            LOG.warn("Operation timed out - is memcached responding? ", ex);
         }
         return val;
     }

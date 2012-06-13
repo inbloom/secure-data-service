@@ -140,6 +140,7 @@ default:
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.servers: 
         sli.ingestion.cache.flush.policy: newfile
+        sli.ingestion.cache.opTimeout: 10
         
         #Work Note Chunking Parameters
         sli.ingestion.split.chunk.size: 5000
@@ -1165,7 +1166,7 @@ nxteam:
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.pit.concurrentConsumers: 20
         sli.ingestion.cache.type: memcached
-        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211
+        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
         
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
