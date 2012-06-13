@@ -22,7 +22,7 @@ def clearProfiles(serverConfigurations)
   
   serverConfigurations.each do |sConf|
       temp = sConf.split(":")
-      if (temp.length == 3)
+      if (temp.length == 3 || temp.length == 4)
         puts "Clearning system.profile for: " + temp[0].to_s + ":" + temp[1].to_s + " - " + temp[2].to_s
         
         connection = Mongo::Connection.new(temp[0].to_s, temp[1].to_s)
@@ -44,7 +44,7 @@ def clearProfiles(serverConfigurations)
         end
         
       else
-        puts "Configuration " + sConf + " is not valid!"
+        puts "Configuration " + sConf + " is not valid..."
       end
     end
 end
@@ -95,12 +95,12 @@ def exportProfiling(serverConfigurations)
         `#{"python parse-profile-dump.py dump/sli/system.profile.json ../indexes/sli_indexes.js"}`
                 
       else
-        puts "Configuration " + sConf + " is not valid!"
+        puts "Configuration " + sConf + " is not valid."
       end
     end
 end
 
-def setAndClearProfile(mode)
+def setAndClearProfile(mode, arguments)
   done = "false"
   
   if mode == "all"
@@ -118,8 +118,13 @@ def setAndClearProfile(mode)
   end
   
   until done == "true"
-    puts "Please enter desired configurations"
-    input = gets.chomp
+    
+    if arguments == ""
+      puts "Please enter desired configurations"
+      input = gets.chomp
+    else
+      input = arguments
+    end
     
     confValid = "true"
         
@@ -137,9 +142,17 @@ def setAndClearProfile(mode)
       end
     end
     
+    if confValid == "false" && arguments != ""
+      exit
+    end
+    
     if confValid == "true"
-      puts "Is this correct (Y/n)"
-      confirmation = gets.chomp
+      if arguments == ""
+        puts "Is this correct (Y/n)"
+        confirmation = gets.chomp
+      else
+        confirmation = "Y"
+      end
       
       if confirmation == "Y"
         if mode == "all"
@@ -188,18 +201,30 @@ end
 def startMongoTools()
   puts "Mongo Profiling Tools"
   
-  selectedAction = getActionFromUser()
+  puts "Input Args = " + ARGV.to_s
+  
+  if ARGV.count<1
+    selectedAction = getActionFromUser()
+  else
+    selectedAction = ARGV[0]
+  end
+
   puts "Selected action = " + selectedAction
+  
+  inputArgs = "";
+  if ARGV.count == 2
+    inputArgs = ARGV[1]
+  end
   
   case selectedAction
   when "1"
-    setAndClearProfile("clear")
+    setAndClearProfile("clear", inputArgs)
   when "2"
-    setAndClearProfile("set")
+    setAndClearProfile("set", inputArgs)
   when "4"
-    setAndClearProfile("export")
+    setAndClearProfile("export", inputArgs)
   when "3"
-    setAndClearProfile("all")
+    setAndClearProfile("all", inputArgs)
   else
     puts "UNSUPPORTED OPERATION.  Exiting."
   end
