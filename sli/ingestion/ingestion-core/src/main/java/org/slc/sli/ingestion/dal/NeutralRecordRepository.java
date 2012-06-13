@@ -1,12 +1,15 @@
 package org.slc.sli.ingestion.dal;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.DBCollection;
-
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -14,10 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.LogUtil;
+import com.mongodb.DBCollection;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
@@ -65,6 +65,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
+        this.stampTenantId(body);
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
         neutralRecord.setAttributes(body);
@@ -72,10 +73,17 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord createForJob(NeutralRecord neutralRecord, String jobId) {
+        Map<String, Object> body = neutralRecord.getAttributes();
+        if(body == null) {
+            body = new HashMap<String, Object>();
+        }
+        this.stampTenantId(body);
+        neutralRecord.setAttributes(body);
         return create(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
     }
 
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
+        this.addDefaultQueryParams(neutralQuery, collectionName);
         return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -95,6 +103,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        this.addDefaultQueryParams(neutralQuery, collectionName);
         return findOne(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -111,6 +120,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        this.addDefaultQueryParams(neutralQuery, collectionName);
         return count(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -207,6 +217,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
+        this.addDefaultQueryParams(query, collectionName);
         update(query, update, toStagingCollectionName(collectionName, jobId));
     }
 

@@ -9,7 +9,10 @@ import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
+import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -36,6 +39,17 @@ public class CommandProcessor {
     
     @Handler
     public void processCommand(Exchange exch) throws Exception {
+        //We need to extract the TenantID for each thread, so the DAL has access to it.
+        try {
+            ControlFileDescriptor cfd = exch.getIn().getBody(ControlFileDescriptor.class);
+            ControlFile cf = cfd.getFileItem();
+            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+            TenantContext.setTenantId(tenantId);
+        } catch (NullPointerException ex) {
+            LOG.error("Could Not find Tenant ID.");
+            TenantContext.setTenantId(null);
+        }
+        
         String command = exch.getIn().getBody().toString();
         
         LOG.info("Received: " + command);

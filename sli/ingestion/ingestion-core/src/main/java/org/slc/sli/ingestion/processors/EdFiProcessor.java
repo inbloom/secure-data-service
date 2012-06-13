@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -21,6 +22,8 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
+import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -63,6 +66,17 @@ public class EdFiProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
+        //We need to extract the TenantID for each thread, so the DAL has access to it.
+        try {
+            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+            ControlFile cf = cfd.getFileItem();
+            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+            TenantContext.setTenantId(tenantId);
+        } catch (NullPointerException ex) {
+            LOG.error("Could Not find Tenant ID.");
+            TenantContext.setTenantId(null);
+        }
+        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -56,6 +57,16 @@ public class ControlFileProcessor implements Processor {
     @Override
     @Profiled
     public void process(Exchange exchange) throws Exception {
+        //We need to extract the TenantID for each thread, so the DAL has access to it.
+        try {
+            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+            ControlFile cf = cfd.getFileItem();
+            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+            TenantContext.setTenantId(tenantId);
+        } catch (NullPointerException ex) {
+            LOG.error("Could Not find Tenant ID.");
+            TenantContext.setTenantId(null);
+        }
         
         processUsingNewBatchJob(exchange);
         
