@@ -13,6 +13,14 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -32,13 +40,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -782,16 +783,18 @@ public class BasicService implements EntityService {
             return allowed.contains(entityId);
         } else {
             NeutralQuery query = new NeutralQuery();
-
-            //account for super list
-            if (allowed.size() > 0) {
+            if (allowed.size() >= 0) {
                 query.addCriteria(securityCriteria);
             }
-            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
+            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityId));
             this.addDefaultQueryParams(query, collectionName);
-            Entity entity = repo.findOne(collectionName, query);
+            Entity found = repo.findOne(collectionName, query);
+            if (found == null) {
+                return false;
+            } else {
+                return found.getEntityId().equals(entityId);
+            }
 
-            return (entity != null);
         }
     }
     
