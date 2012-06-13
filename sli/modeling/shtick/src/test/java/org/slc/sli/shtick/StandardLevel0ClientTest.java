@@ -34,6 +34,11 @@ public class StandardLevel0ClientTest {
                     new URL(TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
             assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+
+            actualResponse = client.getRequest(TestingConstants.TESTING_TOKEN,
+                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
+            assertNotNull(actualResponse);
+            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {

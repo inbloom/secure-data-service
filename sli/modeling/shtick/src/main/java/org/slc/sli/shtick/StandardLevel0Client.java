@@ -22,8 +22,6 @@ public final class StandardLevel0Client implements Level0Client {
      */
     private static final String HEADER_VALUE_AUTHORIZATION_FORMAT = "Bearer %s";
 
-    private static final String UNEXPECTED_STATUS_CODE_ERROR = "Expected status code: %s, Actual status code: %s";
-
     private static final String HEADER_VALUE_CONTENT_TYPE = "content-type";
 
     private final Client client;
@@ -122,8 +120,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     private void checkResponse(Response response, Response.Status expected) throws HttpRestException {
         if (response.getStatus() != expected.getStatusCode()) {
-            throw new HttpRestException(String.format(UNEXPECTED_STATUS_CODE_ERROR,
-                    expected.getStatusCode(), response.getStatus()));
+            throw new HttpRestException(response.getStatus());
         }
     }
 }

@@ -4,11 +4,20 @@ package org.slc.sli.shtick;
  * @author jstokes
  */
 public class HttpRestException extends Exception {
-    public HttpRestException(String message) {
-        super(message);
+
+    private int statusCode;
+
+    public HttpRestException(int statusCode) {
+        super();
+        this.statusCode = statusCode;
     }
 
-    public HttpRestException() {
-        super();
+    public HttpRestException(int statusCode, String message) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 }
