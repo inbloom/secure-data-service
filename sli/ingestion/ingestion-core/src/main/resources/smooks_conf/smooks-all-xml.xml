@@ -1070,7 +1070,6 @@
     <jb:value property="id" data="InterchangeAssessmentMetadata/ObjectiveAssessment/@id" />
     <jb:value property="identificationCode" data="InterchangeAssessmentMetadata/ObjectiveAssessment/IdentificationCode" />
     <jb:value property="maxRawScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/MaxRawScore" decoder="Integer" />
-    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="objectiveAssessmentPerformanceLevelTypeArray" />
     <jb:value property="percentOfAssessment" data="InterchangeAssessmentMetadata/ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
