@@ -8,9 +8,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
@@ -22,6 +19,8 @@ import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Basic brute force path finding implementation.
@@ -86,7 +85,6 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
                         .addConnection(EntityNames.PROGRAM, "programReference", "")
-                        .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.PROGRAM, "programReference")
                         .addConnection(EntityNames.GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, "sectionId")
