@@ -185,7 +185,7 @@ public final class StAXLevel1Client implements Level1Client {
                     if (data.size() > 0) {
                         return data;
                     } else {
-                        return sb.toString();
+                        return coerceValue(sb.toString());
                     }
                 } else {
                     throw new AssertionError(reader.getName());
@@ -201,5 +201,22 @@ public final class StAXLevel1Client implements Level1Client {
             }
         }
         throw new AssertionError();
+    }
+
+    /**
+     * FIXME: This is a hack so that we can continue testing.
+     * It converts String values to Boolean if they look like a Boolean.
+     * <p>
+     * A better solution might be to use xsi:type as a hint in the XML.
+     * </p>
+     */
+    private static Object coerceValue(final String value) {
+        if ("true".equals(value)) {
+            return Boolean.TRUE;
+        } else if ("false".equals(value)) {
+            return Boolean.FALSE;
+        } else {
+            return value;
+        }
     }
 }

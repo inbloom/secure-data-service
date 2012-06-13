@@ -106,7 +106,7 @@ public class StandardLevel2ClientTest {
         doGetStudents(new JsonLevel1Client());
     }
 
-    @Ignore("Problem with Boolean types.")
+    @Test
     public void testGetStudentsUsingStAX() {
         doGetStudents(new StAXLevel1Client());
     }
