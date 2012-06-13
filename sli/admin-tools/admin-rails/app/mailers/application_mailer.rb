@@ -1,12 +1,12 @@
 class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
 
-  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the SLC Developer Program"
-  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the SLC Developer Sandbox"
-  VERIFY_EMAIL_SUBJECT_SANDBOX ="SLC Sandbox Developer Account - Email Confirmation"
-  VERIFY_EMAIL_SUBJECT_PROD = "SLC Developer Account - Email Confirmation"
-  PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
-  PROVISION_EMAIL_SUBJECT_PROD = "SLC Landing Zone Setup"
+  WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the Shared Learning Collaborative"
+  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the Shared Learning Collaborative Developer Sandbox"
+  VERIFY_EMAIL_SUBJECT_SANDBOX ="Shared Learning Collaborative Developer Sandbox Account - Email Confirmation"
+  VERIFY_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Developer Account - Email Confirmation"
+  PROVISION_EMAIL_SUBJECT_SANDBOX = "Shared Learning Collaborative Developer Sandbox - Landing Zone Setup"
+  PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
 
   def welcome_email(user)
@@ -36,11 +36,14 @@ class ApplicationMailer < ActionMailer::Base
   mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
   
-  def notify_operator(support_email, app)
+  def notify_operator(support_email, app, creator_email)
     user_info = APP_LDAP_CLIENT.read_user(support_email)
+    @firstName = user_info[:first]
+    dev_info = APP_LDAP_CLIENT.read_user(creator_email) 
+    @dev_name = "#{dev_info[:first]} #{dev_info[:last]}"
     @app = app
-    if !@app.nil? and support_email =~ /\w+@\w+\.\w+/
-      mail(:to => support_email, :subject => "A new application has been registered")
+    if !@app.nil? and support_email =~ /(\w|-)+@\w+\.\w+/
+      mail(:to => support_email, :subject => 'SLC - New Application Notification')
     end
   end
   
@@ -49,8 +52,8 @@ class ApplicationMailer < ActionMailer::Base
     user_info = APP_LDAP_CLIENT.read_user(app.metaData.createdBy)
     @firstName = user_info[:first]
     @app = app
-    if !@app.nil? and @app.metaData.createdBy =~ /\w+@\w+\.\w+/
-      mail(:to => app.metaData.createdBy, :subject => "SLC - Your Application Has Been Approved")
+    if !@app.nil? and @app.metaData.createdBy =~ /(\w|-)+@\w+\.\w+/
+      mail(:to => app.metaData.createdBy, :subject => 'SLC - Your Application Is Approved')
     end
   end
 end

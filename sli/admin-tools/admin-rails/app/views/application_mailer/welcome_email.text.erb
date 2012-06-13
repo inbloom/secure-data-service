@@ -1,5 +1,5 @@
 <% if APP_CONFIG["is_sandbox"] %>
-<%= @firstName %>
+Welcome <%= @firstName %>,
 
 Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.
 
@@ -14,11 +14,13 @@ You can access admin tools, and applications through the portal at:
 
 
 Thank you,
-SLC Operator
+The Shared Learning Collaborative
 <% else %>
-<%= @firstName %>
+Welcome <%= @firstName %>,
 
-Your request for developer account has been approved. Get started by registering your applications with the Shared Learning Collaborative.
+Your request for an application developer account has been approved.
+
+To get started, register your applications with the Shared Learning Collaborative.
 
 To register your applications go to:
 <%= @apps_link %>
@@ -27,5 +29,5 @@ You can access admin tools, and applications through the portal at:
 <%= @portal_link %>
 
 Thank you,
-SLC Operator
+The Shared Learning Collaborative
 <% end %>

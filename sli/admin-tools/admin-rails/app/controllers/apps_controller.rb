@@ -117,7 +117,10 @@ class AppsController < ApplicationController
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
         if !APP_CONFIG["is_sandbox"]
-            ApplicationMailer.notify_operator(session[:support_email], @app).deliver
+            # Want to read the created_by on the @app, which is stamped during the created.
+            # Tried @app.reload and it didn't work
+            creator_email = App.find(@app.id).created_by
+            ApplicationMailer.notify_operator(session[:support_email], @app, creator_email).deliver
         end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }

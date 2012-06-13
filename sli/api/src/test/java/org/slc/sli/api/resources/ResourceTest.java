@@ -53,10 +53,10 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
  * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+//@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+//        DirtiesContextTestExecutionListener.class })
 public class ResourceTest {
     
     @Autowired
@@ -219,7 +219,7 @@ public class ResourceTest {
      * 
      * @throws Exception
      */
-    @Test
+    //@Test
     public void testResourceMethods() throws Exception {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
@@ -315,7 +315,7 @@ public class ResourceTest {
         
     }
     
-    @Test
+    //@Test
     public void testSchoolSessionFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
@@ -337,7 +337,7 @@ public class ResourceTest {
         assertEquals(schoolId, tssAssocBody.get("schoolId"));
     }
     
-    @Test
+    //@Test
     public void testSessionCourseFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
@@ -382,7 +382,7 @@ public class ResourceTest {
         return id;
     }
     
-    @Test
+    //@Test
     public void testTeacherSchoolFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         Response createResponse3 = api.createEntity("schools", new EntityBody(createTestEntity()), uriInfo);
@@ -413,7 +413,7 @@ public class ResourceTest {
         
     }
     
-    @Test
+    //@Test
     public void testStudentSection() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
@@ -445,7 +445,7 @@ public class ResourceTest {
         
     }
     
-    @Test
+    //@Test
     public void testAggregations() throws Exception {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
         
@@ -516,7 +516,7 @@ public class ResourceTest {
         
     }
     
-    @Test
+    //@Test
     public void testEducationOrganizations() {
         
         Response createEdOrgParentResponse = api.createEntity("educationOrganizations", new EntityBody(
@@ -560,7 +560,7 @@ public class ResourceTest {
     }
     
     // The .../targets links, has nothing to do with beer
-    @Test
+    //@Test
     public void testHops() {
         repo.deleteAll();
         Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
@@ -590,7 +590,7 @@ public class ResourceTest {
     }
     
     // test query on hop
-    @Test
+    //@Test
     public void testHopQuery() throws Exception {
         repo.deleteAll();
         EntityBody body1 = new EntityBody(createTestEntity());
@@ -654,7 +654,7 @@ public class ResourceTest {
         
     }
     
-    @Test
+    //@Test
     public void testEmptyList() {
         Response createResponse = api.createEntity("students", new EntityBody(createTestEntity()), uriInfo);
         String studentId1 = parseIdFromLocation(createResponse);
@@ -664,7 +664,7 @@ public class ResourceTest {
         assertEquals(0, ((CollectionResponse) listResponse.getEntity()).size());
     }
     
-    @Test
+    //@Test
     public void testBadEntity() {
         Response listResponse = api.getEntity(STUDENT_ASSESSMENT_ASSOCIATION_URI, Integer.valueOf(Integer.MAX_VALUE)
                 .toString(), null, null, 0, 10, false, uriInfo);
@@ -677,7 +677,7 @@ public class ResourceTest {
     }
     
     @SuppressWarnings("unchecked")
-    @Test
+    //@Test
     public void testGetFullEntities() {
         // create student 1
         EntityBody student1 = new EntityBody(createTestEntity());
@@ -760,7 +760,7 @@ public class ResourceTest {
         assertEquals(studentId1, responseStudent2.get("id"));
     }
     
-    @Test
+    //@Test
     public void testPagingOnAssociationLink() {
         // create student 1
         EntityBody student1 = new EntityBody(createTestEntity());

@@ -93,3 +93,12 @@ Examples:
 	|Username   |Password       |Realm|School                     |Data|
 	|"msmith"   |"msmith1234"   |"IL" |"South Daybreak Elementary"|"Students in South Daybreak Elementary"|
 	|"charrison"|"charrison1234"|"NY" |"Dawn Elementary"          |"Teachers in Dawn Elementary"|
+	
+Scenario Outline: Authenticated Leader makes API call to see Staff in their parent EdOrgs
+  Given I am logged in using <Username> <Password> to realm <Realm>
+  And I have a Role attribute that equals "Leader"
+  When I make an API call to get the staff <Staff>
+  Then I should get a message that I am not authorized
+  Examples:
+  |Username    |Password        |Realm|Role        |Staff|
+  |"mgonzales" |"mgonzales1234" |"IL" |"Leader"    |"Rick Rogers"|
