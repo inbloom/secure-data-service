@@ -12,7 +12,7 @@ describe SLCFixer do
     it "should have stamped nearly everything with an edorg" do
       filtered = ['tenant', 'userSession', 'realm', 'userAccount', 'roles', 'realm', 'application', 'applicationAuthorization',
         'system.indexes', 'system.js', 'school', 'educationOrganization', 'educationOrganizationSchoolAssociation', 'educationOrganizationAssociation',
-        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent']
+        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities']
       @db.collections.each do |collection|
         col_count = collection.count
         stamped_count = collection.find({'metaData.edOrgs' => {"$exists" => true}}).count

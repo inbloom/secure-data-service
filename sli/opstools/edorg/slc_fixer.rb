@@ -63,12 +63,21 @@ class SLCFixer
       cur.each do |section|
         edorgs = section['body']['schoolId']
         stamp_id(@db['section'], section['_id'], edorgs)
-        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
-        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
-        @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq) }
+        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}, :timeout => false) do |scur| 
+          scur.each {|assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs)}
+        end
+            
+        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}, :timeout => false) do |scur| 
+          scur.each {|assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
+        end
+        @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}, :timeout => false) do |scur|
+          scur.each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq) }
+        end
       end
     end
-    @db['sectionSchoolAssociation'].find.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
+    @db['sectionSchoolAssociation'].find(:timeout => false) do |cur|
+      cur.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
+    end
   end
 
   def fix_attendance
