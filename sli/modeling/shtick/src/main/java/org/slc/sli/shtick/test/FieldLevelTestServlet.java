@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.slc.sli.api.client.util.URLBuilder;
  *
  * @author chung
  */
+@SuppressWarnings("serial")
 public class FieldLevelTestServlet extends HttpServlet {
     private BasicClient client;
     private URL apiUrl;

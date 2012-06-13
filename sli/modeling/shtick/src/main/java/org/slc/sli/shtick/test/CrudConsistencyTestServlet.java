@@ -30,6 +30,7 @@ import org.slc.sli.shtick.StandardLevel2Client;
  *
  * @author chung
  */
+@SuppressWarnings("serial")
 public class CrudConsistencyTestServlet extends HttpServlet {
 
     private BasicClient client;
@@ -89,7 +90,9 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
             }
             if (collection != null && collection.size() == 1) {
+                @SuppressWarnings("unchecked")
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
+                @SuppressWarnings("unchecked")
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
                 if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
                     return "Failed - Response contains incorrect values";
@@ -127,6 +130,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         return TestResultConstants.PASSED;
     }
 
+    @SuppressWarnings("unchecked")
     private String testUpdate() {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createTestStudentBody());
         try {
@@ -221,6 +225,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
             if (collection != null && collection.size() == 1) {
                 studentSchoolAssoc = collection.get(0);
+                @SuppressWarnings("unchecked")
                 String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
                 if (!entryDate.equals("2011-09-01")) {
                     return "Failed - Response contains incorrect values";
@@ -236,6 +241,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 studentSchoolAssoc = collection.get(0);
+                @SuppressWarnings("unchecked")
                 String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
                 if (!entryDate.equals("2011-10-01")) {
                     return "Failed - Response contains incorrect values";

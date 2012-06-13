@@ -3,16 +3,16 @@ package org.slc.sli.shtick;
 /**
  * @author jstokes
  */
-public class HttpRestException extends Exception {
+public final class HttpRestException extends Exception {
+    private static final long serialVersionUID = 1L;
 
     private int statusCode;
 
-    public HttpRestException(int statusCode) {
-        super();
-        this.statusCode = statusCode;
+    public HttpRestException(final int statusCode) {
+        this(statusCode, null);
     }
 
-    public HttpRestException(int statusCode, String message) {
+    public HttpRestException(final int statusCode, final String message) {
         super(message);
         this.statusCode = statusCode;
     }
