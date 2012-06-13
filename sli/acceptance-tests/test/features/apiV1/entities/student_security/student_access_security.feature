@@ -255,7 +255,7 @@ Examples:
 
 | "staff1"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Educator can't access student because the student is not currently enrolled |
 | "staff2"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Leader   can't access student because the student is not currently enrolled |
-| "staff3"  | "student03"     | 403       | "excludes"      | "excludes"   | 204        | school-staff as IT Admin can't access student because the student is not currently enrolled |
+| "staff3"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as IT Admin can't access student because the student is not currently enrolled |
 | "staff4"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff as Agg View can't access student because the student is not currently enrolled |
 | "staff5"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was terminated |
 | "staff18" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't access student because the staff was not associated |
@@ -276,7 +276,7 @@ Examples:
 
 | "staff6"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Educator can't access student because the student is not currently enrolled |
 | "staff7"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Leader   can't access student because the student is not currently enrolled |
-| "staff8"  | "student03"     | 403       | "excludes"      | "excludes"   | 204        | district-staff as IT Admin can't access student because the student is not currently enrolled |
+| "staff8"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as IT Admin can't access student because the student is not currently enrolled |
 | "staff9"  | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff as Agg View can't access student because the student is not currently enrolled |
 | "staff10" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was terminated |
 | "staff17" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't access student because the staff was not associated |
@@ -300,7 +300,7 @@ Examples:
 
 | "staff11" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
 | "staff12" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
-| "staff13" | "student03"     | 403       | "excludes"      | "excludes"   | 204        | state-staff as IT Admin can't access student because the student is not currently enrolled |
+| "staff13" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as IT Admin can't access student because the student is not currently enrolled |
 | "staff14" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View can't access student because the student is not currently enrolled |
 | "staff15" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
 | "staff16" | "student03"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
@@ -308,13 +308,13 @@ Examples:
 
 | "staff1"  | "student47"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
 | "staff1"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
-| "staff1"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
+| "staff1"  | "student54"     | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
 | "staff6"  | "student47"     | 200       | "includes"      | "excludes"   | 403        | district-staff can see student in another school within district |
 | "staff6"  | "student51"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can' see student in another school outside district |
-| "staff6"  | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
+| "staff6"  | "student54"     | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
 | "staff11" | "student47"     | 200       | "includes"      | "excludes"   | 403        | state-staff can see student in school within state |
 | "staff11" | "student51"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can' see student in another school in other district |
-| "staff11" | "studentX"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
+| "staff11" | "student54"     | 403       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
 
 
 
