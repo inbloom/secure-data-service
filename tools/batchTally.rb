@@ -1,15 +1,14 @@
 require 'mongo'
 require 'json'
 
-
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
-    #if stat["time"]>100000 # ignore entries less than 100 seconds
-      printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m\n",name,stat["calls"],stat["time"]/1000
-    #end
+    if stat["time"]>1000 # ignore entries less than 1 seconds
+      printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m \e[34m%5d ms\e[0m\n",name,stat["calls"],stat["time"]/1000, stat["time"]/stat["calls"]
+    end
   end
-  puts "--------------------"
+  printf "%55s\n","***"
 end
 
 connection = Mongo::Connection.new("nxmongo5.slidev.org", 27017)
@@ -109,20 +108,22 @@ if !job["executionStats"].nil?
 
     value.each do |functionName,innerValue|
       pieces=functionName.split("#")
+      if pieces[1] != "getCollection"
+        functionName = pieces[0]+"."+pieces[1]
 
-      dbs[pieces[0]]={"calls"=>0,"time"=>0} unless dbs[pieces[0]]
-      functions[pieces[1]]={"calls"=>0,"time"=>0} unless functions[pieces[1]]
-      collections[pieces[2]]={"calls"=>0,"time"=>0} unless collections[pieces[2]]
+        dbs[pieces[0]]={"calls"=>0,"time"=>0} unless dbs[pieces[0]]
+        functions[functionName]={"calls"=>0,"time"=>0} unless functions[functionName]
+        collections[pieces[2]]={"calls"=>0,"time"=>0} unless collections[pieces[2]]
 
-      dbs[pieces[0]]["calls"]+=innerValue["left"]
-      dbs[pieces[0]]["time"]+=innerValue["right"]
+        dbs[pieces[0]]["calls"]+=innerValue["left"]
+        dbs[pieces[0]]["time"]+=innerValue["right"]
 
-      functions[pieces[1]]["calls"]+=innerValue["left"]
-      functions[pieces[1]]["time"]+=innerValue["right"]
+        functions[functionName]["calls"]+=innerValue["left"]
+        functions[functionName]["time"]+=innerValue["right"]
 
-      collections[pieces[2]]["calls"]+=innerValue["left"]
-      collections[pieces[2]]["time"]+=innerValue["right"]
-
+        collections[pieces[2]]["calls"]+=innerValue["left"]
+        collections[pieces[2]]["time"]+=innerValue["right"]
+      end
     end
   end
 end
@@ -148,9 +149,17 @@ puts ""
 puts "\e[4mTime spent waiting on Mongo operations:\e[0m"
 
 puts ""
+printf "\e[32m%-55s\e[0m \e[31m%11s\e[0m \e[35m%11s\e[0m \e[34m%11s\e[0m\n","Name","Calls","Time", "AVG"
+puts "--------------------------------------------------------------------------------------------"
 printStats(dbs)
 printStats(functions)
 printStats(collections)
+
+totalMongoTime=0;
+dbs.each_value{|time| totalMongoTime+=time["time"]}
+
+puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/3600000.0).round(2)} min)    \e[0m"
+puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"    
 
 puts ""
 puts "Job started: #{jobStart.getlocal}"
