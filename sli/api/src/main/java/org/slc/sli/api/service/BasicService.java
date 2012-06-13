@@ -475,7 +475,9 @@ public class BasicService implements EntityService {
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         this.addDefaultQueryParams(query, collectionName);
         
-        if (repo.findAll(collectionName, query) != null) {
+        Iterable<Entity> entities = repo.findAll(collectionName, query);
+
+        if (entities != null && entities.iterator().hasNext()) {
             exists = true;
         }
 
