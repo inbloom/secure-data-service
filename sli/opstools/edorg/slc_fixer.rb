@@ -12,7 +12,7 @@ class SLCFixer
     @student_hash = {}
     @count = 0
   end
-  
+
   def start
     time = Time.now
     @threads = []
@@ -39,246 +39,287 @@ class SLCFixer
     puts "\t Final time is #{finalTime} secs"
     puts "\t Documents(#{@count}) per second #{@count/finalTime}"
   end
-  
+
 
   def fix_students
-    ssa = @db['studentSchoolAssociation']
-    ssa.find.each do |student|
-      edorgs = []
-      old = old_edorgs(@students, student['body']['studentId'])
-      edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
-      edorgs << old unless old.empty?
-      edorgs = edorgs.flatten.uniq.sort
-      stamp_id(ssa, student['_id'], student['body']['schoolId'])
-      if !edorgs.eql? old
-        @student_hash[student['body']['studentId']] = edorgs
-        stamp_id(@students, student['body']['studentId'], edorgs)
+    @db['studentSchoolAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |student|
+        edorgs = []
+        old = old_edorgs(@students, student['body']['studentId'])
+        edorgs << student['body']['schoolId'] unless student['body'].has_key? 'exitWithdrawDate' and Date.parse(student['body']['exitWithdrawDate']) <= Date.today - 2000
+        edorgs << old unless old.empty?
+        edorgs = edorgs.flatten.uniq.sort
+        stamp_id(@db['studentSchoolAssociation'], student['_id'], student['body']['schoolId'])
+        if !edorgs.eql? old
+          @student_hash[student['body']['studentId']] = edorgs
+          stamp_id(@students, student['body']['studentId'], edorgs)
+        end
       end
     end
   end
-  
+
   def fix_sections
-    sections = @db['section']
-    sections.find.each do |section|
-      edorgs = section['body']['schoolId']
-      stamp_id(sections, section['_id'], edorgs)
-      @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
-      @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
-      @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq) }
+    @db['section'].find({}, :timeout => false) do |cur|
+      cur.each do |section|
+        edorgs = section['body']['schoolId']
+        stamp_id(@db['section'], section['_id'], edorgs)
+        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}).each { |assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs) }
+        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}).each { |assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
+        @db['studentSectionAssociation'].find({'body.sectionId' => section['_id']}).each { |assoc| stamp_id(@db['studentSectionAssociation'], assoc['_id'], ([] << edorgs << student_edorgs(assoc['body']['studentId'])).flatten.uniq) }
+      end
     end
     @db['sectionSchoolAssociation'].find.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId']) }
   end
 
   def fix_attendance
-    attendances = @db['attendance']
-    attendances.find.each do |attendance|
-      edOrg = student_edorgs(attendance['body']['studentId'])
-      stamp_id(attendances, attendance['_id'], edOrg)
+    @db['attendance'].find({}, :timeout => false) do |cur|
+      cur.find.each do |attendance|
+        edOrg = student_edorgs(attendance['body']['studentId'])
+        stamp_id(@db['attendance'], attendance['_id'], edOrg)
+      end
     end
   end
 
   def fix_assessments
-    saa = @db['studentAssessmentAssociation']
-    saa.find.each do |assessment|
-      edOrg = []
-      student_edorg = student_edorgs(assessment['body']['studentId'])
-      old_edorg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
-      edOrg << student_edorg << old_edorg
-      edOrg = edOrg.flatten.uniq
-      stamp_id(saa, assessment['_id'], edOrg)
-      stamp_id(@db['assessment'], assessment['body']['assessmentId'], edOrg)
+    @db['studentAssessmentAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |assessment|
+        edOrg = []
+        student_edorg = student_edorgs(assessment['body']['studentId'])
+        old_edorg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
+        edOrg << student_edorg << old_edorg
+        edOrg = edOrg.flatten.uniq
+        stamp_id(@db['studentAssessmentAssociation'], assessment['_id'], edOrg)
+        stamp_id(@db['assessment'], assessment['body']['assessmentId'], edOrg)
+      end
     end
-    saa = @db['sectionAssessmentAssociation']
-    saa.find.each do |assessment|
-      edorgs = []
-      assessment_edOrg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
-      section_edorg = old_edorgs(@db['section'], assessment['body']['sectionId'])
-      edorgs << assessment_edOrg << section_edorg
-      edorgs = edorgs.flatten.uniq
-      stamp_id(@db['assessment'], assessment['body']['assessmentId'], edorgs)
-      stamp_id(saa, assessment['_id'], edorgs)
+    @db['sectionAssessmentAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |assessment|
+        edorgs = []
+        assessment_edOrg = old_edorgs(@db['assessment'], assessment['body']['assessmentId'])
+        section_edorg = old_edorgs(@db['section'], assessment['body']['sectionId'])
+        edorgs << assessment_edOrg << section_edorg
+        edorgs = edorgs.flatten.uniq
+        stamp_id(@db['assessment'], assessment['body']['assessmentId'], edorgs)
+        stamp_id(@db['sectionAssessmentAssociation'], assessment['_id'], edorgs)
+      end
     end
   end
 
   def fix_disciplines
-    da = @db['disciplineAction']
-    da.find.each do |action|
-      edorg = student_edorgs(action['body']['studentId'])
-      stamp_id(da, action['_id'], edorg)
+    @db['disciplineAction'].find({}, :timeout => false) do |cur|
+      cur.each do |action|
+        edorg = student_edorgs(action['body']['studentId'])
+        stamp_id(@db['disciplineAction'], action['_id'], edorg)
+      end
     end
-    dia = @db['studentDisciplineIncidentAssociation']
-    dia.find.each do |incident|
-      edorg = student_edorgs(incident['body']['studentId'])
-      stamp_id(dia, incident['_id'], edorg)
-      stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg)
+    @db['studentDisciplineIncidentAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |incident|
+        edorg = student_edorgs(incident['body']['studentId'])
+        stamp_id(@db['studentDisciplineIncidentAssociation'], incident['_id'], edorg)
+        stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg)
+      end
     end
-    di = @db['disciplineIncident']
-    di.find.each do |discipline|
-      edorgs = []
-      edorgs << dig_edorg_out(discipline)
-      edorgs << discipline['body']['schoolId']
-      edorgs = edorgs.flatten.uniq
-      stamp_id(di, discipline['_id'], edorgs)
+    @db['disciplineIncident'].find({}, :timeout => false) do |cur|
+      cur.each do |discipline|
+        edorgs = []
+        edorgs << dig_edorg_out(discipline)
+        edorgs << discipline['body']['schoolId']
+        edorgs = edorgs.flatten.uniq
+        stamp_id(@db['disciplineIncident'], discipline['_id'], edorgs)
+      end
     end
   end
 
   def fix_parents
-    spa = @db['studentParentAssociation']
-    spa.find.each do |parent|
-      edorg = student_edorgs(parent['body']['studentId'])
-      stamp_id(spa, parent['_id'], edorg)
-      stamp_id(@db['parent'], parent['body']['parentId'], edorg)
+    @db['studentParentAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |parent|
+        edorg = student_edorgs(parent['body']['studentId'])
+        stamp_id(@db['studentParentAssociation'], parent['_id'], edorg)
+        stamp_id(@db['parent'], parent['body']['parentId'], edorg)
+      end
     end
   end
 
   def fix_report_card
-    report_card = @db['reportCard']
-    report_card.find.each do |card|
-      edorg = student_edorgs(card['body']['studentId'])
-      stamp_id(report_card, card['_id'], edorg)
+    @db['reportCard'].find({}, :timeout => false) do |cur|
+      cur.each do |card|
+        edorg = student_edorgs(card['body']['studentId'])
+        stamp_id(@db['reportCard'], card['_id'], edorg)
+      end
     end
   end
 
   def fix_programs
-    spa = @db['studentProgramAssociation']
-    spa.find.each do |program|
-      edorg = student_edorgs(program['body']['studentId'])
-      stamp_id(spa, program['_id'], program['body']['educationOrganizationId'])
-      stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'])
+    @db['studentProgramAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |program|
+        edorg = student_edorgs(program['body']['studentId'])
+        stamp_id(@db['studentProgramAssociation'], program['_id'], program['body']['educationOrganizationId'])
+        stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'])
+      end
     end
-    spa = @db['staffProgramAssociation']
-    spa.find.each do |program|
-      edorg = []
-      program_edorg = old_edorgs(@db['program'], program['body']['programId'])
-      staff_edorg = old_edorgs(@db['staff'], program['body']['staffId'])
-      edorg << program_edorg << staff_edorg
-      edorg = edorg.flatten.uniq 
-      stamp_id(@db['program'], program['body']['porgramId'], edorg)
-      stamp_id(spa, program['_id'], staff_edorg)
+    @db['staffProgramAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |program|
+        edorg = []
+        program_edorg = old_edorgs(@db['program'], program['body']['programId'])
+        staff_edorg = old_edorgs(@db['staff'], program['body']['staffId'])
+        edorg << program_edorg << staff_edorg
+        edorg = edorg.flatten.uniq 
+        stamp_id(@db['program'], program['body']['porgramId'], edorg)
+        stamp_id(@db['staffProgramAssociation'], program['_id'], staff_edorg)
+      end
     end
   end
 
   def fix_cohorts
-    cohorts = @db['cohort']
-    cohorts.find.each do |cohort|
-      stamp_id(cohorts, cohort['_id'], cohort['body']['educationOrgId'])
+    @db['cohort'].find({}, :timeout => false) do |cur|
+      cur.each do |cohort|
+        stamp_id(@db['cohort'], cohort['_id'], cohort['body']['educationOrgId'])
+      end
     end
-    @db['studentCohortAssociation'].find.each do |cohort|
-      edorg = old_edorgs(@db['student'], cohort['body']['studentId'])
-      stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
+    @db['studentCohortAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |cohort|
+        edorg = old_edorgs(@db['student'], cohort['body']['studentId'])
+        stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg)
+      end
     end
-    @db['staffCohortAssociation'].find.each do |cohort|
-      edorg = []
-      edorg << old_edorgs(@db['cohort'], cohort['body']['cohortId'])
-      edorg << old_edorgs(@db['staff'], cohort['body']['staffId'])
-      edorg = edorg.flatten.uniq
-      stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
-      stamp_id(@db['cohort'], cohort['body']['cohortId'], edorg)
+    @db['staffCohortAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |cohort|
+        edorg = []
+        edorg << old_edorgs(@db['cohort'], cohort['body']['cohortId'])
+        edorg << old_edorgs(@db['staff'], cohort['body']['staffId'])
+        edorg = edorg.flatten.uniq
+        stamp_id(@db['staffCohortAssociation'], cohort['_id'], edorg)
+        stamp_id(@db['cohort'], cohort['body']['cohortId'], edorg)
+      end
     end
   end
 
   def fix_sessions
-    sessions = @db['session']
-    sessions.find.each do |session|
-      edorg = []
-      @db['section'].find({"body.sessionId" => session["_id"]}).each {|sec| edorg << sec['metaData']['edOrgs'] unless sec['metaData'].nil? }
-      edorg = edorg.flatten.uniq
-      stamp_id(sessions, session['_id'], edorg)
-      @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}).each {|assoc| stamp_id(@db['schoolSessionAssociation'], assoc['_id'], edorg)}
-      
-  	  gradingPeriodReferences = session['body']['gradingPeriodReference']
-  	  unless gradingPeriodReferences.nil?
-      	gradingPeriodReferences.each do |gradingPeriodRef|
-  	      old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
-  	      value = (old << edorg).flatten.uniq	      
-  	  	  stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
-  	    end
-  	  end      
+    @db['session'].find({}, :timeout => false) do |cur|
+      cur.each do |session|
+        edorg = []
+        @db['section'].find({"body.sessionId" => session["_id"]}, :timeout => false) do |scur| 
+          scur.each do |sec|
+            edorg << sec['metaData']['edOrgs'] unless sec['metaData'].nil? 
+          end
+        end
+        edorg = edorg.flatten.uniq
+        stamp_id(@db['session'], session['_id'], edorg)
+        @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, :timeout => false) do |scur| 
+          scur.each do |assoc|
+            stamp_id(@db['schoolSessionAssociation'], assoc['_id'], edorg)
+          end
+        end
+        gradingPeriodReferences = session['body']['gradingPeriodReference']
+        unless gradingPeriodReferences.nil?
+          gradingPeriodReferences.each do |gradingPeriodRef|
+            old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
+            value = (old << edorg).flatten.uniq	      
+            stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
+          end
+        end
+      end
     end
   end
 
   def fix_staff
-    sea = @db['staffEducationOrganizationAssociation']
-    sea.find.each do |staff|
-      old = old_edorgs(@db['staff'], staff['body']['staffReference'])
-      edorg = staff['body']['educationOrganizationReference']
-      stamp_id(sea, staff['_id'], edorg)
-      stamp_id(@db['staff'], staff['body']['staffReference'], (old << edorg).flatten.uniq)
+    @db['staffEducationOrganizationAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |staff|
+        old = old_edorgs(@db['staff'], staff['body']['staffReference'])
+        edorg = staff['body']['educationOrganizationReference']
+        stamp_id(@db['staffEducationOrganizationAssociation'], staff['_id'], edorg)
+        stamp_id(@db['staff'], staff['body']['staffReference'], (old << edorg).flatten.uniq)
+      end
     end
     #This needed?
-    tsa = @db['teacherSchoolAssociation']
-    tsa.find.each do |teacher|
-      old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
-      stamp_id(tsa, teacher['_id'], teacher['body']['schoolId'])
-      stamp_id(@db['staff'], teacher['body']['teacherId'], (old << teacher['body']['schoolId']).flatten.uniq)
+    @db['teacherSchoolAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |teacher|
+        old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
+        stamp_id(@db['teacherSchoolAssociation'], teacher['_id'], teacher['body']['schoolId'])
+        stamp_id(@db['staff'], teacher['body']['teacherId'], (old << teacher['body']['schoolId']).flatten.uniq)
+      end
     end
   end
 
   def fix_grades
-    @db['gradebookEntry'].find.each do |grade|
-      edorg = old_edorgs(@db['section'], grade['body']['sectionId'])
-      stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
+    @db['gradebookEntry'].find({}, :timeout => false) do |cur|
+      cur.each do |grade|
+        edorg = old_edorgs(@db['section'], grade['body']['sectionId'])
+        stamp_id(@db['gradebookEntry'], grade['_id'], edorg)
+      end
     end
     #Grades and grade period
-    @db['grade'].find.each do |grade|
-      edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
-      stamp_id(@db['grade'], grade['_id'], edorg)
-#      stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
+    @db['grade'].find({}, :timeout => false) do |cur|
+      cur.each do |grade|
+        edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
+        stamp_id(@db['grade'], grade['_id'], edorg)
+        #      stamp_id(@db['gradingPeriod'], grade['body']['gradingPeriodId'], edorg)
+      end
     end
   end
 
   def fix_courses
-    sections = @db['section']
-    sections.find.each do |section|
-      edorg = section['metaData']['edOrgs']
-      stamp_id(@db['course'], section['body']['courseId'], edorg)
+    @db['section'].find({}, :timeout => false) do |cur|
+      cur.each do |section|
+        edorg = section['metaData']['edOrgs']
+        stamp_id(@db['course'], section['body']['courseId'], edorg)
+      end
     end
-    co = @db['courseOffering']
-    co.find.each do |course|
-      edorgs = []
-      edorgs << old_edorgs(@db['course'], course['body']['courseId'])
-      edorgs << old_edorgs(@db['session'], course['body']['sessionId'])
-      edorgs = edorgs.flatten.uniq
-      stamp_id(co, course['_id'], edorgs)
+    @db['courseOffering'].find({}, :timeout => false) do |cur|
+      cur.each do |course|
+        edorgs = []
+        edorgs << old_edorgs(@db['course'], course['body']['courseId'])
+        edorgs << old_edorgs(@db['session'], course['body']['sessionId'])
+        edorgs = edorgs.flatten.uniq
+        stamp_id(@db['courseOffering'], course['_id'], edorgs)
+      end
     end
   end
 
   def fix_miscellany
     #StudentTranscriptAssociation
-    @db['studentTranscriptAssociation'].find.each do |trans|
-      edorg = []
-      edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])	  
-      edorg << student_edorgs(trans['body']['studentId'])
-      
-      @db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}).each {
-      	|sar|       	
-      	studentId = sar['body']['studentId']
-      	edorg << student_edorgs(studentId)        
-      }
-      
-      edorg = edorg.flatten.uniq
-      stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg)
+    @db['studentTranscriptAssociation'].find({}, :timeout => false) do |cur|
+      cur.each do |trans|
+        edorg = []
+        edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])	  
+        edorg << student_edorgs(trans['body']['studentId'])
+
+        @db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}, :timeout => false) do |scur|
+          scur.each do |sar|
+            studentId = sar['body']['studentId']
+            edorg << student_edorgs(studentId)        
+          end
+        end
+        edorg = edorg.flatten.uniq
+        stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg)
+      end
     end
-  
+
     #StudentSectionGradeBook
-    @db['studentSectionGradebookEntry'].find.each do |trans|
-      edorg = student_edorgs(trans['body']['studentId'])
-      stamp_id(@db['studentSectionGradebookEntry'], trans['_id'], edorg)
+    @db['studentSectionGradebookEntry'].find({}, :timeout => false) do |cur|
+      cur.each do |trans|
+        edorg = student_edorgs(trans['body']['studentId'])
+        stamp_id(@db['studentSectionGradebookEntry'], trans['_id'], edorg)
+      end
     end
-  
+
     #Student Compentency
-    @db['studentCompetency'].find.each do |student|
-      edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
-      stamp_id(@db['studentCompetency'], student['_id'], edorg)
+    @db['studentCompetency'].find({}, :timeout => false) do |cur|
+      cur.each do |student|
+        edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
+        stamp_id(@db['studentCompetency'], student['_id'], edorg)
+      end
     end
-    
+
     #Student Academic Record
-    @db['studentAcademicRecord'].find.each do |student|
-      edorg = student_edorgs(student['body']['studentId'])
-      stamp_id(@db['studentAcademicRecord'], student['_id'], edorg)
+    @db['studentAcademicRecord'].find({}, :timeout => false) do |cur|
+      cur.each do |student|
+        edorg = student_edorgs(student['body']['studentId'])
+        stamp_id(@db['studentAcademicRecord'], student['_id'], edorg)
+      end
     end
   end
-  
+
   private
   def edorg_digger(id)
     edorgs = []
@@ -303,7 +344,7 @@ class SLCFixer
     return @student_hash[id] if @student_hash.has_key? id
     []
   end
-  
+
   def old_edorgs(collection, id)
     if id.is_a? Array
       doc = collection.find_one({"_id" => {'$in' => id}})
@@ -312,7 +353,7 @@ class SLCFixer
     end
     dig_edorg_out doc
   end
-  
+
   def dig_edorg_out(doc)
     begin
       old = doc['metaData']['edOrgs']
