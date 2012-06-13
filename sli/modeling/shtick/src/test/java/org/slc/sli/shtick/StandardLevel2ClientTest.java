@@ -52,7 +52,7 @@ public class StandardLevel2ClientTest {
             // }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final SLIDataStoreException e) {
+        } catch (final HttpRestException e) {
             fail(e.getMessage());
         }
     }
@@ -77,7 +77,7 @@ public class StandardLevel2ClientTest {
             assertEquals("100000005", data.get("studentUniqueStateId"));
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final SLIDataStoreException e) {
+        } catch (final HttpRestException e) {
             fail(e.getMessage());
         }
     }
