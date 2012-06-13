@@ -140,7 +140,8 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                         final String uri = computeURI(resource, resources, application, ancestors);
                         final JavaParam urlParam = new JavaParam("path", "String", true);
                         writeURLString(urlParam, uri, templateParams);
-                        jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)")
+                        jsw.beginStmt()
+                                .write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs)")
                                 .endStmt();
                         jsw.beginStmt().write("final URL url = builder.build()").endStmt();
                         jsw.beginStmt().write("return client.getRequest(token, url)").endStmt();
