@@ -211,11 +211,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
+            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out , ENCODING );
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out, ENCODING);
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
@@ -399,7 +399,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            snippet = File.createTempFile("snippet", ".xml", xml.getParentFile());
+            snippet = File
+                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(snippet));
 
