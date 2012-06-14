@@ -52,7 +52,7 @@ public class NewBatchJob implements Job {
 
     private Date jobStopTimestamp;
 
-    private String tenantId;
+
 
     public String getTenantId(){
         String tenantId = getProperty("tenantId");
