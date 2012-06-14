@@ -53,16 +53,16 @@ public class SpringLevel0Client implements Level0Client {
 
     @Override
     public RestResponse deleteRequest(String token, URL url, String mediaType) throws URISyntaxException, HttpRestException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public RestResponse createRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public RestResponse postRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+        throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public RestResponse updateRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public RestResponse putRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+        throw new UnsupportedOperationException("TODO");
     }
 }
