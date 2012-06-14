@@ -5,7 +5,7 @@ def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
     if stat["time"]>1000 # ignore entries less than 1 seconds
-      printf "\e[32m%-55s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m \e[34m%5d ms\e[0m\n",name,stat["calls"],stat["time"]/1000, stat["time"]/stat["calls"]
+      printf "\e[32m%-65s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m \e[34m%5d ms\e[0m\n",name,stat["calls"],stat["time"]/1000, stat["time"]/stat["calls"]
     end
   end
   printf "%55s\n","***"
@@ -149,8 +149,8 @@ puts ""
 puts "\e[4mTime spent waiting on Mongo operations:\e[0m"
 
 puts ""
-printf "\e[32m%-55s\e[0m \e[31m%11s\e[0m \e[35m%11s\e[0m \e[34m%11s\e[0m\n","Name","Calls","Time", "AVG"
-puts "--------------------------------------------------------------------------------------------"
+printf "\e[32m%-65s\e[0m \e[31m%11s\e[0m \e[35m%11s\e[0m \e[34m%11s\e[0m\n","Name","Calls","Time", "AVG"
+puts "------------------------------------------------------------------------------------------------------"
 printStats(dbs)
 printStats(functions)
 printStats(collections)
@@ -158,8 +158,9 @@ printStats(collections)
 totalMongoTime=0;
 dbs.each_value{|time| totalMongoTime+=time["time"]}
 
-puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/3600000.0).round(2)} min)    \e[0m"
+puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/60000.0).round(2)} min)    \e[0m"
 puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"    
+printf "Mongo Time per node: \e[35m%d\e[0m mins (nodes: \e[35m%d\e[0m)\n",(totalMongoTime/60000.0).round(2)/(job['executionStats'].size-1),job['executionStats'].size-1
 
 puts ""
 puts "Job started: #{jobStart.getlocal}"
