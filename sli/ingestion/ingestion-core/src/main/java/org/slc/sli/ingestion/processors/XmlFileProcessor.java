@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -37,6 +38,7 @@ public class XmlFileProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
     
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
+    private Set<String> idReferenceInterchanges;
     
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
@@ -95,13 +97,17 @@ public class XmlFileProcessor implements Processor {
                     
                     fe.setFile(new File(resource.getResourceName()));
                     
-                    LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
-                    
-                    idRefResolutionHandler.handle(fe, fe.getErrorReport());
-                    
-                    LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
-                    
-                    hasErrors = aggregateAndPersistErrors(batchJobId, fe);
+                    if (idReferenceInterchanges.contains(type.name())) {
+                        LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
+                        
+                        idRefResolutionHandler.handle(fe, fe.getErrorReport());
+                        
+                        LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
+                        
+                        hasErrors = aggregateAndPersistErrors(batchJobId, fe);
+                    } else {
+                        LOG.info("Not performing id reference resolution for interchange: {}", fe.getFileName());
+                    }
                 } else {
                     LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
                 }
@@ -167,5 +173,23 @@ public class XmlFileProcessor implements Processor {
     
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
+    }
+    
+    /**
+     * Get the set of interchanges dependent upon id reference resolution.
+     * 
+     * @return idReferenceInterchanges
+     */
+    public Set<String> getIdReferenceInterchanges() {
+        return idReferenceInterchanges;
+    }
+
+    /**
+     * Set the interchanges dependent upon id reference resolution.
+     * 
+     * @param idReferenceInterchanges idReferenceInterchanges to set
+     */
+    public void setIdReferenceInterchanges(Set<String> idReferenceInterchanges) {
+        this.idReferenceInterchanges = idReferenceInterchanges;
     }
 }
