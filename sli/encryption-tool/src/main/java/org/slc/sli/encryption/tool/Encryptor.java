@@ -30,6 +30,8 @@ public class Encryptor {
         
         File keyfile = new File(getKeyLocation());
 
+        System.out.println("\n Using keystore: " + getKeyLocation());
+        
         if (keyfile.exists()) {
         	// load keystore
             FileInputStream fis = new FileInputStream(getKeyLocation());
@@ -115,8 +117,7 @@ public class Encryptor {
 
         String encryptedString = encryptor.encrypt(args[2], args[3], args[4]);
         
-        out.println("\n");
-        out.println("Encrypted String for " + args[4] + " is: " + encryptedString);
+        out.println(" Encrypted String for " + args[4] + " is: " + encryptedString);
         out.println("\n");
 
     }

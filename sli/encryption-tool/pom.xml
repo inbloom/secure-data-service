@@ -18,22 +18,6 @@
     <sli.home>${project.parent.basedir}</sli.home>
   </properties>
   
-  <dependencies>
-	<!-- Spring Security dependency -->
-	<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-core</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-config</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-web</artifactId>
-	</dependency>
-  </dependencies>
-  
   <build>
 	<plugins>
 		<!-- Ignore/Execute plugin execution -->
@@ -70,7 +54,7 @@
 					<manifest>
 						<addClasspath>true</addClasspath>
 						<classpathPrefix>lib/</classpathPrefix>
-						<mainClass>org.slc.sli.encryption.tool.EmailCredentialEncryptor</mainClass>
+						<mainClass>org.slc.sli.encryption.tool.Encryptor</mainClass>
 					</manifest>
 				</archive>
 			</configuration>

@@ -14,13 +14,5 @@
         <include>/lib/*.*</include>
       </includes>
     </fileSet>
-    <fileSet>
-      <directory>${project.parent.basedir}/encryption-tool/src/main/resources</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>/*.bat</include>
-        <include>/*.sh</include>
-      </includes>
-    </fileSet>
   </fileSets>
 </assembly>
