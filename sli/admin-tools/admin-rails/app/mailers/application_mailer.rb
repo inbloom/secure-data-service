@@ -2,7 +2,7 @@ class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
 
   WELCOME_EMAIL_SUBJECT_PROD = "Welcome to the Shared Learning Collaborative"
-  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the Shared Learning Collaborative Developer Sandbox"
+  WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the SLC Developer Sandbox"
   VERIFY_EMAIL_SUBJECT_SANDBOX ="Shared Learning Collaborative Developer Sandbox Account - Email Confirmation"
   VERIFY_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Developer Account - Email Confirmation"
   PROVISION_EMAIL_SUBJECT_SANDBOX = "Shared Learning Collaborative Developer Sandbox - Landing Zone Setup"

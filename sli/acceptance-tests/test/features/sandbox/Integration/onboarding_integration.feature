@@ -1,5 +1,5 @@
 @RALLY_US2281 @RALLY_US206
-Feature: Complete onboarding workflow for sandbox and prodution
+Feature: Complete onboarding workflow for sandbox and production
 
 Background: 
 Given I have an open web browser
@@ -8,7 +8,7 @@ And I have a SMTP/Email server configured
 
 
 @sandbox
-Scenario: Developer is on-boarded in a sandbox enviornment
+Scenario: Developer is on-boarded in a sandbox environment
 Given I go to the sandbox account registration page
 And there is no registered account for "<USER_EMAIL>" in the SLI database
 And there is no registered account for "<USER_EMAIL>" in LDAP
@@ -22,12 +22,12 @@ Then the developer is directed to an acknowledgement page.
 When the developer click link in verification email
 Then an account entry is made in ldap with "Approved" status
 And an approval email is sent to the "<USER_EMAIL>"
-And the email has a "<URL_TO_PROVISIONING_APPLICATION>"
 And the email has a "<URL_TO_PORTAL>"
+#TODO: The portal for development is linked to RC which uses a different LDAP than dev. So we are breaking the flow and jump directly to the correct provisioning app.
+#And the email has a "<URL_TO_PROVISIONING_APPLICATION>"
 And a "<APPLICATION_DEVELOPER>" roles is a added for the user in ldap
 When the user clicks on "<URL_TO_PROVISIONING_APPLICATION>"
 Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_PASS>"
-And the user is redirected to "<URL_TO_PROVISIONING_APPLICATION>"
 
 When the user selects the option to use the "<ED-ORG_SAMPLE_DS1>"
 And clicks on "Provision" 
