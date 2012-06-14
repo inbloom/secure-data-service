@@ -27,7 +27,7 @@ email_mon: &email_mon
     email_sender_name: SLC Administrator
     email_sender_address: portal.wgen@gmail.com
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
     email_username: 
     email_password: 
     email_tls: 
