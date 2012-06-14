@@ -1,19 +1,20 @@
 package org.slc.sli.shtick;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import javax.ws.rs.client.InvocationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import javax.ws.rs.client.InvocationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @author jstokes
@@ -28,15 +29,40 @@ public class StandardLevel0ClientTest {
     }
 
     @Test
+    @Ignore
+    public void testDeleteRequest() {
+        try {
+            Response actualResponse = client.deleteRequest(TestingConstants.ROGERS_TOKEN, new URL(
+                    TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
+                    MediaType.APPLICATION_JSON);
+            assertNotNull(actualResponse);
+            assertEquals(Response.noContent().build().getStatus(), actualResponse.getStatus());
+
+            Response deletedResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
+                    TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
+                    MediaType.APPLICATION_JSON);
+            assertNotNull(actualResponse);
+            assertEquals(Response.status(Response.Status.NOT_FOUND).build().getStatus(), deletedResponse.getStatus());
+
+        } catch (MalformedURLException e) {
+            fail(e.getMessage());
+        } catch (URISyntaxException e) {
+            fail(e.getMessage());
+        } catch (HttpRestException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
     public void testGetRequest() {
         try {
-            Response actualResponse = client.getRequest(TestingConstants.TESTING_TOKEN,
-                    new URL(TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
+            Response actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
+                    TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
             assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
 
-            actualResponse = client.getRequest(TestingConstants.TESTING_TOKEN,
-                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
+            actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(TestingConstants.BASE_URL
+                    + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
             assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
         } catch (URISyntaxException e) {
@@ -50,25 +76,23 @@ public class StandardLevel0ClientTest {
         }
     }
 
-    @Test
-    @Ignore
-    public void testDeleteRequest() {
+    @Ignore("Problem with invalid autorization token.")
+    public void testGetRequestWithBrokenToken() {
         try {
-            Response actualResponse = client.deleteRequest(TestingConstants.TESTING_TOKEN,
-                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
-                    MediaType.APPLICATION_JSON);
+            Response actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(
+                    TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.noContent().build().getStatus(), actualResponse.getStatus());
+            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
 
-            Response deletedResponse = client.getRequest(TestingConstants.TESTING_TOKEN,
-                    new URL(TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
-                    MediaType.APPLICATION_JSON);
+            actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(TestingConstants.BASE_URL
+                    + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.status(Response.Status.NOT_FOUND).build().getStatus(), deletedResponse.getStatus());
-
+            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+        } catch (URISyntaxException e) {
+            fail(e.getMessage());
         } catch (MalformedURLException e) {
             fail(e.getMessage());
-        } catch (URISyntaxException e) {
+        } catch (InvocationException e) {
             fail(e.getMessage());
         } catch (HttpRestException e) {
             fail(e.getMessage());

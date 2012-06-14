@@ -27,7 +27,7 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Entity> students = client.getStudents(TestingConstants.TESTING_TOKEN, queryArgs);
+            final List<Entity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
             final Map<String, Entity> studentMap = new HashMap<String, Entity>();
             for (final Entity student : students) {
@@ -61,7 +61,7 @@ public class StandardLevel2ClientTest {
         final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
         // One identifier.
         try {
-            final List<Entity> students = client.getStudentsById(TestingConstants.TESTING_TOKEN,
+            final List<Entity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
                     TestingConstants.TEST_STUDENT_ID, EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
@@ -75,6 +75,41 @@ public class StandardLevel2ClientTest {
             assertEquals("Male", data.get("sex"));
             assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
             assertEquals("100000005", data.get("studentUniqueStateId"));
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        } catch (final HttpRestException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    private void doGetStudentsWithBrokenToken(final Level1Client inner) {
+        final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
+        try {
+            final Map<String, Object> queryArgs = new HashMap<String, Object>();
+            queryArgs.put("limit", 1000);
+            final List<Entity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
+            assertNotNull(students);
+            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
+            for (final Entity student : students) {
+                studentMap.put(student.getId(), student);
+            }
+            {
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                assertNotNull(student);
+                assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
+                assertEquals("student", student.getEntityType());
+                final Map<String, Object> data = student.getData();
+                assertNotNull(data);
+                assertEquals("Male", data.get("sex"));
+                final Object name = data.get("name");
+                assertTrue(name instanceof Map);
+                @SuppressWarnings("unchecked")
+                final Map<String, Object> nameMap = (Map<String, Object>) name;
+                assertEquals("Garry", nameMap.get("firstName"));
+                assertEquals("Kinsel", nameMap.get("lastSurname"));
+                assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
+                assertEquals("100000005", data.get("studentUniqueStateId"));
+            }
         } catch (final IOException e) {
             throw new RuntimeException(e);
         } catch (final HttpRestException e) {
@@ -109,6 +144,16 @@ public class StandardLevel2ClientTest {
     @Test
     public void testGetStudentsUsingStAX() {
         doGetStudents(new StAXLevel1Client());
+    }
+
+    @Ignore("Problem with invalid autorization token.")
+    public void testGetStudentsWithBrokenTokenUsingJson() {
+        doGetStudentsWithBrokenToken(new JsonLevel1Client());
+    }
+
+    @Ignore("Problem with invalid autorization token.")
+    public void testGetStudentsWithBrokenTokenUsingStAX() {
+        doGetStudentsWithBrokenToken(new StAXLevel1Client());
     }
 
 }

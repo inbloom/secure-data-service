@@ -77,15 +77,15 @@ public class JsonLevel1ClientTest {
     }
 
     private void deleteStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
-        level1Client.deleteRequest(TestingConstants.TESTING_TOKEN, loc);
+        level1Client.deleteRequest(TestingConstants.ROGERS_TOKEN, loc);
     }
 
     private void putStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
-        level1Client.putRequest(TestingConstants.TESTING_TOKEN, readJsonFromFile("/testStudentUpdated.json"), loc);
+        level1Client.putRequest(TestingConstants.ROGERS_TOKEN, readJsonFromFile("/testStudentUpdated.json"), loc);
     }
 
     private List<Entity> getStudent(URL url) throws IOException, HttpRestException, URISyntaxException {
-        return level1Client.getRequest(TestingConstants.TESTING_TOKEN, url);
+        return level1Client.getRequest(TestingConstants.ROGERS_TOKEN, url);
     }
 
     private String readJsonFromFile(String fileLoc) {
@@ -99,7 +99,7 @@ public class JsonLevel1ClientTest {
     }
 
     private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
-        return level1Client.postRequest(TestingConstants.TESTING_TOKEN,
+        return level1Client.postRequest(TestingConstants.ROGERS_TOKEN,
                 readJsonFromFile("/testStudent.json"),
                 new URL(TestingConstants.BASE_URL + "/students"));
     }
