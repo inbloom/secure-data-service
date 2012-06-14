@@ -141,11 +141,15 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
   assert(user[:status]==status.downcase,"didnt create account with status is #{status}")
 end
 
-Then /^an approval email is sent to the "([^"]*)"$/ do |email|
+Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
   sleep(10)
   @email = email
   verifyEmail()
-  approval_email_subject="Welcome to the SLC Developer Sandbox"
+  if environment == "sandbox"
+    approval_email_subject="Welcome to the SLC Developer Sandbox"
+  elsif environment == "production"
+    approval_email_subject="Welcome to the Shared Learning Collaborative"
+  end
   found=@email_subject.downcase.include?(approval_email_subject.downcase)
   assert(found,"didnt receive approval email!")
 end
