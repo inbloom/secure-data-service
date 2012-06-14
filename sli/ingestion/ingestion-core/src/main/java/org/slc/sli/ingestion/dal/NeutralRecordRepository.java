@@ -81,7 +81,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
-        this.addDefaultQueryParams(neutralQuery, collectionName);
         return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -101,7 +100,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
-        this.addDefaultQueryParams(neutralQuery, collectionName);
         return findOne(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -118,7 +116,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
-        this.addDefaultQueryParams(neutralQuery, collectionName);
         return count(toStagingCollectionName(collectionName, jobId), neutralQuery);
     }
 
@@ -215,7 +212,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
-        this.addDefaultQueryParams(query, collectionName);
         update(query, update, toStagingCollectionName(collectionName, jobId));
     }
 

@@ -49,15 +49,15 @@ public class XmlFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
@@ -73,6 +73,7 @@ public class XmlFileProcessor implements Processor {
         
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
         try {
             boolean hasErrors = false;
             for (ResourceEntry resource : newJob.getResourceEntries()) {

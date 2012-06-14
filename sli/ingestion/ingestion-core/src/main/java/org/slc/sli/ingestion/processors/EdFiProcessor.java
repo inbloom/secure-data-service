@@ -67,15 +67,15 @@ public class EdFiProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
@@ -95,7 +95,8 @@ public class EdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-
+            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
+            
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
             boolean anyErrorsProcessingFiles = false;

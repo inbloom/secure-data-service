@@ -54,15 +54,15 @@ public class ZipFileProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         processZipFile(exchange);
     }
@@ -79,6 +79,7 @@ public class ZipFileProcessor implements Processor {
             File zipFile = exchange.getIn().getBody(File.class);
 
             newJob = createNewBatchJob(zipFile);
+            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
             batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();

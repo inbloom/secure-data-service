@@ -43,16 +43,16 @@ public class MaestroOutboundProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
-        
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
+//        
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
             handleNoBatchJobIdInExchange(exchange);
@@ -67,6 +67,7 @@ public class MaestroOutboundProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
+            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
             boolean hasErrors = false;
             setExchangeHeaders(exchange, hasErrors);
         } catch (Exception exception) {

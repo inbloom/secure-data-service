@@ -40,15 +40,15 @@ public class CommandProcessor {
     @Handler
     public void processCommand(Exchange exch) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exch.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        try {
+//            ControlFileDescriptor cfd = exch.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         String command = exch.getIn().getBody().toString();
         

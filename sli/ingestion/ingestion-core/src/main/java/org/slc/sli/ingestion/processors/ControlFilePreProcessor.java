@@ -70,16 +70,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      */
     @Override
     public void process(Exchange exchange) throws Exception {
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        //We need to extract the TenantID for each thread, so the DAL has access to it.
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         processUsingNewBatchJob(exchange);
     }
@@ -109,6 +109,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
+            TenantContext.setTenantId(NewBatchJob.getTenantId(newBatchJob));
             
             // determine whether to override the tenantId property with a LZ derived value
             if (deriveTenantId) {

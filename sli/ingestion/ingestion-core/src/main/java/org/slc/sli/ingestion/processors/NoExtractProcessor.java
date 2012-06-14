@@ -36,15 +36,15 @@ public class NoExtractProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         
         //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            LOG.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
 
         
         File file = exchange.getIn().getBody(File.class);
@@ -52,6 +52,7 @@ public class NoExtractProcessor implements Processor {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
 
         NewBatchJob job = new NewBatchJob(batchJobId);
+        TenantContext.setTenantId(NewBatchJob.getTenantId(job));
         job.setStatus(BatchJobStatusType.RUNNING.getName());
         job.setSourceId(file.getParentFile().getAbsolutePath() + File.separator);
         batchJobDAO.saveBatchJob(job);

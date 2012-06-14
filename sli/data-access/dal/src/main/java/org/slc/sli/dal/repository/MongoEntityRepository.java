@@ -57,11 +57,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         }
         
         String tenantId = TenantContext.getTenantId();
-        if (tenantId == null) {
-            tenantId = "";
+        if(tenantId != null) {
+            if(metaData.get("tenantId") == null) {
+                metaData.put("tenantId", tenantId);
+            }
         }
-        
-        metaData.put("tenantId", tenantId);
         
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);

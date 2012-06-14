@@ -82,16 +82,16 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) throws Exception {
         
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-        try {
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-            ControlFile cf = cfd.getFileItem();
-            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-            TenantContext.setTenantId(tenantId);
-        } catch (NullPointerException ex) {
-            logger.error("Could Not find Tenant ID.");
-            TenantContext.setTenantId(null);
-        }
+//        //We need to extract the TenantID for each thread, so the DAL has access to it.
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            logger.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
         
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
@@ -101,6 +101,8 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             NewBatchJob newJob = null;
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
+                
+                TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
 
                 String tenantId = newJob.getProperty(TENANT_ID);
                 if (tenantId == null) {
