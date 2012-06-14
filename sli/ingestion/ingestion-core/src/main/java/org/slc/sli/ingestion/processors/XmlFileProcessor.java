@@ -147,6 +147,12 @@ public class XmlFileProcessor implements Processor {
         return fe.getErrorReport().hasErrors();
     }
     
+    private void missingBatchJobIdError(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+    
     public IdRefResolutionHandler getIdRefResolutionHandler() {
         return idRefResolutionHandler;
     }
@@ -155,10 +161,11 @@ public class XmlFileProcessor implements Processor {
         this.idRefResolutionHandler = idRefResolutionHandler;
     }
     
-    private void missingBatchJobIdError(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    public BatchJobDAO getBatchJobDAO() {
+        return batchJobDAO;
     }
     
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
 }
