@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -25,7 +24,7 @@ public final class StAXLevel1Client implements Level1Client {
     private final Level0Client inner;
 
     public StAXLevel1Client() {
-        this(new StandardLevel0Client());
+        this(new JaxRSLevel0Client());
     }
 
     public StAXLevel1Client(final Level0Client inner) {
@@ -38,7 +37,7 @@ public final class StAXLevel1Client implements Level1Client {
     @Override
     public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
             RestException {
-        final Response response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
+        final RestResponse response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
         return deserialize(response);
     }
 
@@ -60,8 +59,8 @@ public final class StAXLevel1Client implements Level1Client {
         throw new UnsupportedOperationException("TODO");
     }
 
-    private List<Entity> deserialize(final Response response) throws IOException {
-        final String readEntity = response.readEntity(String.class);
+    private List<Entity> deserialize(final RestResponse response) throws IOException {
+        final String readEntity = response.getBody();
         final StringReader sw = new StringReader(readEntity);
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {

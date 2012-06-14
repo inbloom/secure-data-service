@@ -9,7 +9,6 @@ import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -21,7 +20,7 @@ import java.util.List;
  */
 public abstract class AbstractLevel1Client implements Level1Client {
 
-    private static final String LOCATION_HEADER = "location";
+    private static final String LOCATION_HEADER = "Location";
 
     final Level0Client client;
     final ObjectMapper mapper;
@@ -40,7 +39,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        final Response response;
+        final RestResponse response;
 
         response = client.getRequest(token, url, getMediaType());
         return deserialize(response);
@@ -71,10 +70,10 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        final Response response;
-        response = client.createRequest(token, data, url, getMediaType());
+        final RestResponse response;
+        response = client.postRequest(token, data, url, getMediaType());
 
-        return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
+        return new URL(response.getHeader(LOCATION_HEADER));
     }
 
     @Override
@@ -90,13 +89,13 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        client.updateRequest(token, data, url, getMediaType());
+        client.putRequest(token, data, url, getMediaType());
 
     }
 
-    private List<Entity> deserialize(final Response response) throws IOException {
+    private List<Entity> deserialize(final RestResponse response) throws IOException {
         try {
-            final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
+            final JsonNode element = mapper.readValue(response.getBody(), JsonNode.class);
             if (element instanceof ArrayNode) {
                 return mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
                 });

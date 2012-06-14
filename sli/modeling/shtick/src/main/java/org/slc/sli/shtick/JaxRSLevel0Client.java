@@ -2,17 +2,21 @@ package org.slc.sli.shtick;
 
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**
- * @author jstokes
- */
-public final class StandardLevel0Client implements Level0Client {
+* @author jstokes
+*/
+public final class JaxRSLevel0Client implements Level0Client {
     /**
      * Header name used for specifying the bearer token.
      */
@@ -27,12 +31,12 @@ public final class StandardLevel0Client implements Level0Client {
 
     private final Client client;
 
-    public StandardLevel0Client() {
+    public JaxRSLevel0Client() {
         this.client = ClientFactory.newClient();
     }
 
     @Override
-    public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+    public RestResponse getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -51,7 +55,7 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+    public RestResponse deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -70,7 +74,7 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response createRequest(final String token, final String data, final URL url, final String mediaType)
+    public RestResponse postRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -92,7 +96,7 @@ public final class StandardLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response updateRequest(final String token, final String data, final URL url, final String mediaType)
+    public RestResponse putRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -129,7 +133,7 @@ public final class StandardLevel0Client implements Level0Client {
         return builder;
     }
 
-    private Response checkResponse(final Response response, final Response.Status expected) throws RestException {
+    private RestResponse checkResponse(final Response response, final Response.Status expected) throws RestException {
         if (response == null) {
             throw new NullPointerException("response");
         }
@@ -139,7 +143,16 @@ public final class StandardLevel0Client implements Level0Client {
         if (response.getStatus() != expected.getStatusCode()) {
             throw new RestException(response.getStatus());
         } else {
-            return response;
+            return responseToRestResponse(response);
         }
+    }
+
+    private RestResponse responseToRestResponse(final Response response) {
+        if (response == null) { throw new NullPointerException("response"); }
+        final String body = response.readEntity(String.class);
+        final int statusCode = response.getStatus();
+        final Map<String, List<String>> headers = new HashMap<String, List<String>>();
+        headers.putAll(response.getHeaders().asMap());
+        return new RestResponse(body, statusCode, headers);
     }
 }

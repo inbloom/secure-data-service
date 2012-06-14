@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 public class XmlLevel1Client extends AbstractLevel1Client implements Level1Client {
 
     public XmlLevel1Client() {
-        super(new StandardLevel0Client(), new XmlMapper());
+        super(new JaxRSLevel0Client(), new XmlMapper());
     }
 
     @Override

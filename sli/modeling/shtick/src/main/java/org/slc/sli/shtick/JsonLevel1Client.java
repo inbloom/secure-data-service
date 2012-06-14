@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public final class JsonLevel1Client extends AbstractLevel1Client implements Level1Client {
 
     public JsonLevel1Client() {
-        super(new StandardLevel0Client(), new ObjectMapper());
+        super(new JaxRSLevel0Client(), new ObjectMapper());
     }
 
     @Override
