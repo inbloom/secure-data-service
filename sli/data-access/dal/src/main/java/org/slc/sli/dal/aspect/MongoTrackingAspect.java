@@ -1,13 +1,18 @@
 package org.slc.sli.dal.aspect;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.mongodb.DBCollection;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -18,7 +23,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Aspect
 public class MongoTrackingAspect {
 
-    private Map<String, Pair<AtomicLong, AtomicLong>> stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
+    private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
+
+    private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
 
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
@@ -40,25 +47,30 @@ public class MongoTrackingAspect {
         }
 
         if (pjp.getSignature().getName().equals("executeCommand")) {
+            LOG.info("~~{} {}", pjp.getSourceLocation().getFileName(), pjp.getSourceLocation().getLine());
+            LOG.info("{}", pjp.getArgs()[0]);
             collection = "EXEC-UNKNOWN";
-        }
-
-        String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
-
-        if (stats.get(key) == null) {
-            stats.put(key, Pair.of(new AtomicLong(0), new AtomicLong(0)));
         }
 
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
 
-        Pair<AtomicLong, AtomicLong> pair = stats.get(key);
+        this.upCounts(mt.getDb().getName(), pjp.getSignature().getName(), collection, elapsed);
 
-        if (pair != null) {
-            pair.getLeft().incrementAndGet();
-            pair.getRight().addAndGet(elapsed);
-        }
+        return result;
+    }
+
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long elapsed = System.currentTimeMillis() - start;
+
+        DBCollection col = (DBCollection) pjp.getTarget();
+
+        this.upCounts(col.getDB().getName(),  pjp.getSignature().getName(), col.getName(), elapsed);
+
         return result;
     }
 
@@ -67,7 +79,15 @@ public class MongoTrackingAspect {
     }
 
     public void reset() {
-        this.stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
+        this.stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     }
 
+    private void upCounts(String db, String function, String collection, long elapsed) {
+        stats.putIfAbsent(String.format("%s#%s#%s", db, function, collection), Pair.of(new AtomicLong(0), new AtomicLong(0)));
+
+        Pair<AtomicLong, AtomicLong> pair = stats.get(String.format("%s#%s#%s", db, function, collection));
+
+        pair.getLeft().incrementAndGet();
+        pair.getRight().addAndGet(elapsed);
+    }
 }
