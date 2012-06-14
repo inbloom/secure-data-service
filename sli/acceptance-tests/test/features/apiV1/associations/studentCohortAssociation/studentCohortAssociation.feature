@@ -93,19 +93,25 @@ Scenario: Update association
      And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
 
 Scenario: Non-happy path: Attempt to create association with invalid reference for endpoint1
+   Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+     And format "application/vnd.slc+json"
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT1 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to POST "/<ASSOCIATION URI>"
     Then I should receive a return code of 400
 
 Scenario: Non-happy path: Attempt to create association with invalid reference for endpoint2
+   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+     And format "application/vnd.slc+json"
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to POST "/<ASSOCIATION URI>"
     Then I should receive a return code of 400
     
 Scenario: Non-happy path: Attempt to create association with reference for endpoint 1 user does not have access to
-   Given a valid association json document for a "<ASSOCIATION TYPE>"
+	 Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+     And format "application/vnd.slc+json"
+    And a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT1 FIELD>" to "<INACCESSIBLE REFERENCE 1>"
     When I navigate to POST "/<ASSOCIATION URI>"
     Then I should receive a return code of 403

@@ -1,10 +1,13 @@
 package org.slc.sli.api.jersey;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
+import org.slc.sli.api.security.SLIPrincipal;
 
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.validation.EntityValidationException;
@@ -15,6 +18,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.dal.TenantContext;
 
 import javax.annotation.Resource;
 
@@ -47,6 +51,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
+        TenantContext.setTenantId(( (SLIPrincipal) auth.getPrincipal()).getTenantId());
     }
 
     private void recordStartTime(ContainerRequest request) {

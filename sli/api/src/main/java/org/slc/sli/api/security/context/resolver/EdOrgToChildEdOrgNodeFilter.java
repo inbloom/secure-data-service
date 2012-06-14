@@ -71,7 +71,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         NeutralQuery stateQuery = new NeutralQuery();
         List<String> myEdOrgsIds = new ArrayList<String>();
         stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", parentEdOrgStateId));
-//        BasicService.addDefaultQueryParams(stateQuery, EntityNames.EDUCATION_ORGANIZATION);
 
         Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
         
@@ -79,7 +78,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
             NeutralQuery childrenQuery = new NeutralQuery();
             childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg
                     .getEntityId()));
-//            BasicService.addDefaultQueryParams(childrenQuery, EntityNames.EDUCATION_ORGANIZATION);
 
             Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
             
