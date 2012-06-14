@@ -338,6 +338,7 @@ class SLCFixer
       return
     end
     collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
+    puts "Working in #{collection.name}" if @count % 200 == 0
     @count += 1
   end
 
