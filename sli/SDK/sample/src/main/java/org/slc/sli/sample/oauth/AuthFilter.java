@@ -76,7 +76,7 @@ public class AuthFilter implements Filter {
             
             switch (rval.getStatus()) {
                 case 200:  // OK
-                    return false;
+                    return true;
                 case 403:
                     ((HttpServletResponse) response).sendRedirect("403.html");
                     return false;
