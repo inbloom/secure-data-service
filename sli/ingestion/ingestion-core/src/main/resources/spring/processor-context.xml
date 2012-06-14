@@ -19,25 +19,4 @@
   <bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
     <property name="excludeCollections" ref="excluded"/>
   </bean>
-  
-  <bean id="xmlFileProcessor" class="org.slc.sli.ingestion.processors.XmlFileProcessor">
-    <property name="idReferenceInterchanges" ref="idReferenceResolutionInterchanges"/>
-  </bean>
-  
-  <bean id="concurrentXmlFileProcessor" class="org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor">
-    <property name="idReferenceInterchanges" ref="idReferenceResolutionInterchanges"/>
-  </bean>
-  
-  <!-- interchanges that rely on id reference resolution for correctness -->
-  <util:set id="idReferenceResolutionInterchanges" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>AssessmentMetadata</value>
-    <value>EducationOrganization</value>
-    <value>EducationOrgCalendar</value>
-    <value>StaffAssociation</value>
-    <value>StudentAssessment</value>
-    <value>StudentDiscipline</value>
-    <value>StudentEnrollment</value>
-    <value>StudentGrades</value>
-    <value>StudentParent</value>
-  </util:set>
 </beans>

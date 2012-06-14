@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -49,7 +48,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
     
     private ApplicationContext context;
-    private Set<String> idReferenceInterchanges;
     
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -125,7 +123,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                         IdRefResolutionHandler.class);
                 
                 Callable<Boolean> idRefCallable = new IdRefResolutionCallable(idRefResolutionHandler, fileEntry,
-                        newJob, batchJobDAO, idReferenceInterchanges);
+                        newJob, batchJobDAO);
                 FutureTask<Boolean> resolutionTask = IngestionExecutor.execute(idRefCallable);
                 resolutionTaskList.add(resolutionTask);
                 
@@ -172,23 +170,5 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
-    }
-    
-    /**
-     * Get the set of interchanges dependent upon id reference resolution.
-     * 
-     * @return idReferenceInterchanges
-     */
-    public Set<String> getIdReferenceInterchanges() {
-        return idReferenceInterchanges;
-    }
-
-    /**
-     * Set the interchanges dependent upon id reference resolution.
-     * 
-     * @param idReferenceInterchanges idReferenceInterchanges to set
-     */
-    public void setIdReferenceInterchanges(Set<String> idReferenceInterchanges) {
-        this.idReferenceInterchanges = idReferenceInterchanges;
     }
 }
