@@ -67,7 +67,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (query == null) {
             query = new NeutralQuery();
         }
-        
+        if (!template.getDb().getName().equalsIgnoreCase("SLI")){
+            return query;
+        }
         // Add tenant ID
         if (!NOT_BY_TENANT.contains(collectionName)) {
             String tenantId = TenantContext.getTenantId();
