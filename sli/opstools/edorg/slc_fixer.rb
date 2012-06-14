@@ -52,9 +52,7 @@ class SLCFixer
         edorgs = edorgs.flatten.uniq.sort
         stamp_id(@db['studentSchoolAssociation'], student['_id'], student['body']['schoolId'])
         @student_hash[student['body']['studentId']] = edorgs
-        if !edorgs.eql? old
-          stamp_id(@students, student['body']['studentId'], edorgs)
-        end
+        stamp_id(@students, student['body']['studentId'], edorgs)
       end
     end
   end
@@ -110,7 +108,7 @@ class SLCFixer
         edorgs << assessment_edOrg << section_edorg
         edorgs = edorgs.flatten.uniq
         stamp_id(@db['assessment'], assessment['body']['assessmentId'], edorgs)
-        stamp_id(@db['sectionAssessmentAssociation'], assessment['_id'], edorgs)
+        stamp_id(@db['sectionAssessmentAssociation'], assessment['_id'], section_edorg)
       end
     end
   end
