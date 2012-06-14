@@ -98,6 +98,15 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array
 end
 
+Transform /the staff "[^"]*"/ do |arg1| 
+  id = nil 
+  case arg1 
+  when /Rick Rogers/ 
+    id = "/v1/staff/85585b27-5368-4f10-a331-3abcaf3a3f4c" 
+  end 
+  id 
+end 
+
 Given /^I have a Role attribute that equals "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
 end
