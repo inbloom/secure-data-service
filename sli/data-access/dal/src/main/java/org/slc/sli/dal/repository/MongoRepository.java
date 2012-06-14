@@ -51,7 +51,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     
     private static final String[] collectionsExcluded = { "tenant", "userSession", "realm", "userAccount", "roles",
             "application", "applicationAuthorization" };
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+    protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
     
     /**
      * The purpose of this method is to add the default parameters to a neutral query. At inception,
@@ -67,6 +67,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (query == null) {
             query = new NeutralQuery();
         }
+        
         if (!template.getDb().getName().equalsIgnoreCase("SLI")){
             return query;
         }
