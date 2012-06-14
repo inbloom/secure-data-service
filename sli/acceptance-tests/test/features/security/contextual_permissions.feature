@@ -99,6 +99,7 @@ Examples:
 
 #Section 
 
+  @derp
 Scenario Outline: Authenticated Educator makes API call to get own list of Sections 
 Given I am logged in using <Username> <Password> to realm <Realm> 
 And I have a Role attribute that equals "Educator" 
@@ -106,9 +107,9 @@ When I make an API call to get the list of sections taught by the teacher <Teach
 Then I receive a JSON response that includes the list of sections that <Teacher> teaches 
 Examples: 
 | Realm | Username   | Password       | Teacher      | 
-| "IL"  | "tbear"    | "tbear1234"    | "Ted Bear"   | 
-| "NY"  | "johndoe"  | "johndoe1234"  | "John Doe 3" | 
-| "NY"  | "ejane"    | "ejane1234"    | "Emily Jane" | 
+| "IL"  | "tbear"    | "tbear1234"    | "Ted Bear"   |
+| "NY"  | "johndoe"  | "johndoe1234"  | "John Doe 3" |
+| "NY"  | "ejane"    | "ejane1234"    | "Emily Jane" |
 | "IL"  | "john_doe" | "john_doe1234" | "John Doe 2" | 
  
 Scenario Outline: Authenticated Educator makes API call to get other teacher's' list of Sections 
