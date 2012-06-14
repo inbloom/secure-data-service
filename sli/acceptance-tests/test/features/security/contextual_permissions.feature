@@ -97,9 +97,8 @@ Examples:
 | "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Elizabeth Jane" | 404  |
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       | 403  |
 
-#Section 
-
-  @derp
+#Section
+ 
 Scenario Outline: Authenticated Educator makes API call to get own list of Sections 
 Given I am logged in using <Username> <Password> to realm <Realm> 
 And I have a Role attribute that equals "Educator" 
@@ -134,7 +133,7 @@ Examples:
 | Realm | Username  | Password      | Section          | 
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Science101" | 
 | "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  | 
-| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       | 
+| "IL"  | "ejane"   | "ejane1234"   | "WES-Math"       | 
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    | 
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" | 
  
@@ -146,7 +145,7 @@ Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | Section          | Code | 
 | "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 404  |
-| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       | 403  |
+| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 404  |
 | "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" | 403  |
  
@@ -161,7 +160,7 @@ Examples:
 | Realm | Username  | Password      | Section          | 
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Science101" | 
 | "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  | 
-| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       | 
+| "IL"  | "ejane"   | "ejane1234"   | "WES-Math"       | 
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    | 
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" | 
  
@@ -173,8 +172,8 @@ Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | Section          | Code | 
 | "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    | 404  |
-| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       | 403  |
-| "IL"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 404  |
+| "NY"  | "ejane"    | "ejane1234"    | "WES-Math"       | 404  |
+| "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      | 403  |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" | 403  |
  
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching 

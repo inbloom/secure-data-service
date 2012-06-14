@@ -68,7 +68,7 @@ Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
   array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "John Doe 3"
-  array = ["eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d"] if arg1 == "Emily Jane"
+  array = [] if arg1 == "Emily Jane"
   array
 end
 
@@ -86,7 +86,8 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d5b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d"] if arg1 == "WES-English"
-  array = ["eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
+  array = ["eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d",
+           "eb4d7e1b-7bed-890a-e1b4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-e5b4-5d8aa9fbfc2d"] if arg1 == "WES-Math"
   array = ["eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d",
@@ -168,16 +169,20 @@ When /^I make an API call to get the list of sections taught by (the teacher "[^
 end
 
 Then /^I receive a JSON response that includes the (list of sections that "[^"]*" teaches)$/ do |arg1|
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  numMatches = 0
-  result.each {|jsonObj| 
-    # Find each ID in the JSON
-    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
-    numMatches += 1
-  }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  if arg1.empty?
+    assert(@res.code == 404, "Return code was not expected: "+@res.code.to_s+" but expected 404")
+  else
+    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+    result = JSON.parse(@res.body)
+    assert(result != nil, "Result of JSON parsing is nil")
+    numMatches = 0
+    result.each {|jsonObj| 
+      # Find each ID in the JSON
+      assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
+      numMatches += 1
+    }
+    assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  end
 end
 
 Given /^I teach in "([^"]*)"$/ do |arg1|
