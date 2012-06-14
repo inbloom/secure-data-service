@@ -25,12 +25,12 @@ ldap_default: &ldap_default
 
 email_mon: &email_mon
     email_sender_name: SLC Administrator
-    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
+    email_sender_address: portal.wgen@gmail.com
     email_host: mon.slidev.org
-    email_port: 3000
-    email_username: "username_of_smtp_server"
-    email_password: "password_for_smtp_server"
-    email_tls: true
+    email_port: 25
+    email_username: 
+    email_password: 
+    email_tls: 
 
 email_rumbster: &email_rumbster
     email_sender_name: SLI Administrator
