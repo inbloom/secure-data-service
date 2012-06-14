@@ -83,7 +83,7 @@ class SLCFixer
 
   def fix_attendance
     @db['attendance'].find({}, @basic_options) do |cur|
-      cur.find.each do |attendance|
+      cur.each do |attendance|
         edOrg = student_edorgs(attendance['body']['studentId'])
         stamp_id(@db['attendance'], attendance['_id'], edOrg)
       end
