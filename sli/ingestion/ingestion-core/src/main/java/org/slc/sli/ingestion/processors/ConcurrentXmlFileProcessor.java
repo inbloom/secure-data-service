@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -36,44 +37,63 @@ import org.springframework.stereotype.Component;
 
 /**
  * Concurrently processes XML files.
- *
+ * 
  * @author shalka
  */
 @Component
 public class ConcurrentXmlFileProcessor implements Processor, ApplicationContextAware {
-
+    
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
-
-    private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
+    
     private ApplicationContext context;
-
+    
     @Autowired
     private BatchJobDAO batchJobDAO;
-
+    
     @Override
     public void process(Exchange exchange) throws Exception {
-
+        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
-
+        
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
+        }
+        
+        if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
+            LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
+            skipXmlFile(workNote, exchange);
         } else {
+            LOG.info("Entering concurrent id ref resolution.");
             processXmlFile(workNote, exchange);
         }
     }
-
+    
+    private void skipXmlFile(WorkNote workNote, Exchange exchange) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        
+        String batchJobId = workNote.getBatchJobId();
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        
+        boolean hasErrors = false;
+        setExchangeHeaders(exchange, hasErrors);
+        
+        BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+        batchJobDAO.saveBatchJob(newJob);
+    }
+    
     private void processXmlFile(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
-
+        
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-
+            
             List<FutureTask<Boolean>> futureResolutions = resolveFilesInFuture(newJob);
             boolean hasErrors = aggregateFutureResults(futureResolutions);
-
+            
             setExchangeHeaders(exchange, hasErrors);
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
@@ -82,10 +102,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
             batchJobDAO.saveBatchJob(newJob);
         }
     }
-
+    
     private List<FutureTask<Boolean>> resolveFilesInFuture(NewBatchJob newJob) {
         List<FutureTask<Boolean>> resolutionTaskList = new ArrayList<FutureTask<Boolean>>();
-
+        
         for (ResourceEntry resource : newJob.getResourceEntries()) {
             // TODO change the Abstract handler to work with ResourceEntry so we can avoid
             // this kludge here and elsewhere
@@ -93,28 +113,28 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                     && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
                 FileFormat format = FileFormat.findByCode(resource.getResourceFormat());
                 FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
-
+                
                 IngestionFileEntry fileEntry = new IngestionFileEntry(format, type, resource.getResourceId(),
                         resource.getChecksum());
-
+                
                 fileEntry.setFile(new File(resource.getResourceName()));
-
+                
                 IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",
                         IdRefResolutionHandler.class);
-
+                
                 Callable<Boolean> idRefCallable = new IdRefResolutionCallable(idRefResolutionHandler, fileEntry,
                         newJob, batchJobDAO);
                 FutureTask<Boolean> resolutionTask = IngestionExecutor.execute(idRefCallable);
                 resolutionTaskList.add(resolutionTask);
-
+                
             } else {
                 LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
             }
         }
-
+        
         return resolutionTaskList;
     }
-
+    
     private boolean aggregateFutureResults(List<FutureTask<Boolean>> resolutionTaskList) throws InterruptedException,
             ExecutionException {
         boolean anyErrorsProcessingFiles = false;
@@ -126,12 +146,12 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         }
         return anyErrorsProcessingFiles;
     }
-
+    
     private void setExchangeHeaders(Exchange exchange, boolean hasErrors) {
         exchange.getIn().setHeader("hasErrors", hasErrors);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
     }
-
+    
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
@@ -140,13 +160,13 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                 null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
         batchJobDAO.saveError(error);
     }
-
+    
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
-
+    
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
