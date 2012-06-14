@@ -22,17 +22,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * A unit test for XMlFileProcessor
- *
+ * 
  * @author ablum
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XmlFileProcessorTest {
-
+    
     @Autowired
     XmlFileProcessor xmlFileProcessor;
-
+    
     @Test
     public void testProcessValidXML() throws Exception {
         Exchange preObject = new DefaultExchange(new DefaultCamelContext());
