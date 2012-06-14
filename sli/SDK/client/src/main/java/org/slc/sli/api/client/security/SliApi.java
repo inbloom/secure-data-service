@@ -60,9 +60,12 @@ public class SliApi extends DefaultApi20 {
         return new SLIOauth20ServiceImpl(this, config);
     }
     
+    public class TokenResponse {
+        public Token token;
+        public Response oauthResponse;
+    }
+    
     public class SLIOauth20ServiceImpl extends OAuth20ServiceImpl {
-        
-        private static final String VERSION = "2.0";
         
         private final DefaultApi20 myApi;
         private final OAuthConfig myConfig;
@@ -73,7 +76,9 @@ public class SliApi extends DefaultApi20 {
             myConfig = config;
         }
         
-        public Response getAccessToken(Token requestToken, Verifier verifier, Token token) {
+        public TokenResponse getAccessToken(Token requestToken, Verifier verifier, Token t) {
+            TokenResponse tokenResponse = new TokenResponse();
+            
             OAuthRequest request = new OAuthRequest(myApi.getAccessTokenVerb(), myApi.getAccessTokenEndpoint());
             request.addQuerystringParameter(OAuthConstants.CLIENT_ID, myConfig.getApiKey());
             request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, myConfig.getApiSecret());
@@ -82,9 +87,12 @@ public class SliApi extends DefaultApi20 {
             if (myConfig.hasScope()) {
                 request.addQuerystringParameter(OAuthConstants.SCOPE, myConfig.getScope());
             }
+            
             Response response = request.send();
-            token = myApi.getAccessTokenExtractor().extract(response.getBody());
-            return response;
+            
+            tokenResponse.oauthResponse = response;
+            tokenResponse.token = myApi.getAccessTokenExtractor().extract(response.getBody());
+            return tokenResponse;
         }
     }
 }
