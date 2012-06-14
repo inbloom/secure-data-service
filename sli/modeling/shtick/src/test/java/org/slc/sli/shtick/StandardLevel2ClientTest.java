@@ -15,8 +15,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.slc.sli.api.client.Entity;
-
 public class StandardLevel2ClientTest {
 
     private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
@@ -27,17 +25,17 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Entity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<RestEntity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
-            for (final Entity student : students) {
+            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
+            for (final RestEntity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-                assertEquals("student", student.getEntityType());
+                assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
                 assertEquals("Male", data.get("sex"));
@@ -61,15 +59,15 @@ public class StandardLevel2ClientTest {
         final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
         // One identifier.
         try {
-            final List<Entity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
+            final List<RestEntity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
                     TestingConstants.TEST_STUDENT_ID, EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
-            final Entity student = students.get(0);
+            final RestEntity student = students.get(0);
             assertNotNull(student);
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-            assertEquals("student", student.getEntityType());
+            assertEquals("student", student.getType());
             final Map<String, Object> data = student.getData();
             assertNotNull(data);
             assertEquals("Male", data.get("sex"));
@@ -87,17 +85,17 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Entity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
+            final List<RestEntity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
-            for (final Entity student : students) {
+            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
+            for (final RestEntity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-                assertEquals("student", student.getEntityType());
+                assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
                 assertEquals("Male", data.get("sex"));

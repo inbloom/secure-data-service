@@ -11,13 +11,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.slc.sli.api.client.Entity;
 
 /**
  * @author jstokes
@@ -41,14 +37,14 @@ public class JsonLevel1ClientTest {
             assertNotNull(loc);
 
             // GET
-            final List<Entity> getStudent = getStudent(loc);
+            final List<RestEntity> getStudent = getStudent(loc);
             assertNotNull(getStudent);
             assertEquals(1, getStudent.size());
             assertEquals("900000011", getStudent.get(0).getData().get(studentUniqueStateId));
 
             // PUT
             putStudent(loc);
-            final List<Entity> putStudent = getStudent(loc);
+            final List<RestEntity> putStudent = getStudent(loc);
             assertNotNull(putStudent);
             assertEquals(1, putStudent.size());
             assertEquals("900000012", putStudent.get(0).getData().get(studentUniqueStateId));
@@ -61,7 +57,7 @@ public class JsonLevel1ClientTest {
                 getStudent(loc);
                 fail("An exception was not thrown for get non-existent student!");
             } catch (RestException e) {
-                assertEquals(Response.Status.NOT_FOUND.getStatusCode(), e.getStatusCode());
+                assertEquals(404, e.getStatusCode());
             }
 
         } catch (URISyntaxException e) {
@@ -89,7 +85,7 @@ public class JsonLevel1ClientTest {
         level1Client.putRequest(TestingConstants.ROGERS_TOKEN, readJsonFromFile("/testStudentUpdated.json"), loc);
     }
 
-    private List<Entity> getStudent(URL url) throws IOException, RestException, URISyntaxException {
+    private List<RestEntity> getStudent(URL url) throws IOException, RestException, URISyntaxException {
         return level1Client.getRequest(TestingConstants.ROGERS_TOKEN, url);
     }
 

@@ -51,7 +51,6 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.util.List");
             jsw.writeImport("java.util.Map");
-            jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginInterface(className);
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -66,7 +65,7 @@ public final class Level2ClientInterfaceWriter implements WadlHandler {
                 jsw.writeComment(method.getId());
                 jsw.beginStmt();
                 try {
-                    jsw.write("List<Entity> " + method.getId());
+                    jsw.write("List<RestEntity> " + method.getId());
                     jsw.write("(");
                     final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
                     final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);

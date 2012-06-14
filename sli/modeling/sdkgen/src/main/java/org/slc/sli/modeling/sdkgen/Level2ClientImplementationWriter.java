@@ -58,7 +58,6 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             jsw.writeImport("java.net.URL");
             jsw.writeImport("java.util.List");
             jsw.writeImport("java.util.Map");
-            jsw.writeImport("org.slc.sli.api.client.Entity");
             jsw.beginClass(className, interfaces);
             // Attributes
             jsw.writeAttribute("baseUrl", "String");
@@ -127,7 +126,7 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
                 try {
                     // FIXME: This method call does not have any parameters.
                     jsw.write("public ");
-                    jsw.write("List<Entity> " + method.getId());
+                    jsw.write("List<RestEntity> " + method.getId());
                     jsw.write("(");
                     final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
                     final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);

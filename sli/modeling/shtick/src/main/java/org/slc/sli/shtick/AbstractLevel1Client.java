@@ -6,8 +6,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.impl.GenericEntity;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -31,7 +29,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
+    public List<RestEntity> getRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -93,15 +91,15 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
     }
 
-    private List<Entity> deserialize(final RestResponse response) throws IOException {
+    private List<RestEntity> deserialize(final RestResponse response) throws IOException {
         try {
             final JsonNode element = mapper.readValue(response.getBody(), JsonNode.class);
             if (element instanceof ArrayNode) {
-                return mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
+                return mapper.readValue(element, new TypeReference<List<RestEntity>>() {
                 });
             } else if (element instanceof ObjectNode) {
-                List<Entity> list = new ArrayList<Entity>();
-                list.add(mapper.readValue(element, GenericEntity.class));
+                List<RestEntity> list = new ArrayList<RestEntity>();
+                list.add(mapper.readValue(element, RestEntity.class));
                 return list;
             }
         } catch (final JsonParseException e) {

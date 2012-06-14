@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.slc.sli.api.client.Entity;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
 
@@ -80,17 +79,17 @@ public class StandardLevel3ClientManualTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Entity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
+            final List<RestEntity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
-            for (final Entity student : students) {
+            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
+            for (final RestEntity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-                assertEquals("student", student.getEntityType());
+                assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
                 assertEquals("Male", data.get("sex"));

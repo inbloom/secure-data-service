@@ -32,7 +32,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<Entity> getStudentsByStudentId(final String token, final List<String> studentIds) throws IOException,
+    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds) throws IOException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -50,7 +50,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<Entity> getStudents(final String token) throws IOException, RestException {
+    public List<RestEntity> getStudents(final String token) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }

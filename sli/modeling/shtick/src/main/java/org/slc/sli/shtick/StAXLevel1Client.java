@@ -16,9 +16,6 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.impl.GenericEntity;
-
 public final class StAXLevel1Client implements Level1Client {
 
     private final Level0Client inner;
@@ -35,7 +32,7 @@ public final class StAXLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
+    public List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
             RestException {
         final RestResponse response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
         return deserialize(response);
@@ -59,7 +56,7 @@ public final class StAXLevel1Client implements Level1Client {
         throw new UnsupportedOperationException("TODO");
     }
 
-    private List<Entity> deserialize(final RestResponse response) throws IOException {
+    private List<RestEntity> deserialize(final RestResponse response) throws IOException {
         final String readEntity = response.getBody();
         final StringReader sw = new StringReader(readEntity);
         final XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -75,9 +72,9 @@ public final class StAXLevel1Client implements Level1Client {
         }
     }
 
-    private static final List<Entity> readDocument(final XMLStreamReader reader) throws XMLStreamException {
+    private static final List<RestEntity> readDocument(final XMLStreamReader reader) throws XMLStreamException {
         if (XMLStreamConstants.START_DOCUMENT == reader.getEventType()) {
-            final List<Entity> entities = new ArrayList<Entity>();
+            final List<RestEntity> entities = new ArrayList<RestEntity>();
             while (reader.hasNext()) {
                 reader.next();
                 switch (reader.getEventType()) {
@@ -99,9 +96,9 @@ public final class StAXLevel1Client implements Level1Client {
         }
     }
 
-    private static final List<Entity> readDocumentElement(final XMLStreamReader reader) throws XMLStreamException {
+    private static final List<RestEntity> readDocumentElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
-        final List<Entity> entities = new ArrayList<Entity>();
+        final List<RestEntity> entities = new ArrayList<RestEntity>();
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -128,7 +125,7 @@ public final class StAXLevel1Client implements Level1Client {
         throw new AssertionError();
     }
 
-    private static final Entity readEntity(final XMLStreamReader reader) throws XMLStreamException {
+    private static final RestEntity readEntity(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
         final Map<String, Object> data = new HashMap<String, Object>();
         while (reader.hasNext()) {
@@ -143,7 +140,7 @@ public final class StAXLevel1Client implements Level1Client {
             case XMLStreamConstants.END_ELEMENT: {
                 if (elementName.equals(reader.getName())) {
                     // Our best guess for the type is the local-name of the element.
-                    return new GenericEntity(elementName.getLocalPart(), data);
+                    return new RestEntity(elementName.getLocalPart(), data);
                 } else {
                     throw new AssertionError(reader.getName());
                 }

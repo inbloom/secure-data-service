@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.Entity;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
 
@@ -30,9 +29,9 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     @Override
     public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
             RestException {
-        final List<Entity> entities = inner.getStudents(token, queryArgs);
+        final List<RestEntity> entities = inner.getStudents(token, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
-        for (final Entity entity : entities) {
+        for (final RestEntity entity : entities) {
             students.add(convertToStudent(entity.getData()));
         }
         return students;
@@ -41,9 +40,9 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     @Override
     public List<Student> getStudentsById(final String token, final String studentId, final Map<String, Object> queryArgs)
             throws IOException, RestException {
-        final List<Entity> entities = inner.getStudentsById(token, studentId, queryArgs);
+        final List<RestEntity> entities = inner.getStudentsById(token, studentId, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
-        for (final Entity entity : entities) {
+        for (final RestEntity entity : entities) {
             students.add(convertToStudent(entity.getData()));
         }
         return students;
