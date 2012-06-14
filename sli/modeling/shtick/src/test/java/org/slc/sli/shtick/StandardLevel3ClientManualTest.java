@@ -53,24 +53,21 @@ public class StandardLevel3ClientManualTest {
         }
     }
 
-    private void doGetStudentsById(final Level1Client inner) {
-        final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
+    private void doGetStudentsById(final Level2Client inner) {
+        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
         // One identifier.
         try {
-            final List<Entity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
+            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
                     TestingConstants.TEST_STUDENT_ID, EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
-            final Entity student = students.get(0);
+            final Student student = students.get(0);
             assertNotNull(student);
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-            assertEquals("student", student.getEntityType());
-            final Map<String, Object> data = student.getData();
-            assertNotNull(data);
-            assertEquals("Male", data.get("sex"));
-            assertEquals(Boolean.FALSE, data.get("economicDisadvantaged"));
-            assertEquals("100000005", data.get("studentUniqueStateId"));
+            assertEquals("Male", student.getSex());
+            assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
+            assertEquals("100000005", student.getStudentUniqueStateId());
         } catch (final IOException e) {
             throw new RuntimeException(e);
         } catch (final RestException e) {
@@ -122,14 +119,14 @@ public class StandardLevel3ClientManualTest {
 
     }
 
-    @Ignore("FIXME: Need to convert to Level 2.")
+    @Test
     public void testGetStudentsByIdUsingJson() {
-        doGetStudentsById(new JsonLevel1Client());
+        doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }
 
     @Ignore("Problem with the plurality of XML documents.")
     public void testGetStudentsByIdUsingStAX() {
-        doGetStudentsById(new StAXLevel1Client());
+        doGetStudentsById(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
     }
 
     @Test

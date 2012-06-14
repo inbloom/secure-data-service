@@ -10,6 +10,7 @@ public interface Level3ClientManual {
 
     public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException;
 
-    public List<Student> getStudentsById(List<String> studentIds) throws IOException, RestException;
+    public List<Student> getStudentsById(String token, String studentId, Map<String, Object> queryArgs)
+            throws IOException, RestException;
 
 }

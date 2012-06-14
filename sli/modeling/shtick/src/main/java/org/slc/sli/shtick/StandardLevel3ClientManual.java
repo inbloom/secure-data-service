@@ -28,7 +28,8 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException {
+    public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
+            RestException {
         final List<Entity> entities = inner.getStudents(token, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
         for (final Entity entity : entities) {
@@ -38,8 +39,14 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<Student> getStudentsById(List<String> studentIds) throws IOException, RestException {
-        throw new UnsupportedOperationException("TODO");
+    public List<Student> getStudentsById(final String token, final String studentId, final Map<String, Object> queryArgs)
+            throws IOException, RestException {
+        final List<Entity> entities = inner.getStudentsById(token, studentId, queryArgs);
+        final List<Student> students = new ArrayList<Student>(entities.size());
+        for (final Entity entity : entities) {
+            students.add(convertToStudent(entity.getData()));
+        }
+        return students;
     }
 
     private Student convertToStudent(final Map<String, Object> data) {
