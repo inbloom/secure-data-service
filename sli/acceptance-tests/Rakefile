@@ -74,7 +74,7 @@ end
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
   addSecurityData()
-
+  
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
@@ -152,13 +152,11 @@ task :appDenialInit do
   setFixture("application", "application_denial_fixture.json")
 end
 
-task :realmInitNoPeople => [:appInit] do
-   puts ":realmInitNoPeople"
+task :realmInitNoPeople => [:realmInit] do
 end
 
 # Task that initializes the application registration fixture
 task :appInit do
-  puts ":appInit"
   #Preserve the bootstrap apps
   sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c application -q \"{\\\"body.bootstrap\\\": true}\" -h #{DB_HOST}  -o test/data/temp_apps.json"
   setFixture("application", "application_fixture.json")
@@ -206,7 +204,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -457,9 +455,6 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
-  puts ":integrationTests"
-  return
-
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].invoke
@@ -594,7 +589,7 @@ task :importSecuredData do
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-
+    
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -667,7 +662,7 @@ task :importSandboxData do
     "teacherSectionAssociation" => "smallville_teacher_sections_fixture.json",
     "sectionSchoolAssociation" => "smallville_section_school_association_fixture.json"
   ]
-  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")
+  addMultipleFixtureFiles(smallvilleTestHash, "test/data/smallville")    
 end
 
 desc "Import Unified Data Set"
