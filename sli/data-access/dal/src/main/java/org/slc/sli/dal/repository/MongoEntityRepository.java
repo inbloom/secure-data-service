@@ -57,7 +57,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         }
         
         String tenantId = TenantContext.getTenantId();
-        if(tenantId != null) {
+        if(tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
             if(metaData.get("tenantId") == null) {
                 metaData.put("tenantId", tenantId);
             }
