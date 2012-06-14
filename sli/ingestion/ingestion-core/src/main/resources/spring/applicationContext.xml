@@ -27,34 +27,12 @@
   </bean>
 
 
-  <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
-    <property name="connectionFactory">
-      <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
-        <constructor-arg>
-          <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
-        </constructor-arg>
-        <constructor-arg>
-          <bean class="org.hornetq.api.core.TransportConfiguration">
-            <constructor-arg index="0">
-              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
-            </constructor-arg>
-            <constructor-arg index="1">
-              <map>
-                <entry key="host" value="${sli.ingestion.queue.workItem.host}" />
-                <entry key="port" value="${sli.ingestion.queue.workItem.port}" />
-                <entry key="ssl-enabled" value="true" />
-                <entry key="key-store-path" value="${sli.ingestion.queue.workItem.keystore}" />
-                <entry key="key-store-password" value="${sli.ingestion.queue.workItem.keystorePassword}" />
-              </map>
-            </constructor-arg>
-          </bean>
-        </constructor-arg>
-      </bean>
-    </property>
-  </bean>
+  
 
    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}" />
+      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true" />
+   
+      
    </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->
