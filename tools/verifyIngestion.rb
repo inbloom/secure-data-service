@@ -196,47 +196,62 @@ expected={"900K" => {
   "teacherSectionAssociation"=>30912
   },
   
-   # TODO
+   # actual record count: 17,749,248
+   #  entities not persisted:
+   #  - AssessmentFamily           --> count: 80
+   #  - AssessmentItem             --> count: 370
+   #  - AssessmentPeriodDescriptor --> count: 120
+   #  - CourseOffering             --> count: 13248
+   #  - ObjectiveAssessment        --> count: 80
+   #  - PerformanceLevelDescriptor --> count: 126
+   #  - ServiceDescriptor          --> count: 4
+   #  - StudentAssessmentItem      --> count: 457504
+   #  - StudentObjectiveAssessment --> count: 458737
     "25M" => {
   "assessment"=>163,
-  "attendance"=>1026278,#10262784
+  "attendance"=>91632,
   "calendarDate"=>552,
-  "cohort"=>92,
+  "cohort"=>276,
+  "competencyLevelDescriptor"=>2,
   "course"=>6624,
   "courseOffering"=>0,
   "courseSectionAssociation"=>0,
-  "disciplineAction"=>44022,
-  "disciplineIncident"=>44022,
-  "educationOrganization"=>146,
-  "educationOrganizationAssociation"=>135,
+  "disciplineAction"=>132066,
+  "disciplineIncident"=>132066,
+  "educationOrganization"=>142,
+  "educationOrganizationAssociation"=>0,
   "educationOrganizationSchoolAssociation"=>0,
-  "gradebookEntry"=>0,
+  "gradebookEntry"=>1,
   "gradingPeriod"=>1104,
+  "graduationPlan"=>138,
   "learningObjective"=>38,
   "parent"=>137192,
   "program"=>145,
+  "reportCard"=>91632,
   "school"=>0,
-  "schoolSessionAssociation"=>72, 
+  "schoolSessionAssociation"=>276,
   "section"=>92736,
   "sectionAssessmentAssociation"=>0,
   "sectionSchoolAssociation"=>0,
   "session"=>276,
   "sessionCourseAssociation"=>0,
   "staff"=>7587,
-  "staffCohortAssociation"=>92,
+  "staffCohortAssociation"=>276,
   "staffEducationOrganizationAssociation"=>135,
-  "staffProgramAssociation"=>135,
+  "staffProgramAssociation"=>145,
   "student"=>91632,
-  "studentAcademicRecord"=>0,
+  "studentAcademicRecord"=>91632,
   "studentAssessmentAssociation"=>916320,
-  "studentCohortAssociation"=>99103,
-  "studentDisciplineIncidentAssociation"=>396198,
+  "studentCohortAssociation"=>98551,
+  "studentCompetency"=>183264,
+  "studentCompetencyObjective"=>1,
+  "studentDisciplineIncidentAssociation"=>132066,
   "studentParentAssociation"=>137192,
-  "studentProgramAssociation"=>78047,
+  "studentProgramAssociation"=>78403,
   "studentSchoolAssociation"=>91632,
-  "studentSectionAssociation"=>1282848,
-  "studentSectionGradebookEntry"=>0,
-  "studentTranscriptAssociation"=>0,
+  "studentSectionAssociation"=>1282848, 
+  "studentSectionGradebookEntry"=>91632,
+  "studentTranscriptAssociation"=>1374480,
   "teacher"=>0,
   "teacherSchoolAssociation"=>7452,
   "teacherSectionAssociation"=>92736
