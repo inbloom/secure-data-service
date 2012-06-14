@@ -10,7 +10,6 @@ import java.net.URL;
 
 import javax.ws.rs.client.InvocationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,30 +18,30 @@ import org.junit.Test;
 /**
  * @author jstokes
  */
-public class StandardLevel0ClientTest {
+public class JaxRSLevel0ClientTest {
 
     private Level0Client client; // class under test
 
     @Before
     public void setup() {
-        this.client = new StandardLevel0Client();
+        this.client = new SpringLevel0Client();
     }
 
     @Test
     @Ignore
     public void testDeleteRequest() {
         try {
-            Response actualResponse = client.deleteRequest(TestingConstants.ROGERS_TOKEN, new URL(
+            RestResponse actualResponse = client.deleteRequest(TestingConstants.ROGERS_TOKEN, new URL(
                     TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
                     MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.noContent().build().getStatus(), actualResponse.getStatus());
+            assertEquals(204, actualResponse.getStatusCode());
 
-            Response deletedResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
+            RestResponse deletedResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
                     TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
                     MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.status(Response.Status.NOT_FOUND).build().getStatus(), deletedResponse.getStatus());
+            assertEquals(404, deletedResponse.getStatusCode());
 
         } catch (MalformedURLException e) {
             fail(e.getMessage());
@@ -56,15 +55,15 @@ public class StandardLevel0ClientTest {
     @Test
     public void testGetRequest() {
         try {
-            Response actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
+            RestResponse actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
                     TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+            assertEquals(200, actualResponse.getStatusCode());
 
             actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(TestingConstants.BASE_URL
                     + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+            assertEquals(200, actualResponse.getStatusCode());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {
@@ -76,18 +75,19 @@ public class StandardLevel0ClientTest {
         }
     }
 
-    @Ignore("Problem with invalid autorization token.")
+    //@Ignore("Problem with invalid autorization token.")
+    @Test
     public void testGetRequestWithBrokenToken() {
         try {
-            Response actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(
+            RestResponse actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(
                     TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+            assertEquals(200, actualResponse.getStatusCode());
 
             actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(TestingConstants.BASE_URL
                     + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(Response.ok().build().getStatus(), actualResponse.getStatus());
+            assertEquals(401, actualResponse.getStatusCode());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {

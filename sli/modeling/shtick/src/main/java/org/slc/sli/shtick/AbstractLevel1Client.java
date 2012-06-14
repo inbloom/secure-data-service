@@ -9,7 +9,6 @@ import org.codehaus.jackson.type.TypeReference;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -40,7 +39,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        final Response response;
+        final RestResponse response;
 
         response = client.getRequest(token, url, getMediaType());
         return deserialize(response);
@@ -71,10 +70,11 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        final Response response;
+        final RestResponse response;
         response = client.createRequest(token, data, url, getMediaType());
 
-        return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
+//        return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
+        return null;
     }
 
     @Override
@@ -94,9 +94,9 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
     }
 
-    private List<Entity> deserialize(final Response response) throws IOException {
+    private List<Entity> deserialize(final RestResponse response) throws IOException {
         try {
-            final JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
+            final JsonNode element = mapper.readValue(response.getBody(), JsonNode.class);
             if (element instanceof ArrayNode) {
                 return mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
                 });
