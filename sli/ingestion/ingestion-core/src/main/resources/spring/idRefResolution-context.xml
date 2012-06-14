@@ -152,7 +152,22 @@
       </util:list>
     </property>
     <property name="supportedResolvers" ref="strategyConfig" />
+    <property name="idReferenceInterchanges" ref="idReferenceResolutionInterchanges"/>
   </bean>
+  
+  <!-- interchanges that rely on id reference resolution for correctness -->
+  <util:set id="idReferenceResolutionInterchanges" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>AssessmentMetadata</value>
+    <value>EducationOrganization</value>
+    <value>EducationOrgCalendar</value>
+    <value>MasterSchedule</value>
+    <value>StaffAssociation</value>
+    <value>StudentAssessment</value>
+    <value>StudentDiscipline</value>
+    <value>StudentEnrollment</value>
+    <value>StudentGrades</value>
+    <value>StudentParent</value>
+  </util:set>
 
   <util:map id="strategyConfig">
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="freeMarkerExtendedReferenceResolver" />
