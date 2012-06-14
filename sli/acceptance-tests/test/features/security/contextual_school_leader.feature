@@ -21,15 +21,15 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
 And my "school" is <School>
 When I try to access the data for <Data> in another "school" from the API
-Then I should receive a return code of 403
+Then I should receive a return code of <Code>
 Examples:
-	|Username    |Password        |Realm|Role      |School                     |Data|
-	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in Parker Elementary"|
-#DE719	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in South Daybreak Elementary"|  Test does not make sense
-	|"mgonzales" |"mgonzales1234" |"IL" |"Leader"  |"South Daybreak Elementary"|"Mark Anthony"|
-	|"racosta"   |"racosta1234"   |"IL" |"Leader"  |"Sunset Central High"      |"Matt Sollars"|
-	|"agibbs"    |"agibbs1234"    |"NY" |"IT Admin"|"Dawn Elementary"          |"Teachers in Parker Elementary"|
-	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Students in AP Calculus Sec 201"|
+	|Username    |Password        |Realm|Role      |School                     |Data                                   | Code |
+	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in Parker Elementary"        | 403  |
+	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in South Daybreak Elementary"| 404  |
+	|"mgonzales" |"mgonzales1234" |"IL" |"Leader"  |"South Daybreak Elementary"|"Mark Anthony"                         | 403  |
+	|"racosta"   |"racosta1234"   |"IL" |"Leader"  |"Sunset Central High"      |"Matt Sollars"                         | 403  |
+	|"agibbs"    |"agibbs1234"    |"NY" |"IT Admin"|"Dawn Elementary"          |"Teachers in Parker Elementary"        | 403  |
+	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Students in AP Calculus Sec 201"      | 403  |
 
 Scenario Outline: Staff listing teachers they have context to
 
