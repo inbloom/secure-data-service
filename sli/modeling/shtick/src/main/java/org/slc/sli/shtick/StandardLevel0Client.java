@@ -110,7 +110,7 @@ public final class StandardLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildPut(Entity.entity(data, mediaType)).invoke();
 
-        return checkResponse(response, Response.Status.CREATED);
+        return checkResponse(response, Response.Status.NO_CONTENT);
     }
 
     private Invocation.Builder createBuilder(final String token, final URL url, final String mediaType)

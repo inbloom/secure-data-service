@@ -1,12 +1,9 @@
 package org.slc.sli.shtick;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.slc.sli.api.client.Entity;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -14,9 +11,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slc.sli.api.client.Entity;
 
 /**
  * @author jstokes
@@ -31,32 +32,31 @@ public class JsonLevel1ClientTest {
     }
 
     @Test
-    @Ignore
     public void testCrud() {
         try {
             final String studentUniqueStateId = "studentUniqueStateId";
 
-            //POST
+            // POST
             final URL loc = postStudent();
             assertNotNull(loc);
 
-            //GET
+            // GET
             final List<Entity> getStudent = getStudent(loc);
             assertNotNull(getStudent);
-            assertEquals(0, getStudent.size());
+            assertEquals(1, getStudent.size());
             assertEquals("900000011", getStudent.get(0).getData().get(studentUniqueStateId));
 
-            //PUT
+            // PUT
             putStudent(loc);
             final List<Entity> putStudent = getStudent(loc);
             assertNotNull(putStudent);
-            assertEquals(0, putStudent.size());
+            assertEquals(1, putStudent.size());
             assertEquals("900000012", putStudent.get(0).getData().get(studentUniqueStateId));
 
-            //DELETE
+            // DELETE
             deleteStudent(loc);
 
-            //GET (Should now fail)
+            // GET (Should now fail)
             try {
                 getStudent(loc);
                 fail("An exception was not thrown for get non-existent student!");
@@ -74,6 +74,11 @@ public class JsonLevel1ClientTest {
         } catch (IOException e) {
             fail(e.getMessage());
         }
+    }
+
+    private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
+        return level1Client.postRequest(TestingConstants.ROGERS_TOKEN, readJsonFromFile("/testStudent.json"), new URL(
+                TestingConstants.BASE_URL + "/students"));
     }
 
     private void deleteStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
@@ -97,11 +102,4 @@ public class JsonLevel1ClientTest {
         }
         throw new RuntimeException();
     }
-
-    private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
-        return level1Client.postRequest(TestingConstants.ROGERS_TOKEN,
-                readJsonFromFile("/testStudent.json"),
-                new URL(TestingConstants.BASE_URL + "/students"));
-    }
-
 }
