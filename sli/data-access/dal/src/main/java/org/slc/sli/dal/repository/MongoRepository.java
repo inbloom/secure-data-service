@@ -194,7 +194,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
             String tenantId = TenantContext.getTenantId();
             BasicDBObject obj = null;
 
-            if (tenantId != null) {
+
+            if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+
                 obj = new BasicDBObject("metaData.tenantId", tenantId);
                 obj.append("_id", databaseId);
             } else {
@@ -402,7 +404,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         String tenantId = TenantContext.getTenantId();
         BasicDBObject obj = null;
 
-        if (tenantId != null) {
+
+        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
             obj = new BasicDBObject("metaData.tenantId", tenantId);
         } else {
             obj = new BasicDBObject();
