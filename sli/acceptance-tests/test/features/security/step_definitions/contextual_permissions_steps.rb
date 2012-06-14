@@ -5,6 +5,8 @@ Transform /^the school "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-d574-8da22127fd2d" if arg1 == "Fry High School"
   id = "eb4d7e1b-7bed-890a-d974-8da22127fd2d" if arg1 == "Watson Elementary School"
   id = "eb4d7e1b-7bed-890a-d5b4-8da22127fd2d" if arg1 == "Parker-Dust Middle School"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if arg1 == "South Daybreak Elementary"
+  id = "9d970849-0116-499d-b8f3-2255aeb69552" if arg1 == "Dawn Elementary"
   id
 end
 
@@ -46,6 +48,9 @@ Transform /^the student "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d" if arg1 == "Brock Ott"
   id = "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d" if arg1 == "Elnora Fin"
   id = "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d" if arg1 == "Freeman Marcum"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if arg1 == "Matt Sollars"
+  id = "92d1a002-2695-4fb8-a0d6-4ef655d29e48" if arg1 == "Malcolm Haehn"
+  id = "85ff53e3-2779-4dc7-bc31-59c405f3a49e" if arg1 == "Larissa Marney"
   id
 end
 

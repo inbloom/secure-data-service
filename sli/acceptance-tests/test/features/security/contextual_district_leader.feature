@@ -25,9 +25,9 @@ Then I should receive a return code of 403
 Examples:
 	|Username    |Password        |Realm|Role      |District     |Data|
 	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"|
-	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"|
+#	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"|  THIS TEST IS WRONG!!!!!!
 	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"|
-	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Dale Reiss"|
+	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Matt Sollars"|
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"|
 
@@ -68,7 +68,7 @@ Then I should receive a return code of 403
 Examples:
 	|Username  |Password      |Realm|District   |Data|
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|
-	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Matt Sollars"|
+	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Larissa Marney" |
 
 Scenario Outline: Aggregate Viewer getting their available district data
 

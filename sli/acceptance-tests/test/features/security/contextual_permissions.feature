@@ -24,9 +24,9 @@ When I make an API call to get the school <OtherSchool>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | School                      | OtherSchool                 |
-| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" |
+| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "South Daybreak Elementary" |
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Dawn Elementary"           |
 | "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
 | "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
 
