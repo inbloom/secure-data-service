@@ -51,7 +51,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private MongoQueryConverter queryConverter;
 
     private static final String[] collectionsExcluded = { "tenant", "userSession", "realm", "userAccount", "roles",
-            "application", "applicationAuthorization" };
+            "application", "applicationAuthorization", "adminDelegation" };
     protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
 
     /**
@@ -193,7 +193,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         try {
             String tenantId = TenantContext.getTenantId();
             BasicDBObject obj = null;
-
 
             if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
 
@@ -403,7 +402,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // This option may need to be revisted.
         String tenantId = TenantContext.getTenantId();
         BasicDBObject obj = null;
-
 
         if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
             obj = new BasicDBObject("metaData.tenantId", tenantId);
