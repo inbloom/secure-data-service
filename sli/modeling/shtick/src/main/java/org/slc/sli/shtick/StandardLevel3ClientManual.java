@@ -20,6 +20,7 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
 
     @Override
     public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException {
+        @SuppressWarnings("unused")
         final List<Entity> entities = inner.getStudents(token, queryArgs);
         // TODO Auto-generated method stub
         return null;

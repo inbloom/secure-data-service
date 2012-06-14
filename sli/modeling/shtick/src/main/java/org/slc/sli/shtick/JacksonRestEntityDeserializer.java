@@ -23,13 +23,9 @@ import org.codehaus.jackson.node.NullNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 /**
- *
- * Tell Jackson how to deserialize the GenericEntity type.
- *
+ * Intentionally package-protected.
  */
 final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
-
-    public static final String ENTITY_TYPE_KEY = "entityType";
 
     public JacksonRestEntityDeserializer() {
         super(RestEntity.class);
@@ -116,9 +112,9 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
 
         String entityType = null;
 
-        if (root.has(ENTITY_TYPE_KEY)) {
-            entityType = root.get(ENTITY_TYPE_KEY).getTextValue();
-            root.remove(ENTITY_TYPE_KEY);
+        if (root.has(Constants.ENTITY_TYPE_KEY)) {
+            entityType = root.get(Constants.ENTITY_TYPE_KEY).getTextValue();
+            root.remove(Constants.ENTITY_TYPE_KEY);
         }
 
         Map<String, Object> data = processObject(root);

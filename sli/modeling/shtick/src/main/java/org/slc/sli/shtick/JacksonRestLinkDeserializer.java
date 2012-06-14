@@ -12,21 +12,23 @@ import org.codehaus.jackson.node.ObjectNode;
 
 /**
  * Tell Jackson how to deserialize a Link type.
+ *
+ * Intentionally package-protected.
  */
-public class JacksonRestLinkDeserializer extends StdDeserializer<RestLink> {
+final class JacksonRestLinkDeserializer extends StdDeserializer<RestLink> {
 
     JacksonRestLinkDeserializer() {
         super(RestLink.class);
     }
 
     @Override
-    public RestLink deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    public RestLink deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
 
-        ObjectMapper mapper = (ObjectMapper) parser.getCodec();
-        ObjectNode root = (ObjectNode) mapper.readTree(parser);
+        final ObjectMapper mapper = (ObjectMapper) parser.getCodec();
+        final ObjectNode root = (ObjectNode) mapper.readTree(parser);
 
-        JsonNode relNode = root.get("rel");
-        JsonNode hrefNode = root.get("href");
+        final JsonNode relNode = root.get(Constants.LINK_RESOURCE_KEY);
+        final JsonNode hrefNode = root.get(Constants.LINK_HREF_KEY);
         return new RestLink(relNode.asText(), new URL(hrefNode.asText()));
     }
 }

@@ -11,11 +11,11 @@ import org.codehaus.jackson.map.ser.std.SerializerBase;
 import org.codehaus.jackson.map.ser.std.StdKeySerializer;
 
 /**
- *
  * Tell Jackson how to serialize a Link type.
  *
+ * Intentionally package-protected.
  */
-public class JacksonRestLinkSerializer extends SerializerBase<RestLink> {
+final class JacksonRestLinkSerializer extends SerializerBase<RestLink> {
 
     public JacksonRestLinkSerializer() {
         super(RestLink.class);
@@ -24,20 +24,21 @@ public class JacksonRestLinkSerializer extends SerializerBase<RestLink> {
     private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
 
     @Override
-    public void serialize(RestLink link, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+    public void serialize(final RestLink link, final JsonGenerator jgen, final SerializerProvider provider)
+            throws IOException {
 
         if (link == null) {
             jgen.writeNull();
             return;
         }
 
-        String linkString = "{\"rel\":\"" + link.getLinkName() + "\",\"href\":\"" + link.getResourceURL().toString()
-                + "\"}";
+        String linkString = "{\"" + Constants.LINK_RESOURCE_KEY + "\":\"" + link.getLinkName() + "\",\""
+                + Constants.LINK_HREF_KEY + "\":\"" + link.getResourceURL().toString() + "\"}";
         jgen.writeRaw(linkString);
     }
 
     @Override
-    public JsonNode getSchema(SerializerProvider provider, Type typeHint) throws JsonMappingException {
+    public JsonNode getSchema(final SerializerProvider provider, final Type typeHint) throws JsonMappingException {
         return DEFAULT.getSchema(provider, typeHint);
     }
 

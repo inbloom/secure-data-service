@@ -29,15 +29,12 @@ import org.codehaus.jackson.node.TextNode;
  * root of the JSON. The root name and entity type are implied by the resource so they are
  * omitted in the payload.
  *
+ * Intentionally package-protected.
  */
-public class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
-
-    public static final String ENTITY_BODY_KEY = "body";
-    public static final String ENTITY_LINKS_KEY = "links";
-    public static final String ENTITY_METADATA_KEY = "metaData";
+final class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
 
     private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public JacksonRestEntitySerializer() {
         super(RestEntity.class);
@@ -80,9 +77,8 @@ public class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
 
     private JsonNode serializeMap(final String key, final Map<String, Object> val) {
 
-        ObjectNode tree = mapper.createObjectNode();
-
-        for (Map.Entry<String, Object> entry : val.entrySet()) {
+        final ObjectNode tree = mapper.createObjectNode();
+        for (final Map.Entry<String, Object> entry : val.entrySet()) {
             tree.put(entry.getKey(), serializeObject(null, entry.getValue()));
         }
         return tree;
@@ -122,12 +118,13 @@ public class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
 
         // The SLI API only supports entity body elements for PUT and POST requests. If the
         // entity data has a 'body' element, use that explicitly.
-        if (entity.getData().containsKey(ENTITY_BODY_KEY)) {
-            jgen.writeObject(serializeObject(entity.getData().get(ENTITY_BODY_KEY)));
+        if (entity.getData().containsKey(Constants.ENTITY_BODY_KEY)) {
+            jgen.writeObject(serializeObject(entity.getData().get(Constants.ENTITY_BODY_KEY)));
 
         } else {
             for (Map.Entry<String, Object> entry : entity.getData().entrySet()) {
-                if (entry.getKey().equals(ENTITY_LINKS_KEY) || entry.getKey().equals(ENTITY_METADATA_KEY)) {
+                if (entry.getKey().equals(Constants.ENTITY_LINKS_KEY)
+                        || entry.getKey().equals(Constants.ENTITY_METADATA_KEY)) {
                     // ignore these read-only fields.
                     continue;
                 }

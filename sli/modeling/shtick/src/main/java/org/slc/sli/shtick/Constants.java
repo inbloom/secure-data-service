@@ -5,6 +5,12 @@ package org.slc.sli.shtick;
  */
 public final class Constants {
 
+    public static final String ENTITY_BODY_KEY = "body";
+    public static final String ENTITY_LINKS_KEY = "links";
+    public static final String ENTITY_METADATA_KEY = "metaData";
+
+    public static final String ENTITY_TYPE_KEY = "entityType";
+
     /** Key to locate 'links' field of the Entity. */
     public static final String LINKS_KEY = "links";
 

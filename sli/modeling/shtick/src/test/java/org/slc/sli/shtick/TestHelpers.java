@@ -189,8 +189,8 @@ public class TestHelpers {
         Map<String, Object> rData = r.getData();
 
         // only compare body elements
-        if (rData.containsKey(JacksonRestEntitySerializer.ENTITY_BODY_KEY)) {
-            rData = (Map<String, Object>) rData.get(JacksonRestEntitySerializer.ENTITY_BODY_KEY);
+        if (rData.containsKey(Constants.ENTITY_BODY_KEY)) {
+            rData = (Map<String, Object>) rData.get(Constants.ENTITY_BODY_KEY);
         }
 
         if (eData.size() != rData.size()) {
