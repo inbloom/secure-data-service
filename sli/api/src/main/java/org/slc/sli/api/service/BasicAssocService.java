@@ -85,10 +85,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<String> targetId = getIds(content, targetKey);
         
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, srcId, false));
-        this.addDefaultQueryParams(query, sourceCollection);
         Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, query);
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, targetId, false));
-        this.addDefaultQueryParams(query, sourceCollection);
         Iterable<Entity> targetEntities = repo.findAll(sourceCollection, query);
         
         for (Entity sourceEntity : sourceEntities) {
@@ -219,7 +217,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         final Iterable<String> results = getRepo().findAllIds(otherEntityDefn.getStoredCollectionName(),
                 localNeutralQuery);
@@ -263,7 +260,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().findAll(getCollectionName(), localNeutralQuery);
     }
@@ -272,7 +268,6 @@ public class BasicAssocService extends BasicService implements AssociationServic
             final NeutralQuery neutralQuery) {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
-        this.addDefaultQueryParams(localNeutralQuery, getCollectionName());
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }
