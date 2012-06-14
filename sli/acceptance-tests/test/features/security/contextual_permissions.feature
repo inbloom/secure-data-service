@@ -24,11 +24,11 @@ When I make an API call to get the school <OtherSchool>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | School                      | OtherSchool                 |
-| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" |
+| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "South Daybreak Elementary" |
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Dawn Elementary"           |
+| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Dawn Elementary"           |
+| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "South Daybreak Elementary" |
 
 #Teacher
 
@@ -66,10 +66,10 @@ When I make an API call to get list of teachers from the school <OtherSchool>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | School                      | OtherSchool                 |
-| "IL"  | "jdoe"     | "jdoe1234"     | "Fry High School"           | "Parker-Dust Middle School" |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  |
-| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" |
+| "IL"  | "jdoe"     | "jdoe1234"     | "Fry High School"           | "South Daybreak Elementary" |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Dawn Elementary"           |
+| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Dawn Elementary"           |
+| "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "South Daybreak Elementary" |
 
 Scenario Outline: Authenticated Educator makes API call to get Teacher in own School
 Given I am logged in using <Username> <Password> to realm <Realm>
@@ -91,9 +91,9 @@ When I make an API call to get the teacher <Teacher>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | School                      | Teacher          |
-| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "John Doe 3"     |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Elizabeth Jane" |
-| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Elizabeth Jane" |
+| "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "John Doe 2"     |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Keisha Melendez" |
+| "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Keisha Melendez" |
 | "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Ted Bear"       |
 
 #Section
@@ -105,8 +105,8 @@ Then I receive a JSON response that includes the list of sections that <Teacher>
 Examples:
 | Realm | Username   | Password       | Teacher      |
 | "IL"  | "tbear"    | "tbear1234"    | "Ted Bear"   |
-| "NY"  | "johndoe"  | "johndoe1234"  | "John Doe 3" |
-| "NY"  | "ejane"    | "ejane1234"    | "Emily Jane" |
+#DE719| "NY"  | "johndoe"  | "johndoe1234"  | "John Doe 3" | Theres no real data for these test cases.
+#DE719| "NY"  | "ejane"    | "ejane1234"    | "Emily Jane" |  
 | "IL"  | "john_doe" | "john_doe1234" | "John Doe 2" |
 
 Scenario Outline: Authenticated Educator makes API call to get other teacher's' list of Sections
@@ -116,10 +116,10 @@ When I make an API call to get the list of sections taught by the teacher <Teach
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password      | Teacher          |
-| "IL"  | "tbear"    | "tbear1234"   | "John Doe 3"     |
-| "NY"  | "johndoe"  | "johndoe1234" | "Ted Bear"       |
-| "IL"  | "ejane"    | "ejane1234"   | "Emily Jane"     |
-| "NY"  | "ejane"    | "ejane1234"   | "Elizabeth Jane" |
+| "IL"  | "tbear"    | "tbear1234"   | "Elizabeth Jane" |
+| "NY"  | "johndoe"  | "johndoe1234" | "Emily Jane"     |
+| "IL"  | "ejane"    | "ejane1234"   | "Ted Bear"       |
+| "NY"  | "ejane"    | "ejane1234"   | "John Doe 3"     |
 
 Scenario Outline: Authenticated Educator makes API call to get own Section
 Given I am logged in using <Username> <Password> to realm <Realm>
@@ -130,8 +130,8 @@ Then I receive a JSON response that includes the section <Section> and its attri
 Examples:
 | Realm | Username  | Password      | Section          |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Science101" |
-| "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
-| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       |
+#DE719| "NY"  | "johndoe" | "johndoe1234" | "PDMS-Geometry"  |
+#DE719| "NY"  | "ejane"   | "ejane1234"   | "WES-Math"       |
 | "IL"  | "jdoe"    | "jdoe1234"    | "FHS-Math101"    |
 | "IL"  | "tbear"   | "tbear1234"   | "FHS-Science101" |
 
@@ -142,9 +142,9 @@ When I make an API call to get the section <Section>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | Section          |
-| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
-| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       |
-| "NY"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
+| "NY"  | "johndoe"  | "johndoe1234"  | "ARCH221-Sec2"   |
+| "NY"  | "ejane"    | "ejane1234"    | "ARCH221-Sec2"   |
+| "IL"  | "ejane"    | "ejane1234"    | "FHS-Science101" |
 | "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
 
 #Student
@@ -169,10 +169,10 @@ When I make an API call to get a list of students in the section <Section>
 Then I should get a message that I am not authorized
 Examples:
 | Realm | Username   | Password       | Section          |
-| "NY"  | "johndoe"  | "johndoe1234"  | "FHS-Math101"    |
-| "IL"  | "ejane"    | "ejane1234"    | "WES-Math"       |
-| "IL"  | "ejane"    | "ejane1234"    | "PDMS-Trig"      |
-| "IL"  | "john_doe" | "john_doe1234" | "FHS-English101" |
+| "NY"  | "johndoe"  | "johndoe1234"  | "WES-Math"       |
+| "IL"  | "ejane"    | "ejane1234"    | "FHS-Science101" |
+| "IL"  | "ejane"    | "ejane1234"    | "FHS-Math101"    |
+| "IL"  | "john_doe" | "john_doe1234" | "FHS-Math101"    |
 
 Scenario Outline: Authenticated Educator makes API call to get Student that he/she is teaching
 Given I am logged in using <Username> <Password> to realm <Realm>
@@ -201,10 +201,10 @@ Examples:
 | Realm | Username   | Password       | Student          |
 | "IL"  | "jdoe"     | "jdoe1234"     | "Austin Durran"  |
 | "IL"  | "jdoe"     | "jdoe1234"     | "Millie Lovel"   |
-| "NY"  | "ejane"    | "ejane1234"    | "Lavern Chaney"  |
+| "NY"  | "ejane"    | "ejane1234"    | "Brock Ott"      |
 | "NY"  | "ejane"    | "ejane1234"    | "Freeman Marcum" |
-| "NY"  | "ejane"    | "ejane1234"    | "Danny Fields"   |
-| "NY"  | "johndoe"  | "johndoe1234"  | "Kristy Carillo" |
+| "IL"  | "ejane"    | "ejane1234"    | "Danny Fields"   |
+| "IL"  | "ejane"    | "ejane1234"    | "Kristy Carillo" |
 | "IL"  | "ejane"    | "ejane1234"    | "Forrest Hopper" |
-| "IL"  | "john_doe" | "john_doe1234" | "Emil Oneil"     |
+| "NY"  | "johndoe"  | "johndoe1234"  | "Emil Oneil"     |
 | "IL"  | "tbear"    | "tbear1234"    | "Doris Hanes"    |
