@@ -17,6 +17,8 @@ Transform /^the teacher "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-d9b4-1d729a37fd2d" if arg1 == "Elizabeth Jane"
   id = "eb4d7e1b-7bed-890a-d5f4-1d729a37fd2d" if arg1 == "John Doe 3"
   id = "eb4d7e1b-7bed-890a-d9f4-1d729a37fd2d" if arg1 == "Emily Jane"
+  id = "fd57632c-b54f-4a40-bd85-217c36a2720c" if arg1 == "Keisha Melendez"
+  id = "c4491c07-ec3e-440d-bef9-e349763b0fd4" if arg1 == "Darlene Mallard"
   id
 end
 
@@ -28,6 +30,7 @@ Transform /^the section "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d" if arg1 == "WES-Math"
   id = "eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d" if arg1 == "PDMS-Trig"
   id = "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d" if arg1 == "PDMS-Geometry"
+  id = "c90a21d4-54a2-42e4-a4b8-e0710b8ced69" if arg1 == "ARCH221-Sec2"
   id
 end
 
