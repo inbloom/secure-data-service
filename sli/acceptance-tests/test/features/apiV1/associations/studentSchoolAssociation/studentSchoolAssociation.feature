@@ -110,6 +110,8 @@ Scenario: Non-happy path: Attempt to create association with reference for endpo
     Then I should receive a return code of 403
 
 Scenario: Non-happy path: Attempt to create association with reference for endpoint 2 user does not have access to
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      And format "application/vnd.slc+json"
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INACCESSIBLE REFERENCE 2>"
     When I navigate to POST "/<ASSOCIATION URI>"
