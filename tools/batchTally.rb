@@ -17,7 +17,7 @@ coll = db.collection("newBatchJob")
 
 if ARGV.count<1
   puts "\e[31mNeed to specify id of the job!\e[0m"
-  all=coll.find()
+  all=coll.find({},{:fields=>{"_id"=>1}})
   all.to_a.each do |rec|
     puts rec["_id"]
   end
