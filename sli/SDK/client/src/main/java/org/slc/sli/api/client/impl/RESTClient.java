@@ -106,23 +106,26 @@ public class RESTClient {
         
         Verifier verifier = new Verifier(authorizationCode);
         
-        org.scribe.model.Response response = ((SliApi.SLIOauth20ServiceImpl) service).getAccessToken(
-                new Token(config.getApiSecret(), authorizationCode), verifier, accessToken);
+        Token t = null;
         
-        if (accessToken != null) {
+        SliApi.TokenResponse r = ((SliApi.SLIOauth20ServiceImpl) service).getAccessToken(
+                new Token(config.getApiSecret(), authorizationCode), verifier, t);
+        
+        if (r != null && r.token != null) {
+            accessToken = r.token;
             sessionToken = accessToken.getToken();
             authorizationToken = accessToken.getRawResponse();
         }
         
-        ResponseBuilder builder = Response.status(response.getCode());
-        for (Map.Entry<String, String> entry : response.getHeaders().entrySet()) {
+        ResponseBuilder builder = Response.status(r.oauthResponse.getCode());
+        for (Map.Entry<String, String> entry : r.oauthResponse.getHeaders().entrySet()) {
             if (entry.getKey() == null) {
                 builder.header("Status", entry.getValue());
             } else {
                 builder.header(entry.getKey(), entry.getValue());
             }
         }
-        builder.entity(response.getBody());
+        builder.entity(r.oauthResponse.getBody());
         
         return builder.build();
     }
