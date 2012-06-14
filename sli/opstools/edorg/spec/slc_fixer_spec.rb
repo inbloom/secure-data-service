@@ -12,7 +12,7 @@ describe SLCFixer do
     it "should have stamped nearly everything with an edorg" do
       filtered = ['tenant', 'userSession', 'realm', 'userAccount', 'roles', 'realm', 'application', 'applicationAuthorization',
         'system.indexes', 'system.js', 'school', 'educationOrganization', 'educationOrganizationSchoolAssociation', 'educationOrganizationAssociation',
-        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation']
+        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities']
       @db.collections.each do |collection|
         col_count = collection.count
         stamped_count = collection.find({'metaData.edOrgs' => {"$exists" => true}}).count
@@ -33,7 +33,7 @@ describe SLCFixer do
       failed = []
       @db['student'].find({'metaData.edOrgs'=> {'$exists' => false }}).each {|s| failed << s['_id']}
       assoc = []
-      @db['studentSchoolAssociation'].find.each {|s| assoc << s['body']['studentId']}
+      @db['studentSchoolAssociation'].find.each {|s| assoc << s['body']['studentId'] unless s['body'].include? 'exitWithdrawDate' and Date.parse(s['body']['exitWithdrawDate']) <= Date.today - 2000}
       assoc.uniq!
       associated = @db['student'].count - assoc.size
       puts associated
@@ -60,6 +60,7 @@ describe SLCFixer do
       @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }}).each {|s| failed << s['_id']}
       assoc = []
       @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference']}
+      @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId']}
       assoc.uniq!
       unassociated = @db['staff'].count - assoc.size
       unassociated.should == failed.size

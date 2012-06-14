@@ -1070,7 +1070,6 @@
     <jb:value property="id" data="InterchangeAssessmentMetadata/ObjectiveAssessment/@id" />
     <jb:value property="identificationCode" data="InterchangeAssessmentMetadata/ObjectiveAssessment/IdentificationCode" />
     <jb:value property="maxRawScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/MaxRawScore" decoder="Integer" />
-    <jb:wiring property="assessmentPerformanceLevel" beanIdRef="objectiveAssessmentPerformanceLevelTypeArray" />
     <jb:value property="percentOfAssessment" data="InterchangeAssessmentMetadata/ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
@@ -1648,7 +1647,7 @@
 
   <jb:bean beanId="studentObjectiveAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
-    <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelDescriptorsArray" />
+    <jb:wiring property="performanceLevelDescriptors" beanIdRef="SOAperformanceLevelDescriptorsArray" />
     <jb:value property="objectiveAssessmentRef" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
     <jb:value property="studentTestAssessmentRef" data="StudentAssessmentReference/@ref" />
   </jb:bean>
@@ -1662,13 +1661,23 @@
     <jb:value property="result" data="StudentObjectiveAssessment/ScoreResults/Result" />
   </jb:bean>
 
-  <jb:bean beanId="performanceLevelDescriptorsArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:wiring beanIdRef="performanceLevelDescriptor" />
+  <jb:bean beanId="SOAperformanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+    <jb:wiring beanIdRef="SOAperformanceLevelsTypeArrayIntermediate" />
   </jb:bean>
 
-  <jb:bean beanId="performanceLevelDescriptor" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="codeValue" data="StudentObjectiveAssessment/PerformanceLevels/CodeValue" />
-    <jb:value property="Description" data="StudentObjectiveAssessment/PerformanceLevels/Description" />
+  <jb:bean beanId="SOAperformanceLevelsTypeArrayIntermediate" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+    <jb:wiring beanIdRef="SOAPerformanceDescriptorCodeValue" />
+    <jb:wiring beanIdRef="SOAPerformanceDescriptorDescription" />
+  </jb:bean>
+
+  <jb:bean beanId="SOAPerformanceDescriptorDescription" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment/PerformanceLevels/Description">
+    <jb:value property="description" data="PerformanceLevels/Description" />
+  </jb:bean>
+
+  <jb:bean beanId="SOAPerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment/PerformanceLevels/CodeValue">
+    <jb:value property="codeValue" data="PerformanceLevels/CodeValue" />
   </jb:bean>
 
   <!-- end of studentObjectiveAssessment -->
