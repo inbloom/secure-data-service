@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module BSON - bson-1.6.4 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/bson/bson_c.rb
+    <li>lib/bson/bson_java.rb
+    <li>lib/bson/bson_ruby.rb
+    <li>lib/bson/byte_buffer.rb
+    <li>lib/bson/exceptions.rb
+    <li>lib/bson/ordered_hash.rb
+    <li>lib/bson/types/binary.rb
+    <li>lib/bson/types/code.rb
+    <li>lib/bson/types/dbref.rb
+    <li>lib/bson/types/min_max_keys.rb
+    <li>lib/bson/types/object_id.rb
+    <li>lib/bson/types/timestamp.rb
+    <li>lib/bson/version.rb
+    <li>lib/bson.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-ObjectId">::ObjectId</a>
+    
+    <li><a href="#method-c-deserialize">::deserialize</a>
+    
+    <li><a href="#method-c-read_bson_document">::read_bson_document</a>
+    
+    <li><a href="#method-c-serialize">::serialize</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./BSON.html">BSON</a>
+  
+    <li><a href="./BSON/BSONError.html">BSON::BSONError</a>
+  
+    <li><a href="./BSON/BSON_C.html">BSON::BSON_C</a>
+  
+    <li><a href="./BSON/BSON_JAVA.html">BSON::BSON_CODER</a>
+  
+    <li><a href="./BSON/BSON_JAVA.html">BSON::BSON_JAVA</a>
+  
+    <li><a href="./BSON/BSON_RUBY.html">BSON::BSON_RUBY</a>
+  
+    <li><a href="./BSON/Binary.html">BSON::Binary</a>
+  
+    <li><a href="./BSON/ByteBuffer.html">BSON::ByteBuffer</a>
+  
+    <li><a href="./BSON/Code.html">BSON::Code</a>
+  
+    <li><a href="./BSON/DBRef.html">BSON::DBRef</a>
+  
+    <li><a href="./BSON/InvalidDocument.html">BSON::InvalidDocument</a>
+  
+    <li><a href="./BSON/InvalidKeyName.html">BSON::InvalidKeyName</a>
+  
+    <li><a href="./BSON/InvalidObjectId.html">BSON::InvalidObjectId</a>
+  
+    <li><a href="./BSON/InvalidStringEncoding.html">BSON::InvalidStringEncoding</a>
+  
+    <li><a href="./BSON/MaxKey.html">BSON::MaxKey</a>
+  
+    <li><a href="./BSON/MinKey.html">BSON::MinKey</a>
+  
+    <li><a href="./BSON/MongoDBError.html">BSON::MongoDBError</a>
+  
+    <li><a href="./BSON/MongoRubyError.html">BSON::MongoRubyError</a>
+  
+    <li><a href="./BSON/ObjectId.html">BSON::ObjectId</a>
+  
+    <li><a href="./BSON/OrderedHash.html">BSON::OrderedHash</a>
+  
+    <li><a href="./BSON/Timestamp.html">BSON::Timestamp</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module BSON</h1>
+
+  <div id="description" class="description">
+    
+<p>A thin wrapper for the CBson class</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+<p>A byte buffer.</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+<p>A hash in which the order of keys are preserved.</p>
+
+<p>Under Ruby 1.9 and greater, this class has no added methods because Ruby’s
+Hash already keeps its keys ordered by order of insertion.</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+<p>– Copyright (C) 2008-2011 10gen Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not
+use this file except in compliance with the License. You may obtain a copy
+of the License at</p>
+
+<pre>http://www.apache.org/licenses/LICENSE-2.0</pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License. ++</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="BSON_CODER">BSON_CODER
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_MAX_BSON_SIZE">DEFAULT_MAX_BSON_SIZE
+        
+        <dd class="description">
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-ObjectId" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ObjectId</span><span
+            class="method-args">(s)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ObjectId-source">
+            <pre><span class="ruby-comment"># File lib/bson/types/object_id.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">ObjectId</span>(<span class="ruby-identifier">s</span>)
+  <span class="ruby-constant">ObjectId</span>.<span class="ruby-identifier">from_string</span>(<span class="ruby-identifier">s</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ObjectId-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ObjectId-method -->
+
+    
+      <div id="method-c-deserialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize</span><span
+            class="method-args">(buf=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize-source">
+            <pre><span class="ruby-comment"># File lib/bson.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-constant">BSON_CODER</span>.<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize-method -->
+
+    
+      <div id="method-c-read_bson_document" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">read_bson_document</span><span
+            class="method-args">(io)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Reads a single <a href="BSON.html">BSON</a> document from an IO object.
+This method is used in the executable b2json, bundled with the bson gem,
+for reading a file of bson documents.</p>
+
+<p>@param [IO] io an io object containing a bson object.</p>
+
+<p>@return [ByteBuffer]</p>
+          
+
+          
+          <div class="method-source-code" id="read_bson_document-source">
+            <pre><span class="ruby-comment"># File lib/bson.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">read_bson_document</span>(<span class="ruby-identifier">io</span>)
+  <span class="ruby-identifier">bytebuf</span> = <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">ByteBuffer</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">sz</span> = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">4</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&quot;V&quot;</span>)[<span class="ruby-value">0</span>]
+  <span class="ruby-identifier">bytebuf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">sz</span>)
+  <span class="ruby-identifier">bytebuf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">sz</span><span class="ruby-operator">-</span><span class="ruby-value">4</span>).<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&quot;C*&quot;</span>))
+  <span class="ruby-identifier">bytebuf</span>.<span class="ruby-identifier">rewind</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">BSON</span>.<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">bytebuf</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- read_bson_document-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- read_bson_document-method -->
+
+    
+      <div id="method-c-serialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize</span><span
+            class="method-args">(obj, check_keys=false, move_id=false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize-source">
+            <pre><span class="ruby-comment"># File lib/bson.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">check_keys</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">move_id</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-constant">BSON_CODER</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">check_keys</span>, <span class="ruby-identifier">move_id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

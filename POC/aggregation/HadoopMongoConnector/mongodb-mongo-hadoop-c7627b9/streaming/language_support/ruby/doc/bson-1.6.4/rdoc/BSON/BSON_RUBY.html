@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class BSON::BSON_RUBY - bson-1.6.4 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/bson/bson_ruby.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-deserialize">::deserialize</a>
+    
+    <li><a href="#method-c-max_bson_size">::max_bson_size</a>
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-serialize">::serialize</a>
+    
+    <li><a href="#method-c-serialize_cstr">::serialize_cstr</a>
+    
+    <li><a href="#method-c-serialize_key">::serialize_key</a>
+    
+    <li><a href="#method-c-to_utf8_binary">::to_utf8_binary</a>
+    
+    <li><a href="#method-c-update_max_bson_size">::update_max_bson_size</a>
+    
+    <li><a href="#method-i-bson_type">#bson_type</a>
+    
+    <li><a href="#method-i-deserialize">#deserialize</a>
+    
+    <li><a href="#method-i-deserialize_array_data">#deserialize_array_data</a>
+    
+    <li><a href="#method-i-deserialize_binary_data">#deserialize_binary_data</a>
+    
+    <li><a href="#method-i-deserialize_boolean_data">#deserialize_boolean_data</a>
+    
+    <li><a href="#method-i-deserialize_code_w_scope_data">#deserialize_code_w_scope_data</a>
+    
+    <li><a href="#method-i-deserialize_cstr">#deserialize_cstr</a>
+    
+    <li><a href="#method-i-deserialize_date_data">#deserialize_date_data</a>
+    
+    <li><a href="#method-i-deserialize_dbref_data">#deserialize_dbref_data</a>
+    
+    <li><a href="#method-i-deserialize_number_data">#deserialize_number_data</a>
+    
+    <li><a href="#method-i-deserialize_number_int_data">#deserialize_number_int_data</a>
+    
+    <li><a href="#method-i-deserialize_number_long_data">#deserialize_number_long_data</a>
+    
+    <li><a href="#method-i-deserialize_object_data">#deserialize_object_data</a>
+    
+    <li><a href="#method-i-deserialize_oid_data">#deserialize_oid_data</a>
+    
+    <li><a href="#method-i-deserialize_regex_data">#deserialize_regex_data</a>
+    
+    <li><a href="#method-i-deserialize_string_data">#deserialize_string_data</a>
+    
+    <li><a href="#method-i-deserialize_timestamp_data">#deserialize_timestamp_data</a>
+    
+    <li><a href="#method-i-encoded_str">#encoded_str</a>
+    
+    <li><a href="#method-i-hex_dump">#hex_dump</a>
+    
+    <li><a href="#method-i-serialize">#serialize</a>
+    
+    <li><a href="#method-i-serialize_array_element">#serialize_array_element</a>
+    
+    <li><a href="#method-i-serialize_binary_element">#serialize_binary_element</a>
+    
+    <li><a href="#method-i-serialize_boolean_element">#serialize_boolean_element</a>
+    
+    <li><a href="#method-i-serialize_code_w_scope">#serialize_code_w_scope</a>
+    
+    <li><a href="#method-i-serialize_date_element">#serialize_date_element</a>
+    
+    <li><a href="#method-i-serialize_dbref_element">#serialize_dbref_element</a>
+    
+    <li><a href="#method-i-serialize_eoo_element">#serialize_eoo_element</a>
+    
+    <li><a href="#method-i-serialize_key_value">#serialize_key_value</a>
+    
+    <li><a href="#method-i-serialize_max_key_element">#serialize_max_key_element</a>
+    
+    <li><a href="#method-i-serialize_min_key_element">#serialize_min_key_element</a>
+    
+    <li><a href="#method-i-serialize_null_element">#serialize_null_element</a>
+    
+    <li><a href="#method-i-serialize_number_element">#serialize_number_element</a>
+    
+    <li><a href="#method-i-serialize_object_element">#serialize_object_element</a>
+    
+    <li><a href="#method-i-serialize_oid_element">#serialize_oid_element</a>
+    
+    <li><a href="#method-i-serialize_regex_element">#serialize_regex_element</a>
+    
+    <li><a href="#method-i-serialize_string_element">#serialize_string_element</a>
+    
+    <li><a href="#method-i-serialize_timestamp_element">#serialize_timestamp_element</a>
+    
+    <li><a href="#method-i-to_a">#to_a</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+    <li><a href="#method-i-unpack">#unpack</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../BSON.html">BSON</a>
+  
+    <li><a href="../BSON/BSONError.html">BSON::BSONError</a>
+  
+    <li><a href="../BSON/BSON_C.html">BSON::BSON_C</a>
+  
+    <li><a href="../BSON/BSON_JAVA.html">BSON::BSON_CODER</a>
+  
+    <li><a href="../BSON/BSON_JAVA.html">BSON::BSON_JAVA</a>
+  
+    <li><a href="../BSON/BSON_RUBY.html">BSON::BSON_RUBY</a>
+  
+    <li><a href="../BSON/Binary.html">BSON::Binary</a>
+  
+    <li><a href="../BSON/ByteBuffer.html">BSON::ByteBuffer</a>
+  
+    <li><a href="../BSON/Code.html">BSON::Code</a>
+  
+    <li><a href="../BSON/DBRef.html">BSON::DBRef</a>
+  
+    <li><a href="../BSON/InvalidDocument.html">BSON::InvalidDocument</a>
+  
+    <li><a href="../BSON/InvalidKeyName.html">BSON::InvalidKeyName</a>
+  
+    <li><a href="../BSON/InvalidObjectId.html">BSON::InvalidObjectId</a>
+  
+    <li><a href="../BSON/InvalidStringEncoding.html">BSON::InvalidStringEncoding</a>
+  
+    <li><a href="../BSON/MaxKey.html">BSON::MaxKey</a>
+  
+    <li><a href="../BSON/MinKey.html">BSON::MinKey</a>
+  
+    <li><a href="../BSON/MongoDBError.html">BSON::MongoDBError</a>
+  
+    <li><a href="../BSON/MongoRubyError.html">BSON::MongoRubyError</a>
+  
+    <li><a href="../BSON/ObjectId.html">BSON::ObjectId</a>
+  
+    <li><a href="../BSON/OrderedHash.html">BSON::OrderedHash</a>
+  
+    <li><a href="../BSON/Timestamp.html">BSON::Timestamp</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class BSON::BSON_RUBY</h1>
+
+  <div id="description" class="description">
+    
+<p>A <a href="../BSON.html">BSON</a> seralizer/deserializer in pure Ruby.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="ARRAY">ARRAY
+        
+        <dd class="description">
+        
+      
+        <dt id="BINARY">BINARY
+        
+        <dd class="description">
+        
+      
+        <dt id="BINARY_ENCODING">BINARY_ENCODING
+        
+        <dd class="description">
+        
+      
+        <dt id="BOOLEAN">BOOLEAN
+        
+        <dd class="description">
+        
+      
+        <dt id="CODE">CODE
+        
+        <dd class="description">
+        
+      
+        <dt id="CODE_W_SCOPE">CODE_W_SCOPE
+        
+        <dd class="description">
+        
+      
+        <dt id="DATE">DATE
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_MAX_BSON_SIZE">DEFAULT_MAX_BSON_SIZE
+        
+        <dd class="description">
+        
+      
+        <dt id="EOO">EOO
+        
+        <dd class="description">
+        
+      
+        <dt id="MAXKEY">MAXKEY
+        
+        <dd class="description">
+        
+      
+        <dt id="MINKEY">MINKEY
+        
+        <dd class="description">
+        
+      
+        <dt id="NULL">NULL
+        
+        <dd class="description">
+        
+      
+        <dt id="NULL_BYTE">NULL_BYTE
+        
+        <dd class="description">
+        
+      
+        <dt id="NUMBER">NUMBER
+        
+        <dd class="description">
+        
+      
+        <dt id="NUMBER_INT">NUMBER_INT
+        
+        <dd class="description">
+        
+      
+        <dt id="NUMBER_LONG">NUMBER_LONG
+        
+        <dd class="description">
+        
+      
+        <dt id="OBJECT">OBJECT
+        
+        <dd class="description">
+        
+      
+        <dt id="OID">OID
+        
+        <dd class="description">
+        
+      
+        <dt id="REF">REF
+        
+        <dd class="description">
+        
+      
+        <dt id="REGEX">REGEX
+        
+        <dd class="description">
+        
+      
+        <dt id="STRING">STRING
+        
+        <dd class="description">
+        
+      
+        <dt id="SYMBOL">SYMBOL
+        
+        <dd class="description">
+        
+      
+        <dt id="TIMESTAMP">TIMESTAMP
+        
+        <dd class="description">
+        
+      
+        <dt id="UNDEFINED">UNDEFINED
+        
+        <dd class="description">
+        
+      
+        <dt id="UTF8_ENCODING">UTF8_ENCODING
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-deserialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize</span><span
+            class="method-args">(buf=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 113</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">new</span>.<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize-method -->
+
+    
+      <div id="method-c-max_bson_size" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">max_bson_size</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="max_bson_size-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 84</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">max_bson_size</span>
+  <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;BSON::BSON_CODER.max_bson_size is deprecated and will be removed in v2.0.&quot;</span>
+  <span class="ruby-identifier">@@max_bson_size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- max_bson_size-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- max_bson_size-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(max_bson_size=BSON::DEFAULT_MAX_BSON_SIZE)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">max_bson_size</span>=<span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_MAX_BSON_SIZE</span>)
+  <span class="ruby-ivar">@buf</span> = <span class="ruby-constant">ByteBuffer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">''</span>, <span class="ruby-identifier">max_bson_size</span>)
+  <span class="ruby-ivar">@encoder</span> = <span class="ruby-constant">BSON_RUBY</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-serialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize</span><span
+            class="method-args">(obj, check_keys=false, move_id=false, max_bson_size=BSON::DEFAULT_MAX_BSON_SIZE)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Serializes an object. Implemented to ensure an API compatible with <a
+href="../BSON.html">BSON</a> extension.</p>
+          
+
+          
+          <div class="method-source-code" id="serialize-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">check_keys</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">move_id</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">max_bson_size</span>=<span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_MAX_BSON_SIZE</span>)
+  <span class="ruby-identifier">new</span>(<span class="ruby-identifier">max_bson_size</span>).<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">check_keys</span>, <span class="ruby-identifier">move_id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize-method -->
+
+    
+      <div id="method-c-serialize_cstr" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_cstr</span><span
+            class="method-args">(buf, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_cstr-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_binary</span>(<span class="ruby-identifier">to_utf8_binary</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>))
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_binary</span>(<span class="ruby-constant">NULL_BYTE</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_cstr-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_cstr-method -->
+
+    
+      <div id="method-c-serialize_key" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_key</span><span
+            class="method-args">(buf, key)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_key-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-string">&quot;Key names / regex patterns must not contain the NULL byte&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">include?</span> <span class="ruby-string">&quot;\x00&quot;</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_key-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_key-method -->
+
+    
+      <div id="method-c-to_utf8_binary" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_utf8_binary</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_utf8_binary-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_utf8_binary</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">str</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&quot;U*&quot;</span>)
+  <span class="ruby-keyword">rescue</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidStringEncoding</span>, <span class="ruby-node">&quot;String not valid utf-8: #{str.inspect}&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">str</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_utf8_binary-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_utf8_binary-method -->
+
+    
+      <div id="method-c-update_max_bson_size" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_max_bson_size</span><span
+            class="method-args">(connection)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="update_max_bson_size-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">update_max_bson_size</span>(<span class="ruby-identifier">connection</span>)
+  <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;BSON::BSON_CODER.update_max_bson_size is deprecated and now a no-op. It will be removed in v2.0.&quot;</span>
+  <span class="ruby-identifier">@@max_bson_size</span> = <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">max_bson_size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_max_bson_size-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_max_bson_size-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-bson_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">bson_type</span><span
+            class="method-args">(o)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="bson_type-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 588</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">bson_type</span>(<span class="ruby-identifier">o</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">o</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-constant">NULL</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>
+    <span class="ruby-constant">NUMBER_INT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Float</span>
+    <span class="ruby-constant">NUMBER</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">ByteBuffer</span>
+    <span class="ruby-constant">BINARY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Code</span>
+    <span class="ruby-constant">CODE_W_SCOPE</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+    <span class="ruby-constant">STRING</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+    <span class="ruby-constant">ARRAY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Regexp</span>
+    <span class="ruby-constant">REGEX</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">ObjectId</span>
+    <span class="ruby-constant">OID</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">DBRef</span>
+    <span class="ruby-constant">REF</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>
+    <span class="ruby-constant">BOOLEAN</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Time</span>
+    <span class="ruby-constant">DATE</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-constant">OBJECT</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Symbol</span>
+    <span class="ruby-constant">SYMBOL</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">MaxKey</span>
+    <span class="ruby-constant">MAXKEY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">MinKey</span>
+    <span class="ruby-constant">MINKEY</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Timestamp</span>
+    <span class="ruby-constant">TIMESTAMP</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Numeric</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-node">&quot;Cannot serialize the Numeric type #{o.class} as BSON; only Fixum, Bignum, and Float are supported.&quot;</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>, <span class="ruby-constant">DateTime</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-node">&quot;#{o.class} is not currently supported; &quot;</span> <span class="ruby-operator">+</span>
+    <span class="ruby-string">&quot;use a UTC Time instance instead.&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeWithZone</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">o</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">TimeWithZone</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-string">&quot;ActiveSupport::TimeWithZone is not currently supported; &quot;</span> <span class="ruby-operator">+</span>
+      <span class="ruby-string">&quot;use a UTC Time instance instead.&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-node">&quot;Cannot serialize #{o.class} as a BSON type; it either isn't supported or won't translate to BSON.&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- bson_type-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- bson_type-method -->
+
+    
+      <div id="method-i-deserialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize</span><span
+            class="method-args">(buf=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 204</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-comment"># If buf is nil, use @buf, assumed to contain already-serialized BSON.</span>
+  <span class="ruby-comment"># This is only true during testing.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">String</span>
+    <span class="ruby-ivar">@buf</span> = <span class="ruby-constant">ByteBuffer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&quot;C*&quot;</span>)) <span class="ruby-keyword">if</span> <span class="ruby-identifier">buf</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@buf</span> = <span class="ruby-constant">ByteBuffer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">to_a</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">buf</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">rewind</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">get_int</span>                <span class="ruby-comment"># eat message size</span>
+  <span class="ruby-identifier">doc</span> = <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">OrderedHash</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">while</span> <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">more?</span>
+    <span class="ruby-identifier">type</span> = <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">get</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">type</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">STRING</span>, <span class="ruby-constant">CODE</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_string_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">SYMBOL</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_string_data</span>(<span class="ruby-ivar">@buf</span>).<span class="ruby-identifier">intern</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">NUMBER</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_number_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">NUMBER_INT</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_number_int_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">NUMBER_LONG</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_number_long_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">OID</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_oid_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">ARRAY</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_array_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">REGEX</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_regex_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">OBJECT</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_object_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">BOOLEAN</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_boolean_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">DATE</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_date_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">NULL</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">UNDEFINED</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">REF</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_dbref_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">BINARY</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_binary_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">CODE_W_SCOPE</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_code_w_scope_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">TIMESTAMP</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">deserialize_timestamp_data</span>(<span class="ruby-ivar">@buf</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">MAXKEY</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">MaxKey</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">MINKEY</span>, <span class="ruby-value">255</span> <span class="ruby-comment"># This is currently easier than unpack the type byte as an unsigned char.</span>
+      <span class="ruby-identifier">key</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-ivar">@buf</span>)
+      <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">MinKey</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">EOO</span>
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown type #{type}, key = #{key}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">rewind</span>
+  <span class="ruby-identifier">doc</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize-method -->
+
+    
+      <div id="method-i-deserialize_array_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_array_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_array_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 335</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_array_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">h</span> = <span class="ruby-identifier">deserialize_object_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">a</span> = []
+  <span class="ruby-identifier">h</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_i</span>] = <span class="ruby-identifier">v</span> }
+  <span class="ruby-identifier">a</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_array_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_array_data-method -->
+
+    
+      <div id="method-i-deserialize_binary_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_binary_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_binary_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 404</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_binary_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">len</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">type</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>
+  <span class="ruby-identifier">len</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Binary</span><span class="ruby-operator">::</span><span class="ruby-constant">SUBTYPE_BYTES</span>
+  <span class="ruby-constant">Binary</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">len</span>), <span class="ruby-identifier">type</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_binary_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_binary_data-method -->
+
+    
+      <div id="method-i-deserialize_boolean_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_boolean_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_boolean_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 306</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_boolean_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_boolean_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_boolean_data-method -->
+
+    
+      <div id="method-i-deserialize_code_w_scope_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_code_w_scope_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_code_w_scope_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 379</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_code_w_scope_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">len</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">code</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">len</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">code</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-string">&quot;pack&quot;</span>
+    <span class="ruby-identifier">code</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">scope_size</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">-=</span> <span class="ruby-value">4</span>
+  <span class="ruby-identifier">scope</span> = <span class="ruby-ivar">@encoder</span>.<span class="ruby-identifier">new</span>().<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">scope_size</span>))
+
+  <span class="ruby-constant">Code</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">encoded_str</span>(<span class="ruby-identifier">code</span>), <span class="ruby-identifier">scope</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_code_w_scope_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_code_w_scope_data-method -->
+
+    
+      <div id="method-i-deserialize_cstr" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_cstr</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_cstr-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 578</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">chars</span> = <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">while</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">b</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>
+    <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">b</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">chars</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">chr</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">encoded_str</span>(<span class="ruby-identifier">chars</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_cstr-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_cstr-method -->
+
+    
+      <div id="method-i-deserialize_date_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_date_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_date_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 300</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_date_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">unsigned</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_long</span>()
+  <span class="ruby-identifier">milliseconds</span> = <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">**</span> <span class="ruby-value">64</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">64</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">unsigned</span>
+  <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-identifier">milliseconds</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">1000.0</span>).<span class="ruby-identifier">utc</span> <span class="ruby-comment"># at() takes fractional seconds</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_date_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_date_data-method -->
+
+    
+      <div id="method-i-deserialize_dbref_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_dbref_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_dbref_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 398</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_dbref_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">ns</span> = <span class="ruby-identifier">deserialize_string_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">oid</span> = <span class="ruby-identifier">deserialize_oid_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-constant">DBRef</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ns</span>, <span class="ruby-identifier">oid</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_dbref_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_dbref_data-method -->
+
+    
+      <div id="method-i-deserialize_number_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_number_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_number_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 310</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_number_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_double</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_number_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_number_data-method -->
+
+    
+      <div id="method-i-deserialize_number_int_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_number_int_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_number_int_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 314</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_number_int_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">unsigned</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">32</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">32</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">unsigned</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_number_int_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_number_int_data-method -->
+
+    
+      <div id="method-i-deserialize_number_long_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_number_long_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_number_long_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 319</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_number_long_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">unsigned</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_long</span>
+  <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">**</span> <span class="ruby-value">64</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">unsigned</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">64</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">unsigned</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_number_long_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_number_long_data-method -->
+
+    
+      <div id="method-i-deserialize_object_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_object_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_object_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 324</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_object_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">size</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span> <span class="ruby-operator">-=</span> <span class="ruby-value">4</span>
+  <span class="ruby-identifier">object</span> = <span class="ruby-ivar">@encoder</span>.<span class="ruby-identifier">new</span>().<span class="ruby-identifier">deserialize</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">size</span>))
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">object</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-string">&quot;$ref&quot;</span>
+    <span class="ruby-constant">DBRef</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">object</span>[<span class="ruby-string">&quot;$ref&quot;</span>], <span class="ruby-identifier">object</span>[<span class="ruby-string">&quot;$id&quot;</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">object</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_object_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_object_data-method -->
+
+    
+      <div id="method-i-deserialize_oid_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_oid_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_oid_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 394</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_oid_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-constant">ObjectId</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">12</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_oid_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_oid_data-method -->
+
+    
+      <div id="method-i-deserialize_regex_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_regex_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_regex_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 342</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_regex_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">str</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">options_str</span> = <span class="ruby-identifier">deserialize_cstr</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">opts</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">opts</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">IGNORECASE</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options_str</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'i'</span>)
+  <span class="ruby-identifier">opts</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">MULTILINE</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options_str</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'m'</span>)
+  <span class="ruby-identifier">opts</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">MULTILINE</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options_str</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'s'</span>)
+  <span class="ruby-identifier">opts</span> <span class="ruby-operator">|=</span> <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">EXTENDED</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options_str</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">'x'</span>)
+  <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">str</span>, <span class="ruby-identifier">opts</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_regex_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_regex_data-method -->
+
+    
+      <div id="method-i-deserialize_string_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_string_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_string_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 369</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_string_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">len</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">bytes</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">len</span>)
+  <span class="ruby-identifier">str</span> = <span class="ruby-identifier">bytes</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-string">&quot;pack&quot;</span>
+    <span class="ruby-identifier">str</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">encoded_str</span>(<span class="ruby-identifier">str</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_string_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_string_data-method -->
+
+    
+      <div id="method-i-deserialize_timestamp_data" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deserialize_timestamp_data</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deserialize_timestamp_data-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 353</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deserialize_timestamp_data</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">increment</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">seconds</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">get_int</span>
+  <span class="ruby-constant">Timestamp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">seconds</span>, <span class="ruby-identifier">increment</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deserialize_timestamp_data-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deserialize_timestamp_data-method -->
+
+    
+      <div id="method-i-encoded_str" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">encoded_str</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="encoded_str-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 359</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">encoded_str</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">'1.9'</span>
+    <span class="ruby-identifier">str</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&quot;utf-8&quot;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">default_internal</span>
+      <span class="ruby-identifier">str</span>.<span class="ruby-identifier">encode!</span>(<span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">default_internal</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">str</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- encoded_str-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- encoded_str-method -->
+
+    
+      <div id="method-i-hex_dump" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hex_dump</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>For debugging.</p>
+          
+
+          
+          <div class="method-source-code" id="hex_dump-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 286</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">hex_dump</span>
+  <span class="ruby-identifier">str</span> = <span class="ruby-string">''</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">b</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> (<span class="ruby-identifier">i</span> <span class="ruby-operator">%</span> <span class="ruby-value">8</span>) <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+      <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+      <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'%4d:  '</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">i</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">' '</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'%02X'</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">b</span>
+  }
+  <span class="ruby-identifier">str</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hex_dump-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hex_dump-method -->
+
+    
+      <div id="method-i-serialize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize</span><span
+            class="method-args">(obj, check_keys=false, move_id=false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">check_keys</span>=<span class="ruby-keyword">false</span>, <span class="ruby-identifier">move_id</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">raise</span>(<span class="ruby-constant">InvalidDocument</span>, <span class="ruby-node">&quot;BSON.serialize takes a Hash but got a #{obj.class}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Document is null&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">obj</span>
+
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">rewind</span>
+  <span class="ruby-comment"># put in a placeholder for the total size</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-value">0</span>)
+
+  <span class="ruby-comment"># Write key/value pairs. Always write _id first if it exists.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">move_id</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-string">'_id'</span>
+      <span class="ruby-identifier">serialize_key_value</span>(<span class="ruby-string">'_id'</span>, <span class="ruby-identifier">obj</span>[<span class="ruby-string">'_id'</span>], <span class="ruby-keyword">false</span>)
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:_id</span>
+      <span class="ruby-identifier">serialize_key_value</span>(<span class="ruby-string">'_id'</span>, <span class="ruby-identifier">obj</span>[<span class="ruby-value">:_id</span>], <span class="ruby-keyword">false</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">serialize_key_value</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">check_keys</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">==</span> <span class="ruby-string">'_id'</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">==</span> <span class="ruby-value">:_id</span> }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-string">'_id'</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:_id</span>)
+      <span class="ruby-identifier">obj</span>[<span class="ruby-string">'_id'</span>] = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_id</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">serialize_key_value</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">check_keys</span>) }
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">serialize_eoo_element</span>(<span class="ruby-ivar">@buf</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">max_size</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidDocument</span>, <span class="ruby-node">&quot;Document is too large (#{@buf.size}). &quot;</span> <span class="ruby-operator">+</span>
+     <span class="ruby-node">&quot;This BSON documents is limited to #{@buf.max_size} bytes.&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">size</span>, <span class="ruby-value">0</span>)
+  <span class="ruby-ivar">@buf</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize-method -->
+
+    
+      <div id="method-i-serialize_array_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_array_element</span><span
+            class="method-args">(buf, key, val, check_keys)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_array_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 486</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_array_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>, <span class="ruby-identifier">check_keys</span>)
+  <span class="ruby-comment"># Turn array into hash with integer indices as keys</span>
+  <span class="ruby-identifier">h</span> = <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">OrderedHash</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">val</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">v</span>; <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> }
+  <span class="ruby-identifier">serialize_object_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">h</span>, <span class="ruby-identifier">check_keys</span>, <span class="ruby-constant">ARRAY</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_array_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_array_element-method -->
+
+    
+      <div id="method-i-serialize_binary_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_binary_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_binary_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 427</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_binary_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">BINARY</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-identifier">bytes</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_a</span>
+  <span class="ruby-identifier">num_bytes</span> = <span class="ruby-identifier">bytes</span>.<span class="ruby-identifier">length</span>
+  <span class="ruby-identifier">subtype</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:subtype</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">subtype</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Binary</span><span class="ruby-operator">::</span><span class="ruby-constant">SUBTYPE_BYTES</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">subtype</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Binary</span><span class="ruby-operator">::</span><span class="ruby-constant">SUBTYPE_BYTES</span>
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">num_bytes</span> <span class="ruby-operator">+</span> <span class="ruby-value">4</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">subtype</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">num_bytes</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">bytes</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">num_bytes</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">subtype</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">bytes</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_binary_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_binary_element-method -->
+
+    
+      <div id="method-i-serialize_boolean_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_boolean_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_boolean_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 446</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_boolean_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">BOOLEAN</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">val</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_boolean_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_boolean_element-method -->
+
+    
+      <div id="method-i-serialize_code_w_scope" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_code_w_scope</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_code_w_scope-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 561</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_code_w_scope</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">CODE_W_SCOPE</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-comment"># Make a hole for the length</span>
+  <span class="ruby-identifier">len_pos</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-value">0</span>)
+
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">code</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">val</span>.<span class="ruby-identifier">code</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-ivar">@encoder</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">scope</span>).<span class="ruby-identifier">to_a</span>)
+
+  <span class="ruby-identifier">end_pos</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">end_pos</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">len_pos</span>, <span class="ruby-identifier">len_pos</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span> = <span class="ruby-identifier">end_pos</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_code_w_scope-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_code_w_scope-method -->
+
+    
+      <div id="method-i-serialize_date_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_date_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_date_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 452</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_date_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">DATE</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">millisecs</span> = (<span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_f</span> * <span class="ruby-value">1000</span>).<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_long</span>(<span class="ruby-identifier">millisecs</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_date_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_date_element-method -->
+
+    
+      <div id="method-i-serialize_dbref_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_dbref_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_dbref_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 420</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_dbref_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">oh</span> = <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">OrderedHash</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">oh</span>[<span class="ruby-string">'$ref'</span>] = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">namespace</span>
+  <span class="ruby-identifier">oh</span>[<span class="ruby-string">'$id'</span>] = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">object_id</span>
+  <span class="ruby-identifier">serialize_object_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">oh</span>, <span class="ruby-keyword">false</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_dbref_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_dbref_element-method -->
+
+    
+      <div id="method-i-serialize_eoo_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_eoo_element</span><span
+            class="method-args">(buf)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_eoo_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 411</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_eoo_element</span>(<span class="ruby-identifier">buf</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">EOO</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_eoo_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_eoo_element-method -->
+
+    
+      <div id="method-i-serialize_key_value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_key_value</span><span
+            class="method-args">(k, v, check_keys)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_key_value-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_key_value</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">check_keys</span>)
+  <span class="ruby-identifier">k</span> = <span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_keys</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">k</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value">$$</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidKeyName</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;key #{k} must not start with '$'&quot;</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value">..</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidKeyName</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;key #{k} must not contain '.'&quot;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">type</span> = <span class="ruby-identifier">bson_type</span>(<span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">type</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">STRING</span>, <span class="ruby-constant">SYMBOL</span>
+    <span class="ruby-identifier">serialize_string_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">type</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">NUMBER</span>, <span class="ruby-constant">NUMBER_INT</span>
+    <span class="ruby-identifier">serialize_number_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">type</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">OBJECT</span>
+    <span class="ruby-identifier">serialize_object_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">check_keys</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">OID</span>
+    <span class="ruby-identifier">serialize_oid_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">ARRAY</span>
+    <span class="ruby-identifier">serialize_array_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>, <span class="ruby-identifier">check_keys</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">REGEX</span>
+    <span class="ruby-identifier">serialize_regex_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">BOOLEAN</span>
+    <span class="ruby-identifier">serialize_boolean_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">DATE</span>
+    <span class="ruby-identifier">serialize_date_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">NULL</span>
+    <span class="ruby-identifier">serialize_null_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">REF</span>
+    <span class="ruby-identifier">serialize_dbref_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">BINARY</span>
+    <span class="ruby-identifier">serialize_binary_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">UNDEFINED</span>
+    <span class="ruby-identifier">serialize_null_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">CODE_W_SCOPE</span>
+    <span class="ruby-identifier">serialize_code_w_scope</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">MAXKEY</span>
+    <span class="ruby-identifier">serialize_max_key_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">MINKEY</span>
+    <span class="ruby-identifier">serialize_min_key_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>)
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">TIMESTAMP</span>
+    <span class="ruby-identifier">serialize_timestamp_element</span>(<span class="ruby-ivar">@buf</span>, <span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;unhandled type #{type}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_key_value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_key_value-method -->
+
+    
+      <div id="method-i-serialize_max_key_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_max_key_element</span><span
+            class="method-args">(buf, key)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_max_key_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 516</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_max_key_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">MAXKEY</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_max_key_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_max_key_element-method -->
+
+    
+      <div id="method-i-serialize_min_key_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_min_key_element</span><span
+            class="method-args">(buf, key)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_min_key_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 521</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_min_key_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">MINKEY</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_min_key_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_min_key_element-method -->
+
+    
+      <div id="method-i-serialize_null_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_null_element</span><span
+            class="method-args">(buf, key)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_null_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 415</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_null_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">NULL</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_null_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_null_element-method -->
+
+    
+      <div id="method-i-serialize_number_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_number_element</span><span
+            class="method-args">(buf, key, val, type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_number_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 459</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_number_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>, <span class="ruby-identifier">type</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-constant">NUMBER</span>
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">type</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+    <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_double</span>(<span class="ruby-identifier">val</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">64</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">-2</span><span class="ruby-operator">**</span><span class="ruby-value">64</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">RangeError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;MongoDB can only handle 8-byte ints&quot;</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span><span class="ruby-operator">**</span><span class="ruby-value">32</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">-2</span><span class="ruby-operator">**</span><span class="ruby-value">32</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>
+      <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">NUMBER_LONG</span>)
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+      <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_long</span>(<span class="ruby-identifier">val</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">type</span>)
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+      <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">val</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_number_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_number_element-method -->
+
+    
+      <div id="method-i-serialize_object_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_object_element</span><span
+            class="method-args">(buf, key, val, check_keys, opcode=OBJECT)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_object_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 480</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_object_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>, <span class="ruby-identifier">check_keys</span>, <span class="ruby-identifier">opcode</span>=<span class="ruby-constant">OBJECT</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">opcode</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-ivar">@encoder</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">serialize</span>(<span class="ruby-identifier">val</span>, <span class="ruby-identifier">check_keys</span>).<span class="ruby-identifier">to_a</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_object_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_object_element-method -->
+
+    
+      <div id="method-i-serialize_oid_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_oid_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_oid_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 534</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_oid_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">OID</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_a</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_oid_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_oid_element-method -->
+
+    
+      <div id="method-i-serialize_regex_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_regex_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_regex_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 494</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_regex_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">REGEX</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-identifier">str</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">source</span>
+  <span class="ruby-comment"># We use serialize_key here since regex patterns aren't prefixed with</span>
+  <span class="ruby-comment"># length (can't contain the NULL byte).</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">str</span>)
+
+  <span class="ruby-identifier">options</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">options</span>
+  <span class="ruby-identifier">options_str</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">options_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'i'</span> <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">options</span> &amp; <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">IGNORECASE</span>) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>)
+  <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">options</span> &amp; <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">MULTILINE</span>) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>)
+    <span class="ruby-identifier">options_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'m'</span>
+    <span class="ruby-identifier">options_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'s'</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">options_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">'x'</span> <span class="ruby-keyword">if</span> ((<span class="ruby-identifier">options</span> &amp; <span class="ruby-constant">Regexp</span><span class="ruby-operator">::</span><span class="ruby-constant">EXTENDED</span>) <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">options_str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">extra_options_str</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:extra_options_str</span>)
+  <span class="ruby-comment"># Must store option chars in alphabetical order</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">options_str</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r/</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">join</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_regex_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_regex_element-method -->
+
+    
+      <div id="method-i-serialize_string_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_string_element</span><span
+            class="method-args">(buf, key, val, type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_string_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 541</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_string_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>, <span class="ruby-identifier">type</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-identifier">type</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-comment"># Make a hole for the length</span>
+  <span class="ruby-identifier">len_pos</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-value">0</span>)
+
+  <span class="ruby-comment"># Save the string</span>
+  <span class="ruby-identifier">start_pos</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">end_pos</span> = <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span>
+
+  <span class="ruby-comment"># Put the string size in front</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">end_pos</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">start_pos</span>, <span class="ruby-identifier">len_pos</span>)
+
+  <span class="ruby-comment"># Go back to where we were</span>
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">position</span> = <span class="ruby-identifier">end_pos</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_string_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_string_element-method -->
+
+    
+      <div id="method-i-serialize_timestamp_element" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_timestamp_element</span><span
+            class="method-args">(buf, key, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_timestamp_element-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 526</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">serialize_timestamp_element</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put</span>(<span class="ruby-constant">TIMESTAMP</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">serialize_key</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">key</span>)
+
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">increment</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">seconds</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_timestamp_element-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_timestamp_element-method -->
+
+    
+      <div id="method-i-to_a" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_a</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_a-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">to_a</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_a-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_a-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+      <div id="method-i-unpack" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unpack</span><span
+            class="method-args">(arg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the array stored in the buffer. Implemented to ensure an API
+compatible with <a href="../BSON.html">BSON</a> extension.</p>
+          
+
+          
+          <div class="method-source-code" id="unpack-source">
+            <pre><span class="ruby-comment"># File lib/bson/bson_ruby.rb, line 151</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unpack</span>(<span class="ruby-identifier">arg</span>)
+  <span class="ruby-ivar">@buf</span>.<span class="ruby-identifier">to_a</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unpack-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unpack-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

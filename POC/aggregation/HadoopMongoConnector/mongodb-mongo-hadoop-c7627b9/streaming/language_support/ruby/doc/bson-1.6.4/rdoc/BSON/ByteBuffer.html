@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class BSON::ByteBuffer - bson-1.6.4 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/bson/byte_buffer.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-serialize_cstr">::serialize_cstr</a>
+    
+    <li><a href="#method-c-to_utf8_binary">::to_utf8_binary</a>
+    
+    <li><a href="#method-i-3D-3D">#==</a>
+    
+    <li><a href="#method-i-append-21">#append!</a>
+    
+    <li><a href="#method-i-clear">#clear</a>
+    
+    <li><a href="#method-i-dump">#dump</a>
+    
+    <li><a href="#method-i-get">#get</a>
+    
+    <li><a href="#method-i-get_double">#get_double</a>
+    
+    <li><a href="#method-i-get_int">#get_int</a>
+    
+    <li><a href="#method-i-get_long">#get_long</a>
+    
+    <li><a href="#method-i-length">#length</a>
+    
+    <li><a href="#method-i-more-3F">#more?</a>
+    
+    <li><a href="#method-i-order-3D">#order=</a>
+    
+    <li><a href="#method-i-position">#position</a>
+    
+    <li><a href="#method-i-position-3D">#position=</a>
+    
+    <li><a href="#method-i-prepend-21">#prepend!</a>
+    
+    <li><a href="#method-i-put">#put</a>
+    
+    <li><a href="#method-i-put_array">#put_array</a>
+    
+    <li><a href="#method-i-put_binary">#put_binary</a>
+    
+    <li><a href="#method-i-put_double">#put_double</a>
+    
+    <li><a href="#method-i-put_int">#put_int</a>
+    
+    <li><a href="#method-i-put_long">#put_long</a>
+    
+    <li><a href="#method-i-rewind">#rewind</a>
+    
+    <li><a href="#method-i-size">#size</a>
+    
+    <li><a href="#method-i-to_a">#to_a</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+    <li><a href="#method-i-unpack">#unpack</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../BSON.html">BSON</a>
+  
+    <li><a href="../BSON/BSONError.html">BSON::BSONError</a>
+  
+    <li><a href="../BSON/BSON_C.html">BSON::BSON_C</a>
+  
+    <li><a href="../BSON/BSON_JAVA.html">BSON::BSON_CODER</a>
+  
+    <li><a href="../BSON/BSON_JAVA.html">BSON::BSON_JAVA</a>
+  
+    <li><a href="../BSON/BSON_RUBY.html">BSON::BSON_RUBY</a>
+  
+    <li><a href="../BSON/Binary.html">BSON::Binary</a>
+  
+    <li><a href="../BSON/ByteBuffer.html">BSON::ByteBuffer</a>
+  
+    <li><a href="../BSON/Code.html">BSON::Code</a>
+  
+    <li><a href="../BSON/DBRef.html">BSON::DBRef</a>
+  
+    <li><a href="../BSON/InvalidDocument.html">BSON::InvalidDocument</a>
+  
+    <li><a href="../BSON/InvalidKeyName.html">BSON::InvalidKeyName</a>
+  
+    <li><a href="../BSON/InvalidObjectId.html">BSON::InvalidObjectId</a>
+  
+    <li><a href="../BSON/InvalidStringEncoding.html">BSON::InvalidStringEncoding</a>
+  
+    <li><a href="../BSON/MaxKey.html">BSON::MaxKey</a>
+  
+    <li><a href="../BSON/MinKey.html">BSON::MinKey</a>
+  
+    <li><a href="../BSON/MongoDBError.html">BSON::MongoDBError</a>
+  
+    <li><a href="../BSON/MongoRubyError.html">BSON::MongoRubyError</a>
+  
+    <li><a href="../BSON/ObjectId.html">BSON::ObjectId</a>
+  
+    <li><a href="../BSON/OrderedHash.html">BSON::OrderedHash</a>
+  
+    <li><a href="../BSON/Timestamp.html">BSON::Timestamp</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class BSON::ByteBuffer</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="BINARY_ENCODING">BINARY_ENCODING
+        
+        <dd class="description">
+        
+      
+        <dt id="NULL_BYTE">NULL_BYTE
+        
+        <dd class="description">
+        
+      
+        <dt id="UTF8_ENCODING">UTF8_ENCODING
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-max_size" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">max_size</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-order" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">order</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(initial_data="", max_size=BSON::DEFAULT_MAX_BSON_SIZE)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">initial_data</span>=<span class="ruby-string">&quot;&quot;</span>, <span class="ruby-identifier">max_size</span>=<span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">DEFAULT_MAX_BSON_SIZE</span>)
+  <span class="ruby-ivar">@str</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">initial_data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">initial_data</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:force_encoding</span>)
+        <span class="ruby-identifier">initial_data</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">'binary'</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">initial_data</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">BSON</span><span class="ruby-operator">::</span><span class="ruby-constant">ByteBuffer</span> <span class="ruby-keyword">then</span>
+      <span class="ruby-identifier">initial_data</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">'C*'</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">initial_data</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">'C*'</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">length</span>
+  <span class="ruby-ivar">@order</span>  = <span class="ruby-value">:little_endian</span>
+  <span class="ruby-ivar">@int_pack_order</span>    = <span class="ruby-string">'V'</span>
+  <span class="ruby-ivar">@double_pack_order</span> = <span class="ruby-string">'E'</span>
+  <span class="ruby-ivar">@max_size</span> = <span class="ruby-identifier">max_size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-serialize_cstr" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">serialize_cstr</span><span
+            class="method-args">(buf, val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="serialize_cstr-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">serialize_cstr</span>(<span class="ruby-identifier">buf</span>, <span class="ruby-identifier">val</span>)
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">append!</span>(<span class="ruby-identifier">to_utf8_binary</span>(<span class="ruby-identifier">val</span>.<span class="ruby-identifier">to_s</span>))
+  <span class="ruby-identifier">buf</span>.<span class="ruby-identifier">append!</span>(<span class="ruby-constant">NULL_BYTE</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- serialize_cstr-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- serialize_cstr-method -->
+
+    
+      <div id="method-c-to_utf8_binary" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_utf8_binary</span><span
+            class="method-args">(str)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_utf8_binary-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_utf8_binary</span>(<span class="ruby-identifier">str</span>)
+  <span class="ruby-identifier">str</span>.<span class="ruby-identifier">encode</span>(<span class="ruby-constant">UTF8_ENCODING</span>).<span class="ruby-identifier">force_encoding</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_utf8_binary-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_utf8_binary-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-3D-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">==</span><span
+            class="method-args">(other)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="3D-3D-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 235</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">other</span>)
+  <span class="ruby-identifier">other</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:to_s</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@str</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 3D-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 3D-3D-method -->
+
+    
+      <div id="method-i-append-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">append!</span><span
+            class="method-args">(buffer)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Appends a second <a href="ByteBuffer.html">ByteBuffer</a> object,
+<code>buffer</code>, to the current buffer.</p>
+          
+
+          
+          <div class="method-source-code" id="append-21-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 102</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">append!</span>(<span class="ruby-identifier">buffer</span>)
+  <span class="ruby-ivar">@str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- append-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- append-21-method -->
+
+    
+      <div id="method-i-clear" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clear-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>
+  <span class="ruby-ivar">@str</span> = <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">'binary'</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:force_encoding</span>)
+  <span class="ruby-identifier">rewind</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear-method -->
+
+    
+      <div id="method-i-dump" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">dump</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="dump-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">dump</span>
+  <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">each_byte</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{'%04d' % i}: #{'%02x' % c} #{'%03o' % c} #{'%s' % c.chr} #{'%3d' % c}&quot;</span>
+    <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- dump-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- dump-method -->
+
+    
+      <div id="method-i-get" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get</span><span
+            class="method-args">(len=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 180</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">len</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">one_byte</span> = <span class="ruby-identifier">len</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">len</span> <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
+  <span class="ruby-identifier">check_read_length</span>(<span class="ruby-identifier">len</span>)
+  <span class="ruby-identifier">start</span> = <span class="ruby-ivar">@cursor</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">len</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">one_byte</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-identifier">start</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-identifier">start</span>, <span class="ruby-identifier">len</span>].<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get-method -->
+
+    
+      <div id="method-i-get_double" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_double</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_double-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_double</span>
+  <span class="ruby-identifier">check_read_length</span>(<span class="ruby-value">8</span>)
+  <span class="ruby-identifier">vals</span> = <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span><span class="ruby-operator">..</span><span class="ruby-ivar">@cursor</span><span class="ruby-operator">+</span><span class="ruby-value">7</span>]
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-value">8</span>
+  <span class="ruby-identifier">vals</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-ivar">@double_pack_order</span>)[<span class="ruby-value">0</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_double-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_double-method -->
+
+    
+      <div id="method-i-get_int" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_int</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_int-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 207</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">check_read_length</span>(<span class="ruby-value">4</span>)
+  <span class="ruby-identifier">vals</span> = <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span><span class="ruby-operator">..</span><span class="ruby-ivar">@cursor</span><span class="ruby-operator">+</span><span class="ruby-value">3</span>]
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-value">4</span>
+  <span class="ruby-identifier">vals</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-ivar">@int_pack_order</span>)[<span class="ruby-value">0</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_int-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_int-method -->
+
+    
+      <div id="method-i-get_long" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_long</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_long-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 214</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_long</span>
+  <span class="ruby-identifier">i1</span> = <span class="ruby-identifier">get_int</span>
+  <span class="ruby-identifier">i2</span> = <span class="ruby-identifier">get_int</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@int_pack_order</span> <span class="ruby-operator">==</span> <span class="ruby-string">'N'</span>
+    (<span class="ruby-identifier">i1</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">32</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">i2</span>
+  <span class="ruby-keyword">else</span>
+    (<span class="ruby-identifier">i2</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">32</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">i1</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_long-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_long-method -->
+
+    
+      <div id="method-i-length" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">length</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="ByteBuffer.html#method-i-size">size</a>
+        </div>
+        
+      </div><!-- length-method -->
+
+    
+      <div id="method-i-more-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">more?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="more-3F-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 231</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">more?</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- more-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- more-3F-method -->
+
+    
+      <div id="method-i-order-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">order=</span><span
+            class="method-args">(endianness)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p><code>endianness</code> should be :little_endian or :big_endian. Default is
+:little_endian</p>
+          
+
+          
+          <div class="method-source-code" id="order-3D-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">order=</span>(<span class="ruby-identifier">endianness</span>)
+  <span class="ruby-ivar">@order</span> = <span class="ruby-identifier">endianness</span>
+  <span class="ruby-ivar">@int_pack_order</span> = <span class="ruby-identifier">endianness</span> <span class="ruby-operator">==</span> <span class="ruby-value">:little_endian</span> <span class="ruby-operator">?</span> <span class="ruby-string">'V'</span> <span class="ruby-operator">:</span> <span class="ruby-string">'N'</span>
+  <span class="ruby-ivar">@double_pack_order</span> = <span class="ruby-identifier">endianness</span> <span class="ruby-operator">==</span> <span class="ruby-value">:little_endian</span> <span class="ruby-operator">?</span> <span class="ruby-string">'E'</span> <span class="ruby-operator">:</span> <span class="ruby-string">'G'</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- order-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- order-3D-method -->
+
+    
+      <div id="method-i-position" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">position</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="position-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">position</span>
+  <span class="ruby-ivar">@cursor</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- position-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- position-method -->
+
+    
+      <div id="method-i-position-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">position=</span><span
+            class="method-args">(val)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="position-3D-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">position=</span>(<span class="ruby-identifier">val</span>)
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-identifier">val</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- position-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- position-3D-method -->
+
+    
+      <div id="method-i-prepend-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prepend!</span><span
+            class="method-args">(buffer)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Prepends a second <a href="ByteBuffer.html">ByteBuffer</a> object,
+<code>buffer</code>, to the current buffer.</p>
+          
+
+          
+          <div class="method-source-code" id="prepend-21-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prepend!</span>(<span class="ruby-identifier">buffer</span>)
+  <span class="ruby-ivar">@str</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@str</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prepend-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prepend-21-method -->
+
+    
+      <div id="method-i-put" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put</span><span
+            class="method-args">(byte, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 113</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put</span>(<span class="ruby-identifier">byte</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-identifier">offset</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">offset</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">more?</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span>] = <span class="ruby-identifier">chr</span>(<span class="ruby-identifier">byte</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ensure_length</span>(<span class="ruby-ivar">@cursor</span>)
+    <span class="ruby-ivar">@str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">chr</span>(<span class="ruby-identifier">byte</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put-method -->
+
+    
+      <div id="method-i-put_array" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put_array</span><span
+            class="method-args">(array, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put_array-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 138</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">array</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-identifier">offset</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">offset</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">more?</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span>, <span class="ruby-identifier">array</span>.<span class="ruby-identifier">length</span>] = <span class="ruby-identifier">array</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ensure_length</span>(<span class="ruby-ivar">@cursor</span>)
+    <span class="ruby-ivar">@str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">array</span>.<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">array</span>.<span class="ruby-identifier">length</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put_array-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put_array-method -->
+
+    
+      <div id="method-i-put_binary" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put_binary</span><span
+            class="method-args">(data, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put_binary-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 124</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put_binary</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-identifier">offset</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">offset</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
+    <span class="ruby-identifier">data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">more?</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span>, <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span>] = <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ensure_length</span>(<span class="ruby-ivar">@cursor</span>)
+    <span class="ruby-ivar">@str</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">length</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put_binary-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put_binary-method -->
+
+    
+      <div id="method-i-put_double" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put_double</span><span
+            class="method-args">(d, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put_double-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put_double</span>(<span class="ruby-identifier">d</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">a</span> = []
+  [<span class="ruby-identifier">d</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-ivar">@double_pack_order</span>).<span class="ruby-identifier">each_byte</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">b</span> }
+  <span class="ruby-identifier">put_array</span>(<span class="ruby-identifier">a</span>, <span class="ruby-identifier">offset</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put_double-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put_double-method -->
+
+    
+      <div id="method-i-put_int" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put_int</span><span
+            class="method-args">(i, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put_int-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">i</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-identifier">offset</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">offset</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">more?</span>
+    <span class="ruby-ivar">@str</span>[<span class="ruby-ivar">@cursor</span>, <span class="ruby-value">4</span>] = [<span class="ruby-identifier">i</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-ivar">@int_pack_order</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">ensure_length</span>(<span class="ruby-ivar">@cursor</span>)
+    <span class="ruby-ivar">@str</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">i</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-ivar">@int_pack_order</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@cursor</span> <span class="ruby-operator">+=</span> <span class="ruby-value">4</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put_int-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put_int-method -->
+
+    
+      <div id="method-i-put_long" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">put_long</span><span
+            class="method-args">(i, offset=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="put_long-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">put_long</span>(<span class="ruby-identifier">i</span>, <span class="ruby-identifier">offset</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">offset</span> = <span class="ruby-ivar">@cursor</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">offset</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@int_pack_order</span> <span class="ruby-operator">==</span> <span class="ruby-string">'N'</span>
+    <span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">32</span>, <span class="ruby-identifier">offset</span>)
+    <span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">i</span> &amp; <span class="ruby-value">0xffffffff</span>, <span class="ruby-identifier">offset</span> <span class="ruby-operator">+</span> <span class="ruby-value">4</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">i</span> &amp; <span class="ruby-value">0xffffffff</span>, <span class="ruby-identifier">offset</span>)
+    <span class="ruby-identifier">put_int</span>(<span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">32</span>, <span class="ruby-identifier">offset</span> <span class="ruby-operator">+</span> <span class="ruby-value">4</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- put_long-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- put_long-method -->
+
+    
+      <div id="method-i-rewind" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rewind</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="rewind-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rewind</span>
+  <span class="ruby-ivar">@cursor</span> = <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rewind-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rewind-method -->
+
+    
+      <div id="method-i-size" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">size</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="size-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 96</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>
+  <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- size-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="ByteBuffer.html#method-i-length">length</a>
+        </div>
+        
+
+        
+      </div><!-- size-method -->
+
+    
+      <div id="method-i-to_a" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_a</span><span
+            class="method-args">(format="C*")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_a-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 239</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>(<span class="ruby-identifier">format</span>=<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-identifier">format</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_a-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_a-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 247</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-ivar">@str</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+      <div id="method-i-unpack" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unpack</span><span
+            class="method-args">(format="C*")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unpack-source">
+            <pre><span class="ruby-comment"># File lib/bson/byte_buffer.rb, line 243</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unpack</span>(<span class="ruby-identifier">format</span>=<span class="ruby-string">&quot;C*&quot;</span>)
+  <span class="ruby-identifier">to_a</span>(<span class="ruby-identifier">format</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unpack-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unpack-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
