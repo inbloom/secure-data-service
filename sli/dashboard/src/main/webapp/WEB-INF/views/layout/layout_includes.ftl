@@ -39,18 +39,16 @@
 
 <#noescape>
 
-<!--[if lt IE 9]>
-	<script>
-		document.createElement("footer"); // need to move this code in javascript
-	</script>
-<![endif]-->
 
 <script>
 	var contextRootPath = '${CONTEXT_ROOT_PATH}',
 		pageTitle;
 		
 	SLC.dataProxy.loadAll(${viewDataConfig});
-  
+
+	if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+		document.createElement("footer");
+	}
 	pageTitle = SLC.dataProxy.getLayoutName();
 	document.title = pageTitle;
 	
