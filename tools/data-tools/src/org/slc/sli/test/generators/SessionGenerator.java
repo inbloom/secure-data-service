@@ -89,11 +89,11 @@ public class SessionGenerator {
         return TermType.values()[index];
     }
 
-    public static Session generateMidFi(String id, String schoolId, List<String> calendarList) {
-        return generateLowFi(id, schoolId, calendarList);
+    public static Session generateMidFi(String id, String schoolId, List<String> calendarList, List<String> gradingPeriodList) {
+        return generateLowFi(id, schoolId, calendarList, gradingPeriodList);
     }
 
-    public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
+    public static Session generateLowFi(String id, String schoolId, List<String> calendarList, List<String> gradingPeriodList) {
         Session session = new Session();
         Random random = new Random();
 
@@ -124,8 +124,8 @@ public class SessionGenerator {
             session.getCalendarDateReference().add(ref);
         }
 
-        for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
-            Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
+        for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS && i < gradingPeriodList.size(); i++) {
+            Ref gpRef = new Ref(gradingPeriodList.get(i));
             GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
             gprt.setRef(gpRef);
             session.getGradingPeriodReference().add(gprt);
