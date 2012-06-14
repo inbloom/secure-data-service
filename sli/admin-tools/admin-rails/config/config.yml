@@ -29,9 +29,9 @@ email_mon: &email_mon
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: smpt.gmail.com
     email_port: 587
-    email_username:portal.wgen@gmail.com
-    email_password:liferaywgen
-    email_tls:true
+    email_username: portal.wgen@gmail.com
+    email_password: liferaywgen
+    email_tls: true
 
 email_rumbster: &email_rumbster
     email_sender_name: SLI Administrator
