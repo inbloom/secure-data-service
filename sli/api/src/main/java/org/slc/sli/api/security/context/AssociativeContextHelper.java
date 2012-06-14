@@ -2,7 +2,6 @@ package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.service.BasicService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -52,7 +51,7 @@ public class AssociativeContextHelper {
             String targetKey = keys.get(1);
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
-            neutralQuery.setLimit(9999);
+            neutralQuery.setLimit(0);
             neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", foundIds));
             Iterable<Entity> entities = this.repository.findAll(ad.getStoredCollectionName(), neutralQuery);
 
@@ -149,7 +148,7 @@ public class AssociativeContextHelper {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
-        neutralQuery.setLimit(9999);
+        neutralQuery.setLimit(0);
 //        BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
