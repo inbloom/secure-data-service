@@ -31,7 +31,6 @@ public class JsonLevel1ClientTest {
     }
 
     @Test
-    @Ignore
     public void testCrud() {
         try {
             final String studentUniqueStateId = "studentUniqueStateId";
@@ -43,14 +42,14 @@ public class JsonLevel1ClientTest {
             //GET
             final List<Entity> getStudent = getStudent(loc);
             assertNotNull(getStudent);
-            assertEquals(0, getStudent.size());
+            assertEquals(1, getStudent.size());
             assertEquals("900000011", getStudent.get(0).getData().get(studentUniqueStateId));
 
             //PUT
             putStudent(loc);
             final List<Entity> putStudent = getStudent(loc);
             assertNotNull(putStudent);
-            assertEquals(0, putStudent.size());
+            assertEquals(1, putStudent.size());
             assertEquals("900000012", putStudent.get(0).getData().get(studentUniqueStateId));
 
             //DELETE
@@ -76,6 +75,12 @@ public class JsonLevel1ClientTest {
         }
     }
 
+    private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
+        return level1Client.postRequest(TestingConstants.TESTING_TOKEN,
+                readJsonFromFile("/testStudent.json"),
+                new URL(TestingConstants.BASE_URL + "/students"));
+    }
+
     private void deleteStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
         level1Client.deleteRequest(TestingConstants.TESTING_TOKEN, loc);
     }
@@ -97,11 +102,4 @@ public class JsonLevel1ClientTest {
         }
         throw new RuntimeException();
     }
-
-    private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
-        return level1Client.postRequest(TestingConstants.TESTING_TOKEN,
-                readJsonFromFile("/testStudent.json"),
-                new URL(TestingConstants.BASE_URL + "/students"));
-    }
-
 }
