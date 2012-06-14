@@ -141,11 +141,15 @@ Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
   assert(user[:status]==status.downcase,"didnt create account with status is #{status}")
 end
 
-Then /^an approval email is sent to the "([^"]*)"$/ do |email|
+Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
   sleep(10)
   @email = email
   verifyEmail()
-  approval_email_subject="Welcome to the Shared Learning Collaborative"
+  if environment == "sandbox"
+    approval_email_subject="Welcome to the SLC Developer Sandbox"
+  elsif environment == "production"
+    approval_email_subject="Welcome to the Shared Learning Collaborative"
+  end
   found=@email_subject.downcase.include?(approval_email_subject.downcase)
   assert(found,"didnt receive approval email!")
 end
@@ -165,6 +169,10 @@ end
 When /^the user clicks on "([^"]*)"$/ do |link|
   url=PropLoader.getProps['admintools_server_url']+"/"+link
   @driver.get url
+end
+
+When /^the user clicks on the link in the email$/ do
+  @driver.get getVerificationLink
 end
 
 Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/ do |user, pass|
@@ -354,6 +362,15 @@ def getVerificationLink
   else
   link="https://"+@email_content.split("https://")[-1].split("\n")[0]
   end
+
+  # remove last . the last character is a .
+  if link[-2] == "."
+    puts "removing ending period"
+    link = link[0..-3]
+  end
+
+  puts "link = [#{link}]"
+  link
 end
 
 def removeUser(email)

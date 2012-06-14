@@ -2,13 +2,15 @@ package org.slc.sli.api.security.context.resolver;
 
 import static org.slc.sli.api.client.constants.v1.ParameterConstants.STUDENT_RECORD_ACCESS;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Calendar;
 import java.util.TreeSet;
+import java.util.Arrays;
 
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,12 @@ public class TeacherStudentResolver implements EntityContextResolver {
     @Value("${sli.security.gracePeriod}")
     private String sectionGracePeriod;
 
+    @Autowired
+    private SecurityCachingStrategy securityCachingStrategy;
+
+    private static final String FROM_ENTITY = "teacher";
+    private static final String TO_ENTITY = "student";
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT.equals(toEntityType);
@@ -43,9 +51,15 @@ public class TeacherStudentResolver implements EntityContextResolver {
 
         Set<String> ids = new TreeSet<String>();
 
-        ids.addAll(findAccessibleThroughSection(principal));
-        ids.addAll(findAccessibleThroughCohort(principal));
-        ids.addAll(findAccessibleThroughProgram(principal));
+        if (!securityCachingStrategy.contains(FROM_ENTITY + TO_ENTITY)) {
+            ids.addAll(findAccessibleThroughSection(principal));
+            ids.addAll(findAccessibleThroughCohort(principal));
+            ids.addAll(findAccessibleThroughProgram(principal));
+
+            securityCachingStrategy.warm(FROM_ENTITY + TO_ENTITY, new HashSet<String>(ids));
+        } else {
+            ids = securityCachingStrategy.retrieve(FROM_ENTITY + TO_ENTITY);
+        }
 
         return new ArrayList<String>(ids);
     }

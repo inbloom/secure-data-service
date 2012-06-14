@@ -1,7 +1,7 @@
 common: &common
     recaptcha_disable: true
-    terms_url: http://dev.slcedu.org/legal/terms-service
-    privacy_policy_url: http://dev.slcedu.org/legal/privacy
+    terms_url: http://dev.slcedu.org/legal/terms-of-use
+    privacy_policy_url: http://dev.slcedu.oßrg/legal/privacy
     # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
@@ -16,6 +16,7 @@ common: &common
 sandbox: &sandbox
     is_sandbox: true
     maximum_user_count: 500
+    sample_data_url: http://dev.slcedu.org
 
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
@@ -73,7 +74,6 @@ development_sb:
     ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     email_replace_uri: http://local.slidev.org:3000
     portal_url: https://rc2portal.slidev.org/portal
-    sample_data_url: http://www.slcedu.org
     
 team:
     <<: *common
@@ -100,7 +100,6 @@ team_sb:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     portal_url: https://rc2portal.slidev.org/portal
-    sample_data_url: http://www.slcedu.org
     
 test:
     <<: *common
