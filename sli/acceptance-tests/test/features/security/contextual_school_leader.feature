@@ -25,9 +25,9 @@ Then I should receive a return code of 403
 Examples:
 	|Username    |Password        |Realm|Role      |School                     |Data|
 	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in Parker Elementary"|
-	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in South Daybreak Elementary"|
+#DE719	|"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Students in South Daybreak Elementary"|  Test does not make sense
 	|"mgonzales" |"mgonzales1234" |"IL" |"Leader"  |"South Daybreak Elementary"|"Mark Anthony"|
-	|"racosta"   |"racosta1234"   |"IL" |"Leader"  |"Sunset Central High"      |"Dale Reiss"|
+	|"racosta"   |"racosta1234"   |"IL" |"Leader"  |"Sunset Central High"      |"Matt Sollars"|
 	|"agibbs"    |"agibbs1234"    |"NY" |"IT Admin"|"Dawn Elementary"          |"Teachers in Parker Elementary"|
 	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Students in AP Calculus Sec 201"|
 
@@ -65,8 +65,8 @@ When I try to update the data for <Data> in another "school" from the API
 Then I should receive a return code of 403
 Examples:
 	|Username|Password    |Realm|School                     |Data|
-	|"agibbs"|"agibbs1234"|"NY" |"Dawn Elementary"          |"Brandon Suzuki"|
-	|"akopel"|"akopel1234"|"IL" |"South Daybreak Elementary"|"Malcolm Haehn NY"|
+	|"agibbs"|"agibbs1234"|"NY" |"Dawn Elementary"          |"Dale Reiss"|
+	|"akopel"|"akopel1234"|"IL" |"South Daybreak Elementary"|"Lavern Chaney"|
 
 Scenario Outline: Aggregate Viewer getting their available school data
 
