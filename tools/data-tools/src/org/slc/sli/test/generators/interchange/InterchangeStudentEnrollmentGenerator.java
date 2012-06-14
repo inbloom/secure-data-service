@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
 
 import java.util.Collection;
@@ -38,12 +41,11 @@ public class InterchangeStudentEnrollmentGenerator {
         List<Object> interchangeObjects = interchange
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -87,9 +89,8 @@ public class InterchangeStudentEnrollmentGenerator {
 			objGenCounter++;
 		}
 
-		System.out.println(REPORT_INDENTATION + "generated " + objGenCounter
-				+ " GraduationPlan objects in: "
-				+ (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("GraduationPlan", objGenCounter, 
+                System.currentTimeMillis() - startTime);
    }
     
     /**
@@ -123,6 +124,8 @@ public class InterchangeStudentEnrollmentGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSchoolAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentSchoolAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -158,6 +161,8 @@ public class InterchangeStudentEnrollmentGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentSectionAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
 }

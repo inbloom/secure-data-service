@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
 
 import java.util.Collection;
@@ -67,15 +70,14 @@ public class InterchangeEdOrgGenerator {
         
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
 
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         
         return interchange;
     }
@@ -126,8 +128,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(sea);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + seaMetas.size() + " StateEducationAgency objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StateEducationAgency", seaMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -152,8 +154,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(esc);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + escMetas.size() + " EducationServiceCenter objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("EducationServiceCenter", escMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -164,7 +166,8 @@ public class InterchangeEdOrgGenerator {
      */
     private static void generateFeederSchoolAssociation(List<Object> interchangeObjects, Collection<SchoolMeta> schools) {
         long startTime = System.currentTimeMillis();
-
+        long count = 0;
+        
         List<SchoolMeta> schoolMetas = new LinkedList<SchoolMeta>(schools);
         int schoolCount = schoolMetas.size();
         if(schoolCount > 1) {
@@ -175,10 +178,13 @@ public class InterchangeEdOrgGenerator {
                 fsa.setFeederRelationshipDescription("Feeder Relationship " +  i);
                 interchangeObjects.add(fsa);
             }
+            count = MetaRelations.FEEDER_RELATIONSHIPS;
+        } else {
+            count = 1;
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + MetaRelations.FEEDER_RELATIONSHIPS + " FeederSchoolAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("FeederSchoolAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -203,8 +209,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(lea);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + leaMetas.size() + " LocalEducationAgency objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("LocalEducationAgency", leaMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -230,8 +236,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(school);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + schoolMetas.size() + " School objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("School", schoolMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -262,6 +268,8 @@ public class InterchangeEdOrgGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + courseMetas.size() + " Course objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Course", courseMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -288,6 +296,7 @@ public class InterchangeEdOrgGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + programMetas.size() + " Program objects in: "
                 + (System.currentTimeMillis() - startTime));
-
+        writeInterchangeEntityStatistic("Program", programMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 }

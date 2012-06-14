@@ -3,8 +3,9 @@
  */
 package org.slc.sli.test.generators.interchange;
 
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.generators.MediumStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
@@ -48,12 +48,11 @@ public class InterchangeStudentParentGenerator {
         InterchangeStudentParent interchange = new InterchangeStudentParent();
         List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
         
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -110,8 +109,8 @@ public class InterchangeStudentParentGenerator {
 
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + studentMetas.size() + " Student objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Student", studentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
 
@@ -141,8 +140,8 @@ public class InterchangeStudentParentGenerator {
             interchangeObjects.add(parent);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + parentMetas.size() + " Parent objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Parent", parentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -174,8 +173,8 @@ public class InterchangeStudentParentGenerator {
 
          }
 
-        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentParentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentParentAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
 }

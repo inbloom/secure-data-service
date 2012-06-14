@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
 
 import java.util.Collection;
@@ -34,14 +37,13 @@ public class InterchangeStudentCohortGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeStudentCohort interchange = new InterchangeStudentCohort();
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
-
         List<Object> interchangeObjects = interchange.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
+
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -80,8 +82,7 @@ public class InterchangeStudentCohortGenerator {
             count++;
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " Cohort objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Cohort", count, System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -107,8 +108,8 @@ public class InterchangeStudentCohortGenerator {
             count++;
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StaffCohortAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StaffCohortAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -135,8 +136,8 @@ public class InterchangeStudentCohortGenerator {
             count += retVal.size();
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentCohortAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentCohortAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 }

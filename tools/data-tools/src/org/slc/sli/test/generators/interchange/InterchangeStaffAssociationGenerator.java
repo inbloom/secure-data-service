@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
 
 import java.util.Collection;
@@ -45,14 +48,14 @@ public class InterchangeStaffAssociationGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
         List<Object> interchangeObjects = interchange
                 .getStaffOrStaffEducationOrgEmploymentAssociationOrStaffEducationOrgAssignmentAssociation();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -103,8 +106,8 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(teacher);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + teacherMetas.size() + " Teacher objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Teacher", teacherMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
@@ -128,8 +131,8 @@ public class InterchangeStaffAssociationGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("TeacherSchoolAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateTeacherSectionAssoc(List<Object> interchangeObjects,
@@ -156,6 +159,8 @@ public class InterchangeStaffAssociationGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " TeacherSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("TeacherSectionAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -183,6 +188,8 @@ public class InterchangeStaffAssociationGenerator {
 
         System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " Staff objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Staff", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateStaffEdOrgEmploymentAssoc(List<Object> interchangeObjects,
@@ -202,8 +209,8 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgEmploymentAssoc);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StaffEducationOrgEmploymentAssociation", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateStaffEdOrgAssignmentAssoc(List<Object> interchangeObjects,
@@ -223,8 +230,8 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgAssignmentAssoc);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StaffEducationOrgAssignmentAssociation", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -251,8 +258,7 @@ public class InterchangeStaffAssociationGenerator {
             count++;
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StaffProgramAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
-        
+        writeInterchangeEntityStatistic("StaffProgramAssociation", count, 
+                System.currentTimeMillis() - startTime);        
     }
 }

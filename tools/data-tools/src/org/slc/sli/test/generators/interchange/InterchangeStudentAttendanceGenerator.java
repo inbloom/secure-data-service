@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
@@ -8,7 +10,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AttendanceEventGenerator;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
 /**
  * Generates the Student Attendance Interchange as derived from the associations
  * determined during the call to MetaRelations.buildFromSea() in StateEdFiXmlGenerator.
@@ -40,7 +42,7 @@ public class InterchangeStudentAttendanceGenerator {
             InterchangeWriter<InterchangeStudentAttendance> writer) {
         long startTime = System.currentTimeMillis();
 
-        int objGenCounter = 0;
+        long objGenCounter = 0;
         for (StudentMeta studentMeta : studentMetas) {
 
             AttendanceEventGenerator.resetCalendar();
@@ -67,8 +69,7 @@ public class InterchangeStudentAttendanceGenerator {
             }
        }
 
-        System.out.println("generated " + objGenCounter + " AttendanceEvent objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("AttendanceEvent", objGenCounter, System.currentTimeMillis() - startTime);
     }
 
 }

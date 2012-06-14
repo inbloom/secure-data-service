@@ -28,8 +28,6 @@ public class SessionGenerator {
 
     public Session sessionGenerator(List<String> stateOrgIds) {
         Session session = new Session();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
-
         session.setSessionName("2012 Spring");
 
         session.setSchoolYear("2011");

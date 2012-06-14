@@ -1,9 +1,13 @@
 package org.slc.sli.test.utils;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
@@ -16,6 +20,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.*;
 
 /**
  * Interchange writer
@@ -30,6 +35,9 @@ public class InterchangeWriter<T> {
     private static final boolean SINGLE_LINE_MARSHALLING = true;
 
     public static final String REPORT_INDENTATION = "  ";
+    private static final String STATISTICS_FILE = "./data/statistics.json";
+    
+    private static PrintWriter statsWriter = null;
     
     private String interchangeName = null;
     private String xmlFilePath = null;
@@ -49,7 +57,8 @@ public class InterchangeWriter<T> {
         interchangeName = interchange.getSimpleName();
         xmlFilePath = StateEdFiXmlGenerator.rootOutputPath + "/" + interchangeName + ".xml";
 
-        System.out.println(interchangeName + " started");
+        writeInterchangeStatisticStart(interchangeName);
+        
         try {
             JAXBContext context = JAXBContext.newInstance(interchange);
             streamMarshaller = context.createMarshaller();
@@ -103,7 +112,7 @@ public class InterchangeWriter<T> {
             System.exit(1);  // fail fast for now
         }
     }
-    
+
     public void close() {
         
         try {
@@ -118,8 +127,7 @@ public class InterchangeWriter<T> {
             System.exit(1);  // fail fast for now
         }
         
-        System.out.println(interchangeName + ": generated " + marshaledCount + " entries in "
-                + (System.currentTimeMillis() - interchangeStartTime) + "\n");
+        writeInterchangeStatisticEnd(marshaledCount, System.currentTimeMillis() - interchangeStartTime);
 
         streamMarshaller = null;
     }
@@ -156,8 +164,67 @@ public class InterchangeWriter<T> {
         }
     }
 
+    private static void initStatisticsWriter() {
+        if (statsWriter != null) return;
+        
+        try {
+            statsWriter = new PrintWriter(new BufferedWriter(new FileWriter(STATISTICS_FILE)));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+//    private void writeInterchangeStatisticStart() {
+//        if (statsWriter == null) {
+//            initStatisticsWriter();
+//        }
+//        
+//        StringBuffer statInfo = new StringBuffer();
+//        statInfo.append("{ \"" + interchangeName + "\" : " + "\n");
+//        statInfo.append(REPORT_INDENTATION + "{");
+//        statsWriter.println(statInfo);
+//        
+//        System.out.println("{ \"" + interchangeName + "\" : ");
+//        System.out.println(REPORT_INDENTATION + "{");
+//    }
+//    
+//    private void writeInterchangeStatisticEnd() {
+//        if (statsWriter == null) {
+//            initStatisticsWriter();
+//        }
+//
+//        StringBuffer statInfo = new StringBuffer();
+//        statInfo.append(REPORT_INDENTATION + REPORT_INDENTATION + "\"Count\" : " + marshaledCount + ",\n");
+//        statInfo.append(REPORT_INDENTATION + REPORT_INDENTATION + "\"ElapsedTime\" : " + (System.currentTimeMillis() - interchangeStartTime) +"\n");
+//        statInfo.append(REPORT_INDENTATION + "}\n");
+//        statInfo.append("}");
+//        statsWriter.println(statInfo);
+//        statsWriter.flush();
+//        
+//        System.out.println(REPORT_INDENTATION + REPORT_INDENTATION + "\"Count\" : " + marshaledCount + ",");
+//        System.out.println(REPORT_INDENTATION + REPORT_INDENTATION + "\"ElapsedTime\" : " + (System.currentTimeMillis() - interchangeStartTime));
+//        System.out.println(REPORT_INDENTATION + "}");
+//        System.out.println("}");
+//    }
+//
+//    public static void writeInterchangeEntityStatistic(String entityName, long entityCount, long elapsedTime) {
+//        if (statsWriter == null) {
+//            initStatisticsWriter();
+//        }
+//
+//        StringBuffer statInfo = new StringBuffer();
+//        statInfo.append(REPORT_INDENTATION + REPORT_INDENTATION + "{ \"" + entityName 
+//                + "\" : { \"count\" : " + entityCount + ", \"elapsedTime\" : " + elapsedTime + " } }");
+//        statsWriter.println(statInfo);
+//        
+//        System.out.println(REPORT_INDENTATION + REPORT_INDENTATION + "{ \"" + entityName 
+//                + "\" : { \"count\" : " + entityCount + ", \"elapsedTime\" : " + elapsedTime + " } }");
+//    }
+    
     public String getXmlFilePath() {
         return xmlFilePath;
     }
 
+    
 }

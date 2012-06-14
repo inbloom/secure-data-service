@@ -1,7 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,12 +46,12 @@ public class InterchangeEdOrgCalGenerator {
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
+        
         return interchange;
     }
 
@@ -109,9 +110,8 @@ public class InterchangeEdOrgCalGenerator {
 			interchangeObjects.add(gradingPeriod);
 		}
 
-		System.out.println(REPORT_INDENTATION + "generated " + gradingPeriodMetas.size()
-				+ " GradingPeriod objects in: "
-				+ (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("GradingPeriod", gradingPeriodMetas.size(), 
+                System.currentTimeMillis() - startTime);
 	}
 
 	private static void generateCalendar(List<ComplexObjectType> interchangeObjects, Collection<CalendarMeta> calendarMetas) {
@@ -130,8 +130,8 @@ public class InterchangeEdOrgCalGenerator {
              interchangeObjects.add(calendar);
          }
 
-         System.out.println(REPORT_INDENTATION + "generated " + calendarMetas.size() + " Calendar objects in: "
-                 + (System.currentTimeMillis() - startTime));
+         writeInterchangeEntityStatistic("CalendarDate", calendarMetas.size(), 
+                 System.currentTimeMillis() - startTime);
      }
 
     
@@ -159,7 +159,7 @@ public class InterchangeEdOrgCalGenerator {
             interchangeObjects.add(session);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + sessionMetas.size() + " Session objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Session", sessionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 }

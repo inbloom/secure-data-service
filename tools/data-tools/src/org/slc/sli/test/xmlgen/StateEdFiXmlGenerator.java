@@ -31,6 +31,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
+import org.slc.sli.test.utils.InterchangeStatisticsWriterUtils;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
@@ -73,6 +74,8 @@ public class StateEdFiXmlGenerator {
      */
     public static void main(String[] args) throws Exception {
 
+        InterchangeStatisticsWriterUtils.initStatisticsWriter(rootOutputPath);
+        
         processProgramArguments(args);
 
         MetaRelations.construct();

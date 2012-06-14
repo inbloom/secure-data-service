@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.stream.XMLStreamException;
@@ -54,18 +56,24 @@ public class InterchangeStudentAssessmentGenerator {
 
     private static void generateStudentReference(Collection<StudentMeta> studentMetas, 
             InterchangeWriter<InterchangeStudentAssessment> writer) {
+        long startTime = System.currentTimeMillis();
+
         for (StudentMeta studentMeta : studentMetas) {
             StudentReferenceType studentReference = StudentGenerator.getStudentReferenceType(studentMeta.id);
             writer.marshal(studentReference);
         }
+        writeInterchangeEntityStatistic("StudentAssessment", studentMetas.size(), System.currentTimeMillis() - startTime);
     }
 
     private static void generateAssessmentReference(Collection<AssessmentMeta> assessmentMetas, 
             InterchangeWriter<InterchangeStudentAssessment> writer) {
+        long startTime = System.currentTimeMillis();
+
         for (AssessmentMeta assessmentMeta : assessmentMetas) {
             AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentMeta.id);
             writer.marshal(assessmentRef);
         }
+        writeInterchangeEntityStatistic("StudentAssessment", assessmentMetas.size(), System.currentTimeMillis() - startTime);
     }
 
     private static Collection<StudentAssessment> generateStudentAssessments(
@@ -88,8 +96,7 @@ public class InterchangeStudentAssessmentGenerator {
             writer.marshal(studentAssessment);
         }
 
-        System.out.println("generated " + studentAssessmentMetas.size() + " StudentAssessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentAssessment", studentAssessmentMetas.size(), System.currentTimeMillis() - startTime);
         return studentAssessments;
     }
 
@@ -114,8 +121,7 @@ public class InterchangeStudentAssessmentGenerator {
             }
         }
 
-        System.out.println("generated " + count + " StudentObjectiveAssessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentObjectiveAssessment", count, System.currentTimeMillis() - startTime);
     }
     
     private static void generateStudentAssessmentItems(
@@ -144,8 +150,7 @@ public class InterchangeStudentAssessmentGenerator {
             }
         }
 
-        System.out.println("generated " + count + " StudentAssessmentItem objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentAssessmentItem", count, System.currentTimeMillis() - startTime);
     }
 
 }

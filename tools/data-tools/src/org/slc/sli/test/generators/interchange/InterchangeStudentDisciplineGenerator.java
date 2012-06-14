@@ -1,7 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class InterchangeStudentDisciplineGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeStudentDiscipline interchange = new InterchangeStudentDiscipline();
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
         List<Object> interchangeObjects = interchange.getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
+
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -79,8 +80,8 @@ public class InterchangeStudentDisciplineGenerator {
             interchangeObjects.add(retVal);
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + disciplineIncidentMetas.size() + " DisciplineIncident objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("DisciplineIncident", disciplineIncidentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -105,8 +106,8 @@ public class InterchangeStudentDisciplineGenerator {
             interchangeObjects.add(retVal);
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + disciplineActionMetas.size() + " DisciplineAction objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("DisciplineAction", disciplineActionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -134,8 +135,8 @@ public class InterchangeStudentDisciplineGenerator {
             count += retVal.size();
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentDisciplineIncidentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentDisciplineIncidentAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 }

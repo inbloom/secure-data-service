@@ -62,7 +62,8 @@ import org.slc.sli.test.generators.StudentCompetancyObjectiveGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
 import org.slc.sli.test.generators.StudentGradeGenerator;
 import org.slc.sli.test.utils.InterchangeWriter;
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
 
 /**
  * Generates the StudentGradeGrade Interchange
@@ -202,8 +203,7 @@ public final class InterchangeStudentGradeGenerator {
             count++;
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentAcademicRecord objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentAcademicRecord", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateCourseTranscript(
@@ -249,8 +249,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " CourseTranscript objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("CourseTranscript", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateReportCard(
@@ -318,8 +317,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " ReportCard objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("ReportCard", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateGrade(
@@ -371,8 +369,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " Grade objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Grade", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateStudentCompetency(
@@ -467,8 +464,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentCompetency objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentCompetency", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateDiploma(InterchangeWriter<InterchangeStudentGrade> writer) {
@@ -486,8 +482,7 @@ public final class InterchangeStudentGradeGenerator {
         writer.marshal(diploma);
         count++;
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " Diploma objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Diploma", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateGradebookEntry(List<GradeBookEntryMeta> gradeBookEntryMetaList, 
@@ -514,8 +509,7 @@ public final class InterchangeStudentGradeGenerator {
             count++;
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " GradebookEntry objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("GradebookEntry", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateStudentGradebookEntry(
@@ -556,8 +550,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentGradebookEntry objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentGradebookEntry", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateCompentencyLevelDescriptor(
@@ -577,8 +570,7 @@ public final class InterchangeStudentGradeGenerator {
             count++;
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " CompetencyLevelDescriptor objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("CompetencyLevelDescriptor", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateLearningObjective(
@@ -598,10 +590,8 @@ public final class InterchangeStudentGradeGenerator {
                 writer.marshal(lo);
                 count++;
             }
-
-            System.out.println(REPORT_INDENTATION + "generated " + count + " LearningObjective objects in: "
-                    + (System.currentTimeMillis() - startTime));
         }
+        writeInterchangeEntityStatistic("LearningObjective", count, System.currentTimeMillis() - startTime);
     }
 
     private static void generateStudentCompentencyObjective(
@@ -622,8 +612,7 @@ public final class InterchangeStudentGradeGenerator {
             }
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentCompentencyObjective objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentCompentencyObjective", count, System.currentTimeMillis() - startTime);
     }
 
 }

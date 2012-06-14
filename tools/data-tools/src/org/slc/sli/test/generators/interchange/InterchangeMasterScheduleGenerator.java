@@ -1,7 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class InterchangeMasterScheduleGenerator {
         long startTime = System.currentTimeMillis();
 
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+        
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -70,8 +71,9 @@ public class InterchangeMasterScheduleGenerator {
             }
             interchangeObjects.add(courseOffering);
         }
-        System.out.println(REPORT_INDENTATION + "generated " + courseOfferingMetas.size() + " CourseOfferings in: "
-                + (System.currentTimeMillis() - startTime));
+
+        writeInterchangeEntityStatistic("CourseOffering", courseOfferingMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -99,8 +101,8 @@ public class InterchangeMasterScheduleGenerator {
             interchangeObjects.add(section);
         }
 
-        System.out.println(REPORT_INDENTATION + "generated " + sectionMetas.size() + " Section objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Section", sectionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
 }

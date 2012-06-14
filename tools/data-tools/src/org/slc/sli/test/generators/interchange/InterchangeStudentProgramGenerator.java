@@ -1,7 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
-
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
@@ -34,12 +35,11 @@ public class InterchangeStudentProgramGenerator {
         InterchangeStudentProgram interchange = new InterchangeStudentProgram();
         List<Object> interchangeObjects = interchange.getStudentProgramAssociationOrStudentSpecialEdProgramAssociationOrRestraintEvent();
 
-        System.out.println(interchange.getClass().getSimpleName() + ": started");
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println(interchange.getClass().getSimpleName() + ": generated " + interchangeObjects.size() + 
-                " entries in " + (System.currentTimeMillis() - startTime) + "\n");
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -75,12 +75,11 @@ public class InterchangeStudentProgramGenerator {
             // generateStaffProgramAssoc(interchangeObjects, programMeta);
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " StudentProgramAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentProgramAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
 
     private static long generateStudentProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {
-
         List<StudentProgramAssociation> retVal;
 
         if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
@@ -90,6 +89,7 @@ public class InterchangeStudentProgramGenerator {
             retVal = StudentProgramAssociationGenerator.generateLowFi(programMeta);
         }
         interchangeObjects.addAll(retVal);
+
         return retVal.size();
     }
 
@@ -112,8 +112,8 @@ public class InterchangeStudentProgramGenerator {
             interchangeObjects.add(sc);
         }
         
-        System.out.println(REPORT_INDENTATION + "generated " + count + " ServiceDescriptor objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("ServiceDescriptor", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 //    private static void generateStaffProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {
