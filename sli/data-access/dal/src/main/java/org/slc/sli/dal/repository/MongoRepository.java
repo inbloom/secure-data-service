@@ -51,7 +51,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     private MongoQueryConverter queryConverter;
 
     private static final String[] collectionsExcluded = { "tenant", "userSession", "realm", "userAccount", "roles",
-            "application", "applicationAuthorization" };
+            "application" };
     protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
 
     /**
