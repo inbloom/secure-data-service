@@ -2,11 +2,15 @@ package org.slc.sli.shtick;
 
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**
@@ -32,7 +36,7 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+    public RestResponse getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -70,7 +74,7 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse createRequest(final String token, final String data, final URL url, final String mediaType)
+    public RestResponse postRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -92,7 +96,7 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse updateRequest(final String token, final String data, final URL url, final String mediaType)
+    public RestResponse putRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -139,7 +143,16 @@ public final class JaxRSLevel0Client implements Level0Client {
         if (response.getStatus() != expected.getStatusCode()) {
             throw new RestException(response.getStatus());
         } else {
-            return new RestResponse(response.readEntity(String.class), response.getStatus());
+            return responseToRestResponse(response);
         }
+    }
+
+    private RestResponse responseToRestResponse(final Response response) {
+        if (response == null) { throw new NullPointerException("response"); }
+        final String body = response.readEntity(String.class);
+        final int statusCode = response.getStatus();
+        final Map<String, List<String>> headers = new HashMap<String, List<String>>();
+        headers.putAll(response.getHeaders().asMap());
+        return new RestResponse(body, statusCode, headers);
     }
 }

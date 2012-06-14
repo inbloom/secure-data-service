@@ -11,7 +11,7 @@ public interface Level0Client {
 
     RestResponse deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException, RestException;
 
-    RestResponse createRequest(final String token, final String data, final URL url, final String mediaType) throws URISyntaxException, RestException;
+    RestResponse postRequest(final String token, final String data, final URL url, final String mediaType) throws URISyntaxException, RestException;
 
-    RestResponse updateRequest(final String token, final String data, final URL url, final String mediaType) throws URISyntaxException, RestException;
+    RestResponse putRequest(final String token, final String data, final URL url, final String mediaType) throws URISyntaxException, RestException;
 }

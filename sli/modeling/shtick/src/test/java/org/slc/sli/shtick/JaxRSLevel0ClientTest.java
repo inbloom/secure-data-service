@@ -75,7 +75,7 @@ public class JaxRSLevel0ClientTest {
         }
     }
 
-    //@Ignore("Problem with invalid autorization token.")
+    @Ignore("Problem with invalid autorization token.")
     @Test
     public void testGetRequestWithBrokenToken() {
         try {

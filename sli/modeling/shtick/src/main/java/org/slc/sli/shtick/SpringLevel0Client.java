@@ -31,7 +31,7 @@ public class SpringLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse getRequest(String token, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+    public RestResponse getRequest(String token, URL url, String mediaType) throws URISyntaxException, RestException {
         if (token == null)     { throw new NullPointerException("token"); }
         if (url == null)       { throw new NullPointerException("url"); }
         if (mediaType == null) { throw new NullPointerException("mediaType"); }
@@ -45,24 +45,24 @@ public class SpringLevel0Client implements Level0Client {
         try {
             response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
         } catch (HttpClientErrorException e) {
-            throw new HttpRestException(e.getStatusCode().value());
+            throw new RestException(e.getStatusCode().value());
         }
 
         return new RestResponse(response.getBody(), response.getStatusCode().value());
     }
 
     @Override
-    public RestResponse deleteRequest(String token, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+    public RestResponse deleteRequest(String token, URL url, String mediaType) throws URISyntaxException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public RestResponse postRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+    public RestResponse postRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public RestResponse putRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, HttpRestException {
+    public RestResponse putRequest(String token, String data, URL url, String mediaType) throws URISyntaxException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 }

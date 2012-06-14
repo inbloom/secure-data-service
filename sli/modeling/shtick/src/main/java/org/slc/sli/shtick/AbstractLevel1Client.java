@@ -20,7 +20,7 @@ import java.util.List;
  */
 public abstract class AbstractLevel1Client implements Level1Client {
 
-    private static final String LOCATION_HEADER = "location";
+    private static final String LOCATION_HEADER = "Location";
 
     final Level0Client client;
     final ObjectMapper mapper;
@@ -71,10 +71,9 @@ public abstract class AbstractLevel1Client implements Level1Client {
         }
 
         final RestResponse response;
-        response = client.createRequest(token, data, url, getMediaType());
+        response = client.postRequest(token, data, url, getMediaType());
 
-//        return new URL(response.getHeaders().getHeader(LOCATION_HEADER));
-        return null;
+        return new URL(response.getHeader(LOCATION_HEADER));
     }
 
     @Override
@@ -90,7 +89,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        client.updateRequest(token, data, url, getMediaType());
+        client.putRequest(token, data, url, getMediaType());
 
     }
 
