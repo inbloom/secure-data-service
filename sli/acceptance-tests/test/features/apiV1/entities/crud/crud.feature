@@ -117,7 +117,7 @@ Examples:
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 3 |
 | "disciplineIncident"           | "disciplineIncidents"     | 3 |
-| "educationOrganization"        | "educationOrganizations"  | 58 |
+| "educationOrganization"        | "educationOrganizations"  | 59 |
 | "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
