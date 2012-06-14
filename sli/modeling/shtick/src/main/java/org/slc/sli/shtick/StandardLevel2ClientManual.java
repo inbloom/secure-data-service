@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.client.Entity;
+
 import org.slc.sli.api.client.constants.v1.PathConstants;
 
 /**
@@ -32,8 +32,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds) throws IOException,
-            RestException {
+    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds)
+            throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -42,8 +42,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
 
         try {
-            return client.getRequest(token, new URL(
-                    baseUrl + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
+            return client.getRequest(token,
+                    new URL(baseUrl + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }

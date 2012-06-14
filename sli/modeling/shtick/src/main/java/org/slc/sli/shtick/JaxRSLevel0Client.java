@@ -10,12 +10,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**
-* @author jstokes
-*/
+ * @author jstokes
+ */
 public final class JaxRSLevel0Client implements Level0Client {
     /**
      * Header name used for specifying the bearer token.
@@ -36,8 +35,8 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+    public RestResponse getRequest(final String token, final URL url, final String mediaType)
+            throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -55,8 +54,8 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+    public RestResponse deleteRequest(final String token, final URL url, final String mediaType)
+            throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -148,7 +147,9 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     private RestResponse responseToRestResponse(final Response response) {
-        if (response == null) { throw new NullPointerException("response"); }
+        if (response == null) {
+            throw new NullPointerException("response");
+        }
         final String body = response.readEntity(String.class);
         final int statusCode = response.getStatus();
         final Map<String, List<String>> headers = new HashMap<String, List<String>>();
