@@ -94,7 +94,8 @@ Transform /^data containing "([^"]*)"$/ do |path|
 
   id = ["67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Daybreak District"
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if path == "Teachers in Daybreak District"
 
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
         "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Sunset District"
@@ -111,7 +112,8 @@ Transform /^data containing "([^"]*)"$/ do |path|
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
         "67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Illinois State"
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if path == "Teachers in Illinois State"
 
   id = ["c4491c07-ec3e-440d-bef9-e349763b0fd4",
         "03184a95-eb8f-4038-9d19-17fab835a016",
