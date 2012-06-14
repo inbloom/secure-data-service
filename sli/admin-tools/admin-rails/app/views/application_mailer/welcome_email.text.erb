@@ -1,33 +1,25 @@
 <% if APP_CONFIG["is_sandbox"] %>
 Welcome <%= @firstName %>,
 
-Your request for developer sandbox account has been approved. There are some additional steps needed before you can use your sandbox environment.
+Your request for developer sandbox account has been approved.
 
-First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by following this link:
-<%= @landing_zone_link %>
+Please carry out the administrative steps below to complete your setup of your development environment.
 
-Second, after you have selected a data source, register your sandbox applications here:
-<%= @apps_link %>
+First, you will need to select the sample school data to use in your sandbox (you can also supply your own sample data if you want.) by navigating to the “Landing Zone Provisioning Tool” from the Admin menu at <%= @portal_link %>.
 
-You can access admin tools, and applications through the portal at:
-<%= @portal_link %>
-
+After you have created a landing zone for your educational organization, and uploaded corresponding data, register your sandbox applications by navigating to the "Application Registration Tool" also available from the Admin menu.
 
 Thank you,
+
 The Shared Learning Collaborative
 <% else %>
 Welcome <%= @firstName %>,
 
-Your request for an application developer account has been approved.
+Your request for application developer account has been approved.
 
-To get started, register your applications with the Shared Learning Collaborative.
-
-To register your applications go to:
-<%= @apps_link %>
-
-You can access admin tools, and applications through the portal at:
-<%= @portal_link %>
+To get started, register your applications with the Shared Learning Collaborative. You can do that by navigating to the “Application Registration Tool” from the Admin menu at <%= @portal_link %>.
 
 Thank you,
+
 The Shared Learning Collaborative
 <% end %>
