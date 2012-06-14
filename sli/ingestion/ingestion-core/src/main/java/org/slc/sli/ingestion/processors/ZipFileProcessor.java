@@ -19,8 +19,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -63,7 +61,7 @@ public class ZipFileProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-        
+
         processZipFile(exchange);
     }
 
@@ -79,7 +77,8 @@ public class ZipFileProcessor implements Processor {
             File zipFile = exchange.getIn().getBody(File.class);
 
             newJob = createNewBatchJob(zipFile);
-            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
+            TenantContext.setTenantId(newJob.getTenantId());
+
             batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();

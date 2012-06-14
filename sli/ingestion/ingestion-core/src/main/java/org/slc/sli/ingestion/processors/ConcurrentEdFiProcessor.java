@@ -20,8 +20,6 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -71,7 +69,7 @@ public class ConcurrentEdFiProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-//        
+//
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
 
@@ -88,7 +86,7 @@ public class ConcurrentEdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
+            TenantContext.setTenantId(newJob.getTenantId());
 
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);

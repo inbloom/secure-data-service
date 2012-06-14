@@ -51,11 +51,11 @@ public class NewBatchJob implements Job {
     private List<ResourceEntry> resourceEntries;
 
     private Date jobStopTimestamp;
-    
+
     private String tenantId;
-    
-    public static String getTenantId(Job job){
-        String tenantId = job.getProperty("tenantId");
+
+    public String getTenantId(){
+        String tenantId = getProperty("tenantId");
         if (tenantId == null) {
             tenantId = "SLI";
         }

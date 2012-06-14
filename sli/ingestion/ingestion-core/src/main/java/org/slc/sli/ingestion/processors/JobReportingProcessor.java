@@ -38,8 +38,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -94,7 +92,7 @@ public class JobReportingProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-        
+
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -123,7 +121,8 @@ public class JobReportingProcessor implements Processor {
             populateJobFromStageCollection(batchJobId);
 
             job = batchJobDAO.findBatchJobById(batchJobId);
-            TenantContext.setTenantId(NewBatchJob.getTenantId(job));
+            TenantContext.setTenantId(job.getTenantId());
+
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 

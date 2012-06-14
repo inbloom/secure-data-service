@@ -11,8 +11,6 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -41,7 +39,7 @@ public class MaestroOutboundProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-        
+
         //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
 //            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
@@ -52,7 +50,7 @@ public class MaestroOutboundProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-//        
+//
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
             handleNoBatchJobIdInExchange(exchange);
@@ -67,7 +65,8 @@ public class MaestroOutboundProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
+            TenantContext.setTenantId(newJob.getTenantId());
+
             boolean hasErrors = false;
             setExchangeHeaders(exchange, hasErrors);
         } catch (Exception exception) {

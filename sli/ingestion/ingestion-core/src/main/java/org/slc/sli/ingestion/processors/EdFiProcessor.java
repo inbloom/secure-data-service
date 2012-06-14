@@ -22,8 +22,6 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -76,7 +74,7 @@ public class EdFiProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-        
+
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -95,8 +93,9 @@ public class EdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-            TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
-            
+            TenantContext.setTenantId(newJob.getTenantId());
+
+
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
             boolean anyErrorsProcessingFiles = false;

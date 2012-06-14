@@ -21,8 +21,6 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -81,7 +79,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
 //        //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
 //            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
@@ -92,7 +90,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 //            logger.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-        
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = getBatchJobId(exchange);
@@ -101,8 +99,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             NewBatchJob newJob = null;
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
-                
-                TenantContext.setTenantId(NewBatchJob.getTenantId(newJob));
+
+                TenantContext.setTenantId(newJob.getTenantId());
+
 
                 String tenantId = newJob.getProperty(TENANT_ID);
                 if (tenantId == null) {
