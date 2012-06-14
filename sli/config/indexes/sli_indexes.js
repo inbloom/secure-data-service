@@ -1,3 +1,26 @@
+/*
+ * Run the indexing script with data in collections to test for errors.
+ *
+ * Indexing Gotchas:
+ * - Long index names
+ * - Parallel indexes: creating an index key with more than one field that is an array
+ * - Redundant indexes: {a,b,c} makes {a,b}, {a} redundant
+ *
+ * Known problem fields for parallel indexes: (no index key with more than one of these)
+ * - *.metaData.edOrgs
+ * - cohort.programId
+ * - disciplineAction.disciplineIncidentId
+ * - disciplineAction.staffId
+ * - disciplineAction.studentId
+ * - reportCard.grades
+ * - reportCard.studentCompetencyId
+ * - session.gradingPeriodreference
+ * - staffCohortAssociation.cohortId
+ * - staffCohortAssociation.staffId
+ * - staffProgramId.programId
+ * - staffProgramId.staffId
+ */
+
 //auth, realm, application
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["application"].ensureIndex({"body.bootstrap":1});
@@ -15,7 +38,10 @@ db["userSession"].ensureIndex({"body.appSession.token":1});
 db["userSession"].ensureIndex({"body.principal.externalId":1});
 db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.appSession.token":1});
 
-//direct references
+//direct references - 3 indexes for each one (minus parallel arrays and redundant indexes)
+//ingestion lookup
+//teacher context resolver
+//staff context resolver
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.schoolId":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.schoolId":1});
@@ -27,8 +53,6 @@ db["cohort"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.educationOrgId":1}
 db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.educationOrgId":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.programId":1});
-//db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.programId":1}); - parallel arrays, split below
-db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.schoolId":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.schoolId":1});
@@ -43,17 +67,13 @@ db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.assignme
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.assignmentSchoolId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.disciplineIncidentId":1});
-//db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.disciplineIncidentId":1}); - parallel arrays, split below
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.responsibilitySchoolId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.responsibilitySchoolId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.responsibilitySchoolId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.staffId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.staffId":1});
-//db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.staffId":1}); - parallel arrays, split above (duped)
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.studentId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.studentId":1});
-//db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.studentId":1}); - parallel arrays, split above (duped)
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.schoolId":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.schoolId":1});
@@ -80,14 +100,11 @@ db["learningObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.parentL
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.parentLearningObjective":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.grades":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.grades":1});
-//db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.grades":1}); - parallel arrays, split below
-db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.gradingPeriodId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.gradingPeriodId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.studentCompetencyId":1});
-//db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.studentCompetencyId":1}); - parallel arrays, split below (duped)
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"body.studentId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.studentId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.studentId":1});
@@ -117,18 +134,13 @@ db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"b
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.sectionId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.gradingPeriodReference":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.gradingPeriodReference":1});
-//db["session"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.gradingPeriodReference":1}); - parallel arrays, split below
-db["session"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.schoolId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.schoolId":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.cohortId":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.cohortId":1});
-//db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.cohortId":1}); - parallel arrays, split below
-db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.staffId":1});
-//db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.staffId":1}); - parallel arrays, split above (duped)
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationReference":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.educationOrganizationReference":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.educationOrganizationReference":1});
@@ -137,11 +149,8 @@ db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.staffReference":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.programId":1});
-//db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.programId":1}); - parallel arrays, split below
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1});
 db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.staffId":1});
-//db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.staffId":1}); - parallel arrays, split above (duped)
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.sessionId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.sessionId":1});
@@ -234,12 +243,12 @@ db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edO
 db["assessment"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["attendance"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["calendarDate"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["competencyLevelDescriptor"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["course"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["courseOffering"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["courseSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["educationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
@@ -252,18 +261,18 @@ db["graduationPlan"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["school"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["section"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["sectionSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["session"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["session"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["sessionCourseAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-//db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
@@ -390,7 +399,6 @@ db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calend
 db["calendarDate"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.date":1,"body.calendarEvent":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.cohortIdentifier":1,"body.educationOrgId":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.educationOrgId":1});
-//db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.studentId":1,"body.stateOrganizationId":1}); - parallel array, split below (2 indexes)
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.stateOrganizationId":1});
 db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.stateOrganizationId":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1,"body.schoolId":1});
@@ -407,8 +415,6 @@ db["program"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1,"body.sessionId":1,"body.courseId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.schoolId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1,"body.schoolYear":1,"body.term":1,"body.schoolId":1});
-//db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.cohortId":1}); - parallel array
-//db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.programId":1}); - parallel array
 db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1,"type":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
 db["student"].ensureIndex({"metaData.tenantId":1,"body.studentUniqueStateId":1});
