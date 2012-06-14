@@ -1,4 +1,4 @@
-    package org.slc.sli.sample.oauth;
+package org.slc.sli.sample.oauth;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,29 +16,29 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.ws.rs.core.Response;
 
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basic authentication example using the SLI SDK.
  */
 public class AuthFilter implements Filter {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
     private String clientId;
     private String clientSecret;
     private URL apiUrl;
     private URL callbackUrl;
     private String afterCallbackRedirect;
-
+    
     @Override
     public void destroy() {
         LOG.info("Destroy auth filter");
     }
-
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
@@ -47,8 +47,9 @@ public class AuthFilter implements Filter {
             byPassAuthenticate(request, response);
             chain.doFilter(request, response);
         } else if (req.getRequestURI().equals("/sample/callback")) {
-            handleCallback(request, response);
-            ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
+            if (handleCallback(request, response)) {
+                ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
+            }
             return;
         } else if (req.getSession().getAttribute("client") == null) {
             authenticate(request, response);
@@ -57,27 +58,44 @@ public class AuthFilter implements Filter {
                 chain.doFilter(request, response);
             } catch (Exception e) {
                 // Redirect to login on any errors
-                // TODO - we should handle responses correctly here.  If the session is invalidated, we need
-                // to handle this properly.  Same with the other HTTP response codes.a
+                // TODO - we should handle responses correctly here. If the session is invalidated,
+                // we need
+                // to handle this properly. Same with the other HTTP response codes.a
                 authenticate(request, response);
             }
         }
     }
-
-    private void handleCallback(ServletRequest request, ServletResponse response) {
+    
+    private boolean handleCallback(ServletRequest request, ServletResponse response) throws IOException {
         BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
         String code = ((HttpServletRequest) request).getParameter("code");
-//        DE260 - commenting out possibly sensitive data
-//        LOG.debug("Got authoriation code: {}", code);
-
+        
         if (client != null) {
-//            String accessToken =
-                    client.connect(code);
-//            DE260 - commenting out possibly sensitive data
-//            LOG.debug("Got access token: {}", accessToken);
+            String token = null;
+            Response rval = client.connect(code, token);
+            
+            switch (rval.getStatus()) {
+                case 200:  // OK
+                    return false;
+                case 403:
+                    ((HttpServletResponse) response).sendRedirect("403.html");
+                    return false;
+                case 404:
+                    ((HttpServletResponse) response).sendRedirect("404.html");
+                    return false;
+                case 422:
+                    ((HttpServletResponse) response).sendRedirect("422.html");
+                    return false;
+                case 400:
+                case 500:
+                    ((HttpServletResponse) response).sendRedirect("500.html");
+                    return false;
+            }
         }
+        
+        return true;
     }
-
+    
     private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
         BasicClient client = null;
         if (((HttpServletRequest) req).getSession().getAttribute("client") == null) {
@@ -90,9 +108,9 @@ public class AuthFilter implements Filter {
         ((HttpServletRequest) req).getSession().removeAttribute("client");
         ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
-
+    
     private void authenticate(ServletRequest req, ServletResponse res) {
-
+        
         BasicClient client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
         try {
             ((HttpServletResponse) res).sendRedirect(client.getLoginURL().toExternalForm());
@@ -101,13 +119,13 @@ public class AuthFilter implements Filter {
         }
         ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
-
+    
     @Override
     public void init(FilterConfig conf) throws ServletException {
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
-
+        
         InputStream propStream;
-
+        
         String externalProps = System.getProperty("sli.conf");
         if (externalProps != null) {
             try {
@@ -131,7 +149,7 @@ public class AuthFilter implements Filter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        
         clientId = props.getProperty("sli.sample.clientId");
         clientSecret = props.getProperty("sli.sample.clientSecret");
         String apiUrlString = props.getProperty("sli.sample.apiUrl");
@@ -147,5 +165,5 @@ public class AuthFilter implements Filter {
             throw new RuntimeException(e);
         }
     }
-
+    
 }
