@@ -11,12 +11,13 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
-import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.util.FileUtils;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -63,7 +64,8 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
         boolean failure = true;
 
         try {
-            convertedContent = File.createTempFile("smooks", ".xml", content.getParentFile());
+            convertedContent = File.createTempFile("smooks", ".xml",
+                    FileUtils.getOrCreateSubDir(content.getParentFile(), ".smooksidref"));
 
             in = new BufferedInputStream(new FileInputStream(content));
             out = new BufferedOutputStream(new FileOutputStream(convertedContent));
@@ -85,7 +87,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
 
             if (failure) {
                 LOG.warn("Failed to resolve input with configuration :" + xPath);
-                FileUtils.deleteQuietly(convertedContent);
+                org.apache.commons.io.FileUtils.deleteQuietly(convertedContent);
                 convertedContent = null;
             }
         }
