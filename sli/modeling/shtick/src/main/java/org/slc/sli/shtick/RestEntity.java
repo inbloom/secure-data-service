@@ -78,4 +78,13 @@ public final class RestEntity {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("type : ").append(type).append(", data : ").append(data);
+        sb.append("}");
+        return sb.toString();
+    }
 }

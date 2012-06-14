@@ -75,4 +75,12 @@ public final class RestEntityTestCase extends TestCase {
             // Expected
         }
     }
+
+    public void testToString() {
+        final Map<String, Object> data = new HashMap<String, Object>();
+        data.put("s", "123");
+
+        final RestEntity student = new RestEntity("x", data);
+        assertEquals("{type : x, data : {s=123}}", student.toString());
+    }
 }
