@@ -60,13 +60,13 @@ public class JsonLevel1ClientTest {
             try {
                 getStudent(loc);
                 fail("An exception was not thrown for get non-existent student!");
-            } catch (HttpRestException e) {
+            } catch (RestException e) {
                 assertEquals(Response.Status.NOT_FOUND.getStatusCode(), e.getStatusCode());
             }
 
         } catch (URISyntaxException e) {
             fail(e.getMessage());
-        } catch (HttpRestException e) {
+        } catch (RestException e) {
             e.printStackTrace();
             fail("Status code: " + e.getStatusCode() + "\n" + e.getMessage());
         } catch (MalformedURLException e) {
@@ -76,20 +76,20 @@ public class JsonLevel1ClientTest {
         }
     }
 
-    private URL postStudent() throws URISyntaxException, IOException, HttpRestException {
+    private URL postStudent() throws URISyntaxException, IOException, RestException {
         return level1Client.postRequest(TestingConstants.ROGERS_TOKEN, readJsonFromFile("/testStudent.json"), new URL(
                 TestingConstants.BASE_URL + "/students"));
     }
 
-    private void deleteStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
+    private void deleteStudent(URL loc) throws IOException, RestException, URISyntaxException {
         level1Client.deleteRequest(TestingConstants.ROGERS_TOKEN, loc);
     }
 
-    private void putStudent(URL loc) throws IOException, HttpRestException, URISyntaxException {
+    private void putStudent(URL loc) throws IOException, RestException, URISyntaxException {
         level1Client.putRequest(TestingConstants.ROGERS_TOKEN, readJsonFromFile("/testStudentUpdated.json"), loc);
     }
 
-    private List<Entity> getStudent(URL url) throws IOException, HttpRestException, URISyntaxException {
+    private List<Entity> getStudent(URL url) throws IOException, RestException, URISyntaxException {
         return level1Client.getRequest(TestingConstants.ROGERS_TOKEN, url);
     }
 

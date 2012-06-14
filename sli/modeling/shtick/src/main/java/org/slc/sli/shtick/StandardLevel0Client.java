@@ -33,7 +33,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     @Override
     public Response getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            HttpRestException {
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -52,7 +52,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     @Override
     public Response deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            HttpRestException {
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -71,7 +71,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     @Override
     public Response createRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, HttpRestException {
+            throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -93,7 +93,7 @@ public final class StandardLevel0Client implements Level0Client {
 
     @Override
     public Response updateRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, HttpRestException {
+            throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -129,7 +129,7 @@ public final class StandardLevel0Client implements Level0Client {
         return builder;
     }
 
-    private Response checkResponse(final Response response, final Response.Status expected) throws HttpRestException {
+    private Response checkResponse(final Response response, final Response.Status expected) throws RestException {
         if (response == null) {
             throw new NullPointerException("response");
         }
@@ -137,7 +137,7 @@ public final class StandardLevel0Client implements Level0Client {
             throw new NullPointerException("expected");
         }
         if (response.getStatus() != expected.getStatusCode()) {
-            throw new HttpRestException(response.getStatus());
+            throw new RestException(response.getStatus());
         } else {
             return response;
         }

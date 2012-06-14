@@ -37,26 +37,26 @@ public final class StAXLevel1Client implements Level1Client {
 
     @Override
     public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            HttpRestException {
+            RestException {
         final Response response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
         return deserialize(response);
     }
 
     @Override
     public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            HttpRestException {
+            RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public URL postRequest(final String token, final String data, final URL url) throws URISyntaxException,
-            IOException, HttpRestException {
+            IOException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public void putRequest(final String token, final String data, final URL url) throws URISyntaxException,
-            IOException, HttpRestException {
+            IOException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 

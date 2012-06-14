@@ -12,12 +12,12 @@ import org.slc.sli.api.client.Entity;
  */
 public interface Level1Client {
     // SliDataStore = http code exception
-    List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException, HttpRestException;
+    List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException;
 
-    void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, HttpRestException;
+    void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException;
 
-    URL postRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, HttpRestException;
+    URL postRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, RestException;
 
-    void putRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, HttpRestException;
+    void putRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, RestException;
 
 }

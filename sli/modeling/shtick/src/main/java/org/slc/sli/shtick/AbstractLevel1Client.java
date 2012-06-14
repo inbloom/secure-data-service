@@ -32,7 +32,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, HttpRestException {
+    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -47,7 +47,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, HttpRestException {
+    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -60,7 +60,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
     @Override
     public URL postRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
-            HttpRestException {
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -79,7 +79,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
     @Override
     public void putRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
-            HttpRestException {
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }

@@ -48,7 +48,7 @@ public class StandardLevel0ClientTest {
             fail(e.getMessage());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
-        } catch (HttpRestException e) {
+        } catch (RestException e) {
             fail(e.getMessage());
         }
     }
@@ -71,7 +71,7 @@ public class StandardLevel0ClientTest {
             fail(e.getMessage());
         } catch (InvocationException e) {
             fail(e.getMessage());
-        } catch (HttpRestException e) {
+        } catch (RestException e) {
             fail(e.getMessage());
         }
     }
@@ -94,7 +94,7 @@ public class StandardLevel0ClientTest {
             fail(e.getMessage());
         } catch (InvocationException e) {
             fail(e.getMessage());
-        } catch (HttpRestException e) {
+        } catch (RestException e) {
             fail(e.getMessage());
         }
     }

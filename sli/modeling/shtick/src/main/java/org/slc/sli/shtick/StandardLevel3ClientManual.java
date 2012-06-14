@@ -19,15 +19,14 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, HttpRestException {
-        @SuppressWarnings("unused")
+    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException {
         final List<Entity> entities = inner.getStudents(token, queryArgs);
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Student> getStudentsById(List<String> studentIds) throws IOException, HttpRestException {
+    public List<Student> getStudentsById(List<String> studentIds) throws IOException, RestException {
         // TODO Auto-generated method stub
         return null;
     }
