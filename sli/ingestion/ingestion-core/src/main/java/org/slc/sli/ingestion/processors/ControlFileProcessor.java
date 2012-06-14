@@ -43,7 +43,7 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
     
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-
+    
     @Autowired
     private ControlFileValidator validator;
     
@@ -139,8 +139,19 @@ public class ControlFileProcessor implements Processor {
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
+        
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
+            LOG.debug("Matched @dry-run tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
+        } else {
+            LOG.debug("Did not match @dry-run tag in control file.");
+        }
+        
+        if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
+            LOG.debug("Matched @no-id-ref tag from control file parsing.");
+            exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
+        } else {
+            LOG.debug("Did not match @no-id-ref tag in control file.");
         }
     }
     
