@@ -21,7 +21,7 @@ Then the developer is directed to an acknowledgement page.
  And a verification email is sent to "<USER_EMAIL>"
 When the developer click link in verification email
 Then an account entry is made in ldap with "Approved" status
-And an approval email is sent to the "<USER_EMAIL>"
+And a "sandbox" approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PORTAL>"
 #TODO: The portal for development is linked to RC which uses a different LDAP than dev. So we are breaking the flow and jump directly to the correct provisioning app.
 #And the email has a "<URL_TO_PROVISIONING_APPLICATION>"
@@ -82,7 +82,7 @@ Then an account entry is made in ldap with "pending" status
 When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
 And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
 And the SLC operator approves the vendor account for "<USER_EMAIL>"
-Then an approval email is sent to the "<USER_EMAIL>"
+Then a "production" approval email is sent to the "<USER_EMAIL>"
 And the email has a "<URL_TO_PORTAL>"
 
 @production
