@@ -26,6 +26,9 @@ public class QueryStringValidator implements URLValidator {
         String queryString = url.getQuery();
 
         if (queryString != null && !queryString.isEmpty()) {
+            //removing valid characters
+            queryString = queryString.replaceAll(">", "").replaceAll("<", "");
+
             for (AbstractBlacklistStrategy abstractBlacklistStrategy : validationStrategyList) {
                 if (!abstractBlacklistStrategy.isValid("", queryString)) {
                     return false;
