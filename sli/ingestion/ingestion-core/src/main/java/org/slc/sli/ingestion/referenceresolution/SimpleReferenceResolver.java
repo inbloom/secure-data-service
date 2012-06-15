@@ -36,14 +36,16 @@ public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
      *         Extended reference XML text body, or null, if unresolved.
      */
     @Override
-    public void resolve(String xPath, InputStream content, OutputStream convertedContext) {
+    public boolean resolve(String xPath, InputStream content, OutputStream convertedContext) {
         try {
             IOUtils.copyLarge(content, convertedContext);
         } catch (IOException e) {
             LogUtil.debug(LOG, "Error while resolving a reference for : " + xPath, e);
 
-            return;
+            return false;
         }
+
+        return true;
     }
 
 }

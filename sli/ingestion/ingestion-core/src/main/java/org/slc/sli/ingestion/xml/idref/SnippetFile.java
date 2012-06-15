@@ -87,10 +87,14 @@ public final class SnippetFile implements Closeable {
         sb.position = fileChannel.size();
         snippets.put(id, sb);
 
-        return Channels.newOutputStream(fileChannel);
+        return new NonClosingOutputStream(Channels.newOutputStream(fileChannel));
     }
 
     public void commitSnippet(String id) throws IOException {
         snippets.get(id).size = fileChannel.size() - snippets.get(id).position;
+    }
+
+    public void rollbackSnippet(String id) throws IOException {
+        snippets.get(id).size = 0;
     }
 }

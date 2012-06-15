@@ -18,5 +18,5 @@ public interface ReferenceResolutionStrategy {
      * @param content Content file that needs to be prepared
      * @return InputStream that holds prepared content
      */
-    public void resolve(String xPath, InputStream content, OutputStream converedContent);
+    public boolean resolve(String xPath, InputStream content, OutputStream converedContent);
 }

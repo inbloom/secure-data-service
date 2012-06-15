@@ -1,8 +1,5 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
@@ -10,8 +7,8 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.compress.utils.IOUtils;
 import org.milyn.Smooks;
+import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,35 +37,35 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
     /**
      * resolve the reference
      *
-     * @param interchange : Name of interchange
-     * @param element  : name of element
-     * @param reference : name of the reference
-     * @param content : the content of the referenced element in XML format
+     * @param interchange
+     *            : Name of interchange
+     * @param element
+     *            : name of element
+     * @param reference
+     *            : name of the reference
+     * @param content
+     *            : the content of the referenced element in XML format
      * @return : the resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public void resolve(String xPath, InputStream content, OutputStream converedContent) {
+    public boolean resolve(String xPath, InputStream content, OutputStream converedContent) {
         Smooks smooks = idRefConfigs.get(xPath);
 
         if (smooks == null) {
-            return;
+            return false;
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             StreamSource source = new StreamSource(content);
-            StreamResult result = new StreamResult(baos);
+            StreamResult result = new StreamResult(converedContent);
 
             smooks.filterSource(source, result);
-        } catch (Exception e) {
+        } catch (SmooksException e) {
             LogUtil.debug(LOG, e.getMessage(), e);
-        } finally {
-                InputStream input = new ByteArrayInputStream(baos.toByteArray());
-                try {
-                    IOUtils.copy(input, converedContent);
-                } catch (IOException e) {
-                    LogUtil.debug(LOG, e.getMessage(), e);
-                }
+
+            return false;
         }
+
+        return true;
     }
 }

@@ -349,9 +349,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                             // Resolved content is not cached yet, so lets resolve it and cache it.
 
-                            rrs.resolve(currentXPath, is, smooks.allocateOutputStream(ref.getValue()));
+                            boolean success = rrs.resolve(currentXPath, is, smooks.allocateOutputStream(ref.getValue()));
 
-                            smooks.commitSnippet(ref.getValue());
+                            if (success) {
+                                smooks.commitSnippet(ref.getValue());
+                            } else {
+                                smooks.rollbackSnippet(ref.getValue());
+                            }
 
                             if (smooks.get(ref.getValue()) == null) {
                                 LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1",

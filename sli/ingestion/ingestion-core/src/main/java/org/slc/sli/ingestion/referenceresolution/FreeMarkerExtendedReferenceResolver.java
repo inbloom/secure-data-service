@@ -43,12 +43,12 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
      * @return Resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public void resolve(String xPath, InputStream content, OutputStream converedContent) {
+    public boolean resolve(String xPath, InputStream content, OutputStream converedContent) {
         if (!reassureSmooksResolver(xPath)) {
-            return;
+            return false;
         }
 
-        smooksResolver.resolve(xPath, content, converedContent);
+        return smooksResolver.resolve(xPath, content, converedContent);
     }
 
     private boolean reassureSmooksResolver(String xPath) {
