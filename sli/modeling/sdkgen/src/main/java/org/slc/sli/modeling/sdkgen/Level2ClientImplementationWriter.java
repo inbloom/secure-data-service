@@ -3,6 +3,7 @@ package org.slc.sli.modeling.sdkgen;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -19,21 +20,20 @@ import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
-import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
 /**
  * Writes the implementation for the Level 2 Client SDK.
  */
-public final class Level2ClientImplementationWriter implements WadlHandler {
+public final class Level2ClientImplementationWriter extends Level2ClientWriter {
 
     private final String packageName;
     private final String className;
     private final List<String> interfaces;
-    private final JavaStreamWriter jsw;
 
     public Level2ClientImplementationWriter(final String packageName, final String className,
             final List<String> interfaces, final JavaStreamWriter jsw) {
+        super(jsw);
         if (packageName == null) {
             throw new NullPointerException("packageName");
         }
@@ -46,7 +46,6 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
         this.packageName = packageName;
         this.className = className;
         this.interfaces = Collections.unmodifiableList(new ArrayList<String>(interfaces));
-        this.jsw = jsw;
     }
 
     @Override
@@ -95,78 +94,190 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
     }
 
     @Override
-    public void method(final Method method, final Resource resource, final Resources resources,
-            final Application application, final Stack<Resource> ancestors) {
-        try {
-            if (Method.NAME_HTTP_GET.equals(method.getName())) {
-                @SuppressWarnings("unused")
-                final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
+    protected void writeGET(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
+        @SuppressWarnings("unused")
+        final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
 
-                final Request request = method.getRequest();
-                if (request != null) {
-                    for (@SuppressWarnings("unused")
-                    final Param param : request.getParams()) {
+        final Request request = method.getRequest();
+        if (request != null) {
+            for (@SuppressWarnings("unused")
+            final Param param : request.getParams()) {
 
-                    }
-                }
-
-                final List<Response> responses = method.getResponses();
-                for (final Response response : responses) {
-                    try {
-                        final List<Representation> representations = response.getRepresentations();
-                        for (final Representation representation : representations) {
-                            @SuppressWarnings("unused")
-                            final QName elementName = representation.getElement();
-                        }
-                    } finally {
-                    }
-                }
-                jsw.writeComment(method.getId());
-                jsw.writeOverride();
-                jsw.beginStmt();
-                try {
-                    // FIXME: This method call does not have any parameters.
-                    jsw.write("public ");
-                    jsw.write("List<RestEntity> " + method.getId());
-                    jsw.write("(");
-                    final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-                    final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
-                    jsw.writeParams(params);
-                    jsw.write(") throws IOException, RestException");
-                    jsw.beginBlock();
-                    try {
-                        jsw.write("try");
-                        jsw.beginBlock();
-                        final String uri = computeURI(resource, resources, application, ancestors);
-                        final JavaParam urlParam = new JavaParam("path", "String", true);
-                        writeURLString(urlParam, uri, templateParams);
-                        jsw.beginStmt()
-                                .write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs)")
-                                .endStmt();
-                        jsw.beginStmt().write("final URL url = builder.build()").endStmt();
-                        jsw.beginStmt().write("return client.getRequest(token, url)").endStmt();
-                        jsw.endBlock();
-                        jsw.write("catch(final URISyntaxException e)");
-                        jsw.beginBlock();
-                        jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
-                        jsw.endBlock();
-                    } finally {
-                        jsw.endBlock();
-                    }
-                } finally {
-                    jsw.endStmt();
-                }
             }
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        }
+
+        final List<Response> responses = method.getResponses();
+        for (final Response response : responses) {
+            try {
+                final List<Representation> representations = response.getRepresentations();
+                for (final Representation representation : representations) {
+                    @SuppressWarnings("unused")
+                    final QName elementName = representation.getElement();
+                }
+            } finally {
+            }
+        }
+        jsw.writeComment(method.getId());
+        jsw.writeOverride();
+        jsw.write("public ");
+        jsw.write("List<RestEntity> " + method.getId());
+        jsw.write("(");
+        final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+        final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
+        jsw.writeParams(params);
+        jsw.write(") throws IOException, RestException");
+        jsw.beginBlock();
+        try {
+            jsw.write("try");
+            jsw.beginBlock();
+            final String uri = computeURI(resource, resources, application, ancestors);
+            final JavaParam urlParam = new JavaParam("path", "String", true);
+            writeURLString(urlParam, uri, templateParams);
+            jsw.beginStmt()
+                    .write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs)")
+                    .endStmt();
+            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
+            jsw.beginStmt().write("return client.getRequest(token, url)").endStmt();
+            jsw.endBlock();
+            jsw.write("catch(final URISyntaxException e)");
+            jsw.beginBlock();
+            jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+            jsw.endBlock();
+        } finally {
+            jsw.endBlock();
         }
     }
 
-    // try {
-    // return client.getRequest(token, new URL("TODO"));
-    // } catch (URISyntaxException e) {
-    // throw new AssertionError(e);
-    // }
+    @Override
+    protected void writePOST(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
+        @SuppressWarnings("unused")
+        final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
+
+        final Request request = method.getRequest();
+        if (request != null) {
+            for (@SuppressWarnings("unused")
+            final Param param : request.getParams()) {
+
+            }
+        }
+
+        final List<Response> responses = method.getResponses();
+        for (final Response response : responses) {
+            try {
+                final List<Representation> representations = response.getRepresentations();
+                for (final Representation representation : representations) {
+                    @SuppressWarnings("unused")
+                    final QName elementName = representation.getElement();
+                }
+            } finally {
+            }
+        }
+        jsw.writeComment(method.getId());
+        jsw.writeOverride();
+        jsw.write("public ");
+        jsw.write("String " + method.getId());
+        jsw.parenL();
+        final List<JavaParam> params = new LinkedList<JavaParam>();
+        params.add(PARAM_TOKEN);
+        params.add(PARAM_ENTITY);
+        jsw.writeParams(params);
+        jsw.parenR();
+        jsw.write(" throws IOException, RestException");
+        jsw.beginBlock();
+        try {
+            jsw.beginStmt().write("return null").endStmt();
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
+    @Override
+    protected void writePUT(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
+        @SuppressWarnings("unused")
+        final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
+
+        final Request request = method.getRequest();
+        if (request != null) {
+            for (@SuppressWarnings("unused")
+            final Param param : request.getParams()) {
+
+            }
+        }
+
+        final List<Response> responses = method.getResponses();
+        for (final Response response : responses) {
+            try {
+                final List<Representation> representations = response.getRepresentations();
+                for (final Representation representation : representations) {
+                    @SuppressWarnings("unused")
+                    final QName elementName = representation.getElement();
+                }
+            } finally {
+            }
+        }
+        jsw.writeComment(method.getId());
+        jsw.writeOverride();
+        jsw.write("public ");
+        jsw.write("void " + method.getId());
+        jsw.parenL();
+        final List<JavaParam> params = new LinkedList<JavaParam>();
+        params.add(PARAM_TOKEN);
+        params.add(PARAM_ENTITY);
+        jsw.writeParams(params);
+        jsw.parenR();
+        jsw.write(" throws IOException, RestException");
+        jsw.beginBlock();
+        try {
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
+    @Override
+    protected void writeDELETE(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
+        @SuppressWarnings("unused")
+        final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
+
+        final Request request = method.getRequest();
+        if (request != null) {
+            for (@SuppressWarnings("unused")
+            final Param param : request.getParams()) {
+
+            }
+        }
+
+        final List<Response> responses = method.getResponses();
+        for (final Response response : responses) {
+            try {
+                final List<Representation> representations = response.getRepresentations();
+                for (final Representation representation : representations) {
+                    @SuppressWarnings("unused")
+                    final QName elementName = representation.getElement();
+                }
+            } finally {
+            }
+        }
+        jsw.writeComment(method.getId());
+        jsw.writeOverride();
+        jsw.write("public ");
+        jsw.write("void " + method.getId());
+        jsw.parenL();
+        final List<JavaParam> params = new LinkedList<JavaParam>();
+        params.add(PARAM_TOKEN);
+        params.add(PARAM_ENTITY_ID);
+        jsw.writeParams(params);
+        jsw.parenR();
+        jsw.write(" throws IOException, RestException");
+        jsw.beginBlock();
+        try {
+        } finally {
+            jsw.endBlock();
+        }
+    }
 
     @Override
     public void beginResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
