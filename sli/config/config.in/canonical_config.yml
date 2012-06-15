@@ -1167,7 +1167,7 @@ nxteam:
         sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.cache.type: memcached
         sli.ingestion.cache.opTimeout: 100
-        sli.ingestion.cache.servers: localhost
+        sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
 
     data-access: &DATA-ACCESS-NXTEAM
