@@ -111,7 +111,7 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 6 |
+| "assessment"                   | "assessments"             | 20 |
 | "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
