@@ -6,6 +6,7 @@ class AppsController < ApplicationController
   # It allows developers to create new apps.
   # It also allows slc operators approve an app for use in the SLC.
   def check_rights
+    logger.debug {"Roles: #{session[:roles]}"}
     unless is_developer? or is_operator?
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -140,16 +141,18 @@ class AppsController < ApplicationController
   # PUT /apps/1.json
   def update
     @app = App.find(params[:id])
-    logger.debug {"App found (Update): #{@app.attributes}"}
-
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-
+    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
-
+    @app.load(params[:app])
+    @app.attributes.delete :image_url unless params[:app].include? :image_url
+    @app.attributes.delete :administration_url unless params[:app].include? :administration_url
+    logger.debug {"App found (Update): #{@app.to_json}"}
+    
     respond_to do |format|
       if @app.update_attributes(params[:app])
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }

@@ -68,7 +68,8 @@ When I click 'Yes'
 Then application "NewApp" is not registered 
 And application "NewApp" is removed from the list
 
-Scenario: Vendor edits denied application
+
+Scenario: Vendor edits denied application incorrectly
 
 Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
@@ -77,9 +78,22 @@ And I submit the credentials "developer-email@slidev.org" "test1234" for the "Si
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
+And I have edited the field named "Description" to say ""
+When I clicked Save
+Then I should get 1 error
+
+Scenario: Vendor edits denied application
+
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And I clicked on the button Edit for the application "NewApp"
+And I have edited the field named "Image URL" to say ""
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-And I the field named "Application Icon Url" still says "http://placekitten.com/100/100"
+And I the field named "Application Icon Url" still says ""
 And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request
