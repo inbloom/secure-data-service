@@ -127,7 +127,6 @@
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
-                <value>${smooks.targetselector.xml.student.studentAcademicRecordTemp}</value>
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
