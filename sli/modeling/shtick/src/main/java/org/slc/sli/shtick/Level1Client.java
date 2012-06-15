@@ -9,12 +9,15 @@ import java.util.List;
  * @author jstokes
  */
 public interface Level1Client {
-    List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException;
+    List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
+            RestException;
 
     void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException;
 
-    URL postRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, RestException;
+    URL postRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
+            RestException;
 
-    void putRequest(final String token, final String data, final URL url) throws URISyntaxException, IOException, RestException;
+    void putRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
+            RestException;
 
 }

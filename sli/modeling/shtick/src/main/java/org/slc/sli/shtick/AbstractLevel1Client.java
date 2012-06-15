@@ -1,5 +1,12 @@
 package org.slc.sli.shtick;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -7,21 +14,13 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author jstokes
  */
 public abstract class AbstractLevel1Client implements Level1Client {
 
-    private static final String LOCATION_HEADER = "Location";
-
-    final Level0Client client;
-    final ObjectMapper mapper;
+    private final Level0Client client;
+    private final ObjectMapper mapper;
 
     protected AbstractLevel1Client(final Level0Client client, final ObjectMapper mapper) {
         this.client = client;
@@ -37,10 +36,8 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("url");
         }
 
-        final RestResponse response;
-
-        response = client.getRequest(token, url, getMediaType());
-        return deserialize(response);
+        final String body = client.getRequest(token, url, getMediaType());
+        return deserialize(body);
     }
 
     @Override
@@ -56,7 +53,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public URL postRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+    public URL postRequest(String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -68,14 +65,14 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        final RestResponse response;
-        response = client.postRequest(token, data, url, getMediaType());
+        final StringWriter sw = new StringWriter();
+        mapper.writeValue(sw, data);
 
-        return new URL(response.getHeader(LOCATION_HEADER));
+        return client.postRequest(token, sw.toString(), url, getMediaType());
     }
 
     @Override
-    public void putRequest(String token, final String data, URL url) throws URISyntaxException, IOException,
+    public void putRequest(String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -87,13 +84,16 @@ public abstract class AbstractLevel1Client implements Level1Client {
             throw new NullPointerException("data");
         }
 
-        client.putRequest(token, data, url, getMediaType());
+        final StringWriter sw = new StringWriter();
+        mapper.writeValue(sw, data);
+
+        client.putRequest(token, sw.toString(), url, getMediaType());
 
     }
 
-    private List<RestEntity> deserialize(final RestResponse response) throws IOException {
+    private List<RestEntity> deserialize(final String body) throws IOException {
         try {
-            final JsonNode element = mapper.readValue(response.getBody(), JsonNode.class);
+            final JsonNode element = mapper.readValue(body, JsonNode.class);
             if (element instanceof ArrayNode) {
                 return mapper.readValue(element, new TypeReference<List<RestEntity>>() {
                 });

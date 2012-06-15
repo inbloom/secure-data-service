@@ -34,31 +34,29 @@ public final class StAXLevel1Client implements Level1Client {
     @Override
     public List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
             RestException {
-        final RestResponse response = inner.getRequest(token, url, MediaType.APPLICATION_XML);
-        return deserialize(response);
+        final String body = inner.getRequest(token, url, MediaType.APPLICATION_XML);
+        return deserialize(body);
     }
 
     @Override
-    public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            RestException {
+    public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public URL postRequest(final String token, final String data, final URL url) throws URISyntaxException,
+    public URL postRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException,
             IOException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public void putRequest(final String token, final String data, final URL url) throws URISyntaxException,
+    public void putRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException,
             IOException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
-    private List<RestEntity> deserialize(final RestResponse response) throws IOException {
-        final String readEntity = response.getBody();
-        final StringReader sw = new StringReader(readEntity);
+    private List<RestEntity> deserialize(final String body) throws IOException {
+        final StringReader sw = new StringReader(body);
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(sw);
@@ -68,7 +66,7 @@ public final class StAXLevel1Client implements Level1Client {
                 reader.close();
             }
         } catch (final XMLStreamException e) {
-            throw new RuntimeException(readEntity, e);
+            throw new RuntimeException(body, e);
         }
     }
 

@@ -1,6 +1,5 @@
 package org.slc.sli.shtick;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -31,18 +30,13 @@ public class JaxRSLevel0ClientTest {
     @Ignore
     public void testDeleteRequest() {
         try {
-            RestResponse actualResponse = client.deleteRequest(TestingConstants.ROGERS_TOKEN, new URL(
+            client.deleteRequest(TestingConstants.ROGERS_TOKEN, new URL(TestingConstants.BASE_URL + "/students/"
+                    + TestingConstants.TEST_STUDENT_DELETE_ID), MediaType.APPLICATION_JSON);
+
+            final String getResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
                     TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
                     MediaType.APPLICATION_JSON);
-            assertNotNull(actualResponse);
-            assertEquals(204, actualResponse.getStatusCode());
-
-            RestResponse deletedResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
-                    TestingConstants.BASE_URL + "/students/" + TestingConstants.TEST_STUDENT_DELETE_ID),
-                    MediaType.APPLICATION_JSON);
-            assertNotNull(actualResponse);
-            assertEquals(404, deletedResponse.getStatusCode());
-
+            assertNotNull(getResponse);
         } catch (MalformedURLException e) {
             fail(e.getMessage());
         } catch (URISyntaxException e) {
@@ -55,15 +49,13 @@ public class JaxRSLevel0ClientTest {
     @Test
     public void testGetRequest() {
         try {
-            RestResponse actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(
-                    TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
+            String actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(TestingConstants.BASE_URL
+                    + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(200, actualResponse.getStatusCode());
 
             actualResponse = client.getRequest(TestingConstants.ROGERS_TOKEN, new URL(TestingConstants.BASE_URL
                     + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(200, actualResponse.getStatusCode());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {
@@ -79,15 +71,13 @@ public class JaxRSLevel0ClientTest {
     @Test
     public void testGetRequestWithBrokenToken() {
         try {
-            RestResponse actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(
-                    TestingConstants.BASE_URL + "/students"), MediaType.APPLICATION_JSON);
+            String actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(TestingConstants.BASE_URL
+                    + "/students"), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(200, actualResponse.getStatusCode());
 
             actualResponse = client.getRequest(TestingConstants.BROKEN_TOKEN, new URL(TestingConstants.BASE_URL
                     + "/students/" + TestingConstants.TEST_STUDENT_ID), MediaType.APPLICATION_JSON);
             assertNotNull(actualResponse);
-            assertEquals(401, actualResponse.getStatusCode());
         } catch (URISyntaxException e) {
             fail(e.getMessage());
         } catch (MalformedURLException e) {

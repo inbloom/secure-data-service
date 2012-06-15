@@ -31,8 +31,8 @@ public final class SpringLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse getRequest(final String token, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+    public String getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -50,26 +50,26 @@ public final class SpringLevel0Client implements Level0Client {
         try {
             final ResponseEntity<String> response = template.exchange(url.toString(), HttpMethod.GET, entity,
                     String.class);
-            return new RestResponse(response.getBody(), response.getStatusCode().value());
+            return response.getBody();
         } catch (final HttpClientErrorException e) {
             throw new RestException(e.getStatusCode().value());
         }
     }
 
     @Override
-    public RestResponse deleteRequest(final String token, final URL url, final String mediaType)
+    public void deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+            RestException {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public URL postRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public RestResponse postRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
-        throw new UnsupportedOperationException("TODO");
-    }
-
-    @Override
-    public RestResponse putRequest(final String token, final String data, final URL url, final String mediaType)
+    public void putRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         throw new UnsupportedOperationException("TODO");
     }

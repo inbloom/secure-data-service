@@ -153,4 +153,27 @@ public class StandardLevel2ClientTest {
     public void testGetStudentsWithBrokenTokenUsingStAX() {
         doGetStudentsWithBrokenToken(new StAXLevel1Client());
     }
+
+    @Test
+    public void testStudentSectionAssociations() {
+        final Level1Client inner = new JsonLevel1Client();
+        final Level2Client client = new StandardLevel2Client(BASE_URL, inner);
+        try {
+            final Map<String, Object> queryArgs = new HashMap<String, Object>();
+            queryArgs.put("limit", 1000);
+            final List<RestEntity> studentSchoolAssociations = client.getStudentSchoolAssociations(
+                    TestingConstants.ROGERS_TOKEN, queryArgs);
+            assertNotNull(studentSchoolAssociations);
+            final Map<String, RestEntity> associationMap = new HashMap<String, RestEntity>();
+            for (final RestEntity studentSchoolAssociation : studentSchoolAssociations) {
+                @SuppressWarnings("unused")
+                final Map<String, Object> data = studentSchoolAssociation.getData();
+                associationMap.put(studentSchoolAssociation.getId(), studentSchoolAssociation);
+            }
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        } catch (final RestException e) {
+            fail(e.getMessage());
+        }
+    }
 }

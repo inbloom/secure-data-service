@@ -1,5 +1,6 @@
 package org.slc.sli.shtick;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
@@ -20,6 +21,8 @@ public final class JaxRSLevel0Client implements Level0Client {
      * Header name used for specifying the bearer token.
      */
     private static final String HEADER_NAME_AUTHORIZATION = "Authorization";
+    private static final String HEADER_NAME_LOCATION = "Location";
+
     /**
      * Header value used for specifying the bearer token.
      */
@@ -35,8 +38,8 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public RestResponse getRequest(final String token, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+    public String getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -50,12 +53,13 @@ public final class JaxRSLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildGet().invoke();
 
-        return checkResponse(response, Response.Status.OK);
+        checkResponse(response, Response.Status.OK);
+        return response.readEntity(String.class);
     }
 
     @Override
-    public RestResponse deleteRequest(final String token, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+    public void deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -69,11 +73,11 @@ public final class JaxRSLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildDelete().invoke();
 
-        return checkResponse(response, Response.Status.NO_CONTENT);
+        checkResponse(response, Response.Status.NO_CONTENT);
     }
 
     @Override
-    public RestResponse postRequest(final String token, final String data, final URL url, final String mediaType)
+    public URL postRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -91,11 +95,17 @@ public final class JaxRSLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildPost(Entity.entity(data, mediaType)).invoke();
 
-        return checkResponse(response, Response.Status.CREATED);
+        checkResponse(response, Response.Status.CREATED);
+
+        try {
+            return new URL(response.getHeaders().getHeader(HEADER_NAME_LOCATION));
+        } catch (final MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public RestResponse putRequest(final String token, final String data, final URL url, final String mediaType)
+    public void putRequest(final String token, final String data, final URL url, final String mediaType)
             throws URISyntaxException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -113,7 +123,7 @@ public final class JaxRSLevel0Client implements Level0Client {
         final Invocation.Builder builder = createBuilder(token, url, mediaType);
         final Response response = builder.buildPut(Entity.entity(data, mediaType)).invoke();
 
-        return checkResponse(response, Response.Status.NO_CONTENT);
+        checkResponse(response, Response.Status.NO_CONTENT);
     }
 
     private Invocation.Builder createBuilder(final String token, final URL url, final String mediaType)

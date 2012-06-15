@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,8 +33,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds)
-            throws IOException, RestException {
+    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds,
+            Map<String, Object> queryArgs) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -42,6 +43,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
 
         try {
+            // FIXME: queryArgs, URLBuilder
             return client.getRequest(token,
                     new URL(baseUrl + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
         } catch (URISyntaxException e) {
@@ -50,14 +52,57 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<RestEntity> getStudents(final String token) throws IOException, RestException {
+    public List<RestEntity> getStudents(final String token, Map<String, Object> queryArgs) throws IOException,
+            RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
 
         try {
+            // FIXME: ditto
             return client.getRequest(token, new URL(baseUrl + PathConstants.STUDENTS));
         } catch (URISyntaxException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    @Override
+    public void deleteRequest(final String token, final String studentId) throws URISyntaxException, IOException,
+            RestException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        try {
+            // FIXME: studentid
+            client.deleteRequest(token, new URL(baseUrl + PathConstants.STUDENTS));
+        } catch (final URISyntaxException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    @Override
+    public String postRequest(String token, RestEntity entity) throws URISyntaxException, IOException, RestException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        try {
+            @SuppressWarnings("unused")
+            final URL url = client.postRequest(token, entity, new URL(baseUrl + PathConstants.STUDENTS));
+            // FIXME
+            return "";
+        } catch (final URISyntaxException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    @Override
+    public void putRequest(String token, RestEntity entity) throws URISyntaxException, IOException, RestException {
+        if (token == null) {
+            throw new NullPointerException("token");
+        }
+        try {
+            client.putRequest(token, entity, new URL(baseUrl + PathConstants.STUDENTS));
+        } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
