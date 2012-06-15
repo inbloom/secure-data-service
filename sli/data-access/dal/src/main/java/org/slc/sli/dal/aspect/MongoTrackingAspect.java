@@ -5,8 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.mongodb.DBCollection;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,6 +12,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import com.mongodb.DBCollection;
 
 /**
  *
@@ -26,7 +26,8 @@ public class MongoTrackingAspect {
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
 
     private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
-
+    private static final long SLOW_QUERY_THRESHOLD = 100;  // ms
+    
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
@@ -57,7 +58,8 @@ public class MongoTrackingAspect {
         long elapsed = System.currentTimeMillis() - start;
 
         this.upCounts(mt.getDb().getName(), pjp.getSignature().getName(), collection, elapsed);
-
+        logSlowQuery(elapsed, mt.getDb().getName(), pjp.getSignature().getName(), collection);
+        
         return result;
     }
 
@@ -70,7 +72,8 @@ public class MongoTrackingAspect {
         DBCollection col = (DBCollection) pjp.getTarget();
 
         this.upCounts(col.getDB().getName(),  pjp.getSignature().getName(), col.getName(), elapsed);
-
+        logSlowQuery(elapsed, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
+        
         return result;
     }
 
@@ -89,5 +92,11 @@ public class MongoTrackingAspect {
 
         pair.getLeft().incrementAndGet();
         pair.getRight().addAndGet(elapsed);
+    }
+    
+    private void logSlowQuery(long elapsed, String db, String function, String collection) {
+        if (elapsed > SLOW_QUERY_THRESHOLD) {
+            LOG.warn("Slow query encountered: {}#{}#{} (elapsed time: {} ms)", new Object[] { db, function, collection, elapsed});
+        }
     }
 }
