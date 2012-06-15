@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
@@ -29,10 +31,6 @@ import org.slc.sli.util.SecurityUtil;
  *
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
-
-    private static final String USER_SCHOOLS_CACHE = "user.schools";
-    private static final String USER_ED_ORG_CACHE = "user.district";
-    private static final String USER_HIERARCHY_CACHE = "user.hierarchy";
 
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
@@ -54,12 +52,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return District name
      */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_ED_ORG)
     public EdOrgKey getUserEdOrg(String token) {
-        EdOrgKey edOrgKey = getFromCache(USER_ED_ORG_CACHE, token);
-        if (edOrgKey != null) {
-            return edOrgKey;
-        }
-
         GenericEntity edOrg = null;
 
         // For state-level ed-org - need to take default config, so keep state
@@ -113,9 +107,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
             if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
-                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
-                    return edOrgKey;
+                    return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
                 }
             }
         }
@@ -130,17 +122,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getSchools(String token) {
 
-        List<GenericEntity> schools = getFromCache(USER_SCHOOLS_CACHE, token);
-
-        // otherwise, call the api
-        if (schools == null) {
-            schools = getApiClient().getSchools(token, null);
-
-            // cache it
-            putToCache(USER_SCHOOLS_CACHE, token, schools);
-        }
-
-        return schools;
+        return getApiClient().getSchools(token, null);
     }
 
     /**
@@ -152,11 +134,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return
      */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_HIERARCHY)
     public List<GenericEntity> getUserInstHierarchy(String token) {
-        List<GenericEntity> hierarchy = getFromCache(USER_HIERARCHY_CACHE, token);
-        if (hierarchy != null) {
-            return hierarchy;
-        }
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
         if (schools == null) {
@@ -237,7 +216,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (!orphanSchools.isEmpty()) {
             insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
         }
-        putToCache(USER_HIERARCHY_CACHE, token, retVal);
         //Sort the Districts based on the District Name
         Collections.sort(retVal, new GenericEntityComparator(Constants.ATTR_NAME, String.class));
 
@@ -283,7 +261,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * Override from UserEdOrgManager.
      * Signature is pre-defined by the architect.
      */
-    @SuppressWarnings("unchecked")
     @Override
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);

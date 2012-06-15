@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Type;
@@ -17,6 +19,7 @@ import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.ConfigManager;
+import org.slc.sli.util.Constants;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.JsonConverter;
 
@@ -32,8 +35,7 @@ import org.slc.sli.util.JsonConverter;
  * @author dwu
  */
 public class ConfigManagerImpl extends ApiClientManager implements ConfigManager {
-    private static final String USER_CONFIG_CACHE = "user.panel.config";
-    private static final String USER_WIDGET_CONFIG_CACHE = "user.config.widget";
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String driverConfigLocation;
@@ -169,6 +171,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     }
 
     @Override
+    @Cacheable(value = Constants.CACHE_USER_PANEL_CONFIG)
     public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
         ConfigMap configMap = getCustomConfig(token, edOrgKey);
         Config customComponentConfig = null;
@@ -188,40 +191,35 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
 
     @Override
+    @Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
-        CacheValue<Collection<Config>> value = getCacheValueFromCache(USER_WIDGET_CONFIG_CACHE, token, edOrgKey);
-        if (value == null) {
-            // id to config map
-            Map<String, Config> widgets = new HashMap<String, Config>();
-            Config config;
-            // list files in driver dir
-            File driverConfigDir = new File(this.driverConfigLocation);
-            File[] configs = driverConfigDir.listFiles();
-            if (configs == null) {
-                logger.error("Unable to read config directory");
-                throw new DashboardException("Unable to read config directory!!!!");
-            }
-
-            for (File f : driverConfigDir.listFiles()) {
-                try {
-                    config = loadConfig(f);
-                } catch (Exception t) {
-                    logger.error("Unable to read config " + f.getName()
-                            + ". Skipping file", t);
-                    continue;
-                }
-                // assemble widgets
-                if (config.getType() == Type.WIDGET) {
-                    widgets.put(config.getId(), config);
-                }
-            }
-            for (String id : widgets.keySet()) {
-                widgets.put(id, getComponentConfig(token, edOrgKey, id));
-            }
-            putToCache(USER_WIDGET_CONFIG_CACHE, token, edOrgKey, widgets.values());
-            return widgets.values();
+        // id to config map
+        Map<String, Config> widgets = new HashMap<String, Config>();
+        Config config;
+        // list files in driver dir
+        File driverConfigDir = new File(this.driverConfigLocation);
+        File[] configs = driverConfigDir.listFiles();
+        if (configs == null) {
+            logger.error("Unable to read config directory");
+            throw new DashboardException("Unable to read config directory!!!!");
         }
-        return value.get();
+
+        for (File f : driverConfigDir.listFiles()) {
+            try {
+                config = loadConfig(f);
+            } catch (Exception t) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+                continue;
+            }
+            // assemble widgets
+            if (config.getType() == Type.WIDGET) {
+                widgets.put(config.getId(), config);
+            }
+        }
+        for (String id : widgets.keySet()) {
+            widgets.put(id, getComponentConfig(token, edOrgKey, id));
+        }
+        return widgets.values();
     }
 
     /**
@@ -233,20 +231,12 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      */
     @Override
     public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
-
-        CacheValue<ConfigMap> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
-        ConfigMap config = null;
-        if (value == null) {
-            try {
-              config = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
-              putToCache(USER_CONFIG_CACHE, token, config);
-            } catch (Throwable t) {
-                //logger.error("Unable to get custom config from the store for district id " + edOrgKey.getDistrictId(), t);
-            }
-        } else {
-            config = value.get();
+        try {
+            return getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
+        } catch (Throwable t) {
+            // it's a valid scenario when there is no district specific config. Default will be used in this case.
+            return null;
         }
-        return config;
     }
 
     /**
@@ -258,8 +248,8 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      *            The education organization's custom configuration JSON.
      */
     @Override
+    @CacheEvict(value = Constants.CACHE_USER_CONFIG, allEntries = true)
     public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), configMap);
-        removeFromCache(USER_CONFIG_CACHE, token);
     }
 }
