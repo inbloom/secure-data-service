@@ -84,6 +84,14 @@ SLC.namespace('SLC.grid.teardrop', (function () {
 	        
 	        return styleName;
 	    }
+	    
+	    function getGradeColorCode(val) {
+			return GRADE_COLOR_CODES[val];
+		}
+		
+		function getGradeTrendCodes(val) {
+			return GRADE_TREND_CODES[val];
+		}
 	
 	    function init() { 
 	       initGradeColorCodes();
@@ -92,7 +100,9 @@ SLC.namespace('SLC.grid.teardrop', (function () {
 	    
 	    return {
 			init: init,
-			getStyle: getStyle
+			getStyle: getStyle,
+			getGradeColorCode: getGradeColorCode,
+			getGradeTrendCodes: getGradeTrendCodes
 	    };
 	}())
 );

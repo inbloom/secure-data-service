@@ -52,7 +52,7 @@ SLC.namespace('SLC.grid.sorters', (function () {
 	                 return -1;
 	             }
 	
-	             i = grid.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+	             i = grid.teardrop.getGradeTrendCodes(semesterGrades[0].letterGrade); 
 	             
 	             if (i === null || i === undefined) {
 	                 return -1;
@@ -73,7 +73,7 @@ SLC.namespace('SLC.grid.sorters', (function () {
 	                 return -1;
 	             }
 	
-	             i = grid.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
+	             i = grid.teardrop.getGradeColorCode(gradeDate.gradeEarned); 
 	             
 	             if (i === undefined || i === null) {
 	                 i = gradeDate.gradeEarned;
