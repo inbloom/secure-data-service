@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -272,10 +273,20 @@ public class IdNormalizer {
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                boolean isEmptyRef = isEmptyRef(entity, fv.getRef());
+                                List<String> resolvedIds = null;
+                                if (!isEmptyRef) {
+                                    resolvedIds = resolveReferenceInternalIds(entity, tenantId,
+                                            numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                }
+                                
+                                //it is acceptable for a child reference to not be resolved iff it is
+                                //an optional reference and the source is empty
+                                //otherwise fail the parent reference by returning an empty list
                                 if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
+                                } else if (!fv.getRef().isOptional() || !isEmptyRef) {
+                                    return new ArrayList<String>();
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
@@ -291,7 +302,6 @@ public class IdNormalizer {
                                             filterValues.add(entityValue);
                                         }
                                     }
-
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
                                         LOG.error("Error accessing indexed bean property " + valueSourcePath
@@ -417,5 +427,40 @@ public class IdNormalizer {
         }
 
         return result;
+    }
+    
+    /**
+     * Checks whether the data relating to a given reference object is empty
+     * 
+     * TODO determine how lists of references should be treated
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     */
+    private boolean isEmptyRef(Entity entity, Ref refConfig) 
+            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        for (List<Field> fields : refConfig.getChoiceOfFields()) {
+            for (Field field : fields) {
+                for (FieldValue fv : field.getValues()) {
+                    if (fv.getRef() != null) {
+                        if (!isEmptyRef(entity, fv.getRef())) {
+                            return false;
+                        }
+                    } else {
+                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0);
+                        Object entityValue = null;
+                        try {
+                            entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (entityValue != null) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
