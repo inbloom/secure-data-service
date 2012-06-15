@@ -86,6 +86,7 @@ public class XmlFileProcessor implements Processor {
                     FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
                     IngestionFileEntry fe = new IngestionFileEntry(format, type, resource.getResourceId(),
                             resource.getChecksum());
+                    fe.setBatchJobId(batchJobId);
 
                     fe.setFile(new File(resource.getResourceName()));
 

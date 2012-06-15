@@ -125,6 +125,9 @@ default:
         # ingestion exception message logging
         sli.ingestion.exception.message.log: true
 
+        # ingestion idref temp file path
+        sli.ingestion.idref.tempDir: /tmp
+
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context

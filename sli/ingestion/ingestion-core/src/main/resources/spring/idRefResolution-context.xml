@@ -236,4 +236,9 @@
     <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeEducationOrgCalendar/Session/CalendarDateReference" value-ref="simpleReferenceResolver" />
   </util:map>
+  
+  <bean id="idRefResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler">
+    <property name="idRefDir" value="${sli.ingestion.idref.tempDir}"/>
+  </bean>
+  
 </beans>

@@ -57,12 +57,21 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
 
+    private static final String ENCODING = "UTF-8";
+
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
+
+    private String idRefDir;
+    private File idRefJobDir = null;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+        if (idRefJobDir == null) {
+            idRefJobDir = new File(idRefDir + "/" + fileEntry.getBatchJobId());
+            idRefJobDir.mkdirs();
+        }
         File file = fileEntry.getFile();
 
         file = process(file, errorReport);
@@ -209,11 +218,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
+            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
+//            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out, ENCODING);
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
@@ -415,7 +425,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            snippet = File.createTempFile("snippet", ".xml", xml.getParentFile());
+            snippet = File
+                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
+//            snippet = File
+//                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(snippet));
 
@@ -590,5 +603,19 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     public void setSupportedResolvers(Map<String, ReferenceResolutionStrategy> supportedResolvers) {
         this.supportedResolvers = supportedResolvers;
+    }
+
+    /**
+     * @return the idrefDir
+     */
+    public String getIdRefDir() {
+        return idRefDir;
+    }
+
+    /**
+     * @param idrefDir the idrefDir to set
+     */
+    public void setIdRefDir(String idRefDir) {
+        this.idRefDir = idRefDir;
     }
 }
