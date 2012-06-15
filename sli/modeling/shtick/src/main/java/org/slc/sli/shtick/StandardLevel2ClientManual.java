@@ -65,12 +65,14 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void deleteStudentById(final String token, final String studentId) throws IOException, RestException {
+    public void deleteStudentById(final String token, final String entityId) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
         try {
-            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").id(studentId).build();
+            final String path = String.format("students/%s", entityId);
+            final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path);
+            final URL url = builder.build();
             client.deleteRequest(token, url);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
