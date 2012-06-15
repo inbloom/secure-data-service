@@ -228,6 +228,12 @@ public interface Repository<T> {
      */
     public void setWriteConcern(String writeConcern);
 
+    /**
+     * Support configurability of performing refrence checking as a part of schema validation
+     * @param referenceCheck
+     */
+    public void setReferenceCheck(String referenceCheck);
+
     public long count(String collectionName, Query query);
 
 }

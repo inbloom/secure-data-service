@@ -233,4 +233,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         this.mongoIndexManager = mongoIndexManager;
     }
 
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+    }
+
 }

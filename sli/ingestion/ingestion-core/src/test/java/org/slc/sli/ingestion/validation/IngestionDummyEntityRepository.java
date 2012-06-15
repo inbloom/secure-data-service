@@ -168,4 +168,9 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         return 0;
     }
 
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        // TODO Auto-generated method stub
+    }
+
 }

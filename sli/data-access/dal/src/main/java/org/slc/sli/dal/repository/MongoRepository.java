@@ -34,7 +34,6 @@ import org.slc.sli.domain.Repository;
  * @author Thomas Shewchuk tshewchuk@wgen.net 3/2/2012 (PI3 US1226)
  *
  */
-
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
