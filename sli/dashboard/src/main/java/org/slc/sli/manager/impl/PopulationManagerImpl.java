@@ -31,6 +31,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
@@ -127,6 +128,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     * , java.lang.Object, org.slc.sli.entity.Config.Data)
     */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_LOS)
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;
@@ -743,13 +745,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
-        String key = (String) studentId;
-        GenericEntity student = getFromCache(STUDENT_CACHE, token, key);
-        if (student == null) {
-            student = entityManager.getStudentForCSIPanel(token, key);
-            putToCache(STUDENT_CACHE, token, key, student);
-        }
-        return student;
+        return entityManager.getStudentForCSIPanel(token, (String)studentId);
     }
 
     /*
