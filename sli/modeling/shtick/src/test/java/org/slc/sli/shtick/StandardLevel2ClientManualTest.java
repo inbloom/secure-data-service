@@ -1,8 +1,11 @@
 package org.slc.sli.shtick;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * @author jstokes
@@ -34,7 +34,7 @@ public class StandardLevel2ClientManualTest {
     }
 
     @Test
-    @Ignore("WIP put method")
+    @Ignore("Don't know if this works ATM")
     public void testCRUD() {
         try {
             // POST
@@ -77,9 +77,10 @@ public class StandardLevel2ClientManualTest {
     private void putStudent(final String studentId) throws IOException, StatusCodeException, URISyntaxException {
         final String studentData = readJsonFromFile("/testStudentUpdated.json");
         final Entity student = deserialize(studentData);
-        student.getData().put("id", studentId);
+        Map<String, Object> dataCopy = MapHelper.deepCopy(student.getData());
+        dataCopy.put("id", studentId);
 
-        client.putStudent(TestingConstants.ROGERS_TOKEN, student);
+        client.putStudent(TestingConstants.ROGERS_TOKEN, new RestEntity("student", dataCopy));
     }
 
     private String postStudent() throws IOException, StatusCodeException, URISyntaxException {
