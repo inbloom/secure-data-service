@@ -125,13 +125,37 @@ SLC.namespace('SLC.dataProxy', (function () {
 			for (key in configObj) {
 				if (configObj.hasOwnProperty(key)) {
 					obj = configObj[key];
-					if(obj.type && obj.type === "LAYOUT" && obj.name) {
+					if (obj.type && obj.type === "LAYOUT" && obj.name) {
 						return obj.name;
 					}
 				}
 			}
 			
 			return "SLC";
+		}
+		
+		function checkTabPanel() {
+			var configObj = getAllConfig(),
+				key,
+				obj,
+				items,
+				i;
+			
+			for (key in configObj) {
+				if (configObj.hasOwnProperty(key)) {
+					obj = configObj[key];
+					if (obj.items) {
+						items = obj.items;
+						for (i = 0; i < items.length; i++) {
+							if (items[i].type === "TAB") {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			
+			return false;
 		}
 		
 		return {
@@ -143,7 +167,8 @@ SLC.namespace('SLC.dataProxy', (function () {
 			getData: getData,
 			getConfig: getConfig,
 			getWidgetConfig: getWidgetConfig,
-			getLayoutName: getLayoutName
+			getLayoutName: getLayoutName,
+			checkTabPanel: checkTabPanel
 		};
 	}())
 );

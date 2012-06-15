@@ -66,7 +66,7 @@ And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
 And their id shown in proflie is "100000017"
 And their grade is "1"
-And the teacher is "Ms Rebecca Braverman"
+#And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And I paste my copied URL
 When I select school "East Daybreak Junior High"
@@ -283,7 +283,7 @@ And I view its student profile
 And their name shown in profile is "Matt Forker"
 And their id shown in proflie is "1000000002"
 And their grade is "11"
-And the teacher is "Mr Mark Anthony"
+#And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
 @integration @RALLY_US197 @RALLY_US200
@@ -325,7 +325,7 @@ And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
 And their id shown in proflie is "100000017"
 And their grade is "1"
-And the teacher is "Ms Rebecca Braverman"
+#And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 

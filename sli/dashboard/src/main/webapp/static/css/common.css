@@ -20,7 +20,7 @@ footer { display: block; }
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
-	margin-bottom: -25px;
+	margin-bottom: -30px;
 }
 .body-container {
 	min-height: 100%;
@@ -52,6 +52,10 @@ input {
 	bottom: auto !important;
 }
 
+#sli_footer .sli_footer_wrap {
+	border-top: 2px solid #000 !important;
+	padding-bottom: 5px;
+}
 .panel {
     margin-bottom: 30px;
     margin-left: 0;

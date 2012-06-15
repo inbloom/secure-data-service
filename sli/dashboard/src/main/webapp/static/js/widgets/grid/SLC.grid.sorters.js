@@ -27,14 +27,13 @@ SLC.namespace('SLC.grid.sorters', (function () {
 	        var fieldArray = (params.sortField) ? params.sortField.split(".") : [],
 				length = fieldArray.length,
 				ret,
-				i = 0;
+				i;
 				
 	        return function(value, rowObject) {
 				ret = rowObject;
 				// find the field in the rowobject by its path "field.subfield.subsub" and return the value
-				while(i < length && (ret = ret[fieldArray[i ++]])) {
-					return parseInt(ret, 10);
-				}
+				for (i=0; i < length && (ret = ret[fieldArray[i ++]]););
+				return parseInt(ret, 10);
 	        };
 	    }
 	
