@@ -11,8 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.shtick.RestEntity;
 import org.slc.sli.shtick.StandardLevel3ClientManual;
+import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
 
 /**
@@ -63,7 +67,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
 //        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
 //        try {
 //            Response response = client.create(student);
-//            List<Entity> collection = new ArrayList<Entity>();
+//            List<RestEntity> collection = new ArrayList<RestEntity>();
 //            if (response.getStatus() != 201) {
 //                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
 //            }
@@ -272,6 +276,16 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         body.put("address", addresses);
 
         return body;
+    }
+
+    private Student createTestPojoStudent() {
+        Student student = new Student(
+                "11111111-1111-1111-1111-111111111111",
+                new Name("Monique", "Johnson"),
+                "Female",
+                false,
+                "123456");
+        return student;
     }
 
     private Map<String, Object> createTestSchoolBody() {
