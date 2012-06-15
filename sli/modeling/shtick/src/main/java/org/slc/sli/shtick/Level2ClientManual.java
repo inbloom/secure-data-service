@@ -15,10 +15,10 @@ public interface Level2ClientManual {
 
     List<RestEntity> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException;
 
-    void deleteRequest(final String token, final String studentId) throws URISyntaxException, IOException,
+    void deleteStudentById(final String token, final String studentId) throws URISyntaxException, IOException,
             RestException;
 
-    String postRequest(final String token, final RestEntity body) throws URISyntaxException, IOException, RestException;
+    String postStudent(final String token, final RestEntity body) throws URISyntaxException, IOException, RestException;
 
-    void putRequest(final String token, final RestEntity data) throws URISyntaxException, IOException, RestException;
+    void putStudent(final String token, final RestEntity data) throws URISyntaxException, IOException, RestException;
 }

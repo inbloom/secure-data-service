@@ -6,17 +6,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.slc.sli.api.client.constants.v1.PathConstants;
-
 /**
  * @author jstokes
  */
 public final class StandardLevel2ClientManual implements Level2ClientManual {
 
     private final String baseUrl;
-    private static final String SEP = "/";
     private final Level1Client client;
 
     protected StandardLevel2ClientManual(final String baseUrl, final Level1Client client) {
@@ -43,9 +38,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
 
         try {
-            // FIXME: queryArgs, URLBuilder
-            return client.getRequest(token,
-                    new URL(baseUrl + PathConstants.STUDENTS + SEP + StringUtils.join(studentIds, ',')));
+            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").ids(studentIds).query(queryArgs).build();
+            return client.getRequest(token, url);
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
@@ -59,51 +53,61 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
 
         try {
-            // FIXME: ditto
-            return client.getRequest(token, new URL(baseUrl + PathConstants.STUDENTS));
+            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").query(queryArgs).build();
+            return client.getRequest(token, url);
         } catch (URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
 
     @Override
-    public void deleteRequest(final String token, final String studentId) throws URISyntaxException, IOException,
+    public void deleteStudentById(final String token, final String studentId) throws URISyntaxException, IOException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
         try {
-            // FIXME: studentid
-            client.deleteRequest(token, new URL(baseUrl + PathConstants.STUDENTS));
+            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").id(studentId).build();
+            client.deleteRequest(token, url);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
 
     @Override
-    public String postRequest(String token, RestEntity entity) throws URISyntaxException, IOException, RestException {
+    public String postStudent(final String token, final RestEntity entity) throws URISyntaxException, IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
+        if (entity == null) {
+            throw new NullPointerException("entity");
+        }
         try {
-            @SuppressWarnings("unused")
-            final URL url = client.postRequest(token, entity, new URL(baseUrl + PathConstants.STUDENTS));
-            // FIXME
-            return "";
+            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").build();
+            final URL studentURL = client.postRequest(token, entity, url);
+            return stripId(studentURL);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
 
     @Override
-    public void putRequest(String token, RestEntity entity) throws URISyntaxException, IOException, RestException {
+    public void putStudent(final String token, final RestEntity entity) throws URISyntaxException, IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
+        if (entity == null) {
+            throw new NullPointerException("entity");
+        }
         try {
-            client.putRequest(token, entity, new URL(baseUrl + PathConstants.STUDENTS));
+            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").id(entity.getId()).build();
+            client.putRequest(token, entity, url);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
+    }
+
+    private String stripId(final URL url) {
+        return url.toString().substring(url.toString().lastIndexOf("/") + 1);
     }
 }
