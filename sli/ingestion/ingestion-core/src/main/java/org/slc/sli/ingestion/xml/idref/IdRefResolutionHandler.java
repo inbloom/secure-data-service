@@ -39,6 +39,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -273,6 +274,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                         resolved = contentToAdd != null ? "false" : "true";
                                     } catch (IOException e) {
+                                        LogUtil.debug(LOG, e.getMessage(), e);
+
                                         resolved = "false";
                                     }
                                 }

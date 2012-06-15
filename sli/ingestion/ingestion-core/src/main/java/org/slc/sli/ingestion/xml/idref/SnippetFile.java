@@ -75,7 +75,7 @@ public final class SnippetFile implements Closeable {
     }
 
     public InputStream get(String id) throws IOException {
-        if (!snippets.containsKey(id) || snippets.get(id).size == 0) {
+        if (!contains(id) || snippets.get(id).size == 0) {
             return null;
         }
 

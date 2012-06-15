@@ -11,6 +11,7 @@ import org.milyn.Smooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
@@ -55,6 +56,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
 
             smooks.filterSource(source, result);
         } catch (Exception e) {
+            LogUtil.debug(LOG, e.getMessage(), e);
         }
     }
 }

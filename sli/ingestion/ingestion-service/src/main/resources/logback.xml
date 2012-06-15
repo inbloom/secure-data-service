@@ -89,6 +89,9 @@
     <appender-ref ref="PERFORMANCE_LOGGER" />
   </logger>
 
+  <logger name="org.slc.sli.ingestion.referenceresolution" level="DEBUG" />
+  <logger name="org.slc.sli.ingestion.xml.idref" level="DEBUG" />
+
   <!-- Do not pollute our logs with awful Smooks / groovy warnings -->
   <logger name="org.milyn.delivery" level="ERROR" />
 

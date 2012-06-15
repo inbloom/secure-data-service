@@ -5,6 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  *
@@ -14,6 +18,7 @@ import org.apache.commons.io.IOUtils;
  *
  */
 public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
+    public static final Logger LOG = LoggerFactory.getLogger(SimpleReferenceResolver.class);
 
     /**
      * Main method of the extended reference resolver.
@@ -35,6 +40,8 @@ public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
         try {
             IOUtils.copyLarge(content, convertedContext);
         } catch (IOException e) {
+            LogUtil.debug(LOG, "Error while resolving a reference for : " + xPath, e);
+
             return;
         }
     }
