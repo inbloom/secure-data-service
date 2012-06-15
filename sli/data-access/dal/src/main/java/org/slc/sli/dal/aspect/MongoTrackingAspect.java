@@ -16,23 +16,23 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import com.mongodb.DBCollection;
 
 /**
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 @Aspect
 public class MongoTrackingAspect {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
-
+    
     private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     private static final long SLOW_QUERY_THRESHOLD = 100;  // ms
     
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
-
+        
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
-
+        
         String collection = "UNKNOWN";
         Object[] args = pjp.getArgs();
         if (args.length > 0 && args[0] instanceof String) {
@@ -42,61 +42,63 @@ public class MongoTrackingAspect {
         } else if (args.length > 2 && args[2] instanceof String) {
             collection = (String) args[2];
         }
-
+        
         if (collection.lastIndexOf("_") > -1) {
             collection = collection.substring(0, collection.lastIndexOf("_"));
         }
-
+        
         if (pjp.getSignature().getName().equals("executeCommand")) {
             LOG.info("~~{} {}", pjp.getSourceLocation().getFileName(), pjp.getSourceLocation().getLine());
             LOG.info("{}", pjp.getArgs()[0]);
             collection = "EXEC-UNKNOWN";
         }
-
+        
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
-
+        
         this.upCounts(mt.getDb().getName(), pjp.getSignature().getName(), collection, elapsed);
         logSlowQuery(elapsed, mt.getDb().getName(), pjp.getSignature().getName(), collection);
         
         return result;
     }
-
+    
     @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
-
+        
         DBCollection col = (DBCollection) pjp.getTarget();
-
-        this.upCounts(col.getDB().getName(),  pjp.getSignature().getName(), col.getName(), elapsed);
+        
+        this.upCounts(col.getDB().getName(), pjp.getSignature().getName(), col.getName(), elapsed);
         logSlowQuery(elapsed, col.getDB().getName(), pjp.getSignature().getName(), col.getName());
         
         return result;
     }
-
+    
     public Map<String, Pair<AtomicLong, AtomicLong>> getStats() {
         return this.stats;
     }
-
+    
     public void reset() {
         this.stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     }
-
+    
     private void upCounts(String db, String function, String collection, long elapsed) {
-        stats.putIfAbsent(String.format("%s#%s#%s", db, function, collection), Pair.of(new AtomicLong(0), new AtomicLong(0)));
-
+        stats.putIfAbsent(String.format("%s#%s#%s", db, function, collection),
+                Pair.of(new AtomicLong(0), new AtomicLong(0)));
+        
         Pair<AtomicLong, AtomicLong> pair = stats.get(String.format("%s#%s#%s", db, function, collection));
-
+        
         pair.getLeft().incrementAndGet();
         pair.getRight().addAndGet(elapsed);
     }
     
     private void logSlowQuery(long elapsed, String db, String function, String collection) {
         if (elapsed > SLOW_QUERY_THRESHOLD) {
-            LOG.warn("Slow query encountered: {}#{}#{} (elapsed time: {} ms)", new Object[] { db, function, collection, elapsed});
+            LOG.warn("Slow query encountered: {}#{}#{} (elapsed time: {} ms)", new Object[] { db, function, collection,
+                    elapsed });
         }
     }
 }
