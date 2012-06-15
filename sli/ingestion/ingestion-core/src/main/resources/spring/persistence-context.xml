@@ -45,7 +45,6 @@
     <value>staff</value>
     <value>staffEducationOrganizationAssociation</value>
     <value>student</value>
-    <value>studentAcademicRecord</value>
     <value>studentCompetencyObjective</value>
     <value>studentParentAssociation</value>
     <value>studentSectionAssociation</value>
@@ -71,6 +70,7 @@
     <value>staffCohortAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
+    <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentProgramAssociation</value>
