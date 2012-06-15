@@ -62,7 +62,15 @@ Scenario: Create entities which contain valid text in relaxed validation
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
  
+Scenario: Go to Create URLs which contain null byte attack characters
+  When I navigate to GET "/<NULL QUERY PARAMS>"
+  Then I should receive a return code of 400
 
+  When I navigate to GET "/<NULL QUERY NULL VALUE>"
+  Then I should receive a return code of 400
+
+  When I navigate to GET "/<NULL QUERY VALUE NULL>"
+  Then I should receive a return code of 400
 
 
 
