@@ -212,8 +212,12 @@ public class SamlFederationResource {
         } else {
             Object temp = realm.getBody().get("admin");
             Boolean isAdminRealm = temp == null ? false : (Boolean) temp;
-            if (isAdminRealm && samlTenant != null) {
-                tenant = samlTenant;
+            if (isAdminRealm) {
+                if (samlTenant != null) {
+                    tenant = samlTenant;
+                } else {
+                    tenant = null;
+                }                
             } else {
                 tenant = realmTenant;
             }
