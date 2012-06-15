@@ -65,6 +65,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private static final String ENCODING = "UTF-8";
 
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
+    private Set<String> idReferenceInterchanges;
     private MessageSource messageSource;
 
     @Autowired
@@ -73,6 +74,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
+
+        if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
+            LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
+                    .getFileType().getName());
+            return fileEntry;
+        }
+
         File file = fileEntry.getFile();
 
         file = process(file, errorReport);
@@ -600,5 +608,4 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     public void setSupportedResolvers(Map<String, ReferenceResolutionStrategy> supportedResolvers) {
         this.supportedResolvers = supportedResolvers;
     }
-
 }

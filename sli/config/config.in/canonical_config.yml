@@ -1164,10 +1164,12 @@ nxteam:
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml:  concurrent
         sli.ingestion.queue.maestro.concurrentConsumers: 5
-        sli.ingestion.queue.pit.concurrentConsumers: 20
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.cache.type: memcached
-        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
-        
+        sli.ingestion.cache.opTimeout: 100
+        sli.ingestion.cache.servers: localhost
+        #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
+
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost 
@@ -1175,6 +1177,7 @@ nxteam:
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
+        sli.mongodb.connections: 30
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE

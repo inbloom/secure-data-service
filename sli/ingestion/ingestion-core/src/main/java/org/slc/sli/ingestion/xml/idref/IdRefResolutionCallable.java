@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.xml.idref;
 
-import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -30,7 +29,6 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     private final IngestionFileEntry entry;
     private final Job job;
     private final BatchJobDAO batchJobDao;
-    private Set<String> idReferenceResolutionInterchanges;
     
     /**
      * Default constructor for the id reference resolution callable.
@@ -43,12 +41,11 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
      *            IdRefResolutionHandler to resolve references in ingestion file entries.
      */
     public IdRefResolutionCallable(IdRefResolutionHandler resolver, IngestionFileEntry fileEntry, Job job,
-            BatchJobDAO batchJobDao, Set<String> idReferenceResolutionInterchanges) {
+            BatchJobDAO batchJobDao) {
         this.resolver = resolver;
         this.entry = fileEntry;
         this.job = job;
         this.batchJobDao = batchJobDao;
-        this.idReferenceResolutionInterchanges = idReferenceResolutionInterchanges;
     }
     
     /**
@@ -58,16 +55,12 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     public Boolean call() throws Exception {
         boolean hasErrors = false;
         
-        if (idReferenceResolutionInterchanges.contains(entry.getFileType().getName())) {
-            LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
-            resolver.handle(entry, entry.getErrorReport());
+        LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
+        resolver.handle(entry, entry.getErrorReport());
             
-            hasErrors = aggregateAndLogResolutionErrors(entry);
-            LOG.info("Finished IdRefResolutionCallable for: " + entry.getFileName());
-        } else {
-            LOG.info("Not performing id reference resolution for interchange: {} (type: {})", entry.getFileName(),
-                    entry.getFileType().name());
-        }
+        hasErrors = aggregateAndLogResolutionErrors(entry);
+        LOG.info("Finished IdRefResolutionCallable for: " + entry.getFileName());
+
         return hasErrors;
     }
     
