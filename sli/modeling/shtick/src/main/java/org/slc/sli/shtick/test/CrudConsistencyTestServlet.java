@@ -11,10 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.shtick.RestEntity;
 import org.slc.sli.shtick.StandardLevel3ClientManual;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
@@ -64,34 +61,34 @@ public class CrudConsistencyTestServlet extends HttpServlet {
     }
 
     private String testCreate() {
-//        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
-//        try {
-//            Response response = client.create(student);
-//            List<RestEntity> collection = new ArrayList<RestEntity>();
-//            if (response.getStatus() != 201) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
-//            }
-//            String location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String id = location.substring(location.lastIndexOf("/") + 1);
-//            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (response.getStatus() != 200) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
-//            }
-//            if (collection != null && collection.size() == 1) {
-//                @SuppressWarnings("unchecked")
-//                String firstName = ((Map<String, String>)
-//                        collection.get(0).getData().get("name")).get("firstName");
-//                @SuppressWarnings("unchecked")
-//                String lastSurname = ((Map<String, String>)
-//                        collection.get(0).getData().get("name")).get("lastSurname");
-//                if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
-//                    return "Failed - Response contains incorrect values";
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
-//        }
+        // RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
+        // try {
+        // Response response = client.create(student);
+        // List<RestEntity> collection = new ArrayList<RestEntity>();
+        // if (response.getStatus() != 201) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
+        // }
+        // String location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String id = location.substring(location.lastIndexOf("/") + 1);
+        // response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (response.getStatus() != 200) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
+        // }
+        // if (collection != null && collection.size() == 1) {
+        // @SuppressWarnings("unchecked")
+        // String firstName = ((Map<String, String>)
+        // collection.get(0).getData().get("name")).get("firstName");
+        // @SuppressWarnings("unchecked")
+        // String lastSurname = ((Map<String, String>)
+        // collection.get(0).getData().get("name")).get("lastSurname");
+        // if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
+        // return "Failed - Response contains incorrect values";
+        // }
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+        // }
 
         return TestResultConstants.PASSED;
     }
@@ -115,141 +112,148 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         return TestResultConstants.PASSED;
     }
 
-    @SuppressWarnings("unchecked")
     private String testUpdate() {
-//        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
-//        try {
-//            Response response = client.create(student);
-//            List<Entity> collection = new ArrayList<Entity>();
-//            String location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String id = location.substring(location.lastIndexOf("/") + 1);
-//            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (collection != null && collection.size() == 1) {
-//                student = collection.get(0);
-//                ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
-//                        "2817 Oakridge Farm Lane");
-//                response = client.update(student);
-//                if (response.getStatus() != 204) {
-//                    return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
-//                }
-//            }
-//            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (response.getStatus() != 200) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
-//            }
-//            if (collection != null && collection.size() == 1) {
-//                student = collection.get(0);
-//                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
-//                        "streetNumberName");
-//                if (!address.equals("2817 Oakridge Farm Lane")) {
-//                    return "Failed - Response contains incorrect values";
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
-//        }
+        // RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
+        // try {
+        // Response response = client.create(student);
+        // List<Entity> collection = new ArrayList<Entity>();
+        // String location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String id = location.substring(location.lastIndexOf("/") + 1);
+        // client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (collection != null && collection.size() == 1) {
+        // student = collection.get(0);
+        // ((List<Map<String, String>>)
+        // student.getData().get("address")).get(0).put("streetNumberName",
+        // "2817 Oakridge Farm Lane");
+        // response = client.update(student);
+        // if (response.getStatus() != 204) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
+        // }
+        // }
+        // response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (response.getStatus() != 200) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
+        // }
+        // if (collection != null && collection.size() == 1) {
+        // student = collection.get(0);
+        // String address = ((List<Map<String, String>>)
+        // student.getData().get("address")).get(0).get(
+        // "streetNumberName");
+        // if (!address.equals("2817 Oakridge Farm Lane")) {
+        // return "Failed - Response contains incorrect values";
+        // }
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+        // }
 
         return TestResultConstants.PASSED;
     }
 
     private String testDelete() {
-//        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
-//        try {
-//            Response response = client.create(student);
-//            List<Entity> collection = new ArrayList<Entity>();
-//            String location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String id = location.substring(location.lastIndexOf("/") + 1);
-//            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (collection != null && collection.size() == 1) {
-//                student = collection.get(0);
-//                response = client.delete(student);
-//                if (response.getStatus() != 204) {
-//                    return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
-//                }
-//            }
-//            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (!(response.getStatus() == 404)) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
-//        }
+        // RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
+        // try {
+        // Response response = client.create(student);
+        // List<Entity> collection = new ArrayList<Entity>();
+        // String location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String id = location.substring(location.lastIndexOf("/") + 1);
+        // client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (collection != null && collection.size() == 1) {
+        // student = collection.get(0);
+        // response = client.delete(student);
+        // if (response.getStatus() != 204) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
+        // }
+        // }
+        // response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (!(response.getStatus() == 404)) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+        // }
 
         return TestResultConstants.PASSED;
     }
 
     private String testAssociationCrud() {
-//        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
-//        RestEntity school = new RestEntity(ResourceNames.SCHOOLS, createTestSchoolBody());
-//        try {
-//            Response response = client.create(student);
-//            String location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String studentId = location.substring(location.lastIndexOf("/") + 1);
-//
-//            response = client.create(school);
-//            location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String schoolId = location.substring(location.lastIndexOf("/") + 1);
-//
-//            // Create
-//            Entity studentSchoolAssoc = new GenericEntity(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
-//                    createTestStudentSchoolAssocBody(studentId, schoolId));
-//            response = client.create(studentSchoolAssoc);
-//            if (response.getStatus() != 201) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
-//            }
-//
-//            // Read
-//            location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String id = location.substring(location.lastIndexOf("/") + 1);
-//            List<Entity> collection = new ArrayList<Entity>();
-//            client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
-//            if (response.getStatus() != 200) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
-//            }
-//            if (collection != null && collection.size() == 1) {
-//                studentSchoolAssoc = collection.get(0);
-//                @SuppressWarnings("unchecked")
-//                String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
-//                if (!entryDate.equals("2011-09-01")) {
-//                    return "Failed - Response contains incorrect values";
-//                }
-//            }
-//
-//            // Update
-//            studentSchoolAssoc.getData().put("entryDate", "2011-10-01");
-//            response = client.update(studentSchoolAssoc);
-//            if (response.getStatus() != 204) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
-//            }
-//            client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
-//            if (collection != null && collection.size() == 1) {
-//                studentSchoolAssoc = collection.get(0);
-//                @SuppressWarnings("unchecked")
-//                String entryDate = ((Map<String, String>) studentSchoolAssoc.getData().get("entryDate")).toString();
-//                if (!entryDate.equals("2011-10-01")) {
-//                    return "Failed - Response contains incorrect values";
-//                }
-//            }
-//
-//            // Delete
-//            response = client.delete(studentSchoolAssoc);
-//            if (response.getStatus() != 204) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
-//            }
-//            response = client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id, BasicQuery.EMPTY_QUERY);
-//            if (response.getStatus() != 404) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
-//        }
+        // RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
+        // RestEntity school = new RestEntity(ResourceNames.SCHOOLS, createTestSchoolBody());
+        // try {
+        // Response response = client.create(student);
+        // String location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String studentId = location.substring(location.lastIndexOf("/") + 1);
+        //
+        // response = client.create(school);
+        // location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String schoolId = location.substring(location.lastIndexOf("/") + 1);
+        //
+        // // Create
+        // Entity studentSchoolAssoc = new GenericEntity(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
+        // createTestStudentSchoolAssocBody(studentId, schoolId));
+        // response = client.create(studentSchoolAssoc);
+        // if (response.getStatus() != 201) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
+        // }
+        //
+        // // Read
+        // location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String id = location.substring(location.lastIndexOf("/") + 1);
+        // List<Entity> collection = new ArrayList<Entity>();
+        // client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id,
+        // BasicQuery.EMPTY_QUERY);
+        // if (response.getStatus() != 200) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
+        // }
+        // if (collection != null && collection.size() == 1) {
+        // studentSchoolAssoc = collection.get(0);
+        // @SuppressWarnings("unchecked")
+        // String entryDate = ((Map<String, String>)
+        // studentSchoolAssoc.getData().get("entryDate")).toString();
+        // if (!entryDate.equals("2011-09-01")) {
+        // return "Failed - Response contains incorrect values";
+        // }
+        // }
+        //
+        // // Update
+        // studentSchoolAssoc.getData().put("entryDate", "2011-10-01");
+        // response = client.update(studentSchoolAssoc);
+        // if (response.getStatus() != 204) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
+        // }
+        // client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id,
+        // BasicQuery.EMPTY_QUERY);
+        // if (collection != null && collection.size() == 1) {
+        // studentSchoolAssoc = collection.get(0);
+        // @SuppressWarnings("unchecked")
+        // String entryDate = ((Map<String, String>)
+        // studentSchoolAssoc.getData().get("entryDate")).toString();
+        // if (!entryDate.equals("2011-10-01")) {
+        // return "Failed - Response contains incorrect values";
+        // }
+        // }
+        //
+        // // Delete
+        // response = client.delete(studentSchoolAssoc);
+        // if (response.getStatus() != 204) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 204, response.getStatus());
+        // }
+        // response = client.read(collection, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, id,
+        // BasicQuery.EMPTY_QUERY);
+        // if (response.getStatus() != 404) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 404, response.getStatus());
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+        // }
 
         return TestResultConstants.PASSED;
     }
 
+    @SuppressWarnings("unused")
     private Map<String, Object> createTestStudentBody() {
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, String> name = new HashMap<String, String>();
@@ -278,16 +282,14 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         return body;
     }
 
+    @SuppressWarnings("unused")
     private Student createTestPojoStudent() {
-        Student student = new Student(
-                "11111111-1111-1111-1111-111111111111",
-                new Name("Monique", "Johnson"),
-                "Female",
-                false,
-                "123456");
+        Student student = new Student("11111111-1111-1111-1111-111111111111", new Name("Monique", "Johnson"), "Female",
+                false, "123456");
         return student;
     }
 
+    @SuppressWarnings("unused")
     private Map<String, Object> createTestSchoolBody() {
         Map<String, Object> body = new HashMap<String, Object>();
         List<String> schoolCategories = new ArrayList<String>();
@@ -298,6 +300,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         return body;
     }
 
+    @SuppressWarnings("unused")
     private Map<String, Object> createTestStudentSchoolAssocBody(String studentId, String schoolId) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", studentId);

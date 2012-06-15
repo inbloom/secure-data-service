@@ -12,7 +12,7 @@ import org.slc.sli.modeling.rest.ParamStyle;
 
 public final class Level2ClientJavaHelper {
 
-    public static final List<JavaParam> computeJavaRequestParams(final List<Param> params) {
+    public static final List<JavaParam> computeJavaGETParams(final List<Param> params) {
         final List<JavaParam> javaParams = new LinkedList<JavaParam>();
         // The token parameter is a standard parameter.
         javaParams.add(new JavaParam("token", "String", true));
@@ -29,6 +29,21 @@ public final class Level2ClientJavaHelper {
             }
         }
         javaParams.add(new JavaParam("queryArgs", "Map<String,Object>", true));
+        return Collections.unmodifiableList(javaParams);
+    }
+
+    public static final List<JavaParam> computeParams(final JavaParam token, final List<Param> params,
+            final JavaParam entity) {
+        final List<JavaParam> javaParams = new LinkedList<JavaParam>();
+        javaParams.add(token);
+        for (final Param param : params) {
+            if (param.getStyle() == ParamStyle.TEMPLATE) {
+                final QName type = param.getType();
+                final String javaType = GenericJavaHelper.getJavaType(type);
+                javaParams.add(new JavaParam(param.getName(), javaType, true));
+            }
+        }
+        javaParams.add(entity);
         return Collections.unmodifiableList(javaParams);
     }
 }

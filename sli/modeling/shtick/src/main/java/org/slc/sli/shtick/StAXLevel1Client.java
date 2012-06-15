@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -34,7 +33,7 @@ public final class StAXLevel1Client implements Level1Client {
     @Override
     public List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
             RestException {
-        final String body = inner.getRequest(token, url, MediaType.APPLICATION_XML);
+        final String body = inner.getRequest(token, url, "application/xml");
         return deserialize(body);
     }
 

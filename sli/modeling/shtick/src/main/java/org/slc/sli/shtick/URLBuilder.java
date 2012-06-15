@@ -7,8 +7,6 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.v1.PathConstants;
-
 /**
  * Builder for creating a URL suitable for use with the SLI API ReSTful web service.
  *
@@ -42,26 +40,6 @@ final class URLBuilder {
     public URLBuilder addPath(final String path) {
         addPathSeparaterIfNeeded();
         url.append(path);
-        return this;
-    }
-
-    /**
-     * Append a path element for accessing the provided entity type.
-     *
-     * @param type
-     *            Entity type of interest.
-     * @return Updated URLBuilder instance.
-     */
-    public URLBuilder entityType(final String type) {
-        String path = PathConstants.TEMP_MAP.get(type);
-        if (path == null && type.equals(PathConstants.SECURITY_SESSION_DEBUG)) {
-            path = type;
-        } else if (path == null && type.equals(PathConstants.HOME)) {
-            path = type;
-        } else if (path == null) {
-            path = type + "s";
-        }
-        addPath(path);
         return this;
     }
 

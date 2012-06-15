@@ -63,11 +63,12 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         jsw.beginStmt();
         try {
             jsw.write("List<RestEntity> " + method.getId());
-            jsw.write("(");
+            jsw.parenL();
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
+            final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
             jsw.writeParams(params);
-            jsw.write(") throws IOException, RestException");
+            jsw.parenR();
+            jsw.write(" throws IOException, RestException");
             @SuppressWarnings("unused")
             // Perhaps modify this method to generate a different naming scheme?
             final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
@@ -104,10 +105,9 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         try {
             jsw.write("String " + method.getId());
             jsw.parenL();
-            final List<JavaParam> params = new LinkedList<JavaParam>();
-            params.add(PARAM_TOKEN);
-            params.add(PARAM_ENTITY);
-            jsw.writeParams(params);
+            final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+            jsw.writeParams(jparams);
             jsw.parenR();
             jsw.write(" throws IOException, RestException");
             @SuppressWarnings("unused")
@@ -146,10 +146,9 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         try {
             jsw.write("void " + method.getId());
             jsw.parenL();
-            final List<JavaParam> params = new LinkedList<JavaParam>();
-            params.add(PARAM_TOKEN);
-            params.add(PARAM_ENTITY);
-            jsw.writeParams(params);
+            final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+            jsw.writeParams(jparams);
             jsw.parenR();
             jsw.write(" throws IOException, RestException");
             @SuppressWarnings("unused")

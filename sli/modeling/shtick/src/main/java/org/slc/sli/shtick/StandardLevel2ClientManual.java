@@ -88,9 +88,11 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new NullPointerException("entity");
         }
         try {
-            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").build();
-            final URL studentURL = client.postRequest(token, entity, url);
-            return URLHelper.stripId(studentURL);
+            final String path = "students";
+            final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path);
+            final URL url = builder.build();
+            final URL postedURL = client.postRequest(token, entity, url);
+            return URLHelper.stripId(postedURL);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
@@ -105,7 +107,9 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new NullPointerException("entity");
         }
         try {
-            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").id(entity.getId()).build();
+            final String path = String.format("students/%s", entity.getId());
+            final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path);
+            final URL url = builder.build();
             client.putRequest(token, entity, url);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);

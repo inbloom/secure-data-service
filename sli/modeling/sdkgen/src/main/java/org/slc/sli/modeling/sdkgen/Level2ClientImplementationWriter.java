@@ -122,11 +122,12 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.writeOverride();
         jsw.write("public ");
         jsw.write("List<RestEntity> " + method.getId());
-        jsw.write("(");
+        jsw.parenL();
         final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-        final List<JavaParam> params = Level2ClientJavaHelper.computeJavaRequestParams(templateParams);
+        final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
         jsw.writeParams(params);
-        jsw.write(") throws IOException, RestException");
+        jsw.parenR();
+        jsw.write(" throws IOException, RestException");
         jsw.beginBlock();
         try {
             jsw.write("try");
@@ -179,15 +180,28 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write("public ");
         jsw.write("String " + method.getId());
         jsw.parenL();
-        final List<JavaParam> params = new LinkedList<JavaParam>();
-        params.add(PARAM_TOKEN);
-        params.add(PARAM_ENTITY);
-        jsw.writeParams(params);
+        final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+        final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+        jsw.writeParams(jparams);
         jsw.parenR();
         jsw.write(" throws IOException, RestException");
         jsw.beginBlock();
         try {
-            jsw.beginStmt().write("return null").endStmt();
+            jsw.write("try");
+            jsw.beginBlock();
+            final String uri = computeURI(resource, resources, application, ancestors);
+            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            writeURLStringForPOST(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
+            jsw.beginStmt().write("final URL postedURL = client.postRequest(token, entity, url)").endStmt();
+            jsw.beginStmt().write("return URLHelper.stripId(postedURL)").endStmt();
+            jsw.endBlock();
+            jsw.write("catch(final URISyntaxException e)");
+            jsw.beginBlock();
+            jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+            jsw.endBlock();
         } finally {
             jsw.endBlock();
         }
@@ -223,14 +237,27 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write("public ");
         jsw.write("void " + method.getId());
         jsw.parenL();
-        final List<JavaParam> params = new LinkedList<JavaParam>();
-        params.add(PARAM_TOKEN);
-        params.add(PARAM_ENTITY);
-        jsw.writeParams(params);
+        final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+        final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+        jsw.writeParams(jparams);
         jsw.parenR();
         jsw.write(" throws IOException, RestException");
         jsw.beginBlock();
         try {
+            jsw.write("try");
+            jsw.beginBlock();
+            final String uri = computeURI(resource, resources, application, ancestors);
+            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            writeURLStringForPUT(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
+            jsw.beginStmt().write("client.putRequest(token, entity, url)").endStmt();
+            jsw.endBlock();
+            jsw.write("catch(final URISyntaxException e)");
+            jsw.beginBlock();
+            jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+            jsw.endBlock();
         } finally {
             jsw.endBlock();
         }
@@ -357,6 +384,56 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write(", ");
         jsw.write("entityId");
         jsw.parenR();
+
+        jsw.endStmt();
+    }
+
+    private void writeURLStringForPOST(final JavaParam param, final String uri, final List<Param> templateParams)
+            throws IOException {
+        // FIXME: This URI does not have a substitution for the template parameter.
+        final String uriFormatString = computeURIFormatString(uri, templateParams);
+
+        jsw.beginStmt();
+        jsw.write("final String ").write(param.getName()).write(" = ");
+        if (templateParams.size() > 0) {
+            // We're posting something to an item in a collection.
+            jsw.write("String.format");
+            jsw.parenL();
+            jsw.dblQte().write(uriFormatString).dblQte();
+            for (final Param templateParam : templateParams) {
+                jsw.write(", ");
+                jsw.write(templateParam.getName());
+            }
+            jsw.parenR();
+        } else {
+            // We're just posting to the collection.
+            jsw.dblQte().write(uriFormatString).dblQte();
+        }
+
+        jsw.endStmt();
+    }
+
+    private void writeURLStringForPUT(final JavaParam param, final String uri, final List<Param> templateParams)
+            throws IOException {
+        // FIXME: This URI does not have a substitution for the template parameter.
+        final String uriFormatString = computeURIFormatString(uri, templateParams);
+
+        jsw.beginStmt();
+        jsw.write("final String ").write(param.getName()).write(" = ");
+        if (templateParams.size() > 0) {
+            // We're posting something to an item in a collection.
+            jsw.write("String.format");
+            jsw.parenL();
+            jsw.dblQte().write(uriFormatString).dblQte();
+            for (final Param templateParam : templateParams) {
+                jsw.write(", ");
+                jsw.write(templateParam.getName());
+            }
+            jsw.parenR();
+        } else {
+            // We're just posting to the collection.
+            jsw.dblQte().write(uriFormatString).dblQte();
+        }
 
         jsw.endStmt();
     }

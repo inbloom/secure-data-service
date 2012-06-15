@@ -1,6 +1,5 @@
 package org.slc.sli.shtick;
 
-import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -14,6 +13,6 @@ public final class JsonLevel1Client extends AbstractLevel1Client implements Leve
 
     @Override
     protected String getMediaType() {
-        return MediaType.APPLICATION_JSON;
+        return "application/json";
     }
 }
