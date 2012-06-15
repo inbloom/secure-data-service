@@ -173,7 +173,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     Attribute id = start.getAttributeByName(ID_ATTR);
 
-                    return id != null && !snippets.contains(id.getValue());
+                    return id != null && ids.contains(id.getValue()) && !snippets.contains(id.getValue());
                 }
 
                 return false;
