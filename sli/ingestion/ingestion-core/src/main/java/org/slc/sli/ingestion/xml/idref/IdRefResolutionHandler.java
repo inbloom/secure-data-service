@@ -123,6 +123,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     protected Set<String> findIDRefsToResolve(final File xml, ErrorReport errorReport) {
         final Set<String> idRefs = new HashSet<String>();
+        final Stack<StartElement> parents = new Stack<StartElement>();
 
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
 
@@ -130,9 +131,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             public boolean isSupported(XMLEvent xmlEvent) {
                 if (xmlEvent.isStartElement()) {
                     StartElement start = xmlEvent.asStartElement();
+                    parents.push(start);
 
                     return start.getAttributeByName(REF_RESOLVED_ATTR) == null
-                            && start.getAttributeByName(REF_ATTR) != null;
+                            && start.getAttributeByName(REF_ATTR) != null && isSupportedRef();
+                } else if (xmlEvent.isEndElement()) {
+                    parents.pop();
                 }
 
                 return false;
@@ -150,6 +154,23 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public boolean canAcceptMore() {
                 return true;
+            }
+
+            private String getCurrentXPath() {
+                StringBuffer sb = new StringBuffer();
+
+                for (StartElement start : parents) {
+                    sb.append('/').append(start.getName().getLocalPart());
+                }
+
+                return sb.toString();
+            }
+
+            private boolean isSupportedRef() {
+                if (supportedResolvers.get(getCurrentXPath()) != null) {
+                    return true;
+                }
+                return false;
             }
 
         };
