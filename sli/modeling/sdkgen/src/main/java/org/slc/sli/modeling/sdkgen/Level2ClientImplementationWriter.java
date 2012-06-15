@@ -58,6 +58,7 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
             jsw.writeImport("java.net.URL");
             jsw.writeImport("java.util.List");
             jsw.writeImport("java.util.Map");
+            jsw.writeImport("org.apache.commons.lang3.StringUtils");
             jsw.beginClass(className, interfaces);
             // Attributes
             jsw.writeAttribute("baseUrl", "String");
@@ -207,7 +208,12 @@ public final class Level2ClientImplementationWriter implements WadlHandler {
         jsw.dblQte().write(uriFormatString).dblQte();
         for (final Param templateParam : templateParams) {
             jsw.write(", ");
+            jsw.write("StringUtils.join");
+            jsw.parenL();
             jsw.write(templateParam.getName());
+            jsw.write(", ");
+            jsw.write("','");
+            jsw.parenR();
         }
         jsw.parenR();
 

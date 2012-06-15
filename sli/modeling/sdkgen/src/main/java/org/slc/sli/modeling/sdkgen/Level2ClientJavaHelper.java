@@ -19,7 +19,12 @@ public final class Level2ClientJavaHelper {
         for (final Param param : params) {
             if (param.getStyle() == ParamStyle.TEMPLATE) {
                 final QName type = param.getType();
-                final String javaType = GenericJavaHelper.getJavaType(type);
+                // We're going to assume that the Java type of every template parameter is a list of
+                // strings (for a GET method).
+                // We could make this driven from the WADL if we had a foreign name-space element
+                // "maxOccurs", like XML Schema.
+                final String javaSimpleType = GenericJavaHelper.getJavaType(type);
+                final String javaType = "List<" + javaSimpleType + ">";
                 javaParams.add(new JavaParam(param.getName(), javaType, true));
             }
         }

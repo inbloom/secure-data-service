@@ -77,33 +77,35 @@ public class CrudConsistencyTestServlet extends HttpServlet {
     }
 
     private String testCreate() {
-//        RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
-//        try {
-//            Response response = client.create(student);
-//            List<Entity> collection = new ArrayList<Entity>();
-//            if (response.getStatus() != 201) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
-//            }
-//            String location = response.getHeaders().getHeaderValues("Location").get(0);
-//            String id = location.substring(location.lastIndexOf("/") + 1);
-//            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-//            if (response.getStatus() != 200) {
-//                return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
-//            }
-//            if (collection != null && collection.size() == 1) {
-//                @SuppressWarnings("unchecked")
-//                String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-//                @SuppressWarnings("unchecked")
-//                String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
-//                if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
-//                    return "Failed - Response contains incorrect values";
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
-//        }
-//
+        // RestEntity student = new RestEntity(ResourceNames.STUDENTS, createTestStudentBody());
+        // try {
+        // Response response = client.create(student);
+        // List<Entity> collection = new ArrayList<Entity>();
+        // if (response.getStatus() != 201) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 201, response.getStatus());
+        // }
+        // String location = response.getHeaders().getHeaderValues("Location").get(0);
+        // String id = location.substring(location.lastIndexOf("/") + 1);
+        // response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+        // if (response.getStatus() != 200) {
+        // return String.format(TestResultConstants.STATUS_CODE_ERROR, 200, response.getStatus());
+        // }
+        // if (collection != null && collection.size() == 1) {
+        // @SuppressWarnings("unchecked")
+        // String firstName = ((Map<String, String>)
+        // collection.get(0).getData().get("name")).get("firstName");
+        // @SuppressWarnings("unchecked")
+        // String lastSurname = ((Map<String, String>)
+        // collection.get(0).getData().get("name")).get("lastSurname");
+        // if (!(firstName.equals("Monique") && lastSurname.equals("Johnson"))) {
+        // return "Failed - Response contains incorrect values";
+        // }
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+        // }
+        //
         return TestResultConstants.PASSED;
     }
 
@@ -117,11 +119,11 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         List<String> idList = new ArrayList<String>();
         idList.add("d2462231-4f6c-452e-9b29-4a63ad92138e");
         try {
-            List<RestEntity> student = client.getStudentsById(rrogersToken, idList.get(0),
-                    Collections.<String, Object>emptyMap());
+            List<RestEntity> student = client.getStudentsById(rrogersToken, idList,
+                    Collections.<String, Object> emptyMap());
             if (student.size() != 1) {
-                 return String.format(TestResultConstants.ERROR_GENERIC,
-                         String.format("received %s student record(s)", student.size()));
+                return String.format(TestResultConstants.ERROR_GENERIC,
+                        String.format("received %s student record(s)", student.size()));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,8 +157,8 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             }
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
-                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0)
-                        .get("streetNumberName");
+                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
+                        "streetNumberName");
                 if (!address.equals("2817 Oakridge Farm Lane")) {
                     return "Failed - Response contains incorrect values";
                 }

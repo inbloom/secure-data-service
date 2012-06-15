@@ -38,9 +38,9 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<Student> getStudentsById(final String token, final String studentId, final Map<String, Object> queryArgs)
-            throws IOException, RestException {
-        final List<RestEntity> entities = inner.getStudentsById(token, studentId, queryArgs);
+    public List<Student> getStudentsById(final String token, final List<String> studentIds,
+            final Map<String, Object> queryArgs) throws IOException, RestException {
+        final List<RestEntity> entities = inner.getStudentsById(token, studentIds, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
         for (final RestEntity entity : entities) {
             students.add(convertToStudent(entity.getData()));

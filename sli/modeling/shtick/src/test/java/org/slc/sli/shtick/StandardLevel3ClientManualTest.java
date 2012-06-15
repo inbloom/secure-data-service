@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,8 +57,10 @@ public class StandardLevel3ClientManualTest {
         final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
         // One identifier.
         try {
-            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN,
-                    TestingConstants.TEST_STUDENT_ID, EMPTY_QUERY_ARGS);
+            final List<String> studentIds = new LinkedList<String>();
+            studentIds.add(TestingConstants.TEST_STUDENT_ID);
+            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+                    EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
