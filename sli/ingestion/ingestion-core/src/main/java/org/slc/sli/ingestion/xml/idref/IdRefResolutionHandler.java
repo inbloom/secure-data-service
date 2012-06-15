@@ -218,8 +218,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
-//            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
+//            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
+            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
@@ -425,10 +425,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            snippet = File
-                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
 //            snippet = File
-//                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
+//                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
+            snippet = File
+                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(snippet));
 
