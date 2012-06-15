@@ -5,6 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,7 +86,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return xml;
         }
 
-        Map<String, File> refContent = null;
+        SnippetFile refContent = null;
         File semiResolvedXml = null;
 
         try {
@@ -94,11 +97,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             sw.start("Resolve IDRefs");
             semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
             sw.stop();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         } finally {
             if (refContent != null) {
-                for (File snippet : refContent.values()) {
-                    org.apache.commons.io.FileUtils.deleteQuietly(snippet);
-                }
+                refContent.delete();
             }
         }
 
@@ -154,13 +158,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return idRefs;
     }
 
-    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids,
-            final ErrorReport errorReport) {
-        final Map<String, File> refContent = new HashMap<String, File>();
+    protected SnippetFile findMatchingEntities(final File xml, final Set<String> ids, final ErrorReport errorReport)
+            throws IOException {
 
-        for (String id : ids) {
-            refContent.put(id, null);
-        }
+        final SnippetFile snippets = SnippetFile.create("snippet", ".xml", xml.getParentFile());
 
         XmlEventVisitor collectRefContent = new XmlEventVisitor() {
             private int idsToProcess = ids.size();
@@ -172,7 +173,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     Attribute id = start.getAttributeByName(ID_ATTR);
 
-                    return id != null && refContent.containsKey(id.getValue()) && refContent.get(id.getValue()) == null;
+                    return id != null && !snippets.contains(id.getValue());
                 }
 
                 return false;
@@ -184,8 +185,16 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 Attribute id = start.getAttributeByName(ID_ATTR);
 
-                File content = getContent(xml, xmlEvent, eventReader, errorReport);
-                refContent.put(id.getValue(), content);
+                try {
+                    OutputStream os = snippets.allocateOutputStream(id.getValue());
+
+                    writeContent(os, xmlEvent, eventReader, errorReport);
+
+                    snippets.commitSnippet(id.getValue());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
                 idsToProcess--;
             }
@@ -199,16 +208,20 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         browse(xml, collectRefContent, errorReport);
 
-        return refContent;
+        return snippets;
     }
 
-    protected File resolveIdRefs(final File xml, final Map<String, File> refContent, final ErrorReport errorReport) {
+    protected File resolveIdRefs(final File xml, final SnippetFile snippets, final ErrorReport errorReport) {
         File newXml = null;
 
         BufferedOutputStream out = null;
         XMLEventWriter writer = null;
+        SnippetFile smooksSnippets = null;
 
         try {
+            final SnippetFile smooks = SnippetFile.create("smooks", ".xml", xml.getParentFile());
+            smooksSnippets = smooks;
+
             newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
@@ -227,41 +240,47 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 @Override
                 public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
 
-                    File contentToAdd = null;
+                    InputStream contentToAdd = null;
 
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
                         parents.push(start);
 
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
+                        Attribute ref = start.getAttributeByName(REF_ATTR);
 
-                        if (refResolved == null) {
+                        if (refResolved == null && ref != null) {
                             Attribute id = start.getAttributeByName(ID_ATTR);
-                            Attribute ref = start.getAttributeByName(REF_ATTR);
 
-                            if (ref != null && refContent.containsKey(ref.getValue())) {
-                                @SuppressWarnings("unchecked")
-                                Iterator<Attribute> attrs = start.getAttributes();
-                                ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
+                            @SuppressWarnings("unchecked")
+                            Iterator<Attribute> attrs = start.getAttributes();
+                            ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
 
-                                while (attrs.hasNext()) {
-                                    newAttrs.add(attrs.next());
-                                }
+                            while (attrs.hasNext()) {
+                                newAttrs.add(attrs.next());
+                            }
 
+                            String resolved = "false";
+
+                            if (snippets.contains(ref.getValue())) {
                                 if (id != null && id.getValue().equals(ref.getValue())) {
-                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
                                     errorReport.warning(
                                             MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
                                                     ref.getValue()), IdRefResolutionHandler.class);
                                 } else {
-                                    contentToAdd = resolveRefs(getCurrentXPath(), refContent, ref, errorReport);
-                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
-                                            contentToAdd == null ? "false" : "true"));
-                                }
+                                    try {
+                                        contentToAdd = resolveRefs(getCurrentXPath(), snippets, ref, errorReport);
 
-                                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
-                                        start.getNamespaces());
+                                        resolved = contentToAdd != null ? "false" : "true";
+                                    } catch (IOException e) {
+                                        resolved = "false";
+                                    }
+                                }
                             }
+
+                            newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, resolved));
+                            xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                                    start.getNamespaces());
                         }
                     } else if (xmlEvent.isEndElement()) {
                         parents.pop();
@@ -308,45 +327,44 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     return false;
                 }
 
-                private File resolveRefs(String currentXPath, Map<String, File> refContent, Attribute ref, ErrorReport errorReport) {
+                private InputStream resolveRefs(String currentXPath, SnippetFile snippets, Attribute ref,
+                        ErrorReport errorReport) throws IOException {
 
-                    File contentToAdd = refContent.get(ref.getValue());
+                    InputStream is = snippets.get(ref.getValue());
 
-                    if (contentToAdd != null) {
+                    if (is != null) {
                         ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
                         if (rrs == null) {
                             if (!isInnerRef()) {
-                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
-                                        IdRefResolutionHandler.class);
-                            }
-                            return null;
-                        } else if (!(contentToAdd instanceof IdRefFile)) {
-                            // Resolved content is not cached yet, so lets resolve it and cache it.
-                            File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
-                            if (resolvedContent == null) {
-                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
+                                LOG.debug(MessageSourceHelper
+                                        .getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
                                 errorReport.warning(
-                                        MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()),
+                                        MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
                                         IdRefResolutionHandler.class);
                             }
+                        } else if (!smooks.contains(ref.getValue())) {
 
-                            File oldContentToAdd = contentToAdd;
-                            contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
+                            // Resolved content is not cached yet, so lets resolve it and cache it.
 
-                            if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
-                                org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
+                            rrs.resolve(currentXPath, is, smooks.allocateOutputStream(ref.getValue()));
+
+                            smooks.commitSnippet(ref.getValue());
+
+                            if (smooks.get(ref.getValue()) == null) {
+                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1",
+                                        ref.getValue()));
+                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1",
+                                        ref.getValue()), IdRefResolutionHandler.class);
                             }
-
-                            refContent.put(ref.getValue(), contentToAdd);
                         }
                     } else {
                         LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
-                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
+                        errorReport.warning(
+                                MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
                                 IdRefResolutionHandler.class);
                     }
 
-                    return contentToAdd;
+                    return smooks.get(ref.getValue());
                 }
             };
 
@@ -354,7 +372,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             writer.flush();
         } catch (Exception e) {
-            closeResources(writer, out);
+            closeResources(writer);
+
+            IOUtils.closeQuietly(out);
 
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
@@ -363,28 +383,41 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
-            closeResources(writer, out);
+            closeResources(writer);
+            IOUtils.closeQuietly(out);
+
+            if (smooksSnippets != null) {
+                smooksSnippets.delete();
+            }
         }
 
         return newXml;
     }
 
-
-
     private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
         BufferedInputStream xmlStream = null;
-        XMLEventReader eventReader = null;
+
         try {
             xmlStream = new BufferedInputStream(new FileInputStream(xml));
 
-            eventReader = INPUT_FACTORY.createXMLEventReader(xmlStream);
+            browse(xmlStream, browser, errorReport);
+
+        } catch (Exception e) {
+            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", ""));
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", ""),
+                    IdRefResolutionHandler.class);
+        } finally {
+            IOUtils.closeQuietly(xmlStream);
+        }
+    }
+
+    private void browse(InputStream is, XmlEventVisitor browser, ErrorReport errorReport) throws XMLStreamException {
+        XMLEventReader eventReader = null;
+        try {
+            eventReader = INPUT_FACTORY.createXMLEventReader(is);
 
             browse(eventReader, browser);
 
-        } catch (Exception e) {
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
-                    IdRefResolutionHandler.class);
         } finally {
             if (eventReader != null) {
                 try {
@@ -393,8 +426,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     eventReader = null;
                 }
             }
-
-            IOUtils.closeQuietly(xmlStream);
         }
     }
 
@@ -408,18 +439,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader, final ErrorReport errorReport) {
-        File snippet = null;
-
-        BufferedOutputStream out = null;
+    private void writeContent(OutputStream os, XMLEvent xmlEvent, XMLEventReader eventReader,
+            final ErrorReport errorReport) {
         XMLEventWriter writer = null;
 
         try {
-            snippet = File.createTempFile("snippet", ".xml", xml.getParentFile());
-
-            out = new BufferedOutputStream(new FileOutputStream(snippet));
-
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+            writer = OUTPUT_FACTORY.createXMLEventWriter(os);
 
             final XMLEventWriter wr = writer;
 
@@ -514,17 +539,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             writer.flush();
         } catch (Exception e) {
-            closeResources(writer, out);
-            org.apache.commons.io.FileUtils.deleteQuietly(snippet);
-            snippet = null;
+            closeResources(writer);
         } finally {
-            closeResources(writer, out);
+            closeResources(writer);
         }
-
-        return snippet;
     }
 
-    private void addContent(File contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) {
+    private void addContent(InputStream contentToAdd, final XMLEventWriter xmlEventWriter, ErrorReport errorReport) throws XMLStreamException {
         XmlEventVisitor addToXml = new XmlEventVisitor() {
 
             @Override
@@ -566,7 +587,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         browse(contentToAdd, addToXml, errorReport);
     }
 
-    private void closeResources(XMLEventWriter writer, BufferedOutputStream out) {
+    private void closeResources(XMLEventWriter writer) {
 
         if (writer != null) {
             try {
@@ -575,8 +596,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 writer = null;
             }
         }
-        IOUtils.closeQuietly(out);
-
     }
 
     @Override

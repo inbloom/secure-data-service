@@ -1,17 +1,12 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,48 +42,19 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
      * @return : the resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public File resolve(String xPath, File content) {
+    public void resolve(String xPath, InputStream content, OutputStream converedContent) {
         Smooks smooks = idRefConfigs.get(xPath);
 
         if (smooks == null) {
-            return null;
+            return;
         }
-
-
-        File convertedContent = null;
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-
-        boolean failure = true;
 
         try {
-            convertedContent = File.createTempFile("smooks", ".xml", content.getParentFile());
-
-            in = new BufferedInputStream(new FileInputStream(content));
-            out = new BufferedOutputStream(new FileOutputStream(convertedContent));
-
-            StreamSource source = new StreamSource(in);
-            StreamResult result = new StreamResult(out);
+            StreamSource source = new StreamSource(content);
+            StreamResult result = new StreamResult(converedContent);
 
             smooks.filterSource(source, result);
-
-            out.flush();
-
-            // If the file is empty, the configuration could not use to resolve the input
-            failure = (convertedContent.length() == 0);
         } catch (Exception e) {
-            failure = true;
-        } finally {
-            IOUtils.closeQuietly(in);
-            IOUtils.closeQuietly(out);
-
-            if (failure) {
-                LOG.warn("Failed to resolve input with configuration :" + xPath);
-                FileUtils.deleteQuietly(convertedContent);
-                convertedContent = null;
-            }
         }
-
-        return convertedContent;
     }
 }

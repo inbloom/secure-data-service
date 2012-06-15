@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Reference resolution strategy.
@@ -15,7 +16,7 @@ public interface ReferenceResolutionStrategy {
      *
      * @param xPath XPath for the element
      * @param content Content file that needs to be prepared
-     * @return File that holds prepared content
+     * @return InputStream that holds prepared content
      */
-    public File resolve(String xPath, File content);
+    public void resolve(String xPath, InputStream content, OutputStream converedContent);
 }

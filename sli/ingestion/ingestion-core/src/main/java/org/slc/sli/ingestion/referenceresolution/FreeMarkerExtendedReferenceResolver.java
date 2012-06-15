@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,12 +43,12 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
      * @return Resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public File resolve(String xPath, File content) {
+    public void resolve(String xPath, InputStream content, OutputStream converedContent) {
         if (!reassureSmooksResolver(xPath)) {
-            return null;
+            return;
         }
 
-        return smooksResolver.resolve(xPath, content);
+        smooksResolver.resolve(xPath, content, converedContent);
     }
 
     private boolean reassureSmooksResolver(String xPath) {

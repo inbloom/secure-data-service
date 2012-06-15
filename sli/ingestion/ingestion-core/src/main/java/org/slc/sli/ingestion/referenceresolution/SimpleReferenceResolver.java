@@ -1,6 +1,10 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -27,8 +31,12 @@ public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
      *         Extended reference XML text body, or null, if unresolved.
      */
     @Override
-    public File resolve(String xPath, File content) {
-        return content;
+    public void resolve(String xPath, InputStream content, OutputStream convertedContext) {
+        try {
+            IOUtils.copyLarge(content, convertedContext);
+        } catch (IOException e) {
+            return;
+        }
     }
 
 }
