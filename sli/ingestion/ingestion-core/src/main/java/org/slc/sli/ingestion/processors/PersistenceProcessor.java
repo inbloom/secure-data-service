@@ -270,10 +270,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             AbstractIngestionHandler<SimpleEntity, Entity> entityPersistentHandler = findHandler(xformedEntity
                     .getType());
 
+            LOG.info("persisting simple entity: {}", xformedEntity);
+            
             entityPersistentHandler.handle(xformedEntity, errorReportForNrEntity);
 
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
+                LOG.warn("persistence of simple entity FAILED.");
             }
         }
 
@@ -297,12 +300,15 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        LOG.debug("persisting neutral record: {}", neutralRecord.getRecordType());
+        LOG.debug("persisting neutral record of type: {}", neutralRecord.getRecordType());
 
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+        
+        LOG.info("persisting neutral record entity: {}", nrEntity);
+        
         obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
 
         if (errorReportForNrEntity.hasErrors()) {
