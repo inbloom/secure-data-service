@@ -99,6 +99,11 @@ dbs={}
 functions={}
 collections={}
 
+writeCount=0
+readCount=0
+writeTime=0
+readTime=0
+
 if !job["executionStats"].nil?
   job["executionStats"].each do |hostName,value|
     nodeType = "pit"
@@ -108,7 +113,19 @@ if !job["executionStats"].nil?
 
     value.each do |functionName,innerValue|
       pieces=functionName.split("#")
+
       if pieces[1] != "getCollection"
+
+        if pieces[0] == "sli"
+          if pieces[1].include? "update" or pieces[1].include? "insert"
+            writeCount+=innerValue["left"]
+            writeTime+=innerValue["right"]
+          else
+            readCount+=innerValue["left"]
+            readTime+=innerValue["right"]
+          end
+        end
+        
         functionName = pieces[0]+"."+pieces[1]
 
         dbs[pieces[0]]={"calls"=>0,"time"=>0} unless dbs[pieces[0]]
@@ -159,8 +176,11 @@ totalMongoTime=0;
 dbs.each_value{|time| totalMongoTime+=time["time"]}
 
 puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/60000.0).round(2)} min)    \e[0m"
-puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"    
+puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"
 printf "Mongo Time per node: \e[35m%d\e[0m mins (nodes: \e[35m%d\e[0m)\n",(totalMongoTime/60000.0).round(2)/(job['executionStats'].size-1),job['executionStats'].size-1
+printf "Average times (read/write): \e[35m%.2f/%.2f\e[0m\n",readTime.to_f/readCount,writeTime.to_f/writeCount
+printf "Total sli counts (read/write): \e[35m%d/%d\e[0m  ratio: \e[35m%.2f\e[0m\n",readCount,writeCount,readCount.to_f/writeCount
+printf "Total sli times(read/write): \e[35m%d/%d\e[0m ratio: \e[35m%.2f\e[0m\n",readTime,writeTime,readTime.to_f/writeTime
 
 puts ""
 puts "Job started: #{jobStart.getlocal}"

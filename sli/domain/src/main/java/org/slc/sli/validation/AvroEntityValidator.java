@@ -321,4 +321,8 @@ public class AvroEntityValidator implements EntityValidator {
         }
     }
 
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+    }
+
 }

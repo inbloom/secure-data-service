@@ -34,7 +34,6 @@ import org.slc.sli.domain.Repository;
  * @author Thomas Shewchuk tshewchuk@wgen.net 3/2/2012 (PI3 US1226)
  *
  */
-
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
@@ -71,7 +70,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-        template.insert(record, collectionName);
+        template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
 
         return record;
