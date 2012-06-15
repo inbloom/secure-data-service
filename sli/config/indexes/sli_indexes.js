@@ -1,25 +1,25 @@
-/*
- * Run the indexing script with data in collections to test for errors.
- *
- * Indexing Gotchas:
- * - Long index names
- * - Parallel indexes: creating an index key with more than one field that is an array
- * - Redundant indexes: {a,b,c} makes {a,b}, {a} redundant
- *
- * Known problem fields for parallel indexes: (no index key with more than one of these)
- * - *.metaData.edOrgs
- * - cohort.programId
- * - disciplineAction.disciplineIncidentId
- * - disciplineAction.staffId
- * - disciplineAction.studentId
- * - reportCard.grades
- * - reportCard.studentCompetencyId
- * - session.gradingPeriodreference
- * - staffCohortAssociation.cohortId
- * - staffCohortAssociation.staffId
- * - staffProgramId.programId
- * - staffProgramId.staffId
- */
+//
+// Run the indexing script with data in collections to test for errors.
+//
+// Indexing Gotchas:
+// - Long index names
+// - Parallel indexes: creating an index key with more than one field that is an array
+// - Redundant indexes: {a,b,c} makes {a,b}, {a} redundant
+//
+// Known problem fields for parallel indexes: (no index key with more than one of these)
+// - *.metaData.edOrgs
+// - cohort.programId
+// - disciplineAction.disciplineIncidentId
+// - disciplineAction.staffId
+// - disciplineAction.studentId
+// - reportCard.grades
+// - reportCard.studentCompetencyId
+// - session.gradingPeriodreference
+// - staffCohortAssociation.cohortId
+// - staffCohortAssociation.staffId
+// - staffProgramId.programId
+// - staffProgramId.staffId
+//
 
 //auth, realm, application
 db["application"].ensureIndex({"body.authorized_ed_orgs":1});
