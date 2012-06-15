@@ -147,7 +147,7 @@ default:
         sli.ingestion.split.threshold.percentage: 0.30
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -342,7 +342,7 @@ acceptance-tests:
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -416,7 +416,7 @@ ci:
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -501,7 +501,7 @@ dev:
         sli.ingestion.queue.workItem.keystorePassword:
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -589,7 +589,7 @@ devjuggernauts:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -674,7 +674,7 @@ devapp1:
         sli.ingestion.queue.workItem.keystorePassword:
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     misc:
         <<: *MISC-DEFAULT
@@ -757,7 +757,7 @@ local:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -973,7 +973,7 @@ team:
         sli.ingestion.tenant.loadDefaultTenants: true
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -1068,7 +1068,7 @@ perf:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
 test-local:
     test:
@@ -1140,7 +1140,7 @@ test-perf:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         #Reference Schema reference check
-        sli.referenceSchema.referenceCheckEnabled: false
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
 sandbox:
     api:

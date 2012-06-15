@@ -45,11 +45,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        setWriteConcern( writeConcern );
+        setWriteConcern(writeConcern);
     }
 
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        validator.setReferenceCheck(referenceCheck);
 
-
+    }
 
     @Override
     protected String getRecordId(Entity entity) {
@@ -120,6 +123,5 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-
 
 }

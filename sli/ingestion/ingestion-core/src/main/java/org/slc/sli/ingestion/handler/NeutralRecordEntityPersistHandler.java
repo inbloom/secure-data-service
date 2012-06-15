@@ -50,9 +50,13 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
 
+    @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
+    private String referenceCheckEnabled;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
+        entityRepository.setReferenceCheck(referenceCheckEnabled);
     }
 
     Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport) {
