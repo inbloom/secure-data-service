@@ -10,8 +10,8 @@
         return '${id}';
     }
 
-    DashboardUtil.makeGrid(getTableId(), DashboardProxy.getConfig("transcriptHistory"),
-            DashboardProxy.getData("transcriptHistory"),
+    SLC.grid.create(getTableId(), SLC.dataProxy.getConfig("transcriptHistory"),
+            SLC.dataProxy.getData("transcriptHistory"),
             {
                 subGridRowExpanded: function(subgrid_id, row_id) {
                     var select_by_row = function(data, row) {

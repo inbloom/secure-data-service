@@ -9,6 +9,19 @@
 html, body {
 	height: 100%;
 }
+
+.placeholder {
+	color: #999;
+}
+
+footer { display: block; }
+
+.wrapper { 
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin-bottom: -25px;
+}
 .body-container {
 	min-height: 100%;
 	height: auto !important;
@@ -31,6 +44,14 @@ input {
     font-family: Helvetica,Arial,sans-serif;
     font-size: 13px;
 }
+
+#sli_footer {
+	clear: both;
+	position: absolute !important;
+	height: 20px;
+	bottom: auto !important;
+}
+
 .panel {
     margin-bottom: 30px;
     margin-left: 0;
@@ -165,12 +186,12 @@ h7 {
 	width: 460px;
 	margin: 165px auto 0 auto;
 	text-align: center;
-	height: 40x;
+	height: 40px;
 	padding-top: 36px;
 }
 
 .studentInfo { clear: both; }
-
+.ui-widget-no-border { width: 100%; position: relative; }
 /** JQueryUI overrides */
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { background: #f2f2f2 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
@@ -209,7 +230,6 @@ h7 {
 th.ui-th-column div {
     white-space: normal !important;height: auto !important;padding: 4px 5px;text-align: left;
 }
-.ui-jqgrid-bdiv {border-collapse: collapse;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow td {
 	font-size:13px;
 	color: #333333; 
@@ -222,7 +242,12 @@ th.ui-th-column div {
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 .ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }
 .ui-widget-no-border .ui-state-hover a,.ui-widget-no-border  .ui-state-hover a:hover{ color: #000000; text-decoration: underline; }
-.ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #000000 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
+.ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { 
+		border: 1px solid transparent; 
+		background: url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; 
+		font-weight: normal; 
+		color: #212121; 
+	}
 
 .ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child { border-right: none; }
 .ui-jqgrid-htable .jqg-second-row-header th.ui-th-column:first-child div { top: 20px !important; }
@@ -334,15 +359,11 @@ th.ui-th-column div {
     padding-top: 14px;
 }
 
-#content
-{
-    clear: left;
-    padding: 20px;
-    padding-top:5px;
+#content {
+    padding: 5px 20px 60px 20px;
 }
 
-#viewSelection
-{
+#viewSelection {
    border-top: 2px solid #ccc;
    margin-top:20px;
 }
@@ -409,7 +430,7 @@ th.ui-th-column div {
     list-style: none;
     background-color: #FFFFFF;
     border-color: #000;
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: #cccccc;
     border-style: solid;
     border-width: 1px;
     -webkit-border-radius: 0 0 5px 5px;
@@ -493,7 +514,7 @@ th.ui-th-column div {
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
   vertical-align: middle;
   background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -moz-gradient(top, #ffffff, #e6e6e6);
 /*  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);*/
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
   background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
@@ -899,6 +920,8 @@ button.btn.small, input[type="submit"].btn.small {
   float:left;
 }
 
+
+
 #populationSelect .btn .optionText {
     white-space: nowrap;
     overflow: hidden;
@@ -1131,6 +1154,7 @@ text-decoration: none;
     text-align: center;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     vertical-align: middle;
+    margin-top: -3px;
 }
 .btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
     background-color: #E6E6E6;

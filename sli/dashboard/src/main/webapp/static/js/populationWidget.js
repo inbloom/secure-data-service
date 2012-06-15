@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    var selectedPopulation=DashboardProxy.getData('populationWidget')['selectedPopulation'];
+    var selectedPopulation=SLC.dataProxy.getData('populationWidget')['selectedPopulation'];
     var edOrgIndex = -1;
     var schoolIndex = -1;
     var courseIndex = -1;
@@ -9,7 +9,7 @@ $(document).ready( function() {
     	
     	//find the length of options.
         var edOrgLength = instHierarchy.length;
-        DashboardUtil.hideErrorMessage();
+        SLC.util.hideErrorMessage();
         
         //if options is empty the dropdown should be disabled.
         edOrgIndex = edOrgLength == 1 ?  0 : -1;
@@ -20,7 +20,7 @@ $(document).ready( function() {
                 if(instHierarchy[i].name == selectedPopulation.name) {
                 	
                 	//select the selected option
-                    DashboardUtil.selectDropDownOption("edOrg", i, true);
+                    SLC.util.selectDropDownOption("edOrg", i, true);
                     edOrgIndex = i;
                     break;
                 }
@@ -32,7 +32,7 @@ $(document).ready( function() {
         if (edOrgIndex > -1 && schoolsLength > 1) {
            for(var i=0; i < schoolsLength; i++) {
                 if(instHierarchy[edOrgIndex].schools[i].id == selectedPopulation.section.schoolId) {
-                    DashboardUtil.selectDropDownOption("school", i, true);
+                    SLC.util.selectDropDownOption("school", i, true);
                     schoolIndex = i;
                     break;
                 }
@@ -44,7 +44,7 @@ $(document).ready( function() {
         if (edOrgIndex > -1 && schoolIndex > -1 && coursesLength > 1) {
             for(var i=0; i < coursesLength; i++) {
                 if(instHierarchy[edOrgIndex].schools[schoolIndex].courses[i].id == selectedPopulation.section.courseId) {
-                    DashboardUtil.selectDropDownOption("course", i, true);
+                    SLC.util.selectDropDownOption("course", i, true);
                     courseIndex = i;
                     break;
                 }
@@ -57,7 +57,7 @@ $(document).ready( function() {
         if (edOrgIndex > -1 && schoolIndex > -1 && courseIndex > -1 && sectionsLength > 0) { 
             for(var i=0; i < sectionsLength; i++) {
                 if(instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections[i].id == selectedPopulation.section.id) {
-                    DashboardUtil.selectDropDownOption("section", i, false);
+                    SLC.util.selectDropDownOption("section", i, false);
                     sectionIndex = i;
                     break;
                 } 
@@ -66,16 +66,16 @@ $(document).ready( function() {
         
         //Load list of students only when all dropdowns are selected
         if (edOrgIndex > -1 && schoolIndex > -1 && courseIndex > -1 && sectionIndex > -1) {
-            DashboardProxy.load("listOfStudents", selectedPopulation.section.id, function(panel) {
-            	var config = DashboardProxy.getConfig("listOfStudents");
+        	SLC.dataProxy.load("listOfStudents", selectedPopulation.section.id, function(panel) {
+            	var config = SLC.dataProxy.getConfig("listOfStudents");
                 populateView(config.items);
                 if (config.items.length > 0) {
-                    DashboardUtil.selectDropDownOption("view", 0, false);
+                    SLC.util.selectDropDownOption("view", 0, false);
                 } else {
                     $("#viewSelect").val(-1);
                 }
                 populateFilter();
-                DashboardUtil.selectDropDownOption("filter", -1, false);
+                SLC.util.selectDropDownOption("filter", -1, false);
                 printStudentList();
             });
         }
@@ -119,7 +119,7 @@ function populateInstHierarchy() {
 	
 	$("#viewSelection").hide();
 	clearSelections("edOrg");
-	DashboardUtil.setDropDownOptions("edOrg", null,  instHierarchy, "name", "", true, function() {
+	SLC.util.setDropDownOptions("edOrg", null,  instHierarchy, "name", "", true, function() {
 		clearSelections("school");
 		populateSchoolMenu();
 	});
@@ -128,7 +128,7 @@ function populateInstHierarchy() {
 function populateSchoolMenu() {
 	var edOrgIndex = $("#edOrgSelect").val();
 	clearSelections("school");
-	DashboardUtil.setDropDownOptions("school", null, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
+	SLC.util.setDropDownOptions("school", null, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
 		clearSelections("course");
 		populateCourseMenu();
 	});
@@ -138,7 +138,7 @@ function populateCourseMenu(){
 	var edOrgIndex = $("#edOrgSelect").val();
 	var schoolIndex = $("#schoolSelect").val();
 	clearSelections("course");
-	DashboardUtil.setDropDownOptions("course", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses, "courseTitle", "", true, function() {
+	SLC.util.setDropDownOptions("course", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses, "courseTitle", "", true, function() {
 		clearSelections("section");
 		populateSectionMenu();
 	});
@@ -150,14 +150,14 @@ function populateSectionMenu(){
 	var schoolIndex = $("#schoolSelect").val();
 	var courseIndex = $("#courseSelect").val();
 	clearSelections("section");
-	DashboardUtil.setDropDownOptions("section", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections, "sectionName", "", false, function() {
+	SLC.util.setDropDownOptions("section", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses[courseIndex].sections, "sectionName", "", false, function() {
 		getStudentListData();
 	});
 }
 
 function populateFilter() {
     var defaultOptions = {"-1": "No Filter"};
-	DashboardUtil.setDropDownOptions("filter", defaultOptions, DashboardProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
+	SLC.util.setDropDownOptions("filter", defaultOptions, SLC.dataProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
 		clearStudentList();
 		filterStudents();
 	});
@@ -165,7 +165,7 @@ function populateFilter() {
 
 function populateView(panelConfigItems) {
 	  $("#viewSelection").show();
-	  DashboardUtil.setDropDownOptions("view", null, panelConfigItems, "name", "", false, function() {
+	  SLC.util.setDropDownOptions("view", null, panelConfigItems, "name", "", false, function() {
 		  clearStudentList();
 		  printStudentList();
 	  });

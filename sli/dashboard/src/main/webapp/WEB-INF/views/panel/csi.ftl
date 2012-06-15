@@ -17,7 +17,7 @@
 		    </#list>
 	    </#if>
     </h1>
-    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(DashboardProxy.getData("csi")));</script>
+    <script>$("#csi_colMain").append(SLC.util.renderLozenges(SLC.dataProxy.getData("csi")));</script>
     <div class="studentInfo">
         <div class="col1 column">
         	<div class="tabular">
@@ -34,11 +34,11 @@
         				<th>ID:</th>
         				<td>${panelData.studentUniqueStateId}</td>
         			</tr>
-        			<tr>
+        			<!-- <tr>
         				<th>Teacher:</th>
         				<td><#if panelData.teacherName??><#if panelData.teacherName.personalTitlePrefix?? &&  panelData.teacherName.personalTitlePrefix != ""> ${panelData.teacherName.personalTitlePrefix}</#if>
 ${panelData.teacherName.firstName} <#if panelData.teacherName.middleName?? &&  panelData.teacherName.middleName != ""> ${panelData.teacherName.middleName}</#if> ${panelData.teacherName.lastSurname}<#else>!</#if></td>
-        			</tr>
+        			</tr>-->
         		</table>
 			</div>
 		</div>
