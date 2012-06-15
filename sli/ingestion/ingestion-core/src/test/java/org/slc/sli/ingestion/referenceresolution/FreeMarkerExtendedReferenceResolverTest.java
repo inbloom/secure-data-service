@@ -26,27 +26,21 @@ import org.slc.sli.ingestion.IngestionTest;
 public class FreeMarkerExtendedReferenceResolverTest {
     FreeMarkerExtendedReferenceResolver referenceFactory = new FreeMarkerExtendedReferenceResolver();
 
-    private void test(File content, File expected, String xpath) throws IOException {
-        File result = null;
-        try {
-            result = referenceFactory.resolve(xpath, content);
+    private void test(String content, File expected, String xpath) throws IOException {
+        String result = null;
+        result = referenceFactory.resolve(xpath, content);
 
-            Assert.assertNotNull(result);
+        Assert.assertNotNull(result);
 
-            String expectedXML = readFromFile(expected);
-            String actualXML = readFromFile(result);
+        String expectedXML = readFromFile(expected);
+        String actualXML = result;
 
-            expectedXML = expectedXML.replaceAll("\\n|\\r", "");
-            expectedXML = expectedXML.replaceAll("\\s+", "");
-            actualXML = actualXML.replaceAll("\\n|\\r", "");
-            actualXML = actualXML.replaceAll("\\s+", "");
+        expectedXML = expectedXML.replaceAll("\\n|\\r", "");
+        expectedXML = expectedXML.replaceAll("\\s+", "");
+        actualXML = actualXML.replaceAll("\\n|\\r", "");
+        actualXML = actualXML.replaceAll("\\s+", "");
 
-            Assert.assertEquals(expectedXML, actualXML);
-        } finally {
-            if (result != null) {
-                result.delete();
-            }
-        }
+        Assert.assertEquals(expectedXML, actualXML);
     }
 
     private String readFromFile(File file) throws IOException {
@@ -65,15 +59,18 @@ public class FreeMarkerExtendedReferenceResolverTest {
 
     @Test
     public void testResolution() throws IOException, SAXException {
-        final File input = IngestionTest.getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_input.xml");
-        final File expected = IngestionTest.getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_output.xml");
+        final File input = IngestionTest
+                .getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_input.xml");
+        final File expected = IngestionTest
+                .getFile("idRefResolutionData/InterchangeStudentParent/StudentReference_output.xml");
 
         Map<String, String> config = new HashMap<String, String>();
-        config.put("/InterchangeStudentParent/StudentParentAssociation/StudentReference", "idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.ftl");
+        config.put("/InterchangeStudentParent/StudentParentAssociation/StudentReference",
+                "idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.ftl");
 
         referenceFactory.setIdRefConfigs(config);
 
-        test(input, expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
+        test(readFromFile(input), expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
 
         final Holder<Boolean> exceptionThrown = new Holder<Boolean>(Boolean.FALSE);
 
@@ -81,7 +78,8 @@ public class FreeMarkerExtendedReferenceResolverTest {
             @Override
             public void run() {
                 try {
-                    test(input, expected, "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
+                    test(readFromFile(input), expected,
+                            "/InterchangeStudentParent/StudentParentAssociation/StudentReference");
                 } catch (Throwable t) {
                     exceptionThrown.value = Boolean.TRUE;
                     throw new RuntimeException(t);
@@ -118,9 +116,11 @@ public class FreeMarkerExtendedReferenceResolverTest {
         Map<String, String> config = new HashMap<String, String>();
         referenceFactory.setIdRefConfigs(config);
 
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference",
+                "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
 
-        Assert.assertNull(referenceFactory.resolve("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference2", null));
+        Assert.assertNull(referenceFactory.resolve(
+                "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference2", null));
     }
 
 }
