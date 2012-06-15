@@ -1,7 +1,6 @@
 package org.slc.sli.shtick.test;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,15 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
 
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.api.client.util.URLBuilder;
-import org.slc.sli.shtick.RestEntity;
 import org.slc.sli.shtick.StandardLevel3ClientManual;
 import org.slc.sli.shtick.pojo.Student;
 
