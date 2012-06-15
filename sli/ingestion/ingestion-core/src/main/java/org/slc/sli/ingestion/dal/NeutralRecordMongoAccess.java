@@ -2,6 +2,8 @@ package org.slc.sli.ingestion.dal;
 
 import java.util.Iterator;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,9 +19,17 @@ import org.slc.sli.ingestion.ResourceWriter;
  * @author dduran
  *
  */
-public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord> {
+public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord>, InitializingBean {
 
     private NeutralRecordRepository neutralRecordRepository;
+
+    @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
+    private String writeConcern;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        neutralRecordRepository.setWriteConcern(writeConcern);
+    }
 
     @Override
     public void writeResource(NeutralRecord neutralRecord, String jobId) {
