@@ -37,7 +37,7 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.util.StopWatch;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
@@ -69,8 +69,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private Set<String> idReferenceInterchanges;
     private MessageSource messageSource;
 
+    private String namespace;
+    private int passCount;
+
     @Autowired
-    private CacheProvider cacheProvider;
+    private BucketCache bucketCache;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
@@ -92,9 +95,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     protected File process(File xml, ErrorReport errorReport) {
-
-        // TODO: cache entries should be per-file and we should only flush per-file
-        cacheProvider.flush();
+        namespace = xml.getName() + "_pass_" + (++passCount);
 
         StopWatch sw = new StopWatch("Processing " + xml.getName());
 
@@ -194,7 +195,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
 
-                cacheProvider.add(id, new TransformableXmlString(content, false));
+                bucketCache.add(namespace, id, new TransformableXmlString(content, false));
             }
 
             @Override
@@ -375,7 +376,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     newAttrs.add(attrs.next());
                                 }
 
-                                Object cacheLookupObject = cacheProvider.get(ref.getValue());
+                                Object cacheLookupObject = bucketCache.get(namespace, ref.getValue());
 
                                 if (cacheLookupObject instanceof TransformableXmlString) {
                                     Attribute id = start.getAttributeByName(ID_ATTR);
@@ -473,7 +474,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
                                     IdRefResolutionHandler.class);
                         } else {
-                            cacheProvider.add(id, new TransformableXmlString(transformedContent, true));
+                            bucketCache.add(namespace, id, new TransformableXmlString(transformedContent, true));
                         }
                     }
 
