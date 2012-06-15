@@ -119,9 +119,6 @@
     <property name="smooksConfigs" ref="smooksConfigs" />
   </bean>
 
-  <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
-  </bean>
-
   <bean id="sessionEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SessionEdFi2SLITransformer"
     parent="smooksEdFi2SLITransformer">
   </bean>
