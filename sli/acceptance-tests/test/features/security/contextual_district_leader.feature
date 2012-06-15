@@ -21,15 +21,15 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
 And my "district" is <District>
 When I try to access the data for <Data> in another "district" from the API
-Then I should receive a return code of 403
+Then I should receive a return code of <Code>
 Examples:
-	|Username    |Password        |Realm|Role      |District     |Data|
-	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"|
-	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"|
-	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"|
-	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Dale Reiss"|
-	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
-	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"|
+	|Username    |Password        |Realm|Role      |District     |Data                                   | Code|
+	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"        | 403 |
+	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"| 404 |
+	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"                         | 403 |
+	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Matt Sollars"                         | 403 |
+	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"          | 403 |
+	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"      | 403 |
 
 Scenario Outline: Staff listing teachers they have context to
 
@@ -68,7 +68,7 @@ Then I should receive a return code of 403
 Examples:
 	|Username  |Password      |Realm|District   |Data|
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|
-	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Matt Sollars"|
+	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Larissa Marney" |
 
 Scenario Outline: Aggregate Viewer getting their available district data
 

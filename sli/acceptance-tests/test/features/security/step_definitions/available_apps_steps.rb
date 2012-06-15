@@ -22,7 +22,7 @@ Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have 
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
-  assert(@result.length < 4, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
+  assert(@result.length < 5, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
 end
 
 Then /^I receive a JSON object listing all the admin apps$/ do

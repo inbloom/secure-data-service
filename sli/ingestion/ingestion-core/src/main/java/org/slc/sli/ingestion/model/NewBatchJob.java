@@ -52,6 +52,16 @@ public class NewBatchJob implements Job {
 
     private Date jobStopTimestamp;
 
+
+
+    public String getTenantId(){
+        String tenantId = getProperty("tenantId");
+        if (tenantId == null) {
+            tenantId = "SLI";
+        }
+        return tenantId;
+    }
+
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
