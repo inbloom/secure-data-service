@@ -166,6 +166,7 @@
         <ref bean="xsdValidator" />
       </util:list>
     </property>
+    <property name="supportedResolvers" ref="strategyConfig" />
     <property name="idRefDir" value="${sli.ingestion.idref.tempDir}"/>
   </bean>
 
