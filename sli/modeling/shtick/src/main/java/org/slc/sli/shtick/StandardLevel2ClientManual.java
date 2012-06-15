@@ -85,7 +85,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         try {
             final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").build();
             final URL studentURL = client.postRequest(token, entity, url);
-            return stripId(studentURL);
+            return URLHelper.stripId(studentURL);
         } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
@@ -107,7 +107,4 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         }
     }
 
-    private String stripId(final URL url) {
-        return url.toString().substring(url.toString().lastIndexOf("/") + 1);
-    }
 }
