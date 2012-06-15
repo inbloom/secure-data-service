@@ -133,7 +133,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
             final JavaParam urlParam = new JavaParam("path", "String", true);
-            writeURLString(urlParam, uri, templateParams);
+            writeURLStringForGET(urlParam, uri, templateParams);
             jsw.beginStmt()
                     .write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs)")
                     .endStmt();
@@ -274,6 +274,20 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write(" throws IOException, RestException");
         jsw.beginBlock();
         try {
+            jsw.write("try");
+            jsw.beginBlock();
+            final String uri = computeURI(resource, resources, application, ancestors);
+            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            writeURLStringForDELETE(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
+            jsw.beginStmt().write("client.deleteRequest(token, url)").endStmt();
+            jsw.endBlock();
+            jsw.write("catch(final URISyntaxException e)");
+            jsw.beginBlock();
+            jsw.beginStmt().write("throw new AssertionError(e)").endStmt();
+            jsw.endBlock();
         } finally {
             jsw.endBlock();
         }
@@ -308,7 +322,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
      * @param templateParams
      *            The template parameters from left to right.
      */
-    private void writeURLString(final JavaParam param, final String uri, final List<Param> templateParams)
+    private void writeURLStringForGET(final JavaParam param, final String uri, final List<Param> templateParams)
             throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
@@ -326,6 +340,22 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.write("','");
             jsw.parenR();
         }
+        jsw.parenR();
+
+        jsw.endStmt();
+    }
+
+    private void writeURLStringForDELETE(final JavaParam param, final String uri, final List<Param> templateParams)
+            throws IOException {
+        // FIXME: This URI does not have a substitution for the template parameter.
+        final String uriFormatString = computeURIFormatString(uri, templateParams);
+
+        jsw.beginStmt();
+        jsw.write("final String ").write(param.getName()).write(" = String.format");
+        jsw.parenL();
+        jsw.dblQte().write(uriFormatString).dblQte();
+        jsw.write(", ");
+        jsw.write("entityId");
         jsw.parenR();
 
         jsw.endStmt();

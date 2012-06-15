@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author jstokes
  */
@@ -36,11 +38,12 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         if (studentIds == null) {
             throw new NullPointerException("studentIds");
         }
-
         try {
-            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").ids(studentIds).query(queryArgs).build();
+            final String path = String.format("students/%s", StringUtils.join(studentIds, ','));
+            final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs);
+            final URL url = builder.build();
             return client.getRequest(token, url);
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
@@ -51,18 +54,18 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
         if (token == null) {
             throw new NullPointerException("token");
         }
-
         try {
-            final URL url = URLBuilder.baseUrl(baseUrl).entityType("student").query(queryArgs).build();
+            final String path = String.format("students");
+            final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs);
+            final URL url = builder.build();
             return client.getRequest(token, url);
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new AssertionError(e);
         }
     }
 
     @Override
-    public void deleteStudentById(final String token, final String studentId) throws IOException,
-            RestException {
+    public void deleteStudentById(final String token, final String studentId) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
