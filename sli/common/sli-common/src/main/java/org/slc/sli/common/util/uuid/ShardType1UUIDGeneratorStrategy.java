@@ -33,6 +33,7 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
         builder.append(new DateTime().getYear());
         builder.append(c1);
         builder.append(c2);
+        builder.append("-");
         builder.append(generator.generate().toString());
         String uuid = builder.toString();
         return uuid;
