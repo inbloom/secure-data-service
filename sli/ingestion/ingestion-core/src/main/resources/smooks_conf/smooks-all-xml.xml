@@ -1889,31 +1889,18 @@
   <!-- StudentAcademicRecord -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
     <jb:expression property="recordType">'studentAcademicRecord'</jb:expression>
-    <jb:wiring property="localParentIds" beanIdRef="studentAcademicRecordLocalParentIds" />
     <jb:value property="localId" data="InterchangeStudentGrade/StudentAcademicRecord/@id" />
     <jb:wiring property="attributes" beanIdRef="studentAcademicRecordAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="studentAcademicRecordLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:wiring property="Student" beanIdRef="studentAcademicRecord_StudentReference" />
-    <jb:wiring property="Session" beanIdRef="studentAcademicRecord_SessionReference" />
-  </jb:bean>
-
   <jb:bean beanId="studentAcademicRecordAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <!-- <jb:value property="studentAcademicRecordId" data="StudentAcademicRecord/@id" /> -->
     <jb:wiring property="cumulativeCreditsEarned" beanIdRef="studentAcademicRecordCumulativeCreditsEarnedValue" />
     <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="studentAcademicRecordCumulativeCreditsAttemptedValue" />
     <jb:value property="cumulativeGradePointsEarned" data="StudentAcademicRecord/CumulativeGradePointsEarned" decoder="Double" />
     <jb:value property="cumulativeGradePointAverage" data="StudentAcademicRecord/CumulativeGradePointAverage" decoder="Double" />
     <jb:wiring property="classRanking" beanIdRef="studentAcademicRecordClassRanking" />
-  </jb:bean>
-
-  <jb:bean beanId="studentAcademicRecord_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:value property="Student#metaData.externalId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
-  </jb:bean>
-
-  <jb:bean beanId="studentAcademicRecord_SessionReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentAcademicRecord">
-    <jb:value property="Session#metaData.externalId" data="StudentAcademicRecord/SessionReference/SessionIdentity/SessionName" />
+    <jb:value property="studentId" data="StudentAcademicRecord/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="sessionId" data="StudentAcademicRecord/SessionReference/SessionIdentity/SessionName" />    
   </jb:bean>
 
   <jb:bean beanId="studentAcademicRecordClassRanking" class="java.util.HashMap"
