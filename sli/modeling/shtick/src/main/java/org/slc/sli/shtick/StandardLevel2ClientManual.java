@@ -61,7 +61,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void deleteStudentById(final String token, final String studentId) throws URISyntaxException, IOException,
+    public void deleteStudentById(final String token, final String studentId) throws IOException,
             RestException {
         if (token == null) {
             throw new NullPointerException("token");
@@ -75,7 +75,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public String postStudent(final String token, final RestEntity entity) throws URISyntaxException, IOException, RestException {
+    public String postStudent(final String token, final RestEntity entity) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -92,7 +92,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void putStudent(final String token, final RestEntity entity) throws URISyntaxException, IOException, RestException {
+    public void putStudent(final String token, final RestEntity entity) throws IOException, RestException {
         if (token == null) {
             throw new NullPointerException("token");
         }
