@@ -1,3 +1,4 @@
+/*global $ contextRootPath*/
 var listOfStudents = 'listOfStudents';
 
 function getStudentListData() {
@@ -54,7 +55,9 @@ function filterStudentList(filterBy) {
 
 
 function filterStudents() {
-    var filterSelect = $("#filterSelect").val();
-    filterStudentList(SLC.dataProxy.widgetConfig.lozenge.items[filterSelect]); 
+    var filterSelect = $("#filterSelect").val(),
+    	widgetConfig = SLC.dataProxy.getWidgetConfig("lozenge");
+    	
+    filterStudentList(widgetConfig.items[filterSelect]); 
 }
 

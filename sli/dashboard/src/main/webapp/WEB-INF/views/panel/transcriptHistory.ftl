@@ -32,10 +32,10 @@
 
                     var subgrid_table_id = subgrid_id+"_t";
                     $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table>");
-                    var data = DashboardProxy.getData("transcriptHistory")["transcriptHistory"];
+                    var data = SLC.dataProxy.getData("transcriptHistory")["transcriptHistory"];
                     var row = $("#"+getTableId()).getRowData(row_id);
                     var row_data = select_by_row(data, row);
-                    jQuery("#"+subgrid_table_id).sliGrid({}, {
+                    jQuery("#"+subgrid_table_id).slcGrid({}, {
                         data: row_data,
                         datatype: 'local',
                         root: "courses",
