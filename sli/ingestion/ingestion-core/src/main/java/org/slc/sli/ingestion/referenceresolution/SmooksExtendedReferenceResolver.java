@@ -1,22 +1,18 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
+import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
@@ -50,48 +46,29 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
      * @return : the resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public File resolve(String xPath, File content) {
+    public String resolve(String xPath, String content) {
         Smooks smooks = getIdRefConfigs().get(xPath);
 
         if (smooks == null) {
             return null;
         }
 
-        File convertedContent = null;
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-
-        boolean failure = true;
+        String convertedContent = null;
 
         try {
-            convertedContent = File.createTempFile("smooks", ".xml",
-                    FileUtils.getOrCreateSubDir(content.getParentFile(), ".smooksidref"));
 
-            in = new BufferedInputStream(new FileInputStream(content));
-            out = new BufferedOutputStream(new FileOutputStream(convertedContent));
+            StreamSource source = new StreamSource(new StringReader(content));
 
-            StreamSource source = new StreamSource(in);
-            StreamResult result = new StreamResult(out);
+            StringWriter stringWriter = new StringWriter();
+            StreamResult result = new StreamResult(stringWriter);
 
             smooks.filterSource(source, result);
 
-            out.flush();
+            convertedContent = stringWriter.toString();
 
-            // If the file is empty, the configuration could not use to resolve the input
-            failure = (convertedContent.length() == 0);
-        } catch (Exception e) {
-            failure = true;
-        } finally {
-            IOUtils.closeQuietly(in);
-            IOUtils.closeQuietly(out);
-
-            if (failure) {
-                LOG.warn("Failed to resolve input with configuration :" + xPath);
-                org.apache.commons.io.FileUtils.deleteQuietly(convertedContent);
-                convertedContent = null;
-            }
+        } catch (SmooksException se) {
+            LOG.error("Exception filtering idref xml through smooks", se);
         }
-
         return convertedContent;
     }
 
