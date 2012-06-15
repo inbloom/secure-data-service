@@ -145,7 +145,9 @@ default:
         #Work Note Chunking Parameters
         sli.ingestion.split.chunk.size: 5000
         sli.ingestion.split.threshold.percentage: 0.30
-        
+
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -339,6 +341,9 @@ acceptance-tests:
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
     dashboard:
         <<: *DASHBOARD-DEFAULT
 
@@ -409,6 +414,9 @@ ci:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -491,6 +499,9 @@ dev:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -577,6 +588,9 @@ devjuggernauts:
         sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
@@ -659,6 +673,9 @@ devapp1:
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -738,6 +755,9 @@ local:
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
+
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -952,6 +972,9 @@ team:
 
         sli.ingestion.tenant.loadDefaultTenants: true
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
@@ -1044,6 +1067,9 @@ perf:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
 test-local:
     test:
         # local/data-access/test.properties
@@ -1113,6 +1139,9 @@ test-perf:
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        #Reference Schema reference check
+        sli.referenceSchema.referenceCheckEnabled: false
+
 sandbox:
     api:
         <<: *API-TEAM
@@ -1167,7 +1196,7 @@ nxteam:
         sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.cache.type: memcached
         sli.ingestion.cache.opTimeout: 100
-        sli.ingestion.cache.servers: localhost
+        sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
 
     data-access: &DATA-ACCESS-NXTEAM

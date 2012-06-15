@@ -70,6 +70,11 @@ public class ReferenceSchema extends NeutralSchema {
             return false;
         }
 
+        //TODO: Fix this
+        if (true) {
+            return true;
+        }
+
         boolean found = false;
         String collectionType = getCollectionName();
 
