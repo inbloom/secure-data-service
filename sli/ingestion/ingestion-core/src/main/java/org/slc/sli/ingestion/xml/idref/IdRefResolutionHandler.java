@@ -262,7 +262,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                             String resolved = "false";
 
-                            if (snippets.contains(ref.getValue())) {
                                 if (id != null && id.getValue().equals(ref.getValue())) {
                                     errorReport.warning(
                                             MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
@@ -276,7 +275,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                         resolved = "false";
                                     }
                                 }
-                            }
 
                             newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, resolved));
                             xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
@@ -403,8 +401,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(xmlStream, browser, errorReport);
 
         } catch (Exception e) {
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", ""));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", ""),
+            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
             IOUtils.closeQuietly(xmlStream);
