@@ -114,7 +114,6 @@ public class RESTClient {
         if (r != null && r.token != null) {
             accessToken = r.token;
             sessionToken = accessToken.getToken();
-            authorizationToken = accessToken.getRawResponse();
         }
         
         ResponseBuilder builder = Response.status(r.oauthResponse.getCode());
