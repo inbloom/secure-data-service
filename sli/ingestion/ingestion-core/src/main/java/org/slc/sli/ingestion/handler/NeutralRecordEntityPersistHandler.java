@@ -47,7 +47,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     @Autowired
     private InternalIdNormalizer internalIdNormalizer;
 
-    @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
+    @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
 
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
