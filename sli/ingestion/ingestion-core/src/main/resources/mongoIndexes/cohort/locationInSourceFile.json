@@ -1,0 +1,7 @@
+{
+    "collection": "cohort",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "collection": "studentCompetency",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

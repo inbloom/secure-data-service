@@ -1,0 +1,7 @@
+{
+    "collection": "calenderDate",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

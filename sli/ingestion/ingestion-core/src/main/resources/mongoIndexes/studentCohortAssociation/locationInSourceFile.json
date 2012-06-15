@@ -1,0 +1,7 @@
+{
+    "collection": "studentCohortAssociation",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

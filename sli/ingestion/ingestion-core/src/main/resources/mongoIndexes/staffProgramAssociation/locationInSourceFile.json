@@ -1,0 +1,7 @@
+{
+    "collection": "staffProgramAssociation",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}

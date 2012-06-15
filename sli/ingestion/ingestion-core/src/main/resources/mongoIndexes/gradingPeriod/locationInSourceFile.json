@@ -1,0 +1,7 @@
+{
+    "collection": "gradingPeriod",
+    "indexFields":
+    [
+        {"name" : "locationInSourceFile" , "order" : "1"}
+    ]
+}
