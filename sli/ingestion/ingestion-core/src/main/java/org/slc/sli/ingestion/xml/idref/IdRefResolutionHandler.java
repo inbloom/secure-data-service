@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -193,7 +194,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
 
-                cacheProvider.add(id, content);
+                cacheProvider.add(id, new TransformableXmlString(content, false));
             }
 
             @Override
@@ -362,12 +363,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
                         if (refResolved == null) {
-                            Attribute id = start.getAttributeByName(ID_ATTR);
+
                             Attribute ref = start.getAttributeByName(REF_ATTR);
-
-                            if (ref != null && cacheProvider.get(ref.getValue()) != null) {
-
-                                String cachedContent = cacheProvider.get(ref.getValue()).toString();
+                            if (ref != null) {
 
                                 @SuppressWarnings("unchecked")
                                 Iterator<Attribute> attrs = start.getAttributes();
@@ -377,19 +375,30 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     newAttrs.add(attrs.next());
                                 }
 
-                                if (id != null && id.getValue().equals(ref.getValue())) {
-                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                    errorReport.warning(
-                                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
-                                                    ref.getValue()), IdRefResolutionHandler.class);
+                                Object cacheLookupObject = cacheProvider.get(ref.getValue());
+
+                                if (cacheLookupObject instanceof TransformableXmlString) {
+                                    Attribute id = start.getAttributeByName(ID_ATTR);
+
+                                    if (id != null && id.getValue().equals(ref.getValue())) {
+                                        newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
+                                        errorReport.warning(
+                                                MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
+                                                        ref.getValue()), IdRefResolutionHandler.class);
+                                    } else {
+
+                                        contentToAdd = resolveRefs(getCurrentXPath(),
+                                                (TransformableXmlString) cacheLookupObject, ref.getValue(), errorReport);
+                                    }
                                 } else {
-
-                                    contentToAdd = resolveRefs(getCurrentXPath(), cachedContent, ref.getValue(),
-                                            errorReport);
-
-                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
-                                            contentToAdd == null ? "false" : "true"));
+                                    // unable to resolve reference, no matching id for ref
+                                    LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+                                    errorReport.warning(
+                                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3",
+                                                    ref.getValue()), IdRefResolutionHandler.class);
                                 }
+                                newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
+                                        contentToAdd == null ? "false" : "true"));
 
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
@@ -440,40 +449,35 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     return false;
                 }
 
-                private String resolveRefs(String currentXPath, String content, String id, ErrorReport errorReport) {
+                private String resolveRefs(String currentXPath, TransformableXmlString cachedContent, String id,
+                        ErrorReport errorReport) {
 
-                    if (content != null) {
-                        ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
-                        if (rrs == null) {
-                            if (!isInnerRef()) {
-                                LOG.debug(MessageSourceHelper
-                                        .getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                                errorReport.warning(
-                                        MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
-                                        IdRefResolutionHandler.class);
-                            }
-                            return null;
-
-                        } else { // FIXME: if (!(contentToAdd instanceof IdRefFile)) {
-
-                            // Resolved content is not cached yet, so lets resolve it and cache it.
-                            content = rrs.resolve(currentXPath, content);
-                            if (content == null) {
-                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id));
-                                errorReport.warning(
-                                        MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
-                                        IdRefResolutionHandler.class);
-                            } else {
-                                cacheProvider.add(id, content);
-                            }
+                    String transformedContent = cachedContent.string;
+                    ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+                    if (rrs == null) {
+                        if (!isInnerRef()) {
+                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                            errorReport.warning(
+                                    MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
+                                    IdRefResolutionHandler.class);
                         }
-                    } else {
-                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
-                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", id),
-                                IdRefResolutionHandler.class);
+                        return null;
+
+                    } else if (!cachedContent.isTransformed) {
+
+                        // Resolved content is not cached yet, so lets transform it and cache
+                        // it.
+                        transformedContent = rrs.resolve(currentXPath, cachedContent.string);
+                        if (transformedContent == null) {
+                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id));
+                            errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
+                                    IdRefResolutionHandler.class);
+                        } else {
+                            cacheProvider.add(id, new TransformableXmlString(transformedContent, true));
+                        }
                     }
 
-                    return content;
+                    return transformedContent;
                 }
             };
 
@@ -607,5 +611,24 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     public void setSupportedResolvers(Map<String, ReferenceResolutionStrategy> supportedResolvers) {
         this.supportedResolvers = supportedResolvers;
+    }
+
+    public void setIdReferenceInterchanges(Set<String> idReferenceInterchanges) {
+        this.idReferenceInterchanges = idReferenceInterchanges;
+    }
+
+    private static final class TransformableXmlString implements Serializable {
+        public final String string;
+        public final boolean isTransformed;
+
+        public TransformableXmlString(String string, boolean isTransformed) {
+            this.string = string;
+            this.isTransformed = isTransformed;
+        }
+
+        @Override
+        public String toString() {
+            return "TransformableXmlString [string=" + string + ", isTransformed=" + isTransformed + "]";
+        }
     }
 }
