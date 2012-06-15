@@ -271,7 +271,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     try {
                                         contentToAdd = resolveRefs(getCurrentXPath(), snippets, ref, errorReport);
 
-                                        resolved = contentToAdd != null ? "false" : "true";
+                                        resolved = contentToAdd != null ? "true" : "false";
                                     } catch (IOException e) {
                                         resolved = "false";
                                     }
