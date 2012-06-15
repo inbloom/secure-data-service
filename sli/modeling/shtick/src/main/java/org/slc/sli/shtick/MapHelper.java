@@ -17,7 +17,7 @@ public final class MapHelper {
         return copy;
     }
 
-    private static List<Object> copyList(List toCopy) {
+    private static List<Object> copyList(final List<Object> toCopy) {
         final List<Object> copy = new ArrayList<Object>(toCopy.size());
         for (Object elem : toCopy) {
             copy.add(copyValue(elem));
@@ -25,11 +25,15 @@ public final class MapHelper {
         return copy;
     }
 
-    private static Object copyValue(Object elem) {
+    private static Object copyValue(final Object elem) {
         if (elem instanceof Map) {
-            return deepCopy((Map<String, Object>) elem);
+            @SuppressWarnings("unchecked")
+            final Map<String, Object> map = (Map<String, Object>) elem;
+            return deepCopy(map);
         } else if (elem instanceof List) {
-            return copyList((List) elem);
+            @SuppressWarnings("unchecked")
+            final List<Object> list = (List<Object>) elem;
+            return copyList(list);
         } else { // We have a primitive
             return elem;
         }

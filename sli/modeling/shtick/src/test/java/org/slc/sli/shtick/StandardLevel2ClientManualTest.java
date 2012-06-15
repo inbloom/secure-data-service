@@ -1,11 +1,8 @@
 package org.slc.sli.shtick;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +10,14 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @author jstokes
@@ -25,6 +26,7 @@ public class StandardLevel2ClientManualTest {
     private Level2ClientManual client; // class under test
 
     private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
+    private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
     @Before
     public void setup() {
@@ -69,8 +71,7 @@ public class StandardLevel2ClientManualTest {
     }
 
     private List<RestEntity> getStudent(final String studentId) throws IOException, RestException {
-        return client.getStudentsByStudentId(TestingConstants.ROGERS_TOKEN,
-                Arrays.asList(studentId), Collections.EMPTY_MAP);
+        return client.getStudentsByStudentId(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), EMPTY_QUERY_ARGS);
     }
 
     private void putStudent(final String studentId) throws IOException, RestException, URISyntaxException {
