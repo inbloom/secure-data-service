@@ -17,7 +17,7 @@
 	</encoder>
   </appender>
 
-  <root level="${log.level}">
+  <root level="${dashboard.log.level}">
       <appender-ref ref="FILE"/>
       <appender-ref ref="STDOUT"/>
   </root>

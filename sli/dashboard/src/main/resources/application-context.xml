@@ -17,6 +17,16 @@
 >
     <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" />
    
+    <bean id="systemProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" value="#{@systemProperties}"/>
+        <property name="targetMethod" value="putAll"/>
+        <property name="arguments">
+            <util:properties>
+                <prop key="net.sf.ehcache.disabled">${dashboard.cache.disable}</prop>
+            </util:properties>
+        </property>
+    </bean>
+    
     <cache:annotation-driven />
     
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true"/>
@@ -24,15 +34,15 @@
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
        <property name="cacheManager" ref="ehcache"/>
     </bean>
-
-<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
-    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
-    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
-    <constructor-arg name="clientId" value="${oauth.client.id}" />
-    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
-    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
-</bean>
+	
+	<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
+	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
+	    <constructor-arg name="clientId" value="${oauth.client.id}" />
+	    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
+	    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+	    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
+	</bean>
     
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
