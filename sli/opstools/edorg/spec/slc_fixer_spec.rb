@@ -60,10 +60,10 @@ describe SLCFixer do
     end
     it "should update all staff who are associated to an edorg" do
       failed = []
-      @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }}).each {|s| failed << s['_id']}
+      @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }, 'metaData.tenantId' => {'$exists' => true}}).each {|s| failed << s['_id']}
       assoc = []
-      @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference']}
-      @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId']}
+      @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference'] if s['metaData'].include? 'tenantId'}
+      @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId'] if s['metaData'].include? 'tenantId'}
       assoc.uniq!
       unassociated = @db['staff'].count - assoc.size
       unassociated.should == failed.size
