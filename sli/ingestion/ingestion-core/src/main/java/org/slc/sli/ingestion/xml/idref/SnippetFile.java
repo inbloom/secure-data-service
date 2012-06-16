@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 /**
  * @author okrook
@@ -24,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 public final class SnippetFile implements Closeable {
 
     private File snippet;
+    private RandomAccessFile raf;
     private FileChannel fileChannel;
     private Map<String, SnippetBlock> snippets;
 
@@ -40,34 +42,29 @@ public final class SnippetFile implements Closeable {
     }
 
     public static SnippetFile create(String prefix, String suffix, File directory) throws IOException {
-        SnippetFile instance = new SnippetFile();
+        SnippetFile inst = new SnippetFile();
 
-        instance.snippet = File.createTempFile(prefix, suffix, directory);
-        instance.fileChannel = new RandomAccessFile(instance.snippet, "rw").getChannel();
-        instance.fileChannel.position(0);
-        instance.snippets = new HashMap<String, SnippetBlock>();
+        inst.snippet = File.createTempFile(prefix, suffix, directory);
+        inst.raf = new RandomAccessFile(inst.snippet, "rw");
+        inst.fileChannel = inst.raf.getChannel();
+        inst.fileChannel.position(0);
+        inst.snippets = new HashMap<String, SnippetBlock>();
 
-        return instance;
+        return inst;
     }
 
     @Override
     public void close() throws IOException {
-        fileChannel.close();
+        raf.close();
     }
 
     public void delete() {
-        try {
-            if (fileChannel != null) {
-                close();
-                fileChannel = null;
-            }
-        } catch (IOException e) {
-            fileChannel = null;
-        }
+        IOUtils.closeQuietly(raf);
+        raf = null;
+        fileChannel = null;
+        snippet = null;
 
         FileUtils.deleteQuietly(snippet);
-
-        snippet = null;
     }
 
     public boolean contains(String id) {
