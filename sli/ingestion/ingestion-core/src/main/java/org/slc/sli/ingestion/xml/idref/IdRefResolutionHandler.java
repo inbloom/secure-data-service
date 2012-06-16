@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -95,12 +96,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             refContent = findMatchingEntities(xml, idRefsToResolve, errorReport);
             sw.stop();
 
-            sw.start("Resolve IDRefs");
-            semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
-            sw.stop();
+            if (refContent != null) {
+                sw.start("Resolve IDRefs");
+                semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
+                sw.stop();
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            semiResolvedXml = null;
         } finally {
             if (refContent != null) {
                 refContent.delete();
@@ -175,9 +177,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         };
 
-        browse(xml, collectIdRefsToResolve, errorReport);
+        boolean success = browse(xml, collectIdRefsToResolve, errorReport);
 
-        return idRefs;
+        if (success) {
+            return idRefs;
+        } else {
+            return Collections.emptySet();
+        }
     }
 
     protected SnippetFile findMatchingEntities(final File xml, final Set<String> ids, final ErrorReport errorReport)
@@ -228,7 +234,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         };
 
-        browse(xml, collectRefContent, errorReport);
+        boolean success = browse(xml, collectRefContent, errorReport);
+
+        if (!success) {
+            snippets.delete();
+
+            return null;
+        }
 
         return snippets;
     }
@@ -236,7 +248,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     protected File resolveIdRefs(final File xml, final SnippetFile snippets, final ErrorReport errorReport) {
         File newXml = null;
 
-        BufferedOutputStream out = null;
+        OutputStream out = null;
         XMLEventWriter writer = null;
         SnippetFile smooksSnippets = null;
 
@@ -247,7 +259,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
-
             writer = OUTPUT_FACTORY.createXMLEventWriter(out);
             final XMLEventWriter wr = writer;
 
@@ -405,7 +416,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
+            LogUtil.debug(LOG, MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getAbsolutePath()), e);
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
@@ -420,7 +431,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return newXml;
     }
 
-    private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
+    private boolean browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
         BufferedInputStream xmlStream = null;
 
         try {
@@ -428,10 +439,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             browse(xmlStream, browser, errorReport);
 
+            return true;
         } catch (Exception e) {
-            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
+            LogUtil.debug(LOG, MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getAbsolutePath()), e);
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
+
+            return false;
         } finally {
             IOUtils.closeQuietly(xmlStream);
         }

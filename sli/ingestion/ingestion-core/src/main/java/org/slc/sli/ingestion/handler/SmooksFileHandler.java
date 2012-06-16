@@ -1,10 +1,9 @@
 package org.slc.sli.ingestion.handler;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Field;
+import java.nio.channels.Channels;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -64,13 +63,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
-        // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
-
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
+        RandomAccessFile raf = new RandomAccessFile(ingestionFileEntry.getFile(), "r");
         try {
+            // create instance of Smooks (with visitors already added)
+            Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
-            smooks.filterSource(new StreamSource(inputStream));
+            smooks.filterSource(new StreamSource(Channels.newInputStream(raf.getChannel())));
 
             try {
                 Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
@@ -92,7 +91,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             LogUtil.error(LOG, "smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
-            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(raf);
         }
     }
 }

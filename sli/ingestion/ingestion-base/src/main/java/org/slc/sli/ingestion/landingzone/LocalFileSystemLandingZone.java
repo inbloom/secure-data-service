@@ -1,9 +1,10 @@
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.nio.channels.Channels;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -105,11 +106,12 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
      */
     @Override
     public String getMd5Hex(File file) throws IOException {
-        FileInputStream s = FileUtils.openInputStream(file);
+        RandomAccessFile raf = null;
         try {
-            return DigestUtils.md5Hex(s);
+            raf = new RandomAccessFile(file, "r");
+            return DigestUtils.md5Hex(Channels.newInputStream(raf.getChannel()));
         } finally {
-            IOUtils.closeQuietly(s);
+            IOUtils.closeQuietly(raf);
         }
     }
 

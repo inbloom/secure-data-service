@@ -54,17 +54,19 @@ public final class SnippetFile implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
-        raf.close();
+    public void close() {
+        IOUtils.closeQuietly(raf);
+
+        raf = null;
+        fileChannel = null;
     }
 
     public void delete() {
-        IOUtils.closeQuietly(raf);
-        raf = null;
-        fileChannel = null;
-        snippet = null;
+        close();
 
         FileUtils.deleteQuietly(snippet);
+
+        snippet = null;
     }
 
     public boolean contains(String id) {

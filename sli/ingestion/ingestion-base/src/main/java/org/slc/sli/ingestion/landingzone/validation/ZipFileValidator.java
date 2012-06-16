@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
@@ -30,12 +31,12 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             return false;
         }
 
-        Enumeration<?> entries = zf.entries();
+        Enumeration<? extends ZipEntry> entries = zf.getEntries();
 
         boolean isValid = false;
         while (entries.hasMoreElements()) {
 
-            ZipEntry ze = (ZipEntry) entries.nextElement();
+            ZipEntry ze = entries.nextElement();
 
             if (isDirectory(ze)) {
                 fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
