@@ -46,7 +46,6 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
     public void performTransformation() {
         loadData();
         transform();
-        persist();
     }
 
     private void loadData() {
@@ -60,28 +59,19 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
         try {
             LOG.info("Transforming data: resolving disciplineIncident reference");
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collection.entrySet()) {
-                NeutralRecord nr = neutralRecordEntry.getValue();
-                String idRef = (String) PropertyUtils.getProperty(nr, "attributes.DisciplineIncidentReference.ref");
+                NeutralRecord record = neutralRecordEntry.getValue();
+                String idRef = (String) PropertyUtils.getProperty(record, "attributes.DisciplineIncidentReference.ref");
                 NeutralRecord disciplineIncidentRef = findDisciplineIncidentNRFromIdRef(idRef);
                 String incidentIdentifier = (String) PropertyUtils.getProperty(disciplineIncidentRef,
                         "attributes.IncidentIdentifier");
-                PropertyUtils.setProperty(nr, "attributes.refIncidentIdentifier", incidentIdentifier);
+                PropertyUtils.setProperty(record, "attributes.refIncidentIdentifier", incidentIdentifier);
+                
+                record.setRecordType(record.getRecordType() + "_transformed");
+                record.setCreationTime(getWorkNote().getRangeMinimum());
+                insertRecord(record);
             }
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered resolving DisciplineIncidentAssociation reference:", e);
-        }
-    }
-
-    private void persist() {
-        LOG.info("Persisting {} data to storage.");
-
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collection.entrySet()) {
-
-            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getBatchJobId());
         }
     }
 
@@ -95,6 +85,5 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
             result = data.get(0);
         }
         return result;
-
     }
 }

@@ -99,7 +99,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
+            insertRecord(neutralRecord);
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());

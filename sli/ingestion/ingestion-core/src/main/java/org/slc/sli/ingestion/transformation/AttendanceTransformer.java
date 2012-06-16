@@ -186,9 +186,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             // create a placeholder for the student-school pair and write to staging mongo db
             NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
             placeholder.setCreationTime(getWorkNote().getRangeMinimum());
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(placeholder, getJob().getId());
+            createRecord(placeholder);
         } catch (DuplicateKeyException dke) {
-            LOG.info("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
+            LOG.warn("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
         }
         
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions);

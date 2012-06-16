@@ -124,7 +124,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
+            insertRecord(neutralRecord);
         }
     }
     

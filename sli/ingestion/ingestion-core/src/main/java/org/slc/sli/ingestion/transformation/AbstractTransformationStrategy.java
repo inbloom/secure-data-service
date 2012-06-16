@@ -142,4 +142,26 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         }
         return collection;
     }
+    
+    /**
+     * Invokes the 'insert' mongo operation. Use when concurrent writes are known to provide
+     * uniqueness (one-to-one mapping between original and _transformed collection).
+     * 
+     * @param record
+     *            Neutral Record to be written to data store.
+     */
+    public void insertRecord(NeutralRecord record) {
+        neutralRecordMongoAccess.getRecordRepository().insertForJob(record, job.getId());
+    }
+    
+    /**
+     * Invokes the 'upsert' mongo operation. Use when concurrent writes fail to provide uniqueness
+     * (for instance, when many record are being condensed into a small subset of records).
+     * 
+     * @param record
+     *            Neutral Record to be written to data store.
+     */
+    public void createRecord(NeutralRecord record) {
+        neutralRecordMongoAccess.getRecordRepository().createForJob(record, job.getId());
+    }
 }

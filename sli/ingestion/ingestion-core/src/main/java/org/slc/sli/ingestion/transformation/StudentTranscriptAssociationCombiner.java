@@ -72,7 +72,7 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
+            insertRecord(neutralRecord);
         }
         LOG.info("Finished transforming and persisting student transcript association data");
     }
