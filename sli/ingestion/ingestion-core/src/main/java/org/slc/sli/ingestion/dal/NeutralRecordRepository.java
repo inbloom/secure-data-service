@@ -66,6 +66,19 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public NeutralRecord createForJob(NeutralRecord neutralRecord, String jobId) {
         return create(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
     }
+    
+    public NeutralRecord insert(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
+        Assert.notNull(body, "The given entity must not be null!");
+        NeutralRecord neutralRecord = new NeutralRecord();
+        neutralRecord.setLocalId(metaData.get("externalId"));
+        neutralRecord.setAttributes(body);
+        return insert(neutralRecord, collectionName);
+    }
+
+    public NeutralRecord insertForJob(NeutralRecord neutralRecord, String jobId) {
+        return insert(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
+    }
 
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
         return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);

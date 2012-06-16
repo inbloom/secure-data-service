@@ -35,6 +35,11 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     public void writeResource(NeutralRecord neutralRecord, String jobId) {
         neutralRecordRepository.createForJob(neutralRecord, jobId);
     }
+    
+    @Override
+    public void insertResource(NeutralRecord neutralRecord, String jobId) {
+        neutralRecordRepository.insertForJob(neutralRecord, jobId);
+    }
 
     public NeutralRecordRepository getRecordRepository() {
         return this.neutralRecordRepository;
