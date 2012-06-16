@@ -368,7 +368,8 @@ class SLCFixer
       return
     end
     begin
-      collection.update({"_id" => id}, {"$set" => {"metaData.edOrgs" => edOrg}})
+      tenant = collection.find_one({"_id" => id})['metaData']['tenantId']
+      collection.update({'$and' => [{"_id" => id}, {'metaData.tenantId' => tenant}]}, {"$set" => {"metaData.edOrgs" => edOrg}})
     rescue Exception => e
       log "ERROR writing to #{collection.name}##{id} - #{e.message}"
     end
