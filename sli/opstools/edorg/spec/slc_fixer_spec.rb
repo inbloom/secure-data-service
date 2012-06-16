@@ -1,6 +1,8 @@
 require_relative "../slc_fixer"
 
 describe SLCFixer do
+  describe "stamp_id" do
+  end
   describe '#start' do
     before(:each) do
       connection = Mongo::Connection.new('localhost', 27017)
@@ -12,7 +14,8 @@ describe SLCFixer do
     it "should have stamped nearly everything with an edorg" do
       filtered = ['tenant', 'userSession', 'realm', 'userAccount', 'roles', 'realm', 'application', 'applicationAuthorization',
         'system.indexes', 'system.js', 'school', 'educationOrganization', 'educationOrganizationSchoolAssociation', 'educationOrganizationAssociation',
-        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities']
+        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities',
+        'calendarDate', 'studentCompetencyObjective']
       @db.collections.each do |collection|
         col_count = collection.count
         stamped_count = collection.find({'metaData.edOrgs' => {"$exists" => true}}).count
