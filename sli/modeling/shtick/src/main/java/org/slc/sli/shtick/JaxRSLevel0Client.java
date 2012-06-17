@@ -1,8 +1,7 @@
 package org.slc.sli.shtick;
 
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +37,18 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public String getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            StatusCodeException {
+    public String get(final String token, final URI uri, final String mediaType) throws StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
 
-        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Invocation.Builder builder = createBuilder(token, uri, mediaType);
         final Response response = builder.buildGet().invoke();
 
         checkResponse(response, Response.Status.OK);
@@ -58,60 +56,59 @@ public final class JaxRSLevel0Client implements Level0Client {
     }
 
     @Override
-    public void deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            StatusCodeException {
+    public void delete(final String token, final URI uri, final String mediaType) throws StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
 
-        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Invocation.Builder builder = createBuilder(token, uri, mediaType);
         final Response response = builder.buildDelete().invoke();
 
         checkResponse(response, Response.Status.NO_CONTENT);
     }
 
     @Override
-    public URL postRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, StatusCodeException {
+    public URI post(final String token, final String data, final URI uri, final String mediaType)
+            throws StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
         if (data == null) {
             throw new NullPointerException("data");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
 
-        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Invocation.Builder builder = createBuilder(token, uri, mediaType);
         final Response response = builder.buildPost(Entity.entity(data, mediaType)).invoke();
 
         checkResponse(response, Response.Status.CREATED);
 
         try {
-            return new URL(response.getHeaders().getHeader(HEADER_NAME_LOCATION));
-        } catch (final MalformedURLException e) {
+            return new URI(response.getHeaders().getHeader(HEADER_NAME_LOCATION));
+        } catch (final URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void putRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, StatusCodeException {
+    public void put(final String token, final String data, final URI uri, final String mediaType)
+            throws StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (data == null) {
             throw new NullPointerException("data");
@@ -120,29 +117,29 @@ public final class JaxRSLevel0Client implements Level0Client {
             throw new NullPointerException("mediaType");
         }
 
-        final Invocation.Builder builder = createBuilder(token, url, mediaType);
+        final Invocation.Builder builder = createBuilder(token, uri, mediaType);
         final Response response = builder.buildPut(Entity.entity(data, mediaType)).invoke();
 
         checkResponse(response, Response.Status.NO_CONTENT);
     }
 
-    private Invocation.Builder createBuilder(final String token, final URL url, final String mediaType)
-            throws URISyntaxException {
+    private Invocation.Builder createBuilder(final String token, final URI uri, final String mediaType) {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (mediaType == null) {
             throw new NullPointerException("mediaType");
         }
-        final Invocation.Builder builder = client.target(url.toURI()).request(mediaType);
+        final Invocation.Builder builder = client.target(uri).request(mediaType);
         builder.header(HEADER_NAME_AUTHORIZATION, String.format(HEADER_VALUE_AUTHORIZATION_FORMAT, token));
         return builder;
     }
 
-    private RestResponse checkResponse(final Response response, final Response.Status expected) throws StatusCodeException {
+    private RestResponse checkResponse(final Response response, final Response.Status expected)
+            throws StatusCodeException {
         if (response == null) {
             throw new NullPointerException("response");
         }

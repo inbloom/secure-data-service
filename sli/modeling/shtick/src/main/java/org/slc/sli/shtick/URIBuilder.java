@@ -2,7 +2,8 @@ package org.slc.sli.shtick;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
@@ -12,21 +13,21 @@ import java.util.Map;
  *
  * This class is intentionally package-protected.
  */
-final class URLBuilder {
+final class URIBuilder {
     private static final String ENCODING = "UTF-8";
 
-    private final StringBuilder url = new StringBuilder();
+    private final StringBuilder sb = new StringBuilder();
 
     /**
-     * Start building a new URL with the provided base location.
+     * Start building a new URI with the provided base uri.
      *
-     * @param baseUrl
-     *            - base URL of the ReSTful API.
+     * @param baseUri
+     *            - base URI of the ReSTful API.
      * @return URLBuilder instance
      */
-    public static URLBuilder baseUrl(final String baseUrl) {
-        URLBuilder rval = new URLBuilder();
-        rval.addPath(baseUrl);
+    public static URIBuilder baseUri(final String baseUri) {
+        final URIBuilder rval = new URIBuilder();
+        rval.addPath(baseUri);
         return rval;
     }
 
@@ -37,9 +38,9 @@ final class URLBuilder {
      *            URL fragment to add.
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder addPath(final String path) {
+    public URIBuilder addPath(final String path) {
         addPathSeparaterIfNeeded();
-        url.append(path);
+        sb.append(path);
         return this;
     }
 
@@ -50,7 +51,7 @@ final class URLBuilder {
      *            Entity ID
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder id(final String id) {
+    public URIBuilder id(final String id) {
         addPath(id);
         return this;
     }
@@ -62,7 +63,7 @@ final class URLBuilder {
      *            a collection of Entity IDs
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder ids(final List<String> ids) {
+    public URIBuilder ids(final List<String> ids) {
         StringBuffer idCollection = new StringBuffer();
         if (ids != null && ids.size() > 0) {
             for (String id : ids) {
@@ -80,7 +81,7 @@ final class URLBuilder {
      * @param query
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder query(final Map<String, Object> params) {
+    public URIBuilder query(final Map<String, Object> params) {
 
         if (params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -98,9 +99,8 @@ final class URLBuilder {
      * @throws MalformedURLException
      *             if the URL is not valid.
      */
-    public URL build() throws MalformedURLException {
-
-        return new URL(url.toString());
+    public URI build() throws URISyntaxException {
+        return new URI(sb.toString());
     }
 
     /**
@@ -112,27 +112,27 @@ final class URLBuilder {
      *            query parameter value
      * @return Updated URLBuilder instance.
      */
-    private URLBuilder addQueryParameter(final String key, final Object value) {
-        if (url.charAt(url.length() - 1) == '/') {
-            url.deleteCharAt(url.length() - 1);
+    private URIBuilder addQueryParameter(final String key, final Object value) {
+        if (sb.charAt(sb.length() - 1) == '/') {
+            sb.deleteCharAt(sb.length() - 1);
         }
-        if (url.indexOf("?") < 0) {
-            url.append("?");
-        } else if (url.charAt(url.length() - 1) != '&') {
-            url.append("&");
+        if (sb.indexOf("?") < 0) {
+            sb.append("?");
+        } else if (sb.charAt(sb.length() - 1) != '&') {
+            sb.append("&");
         }
-        url.append(key).append("=");
+        sb.append(key).append("=");
         try {
-            url.append(URLEncoder.encode(value.toString(), ENCODING));
+            sb.append(URLEncoder.encode(value.toString(), ENCODING));
         } catch (UnsupportedEncodingException e) {
-            url.append(value);
+            sb.append(value);
         }
         return this;
     }
 
-    private URLBuilder addPathSeparaterIfNeeded() {
-        if (url.length() > 0 && url.charAt(url.length() - 1) != '/') {
-            url.append("/");
+    private URIBuilder addPathSeparaterIfNeeded() {
+        if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '/') {
+            sb.append("/");
         }
         return this;
     }

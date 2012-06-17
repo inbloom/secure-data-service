@@ -1,12 +1,12 @@
 package org.slc.sli.shtick;
 
-import java.net.URL;
+import java.net.URI;
 
 /**
  * @author jstokes
  */
-final class URLHelper {
-    static String stripId(final URL url) {
+final class URIHelper {
+    static String stripId(final URI url) {
         return url.toString().substring(url.toString().lastIndexOf("/") + 1);
     }
 }

@@ -2,8 +2,7 @@ package org.slc.sli.shtick;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,26 +30,25 @@ public final class StAXLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            StatusCodeException {
-        final String body = inner.getRequest(token, url, "application/xml");
+    public List<Entity> get(final String token, final URI uri) throws IOException, StatusCodeException {
+        final String body = inner.get(token, uri, "application/xml");
         return deserialize(body);
     }
 
     @Override
-    public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, StatusCodeException {
+    public void delete(final String token, final URI uri) throws IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public URL postRequest(final String token, final Entity data, final URL url) throws URISyntaxException,
-            IOException, StatusCodeException {
+    public URI post(final String token, final Entity data, final URI uri) throws IOException,
+            StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public void putRequest(final String token, final Entity data, final URL url) throws URISyntaxException,
-            IOException, StatusCodeException {
+    public void put(final String token, final Entity data, final URI uri) throws IOException,
+            StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 

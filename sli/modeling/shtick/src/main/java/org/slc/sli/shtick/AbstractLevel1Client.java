@@ -2,8 +2,7 @@ package org.slc.sli.shtick;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,38 +27,37 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, StatusCodeException {
+    public List<Entity> get(final String token, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
 
-        final String body = client.getRequest(token, url, getMediaType());
+        final String body = client.get(token, uri, getMediaType());
         return deserialize(body);
     }
 
     @Override
-    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, StatusCodeException {
+    public void delete(String token, URI uri) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
 
-        client.deleteRequest(token, url, getMediaType());
+        client.delete(token, uri, getMediaType());
     }
 
     @Override
-    public URL postRequest(String token, final Entity data, final URL url) throws URISyntaxException, IOException,
-            StatusCodeException {
+    public URI post(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (data == null) {
             throw new NullPointerException("data");
@@ -68,17 +66,16 @@ public abstract class AbstractLevel1Client implements Level1Client {
         final StringWriter sw = new StringWriter();
         mapper.writeValue(sw, data);
 
-        return client.postRequest(token, sw.toString(), url, getMediaType());
+        return client.post(token, sw.toString(), uri, getMediaType());
     }
 
     @Override
-    public void putRequest(String token, final Entity data, final URL url) throws URISyntaxException, IOException,
-            StatusCodeException {
+    public void put(String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
-        if (url == null) {
-            throw new NullPointerException("url");
+        if (uri == null) {
+            throw new NullPointerException("uri");
         }
         if (data == null) {
             throw new NullPointerException("data");
@@ -87,7 +84,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
         final StringWriter sw = new StringWriter();
         mapper.writeValue(sw, data);
 
-        client.putRequest(token, sw.toString(), url, getMediaType());
+        client.put(token, sw.toString(), uri, getMediaType());
 
     }
 

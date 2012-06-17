@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class JsonLevel1ClientTest {
             final String studentUniqueStateId = "studentUniqueStateId";
 
             // POST
-            final URL loc = postStudent();
+            final URI loc = postStudent();
             assertNotNull(loc);
 
             // GET
@@ -76,26 +76,26 @@ public class JsonLevel1ClientTest {
         }
     }
 
-    private URL postStudent() throws URISyntaxException, IOException, StatusCodeException {
+    private URI postStudent() throws URISyntaxException, IOException, StatusCodeException {
         // final String readJsonFromFile = readJsonFromFile("/testStudent.json");
         final Map<String, Object> data = new HashMap<String, Object>();
         final Entity student = new Entity("student", data);
-        return level1Client.postRequest(TestingConstants.ROGERS_TOKEN, student, new URL(URL_STUDENT_COLLECTION));
+        return level1Client.post(TestingConstants.ROGERS_TOKEN, student, new URI(URL_STUDENT_COLLECTION));
     }
 
-    private void deleteStudent(URL loc) throws IOException, StatusCodeException, URISyntaxException {
-        level1Client.deleteRequest(TestingConstants.ROGERS_TOKEN, loc);
+    private void deleteStudent(final URI uri) throws IOException, StatusCodeException, URISyntaxException {
+        level1Client.delete(TestingConstants.ROGERS_TOKEN, uri);
     }
 
-    private void putStudent(URL loc) throws IOException, StatusCodeException, URISyntaxException {
+    private void putStudent(final URI uri) throws IOException, StatusCodeException, URISyntaxException {
         final Map<String, Object> data = new HashMap<String, Object>();
         final Entity student = new Entity("student", data);
         // String readJsonFromFile = readJsonFromFile("/testStudentUpdated.json");
-        level1Client.putRequest(TestingConstants.ROGERS_TOKEN, student, loc);
+        level1Client.put(TestingConstants.ROGERS_TOKEN, student, uri);
     }
 
-    private List<Entity> getStudent(URL url) throws IOException, StatusCodeException, URISyntaxException {
-        return level1Client.getRequest(TestingConstants.ROGERS_TOKEN, url);
+    private List<Entity> getStudent(final URI uri) throws IOException, StatusCodeException, URISyntaxException {
+        return level1Client.get(TestingConstants.ROGERS_TOKEN, uri);
     }
 
     @SuppressWarnings("unused")

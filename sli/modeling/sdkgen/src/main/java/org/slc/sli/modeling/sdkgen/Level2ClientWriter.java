@@ -12,9 +12,17 @@ import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
 
 public abstract class Level2ClientWriter implements WadlHandler {
+    /**
+     * The simple name of the exception that indicates the HTTP Status Code.
+     */
+    protected static final String STATUS_CODE_EXCEPTION = "StatusCodeException";
+    /**
+     * The simple name of the domain neutral entity class.
+     */
+    protected static final String GENERIC_ENTITY = "Entity";
 
     protected static final JavaParam PARAM_TOKEN = new JavaParam("token", "String", true);
-    protected static final JavaParam PARAM_ENTITY = new JavaParam("entity", "RestEntity", true);
+    protected static final JavaParam PARAM_ENTITY = new JavaParam("entity", GENERIC_ENTITY, true);
     protected static final JavaParam PARAM_ENTITY_ID = new JavaParam("entityId", "String", true);
 
     protected final JavaStreamWriter jsw;

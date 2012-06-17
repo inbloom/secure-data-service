@@ -54,13 +54,13 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.writePackage(packageName);
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.net.URISyntaxException");
-            jsw.writeImport("java.net.URL");
+            jsw.writeImport("java.net.URI");
             jsw.writeImport("java.util.List");
             jsw.writeImport("java.util.Map");
             jsw.writeImport("org.apache.commons.lang3.StringUtils");
             jsw.beginClass(className, interfaces);
             // Attributes
-            jsw.writeAttribute("baseUrl", "String");
+            jsw.writeAttribute("baseUri", "String");
             jsw.writeAttribute("client", "Level1Client");
             // Write Initializer
             writeCanonicalInitializer(application);
@@ -72,9 +72,9 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
 
     private void writeCanonicalInitializer(final Application application) {
         try {
-            jsw.write("public " + className + "(final String baseUrl, final Level1Client client)");
+            jsw.write("public " + className + "(final String baseUri, final Level1Client client)");
             jsw.beginBlock();
-            jsw.beginStmt().write("this.baseUrl = baseUrl").endStmt();
+            jsw.beginStmt().write("this.baseUri = baseUri").endStmt();
             jsw.beginStmt().write("this.client = client").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
@@ -84,9 +84,9 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
 
     private void writeConvenienceInitializer(final Application application) {
         try {
-            jsw.write("public " + className + "(final String baseUrl)");
+            jsw.write("public " + className + "(final String baseUri)");
             jsw.beginBlock();
-            jsw.beginStmt().write("this(baseUrl, new JsonLevel1Client())").endStmt();
+            jsw.beginStmt().write("this(baseUri, new JsonLevel1Client())").endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -121,25 +121,25 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.writeComment(method.getId());
         jsw.writeOverride();
         jsw.write("public ");
-        jsw.write("List<RestEntity> " + method.getId());
+        jsw.write("List<" + GENERIC_ENTITY + "> " + method.getId());
         jsw.parenL();
         final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
         final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
         jsw.writeParams(params);
         jsw.parenR();
-        jsw.write(" throws IOException, RestException");
+        jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
             jsw.write("try");
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
-            final JavaParam urlParam = new JavaParam("path", "String", true);
-            writeURLStringForGET(urlParam, uri, templateParams);
+            final JavaParam uriParam = new JavaParam("path", "String", true);
+            writeURIStringForGET(uriParam, uri, templateParams);
             jsw.beginStmt()
-                    .write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path).query(queryArgs)")
+                    .write("final URIBuilder builder = URIBuilder.baseUri(baseUri).addPath(path).query(queryArgs)")
                     .endStmt();
-            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
-            jsw.beginStmt().write("return client.getRequest(token, url)").endStmt();
+            jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
+            jsw.beginStmt().write("return client.get(token, uri)").endStmt();
             jsw.endBlock();
             jsw.write("catch(final URISyntaxException e)");
             jsw.beginBlock();
@@ -184,7 +184,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
         jsw.writeParams(jparams);
         jsw.parenR();
-        jsw.write(" throws IOException, RestException");
+        jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
             jsw.write("try");
@@ -192,11 +192,11 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             final String uri = computeURI(resource, resources, application, ancestors);
             final JavaParam urlParam = new JavaParam("path", "String", true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            writeURLStringForPOST(urlParam, uri, templateParams);
-            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
-            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
-            jsw.beginStmt().write("final URL postedURL = client.postRequest(token, entity, url)").endStmt();
-            jsw.beginStmt().write("return URLHelper.stripId(postedURL)").endStmt();
+            writeURIStringForPOST(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URIBuilder builder = URIBuilder.baseUri(baseUri).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
+            jsw.beginStmt().write("final URI postedURI = client.post(token, entity, uri)").endStmt();
+            jsw.beginStmt().write("return URIHelper.stripId(postedURI)").endStmt();
             jsw.endBlock();
             jsw.write("catch(final URISyntaxException e)");
             jsw.beginBlock();
@@ -241,7 +241,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
         jsw.writeParams(jparams);
         jsw.parenR();
-        jsw.write(" throws IOException, RestException");
+        jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
             jsw.write("try");
@@ -249,10 +249,10 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             final String uri = computeURI(resource, resources, application, ancestors);
             final JavaParam urlParam = new JavaParam("path", "String", true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            writeURLStringForPUT(urlParam, uri, templateParams);
-            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
-            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
-            jsw.beginStmt().write("client.putRequest(token, entity, url)").endStmt();
+            writeURIStringForPUT(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URIBuilder builder = URIBuilder.baseUri(baseUri).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
+            jsw.beginStmt().write("client.put(token, entity, uri)").endStmt();
             jsw.endBlock();
             jsw.write("catch(final URISyntaxException e)");
             jsw.beginBlock();
@@ -298,7 +298,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         params.add(PARAM_ENTITY_ID);
         jsw.writeParams(params);
         jsw.parenR();
-        jsw.write(" throws IOException, RestException");
+        jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
             jsw.write("try");
@@ -306,10 +306,10 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             final String uri = computeURI(resource, resources, application, ancestors);
             final JavaParam urlParam = new JavaParam("path", "String", true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            writeURLStringForDELETE(urlParam, uri, templateParams);
-            jsw.beginStmt().write("final URLBuilder builder = URLBuilder.baseUrl(baseUrl).addPath(path)").endStmt();
-            jsw.beginStmt().write("final URL url = builder.build()").endStmt();
-            jsw.beginStmt().write("client.deleteRequest(token, url)").endStmt();
+            writeURIStringForDELETE(urlParam, uri, templateParams);
+            jsw.beginStmt().write("final URIBuilder builder = URIBuilder.baseUri(baseUri).addPath(path)").endStmt();
+            jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
+            jsw.beginStmt().write("client.delete(token, uri)").endStmt();
             jsw.endBlock();
             jsw.write("catch(final URISyntaxException e)");
             jsw.beginBlock();
@@ -349,7 +349,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
      * @param templateParams
      *            The template parameters from left to right.
      */
-    private void writeURLStringForGET(final JavaParam param, final String uri, final List<Param> templateParams)
+    private void writeURIStringForGET(final JavaParam param, final String uri, final List<Param> templateParams)
             throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
@@ -372,7 +372,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.endStmt();
     }
 
-    private void writeURLStringForDELETE(final JavaParam param, final String uri, final List<Param> templateParams)
+    private void writeURIStringForDELETE(final JavaParam param, final String uri, final List<Param> templateParams)
             throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
@@ -388,7 +388,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.endStmt();
     }
 
-    private void writeURLStringForPOST(final JavaParam param, final String uri, final List<Param> templateParams)
+    private void writeURIStringForPOST(final JavaParam param, final String uri, final List<Param> templateParams)
             throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
@@ -413,7 +413,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.endStmt();
     }
 
-    private void writeURLStringForPUT(final JavaParam param, final String uri, final List<Param> templateParams)
+    private void writeURIStringForPUT(final JavaParam param, final String uri, final List<Param> templateParams)
             throws IOException {
         // FIXME: This URI does not have a substitution for the template parameter.
         final String uriFormatString = computeURIFormatString(uri, templateParams);
