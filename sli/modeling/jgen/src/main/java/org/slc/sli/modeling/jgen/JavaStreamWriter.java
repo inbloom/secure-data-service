@@ -9,6 +9,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     JavaStreamWriter beginBlock() throws IOException;
 
+    void beginCatch(JavaType type, String variableName) throws IOException;
+
     void beginClass(String name) throws IOException;
 
     void beginClass(String name, List<String> implementations) throws IOException;
@@ -27,6 +29,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void endBlock() throws IOException;
 
+    void endCatch() throws IOException;
+
     void endClass() throws IOException;
 
     void endEnum() throws IOException;
@@ -40,6 +44,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
     JavaStreamWriter write(String text) throws IOException;
 
     void writeAccessor(String name, String typeName) throws IOException;
+
+    void writeAttribute(JavaParam param) throws IOException;
 
     void writeAttribute(String name, String typeName) throws IOException;
 
@@ -57,5 +63,9 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void writePackage(String name) throws IOException;
 
+    void writeParams(JavaParam... params) throws IOException;
+
     void writeParams(List<JavaParam> params) throws IOException;
+
+    void writeThrows(JavaType... exceptions) throws IOException;
 }

@@ -68,7 +68,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
             jsw.writeParams(params);
             jsw.parenR();
-            jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
             @SuppressWarnings("unused")
             // Perhaps modify this method to generate a different naming scheme?
             final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
@@ -109,7 +109,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
             jsw.writeParams(jparams);
             jsw.parenR();
-            jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
             @SuppressWarnings("unused")
             // Perhaps modify this method to generate a different naming scheme?
             final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
@@ -150,7 +150,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
             jsw.writeParams(jparams);
             jsw.parenR();
-            jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
             @SuppressWarnings("unused")
             // Perhaps modify this method to generate a different naming scheme?
             final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
@@ -192,7 +192,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             params.add(PARAM_ENTITY_ID);
             jsw.writeParams(params);
             jsw.parenR();
-            jsw.write(" throws IOException, " + STATUS_CODE_EXCEPTION);
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
             @SuppressWarnings("unused")
             // Perhaps modify this method to generate a different naming scheme?
             final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
@@ -222,9 +222,8 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
     }
 
     @Override
-    public void beginResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
-        // TODO Auto-generated method stub
-
+    public void beginResource(final Resource resource, final Resources resources, final Application app,
+            final Stack<Resource> ancestors) {
     }
 
     @Override
@@ -237,8 +236,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
     }
 
     @Override
-    public void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
-        // TODO Auto-generated method stub
-
+    public void endResource(final Resource resource, final Resources resources, final Application app,
+            final Stack<Resource> ancestors) {
     }
 }

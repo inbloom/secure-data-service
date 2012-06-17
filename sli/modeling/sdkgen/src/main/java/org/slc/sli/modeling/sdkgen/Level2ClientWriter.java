@@ -3,6 +3,7 @@ package org.slc.sli.modeling.sdkgen;
 import java.io.IOException;
 import java.util.Stack;
 
+import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.rest.Application;
@@ -15,7 +16,11 @@ public abstract class Level2ClientWriter implements WadlHandler {
     /**
      * The simple name of the exception that indicates the HTTP Status Code.
      */
-    protected static final String STATUS_CODE_EXCEPTION = "StatusCodeException";
+    protected static final JavaType STATUS_CODE_EXCEPTION = new JavaType("StatusCodeException");
+    /**
+     * The simple name of the exception that indicates the HTTP Status Code.
+     */
+    protected static final JavaType IO_EXCEPTION = new JavaType(IOException.class.getSimpleName());
     /**
      * The simple name of the domain neutral entity class.
      */
