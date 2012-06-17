@@ -1194,7 +1194,7 @@ nxteam:
         sli.ingestion.processor.xml:  concurrent
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.cache.type: none
+        sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: localhost:11211
         #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
@@ -1225,7 +1225,7 @@ nxteam-maestro:
     ingestion:
         <<: *INGESTION-NXTEAM
         sli.ingestion.nodeType: maestro
-        sli.ingestion.cache.type: memcached
+        sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
 
