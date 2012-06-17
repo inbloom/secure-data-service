@@ -1,18 +1,17 @@
 package org.slc.sli.ingestion.landingzone;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.Channels;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Enumeration;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,26 +40,21 @@ public class ZipFileUtil {
             throw new IOException("directory creation failed: " + filePath);
         }
 
-        FileInputStream fis = null;
-        ZipArchiveInputStream zis = null;
+        ZipFile zip = new ZipFile(zipFile);
 
         try {
-            // Create input stream
-            fis = new FileInputStream(zipFile);
-            zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
-
-            ArchiveEntry entry;
+            Enumeration<ZipArchiveEntry> entries = zip.getEntries();
 
             // Extract files
-            while ((entry = zis.getNextEntry()) != null) {
+            while (entries.hasMoreElements()) {
+                ZipArchiveEntry entry = entries.nextElement();
 
                 if (!entry.isDirectory()) {
-                    extractTo(zis, entry, path);
+                    extractTo(zip, entry, path);
                 }
             }
         } finally {
-            IOUtils.closeQuietly(zis);
-            IOUtils.closeQuietly(fis);
+            ZipFile.closeQuietly(zip);
         }
 
         return path;
@@ -69,7 +63,7 @@ public class ZipFileUtil {
     /**
      * Extracts a Zip Entry from an archive to a directory
      *
-     * @param zis
+     * @param zip
      *            Archive
      * @param entry
      *            Zip Entry
@@ -78,22 +72,15 @@ public class ZipFileUtil {
      * @throws IOException
      *             in case of error
      */
-    protected static void extractTo(ZipArchiveInputStream zis, ArchiveEntry entry, File dir) throws IOException {
-        BufferedOutputStream bos = null;
-        FileOutputStream fos = null;
+    protected static void extractTo(ZipFile zip, ZipArchiveEntry entry, File dir) throws IOException {
+        RandomAccessFile raf = null;
         try {
-            fos = new FileOutputStream(dir.getAbsolutePath() + File.separator + entry.getName());
-            bos = new BufferedOutputStream(fos, BUFFER);
+            raf = new RandomAccessFile(dir.getAbsolutePath() + File.separator + entry.getName(), "rw");
+            raf.setLength(entry.getSize());
 
-            int count;
-            byte[] data = new byte[BUFFER];
-
-            while ((count = zis.read(data, 0, BUFFER)) != -1) {
-                bos.write(data, 0, count);
-            }
+            raf.getChannel().transferFrom(Channels.newChannel(zip.getInputStream(entry)), 0, entry.getSize());
         } finally {
-            IOUtils.closeQuietly(bos);
-            IOUtils.closeQuietly(fos);
+            IOUtils.closeQuietly(raf);
         }
 
     }
@@ -101,6 +88,7 @@ public class ZipFileUtil {
     public static File findCtlFile(File dir) throws IOException {
 
         FilenameFilter filter = new FilenameFilter() {
+            @Override
             public boolean accept(File dir, String name) {
                 // if the file extension is .ctl return true, else false
                 return name.endsWith(".ctl");
