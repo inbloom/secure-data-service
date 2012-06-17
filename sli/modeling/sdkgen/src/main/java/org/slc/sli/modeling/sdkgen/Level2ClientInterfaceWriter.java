@@ -69,29 +69,6 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             jsw.writeParams(params);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
-            @SuppressWarnings("unused")
-            // Perhaps modify this method to generate a different naming scheme?
-            final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
-
-            final Request request = method.getRequest();
-            if (request != null) {
-                for (@SuppressWarnings("unused")
-                final Param param : request.getParams()) {
-
-                }
-            }
-
-            final List<Response> responses = method.getResponses();
-            for (final Response response : responses) {
-                try {
-                    final List<Representation> representations = response.getRepresentations();
-                    for (final Representation representation : representations) {
-                        @SuppressWarnings("unused")
-                        final QName elementName = representation.getElement();
-                    }
-                } finally {
-                }
-            }
         } finally {
             jsw.endStmt();
         }

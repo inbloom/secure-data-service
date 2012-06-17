@@ -42,7 +42,7 @@ import org.slc.sli.modeling.xsd.XsdReader;
 public final class SdkGen {
 
     private static final List<String> ARGUMENT_HELP = asList("h", "?");
-//  private static final String ARGUMENT_CLASS = "class";
+    // private static final String ARGUMENT_CLASS = "class";
     private static final String ARGUMENT_PACKAGE = "package";
     private static final String ARGUMENT_WADL = "wadlFile";
     private static final String ARGUMENT_XMI = "xmiFile";
@@ -74,7 +74,8 @@ public final class SdkGen {
     public static void main(final String[] args) {
         final OptionParser parser = new OptionParser();
         final OptionSpec<?> helpSpec = parser.acceptsAll(ARGUMENT_HELP, "Show help");
-//      final OptionSpec<String> classSpec = optionSpec(parser, ARGUMENT_CLASS, "Class", String.class);
+        // final OptionSpec<String> classSpec = optionSpec(parser, ARGUMENT_CLASS, "Class",
+        // String.class);
         final OptionSpec<String> packageSpec = optionSpec(parser, ARGUMENT_PACKAGE, "Package", String.class);
         final OptionSpec<File> wadlFileSpec = optionSpec(parser, ARGUMENT_WADL, "WADL file", File.class);
         final OptionSpec<File> xmiFileSpec = optionSpec(parser, ARGUMENT_XMI, "XMI file", File.class);
@@ -113,11 +114,11 @@ public final class SdkGen {
                     if (writeLevel2) {
                         final String className = "Standard".concat(LEVEL_2_CLIENT);
                         final File clazzFile = new File(outFolder, className.concat(".java"));
-                        writeLevel2ClientImplementation(new QName(packageName, className), interfaces, new Wadl<File>(wadlApp,
-                                wadlFile), model, clazzFile, config);
+                        writeLevel2ClientImplementation(new QName(packageName, className), interfaces, new Wadl<File>(
+                                wadlApp, wadlFile), model, clazzFile, config);
                     }
                     // POJOs
-                    final boolean writeLevel3 = false;
+                    final boolean writeLevel3 = true;
                     if (writeLevel3) {
                         // POJOs
                         final File dir = new File(outFolder, "/pojo");
@@ -127,8 +128,8 @@ public final class SdkGen {
                         final String className = LEVEL_3_CLIENT;
                         interfaces.add(className);
                         final File interfaceFile = new File(outFolder, className.concat(".java"));
-                        writeSdkInterfacePojo(new QName(packageName, className), new Wadl<File>(wadlApp, wadlFile),
-                                model, interfaceFile, config);
+                        writeLevel3ClientInterface(new QName(packageName, className),
+                                new Wadl<File>(wadlApp, wadlFile), model, interfaceFile, config);
 
                         // Implementation
                         // TODO
@@ -215,8 +216,8 @@ public final class SdkGen {
         }
     }
 
-    private static final void writeSdkInterfacePojo(final QName name, final Wadl<File> wadl, final ModelIndex model,
-            final File file, final JavaGenConfig config) {
+    private static final void writeLevel3ClientInterface(final QName name, final Wadl<File> wadl,
+            final ModelIndex model, final File file, final JavaGenConfig config) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
@@ -233,8 +234,8 @@ public final class SdkGen {
         }
     }
 
-    private static final void writeLevel3ClientInterface(final QName name, final Wadl<File> wadl, final ModelIndex unused,
-            final OutputStream outstream, final JavaGenConfig config) {
+    private static final void writeLevel3ClientInterface(final QName name, final Wadl<File> wadl,
+            final ModelIndex unused, final OutputStream outstream, final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
         try {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);

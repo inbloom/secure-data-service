@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slc.sli.shtick.StandardLevel3ClientManual;
-import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
 
 /**
@@ -284,9 +283,12 @@ public class CrudConsistencyTestServlet extends HttpServlet {
 
     @SuppressWarnings("unused")
     private Student createTestPojoStudent() {
-        Student student = new Student("11111111-1111-1111-1111-111111111111", new Name("Monique", "Johnson"), "Female",
-                false, "123456");
-        return student;
+        // FIXME:
+        throw new UnsupportedOperationException("TODO");
+        // Student student = new Student("11111111-1111-1111-1111-111111111111", new Name("Monique",
+        // "Johnson"), "Female",
+        // false, "123456");
+        // return student;
     }
 
     @SuppressWarnings("unused")

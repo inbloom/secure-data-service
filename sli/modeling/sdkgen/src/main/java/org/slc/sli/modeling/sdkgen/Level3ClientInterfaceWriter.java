@@ -10,31 +10,29 @@ import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchema;
 
+import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Include;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.Representation;
-import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
+import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenElement;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
-import org.slc.sli.modeling.wadl.helpers.WadlHandler;
-import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 import org.slc.sli.modeling.xsd.XsdReader;
 
-public final class Level3ClientInterfaceWriter implements WadlHandler {
+public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
 
     private final String packageName;
     private final String className;
     private final File wadlFile;
-    private final JavaStreamWriter jsw;
     /**
      * As we encounter schemas in the grammars, we add them here.
      */
@@ -42,6 +40,7 @@ public final class Level3ClientInterfaceWriter implements WadlHandler {
 
     public Level3ClientInterfaceWriter(final String packageName, final String className, final File wadlFile,
             final JavaStreamWriter jsw) {
+        super(jsw);
         if (packageName == null) {
             throw new NullPointerException("packageName");
         }
@@ -51,13 +50,9 @@ public final class Level3ClientInterfaceWriter implements WadlHandler {
         if (wadlFile == null) {
             throw new NullPointerException("wadlFile");
         }
-        if (jsw == null) {
-            throw new NullPointerException("jsw");
-        }
         this.packageName = packageName;
         this.className = className;
         this.wadlFile = wadlFile;
-        this.jsw = jsw;
     }
 
     @Override
@@ -66,6 +61,7 @@ public final class Level3ClientInterfaceWriter implements WadlHandler {
             jsw.writePackage(packageName);
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.util.List");
+            jsw.writeImport("java.util.Map");
             jsw.beginInterface(className);
             for (final Include include : application.getGrammars().getIncludes()) {
                 final File schemaFile = new File(wadlFile.getParentFile(), include.getHref());
@@ -77,65 +73,66 @@ public final class Level3ClientInterfaceWriter implements WadlHandler {
     }
 
     @Override
-    public void method(final Method method, final Resource resource, final Resources resources,
-            final Application application, final Stack<Resource> ancestors) {
+    protected void writeGET(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
 
         // We're going to need to be able to analyze the request and response types.
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
+        jsw.writeComment(method.getId());
+        jsw.beginStmt();
         try {
-            if (Method.NAME_HTTP_GET.equals(method.getName())) {
-                jsw.writeComment(method.getId());
-                jsw.beginStmt();
+            final List<Response> responses = method.getResponses();
+            for (final Response response : responses) {
                 try {
-                    // We really can't write this yet until we have seen the response
-                    // representations
-                    jsw.write("List<SLIEntity> " + method.getId() + "() throws IOException, SLIDataStoreException");
-                    @SuppressWarnings("unused")
-                    // Perhaps modify this method to generate a different naming scheme?
-                    final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
-
-                    final Request request = method.getRequest();
-                    if (request != null) {
-                        for (@SuppressWarnings("unused")
-                        final Param param : request.getParams()) {
-
-                        }
-                    }
-
-                    final List<Response> responses = method.getResponses();
-                    for (final Response response : responses) {
-                        try {
-                            final List<Representation> representations = response.getRepresentations();
-                            for (final Representation representation : representations) {
-                                representation.getMediaType();
-                                final QName elementName = representation.getElement();
-                                final SdkGenElement element = grammars.getElement(elementName);
-                                if (element != null) {
-                                    final SdkGenType type = element.getType();
-                                    System.out.println(elementName.getLocalPart() + " : " + type);
-                                } else {
-                                    // FIXME: We need to resolve these issues...
-                                    // System.out.println(elementName +
-                                    // " cannot be resolved as a schema element name.");
-                                }
-                            }
-                        } finally {
+                    final List<Representation> representations = response.getRepresentations();
+                    for (final Representation representation : representations) {
+                        representation.getMediaType();
+                        final QName elementName = representation.getElement();
+                        final SdkGenElement element = grammars.getElement(elementName);
+                        if (element != null) {
+                            final SdkGenType type = element.getType();
+                            // System.out.println(elementName.getLocalPart() + " : " + type);
+                        } else {
+                            // FIXME: We need to resolve these issues...
+                            // System.out.println(elementName +
+                            // " cannot be resolved as a schema element name.");
                         }
                     }
                 } finally {
-                    jsw.endStmt();
                 }
             }
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+            jsw.write("List<" + GENERIC_ENTITY + "> " + method.getId());
+            jsw.parenL();
+            final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
+            jsw.writeParams(params);
+            jsw.parenR();
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+
+        } finally {
+            jsw.endStmt();
         }
     }
 
     @Override
-    public void beginResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
-        // TODO Auto-generated method stub
+    protected void writePOST(Method method, Resource resource, Resources resources, Application application,
+            Stack<Resource> ancestors) throws IOException {
+    }
 
+    @Override
+    protected void writePUT(Method method, Resource resource, Resources resources, Application application,
+            Stack<Resource> ancestors) throws IOException {
+    }
+
+    @Override
+    protected void writeDELETE(Method method, Resource resource, Resources resources, Application application,
+            Stack<Resource> ancestors) throws IOException {
+    }
+
+    @Override
+    public void beginResource(final Resource resource, final Resources resources, final Application app,
+            final Stack<Resource> ancestors) {
     }
 
     @Override
@@ -148,8 +145,7 @@ public final class Level3ClientInterfaceWriter implements WadlHandler {
     }
 
     @Override
-    public void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors) {
-        // TODO Auto-generated method stub
-
+    public void endResource(final Resource resource, final Resources resources, final Application app,
+            final Stack<Resource> ancestors) {
     }
 }

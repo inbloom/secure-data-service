@@ -48,6 +48,7 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         return students;
     }
 
+    @SuppressWarnings("unused")
     private Student convertToStudent(final Map<String, Object> data) {
         final String id = (String) data.get("id");
         @SuppressWarnings("unchecked")
@@ -55,12 +56,15 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         final String sex = (String) data.get("sex");
         final Boolean economicDisadvantaged = (Boolean) data.get("economicDisadvantaged");
         final String studentUniqueStateId = (String) data.get("studentUniqueStateId");
-        return new Student(id, name, sex, economicDisadvantaged, studentUniqueStateId);
+        // FIXME:
+        throw new UnsupportedOperationException("TODO");
     }
 
+    @SuppressWarnings("unused")
     private Name convertToName(final Map<String, Object> data) {
         final String firstName = (String) data.get("firstName");
         final String lastSurname = (String) data.get("lastSurname");
-        return new Name(firstName, lastSurname);
+        // FIXME:
+        throw new UnsupportedOperationException("TODO");
     }
 }
