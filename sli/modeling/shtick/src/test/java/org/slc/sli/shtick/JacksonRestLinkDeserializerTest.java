@@ -17,8 +17,8 @@ public class JacksonRestLinkDeserializerTest {
 
     @Test
     public void testLinkDeserialize() throws IOException {
-        RestLink e = TestHelpers.createBasicLink();
-        RestLink r = mapper.readValue(TestHelpers.LINK_JSON, RestLink.class);
+        Link e = TestHelpers.createBasicLink();
+        Link r = mapper.readValue(TestHelpers.LINK_JSON, Link.class);
 
         assertNotNull(r);
         assertTrue(e.getLinkName().equals(r.getLinkName()));

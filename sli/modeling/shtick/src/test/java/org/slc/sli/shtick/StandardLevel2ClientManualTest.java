@@ -42,13 +42,13 @@ public class StandardLevel2ClientManualTest {
             assertNotNull(studentId);
 
             // GET
-            final List<RestEntity> student = getStudent(studentId);
+            final List<Entity> student = getStudent(studentId);
             assertNotNull(student);
             assertEquals(1, student.size());
 
             // PUT
             putStudent(studentId);
-            final List<RestEntity> updatedStudent = getStudent(studentId);
+            final List<Entity> updatedStudent = getStudent(studentId);
             assertEquals(1, updatedStudent.size());
             assertEquals("900000012", updatedStudent.get(0).getData().get("studentUniqueStateId"));
 
@@ -58,41 +58,41 @@ public class StandardLevel2ClientManualTest {
             // GET (Should fail)
             try {
                 getStudent(studentId);
-            } catch (final RestException e) {
+            } catch (final StatusCodeException e) {
                 assertEquals(404, e.getStatusCode());
             }
         } catch (final IOException e) {
             fail(e.getMessage());
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         } catch (final URISyntaxException e) {
             fail(e.getMessage());
         }
     }
 
-    private List<RestEntity> getStudent(final String studentId) throws IOException, RestException {
+    private List<Entity> getStudent(final String studentId) throws IOException, StatusCodeException {
         return client.getStudentsByStudentId(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), EMPTY_QUERY_ARGS);
     }
 
-    private void putStudent(final String studentId) throws IOException, RestException, URISyntaxException {
+    private void putStudent(final String studentId) throws IOException, StatusCodeException, URISyntaxException {
         final String studentData = readJsonFromFile("/testStudentUpdated.json");
-        final RestEntity student = deserialize(studentData);
+        final Entity student = deserialize(studentData);
         student.getData().put("id", studentId);
 
         client.putStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private String postStudent() throws IOException, RestException, URISyntaxException {
+    private String postStudent() throws IOException, StatusCodeException, URISyntaxException {
         final String studentData = readJsonFromFile("/testStudent.json");
-        final RestEntity student = deserialize(studentData);
+        final Entity student = deserialize(studentData);
 
         return client.postStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private RestEntity deserialize(final String studentData) throws IOException {
+    private Entity deserialize(final String studentData) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode studentJson = mapper.readValue(studentData, JsonNode.class);
-        return mapper.readValue(studentJson, RestEntity.class);
+        return mapper.readValue(studentJson, Entity.class);
     }
 
     private String readJsonFromFile(final String fileLoc) {

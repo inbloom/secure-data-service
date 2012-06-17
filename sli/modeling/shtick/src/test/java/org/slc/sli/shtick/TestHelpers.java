@@ -37,18 +37,18 @@ public class TestHelpers {
     /**
      * Helper functions.
      */
-    public static RestEntity createSimpleRestEntity() {
+    public static Entity createSimpleRestEntity() {
         final Map<String, Object> body = new HashMap<String, Object>();
         body.put("String", "StringValue");
         body.put("Integer", Integer.parseInt("1"));
         body.put("Long", Long.parseLong("2"));
         body.put("Double", Double.parseDouble("4.0"));
         body.put("Boolean", Boolean.FALSE);
-        return new RestEntity("GenericType", body);
+        return new Entity("GenericType", body);
     }
 
-    public static RestEntity createComplexRestEntity() {
-        RestEntity rval = null;
+    public static Entity createComplexRestEntity() {
+        Entity rval = null;
 
         Map<String, Object> body = new HashMap<String, Object>();
 
@@ -127,13 +127,13 @@ public class TestHelpers {
 
         body.put("staffIdentificationCode", staffCodes);
 
-        rval = new RestEntity("staff", body);
+        rval = new Entity("staff", body);
         return rval;
     }
 
-    public static RestLink createBasicLink() {
+    public static Link createBasicLink() {
         try {
-            return new RestLink("test", new URL("http://www.test.com"));
+            return new Link("test", new URL("http://www.test.com"));
         } catch (MalformedURLException e) {
             return null;
         }
@@ -179,7 +179,7 @@ public class TestHelpers {
     public static final JsonNode LINK_JSON_OBJECT = initJsonNode(LINK_JSON);
 
     @SuppressWarnings("unchecked")
-    public static boolean basicEntitiesEqual(RestEntity e, RestEntity r) {
+    public static boolean basicEntitiesEqual(Entity e, Entity r) {
 
         if (!e.getType().equals(r.getType())) {
             return false;

@@ -31,13 +31,13 @@ import org.codehaus.jackson.node.TextNode;
  *
  * Intentionally package-protected.
  */
-final class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
+final class JacksonRestEntitySerializer extends SerializerBase<Entity> {
 
     private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
     private final ObjectMapper mapper = new ObjectMapper();
 
     public JacksonRestEntitySerializer() {
-        super(RestEntity.class);
+        super(Entity.class);
     }
 
     private JsonNode serializeObject(final Object val) {
@@ -112,7 +112,7 @@ final class JacksonRestEntitySerializer extends SerializerBase<RestEntity> {
     }
 
     @Override
-    public void serialize(RestEntity entity, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+    public void serialize(Entity entity, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 
         jgen.writeStartObject();
 

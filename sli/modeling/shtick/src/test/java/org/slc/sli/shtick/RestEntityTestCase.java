@@ -6,7 +6,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link RestEntity}, treating it as an immutable POJO.
+ * Tests for {@link Entity}, treating it as an immutable POJO.
  */
 public final class RestEntityTestCase extends TestCase {
 
@@ -16,7 +16,7 @@ public final class RestEntityTestCase extends TestCase {
         data.put("someString", "Hello");
         data.put("id", "1234567890");
 
-        final RestEntity student = new RestEntity("student", data);
+        final Entity student = new Entity("student", data);
         assertEquals("student", student.getType());
         assertEquals(data, student.getData());
         assertEquals(Boolean.TRUE, student.getData().get("someBoolean"));
@@ -29,7 +29,7 @@ public final class RestEntityTestCase extends TestCase {
         data.put("someString", "Hello");
 
         try {
-            new RestEntity(null, data);
+            new Entity(null, data);
             fail("Expecting NPE for null type argument.");
         } catch (final NullPointerException e) {
             assertEquals("type", e.getMessage());
@@ -42,7 +42,7 @@ public final class RestEntityTestCase extends TestCase {
         data.put("someString", "Hello");
 
         try {
-            new RestEntity("student", null);
+            new Entity("student", null);
             fail("Expecting NPE for null data argument.");
         } catch (final NullPointerException e) {
             assertEquals("data", e.getMessage());
@@ -57,7 +57,7 @@ public final class RestEntityTestCase extends TestCase {
         data.put("someBoolean", Boolean.TRUE);
         data.put("someString", "Hello");
 
-        final RestEntity student = new RestEntity("student", data);
+        final Entity student = new Entity("student", data);
         assertFalse(data == student.getData());
     }
 
@@ -66,7 +66,7 @@ public final class RestEntityTestCase extends TestCase {
         data.put("someBoolean", Boolean.TRUE);
         data.put("someString", "Hello");
 
-        final RestEntity student = new RestEntity("student", data);
+        final Entity student = new Entity("student", data);
         final Map<String, Object> copyOfData = student.getData();
         try {
             copyOfData.put("someKey", "Hello");
@@ -80,7 +80,7 @@ public final class RestEntityTestCase extends TestCase {
         final Map<String, Object> data = new HashMap<String, Object>();
         data.put("s", "123");
 
-        final RestEntity student = new RestEntity("x", data);
+        final Entity student = new Entity("x", data);
         assertEquals("{type : x, data : {s=123}}", student.toString());
     }
 }

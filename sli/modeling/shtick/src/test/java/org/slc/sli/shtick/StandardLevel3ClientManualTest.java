@@ -48,7 +48,7 @@ public class StandardLevel3ClientManualTest {
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -72,7 +72,7 @@ public class StandardLevel3ClientManualTest {
             assertEquals("100000005", student.getStudentUniqueStateId());
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -82,14 +82,14 @@ public class StandardLevel3ClientManualTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<RestEntity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
+            final List<Entity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
-            for (final RestEntity student : students) {
+            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
+            for (final Entity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
                 assertEquals("student", student.getType());
@@ -107,7 +107,7 @@ public class StandardLevel3ClientManualTest {
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }

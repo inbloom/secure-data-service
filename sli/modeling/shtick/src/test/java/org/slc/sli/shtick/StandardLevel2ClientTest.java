@@ -26,14 +26,14 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<RestEntity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<Entity> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
-            for (final RestEntity student : students) {
+            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
+            for (final Entity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
                 assertEquals("student", student.getType());
@@ -51,7 +51,7 @@ public class StandardLevel2ClientTest {
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -62,12 +62,12 @@ public class StandardLevel2ClientTest {
         try {
             final List<String> studentIds = new LinkedList<String>();
             studentIds.add(TestingConstants.TEST_STUDENT_ID);
-            final List<RestEntity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+            final List<Entity> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
                     EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
-            final RestEntity student = students.get(0);
+            final Entity student = students.get(0);
             assertNotNull(student);
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
             assertEquals("student", student.getType());
@@ -78,7 +78,7 @@ public class StandardLevel2ClientTest {
             assertEquals("100000005", data.get("studentUniqueStateId"));
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -88,14 +88,14 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<RestEntity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
+            final List<Entity> students = client.getStudents(TestingConstants.BROKEN_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, RestEntity> studentMap = new HashMap<String, RestEntity>();
-            for (final RestEntity student : students) {
+            final Map<String, Entity> studentMap = new HashMap<String, Entity>();
+            for (final Entity student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final RestEntity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Entity student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
                 assertEquals("student", student.getType());
@@ -113,7 +113,7 @@ public class StandardLevel2ClientTest {
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -164,18 +164,18 @@ public class StandardLevel2ClientTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<RestEntity> studentSchoolAssociations = client.getStudentSchoolAssociations(
+            final List<Entity> studentSchoolAssociations = client.getStudentSchoolAssociations(
                     TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(studentSchoolAssociations);
-            final Map<String, RestEntity> associationMap = new HashMap<String, RestEntity>();
-            for (final RestEntity studentSchoolAssociation : studentSchoolAssociations) {
+            final Map<String, Entity> associationMap = new HashMap<String, Entity>();
+            for (final Entity studentSchoolAssociation : studentSchoolAssociations) {
                 @SuppressWarnings("unused")
                 final Map<String, Object> data = studentSchoolAssociation.getData();
                 associationMap.put(studentSchoolAssociation.getId(), studentSchoolAssociation);
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (final RestException e) {
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }

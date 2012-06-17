@@ -28,10 +28,10 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
 
     @Override
     public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
-            RestException {
-        final List<RestEntity> entities = inner.getStudents(token, queryArgs);
+            StatusCodeException {
+        final List<Entity> entities = inner.getStudents(token, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
-        for (final RestEntity entity : entities) {
+        for (final Entity entity : entities) {
             students.add(convertToStudent(entity.getData()));
         }
         return students;
@@ -39,10 +39,10 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
 
     @Override
     public List<Student> getStudentsById(final String token, final List<String> studentIds,
-            final Map<String, Object> queryArgs) throws IOException, RestException {
-        final List<RestEntity> entities = inner.getStudentsById(token, studentIds, queryArgs);
+            final Map<String, Object> queryArgs) throws IOException, StatusCodeException {
+        final List<Entity> entities = inner.getStudentsById(token, studentIds, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
-        for (final RestEntity entity : entities) {
+        for (final Entity entity : entities) {
             students.add(convertToStudent(entity.getData()));
         }
         return students;

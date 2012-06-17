@@ -25,10 +25,10 @@ import org.codehaus.jackson.node.ObjectNode;
 /**
  * Intentionally package-protected.
  */
-final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
+final class JacksonRestEntityDeserializer extends StdDeserializer<Entity> {
 
     public JacksonRestEntityDeserializer() {
-        super(RestEntity.class);
+        super(Entity.class);
     }
 
     private Map<String, Object> processObject(final ObjectNode obj) {
@@ -52,13 +52,13 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
 
             // convert TreeMap entries into Link instances.
             if (key.equals(Constants.LINKS_KEY)) {
-                rval = new LinkedList<RestLink>();
+                rval = new LinkedList<Link>();
 
                 String refName = (String) r2.get(Constants.LINK_RESOURCE_KEY);
                 String hrefString = (String) r2.get(Constants.LINK_HREF_KEY);
 
                 try {
-                    rval = new RestLink(refName, new URL(hrefString));
+                    rval = new Link(refName, new URL(hrefString));
 
                 } catch (MalformedURLException e) {
                     rval = r2;
@@ -105,7 +105,7 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
     }
 
     @Override
-    public RestEntity deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    public Entity deserialize(JsonParser parser, DeserializationContext context) throws IOException {
 
         ObjectMapper mapper = (ObjectMapper) parser.getCodec();
         ObjectNode root = (ObjectNode) mapper.readTree(parser);
@@ -119,9 +119,9 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<RestEntity> {
 
         Map<String, Object> data = processObject(root);
         if (entityType != null) {
-            return new RestEntity(entityType, data);
+            return new Entity(entityType, data);
         } else {
-            return new RestEntity("Generic", data);
+            return new Entity("Generic", data);
         }
     }
 }

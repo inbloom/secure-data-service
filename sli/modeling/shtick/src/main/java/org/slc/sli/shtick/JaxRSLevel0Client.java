@@ -39,7 +39,7 @@ public final class JaxRSLevel0Client implements Level0Client {
 
     @Override
     public String getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -59,7 +59,7 @@ public final class JaxRSLevel0Client implements Level0Client {
 
     @Override
     public void deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -78,7 +78,7 @@ public final class JaxRSLevel0Client implements Level0Client {
 
     @Override
     public URL postRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+            throws URISyntaxException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -106,7 +106,7 @@ public final class JaxRSLevel0Client implements Level0Client {
 
     @Override
     public void putRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+            throws URISyntaxException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -142,7 +142,7 @@ public final class JaxRSLevel0Client implements Level0Client {
         return builder;
     }
 
-    private RestResponse checkResponse(final Response response, final Response.Status expected) throws RestException {
+    private RestResponse checkResponse(final Response response, final Response.Status expected) throws StatusCodeException {
         if (response == null) {
             throw new NullPointerException("response");
         }
@@ -150,7 +150,7 @@ public final class JaxRSLevel0Client implements Level0Client {
             throw new NullPointerException("expected");
         }
         if (response.getStatus() != expected.getStatusCode()) {
-            throw new RestException(response.getStatus());
+            throw new StatusCodeException(response.getStatus());
         } else {
             return responseToRestResponse(response);
         }

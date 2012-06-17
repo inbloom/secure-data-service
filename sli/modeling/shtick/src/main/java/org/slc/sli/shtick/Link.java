@@ -13,7 +13,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonSerialize(using = JacksonRestLinkSerializer.class)
 @JsonDeserialize(using = JacksonRestLinkDeserializer.class)
-public class RestLink {
+public final class Link {
 
     private final String linkName;
     private final URL resource;
@@ -27,7 +27,7 @@ public class RestLink {
      *            Resource for the link.
      */
     @JsonCreator
-    public RestLink(final String linkName, final URL resource) {
+    public Link(final String linkName, final URL resource) {
         this.linkName = linkName;
         this.resource = resource;
     }

@@ -20,7 +20,7 @@ public class JacksonRestEntitySerializeTest {
     @Ignore("FIXME: Map ordering prevents comparison at string level.")
     public void testSerializeSimpleRestEntity() throws IOException {
 
-        final RestEntity e = TestHelpers.createSimpleRestEntity();
+        final Entity e = TestHelpers.createSimpleRestEntity();
 
         final String jsonString = mapper.writeValueAsString(e);
         assertNotNull(jsonString);
@@ -37,7 +37,7 @@ public class JacksonRestEntitySerializeTest {
     @Ignore("FIXME: Map ordering prevents comparison at string level.")
     public void testSerializeComplexRestEntity() throws IOException {
 
-        final RestEntity e = TestHelpers.createComplexRestEntity();
+        final Entity e = TestHelpers.createComplexRestEntity();
 
         final String jsonString = mapper.writeValueAsString(e);
         assertNotNull(jsonString);

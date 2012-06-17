@@ -32,7 +32,7 @@ public final class SpringLevel0Client implements Level0Client {
 
     @Override
     public String getRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -52,25 +52,25 @@ public final class SpringLevel0Client implements Level0Client {
                     String.class);
             return response.getBody();
         } catch (final HttpClientErrorException e) {
-            throw new RestException(e.getStatusCode().value());
+            throw new StatusCodeException(e.getStatusCode().value());
         }
     }
 
     @Override
     public void deleteRequest(final String token, final URL url, final String mediaType) throws URISyntaxException,
-            RestException {
+            StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public URL postRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+            throws URISyntaxException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
     public void putRequest(final String token, final String data, final URL url, final String mediaType)
-            throws URISyntaxException, RestException {
+            throws URISyntaxException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 }

@@ -41,14 +41,14 @@ public class JsonLevel1ClientTest {
             assertNotNull(loc);
 
             // GET
-            final List<RestEntity> getStudent = getStudent(loc);
+            final List<Entity> getStudent = getStudent(loc);
             assertNotNull(getStudent);
             assertEquals(1, getStudent.size());
             assertEquals("900000011", getStudent.get(0).getData().get(studentUniqueStateId));
 
             // PUT
             putStudent(loc);
-            final List<RestEntity> putStudent = getStudent(loc);
+            final List<Entity> putStudent = getStudent(loc);
             assertNotNull(putStudent);
             assertEquals(1, putStudent.size());
             assertEquals("900000012", putStudent.get(0).getData().get(studentUniqueStateId));
@@ -60,13 +60,13 @@ public class JsonLevel1ClientTest {
             try {
                 getStudent(loc);
                 fail("An exception was not thrown for get non-existent student!");
-            } catch (RestException e) {
+            } catch (StatusCodeException e) {
                 assertEquals(404, e.getStatusCode());
             }
 
         } catch (URISyntaxException e) {
             fail(e.getMessage());
-        } catch (RestException e) {
+        } catch (StatusCodeException e) {
             e.printStackTrace();
             fail("Status code: " + e.getStatusCode() + "\n" + e.getMessage());
         } catch (MalformedURLException e) {
@@ -76,25 +76,25 @@ public class JsonLevel1ClientTest {
         }
     }
 
-    private URL postStudent() throws URISyntaxException, IOException, RestException {
+    private URL postStudent() throws URISyntaxException, IOException, StatusCodeException {
         // final String readJsonFromFile = readJsonFromFile("/testStudent.json");
         final Map<String, Object> data = new HashMap<String, Object>();
-        final RestEntity student = new RestEntity("student", data);
+        final Entity student = new Entity("student", data);
         return level1Client.postRequest(TestingConstants.ROGERS_TOKEN, student, new URL(URL_STUDENT_COLLECTION));
     }
 
-    private void deleteStudent(URL loc) throws IOException, RestException, URISyntaxException {
+    private void deleteStudent(URL loc) throws IOException, StatusCodeException, URISyntaxException {
         level1Client.deleteRequest(TestingConstants.ROGERS_TOKEN, loc);
     }
 
-    private void putStudent(URL loc) throws IOException, RestException, URISyntaxException {
+    private void putStudent(URL loc) throws IOException, StatusCodeException, URISyntaxException {
         final Map<String, Object> data = new HashMap<String, Object>();
-        final RestEntity student = new RestEntity("student", data);
+        final Entity student = new Entity("student", data);
         // String readJsonFromFile = readJsonFromFile("/testStudentUpdated.json");
         level1Client.putRequest(TestingConstants.ROGERS_TOKEN, student, loc);
     }
 
-    private List<RestEntity> getStudent(URL url) throws IOException, RestException, URISyntaxException {
+    private List<Entity> getStudent(URL url) throws IOException, StatusCodeException, URISyntaxException {
         return level1Client.getRequest(TestingConstants.ROGERS_TOKEN, url);
     }
 

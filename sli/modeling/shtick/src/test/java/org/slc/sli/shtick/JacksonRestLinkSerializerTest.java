@@ -19,7 +19,7 @@ public class JacksonRestLinkSerializerTest {
     @Test
     public void testLinkSerialize() throws IOException {
 
-        final RestLink e = TestHelpers.createBasicLink();
+        final Link e = TestHelpers.createBasicLink();
 
         final String jsonString = mapper.writeValueAsString(e);
 

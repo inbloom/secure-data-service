@@ -5,13 +5,15 @@ import java.util.Map;
 
 /**
  * @author jstokes
+ *
+ *         Intentionally package-protected.
  */
-public final class RestResponse {
+final class RestResponse {
     private String body;
     private int statusCode;
     private Map<String, List<String>> headers;
 
-    RestResponse(String body, int statusCode, Map<String, List<String>> headers) {
+    RestResponse(final String body, final int statusCode, final Map<String, List<String>> headers) {
         this.body = body;
         this.statusCode = statusCode;
         this.headers = headers;
@@ -36,7 +38,7 @@ public final class RestResponse {
 
     public String getHeader(String key) {
         if (this.headers.containsKey(key)) {
-            //TODO : handle list case
+            // TODO : handle list case
             if (this.headers.get(key).size() >= 1) {
                 return this.headers.get(key).get(0);
             }

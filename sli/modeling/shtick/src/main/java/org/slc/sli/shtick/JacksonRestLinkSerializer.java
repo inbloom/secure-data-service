@@ -15,16 +15,16 @@ import org.codehaus.jackson.map.ser.std.StdKeySerializer;
  *
  * Intentionally package-protected.
  */
-final class JacksonRestLinkSerializer extends SerializerBase<RestLink> {
+final class JacksonRestLinkSerializer extends SerializerBase<Link> {
 
     public JacksonRestLinkSerializer() {
-        super(RestLink.class);
+        super(Link.class);
     }
 
     private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
 
     @Override
-    public void serialize(final RestLink link, final JsonGenerator jgen, final SerializerProvider provider)
+    public void serialize(final Link link, final JsonGenerator jgen, final SerializerProvider provider)
             throws IOException {
 
         if (link == null) {

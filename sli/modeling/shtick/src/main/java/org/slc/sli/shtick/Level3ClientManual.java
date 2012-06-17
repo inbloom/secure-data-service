@@ -8,9 +8,9 @@ import org.slc.sli.shtick.pojo.Student;
 
 public interface Level3ClientManual {
 
-    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, RestException;
+    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, StatusCodeException;
 
     public List<Student> getStudentsById(String token, List<String> studentIds, Map<String, Object> queryArgs)
-            throws IOException, RestException;
+            throws IOException, StatusCodeException;
 
 }

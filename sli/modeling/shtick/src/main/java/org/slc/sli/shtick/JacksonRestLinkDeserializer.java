@@ -15,20 +15,20 @@ import org.codehaus.jackson.node.ObjectNode;
  *
  * Intentionally package-protected.
  */
-final class JacksonRestLinkDeserializer extends StdDeserializer<RestLink> {
+final class JacksonRestLinkDeserializer extends StdDeserializer<Link> {
 
     JacksonRestLinkDeserializer() {
-        super(RestLink.class);
+        super(Link.class);
     }
 
     @Override
-    public RestLink deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
+    public Link deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
 
         final ObjectMapper mapper = (ObjectMapper) parser.getCodec();
         final ObjectNode root = (ObjectNode) mapper.readTree(parser);
 
         final JsonNode relNode = root.get(Constants.LINK_RESOURCE_KEY);
         final JsonNode hrefNode = root.get(Constants.LINK_HREF_KEY);
-        return new RestLink(relNode.asText(), new URL(hrefNode.asText()));
+        return new Link(relNode.asText(), new URL(hrefNode.asText()));
     }
 }

@@ -31,30 +31,30 @@ public final class StAXLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<RestEntity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
-            RestException {
+    public List<Entity> getRequest(final String token, final URL url) throws URISyntaxException, IOException,
+            StatusCodeException {
         final String body = inner.getRequest(token, url, "application/xml");
         return deserialize(body);
     }
 
     @Override
-    public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, RestException {
+    public void deleteRequest(final String token, final URL url) throws URISyntaxException, IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public URL postRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException,
-            IOException, RestException {
+    public URL postRequest(final String token, final Entity data, final URL url) throws URISyntaxException,
+            IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
     @Override
-    public void putRequest(final String token, final RestEntity data, final URL url) throws URISyntaxException,
-            IOException, RestException {
+    public void putRequest(final String token, final Entity data, final URL url) throws URISyntaxException,
+            IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
 
-    private List<RestEntity> deserialize(final String body) throws IOException {
+    private List<Entity> deserialize(final String body) throws IOException {
         final StringReader sw = new StringReader(body);
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
@@ -69,9 +69,9 @@ public final class StAXLevel1Client implements Level1Client {
         }
     }
 
-    private static final List<RestEntity> readDocument(final XMLStreamReader reader) throws XMLStreamException {
+    private static final List<Entity> readDocument(final XMLStreamReader reader) throws XMLStreamException {
         if (XMLStreamConstants.START_DOCUMENT == reader.getEventType()) {
-            final List<RestEntity> entities = new ArrayList<RestEntity>();
+            final List<Entity> entities = new ArrayList<Entity>();
             while (reader.hasNext()) {
                 reader.next();
                 switch (reader.getEventType()) {
@@ -93,9 +93,9 @@ public final class StAXLevel1Client implements Level1Client {
         }
     }
 
-    private static final List<RestEntity> readDocumentElement(final XMLStreamReader reader) throws XMLStreamException {
+    private static final List<Entity> readDocumentElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
-        final List<RestEntity> entities = new ArrayList<RestEntity>();
+        final List<Entity> entities = new ArrayList<Entity>();
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -122,7 +122,7 @@ public final class StAXLevel1Client implements Level1Client {
         throw new AssertionError();
     }
 
-    private static final RestEntity readEntity(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Entity readEntity(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
         final Map<String, Object> data = new HashMap<String, Object>();
         while (reader.hasNext()) {
@@ -137,7 +137,7 @@ public final class StAXLevel1Client implements Level1Client {
             case XMLStreamConstants.END_ELEMENT: {
                 if (elementName.equals(reader.getName())) {
                     // Our best guess for the type is the local-name of the element.
-                    return new RestEntity(elementName.getLocalPart(), data);
+                    return new Entity(elementName.getLocalPart(), data);
                 } else {
                     throw new AssertionError(reader.getName());
                 }

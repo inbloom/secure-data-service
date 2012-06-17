@@ -28,7 +28,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public List<RestEntity> getRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
+    public List<Entity> getRequest(String token, URL url) throws URISyntaxException, IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -41,7 +41,7 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, RestException {
+    public void deleteRequest(String token, URL url) throws URISyntaxException, IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -53,8 +53,8 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public URL postRequest(String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
-            RestException {
+    public URL postRequest(String token, final Entity data, final URL url) throws URISyntaxException, IOException,
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -72,8 +72,8 @@ public abstract class AbstractLevel1Client implements Level1Client {
     }
 
     @Override
-    public void putRequest(String token, final RestEntity data, final URL url) throws URISyntaxException, IOException,
-            RestException {
+    public void putRequest(String token, final Entity data, final URL url) throws URISyntaxException, IOException,
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -91,15 +91,15 @@ public abstract class AbstractLevel1Client implements Level1Client {
 
     }
 
-    private List<RestEntity> deserialize(final String body) throws IOException {
+    private List<Entity> deserialize(final String body) throws IOException {
         try {
             final JsonNode element = mapper.readValue(body, JsonNode.class);
             if (element instanceof ArrayNode) {
-                return mapper.readValue(element, new TypeReference<List<RestEntity>>() {
+                return mapper.readValue(element, new TypeReference<List<Entity>>() {
                 });
             } else if (element instanceof ObjectNode) {
-                List<RestEntity> list = new ArrayList<RestEntity>();
-                list.add(mapper.readValue(element, RestEntity.class));
+                List<Entity> list = new ArrayList<Entity>();
+                list.add(mapper.readValue(element, Entity.class));
                 return list;
             }
         } catch (final JsonParseException e) {

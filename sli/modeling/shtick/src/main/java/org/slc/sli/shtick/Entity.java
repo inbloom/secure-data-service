@@ -10,7 +10,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonSerialize(using = JacksonRestEntitySerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
 @JsonDeserialize(using = JacksonRestEntityDeserializer.class)
-public final class RestEntity {
+public final class Entity {
 
     private final String type;
 
@@ -24,7 +24,7 @@ public final class RestEntity {
      * @param data
      *            Map representing the entity's data.
      */
-    public RestEntity(final String type, final Map<String, Object> data) {
+    public Entity(final String type, final Map<String, Object> data) {
         if (type == null) {
             throw new NullPointerException("type");
         }
@@ -64,10 +64,10 @@ public final class RestEntity {
     }
 
     @SuppressWarnings("unchecked")
-    public List<RestLink> getLinks() {
+    public List<Link> getLinks() {
 
         if (data.containsKey(Constants.LINKS_KEY)) {
-            return (List<RestLink>) data.get(Constants.LINKS_KEY);
+            return (List<Link>) data.get(Constants.LINKS_KEY);
         }
         return Collections.emptyList();
     }

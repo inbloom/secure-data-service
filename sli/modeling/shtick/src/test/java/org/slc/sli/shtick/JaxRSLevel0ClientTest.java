@@ -3,6 +3,7 @@ package org.slc.sli.shtick;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -39,9 +40,11 @@ public class JaxRSLevel0ClientTest {
             assertNotNull(getResponse);
         } catch (MalformedURLException e) {
             fail(e.getMessage());
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             fail(e.getMessage());
-        } catch (RestException e) {
+        } catch (final IOException e) {
+            fail(e.getMessage());
+        } catch (final StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -62,7 +65,9 @@ public class JaxRSLevel0ClientTest {
             fail(e.getMessage());
         } catch (InvocationException e) {
             fail(e.getMessage());
-        } catch (RestException e) {
+        } catch (final IOException e) {
+            fail(e.getMessage());
+        } catch (StatusCodeException e) {
             fail(e.getMessage());
         }
     }
@@ -84,7 +89,9 @@ public class JaxRSLevel0ClientTest {
             fail(e.getMessage());
         } catch (InvocationException e) {
             fail(e.getMessage());
-        } catch (RestException e) {
+        } catch (final IOException e) {
+            fail(e.getMessage());
+        } catch (StatusCodeException e) {
             fail(e.getMessage());
         }
     }

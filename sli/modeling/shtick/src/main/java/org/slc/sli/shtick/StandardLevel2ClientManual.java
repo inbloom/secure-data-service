@@ -30,8 +30,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<RestEntity> getStudentsByStudentId(final String token, final List<String> studentIds,
-            Map<String, Object> queryArgs) throws IOException, RestException {
+    public List<Entity> getStudentsByStudentId(final String token, final List<String> studentIds,
+            Map<String, Object> queryArgs) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -49,8 +49,8 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public List<RestEntity> getStudents(final String token, Map<String, Object> queryArgs) throws IOException,
-            RestException {
+    public List<Entity> getStudents(final String token, Map<String, Object> queryArgs) throws IOException,
+            StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -65,7 +65,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void deleteStudentById(final String token, final String entityId) throws IOException, RestException {
+    public void deleteStudentById(final String token, final String entityId) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -80,7 +80,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public String postStudent(final String token, final RestEntity entity) throws IOException, RestException {
+    public String postStudent(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -99,7 +99,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void putStudent(final String token, final RestEntity entity) throws IOException, RestException {
+    public void putStudent(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }

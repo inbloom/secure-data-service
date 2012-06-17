@@ -18,8 +18,8 @@ public class JacksonRestEntityDeserializeTest {
     @Test
     public void testDeserializeSimpleRestEntity() throws IOException {
 
-        RestEntity e = TestHelpers.createSimpleRestEntity();
-        RestEntity r = mapper.readValue(TestHelpers.SIMPLE_JSON, RestEntity.class);
+        Entity e = TestHelpers.createSimpleRestEntity();
+        Entity r = mapper.readValue(TestHelpers.SIMPLE_JSON, Entity.class);
 
         assertNotNull(r);
         assertTrue(TestHelpers.basicEntitiesEqual(e, r));
@@ -28,8 +28,8 @@ public class JacksonRestEntityDeserializeTest {
     @Test
     public void testDeserializeRestEntityWithMetadata() throws IOException {
 
-        RestEntity e = TestHelpers.createSimpleRestEntity();
-        RestEntity r = mapper.readValue(TestHelpers.SIMPLE_METADATA_JSON, RestEntity.class);
+        Entity e = TestHelpers.createSimpleRestEntity();
+        Entity r = mapper.readValue(TestHelpers.SIMPLE_METADATA_JSON, Entity.class);
 
         assertNotNull(r);
         assertTrue(TestHelpers.basicEntitiesEqual(e, r));
@@ -38,8 +38,8 @@ public class JacksonRestEntityDeserializeTest {
     @Test
     public void testDeserializeComplexRestEntity() throws IOException {
 
-        RestEntity e = TestHelpers.createComplexRestEntity();
-        RestEntity r = mapper.readValue(TestHelpers.COMPLEX_JSON, RestEntity.class);
+        Entity e = TestHelpers.createComplexRestEntity();
+        Entity r = mapper.readValue(TestHelpers.COMPLEX_JSON, Entity.class);
 
         assertNotNull(r);
         assertTrue(TestHelpers.basicEntitiesEqual(e, r));
