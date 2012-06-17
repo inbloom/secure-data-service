@@ -3,12 +3,15 @@ package org.slc.sli.modeling.jgen;
 public final class JavaParam {
 
     private final String name;
-    private final String type;
+    private final JavaType type;
     private final boolean isFinal;
 
-    public JavaParam(final String name, final String type, final boolean isFinal) {
+    public JavaParam(final String name, final JavaType type, final boolean isFinal) {
         if (name == null) {
             throw new NullPointerException("name");
+        }
+        if (type == null) {
+            throw new NullPointerException("type");
         }
         this.name = name;
         this.type = type;
@@ -19,7 +22,7 @@ public final class JavaParam {
         return name;
     }
 
-    public String getType() {
+    public JavaType getType() {
         return type;
     }
 

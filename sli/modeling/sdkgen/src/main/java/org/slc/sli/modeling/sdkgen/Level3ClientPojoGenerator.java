@@ -8,21 +8,28 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.modeling.jgen.ClassTypeHelper;
+import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
 import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
+import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
 import org.slc.sli.modeling.jgen.JavadocHelper;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
+import org.slc.sli.modeling.uml.Feature;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
@@ -31,7 +38,10 @@ import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
-public final class Level3PojoGenerator {
+public final class Level3ClientPojoGenerator {
+
+    private static final JavaType TYPE_UNDERLYING = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
+    private static final JavaParam FIELD_UNDERLYING = new JavaParam("data", TYPE_UNDERLYING, true);
 
     public static void main(final String[] args) {
         try {
@@ -51,7 +61,8 @@ public final class Level3PojoGenerator {
             final List<String> importNames = new ArrayList<String>();
             importNames.add("java.math.*");
             importNames.add("java.util.*");
-            ClassTypeHelper.writeClassType(targetPkgName, importNames, classType, model, file, config);
+            importNames.add("org.slc.sli.shtick.Entity");
+            writeClassType(targetPkgName, importNames, classType, model, file, config);
         }
         for (final EnumType enumType : model.getEnumTypes()) {
             final String fileName = enumType.getName().concat(".java");
@@ -77,7 +88,7 @@ public final class Level3PojoGenerator {
             final List<String> importNames = new ArrayList<String>();
             importNames.add("java.math.*");
             importNames.add("java.util.*");
-            ClassTypeHelper.writeClassType(targetPkgName, importNames, classType, model, file, config);
+            writeClassType(targetPkgName, importNames, classType, model, file, config);
         }
         for (final EnumType enumType : model.getEnumTypes()) {
             final String fileName = enumType.getName().concat(".java");
@@ -223,7 +234,7 @@ public final class Level3PojoGenerator {
                         if (index == size) {
                             jsw.endStmt();
                         } else {
-                            jsw.writeComma();
+                            jsw.comma();
                         }
                     }
                     jsw.writeAttribute("name", "String");
@@ -268,5 +279,223 @@ public final class Level3PojoGenerator {
             map.put(literal.getName(), literal);
         }
         return map.values();
+    }
+
+    private static final void writeClassType(final String packageName, final List<String> importNames,
+            final ClassType classType, final ModelIndex model, final File file, final JavaGenConfig config) {
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
+            try {
+                writeClassType(packageName, importNames, classType, model, outstream, config);
+            } finally {
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final void writeClassType(final String packageName, final List<String> importNames,
+            final ClassType classType, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
+        final JavaParam PARAM_ENTITY = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
+
+        final JavaOutputFactory jof = JavaOutputFactory.newInstance();
+        try {
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
+            try {
+                jsw.writePackage(packageName);
+                for (final String importName : importNames) {
+                    jsw.writeImport(importName);
+                }
+                JavadocHelper.writeJavadoc(classType, model, jsw);
+                jsw.beginClass(classType.getName());
+                try {
+                    // Fields
+                    jsw.writeAttribute(FIELD_UNDERLYING);
+
+                    // Initializer
+                    jsw.write("public");
+                    jsw.space();
+                    jsw.write(classType.getName());
+                    jsw.parenL();
+                    jsw.writeParams(PARAM_ENTITY);
+                    jsw.parenR();
+                    jsw.beginBlock();
+                    jsw.beginStmt();
+                    jsw.write("this.").write(FIELD_UNDERLYING.getName()).write("=").write(PARAM_ENTITY.getName());
+                    jsw.endStmt();
+                    jsw.endBlock();
+
+                    // FIXME: Not very happy with idea that getId might conflict.
+                    jsw.write("public").space().writeType(JavaType.JT_STRING).space().write("getId").parenL().parenR();
+                    jsw.beginBlock();
+                    jsw.beginStmt();
+                    jsw.write("return");
+                    jsw.space();
+                    jsw.castAs(JavaType.JT_STRING);
+                    jsw.write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte().write("id").dblQte().parenR();
+                    jsw.endStmt();
+                    jsw.endBlock();
+
+                    for (final JavaFeature feature : getJavaFeatures(classType, model)) {
+                        if (feature.isAttribute()) {
+                            final String name = feature.getName(config);
+                            final JavaType type = feature.getAttributeType(config);
+                            JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
+                            writeAccessor(type, name, jsw);
+                        } else if (feature.isNavigable()) {
+                            final String name = feature.getName(config);
+                            final JavaType type = feature.getNavigableType();
+                            JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
+                            writeAccessor(type, name, jsw);
+                        }
+                    }
+                } finally {
+                    jsw.endClass();
+                }
+            } finally {
+                jsw.flush();
+            }
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void writeAccessor(final JavaType type, final String name, final JavaStreamWriter jsw)
+            throws IOException {
+        jsw.write("public");
+        jsw.space();
+        jsw.writeType(type);
+        jsw.space();
+        jsw.write("get");
+        jsw.write(titleCase(name));
+        jsw.parenL();
+        jsw.parenR();
+        jsw.beginBlock();
+        if (JavaType.JT_STRING.equals(type)) {
+            jsw.beginStmt();
+            jsw.write("return ").castAs(JavaType.JT_STRING).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
+                    .dblQte().write(name).dblQte().parenR();
+            jsw.endStmt();
+        } else if (JavaType.JT_BOOLEAN.equals(type)) {
+            jsw.beginStmt();
+            jsw.write("return ").castAs(JavaType.JT_BOOLEAN).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
+                    .dblQte().write(name).dblQte().parenR();
+            jsw.endStmt();
+        } else if (JavaType.JT_DOUBLE.equals(type)) {
+            jsw.beginStmt();
+            jsw.write("return ").castAs(JavaType.JT_DOUBLE).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
+                    .dblQte().write(name).dblQte().parenR();
+            jsw.endStmt();
+        } else if (JavaType.JT_INTEGER.equals(type)) {
+            jsw.beginStmt();
+            jsw.write("return ").castAs(JavaType.JT_INTEGER).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
+                    .dblQte().write(name).dblQte().parenR();
+            jsw.endStmt();
+        } else if (type.isEnum()) {
+            if (type.isList()) {
+                jsw.beginStmt().write("final ").writeType(type).write(" list = new ArrayList<")
+                        .write(type.getSimpleName()).write(">()").endStmt();
+                jsw.beginStmt().write("return list").endStmt();
+            } else {
+                jsw.beginStmt();
+                jsw.write("return ").write(type.getSimpleName()).write(".valueOfName").parenL()
+                        .castAs(JavaType.JT_STRING).write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte()
+                        .write(name).dblQte().parenR().parenR();
+                jsw.endStmt();
+            }
+        } else if (type.isComplex()) {
+            if (type.isList()) {
+                System.out.println(type);
+                jsw.writeReturn("null");
+            } else {
+                jsw.beginStmt();
+                try {
+                    jsw.write("return");
+                    jsw.space();
+                    jsw.write("new");
+                    jsw.space();
+                    jsw.writeType(type);
+                    jsw.parenL();
+                    try {
+                        jsw.castAs(TYPE_UNDERLYING);
+                        jsw.write(FIELD_UNDERLYING.getName());
+                        jsw.write(".get");
+                        jsw.parenL();
+                        try {
+                            jsw.dblQte().write(name).dblQte();
+                        } finally {
+                            jsw.parenR();
+                        }
+                    } finally {
+                        jsw.parenR();
+                    }
+                } finally {
+                    jsw.endStmt();
+                }
+            }
+        } else {
+            if (type.isList()) {
+                System.out.println(type);
+                jsw.writeReturn("null");
+            } else {
+                jsw.beginStmt();
+                try {
+                    jsw.write("return");
+                    jsw.space();
+                    jsw.write("new");
+                    jsw.space();
+                    jsw.writeType(type);
+                    jsw.parenL();
+                    try {
+                        jsw.castAs(JavaType.JT_STRING);
+                        jsw.write(FIELD_UNDERLYING.getName());
+                        jsw.write(".get");
+                        jsw.parenL();
+                        try {
+                            jsw.dblQte().write(name).dblQte();
+                        } finally {
+                            jsw.parenR();
+                        }
+                    } finally {
+                        jsw.parenR();
+                    }
+                } finally {
+                    jsw.endStmt();
+                }
+            }
+        }
+        jsw.endBlock();
+    }
+
+    private static final String titleCase(final String text) {
+        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
+    }
+
+    public static final List<JavaFeature> getJavaFeatures(final ClassType classType, final ModelIndex model) {
+        final List<JavaFeature> features = new LinkedList<JavaFeature>();
+        for (final Attribute attribute : classType.getAttributes()) {
+            features.add(new JavaFeature(attribute, model));
+        }
+        for (final AssociationEnd associationEnd : model.getAssociationEnds(classType.getId())) {
+            features.add(new JavaFeature(associationEnd, model));
+        }
+        return Collections.unmodifiableList(features);
+    }
+
+    @SuppressWarnings("unused")
+    private static final List<Feature> getFeatures(final ClassType classType, final ModelIndex model) {
+        final List<Feature> features = new LinkedList<Feature>();
+        for (final Attribute attribute : classType.getAttributes()) {
+            features.add(attribute);
+        }
+        for (final AssociationEnd associationEnd : model.getAssociationEnds(classType.getId())) {
+            features.add(associationEnd);
+        }
+        return Collections.unmodifiableList(features);
     }
 }

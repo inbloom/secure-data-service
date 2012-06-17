@@ -91,6 +91,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
                         final QName elementName = representation.getElement();
                         final SdkGenElement element = grammars.getElement(elementName);
                         if (element != null) {
+                            @SuppressWarnings("unused")
                             final SdkGenType type = element.getType();
                             // System.out.println(elementName.getLocalPart() + " : " + type);
                         } else {
@@ -102,7 +103,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
                 } finally {
                 }
             }
-            jsw.write("List<" + GENERIC_ENTITY + "> " + method.getId());
+            jsw.writeType(GENERIC_ENTITY).space().write(method.getId());
             jsw.parenL();
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);

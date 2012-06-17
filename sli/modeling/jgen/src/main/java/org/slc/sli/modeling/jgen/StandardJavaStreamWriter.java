@@ -70,6 +70,24 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void beginCatch(final JavaType type, final String variableName) throws IOException {
+        if (null == type) {
+            throw new NullPointerException("type");
+        }
+        if (null == variableName) {
+            throw new NullPointerException("variableName");
+        }
+        writer.write("catch");
+        parenL();
+        try {
+            write("final").space().writeType(type).space().write(variableName);
+        } finally {
+            parenR();
+            beginBlock();
+        }
+    }
+
+    @Override
     public void beginClass(final String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("name");
@@ -82,24 +100,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(name);
         beginBlock();
-    }
-
-    @Override
-    public void beginCatch(final JavaType type, final String variableName) throws IOException {
-        if (null == type) {
-            throw new NullPointerException("type");
-        }
-        if (null == variableName) {
-            throw new NullPointerException("variableName");
-        }
-        writer.write("catch");
-        parenL();
-        try {
-            write("final").write(SPACE).write(type.getSimpleName()).write(SPACE).write(variableName);
-        } finally {
-            parenR();
-            beginBlock();
-        }
     }
 
     @Override
@@ -178,8 +178,23 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public JavaStreamWriter castAs(final JavaType type) throws IOException {
+        if (type == null) {
+            throw new NullPointerException("type");
+        }
+        parenL().writeType(type).parenR();
+        return this;
+    }
+
+    @Override
     public void close() throws IOException {
         writer.close();
+    }
+
+    @Override
+    public JavaStreamWriter comma() throws IOException {
+        writer.write(COMMA);
+        return this;
     }
 
     @Override
@@ -195,13 +210,13 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
-    public void endCatch() throws IOException {
-        endBlock();
+    public void endBlock() throws IOException {
+        writer.write("}");
     }
 
     @Override
-    public void endBlock() throws IOException {
-        writer.write("}");
+    public void endCatch() throws IOException {
+        endBlock();
     }
 
     @Override
@@ -225,13 +240,21 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
-    public void parenL() throws IOException {
+    public JavaStreamWriter parenL() throws IOException {
         writer.write(LPAREN);
+        return this;
     }
 
     @Override
-    public void parenR() throws IOException {
+    public JavaStreamWriter parenR() throws IOException {
         writer.write(RPAREN);
+        return this;
+    }
+
+    @Override
+    public JavaStreamWriter space() throws IOException {
+        writer.write(SPACE);
+        return this;
     }
 
     @Override
@@ -259,6 +282,21 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void writeAttribute(final JavaParam param) throws IOException {
+        if (param == null) {
+            throw new NullPointerException("param");
+        }
+        writer.write("private");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writeType(param.getType());
+        writer.write(SPACE);
+        writer.write(param.getName());
+        writer.write(SEMICOLON);
+    }
+
+    @Override
     public void writeAttribute(final String name, final String typeName) throws IOException {
         writer.write("private");
         writer.write(SPACE);
@@ -268,26 +306,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(camelCase(name));
         writer.write(SEMICOLON);
-    }
-
-    @Override
-    public void writeAttribute(final JavaParam param) throws IOException {
-        if (param == null) {
-            throw new NullPointerException("param");
-        }
-        writer.write("private");
-        writer.write(SPACE);
-        writer.write("final");
-        writer.write(SPACE);
-        writer.write(param.getType());
-        writer.write(SPACE);
-        writer.write(param.getName());
-        writer.write(SEMICOLON);
-    }
-
-    @Override
-    public void writeComma() throws IOException {
-        writer.write(COMMA);
     }
 
     @Override
@@ -393,26 +411,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
-    public void writeParams(final List<JavaParam> params) throws IOException {
-        boolean first = true;
-        for (final JavaParam param : params) {
-            if (first) {
-                first = false;
-            } else {
-                writer.write(COMMA);
-                writer.write(SPACE);
-            }
-            if (!insideInterface && param.isFinal()) {
-                writer.write("final");
-                writer.write(SPACE);
-            }
-            writer.write(param.getType());
-            writer.write(SPACE);
-            writer.write(param.getName());
-        }
-    }
-
-    @Override
     public void writeParams(final JavaParam... params) throws IOException {
         boolean first = true;
         for (final JavaParam param : params) {
@@ -426,10 +424,40 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
                 writer.write("final");
                 writer.write(SPACE);
             }
-            writer.write(param.getType());
+            writeType(param.getType());
             writer.write(SPACE);
             writer.write(param.getName());
         }
+    }
+
+    @Override
+    public void writeParams(final List<JavaParam> params) throws IOException {
+        boolean first = true;
+        for (final JavaParam param : params) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            if (!insideInterface && param.isFinal()) {
+                writer.write("final");
+                writer.write(SPACE);
+            }
+            writeType(param.getType());
+            writer.write(SPACE);
+            writer.write(param.getName());
+        }
+    }
+
+    @Override
+    public void writeReturn(final String text) throws IOException {
+        if (text == null) {
+            throw new NullPointerException("text");
+        }
+        beginStmt();
+        write("return ").write(text);
+        endStmt();
     }
 
     @Override
@@ -443,7 +471,19 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
                 writer.write(COMMA);
                 writer.write(SPACE);
             }
-            writer.write(exception.getSimpleName());
+            writeType(exception);
         }
+    }
+
+    @Override
+    public JavaStreamWriter writeType(final JavaType type) throws IOException {
+        if (type.isList()) {
+            write("List<").write(type.getSimpleName()).write(">");
+        } else if (type.isMap()) {
+            write("Map<").write(type.getSimpleName()).write(",Object>");
+        } else {
+            write(type.getSimpleName());
+        }
+        return this;
     }
 }

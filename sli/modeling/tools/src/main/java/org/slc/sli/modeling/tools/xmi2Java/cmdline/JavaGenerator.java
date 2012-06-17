@@ -191,7 +191,7 @@ public final class JavaGenerator {
                         if (index == size) {
                             jsw.endStmt();
                         } else {
-                            jsw.writeComma();
+                            jsw.comma();
                         }
                     }
                     jsw.writeAttribute("name", "String");

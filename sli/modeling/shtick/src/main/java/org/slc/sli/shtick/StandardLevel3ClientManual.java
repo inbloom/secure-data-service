@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.Student;
 
 public final class StandardLevel3ClientManual implements Level3ClientManual {
@@ -32,7 +31,7 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         final List<Entity> entities = inner.getStudents(token, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
         for (final Entity entity : entities) {
-            students.add(convertToStudent(entity.getData()));
+            students.add(new Student(entity.getData()));
         }
         return students;
     }
@@ -43,28 +42,8 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         final List<Entity> entities = inner.getStudentsById(token, studentIds, queryArgs);
         final List<Student> students = new ArrayList<Student>(entities.size());
         for (final Entity entity : entities) {
-            students.add(convertToStudent(entity.getData()));
+            students.add(new Student(entity.getData()));
         }
         return students;
-    }
-
-    @SuppressWarnings("unused")
-    private Student convertToStudent(final Map<String, Object> data) {
-        final String id = (String) data.get("id");
-        @SuppressWarnings("unchecked")
-        final Name name = convertToName((Map<String, Object>) data.get("name"));
-        final String sex = (String) data.get("sex");
-        final Boolean economicDisadvantaged = (Boolean) data.get("economicDisadvantaged");
-        final String studentUniqueStateId = (String) data.get("studentUniqueStateId");
-        // FIXME:
-        throw new UnsupportedOperationException("TODO");
-    }
-
-    @SuppressWarnings("unused")
-    private Name convertToName(final Map<String, Object> data) {
-        final String firstName = (String) data.get("firstName");
-        final String lastSurname = (String) data.get("lastSurname");
-        // FIXME:
-        throw new UnsupportedOperationException("TODO");
     }
 }

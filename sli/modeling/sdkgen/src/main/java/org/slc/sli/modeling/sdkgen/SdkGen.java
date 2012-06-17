@@ -122,7 +122,7 @@ public final class SdkGen {
                     if (writeLevel3) {
                         // POJOs
                         final File dir = new File(outFolder, "/pojo");
-                        Level3PojoGenerator.doModel(model, dir, packageName.concat(".pojo"), config);
+                        Level3ClientPojoGenerator.doModel(model, dir, packageName.concat(".pojo"), config);
 
                         // Interface
                         final String className = LEVEL_3_CLIENT;

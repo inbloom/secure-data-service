@@ -24,9 +24,10 @@ import org.slc.sli.modeling.wadl.helpers.WadlHelper;
  */
 public final class Level2ClientImplementationWriter extends Level2ClientWriter {
 
-    private static final JavaType URI_SYNTAX_EXCEPTION = new JavaType(URISyntaxException.class.getSimpleName());
-    private static final JavaParam FIELD_BASE_URI = new JavaParam("baseUri", "String", true);
-    private static final JavaParam FIELD_CLIENT = new JavaParam("innerClient", "Level1Client", true);
+    private static final JavaType URI_SYNTAX_EXCEPTION = JavaType.simpleType(URISyntaxException.class.getSimpleName());
+    private static final JavaParam FIELD_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
+    private static final JavaType JT_LEVEL_ONE_CLIENT = JavaType.simpleType("Level1Client");
+    private static final JavaParam FIELD_CLIENT = new JavaParam("innerClient", JT_LEVEL_ONE_CLIENT, true);
 
     private final String packageName;
     private final String className;
@@ -72,8 +73,8 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
     }
 
     private void writeCanonicalInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", "String", true);
-        final JavaParam PARAM_CLIENT = new JavaParam("client", "Level1Client", true);
+        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
+        final JavaParam PARAM_CLIENT = new JavaParam("client", JT_LEVEL_ONE_CLIENT, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
@@ -91,7 +92,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
     }
 
     private void writeConvenienceInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", "String", true);
+        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
@@ -110,8 +111,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             final Application application, final Stack<Resource> ancestors) throws IOException {
         jsw.writeComment(method.getId());
         jsw.writeOverride();
-        jsw.write("public ");
-        jsw.write("List<" + GENERIC_ENTITY + "> " + method.getId());
+        jsw.write("public ").space().writeType(JT_LIST_OF_ENTITY).space().write(method.getId());
         jsw.parenL();
         final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
         final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
@@ -123,7 +123,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.write("try");
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
-            final JavaParam uriParam = new JavaParam("path", "String", true);
+            final JavaParam uriParam = new JavaParam("path", JavaType.JT_STRING, true);
             writeURIStringForGET(uriParam, uri, templateParams);
             jsw.beginStmt()
                     .write("final URIBuilder builder = URIBuilder.baseUri(" + FIELD_BASE_URI.getName()
@@ -157,7 +157,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.write("try");
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
-            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final JavaParam urlParam = new JavaParam("path", JavaType.JT_STRING, true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             writeURIStringForPOST(urlParam, uri, templateParams);
             jsw.beginStmt()
@@ -194,7 +194,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.write("try");
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
-            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final JavaParam urlParam = new JavaParam("path", JavaType.JT_STRING, true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             writeURIStringForPUT(urlParam, uri, templateParams);
             jsw.beginStmt()
@@ -230,7 +230,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
             jsw.write("try");
             jsw.beginBlock();
             final String uri = computeURI(resource, resources, application, ancestors);
-            final JavaParam urlParam = new JavaParam("path", "String", true);
+            final JavaParam urlParam = new JavaParam("path", JavaType.JT_STRING, true);
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             writeURIStringForDELETE(urlParam, uri, templateParams);
             jsw.beginStmt()

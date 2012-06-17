@@ -62,7 +62,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         jsw.writeComment(method.getId());
         jsw.beginStmt();
         try {
-            jsw.write("List<" + GENERIC_ENTITY + "> " + method.getId());
+            jsw.writeType(JT_LIST_OF_ENTITY).space().write(method.getId());
             jsw.parenL();
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);

@@ -3,9 +3,9 @@ package org.slc.sli.modeling.sdkgen;
 import java.io.IOException;
 import java.util.Stack;
 
-import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
@@ -16,19 +16,20 @@ public abstract class Level2ClientWriter implements WadlHandler {
     /**
      * The simple name of the exception that indicates the HTTP Status Code.
      */
-    protected static final JavaType STATUS_CODE_EXCEPTION = new JavaType("StatusCodeException");
+    protected static final JavaType STATUS_CODE_EXCEPTION = JavaType.simpleType("StatusCodeException");
     /**
      * The simple name of the exception that indicates the HTTP Status Code.
      */
-    protected static final JavaType IO_EXCEPTION = new JavaType(IOException.class.getSimpleName());
+    protected static final JavaType IO_EXCEPTION = JavaType.simpleType(IOException.class.getSimpleName());
     /**
      * The simple name of the domain neutral entity class.
      */
-    protected static final String GENERIC_ENTITY = "Entity";
+    protected static final JavaType JT_ENTITY = JavaType.simpleType("Entity");
+    protected static final JavaType JT_LIST_OF_ENTITY = JavaType.listType(JT_ENTITY);
 
-    protected static final JavaParam PARAM_TOKEN = new JavaParam("token", "String", true);
-    protected static final JavaParam PARAM_ENTITY = new JavaParam("entity", GENERIC_ENTITY, true);
-    protected static final JavaParam PARAM_ENTITY_ID = new JavaParam("entityId", "String", true);
+    protected static final JavaParam PARAM_TOKEN = new JavaParam("token", JavaType.JT_STRING, true);
+    protected static final JavaParam PARAM_ENTITY = new JavaParam("entity", JT_ENTITY, true);
+    protected static final JavaParam PARAM_ENTITY_ID = new JavaParam("entityId", JavaType.JT_STRING, true);
 
     protected final JavaStreamWriter jsw;
 

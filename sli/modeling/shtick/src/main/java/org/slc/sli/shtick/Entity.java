@@ -1,7 +1,6 @@
 package org.slc.sli.shtick;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +31,7 @@ public final class Entity {
             throw new NullPointerException("data");
         }
         this.type = type;
-        // FIXME: We're only making a defensive copy to the first level.
-        this.data = Collections.unmodifiableMap(new HashMap<String, Object>(data));
+        this.data = Collections.unmodifiableMap(MapHelper.deepCopy(data));
     }
 
     /**
@@ -56,11 +54,15 @@ public final class Entity {
         return data;
     }
 
-    public String getId() {
-        if (data.containsKey(Constants.ENTITY_ID_KEY)) {
-            return (String) data.get(Constants.ENTITY_ID_KEY);
+    public String getString(final String key) {
+        if (data.containsKey(key)) {
+            return (String) data.get(key);
         }
         return null;
+    }
+
+    public String getId() {
+        return getString(Constants.ENTITY_ID_KEY);
     }
 
     @SuppressWarnings("unchecked")
