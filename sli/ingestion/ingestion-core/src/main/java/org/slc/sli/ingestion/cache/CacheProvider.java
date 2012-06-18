@@ -8,9 +8,9 @@ package org.slc.sli.ingestion.cache;
  */
 public interface CacheProvider {
 
-    public void add( String key, Object value );
+    void add(String key, Object value);
 
-    public Object get ( String key ) ;
+    Object get(String key);
 
-    public void flush();
+    void flush();
 }

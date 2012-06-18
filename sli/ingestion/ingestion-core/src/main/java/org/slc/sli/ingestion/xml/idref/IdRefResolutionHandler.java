@@ -94,6 +94,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
     
     protected File process(File xml, ErrorReport errorReport) {
+        bucketCache.flushBucket(namespace);
         namespace = xml.getName() + "_pass_" + (++passCount);
         
         StopWatch sw = new StopWatch("Processing " + xml.getName());
@@ -188,10 +189,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String id = xmlEvent.asStartElement().getAttributeByName(ID_ATTR).getValue();
-                
                 String content = getXmlContentForId(id, xmlEvent, eventReader, errorReport);
-                
-                bucketCache.add(namespace, id, new TransformableXmlString(content, false));
+                bucketCache.addToBucket(namespace, id, new TransformableXmlString(content, false));
             }
             
             @Override
@@ -369,9 +368,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 while (attrs.hasNext()) {
                                     newAttrs.add(attrs.next());
                                 }
-                                
-                                Object cacheLookupObject = bucketCache.get(namespace, ref.getValue());
-                                
+
+                                Object cacheLookupObject = bucketCache.getFromBucket(namespace, ref.getValue());
+
                                 if (cacheLookupObject instanceof TransformableXmlString) {
                                     Attribute id = start.getAttributeByName(ID_ATTR);
                                     
@@ -469,7 +468,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
                                     IdRefResolutionHandler.class);
                         } else {
-                            bucketCache.add(namespace, id, new TransformableXmlString(transformedContent, true));
+                            bucketCache
+                                    .addToBucket(namespace, id, new TransformableXmlString(transformedContent, true));
                         }
                     }
                     
