@@ -1,11 +1,8 @@
 package org.slc.sli.shtick;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +12,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @author jstokes
@@ -80,7 +80,7 @@ public class StandardLevel2ClientManualTest {
         Map<String, Object> dataCopy = MapHelper.deepCopy(student.getData());
         dataCopy.put("id", studentId);
 
-        client.putStudent(TestingConstants.ROGERS_TOKEN, new RestEntity("student", dataCopy));
+        client.putStudent(TestingConstants.ROGERS_TOKEN, new Entity("student", dataCopy));
     }
 
     private String postStudent() throws IOException, StatusCodeException, URISyntaxException {
