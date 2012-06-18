@@ -13,10 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -24,9 +22,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
-import org.slc.sli.ingestion.tenant.LandingZoneRecord;
-import org.slc.sli.ingestion.tenant.TenantMongoDA;
-import org.slc.sli.ingestion.tenant.TenantRecord;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.springframework.core.io.ClassPathResource;
@@ -353,7 +348,7 @@ public class IdNormalizationTest {
     @SuppressWarnings("deprecation")
     @Test
     public void shouldResolveNestedRef() {
-        EntityConfig entityConfig =  createNestedRefConfig();
+        EntityConfig entityConfig =  createNestedRefConfig(true);
         
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
@@ -378,8 +373,8 @@ public class IdNormalizationTest {
     
     @SuppressWarnings("deprecation")
     @Test
-    public void shouldFailWithUnresolvedNonNullChildRef() {
-        EntityConfig entityConfig =  createNestedRefConfig();
+    public void shouldFailWithUnresolvedNonNullOptionalChildRef() {
+        EntityConfig entityConfig =  createNestedRefConfig(true);
         
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
@@ -403,8 +398,34 @@ public class IdNormalizationTest {
     
     @SuppressWarnings("deprecation")
     @Test
-    public void shouldResolveWithUnresolvedNullChildRef() {
-        EntityConfig entityConfig =  createNestedRefConfig();
+    public void shouldFailWithUnresolvedRequiredNullChildRef() {
+        //TODO
+        EntityConfig entityConfig =  createNestedRefConfig(false);
+        
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //mock the repo query note this doesn't test whether the query was constructed correctly
+        Mockito.when(repo.findByQuery(Mockito.eq("parentCollection"), Mockito.any(Query.class), 
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getParentTargetEntities());
+        Mockito.when(repo.findByQuery(Mockito.eq("childCollection"), Mockito.any(Query.class), 
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(new ArrayList<Entity>());
+
+        Entity entity = createNestedSourceEntity(false); 
+        ErrorReport errorReport = new TestErrorReport();
+        
+        IdNormalizer idNorm = new IdNormalizer();
+
+        idNorm.setEntityRepository(repo);
+        idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
+        
+        assertNull("attribute parentId should be null", entity.getBody().get("parentId"));
+        assertTrue("errors should be reported from failed reference resolution ", errorReport.hasErrors());
+    }
+    
+    @SuppressWarnings("deprecation")
+    @Test
+    public void shouldResolveWithUnresolvedOptionalNullChildRef() {
+        EntityConfig entityConfig =  createNestedRefConfig(true);
         
         @SuppressWarnings("unchecked")
         Repository<Entity> repo = Mockito.mock(Repository.class);
@@ -428,8 +449,13 @@ public class IdNormalizationTest {
     }
     
     //create nested ref
-    private EntityConfig createNestedRefConfig() {
-        Resource jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef.json");
+    private EntityConfig createNestedRefConfig(boolean optionalChildRef) {
+        Resource jsonFile = null;
+        if (optionalChildRef) {
+            jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef_optionalChild.json");
+        } else {
+            jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef.json");
+        }
         EntityConfig entityConfig = null;
         
         try {
