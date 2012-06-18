@@ -11,6 +11,10 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
@@ -18,9 +22,6 @@ import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -80,7 +81,7 @@ public class IdRefResolutionHandlerTest {
                 try {
                     Set<String> refs = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class, ErrorReport.class}, new Object[]{file, errorReport});
 
-                    result = (Map<String, File>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class, ErrorReport.class}, new Object[]{file, refs, errorReport});
+                    result = (Map<String, File>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class, File.class, ErrorReport.class}, new Object[]{file, refs, file.getParentFile(), errorReport});
 
                     Assert.assertNotNull(result);
                     Assert.assertEquals(1, result.size());
@@ -113,11 +114,20 @@ public class IdRefResolutionHandlerTest {
                         FileType.XML_STUDENT_GRADES, file.getName(), beforeHash);
                 inputFileEntry.setFile(file);
 
+                // create the directory to use for temporary file storage/processing
+                File tmpDir = new File("idRefTemp");
+                if (!tmpDir.exists()) {
+                    tmpDir.mkdir();
+                    tmpDir.deleteOnExit();
+                }
+                inputFileEntry.setTmpProcessingDir(tmpDir);
+
                 idRefResolutionHandler.doHandling(inputFileEntry, errorReport, fileProcessStatus);
 
                 String afterHash = MD5.calculate(file);
 
                 Assert.assertFalse(beforeHash.equals(afterHash));
+
             }
         };
 
