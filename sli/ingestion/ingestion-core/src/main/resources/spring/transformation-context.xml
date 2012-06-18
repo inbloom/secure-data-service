@@ -119,14 +119,7 @@
     <property name="smooksConfigs" ref="smooksConfigs" />
   </bean>
 
-  <bean id="sessionEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SessionEdFi2SLITransformer"
-    parent="smooksEdFi2SLITransformer">
-  </bean>
-
   <util:map id="transformers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.transformation.EdFi2SLITransformer">
-    <entry key="session">
-      <ref local="sessionEdFi2SLITransformer"/>
-    </entry>
   </util:map>
 
   <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
