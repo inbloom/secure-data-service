@@ -189,7 +189,7 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
-            boolean bAddRefField = true;
+
             // if the entity that has a reference to the defn parameter is an association
             if (definition instanceof AssociationDefinition) {
                 
@@ -213,24 +213,23 @@ public class ResourceUtil {
                             uriInfo, PathConstants.V1, defn.getResourceName(), id,
                             PathConstants.TEMP_MAP.get(assoc.getResourceName()),
                             assoc.getSourceEntity().getResourceName()).toString()));
-                } else {
-                    bAddRefField = false;
                 }
-            }
-            
-            if (bAddRefField) {
+            } else {
                 // loop through all reference fields, display as ? links
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                    String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());
-                    
-                    // handle learningObjective direct self reference link name
-                    if (defn.getResourceName().equals(definition.getResourceName())
-                            && defn.getResourceName().equals(ResourceNames.LEARNINGOBJECTIVES)) {
-                        linkName = "getChildLearningObjectives";
+                    String linkName;
+
+                    if(isSelfReference(defn.getResourceName(), definition.getResourceName())) {
+                        linkName =  ResourceNames.CHILD_LINK_NAMES(defn.getResourceName());
+                    } else {
+                        linkName = ResourceNames.PLURAL_LINK_NAMES.get(defn.getResourceName());
                     }
-                    links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                            PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
-                            + "?" + referenceFieldName + "=" + id));
+                    if(!linkName.isEmpty()) {
+                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                                + "?" + referenceFieldName + "=" + id));
+                    }
+
                 }
             }
         }
@@ -271,16 +270,18 @@ public class ResourceUtil {
                             .getValue().getResourceName());
                     
                     for (String resourceName : resourceNames) {
-                        String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
-                        
-                        // handle learningObjective direct self reference link names
-                        if (defn.getResourceName().equals(resourceName)
-                                && resourceName.equals(ResourceNames.LEARNINGOBJECTIVES)) {
-                            linkName = "getParentLearningObjective";
+                        String linkName ;
+
+                        if(isSelfReference(defn.getResourceName(), resourceName)) {
+                            linkName =  ResourceNames.PARENT_LINK_NAMES(resourceName);
+                        } else {
+                            linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
                         }
-                        
-                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                                PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                        if(!linkName.isEmpty()) {
+                            links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                    PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                        }
+
                     }
                 }
             }
@@ -391,6 +392,19 @@ public class ResourceUtil {
         // lookup security/login information
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
         return principal;
+    }
+
+    public static boolean isSelfReference(String resourceName, String referenceName) {
+        boolean bSelfReference = false;
+
+        if(resourceName.equals(referenceName)) {
+            bSelfReference = true;
+        } else if(resourceName.equals(ResourceNames.SCHOOLS) && referenceName.equals(ResourceNames.EDUCATION_ORGANIZATIONS)) {
+            bSelfReference = true;
+        } else if(resourceName.equals(ResourceNames.EDUCATION_ORGANIZATIONS) && referenceName.equals(ResourceNames.SCHOOLS)) {
+            bSelfReference = true;
+        }
+        return bSelfReference;
     }
     
 }
