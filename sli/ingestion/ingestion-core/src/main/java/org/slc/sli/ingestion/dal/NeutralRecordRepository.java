@@ -233,4 +233,12 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return id.substring(id.length() - 37, id.length()).replace("-", "");
     }
 
+    //TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods above.
+    public NeutralRecord create(NeutralRecord record, String collectionName) {
+
+        template.save(record, collectionName);
+        LOG.debug(" create a record in collection {} with id {}", new Object[]{collectionName, getRecordId(record)});
+        return record;
+    }
+
 }
