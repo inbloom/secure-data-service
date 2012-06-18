@@ -19,7 +19,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
-import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
@@ -61,14 +60,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Autowired
     private TenantDA tenantDA;
     
-    @Autowired
-    private CacheProvider cacheProvider;
-    
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
-    
-    @Value("${sli.ingestion.cache.flush.policy}")
-    private String flushCachePolicy;
     
     private MessageSource messageSource;
     
@@ -77,9 +70,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      */
     @Override
     public void process(Exchange exchange) throws Exception {
-        if ("newfile".equals(flushCachePolicy)) {
-            cacheProvider.flush();
-        }
         processUsingNewBatchJob(exchange);
     }
     
