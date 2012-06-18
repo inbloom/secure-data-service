@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -46,7 +47,6 @@ public class XmlFileProcessor implements Processor {
     
     @Override
     public void process(Exchange exchange) throws Exception {
-        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -80,6 +80,8 @@ public class XmlFileProcessor implements Processor {
         
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        TenantContext.setTenantId(newJob.getTenantId());
+        
         try {
             boolean hasErrors = false;
             for (ResourceEntry resource : newJob.getResourceEntries()) {
@@ -96,11 +98,9 @@ public class XmlFileProcessor implements Processor {
                     fe.setFile(new File(resource.getResourceName()));
                     
                     LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
-                        
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
-                      
                     LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
-                        
+                    
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 } else {
                     LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());

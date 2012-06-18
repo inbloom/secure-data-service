@@ -39,7 +39,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
 
-  And I should see "Processed 526 records." in the resulting batch job file
+  And I should see "Processed 534 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
@@ -75,7 +75,6 @@ Scenario: Post a zip file containing duplicate configured interchanges as a payl
 Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-#	And I should see "Entity (attendanceEvent) reports failure: E11000 duplicate key error" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 72 records." in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records considered: 72" in the resulting batch job file
@@ -86,7 +85,6 @@ Scenario: Post a zip file containing attendance event interchange with non-exist
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-#  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file

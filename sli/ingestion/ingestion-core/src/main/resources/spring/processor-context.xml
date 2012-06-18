@@ -13,6 +13,7 @@
         <value>system.namespaces</value>
         <value>system.profile</value>
         <value>system.users</value>
+        <value>tenant</value>
         <value>userAccount</value>
     </util:list>
 

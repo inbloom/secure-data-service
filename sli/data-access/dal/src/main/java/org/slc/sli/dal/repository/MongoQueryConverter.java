@@ -82,7 +82,7 @@ public class MongoQueryConverter {
         }
 
         if (idList == null) {
-            throw new QueryParseException("Invalid paramater for IDs", rawValues.toString());
+            throw new QueryParseException("Invalid paramater for IDs", (rawValues == null) ? "NULL" : rawValues.toString());
         }
 
         //conversion

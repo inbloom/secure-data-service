@@ -8,7 +8,7 @@ end
 
 Then /^I receive JSON response that includes the address$/ do
   data = JSON.parse(@res.body)
-  assert(data["email"] =~ /^(\w)+@(\w)+\.(\w)+$/, "Should have received an email address")
+  assert(data["email"] =~ /^(\w|-)+@(\w)+\.(\w)+$/, "Should have received an email address")
 end
 
 When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|

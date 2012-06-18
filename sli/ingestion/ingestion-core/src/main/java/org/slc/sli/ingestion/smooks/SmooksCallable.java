@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import javax.xml.transform.stream.StreamSource;
@@ -35,21 +34,21 @@ import org.xml.sax.SAXException;
 
 /**
  * The Smooks of the future..
- *
+ * 
  * @author dduran
- *
+ * 
  */
 public class SmooksCallable implements Callable<Boolean> {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SmooksCallable.class);
-
+    
     private SliSmooksFactory sliSmooksFactory;
-
+    
     private final NewBatchJob newBatchJob;
     private final IngestionFileEntry fe;
     private final Stage stage;
     private final BatchJobDAO batchJobDAO;
-
+    
     public SmooksCallable(NewBatchJob newBatchJob, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
             SliSmooksFactory sliSmooksFactory) {
         this.newBatchJob = newBatchJob;
@@ -58,37 +57,37 @@ public class SmooksCallable implements Callable<Boolean> {
         this.batchJobDAO = batchJobDAO;
         this.sliSmooksFactory = sliSmooksFactory;
     }
-
+    
     @Override
     public Boolean call() throws Exception {
         return runSmooksFuture();
     }
-
+    
     public boolean runSmooksFuture() {
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
-
+        
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
         ErrorReport errorReport = fe.getErrorReport();
-
+        
         // actually do the processing
         processFileEntry(fe, errorReport, fileProcessStatus);
-
+        
         int errorCount = processMetrics(metrics, fileProcessStatus);
-
+        
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);
     }
-
+    
     public void processFileEntry(IngestionFileEntry fe, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-
+        
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
-
+                
                 doHandling(fe, errorReport, fileProcessStatus);
-
+                
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
             }
@@ -96,12 +95,12 @@ public class SmooksCallable implements Callable<Boolean> {
             throw new IllegalArgumentException("FileType was not provided.");
         }
     }
-
+    
     private void doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
-
+            
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
-
+            
         } catch (IOException e) {
             LogUtil.error(LOG,
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
@@ -114,28 +113,29 @@ public class SmooksCallable implements Callable<Boolean> {
                     SmooksFileHandler.class);
         }
     }
-
+    
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+        
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
-
+        
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-
+            
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
-
+            
         } catch (SmooksException se) {
-            LOG.error("smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName() + "\n"
-                    + Arrays.toString(se.getStackTrace()));
+            LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
+                    se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }
-
+    
     private void populateRecordCountsFromSmooks(Smooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
         try {
@@ -144,25 +144,25 @@ public class SmooksCallable implements Callable<Boolean> {
             VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
             ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
             SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
-
+            
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
-
+            
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (Exception e) {
             LOG.error("Error accessing visitor list in smooks", e);
         }
     }
-
+    
     private int processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus) {
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-
+        
         int errorCount = aggregateAndLogProcessingErrors(newBatchJob.getId(), fe);
         metrics.setErrorCount(errorCount);
         return errorCount;
     }
-
+    
     private int aggregateAndLogProcessingErrors(String batchJobId, IngestionFileEntry fe) {
         int errorCount = 0;
         for (Fault fault : fe.getFaultsReport().getFaults()) {
@@ -172,12 +172,11 @@ public class SmooksCallable implements Callable<Boolean> {
             String faultMessage = fault.getMessage();
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-
+            
             Error error = Error.createIngestionError(batchJobId, fe.getFileName(), stage.getStageName(), null, null,
                     null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
         return errorCount;
     }
-
 }

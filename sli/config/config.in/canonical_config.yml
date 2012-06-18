@@ -18,7 +18,7 @@ default:
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
-        sli.support.email: sli@example.com
+        sli.support.email: slcoperator-email@slidev.org
 
         # Session lengths in milliseconds (5 minutes - only in api)
         sli.session.length: 300000
@@ -103,6 +103,9 @@ default:
         # ingestion command topic
         sli.ingestion.topic.command: seda:ingestion
 
+        # ingestion exception message logging
+        sli.ingestion.exception.message.log: true
+
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent 
@@ -148,7 +151,7 @@ default:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
+        
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context
@@ -196,9 +199,9 @@ default:
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
-        bootstrap.app.admin.name: Admin Apps 
+        bootstrap.app.admin.name: Admin Apps
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
-        bootstrap.app.admin.version: 0.0 
+        bootstrap.app.admin.version: 0.0
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
         bootstrap.app.databrowser.name: SLC Data Browser
@@ -279,8 +282,6 @@ acceptance-tests:
         # Security SAML
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # acceptance-tests/data-access/db.properties
@@ -367,8 +368,6 @@ ci:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path:
     data-access:
@@ -454,9 +453,6 @@ dev:
 
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
-
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path: /home/api/logs/
     data-access:
@@ -631,8 +627,6 @@ devapp1:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # devapp1/data-access/db.properties
@@ -696,16 +690,13 @@ local:
         # Trusted Certificate Authority Store
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
-
         api.perf.log.path: target/apilogs/logs
 
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
-        
+
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
 
@@ -781,14 +772,14 @@ local:
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
-        
+
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: Local
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
-        
+
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
@@ -894,9 +885,6 @@ team:
 
         # Security SAML
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
-
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
         bootstrap.sandbox.createSandboxRealm: false

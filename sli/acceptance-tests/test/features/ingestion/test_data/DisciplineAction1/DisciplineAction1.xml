@@ -16,7 +16,11 @@
         <DisciplineDate>2011-03-04</DisciplineDate>
         <DisciplineActionLength>74</DisciplineActionLength>
         <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
-        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <!-- This apostrophe is not an ASCII apostrophe but RIGHT SINGLE QUOTATION MARK. 
+        http://www.fileformat.info/info/unicode/char/2019/index.htm
+        
+        -->
+        <DisciplineActionLengthDifferenceReason>Continuation Of Previous Year’s Disciplinary Action Assignment</DisciplineActionLengthDifferenceReason>
         <StudentReference>
             <StudentIdentity>
                 <StudentUniqueStateId>530425896</StudentUniqueStateId>

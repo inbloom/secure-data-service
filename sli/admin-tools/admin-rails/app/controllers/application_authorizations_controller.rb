@@ -1,6 +1,4 @@
 class ApplicationAuthorizationsController < ApplicationController
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
-  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
   before_filter :check_rights
 
   # Let us add some docs to this confusing controller.
@@ -9,7 +7,7 @@ class ApplicationAuthorizationsController < ApplicationController
   # SEA admin authorization not implemented yet.
   def check_rights
     unless is_lea_admin? or is_sea_admin?
-      render_403
+      raise ActiveResource::ForbiddenAccess, caller
     end
   end
 

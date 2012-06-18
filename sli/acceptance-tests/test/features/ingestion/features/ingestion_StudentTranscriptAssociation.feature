@@ -33,7 +33,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 5                   | body.gradeLevelWhenTaken              | Tenth grade             | string               |
        | studentAcademicRecord         | 5                   | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 
-	And I should see "Processed 35 records." in the resulting batch job file
+	And I should see "Processed 36 records." in the resulting batch job file
 	And I should not see an error log file created
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database

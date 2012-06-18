@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student transcript (course) association data
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 4                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -48,6 +48,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "737dd4c1-86bd-4892-b9e0-0f24f76210be"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "c8083321-c403-4852-80f7-a52fbd59acd9"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -63,8 +65,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-	"studentId" => "e0e99028-6360-4247-ae48-d3bb3ecb606a", 
-	"courseId" => "b8dbdefb-85b6-47e0-8a26-ef0f38568ddf",
+	"studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378", 
+	"courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41",
 	"courseAttemptResult" => "Pass", 
 	"creditsEarned" => { 
 		"credit" => 4.0

@@ -5,13 +5,13 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 And I navigate to the account management page
-And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+And I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 
 @production
 Scenario: As a slc operator I want to see a list of all the accounts and their correct status
 Given there are accounts in requests pending in the system
 When I hit the Admin Application Account Approval page
-Then I see a table with headings of "Vendor" and "User Name" and "Last Update" and "Status" and "Action"
+Then I see a table with headings of "Vendor" and "Username" and "Last Update" and "Status" and "Actions"
 And on the next line there is vendor name in the "Vendor" column
 And User Name in the "User Name" column
 And last update date in the "Last Updated" column

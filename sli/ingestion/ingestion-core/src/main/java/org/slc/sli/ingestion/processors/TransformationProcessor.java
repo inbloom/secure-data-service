@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
@@ -44,11 +45,10 @@ public class TransformationProcessor implements Processor {
     
     @Autowired
     private BatchJobDAO batchJobDAO;
-
+    
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-
-
+    
     /**
      * Camel Exchange process callback method
      * 
@@ -57,8 +57,7 @@ public class TransformationProcessor implements Processor {
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
-    public void process(Exchange exchange) {
-        
+    public void process(Exchange exchange) {        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -73,10 +72,11 @@ public class TransformationProcessor implements Processor {
         Stage stage = initializeStage(workNote);
         
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
-
+        
         // FIXME: transformation needs to actually count processed records and errors
         
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum()).lte(workNote.getRangeMaximum());
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+                .lte(workNote.getRangeMaximum());
         Query query = new Query().addCriteria(limiter);
         
         long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
@@ -86,6 +86,8 @@ public class TransformationProcessor implements Processor {
         stage.getMetrics().add(metrics);
         
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        TenantContext.setTenantId(newJob.getTenantId());
+        
         try {
             performDataTransformations(workNote, newJob);
             

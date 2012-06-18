@@ -51,13 +51,14 @@ public interface SLIClient {
      * 
      * If the code is invalid, an exception is thrown.
      * 
+     * @requestCode Code provided to the callbackURL by the IDP.
      * @param authorizationToken
-     *            Oauth2 authorization token returned by the login URL in the callbackURL.
-     * @return String authorization token for the authenticated user, or null if
-     *         authentication fails.
+     *         Authorization token for the authenticated user, or null if
+     *         authentication fails
+     * @return HTTP Response to the request.
      * @throws OAuthException
      */
-    public abstract String connect(final String authorizationToken) throws OAuthException;
+    public abstract Response connect(final String requestCode, String authorizationToken) throws OAuthException;
     
     /**
      * Logout and invalidate the session.

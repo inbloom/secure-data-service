@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -61,7 +62,6 @@ public class EdFiProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -80,7 +80,7 @@ public class EdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-            
+            TenantContext.setTenantId(newJob.getTenantId());
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
             
             boolean anyErrorsProcessingFiles = false;
