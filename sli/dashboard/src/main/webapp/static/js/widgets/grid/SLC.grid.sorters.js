@@ -73,7 +73,7 @@ SLC.namespace('SLC.grid.sorters', (function () {
 	                 return -1;
 	             }
 	
-	             i = grid.teardrop.getGradeColorCode(gradeDate.gradeEarned); 
+	             i = grid.teardrop.getGradeTrendCodes(gradeDate.gradeEarned); 
 	             
 	             if (i === undefined || i === null) {
 	                 i = gradeDate.gradeEarned;
