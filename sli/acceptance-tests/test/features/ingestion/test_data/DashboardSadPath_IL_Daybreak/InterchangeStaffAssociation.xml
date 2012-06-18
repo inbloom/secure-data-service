@@ -655,7 +655,7 @@
 		<StaffClassification>Principal</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!--Amy Kopel IT Support (IT Administrator) South Daybreak Elementary School-->
 	<Staff>
@@ -719,7 +719,7 @@
 		<StaffClassification>School Administrative Support Staff</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!-- Mary Smith Researcher (Aggregate Viewer) South Daybreak Elementary School-->
 	<Staff>
@@ -783,7 +783,7 @@
 		<StaffClassification>Specialist/Consultant</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation-->
 	<!--Dr. Christopher Koch state superintendent (Leader) Illinois State Education Board-->
 	<Staff>
@@ -846,7 +846,7 @@
 		<StaffClassification>Superintendent</StaffClassification>
 		<PositionTitle>State Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!-- Rick Rogers IT Support (IT Administrator) Illinois State Education Board-->
 	<Staff>
@@ -909,7 +909,7 @@
 		<StaffClassification>LEA System Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!-- Michael Johnson, Researcher (Aggregate Viewer) Illinois State Education Board-->
 	<Staff>
@@ -972,7 +972,7 @@
 		<StaffClassification>Specialist/Consultant</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!--Dr. Susan Bantu, District Superintendent (Leader) Daybreak School District-->
 	<Staff>
@@ -1035,7 +1035,7 @@
 		<StaffClassification>Superintendent</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!-- James Stevenson, IT Support (IT Administrator) Daybreak School District -->
 	<Staff>
@@ -1098,7 +1098,7 @@
 		<StaffClassification>LEA System Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!-- Jack Jackson, Researcher (Aggregate Viewer) Daybreak School District-->
 	<Staff>
@@ -1161,6 +1161,6 @@
 		<StaffClassification>Specialist/Consultant</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>1967-08-13</EndDate>
+		<EndDate>2015-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 </InterchangeStaffAssociation>

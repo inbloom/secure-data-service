@@ -21,6 +21,7 @@ import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
@@ -96,7 +97,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Camel Exchange process callback method
      *
-     * @param exchange camel exchange.
+     * @param exchange
+     *            camel exchange.
      */
     @Override
     @ExtractBatchJobIdToContext
@@ -115,8 +117,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Process the persistence of the entity specified by the work note.
      *
-     * @param workNote specifies the entity to be persisted.
-     * @param exchange camel exchange.
+     * @param workNote
+     *            specifies the entity to be persisted.
+     * @param exchange
+     *            camel exchange.
      */
     private void processPersistence(WorkNote workNote, Exchange exchange) {
         Stage stage = initializeStage(workNote);
@@ -125,7 +129,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
+            TenantContext.setTenantId(newJob.getTenantId());
+
             LOG.debug("processing persistence: {}", newJob);
+
 
             processWorkNote(workNote, newJob, stage);
 
@@ -142,7 +149,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Initialize the current (persistence) stage.
      *
-     * @param workNote specifies the entity to be persisted.
+     * @param workNote
+     *            specifies the entity to be persisted.
      * @return current (started) stage.
      */
     private Stage initializeStage(WorkNote workNote) {
@@ -157,9 +165,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Processes the work note by persisting the entity (with range) specified in the work note.
      *
-     * @param workNote specifies the entity (and range) to be persisted.
-     * @param job current batch job.
-     * @param stage persistence stage.
+     * @param workNote
+     *            specifies the entity (and range) to be persisted.
+     * @param job
+     *            current batch job.
+     * @param stage
+     *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
         long recordNumber = 0;
@@ -236,9 +247,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Invoked if the neutral record is of type $$type$$_transformed (underwent transformation).
      *
-     * @param neutralRecord transformed neutral record.
-     * @param tenantId tenant of the neutral record.
-     * @param errorReportForCollection error report.
+     * @param neutralRecord
+     *            transformed neutral record.
+     * @param tenantId
+     *            tenant of the neutral record.
+     * @param errorReportForCollection
+     *            error report.
      * @return number of records that failed to persist.
      */
     private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
@@ -281,10 +295,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Invoked if the neutral record is of type $$type$$ (no transformation occurred).
      *
-     * @param neutralRecord neutral record as it was initially ingested.
-     * @param recordNumber count when neutral record was encountered in incoming interchange.
-     * @param tenantId tenant of the neutral record.
-     * @param errorReportForCollection error report.
+     * @param neutralRecord
+     *            neutral record as it was initially ingested.
+     * @param recordNumber
+     *            count when neutral record was encountered in incoming interchange.
+     * @param tenantId
+     *            tenant of the neutral record.
+     * @param errorReportForCollection
+     *            error report.
      * @return
      */
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
@@ -333,9 +351,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Creates metrics for persistence of work note.
      *
-     * @param perFileMetrics current metrics on a per file basis.
-     * @param neutralRecord neutral record to be persisted.
-     * @param workNote work note specifying entities to be persisted.
+     * @param perFileMetrics
+     *            current metrics on a per file basis.
+     * @param neutralRecord
+     *            neutral record to be persisted.
+     * @param workNote
+     *            work note specifying entities to be persisted.
      * @return
      */
     private Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
@@ -358,7 +379,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * Performs a look up for ingestion handlers based on entity type. If the entity does not
      * specify a special transformer, then the default entity persist handler is returned.
      *
-     * @param type neutral record entity type.
+     * @param type
+     *            neutral record entity type.
      * @return ingestion persistence handler.
      */
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
@@ -373,9 +395,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     /**
      * Checks to see if there is a special ed-fi to sli transformer for the specified neutral
-     * record entity type. If no special transformer is specified, then the default transformer is used.
+     * record entity type. If no special transformer is specified, then the default transformer is
+     * used.
      *
-     * @param type neutral record entity type.
+     * @param type
+     *            neutral record entity type.
      * @return ed-fi to sli transformer.
      */
     private EdFi2SLITransformer findTransformer(String type) {
@@ -389,8 +413,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Creates an error report for the specified batch job id and resource id.
      *
-     * @param batchJobId current batch job.
-     * @param resourceId current resource id.
+     * @param batchJobId
+     *            current batch job.
+     * @param resourceId
+     *            current resource id.
      * @return database logging error report.
      */
     private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
@@ -402,7 +428,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Gets the tenant id of the current batch job.
      *
-     * @param job current batch job.
+     * @param job
+     *            current batch job.
      * @return tenant id.
      */
     private static String getTenantId(Job job) {
@@ -417,7 +444,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Handles the absence of a batch job id in the camel exchange.
      *
-     * @param exchange camel exchange.
+     * @param exchange
+     *            camel exchange.
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
@@ -428,9 +456,12 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     /**
      * Handles the existence of any processing exceptions in the exchange.
      *
-     * @param exception processing exception in camel exchange.
-     * @param exchange camel exchange.
-     * @param batchJobId current batch job id.
+     * @param exception
+     *            processing exception in camel exchange.
+     * @param exchange
+     *            camel exchange.
+     * @param batchJobId
+     *            current batch job id.
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -485,12 +516,16 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     /**
-     * Gets a db cursor used for iterating over the range of elements specified in the work note for the
+     * Gets a db cursor used for iterating over the range of elements specified in the work note for
+     * the
      * specified collection and job.
      *
-     * @param collectionName collection to pull entities from in mongo.
-     * @param jobId batch job id.
-     * @param workNote work distributed by maestro (contains range to perform work on).
+     * @param collectionName
+     *            collection to pull entities from in mongo.
+     * @param jobId
+     *            batch job id.
+     * @param workNote
+     *            work distributed by maestro (contains range to perform work on).
      * @return
      */
     protected DBCursor getCollectionIterable(String collectionName, String jobId, WorkNote workNote) {

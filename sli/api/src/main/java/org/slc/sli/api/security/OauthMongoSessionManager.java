@@ -1,7 +1,6 @@
 package org.slc.sli.api.security;
 
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,21 +12,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
+import org.scribe.exceptions.OAuthException;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -41,6 +28,16 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -86,12 +83,15 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId) {
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
-
+        
         if (app == null) {
             RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
             error(x.getMessage(), x);
             throw x;
-        } else if (redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
+        }
+        Boolean isInstalled = (Boolean)app.getBody().get("installed");
+        
+        if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
             error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
             throw x;
@@ -99,27 +99,31 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         Entity sessionEntity = sessionId == null ? null : repo.findById(SESSION_COLLECTION, sessionId);
 
-        if (sessionEntity == null) {
+        if (sessionEntity == null || isExpired(sessionEntity)) {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
             sessionEntity.getBody().put("tenantId", tenantId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }
-
+        
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
-        appSessions.add(newAppSession(clientId, redirectUri, state, samlId));
+        appSessions.add(newAppSession(clientId, redirectUri, state, samlId, isInstalled));
 
         repo.update(SESSION_COLLECTION, sessionEntity);
     }
 
-    /**
-     * Provides the URI to which the user should be redirected
-     * Upon receipt of successful SAML message
-     */
+    private boolean isExpired(Entity sessionEntity) {
+        long expiration = (Long) sessionEntity.getBody().get("expiration");
+        if (expiration < System.currentTimeMillis()) {
+            debug("session has expired.");
+            return true;
+        }
+        return false;
+    }
+
     @Override
-    @SuppressWarnings("unchecked")
-    public Pair<String, URI> composeRedirect(String samlId, SLIPrincipal principal) {
+    public Entity getSessionForSamlId(String samlId){
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria("appSession.samlId", "=", samlId));
 
@@ -130,30 +134,27 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             error("Attempted to access invalid session", x);
             throw x;
         }
-
+        return session;
+    }
+    
+    @Override
+    public Map<String, Object> getAppSession(String samlId, Entity session){
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
 
-        URI redirect = null;
         for (Map<String, Object> appSession : appSessions) {
             if (appSession.get("samlId").equals(samlId)) {
-                UriBuilder builder = UriBuilder.fromUri((String) appSession.get("redirectUri"));
-                Map<String, Object> code = (Map<String, Object>) appSession.get("code");
-                builder.queryParam("code", (String) code.get("value"));
-
-                if (appSession.get("state") != null) {
-                    builder.queryParam("state", appSession.get("state"));
-                }
-
-                Map<String, Object> mapForm = jsoner.convertValue(principal, Map.class);
-                mapForm.remove("entity");
-                session.getBody().put("principal", mapForm);
-                repo.update(SESSION_COLLECTION, session);
-                redirect = builder.build();
-                break;
+                return appSession;
             }
         }
-
-        return Pair.of(session.getEntityId(), redirect);
+        RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
+        error("Attempted to access invalid session", x);
+        throw x;
+    }
+        
+    @Override
+    public void updateSession(Entity session){
+        repo.update(SESSION_COLLECTION, session);
     }
 
     /**
@@ -337,14 +338,14 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         return repo.findOne(SESSION_COLLECTION, neutralQuery);
     }
 
-    private Map<String, Object> newAppSession(String clientId, String redirectUri, String state, String samlId) {
+    private Map<String, Object> newAppSession(String clientId, String redirectUri, String state, String samlId, Boolean isInstalled) {
         Map<String, Object> app = new HashMap<String, Object>();
         app.put("clientId", clientId);
         app.put("redirectUri", redirectUri);
         app.put("state", state);
         app.put("samlId", samlId);
         app.put("verified", "false");
-
+        app.put("installed", isInstalled);
         Map<String, Object> code = new HashMap<String, Object>();
         code.put("value", "c-" + UUID.randomUUID().toString());
         code.put("expiration", System.currentTimeMillis() + this.sessionLength);

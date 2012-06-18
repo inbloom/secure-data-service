@@ -13,6 +13,8 @@ Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/teachers/a060273b-3e65-4e5f-b5d1-45226f584c5d" if path == "Dale Reiss"
   id = "/v1/students/92d1a002-2695-4fb8-a0d6-4ef655d29e48" if path == "Malcolm Haehn NY"
   id = "/v1/students/5738d251-dd0b-4734-9ea6-417ac9320a15" if path == "Matt Sollars"
+  id = "/v1/students/85ff53e3-2779-4dc7-bc31-59c405f3a49e" if path == "Larissa Marney"
+  id = "/v1/students/eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if path == "Lavern Chaney"
   id = "/v1/students/0cff1537-95e6-440b-ba2f-3003a2ecd7ed" if path == "Brandon Suzuki"
   id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/studentSchoolAssociations/students" if path == "Students in Parker Elementary"
   id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552/studentSchoolAssociations/students" if path == "Students in Dawn Elementary"
@@ -37,6 +39,7 @@ Transform /^data containing "([^"]*)"$/ do |path|
   id = ["92d1a002-2695-4fb8-a0d6-4ef655d29e48"] if path == "Malcolm Haehn NY"
   id = ["5738d251-dd0b-4734-9ea6-417ac9320a15"] if path == "Matt Sollars"
   id = ["0cff1537-95e6-440b-ba2f-3003a2ecd7ed"] if path == "Brandon Suzuki"
+  id = "eb4d7e1b-7bed-890a-ddb4-5d8aa9fbfc2d" if path == "Lavern Chaney"
   id = ["1894b083-5e6e-470f-bc5e-01435a899d44",
         "439b5c9d-3ebf-49a3-a483-f10943e148ba",
         "6944f8d8-1fda-41c3-a2b7-d9d416d07ebc",
@@ -94,7 +97,8 @@ Transform /^data containing "([^"]*)"$/ do |path|
 
   id = ["67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Daybreak District"
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if path == "Teachers in Daybreak District"
 
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
         "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Sunset District"
@@ -111,7 +115,8 @@ Transform /^data containing "([^"]*)"$/ do |path|
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
         "67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if path == "Teachers in Illinois State"
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
+        "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if path == "Teachers in Illinois State"
 
   id = ["c4491c07-ec3e-440d-bef9-e349763b0fd4",
         "03184a95-eb8f-4038-9d19-17fab835a016",

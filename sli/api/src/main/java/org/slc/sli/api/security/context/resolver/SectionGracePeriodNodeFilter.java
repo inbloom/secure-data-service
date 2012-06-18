@@ -12,11 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Filters the sections by a given date (grace period)
@@ -40,7 +36,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
     private AssociativeContextHelper helper;
 
     @Override
-    public List<String> filterIds(List<String> toResolve) {
+    public List<Entity> filterEntities(List<Entity> toResolve,String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -49,7 +45,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
 
         if (!toResolve.isEmpty() && !endDate.isEmpty()) {
             //get the section entities
-            Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ID, toResolve);
+            Iterable<Entity> sections = helper.getReferenceEntities(EntityNames.SECTION, ID, getReferencedIds(toResolve,referenceField));
             //get the session Ids
             Set<String> sessionIds = getIds(sections, ParameterConstants.SESSION_ID);
 
@@ -62,8 +58,8 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
             Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, query);
 
             //filter out the relevant ids
-            return new ArrayList<String>(getEntityIds(sections, ParameterConstants.SESSION_ID,
-                    getIds(sessions, ID)));
+            return getFilteredEntities(toResolve,getEntityIds(sections, ParameterConstants.SESSION_ID,
+                    getIds(sessions, ID)),referenceField);
         }
 
         return toResolve;
@@ -93,6 +89,24 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         return ids;
     }
 
+    private List<Entity> getFilteredEntities(List<Entity> entitiesToResolve,Set<String> keys,String referenceField){
+        List<Entity> filteredEntities = new ArrayList<Entity>();
+
+        if (entitiesToResolve == null) return filteredEntities;
+
+        for (Entity entity : entitiesToResolve) {
+            String keyId = entity.getEntityId();
+            if(referenceField != null && !referenceField.isEmpty()){
+                keyId = (String) entity.getBody().get(referenceField);
+            }
+            if (keys.contains(keyId)) {
+                filteredEntities.add(entity);
+            }
+        }
+
+        return filteredEntities;
+
+    }
     /**
      * Returns a list of entity ids that matches the id key and the given
      * list of keys
@@ -115,6 +129,23 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         }
 
         return ids;
+    }
+
+    private List<String> getReferencedIds(List<Entity> toResolve,String referenceField){
+        List<String> foundIds = new ArrayList<String>();
+
+        if(referenceField != null && !referenceField.isEmpty()){
+            for (Entity e : toResolve) {
+                Map<String, Object> body = e.getBody();
+                foundIds.add((String) body.get(referenceField));
+            }
+        }
+        else{
+            for (Entity e : toResolve) {
+                foundIds.add(e.getEntityId());
+            }
+        }
+        return foundIds;
     }
 
 }

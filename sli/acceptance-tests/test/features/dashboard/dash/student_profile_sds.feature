@@ -25,7 +25,7 @@ And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
 And their id shown in proflie is "800000016"
 And their grade is "8"
-And the teacher is "!"
+#And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
 #Display hide tabs based on grades
@@ -53,7 +53,7 @@ And I view its student profile
 And their name shown in profile is "Roberta Jones (Robbie Jones)"
 And their id shown in proflie is "1000000000"
 And their grade is "11"
-And the teacher is "Mr Mark Anthony"
+#And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 And there are "4" Tabs
 

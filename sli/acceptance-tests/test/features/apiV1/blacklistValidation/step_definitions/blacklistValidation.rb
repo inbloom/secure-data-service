@@ -33,7 +33,12 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #other
   id = ""                                       if human_readable_id == "BLANK"
-  
+
+  #null byte injection attack URIs
+  id = URI.encode("students?%00\x16\x00\x00\x00\x02hello\x00\x06\x00\x00\x00world\x00\x00=%00")  if human_readable_id == "NULL QUERY PARAMS"
+  id = "students?%00=value"  if human_readable_id == "NULL QUERY NULL VALUE"
+  id = "students?value=%00"  if human_readable_id == "NULL QUERY VALUE NULL"
+
   #return the translated value
   id
 end

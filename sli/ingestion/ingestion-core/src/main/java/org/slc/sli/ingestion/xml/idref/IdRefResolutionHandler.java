@@ -296,6 +296,61 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     return sb.toString();
                 }
+
+                private boolean isInnerRef() {
+                    for (StartElement start : parents) {
+                        Attribute attValue = start.getAttributeByName(REF_RESOLVED_ATTR);
+                        if (attValue != null) {
+                            boolean refResolved = Boolean.parseBoolean(attValue.getValue());
+                            if (refResolved) {
+                                return true;
+                            }
+                        }
+
+                    }
+                    return false;
+                }
+
+                private File resolveRefs(String currentXPath, Map<String, File> refContent, Attribute ref, ErrorReport errorReport) {
+
+                    File contentToAdd = refContent.get(ref.getValue());
+
+                    if (contentToAdd != null) {
+                        ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+                        if (rrs == null) {
+                            if (!isInnerRef()) {
+                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
+                                        IdRefResolutionHandler.class);
+                            }
+                            return null;
+                        } else if (!(contentToAdd instanceof IdRefFile)) {
+                            // Resolved content is not cached yet, so lets resolve it and cache it.
+                            File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
+                            if (resolvedContent == null) {
+                                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
+                                errorReport.warning(
+                                        MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()),
+                                        IdRefResolutionHandler.class);
+                            }
+
+                            File oldContentToAdd = contentToAdd;
+                            contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
+
+                            if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
+                                org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
+                            }
+
+                            refContent.put(ref.getValue(), contentToAdd);
+                        }
+                    } else {
+                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
+                                IdRefResolutionHandler.class);
+                    }
+
+                    return contentToAdd;
+                }
             };
 
             browse(xml, replaceRefContent, errorReport);
@@ -339,14 +394,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             IdRefResolutionHandler.class);
                 }
 
-
                 File oldContentToAdd = contentToAdd;
                 contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
 
                 if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
                     org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
                 }
-
 
                 refContent.put(ref.getValue(), contentToAdd);
             }
@@ -355,7 +408,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
                     IdRefResolutionHandler.class);
         }
-
 
         return contentToAdd;
     }

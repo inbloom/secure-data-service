@@ -1,79 +1,27 @@
 require 'test_helper'
+require "mocha"
 
-class UserAccountValidationTest < ActiveSupport::TestCase
-  def setup
-    
-  end
-    
+class UserAccountValidationTest < ActiveSupport::TestCase    
   def test_validate_account_ok
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"sweet@itworks.com"})
-    RestClient.stubs(:get).returns(MockResponse.new(200,false))
-    RestClient.stubs(:put).returns(MockResponse.new(204))
-    ApplicationHelper.stubs(:verify_email)
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
+    ApplicationHelper.expects(:verify_email).with("1234567890").once()
+    assert_equal UserAccountValidation::ACCOUNT_VERIFICATION_COMPLETE, UserAccountValidation.validate_account("1234567890")
   end
   
-  def test_validate_account_duplicate
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"sweet@itworks.com"})
-    RestClient.stubs(:get).returns(MockResponse.new(200,true))
-    ApplicationHelper.stubs(:verify_email)
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
+  def test_account_duplicate
+    ApplicationHelper.expects(:verify_email).with("1234567890").raises("Could not find user for email id 1234567890.")
+    assert_equal UserAccountValidation::INVALID_VERIFICATION_CODE, UserAccountValidation.validate_account("1234567890")
   end
   
-  def test_validate_account_unexpected_verification_error1
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"sweet@itworks.com"})
-    RestClient.stubs(:get).returns(MockResponse.new(200,false))
-    RestClient.stubs(:put).returns(MockResponse.new(500))
-    ApplicationHelper.stubs(:verify_email)
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
+  def test_account_already_verified
+    ApplicationHelper.expects(:verify_email).with("1234567890").raises("Current status 'approved' does not allow transition 'verify_email'.")
+    assert_equal UserAccountValidation::ACCOUNT_PREVIOUSLY_VERIFIED, UserAccountValidation.validate_account("1234567890")
   end
   
-  def test_validate_account_unexpected_verification_error2
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"sweet@itworks.com"})
-    RestClient.stubs(:get).returns(MockResponse.new(500))
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
+  def test_account_already_misc_exception
+    ApplicationHelper.expects(:verify_email).with("1234567890").raises("La Marche des Hobos")
+    assert_equal UserAccountValidation::UNEXPECTED_VERIFICATION_ERROR, UserAccountValidation.validate_account("1234567890")
   end
-  
-  def test_validate_account_invalid_verification_error1
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns({:email=>"sweet@itworks.com"})
-    RestClient.stubs(:get).returns(MockResponse.new(404))
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
-  end
-  
-  def test_validate_account_invalid_verification_error2
-    
-    # mock external dependencies
-    ApprovalEngine.stubs(:get_user_emailtoken).returns(nil)
-    
-    #test
-    UserAccountValidation.validate_account "1234567890"
-    
-  end
+
 end
 
 

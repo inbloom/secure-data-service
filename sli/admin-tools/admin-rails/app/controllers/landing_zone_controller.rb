@@ -1,6 +1,5 @@
 class LandingZoneController < ApplicationController
   before_filter :check_roles
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ProvisioningError, :with => :handle_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
   
