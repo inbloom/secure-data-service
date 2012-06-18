@@ -12,7 +12,7 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
 
 /**
  * Generates Type 1 (time-based) UUIDs, preceeded by a shard key 'YYYYRR-'.
- *
+ * 
  * @author wscott
  */
 @Component
@@ -21,7 +21,7 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     
     private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
     SecureRandom r = new SecureRandom();
-
+    
     /**
      * Generate a shardable type 1 random UUID .
      */
