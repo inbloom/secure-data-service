@@ -370,11 +370,16 @@ class SLCFixer
     if edOrg.nil? or edOrg.empty?
       return
     end
+    ids = []
+    ids << id
+    ids = ids.flatten
     begin
-      tenant = collection.find_one({"_id" => id})
-      tenantid = tenant['metaData']['tenantId'] if !tenant.nil? and tenant.include? 'metaData' and tenant['metaData'].include? 'tenantId'
-      @log.warn "No tenantId on #{collection.name}##{id}" if tenantid.nil?
-      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"metaData.edOrgs" => edOrg}}) unless tenantid.nil?
+      ids.each do |id|
+        tenant = collection.find_one({"_id" => id})
+        tenantid = tenant['metaData']['tenantId'] if !tenant.nil? and tenant.include? 'metaData' and tenant['metaData'].include? 'tenantId'
+        @log.warn "No tenantId on #{collection.name}##{id}" if tenantid.nil?
+        collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"metaData.edOrgs" => edOrg}}) unless tenantid.nil?
+      end
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
