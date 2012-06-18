@@ -45,7 +45,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | reportCard                  |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-  And I should see "Processed 749 records." in the resulting batch job file
+  And I should see "Processed 750 records." in the resulting batch job file
 
 @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
