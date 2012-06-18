@@ -16,15 +16,17 @@ public abstract class Level3ClientWriter implements WadlHandler {
     /**
      * The simple name of the exception that indicates the HTTP Status Code.
      */
-    protected static final JavaType STATUS_CODE_EXCEPTION = JavaType.simpleType("StatusCodeException");
+    protected static final JavaType STATUS_CODE_EXCEPTION = JavaType.simpleType("StatusCodeException",
+            JavaType.JT_EXCEPTION);
     /**
      * The simple name of the exception that indicates the HTTP Status Code.
      */
-    protected static final JavaType IO_EXCEPTION = JavaType.simpleType(IOException.class.getSimpleName());
+    protected static final JavaType IO_EXCEPTION = JavaType.simpleType(IOException.class.getSimpleName(),
+            JavaType.JT_EXCEPTION);
     /**
      * The simple name of the domain neutral entity class.
      */
-    protected static final JavaType GENERIC_ENTITY = JavaType.simpleType("Entity");
+    protected static final JavaType GENERIC_ENTITY = JavaType.simpleType("Entity", JavaType.JT_OBJECT);
 
     protected static final JavaParam PARAM_TOKEN = new JavaParam("token", JavaType.JT_STRING, true);
     protected static final JavaParam PARAM_ENTITY = new JavaParam("entity", GENERIC_ENTITY, true);

@@ -24,9 +24,10 @@ import org.slc.sli.modeling.wadl.helpers.WadlHelper;
  */
 public final class Level2ClientImplementationWriter extends Level2ClientWriter {
 
-    private static final JavaType URI_SYNTAX_EXCEPTION = JavaType.simpleType(URISyntaxException.class.getSimpleName());
+    private static final JavaType URI_SYNTAX_EXCEPTION = JavaType.simpleType(URISyntaxException.class.getSimpleName(),
+            JavaType.JT_EXCEPTION);
     private static final JavaParam FIELD_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
-    private static final JavaType JT_LEVEL_ONE_CLIENT = JavaType.simpleType("Level1Client");
+    private static final JavaType JT_LEVEL_ONE_CLIENT = JavaType.simpleType("Level1Client", JavaType.JT_OBJECT);
     private static final JavaParam FIELD_CLIENT = new JavaParam("innerClient", JT_LEVEL_ONE_CLIENT, true);
 
     private final String packageName;

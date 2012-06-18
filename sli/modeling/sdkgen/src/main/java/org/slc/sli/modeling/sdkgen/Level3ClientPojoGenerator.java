@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
-import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
@@ -34,24 +33,12 @@ import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 public final class Level3ClientPojoGenerator {
 
     private static final JavaType TYPE_UNDERLYING = JavaType.mapType(JavaType.JT_STRING, JavaType.JT_OBJECT);
     private static final JavaParam FIELD_UNDERLYING = new JavaParam("data", TYPE_UNDERLYING, true);
-
-    public static void main(final String[] args) {
-        try {
-            final JavaGenConfig config = new JavaGenConfigBuilder().build();
-            doModel("./../../domain/src/main/resources/sliModel/SLI.xmi",
-                    "./../../modeling/shtick/src/main/java/org/slc/sli/shtick/pojo", "org.slc.sli.shtick.pojo", config);
-        } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static final void doModel(final ModelIndex model, final File dir, final String targetPkgName,
             final JavaGenConfig config) throws FileNotFoundException {
@@ -61,33 +48,8 @@ public final class Level3ClientPojoGenerator {
             final List<String> importNames = new ArrayList<String>();
             importNames.add("java.math.*");
             importNames.add("java.util.*");
+            importNames.add("org.slc.sli.shtick.Coercions");
             importNames.add("org.slc.sli.shtick.Entity");
-            writeClassType(targetPkgName, importNames, classType, model, file, config);
-        }
-        for (final EnumType enumType : model.getEnumTypes()) {
-            final String fileName = enumType.getName().concat(".java");
-            final File file = new File(dir, fileName);
-            writeEnumType(targetPkgName, enumType, model, file, config);
-        }
-        for (final DataType dataType : model.getDataTypes().values()) {
-            final String fileName = dataType.getName().concat(".java");
-            final File file = new File(dir, fileName);
-            if (!NamespaceHelper.getNamespace(dataType, model).equals("http://www.w3.org/2001/XMLSchema")) {
-                writeDataType(targetPkgName, dataType, model, file, config);
-            }
-        }
-    }
-
-    private static final void doModel(final String modelFileName, final String targetDirName,
-            final String targetPkgName, final JavaGenConfig config) throws FileNotFoundException {
-        final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(modelFileName));
-        final File dir = new File(targetDirName);
-        for (final ClassType classType : model.getClassTypes()) {
-            final String fileName = classType.getName().concat(".java");
-            final File file = new File(dir, fileName);
-            final List<String> importNames = new ArrayList<String>();
-            importNames.add("java.math.*");
-            importNames.add("java.util.*");
             writeClassType(targetPkgName, importNames, classType, model, file, config);
         }
         for (final EnumType enumType : model.getEnumTypes()) {
@@ -365,6 +327,7 @@ public final class Level3ClientPojoGenerator {
         }
     }
 
+    // FIXME: This needs to be cleaned up.
     private static void writeAccessor(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
         jsw.write("public");
@@ -396,6 +359,15 @@ public final class Level3ClientPojoGenerator {
             jsw.write("return ").castAs(JavaType.JT_INTEGER).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
                     .dblQte().write(name).dblQte().parenR();
             jsw.endStmt();
+        } else if (JavaType.JT_BIG_INTEGER.equals(type)) {
+            jsw.beginStmt();
+            jsw.write("final Object object = ");
+            jsw.write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte().write(name).dblQte().parenR();
+            jsw.endStmt();
+
+            jsw.beginStmt();
+            jsw.write("return Coercions.toBigInteger(object)");
+            jsw.endStmt();
         } else if (type.isEnum()) {
             if (type.isList()) {
                 jsw.beginStmt().write("final ").writeType(type).write(" list = new ArrayList<")
@@ -410,7 +382,6 @@ public final class Level3ClientPojoGenerator {
             }
         } else if (type.isComplex()) {
             if (type.isList()) {
-                System.out.println(type);
                 jsw.writeReturn("null");
             } else {
                 jsw.beginStmt();
@@ -440,7 +411,6 @@ public final class Level3ClientPojoGenerator {
             }
         } else {
             if (type.isList()) {
-                System.out.println(type);
                 jsw.writeReturn("null");
             } else {
                 jsw.beginStmt();
@@ -452,7 +422,7 @@ public final class Level3ClientPojoGenerator {
                     jsw.writeType(type);
                     jsw.parenL();
                     try {
-                        jsw.castAs(JavaType.JT_STRING);
+                        jsw.castAs(type.getBase());
                         jsw.write(FIELD_UNDERLYING.getName());
                         jsw.write(".get");
                         jsw.parenL();
