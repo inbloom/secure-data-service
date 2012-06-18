@@ -73,6 +73,7 @@
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
+    <value>studentDisciplineIncidentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionGradebookEntry</value>
@@ -86,8 +87,7 @@
     <value>assessment</value>
     <value>attendance</value>
     <value>learningObjective</value>
-    <value>studentAssessmentAssociation</value>
-    <value>studentDisciplineIncidentAssociation</value>
+    <value>studentAssessmentAssociation</value>    
     <value>studentTranscriptAssociation</value>
   </util:set>
 
