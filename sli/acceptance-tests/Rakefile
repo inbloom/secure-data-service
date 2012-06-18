@@ -621,6 +621,7 @@ task :importUnifiedData => [:realmInit] do
     "assessment" => "unified_data/uds_assessment.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",
+    "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
