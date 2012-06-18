@@ -143,7 +143,7 @@ default:
         sli.ingestion.cache.opTimeout: 10
         
         #Work Note Chunking Parameters
-        sli.ingestion.split.chunk.size: 5000
+        sli.ingestion.split.chunk.size: 500
         sli.ingestion.split.threshold.percentage: 0.30
 
         #Reference Schema reference check
