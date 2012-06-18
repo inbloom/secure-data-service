@@ -14,7 +14,8 @@ Given /^I see the Realm page$/ do
   @driver = Selenium::WebDriver.for :firefox
   url = "http://"+PropLoader.getProps['dashboard_api_server_url']+"/disco/realms/list.do"
   @driver.get url
-  assert(@driver.current_url == url, "Failed to navigate to "+url)
+  
+  assertWithWait("Failed to navigate to Realm page")  { @driver.title.index("Choose your realm") }
 end
 
 When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|

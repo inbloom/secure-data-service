@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.Treatment;
+import org.slc.sli.domain.Entity;
 
 /**
  * Add the entity ID to the response body
@@ -22,8 +23,8 @@ public class IdTreatment implements Treatment {
     }
 
     @Override
-    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, String id) {
-        stored.put(ID_STRING, id);
+    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
+        stored.put(ID_STRING, entity.getEntityId());
         return stored;
     }
 

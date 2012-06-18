@@ -15,7 +15,7 @@ cd ${SLI_ROOT}/acceptance-tests
 export ADMIN_RAILS_DIR="${SLI_ROOT}/admin-tools/admin-rails"
 export DATABROWSER_DIR="${SLI_ROOT}/databrowser"
 
-export MAVEN_OPTS="-XX:PermSize=256m -XX:MaxPermSize=1024m -DADMIN_RAILS_DIR=${ADMIN_RAILS_DIR} -DDATABROWSER_DIR=${DATABROWSER_DIR} -Dsli.conf=${SLI_ROOT}/config/properties/sli.properties -Dsli.env=local -Dsli.encryption.keyStore=${SLI_ROOT}/data-access/dal/keyStore/localKeyStore.jks"
+export MAVEN_OPTS="-XX:PermSize=256m -XX:MaxPermSize=1024m -DADMIN_RAILS_DIR=${ADMIN_RAILS_DIR} -DDATABROWSER_DIR=${DATABROWSER_DIR} -Dsli.conf=${SLI_ROOT}/config/properties/sli.properties -Dsli.env=local -Dsli.trust.certificates=${SLI_ROOT}/common/common-encrypt/trust/trustedCertificates -Dsli.encryption.keyStore=${SLI_ROOT}/data-access/dal/keyStore/localKeyStore.jks"
 
 export BUNDLE_GEMFILE=Gemfile
 
@@ -25,7 +25,11 @@ mkdir -p target/logs
 if [ -z ${1} ]; then
    export TESTS_TO_RUN="integrationTests"
 else
-   export TESTS_TO_RUN=${1}
+   if [ ${1} == "run" ]; then
+       export RUN=true
+   else
+       export TESTS_TO_RUN=${1}
+   fi
 fi
 
 echo "Starting rails apps..."
@@ -39,8 +43,13 @@ bundle exec rails server -d -p 2001 -e local-acceptance-tests -P ${DATABROWSER_D
 
 cd ${SLI_ROOT}/acceptance-tests
 
-echo "Running maven tests"
-mvn integration-test
+if [ -z ${RUN} ]; then
+    echo "Running integration tests"
+    mvn integration-test
+else
+    echo "Starting web applications"
+    mvn cargo:run
+fi
 
 echo "Stopping rails apps..."
 echo "Shutting down databrowser and admin-rails..."

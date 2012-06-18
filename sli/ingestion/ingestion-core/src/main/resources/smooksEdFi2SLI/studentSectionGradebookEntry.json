@@ -58,26 +58,31 @@
                             "valueSource" : "body.gradebookReference.dateAssigned"
                         }]
                     },
-                    {"path" : "body.sectionId" ,
-                                                "values" : [{"valueSource" : "",
-                                                           "ref" :
-                                                            { "collectionName" : "section" ,
-                                                              "choiceOfFields" :
-                                                              [
-                                                               [
-                                                                {"path" : "body.uniqueSectionCode" ,
-                                                                 "values" : [{"valueSource" : "body.gradebookReference.uniqueSectionCode"}]
-                                                                }
-                                                               ]
-                                                              ]
-                                                             }
-                                                            }]
-                                                            }
+                    {
+                        "path" : "body.sectionId" ,
+                        "values" : 
+                        [{
+                            "ref" :
+                            { 
+                                "collectionName" : "section" ,
+                                "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.uniqueSectionCode" ,
+                                            "values" : 
+                                            [{
+                                                "valueSource" : "body.gradebookReference.uniqueSectionCode"
+                                            }]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }]
+                    }
                 ]
             ]
         }
-
-
     }]
 }
 

@@ -2,7 +2,7 @@
 <InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
   <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 	<CohortDescription>Statewide academic intervention cohort for English</CohortDescription>
 	<CohortType>Academic Intervention</CohortType>
 	<CohortScope>Statewide</CohortScope>
@@ -36,14 +36,14 @@
 	</ProgramReference>
   </Cohort>
   <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
+    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 	<CohortDescription>District-wide academic intervention cohort for Social Studies</CohortDescription>
 	<CohortType>Academic Intervention</CohortType>
 	<CohortScope>District</CohortScope>
 	<AcademicSubject>Social Studies</AcademicSubject>
 	<EducationOrgReference>
 	  <EducationalOrgIdentity>
-	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+	    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </EducationalOrgIdentity>
 	</EducationOrgReference>
 	<ProgramReference>
@@ -62,7 +62,7 @@
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+	    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
 		<StateOrganizationId>IL</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>
@@ -77,8 +77,8 @@
 	</StudentReference>
 	<CohortReference>
 	  <CohortIdentity>
-	    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
+	    <CohortIdentifier>ACC-TEST-COH</CohortIdentifier>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>
 	<BeginDate>2011-05-15</BeginDate>

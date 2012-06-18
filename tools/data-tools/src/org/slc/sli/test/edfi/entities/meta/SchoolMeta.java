@@ -6,6 +6,8 @@ public class SchoolMeta {
     public final String leaId;
 
     public final String simpleId;
+    
+    public String programId;
 
     public SchoolMeta(String id, LeaMeta leaMeta) {
         this.id = leaMeta.id + "-" + id;

@@ -6,7 +6,7 @@ Background: I have a landing zone route configured
 	And I am using preconfigured Ingestion Landing Zone
 
 @smoke
-Scenario: Ingested Student data should be encrypted - Clean database
+Scenario: Ingested Student data should be encrypted: Clean Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
         | collectionName              |
@@ -60,7 +60,7 @@ Scenario: Ingested Student data should be encrypted - Clean database
 		And the field "body.loginId" with value "rsd" is encrypted
 
 @smoke
-Scenario: Ingested Student data should be encrypted - Populated database
+Scenario: Ingested Student data should be encrypted: Populated Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
 	And I am willing to wait upto 30 seconds for ingestion to complete

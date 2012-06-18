@@ -43,7 +43,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author okrook
  *
  */
-public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements MessageSourceAware {
+public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements
+        MessageSourceAware {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private static final QName ID_ATTR = new QName("id");
@@ -56,11 +57,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
 
+
+    private static final String ENCODING = "UTF-8";
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
         File file = fileEntry.getFile();
 
         file = process(file, errorReport);
@@ -74,7 +78,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         StopWatch sw = new StopWatch("Processing " + xml.getName());
 
         sw.start("Find IDRefs to resolve");
-        Set<String> idRefsToResolve = this.findIDRefsToResolve(xml, errorReport);
+        Set<String> idRefsToResolve = findIDRefsToResolve(xml, errorReport);
         sw.stop();
 
         if (idRefsToResolve.isEmpty()) {
@@ -86,20 +90,24 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         try {
             sw.start("Find matching entities");
-            refContent = this.findMatchingEntities(xml, idRefsToResolve, errorReport);
+            refContent = findMatchingEntities(xml, idRefsToResolve, errorReport);
             sw.stop();
 
             sw.start("Resolve IDRefs");
-            semiResolvedXml = this.resolveIdRefs(xml, refContent, errorReport);
+            semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
             sw.stop();
         } finally {
-            for (File snippet : refContent.values()) {
-                org.apache.commons.io.FileUtils.deleteQuietly(snippet);
+            if (refContent != null) {
+                for (File snippet : refContent.values()) {
+                    org.apache.commons.io.FileUtils.deleteQuietly(snippet);
+                }
             }
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug(sw.prettyPrint());
+            LOG.debug("ID Ref time {}", sw.prettyPrint());
+        } else {
+            LOG.info("ID Ref time {}", sw.shortSummary());
         }
 
         if (semiResolvedXml == null) {
@@ -148,7 +156,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return idRefs;
     }
 
-    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids, final ErrorReport errorReport) {
+    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids,
+            final ErrorReport errorReport) {
         final Map<String, File> refContent = new HashMap<String, File>();
 
         for (String id : ids) {
@@ -206,7 +215,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out , ENCODING );
+
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
@@ -232,7 +242,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             Attribute id = start.getAttributeByName(ID_ATTR);
                             Attribute ref = start.getAttributeByName(REF_ATTR);
 
-
                             if (ref != null && refContent.containsKey(ref.getValue())) {
                                 @SuppressWarnings("unchecked")
                                 Iterator<Attribute> attrs = start.getAttributes();
@@ -244,11 +253,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                 if (id != null && id.getValue().equals(ref.getValue())) {
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                                    errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4", ref.getValue()), IdRefResolutionHandler.class);
+                                    errorReport.warning(
+                                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG4",
+                                                    ref.getValue()), IdRefResolutionHandler.class);
                                 } else {
-                                    contentToAdd = resolveRefs(this.getCurrentXPath(), refContent, ref, errorReport);
+                                    contentToAdd = resolveRefs(getCurrentXPath(), refContent, ref, errorReport);
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
-                                            (contentToAdd == null) ? "false" : "true"));
+                                            contentToAdd == null ? "false" : "true"));
                                 }
 
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
@@ -279,7 +290,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 private String getCurrentXPath() {
                     StringBuffer sb = new StringBuffer();
 
-                    for (StartElement start : this.parents) {
+                    for (StartElement start : parents) {
                         sb.append('/').append(start.getName().getLocalPart());
                     }
 
@@ -297,13 +308,15 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             newXml = null;
 
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()), IdRefResolutionHandler.class);
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
+                    IdRefResolutionHandler.class);
         } finally {
             closeResources(writer, out);
         }
 
         return newXml;
     }
+
 
     private File resolveRefs(String currentXPath, Map<String, File> refContent, Attribute ref, ErrorReport errorReport) {
 
@@ -313,10 +326,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
             if (rrs == null) {
                 LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath), IdRefResolutionHandler.class);
+                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
+                        IdRefResolutionHandler.class);
                 return null;
             } else if (!(contentToAdd instanceof IdRefFile)) {
-                //Resolved content is not cached yet, so lets resolve it and cache it.
+                // Resolved content is not cached yet, so lets resolve it and cache it.
                 File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
                 if (resolvedContent == null) {
                     LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
@@ -325,6 +339,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             IdRefResolutionHandler.class);
                 }
 
+
                 File oldContentToAdd = contentToAdd;
                 contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
 
@@ -332,15 +347,19 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
                 }
 
+
                 refContent.put(ref.getValue(), contentToAdd);
             }
         } else {
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
-            errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()), IdRefResolutionHandler.class);
+            errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
+                    IdRefResolutionHandler.class);
         }
+
 
         return contentToAdd;
     }
+
 
     private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
         BufferedInputStream xmlStream = null;
@@ -354,7 +373,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         } catch (Exception e) {
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()), IdRefResolutionHandler.class);
+            errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
+                    IdRefResolutionHandler.class);
         } finally {
             if (eventReader != null) {
                 try {
@@ -428,7 +448,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
 
-                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5", ref.getValue()), IdRefResolutionHandler.class);
+                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5",
+                                        ref.getValue()), IdRefResolutionHandler.class);
                             }
                         }
                     } else if (xmlEvent.isEndElement()) {
@@ -505,7 +526,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     Iterator<Attribute> attrs = start.getAttributes();
                     ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
 
-                    // Strip out "id" attribute if found, so it does not interfere with findMatchingEntities logic
+                    // Strip out "id" attribute if found, so it does not interfere with
+                    // findMatchingEntities logic
                     while (attrs.hasNext()) {
                         Attribute attribute = attrs.next();
                         if (!ID_ATTR.getLocalPart().equals(attribute.getName().getLocalPart())) {
@@ -513,7 +535,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         }
                     }
 
-                    xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(), start.getNamespaces());
+                    xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                            start.getNamespaces());
                 }
 
                 xmlEventWriter.add(xmlEvent);

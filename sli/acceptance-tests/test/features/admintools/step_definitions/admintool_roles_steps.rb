@@ -41,7 +41,7 @@ Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"
 end
 
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
-  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.page_source.index("Default SLI Roles") != nil}
+  assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.page_source.index("Default SLC Roles") != nil}
 end
 
 Given /^I have tried to access the SLI Default Roles Admin Page$/ do

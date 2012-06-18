@@ -19,6 +19,7 @@ Given I am a valid SLC Operator
 When I try to authenticate on the Application Approval Tool
 Then I do not get message that I am not authorized
 
+@wip
 Scenario: Valid District Super Administrator tries to authenticate on Application Registration Tool
 Given I am a valid Super Administrator
 When I try to authenticate on the Application Registration Tool

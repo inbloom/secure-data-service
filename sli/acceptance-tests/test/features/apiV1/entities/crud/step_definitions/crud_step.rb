@@ -28,7 +28,18 @@ end
 
 $entityData = {
   "gradingPeriod" => {
-    "gradingPeriod" => "Summer Semester", 
+    "gradingPeriodIdentity" => {
+      "educationalOrgIdentity" => [{
+        "educationOrgIdentificationCode" => [
+          {
+              "ID" => "Daybreak Elementary School",
+              "identificationSystem" => "School"
+          }
+        ]
+      }],
+      "gradingPeriod" => "First Six Weeks",
+      "schoolYear" => "2011-2012"
+    },
     "beginDate" => "2012-07-01",
     "endDate" => "2012-07-31",
     "totalInstructionalDays" => 20
@@ -54,7 +65,7 @@ $entityData = {
   },
   "studentAcademicRecord" => {
     "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
-    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
+    "sessionId" => "9499b9ef-640f-4103-8859-bb6d23b6b566"
   },
   "student" => {
     "birthData" => {
@@ -88,7 +99,7 @@ $entityData = {
     }],
     "courseLevel" => "Basic or remedial",
     "courseLevelCharacteristics" => ["Advanced Placement"],
-    "gradesOffered" => "Eighth grade",
+    "gradesOffered" => ["Eighth grade"],
     "subjectArea" => "Foreign Language and Literature",
     "courseDescription" => "Intro to Chinese",
     "dateCourseAdopted" => "2001-01-01",
@@ -177,7 +188,7 @@ $entityData = {
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
-    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] 
+    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",

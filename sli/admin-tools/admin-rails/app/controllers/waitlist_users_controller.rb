@@ -1,4 +1,6 @@
-class WaitlistUsersController < ActionController::Base
+class WaitlistUsersController < ApplicationController
+  skip_before_filter :handle_oauth
+  
   # GET /waitlist_users
   # GET /waitlist_users.json
   def index

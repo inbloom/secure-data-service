@@ -1,8 +1,9 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.DBObject;
 
@@ -31,7 +32,7 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
     @SuppressWarnings("unchecked")
     public NeutralRecord convert(DBObject dbObj) {
 
-        UUID uuid = (UUID) dbObj.get("_id");
+        String uuid = (String) dbObj.get("_id");
         String id = uuid.toString();
 
         String type = null;
@@ -58,17 +59,54 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         Map<String, Object> localParentIds = null;
         if (map.containsKey("localParentIds")) {
             localParentIds = (Map<String, Object>) map.get("localParentIds");
+            cleanMap(localParentIds);
+        }
+        boolean isAssociation = false;
+        if (map.get("association") != null) {
+            isAssociation = Boolean.parseBoolean(map.get("association").toString());
         }
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId(map.get("localId"));
+        if (map.get("localId") != null) {
+            neutralRecord.setLocalId(map.get("localId").toString());
+        }
         neutralRecord.setRecordId(id);
         neutralRecord.setRecordType(type);
         neutralRecord.setAttributes(body);
         neutralRecord.setBatchJobId(batchJobId);
         neutralRecord.setSourceFile((String) map.get("sourceFile"));
+        neutralRecord.setLocationInSourceFile(((Integer) map.get("locationInSourceFile")).intValue());
         neutralRecord.setLocalParentIds(localParentIds);
+        neutralRecord.setAssociation(isAssociation);
         return neutralRecord;
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    private static void cleanMap(Map<String, Object> map) {
+        List<String> toRemove = new LinkedList<String>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+
+            String key = entry.getKey();
+            if (key.contains("%DELIM%")) {
+                toRemove.add(key);
+            } else {
+                Object val = map.get(key);
+                if (val instanceof Map) {
+                    cleanMap((Map<String, Object>) val);
+                } else if (val instanceof List) {
+                    for (Object item : ((List<Object>) val)) {
+                        if (item instanceof Map) {
+                            cleanMap((Map<String, Object>) item);
+                        }
+                    }
+                }
+            }
+        }
+        for (String key : toRemove) {
+            Object value = map.remove(key);
+            key = key.replaceAll("%DELIM%", ".");
+            map.put(key, value);
+        }
     }
 
 }

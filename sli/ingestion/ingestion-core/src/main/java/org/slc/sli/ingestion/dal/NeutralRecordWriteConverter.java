@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.dal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -30,7 +29,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     private EntityEncryption encryptor;
 
     @Autowired
-    @Qualifier("type4UUIDGeneratorStrategy")
+    @Qualifier("shardType1UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public EntityEncryption getStagingEncryptor() {
@@ -52,12 +51,12 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             encryptedBody = encryptor.encrypt(neutralRecord.getRecordType(), neutralRecord.getAttributes());
         }
 
-        UUID uid = null;
+        String uid = null;
         if (neutralRecord.getRecordId() == null) {
             uid = uuidGeneratorStrategy.randomUUID();
-            neutralRecord.setRecordId(uid.toString());
+            neutralRecord.setRecordId(uid);
         } else {
-            uid = UUID.fromString(neutralRecord.getRecordId());
+            uid = neutralRecord.getRecordId();
         }
 
         Map<String, Object> localParentIds = neutralRecord.getLocalParentIds();
@@ -73,19 +72,25 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("_id", uid);
         dbObj.put("body", encryptedBody);
         dbObj.put("batchJobId", neutralRecord.getBatchJobId());
-        dbObj.put("localId", neutralRecord.getLocalId());
+        if (neutralRecord.getLocalId() != null) {
+            dbObj.put("localId", neutralRecord.getLocalId().toString());
+        }
         dbObj.put("localParentIds", localParentIds);
         dbObj.put("sourceFile", neutralRecord.getSourceFile());
+        dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
+        dbObj.put("association", neutralRecord.isAssociation());
         return dbObj;
     }
 
     @SuppressWarnings("unchecked")
     private static void cleanMap(Map<String, Object> map) {
         List<String> toRemove = new LinkedList<String>();
-        for (String key : map.keySet()) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+
+            String key = entry.getKey();
             if (key.contains(".")) {
+                LOG.debug("Field being saved to mongo has a . in it.  Wrapping in quotes  key: {}", key);
                 toRemove.add(key);
-                LOG.debug("Field being saved to mongo has a . in it.  Removing.  key: {}", key);
             } else {
                 Object val = map.get(key);
                 if (val instanceof Map) {
@@ -100,7 +105,9 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
             }
         }
         for (String key : toRemove) {
-            map.remove(key);
+            Object value = map.remove(key);
+            key = key.replaceAll("\\.", "%DELIM%");
+            map.put(key, value);
         }
     }
 }

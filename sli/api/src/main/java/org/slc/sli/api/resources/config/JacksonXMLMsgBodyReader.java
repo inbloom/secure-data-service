@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
  */
 @Provider
 @Component
-@Consumes({ MediaType.APPLICATION_XML, Resource.SLC_XML_MEDIA_TYPE })
+@Consumes({ MediaType.APPLICATION_XML+";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE+";charset=utf-8" })
 public class JacksonXMLMsgBodyReader implements MessageBodyReader<EntityBody> {
 
 

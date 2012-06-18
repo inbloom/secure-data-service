@@ -36,7 +36,7 @@ public class StudentCohortAssociationGenerator {
      */
     public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
-        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
+        String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> studentIds = cohortMeta.studentIds;
         
         List<StudentCohortAssociation> list = new ArrayList<StudentCohortAssociation>(studentIds.size());

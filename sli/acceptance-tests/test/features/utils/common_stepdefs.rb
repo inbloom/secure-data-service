@@ -34,7 +34,7 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
-  contentType = contentType(@res)
+  contentType = contentType(@res).gsub(/\s+/,"")
   jsonTypes = ["application/json", "application/json;charset=utf-8", "application/vnd.slc.full+json", "application/vnd.slc+json" "application/vnd.slc.full+json;charset=utf-8", "application/vnd.slc+json;charset=utf-8"].to_set
   if jsonTypes.include? contentType
     @result = JSON.parse(@res.body)

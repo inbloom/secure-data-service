@@ -16,7 +16,7 @@ Given I post "BatchJob.zip" file as the payload of the ingestion job
         | securityEvent               |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJob.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -26,24 +26,24 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
-  | newBatchJob    | 1                   | batchProperties.tenantId         | IL                                   |string      |
+  | newBatchJob    | 1                   | batchProperties.tenantId         | IL                                   | string     |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                     | string     |
-  | newBatchJob    | 1                   | stages.0.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor              | string     |
-  | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
-  | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.3.stageName               | XmlFileProcessor                     | string     |
-  | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                        | string     |
-  | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.5.stageName               | TransformationProcessor              | string     |
-  | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.6.stageName               | PersistenceProcessor                 | string     |
-  | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.7.stageName               | JobReportingProcessor                | string     |
-  | newBatchJob    | 1                   | stages.7.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.0.chunks.0.stageName               | ZipFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.0.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.1.chunks.0.stageName               | ControlFilePreProcessor              | string     |
+  | newBatchJob    | 1                   | stages.1.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.2.chunks.0.stageName               | ControlFileProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.2.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.3.chunks.0.stageName               | XmlFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.3.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.4.chunks.0.stageName               | EdFiProcessor                        | string     |
+  | newBatchJob    | 1                   | stages.4.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.5.chunks.0.stageName               | PersistenceProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.5.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.6.chunks.0.stageName               | TransformationProcessor              | string     |
+  | newBatchJob    | 1                   | stages.6.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.7.chunks.0.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.7.chunks.0.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |
@@ -69,7 +69,7 @@ Given I post "BatchJobPurge.zip" file as the payload of the ingestion job
         | error                       |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJobPurge.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -80,25 +80,22 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                     | string     |
-  | newBatchJob    | 1                   | stages.0.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor              | string     |
-  | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
-  | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.3.stageName               | PurgeProcessor                       | string     |
-  | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.4.stageName               | JobReportingProcessor                | string     |
-  | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.0.chunks.0.stageName               | ZipFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.0.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.1.chunks.0.stageName               | ControlFilePreProcessor              | string     |
+  | newBatchJob    | 1                   | stages.1.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.2.chunks.0.stageName               | ControlFileProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.2.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.3.chunks.0.stageName               | PurgeProcessor                       | string     |
+  | newBatchJob    | 1                   | stages.3.chunks.0.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.4.chunks.0.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.4.chunks.0.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJobPurge.zip                    | string     |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                    | integer    |
   | newBatchJob    | 1                   | resourceEntries.0.errorCount     | 0                                    | integer    |
   | newBatchJob    | 1                   | resourceEntries.1.resourceId     | controlfile.ctl                      | string     |
   | newBatchJob    | 1                   | resourceEntries.1.resourceFormat | control-file                         | string     |
-  | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
-  | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
-  | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "[configProperty] purge: true" in the resulting batch job file
@@ -112,7 +109,7 @@ Given I post "BatchJobError.zip" file as the payload of the ingestion job
         | error                       |
 
 When zip file is scp to ingestion landing zone
-  And a batch job log has been created
+  And a batch job for file "BatchJobError.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -124,18 +121,18 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | status                           | CompletedWithErrors                     | string     |
   | newBatchJob    | 1                   | totalFiles                       | 1                                       | integer    |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                        |string      |
-  | newBatchJob    | 1                   | stages.0.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor                 |string      |
-  | newBatchJob    | 1                   | stages.1.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                    |string      |
-  | newBatchJob    | 1                   | stages.2.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.3.stageName               | XmlFileProcessor                        |string      |
-  | newBatchJob    | 1                   | stages.3.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                           |string      |
-  | newBatchJob    | 1                   | stages.4.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                   |string      |
-  | newBatchJob    | 1                   | stages.5.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.0.chunks.0.stageName               | ZipFileProcessor                        |string      |
+  | newBatchJob    | 1                   | stages.0.chunks.0.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.1.chunks.0.stageName               | ControlFilePreProcessor                 |string      |
+  | newBatchJob    | 1                   | stages.1.chunks.0.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.2.chunks.0.stageName               | ControlFileProcessor                    |string      |
+  | newBatchJob    | 1                   | stages.2.chunks.0.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.3.chunks.0.stageName               | XmlFileProcessor                        |string      |
+  | newBatchJob    | 1                   | stages.3.chunks.0.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.4.chunks.0.stageName               | EdFiProcessor                           |string      |
+  | newBatchJob    | 1                   | stages.4.chunks.0.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.5.chunks.0.stageName               | JobReportingProcessor                   |string      |
+  | newBatchJob    | 1                   | stages.5.chunks.0.status                  | finished                                |string      |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJobError.zip                       |string      |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                       |integer     |
@@ -162,7 +159,8 @@ Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two 
         | error                       |
 
 When zip files are scped to the ingestion landing zone
-  And two batch job logs have been created
+  And a batch job for file "BatchJob.zip" is completed in database
+  And a batch job for file "BatchJobLarge.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
@@ -172,7 +170,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                | searchValue             | searchType |
   | newBatchJob    | 1                   | totalFiles                     | 1                       | integer    |
   | newBatchJob    | 2                   | status                         | CompletedSuccessfully   | string     |
+  | newBatchJob    | 0                   | status                         | CompletedWithErrors     | string     | 
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
 
-And the jobs ran concurrently

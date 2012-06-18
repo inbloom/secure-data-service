@@ -5,11 +5,12 @@ Background:
 Given I have an open web browser
 Given the server is in "live" mode
 When I navigate to the Dashboard home page
-When I select "Illinois Sunset School District 4526" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 
 @integration  @RALLY_US198  @RALLY_US147
 Scenario: Student has 1 email, 1 address, 1 phone
-When I login as "rbraverman" "rbraverman1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 When I select course "1st Grade Homeroom"
@@ -20,7 +21,7 @@ And I look at the panel "Contact Information"
 And I look at "Student" Contact Info
 And there are "1" phone numbers
 And the list of phone number includes "708-432-9033"
-And the phone number "708-432-9033" is of type "Unlisted"  
+And the phone number "708-432-9033" is of type "Unlisted"
 And there are "1" email addresses
 And the list of email address includes "Dalia_Pingel@yahoo.com"
 And the email "Dalia_Pingel@yahoo.com" is of type "Other"
@@ -34,7 +35,8 @@ And the address "1558 4th Street" is of type "Home"
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
-When I login as "rbraverman" "rbraverman1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 When I select course "1st Grade Homeroom"
@@ -54,12 +56,12 @@ And the email "felipe.rafalski@yahoo.com" is of type "Home/Personal"
 And the email "f.rafalski@gmail.com" is of type "School E-mail"
 And the email "Felipe_Rafalski@gmail.com" is of type "Other"
 And the order of the email addresses is "felipe.rafalski@yahoo.com;f.rafalski@gmail.com;Felipe_Rafalski@gmail.com"
-And the list of address includes 
+And the list of address includes
 """
 8124 Brighton 3 Place
 Chicago, IL 60848-7633
 """
-And the list of address includes 
+And the list of address includes
 """
 1537 Steuben Street, APT 330
 New York, NY 10753-2389
@@ -69,7 +71,8 @@ And the address "1537 Steuben Street" is of type "Physical"
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario:  Student has no email and no address
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -82,7 +85,8 @@ And there are "0" addresses
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario:  Student has no phone numbers
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -94,7 +98,8 @@ And there are "0" phone numbers
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario: Address has buildingSiteNumber and not in US
-When I login as "rbraverman" "rbraverman1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 When I select course "1st Grade Homeroom"
@@ -103,13 +108,13 @@ Given I click on student "Bennie Cimmino"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "2" addresses
-And the list of address includes 
+And the list of address includes
 """
 3655 Brighton 2nd Lane, APT 4221
 351
 Chicago, IL 60908-1028
 """
-And the list of address includes 
+And the list of address includes
 """
 9857 Kingsborough 2nd Walk
 Toronto, WA A1B 2C3
@@ -118,7 +123,8 @@ CA
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario:  primaryTelephoneNumber is not present
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -131,7 +137,8 @@ And the list of phone number includes "708-929-8507"
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario:  primaryTelephoneNumber is not the Home Number
-When I login as "linda.kim" "linda.kim1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -144,7 +151,8 @@ And the order of the phone numbers is "219-828-9469;630-196-0500;779-503-8057;21
 
 @integration @RALLY_US198  @RALLY_US147
 Scenario:  Check address sorting order
-When I login as "rbraverman" "rbraverman1234"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 When I select course "1st Grade Homeroom"
@@ -152,8 +160,8 @@ When I select section "Mrs. Braverman's Homeroom #38"
 Given I click on student "Dara Nemecek"
 And I view its student profile
 And I look at the panel "Contact Information"
-And there are "2" addresses 
-And the list of address includes 
+And there are "2" addresses
+And the list of address includes
 """
 4256 Wyckoff Street
 New York, NY 10473-1436
@@ -166,10 +174,10 @@ Chicago, IL 60457-1957
 And the order of the addressess is "4256 Wyckoff Street;4606 Albemarle Road"
 
 @wip
-Scenario: Max (10) phone numbers 
-Given the server is in "test" mode	
+Scenario: Max (10) phone numbers
+Given the server is in "test" mode
 
-@wip	
+@wip
 Scenario: Max (10) email addresses
 Given the server is in "test" mode
 
@@ -184,4 +192,4 @@ Given the server is in "test" mode
 @wip
 Scenario: Begin Date in address is later than today's date
 Given the server is in "test" mode
-	
+

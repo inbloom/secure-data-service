@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ACADEMIC_RECORDS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
 public class StudentAcademicRecordResource extends DefaultCrudResource {
 
     @Autowired
