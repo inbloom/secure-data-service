@@ -62,6 +62,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
 
+    private static final String XML_ENCODING = "UTF-8";
+
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
 
@@ -259,7 +261,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out, XML_ENCODING);
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
@@ -484,7 +486,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XMLEventWriter writer = null;
 
         try {
-            writer = OUTPUT_FACTORY.createXMLEventWriter(os);
+            writer = OUTPUT_FACTORY.createXMLEventWriter(os, XML_ENCODING);
 
             final XMLEventWriter wr = writer;
 
