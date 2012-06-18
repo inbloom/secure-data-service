@@ -3384,102 +3384,16 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
     <jb:expression property="recordType">'studentDisciplineIncidentAssociation'</jb:expression>
-    <jb:expression property="association">true</jb:expression>
     <jb:wiring property="attributes" beanIdRef="studentDisciplineIncidentAssociationAttributes" />
   </jb:bean>
 
   <jb:bean beanId="studentDisciplineIncidentAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation">
-    <jb:wiring property="StudentReference" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference" />
-    <jb:wiring property="DisciplineIncidentReference" beanIdRef="StudentDisciplineIncidentAssociation_DisciplineIncidentReference" />
+    <jb:value property="studentUniqueStateId" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:value property="disciplineIncidentIdentifier" data="StudentDisciplineIncidentAssociation/DisciplineIncidentReference/DisciplineIncident/IncidentIdentifier" />
     <jb:value property="StudentParticipationCode" data="StudentDisciplineIncidentAssociation/StudentParticipationCode" />
     <jb:wiring property="Behaviors" beanIdRef="StudentDisciplineIncidentAssociation_BehaviorsArray" />
     <jb:wiring property="SecondaryBehaviors" beanIdRef="StudentDisciplineIncidentAssociation_SecondaryBehaviorsArray" />
-  </jb:bean>
-
-  <!-- StudentDisciplineIncidentAssociation supporting objects: StudentReference -->
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference">
-    <jb:wiring property="StudentIdentity" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity">
-    <jb:value property="StudentUniqueStateId" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:wiring property="StudentIdentificationCode" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_StudentIdentificationCodeArray" />
-    <jb:wiring property="Name" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Name" />
-    <jb:wiring property="OtherName" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_OtherNameArray" />
-    <jb:value property="BirthDate" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/BirthDate" />
-    <jb:value property="Sex" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Sex" />
-    <jb:value property="HispanicLatinoEthnicity" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/HispanicLatinoEthnicity" decoder="Boolean" />
-    <jb:wiring property="Race" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Race" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_StudentIdentificationCodeArray"
-    class="java.util.ArrayList"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity">
-    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_StudentIdentificationCode" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_StudentIdentificationCode"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentIdentificationCode">
-    <jb:value property="IdentificationSystem" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/@IdentificationSystem" />
-    <jb:value property="AssigningOrganizationCode" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/@AssigningOrganizationCode" />
-    <jb:value property="ID" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/ID" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Name"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name">
-    <jb:value property="Verification" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/@Verification" />
-    <jb:value property="PersonalTitlePrefix" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/PersonalTitlePrefix" />
-    <jb:value property="FirstName" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/FirstName" />
-    <jb:value property="MiddleName" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/MiddleName" />
-    <jb:value property="LastSurname" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/LastSurname" />
-    <jb:value property="GenerationCodeSuffix" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/GenerationCodeSuffix" />
-    <jb:value property="MaidenName" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Name/MaidenName" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_OtherNameArray"
-    class="java.util.ArrayList"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity">
-    <jb:wiring beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_OtherName" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_OtherName"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName">
-    <jb:value property="OtherNameType" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/@OtherNameType" />
-    <jb:value property="PersonalTitlePrefix" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/PersonalTitlePrefix" />
-    <jb:value property="FirstName" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/FirstName" />
-    <jb:value property="MiddleName" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/MiddleName" />
-    <jb:value property="LastSurname" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/LastSurname" />
-    <jb:value property="GenerationCodeSuffix" data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/OtherName/GenerationCodeSuffix" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Race"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Race">
-    <jb:wiring property="RacialCategory" beanIdRef="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Race_RacialCategoryArray" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_StudentReference_StudentIdentity_Race_RacialCategoryArray"
-    class="java.util.ArrayList"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Race">
-    <jb:value data="StudentDisciplineIncidentAssociation/StudentReference/StudentIdentity/Race/RacialCategory" />
-  </jb:bean>
-
-  <!-- StudentDisciplineIncidentAssociation supporting objects: DisciplineIncidentReference -->
-
-  <jb:bean beanId="StudentDisciplineIncidentAssociation_DisciplineIncidentReference"
-    class="java.util.HashMap"
-    createOnElement="InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference">
-    <jb:value property="id" data="StudentDisciplineIncidentAssociation/DisciplineIncidentReference/@id" />
-    <jb:value property="ref" data="StudentDisciplineIncidentAssociation/DisciplineIncidentReference/@ref" />
   </jb:bean>
 
   <!-- StudentDisciplineIncidentAssociation supporting objects: Behaviors -->
