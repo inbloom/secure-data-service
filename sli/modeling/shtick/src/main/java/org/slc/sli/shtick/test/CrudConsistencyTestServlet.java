@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slc.sli.shtick.StandardLevel3ClientManual;
+import org.slc.sli.shtick.pojo.Name;
+import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.Student;
 
 /**
@@ -28,9 +30,11 @@ public class CrudConsistencyTestServlet extends HttpServlet {
 
     StandardLevel3ClientManual client;
 
+    private final int rrogersAccessibleStudentsCount = 82;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        client = new StandardLevel3ClientManual("http://local.slidev.org:8080/api/rest/v1/");
+        client = new StandardLevel3ClientManual(TestConstants.API_URL);
 
         String testResult = "";
         String testType = req.getParameter("testType");
@@ -93,15 +97,41 @@ public class CrudConsistencyTestServlet extends HttpServlet {
     }
 
     private String testRead() {
-        String rrogersToken = "cacd9227-5b14-4685-babe-31230476cf3b";
         List<String> idList = new ArrayList<String>();
-        idList.add("d2462231-4f6c-452e-9b29-4a63ad92138e");
+        idList.add(TestConstants.MARVIN_MILLER_ID);
         try {
-            List<Student> student = client.getStudentsById(rrogersToken, idList,
+            List<Student> students = client.getStudentsById(TestConstants.RICK_ROGERS_TOKEN, idList,
                     Collections.<String, Object> emptyMap());
-            if (student.size() != 1) {
+            if (students.size() != 1) {
                 return String.format(TestResultConstants.ERROR_GENERIC,
-                        String.format("received %s student record(s)", student.size()));
+                        String.format("received %s student record(s)", students.size()));
+            } else {
+                Student student = students.get(0);
+                String errorMsg = "";
+                Name name = student.getName();
+                if (!name.getFirstName().getValue().equals("Marvin")) {
+                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
+                            "First name does not match.\n");
+                }
+                if (!name.getLastSurname().getValue().equals("Miller")) {
+                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
+                            "Last name does not match.\n");
+                }
+                SexType sexType = student.getSex();
+                if (!sexType.getName().equals("Male")) {
+                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
+                            "Sex does not match.\n");
+                }
+                // we can check more fields here if we wish
+                if (!errorMsg.isEmpty()) {
+                    return errorMsg;
+                }
+            }
+
+            students = client.getStudents(TestConstants.RICK_ROGERS_TOKEN, Collections.<String, Object> emptyMap());
+            if (students.size() != rrogersAccessibleStudentsCount) {
+                return String.format(TestResultConstants.ERROR_GENERIC,
+                        String.format("received %s student record(s)", students.size()));
             }
         } catch (Exception e) {
             e.printStackTrace();
