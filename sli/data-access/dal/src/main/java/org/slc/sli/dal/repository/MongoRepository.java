@@ -154,14 +154,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     // DE719 -- Not sure how to handle this, since it is using Generics. We
     // will not know until compileTime, what the object will be.
     public T create(T record, String collectionName) {
-        String recordId = getRecordId(record);
-        if (recordId != null) {
-            update(collectionName, record);
-        } else {
-            template.insert(record, collectionName);
-        }
-
-//        template.save(record, collectionName);
+        template.insert(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[]{collectionName, getRecordId(record)});
         return record;
     }
