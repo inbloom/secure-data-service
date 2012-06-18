@@ -38,7 +38,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * 
  */
 public class ResourceUtil {
-    
+
+    private static final String REFERENCE = "REF";
+    private static final String LINK = "LINK";
+    private static final String BLANK = "";
+    private static final  Map<String, String> LINK_NAMES = new HashMap<String, String>();
+    static {
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.EDUCATION_ORGANIZATIONS+REFERENCE,"getParentEducationOrganization");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.SCHOOLS+LINK,"getFeederSchools");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.EDUCATION_ORGANIZATIONS+LINK,"getFeederEducationOrganizations");
+        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.EDUCATION_ORGANIZATIONS+REFERENCE,"getParentEducationOrganization");
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES+ResourceNames.LEARNINGOBJECTIVES+REFERENCE,"getParentLearningObjective");
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES+ResourceNames.LEARNINGOBJECTIVES+LINK,"getChildLearningObjectives");
+        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.SCHOOLS+REFERENCE,BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.SCHOOLS+LINK,BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.EDUCATION_ORGANIZATIONS+LINK,BLANK);
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.SCHOOLS+REFERENCE,BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS+"responsibilitySchoolId"+LINK, "getDisciplineActionsAsResponsibleSchool");
+        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.DISCIPLINE_ACTIONS+"assignmentSchoolId"+LINK, "getDisciplineActionsAsAssignedSchool");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS+LINK, BLANK);
+
+    }
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
      * a self link, all other parameters can be null.
@@ -217,13 +237,8 @@ public class ResourceUtil {
             } else {
                 // loop through all reference fields, display as ? links
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                    String linkName;
+                    String linkName = getLinkName(defn.getResourceName(), definition.getResourceName(), referenceFieldName, false);
 
-                    if(isSelfReference(defn.getResourceName(), definition.getResourceName())) {
-                        linkName =  ResourceNames.CHILD_LINK_NAMES(defn.getResourceName());
-                    } else {
-                        linkName = ResourceNames.PLURAL_LINK_NAMES.get(defn.getResourceName());
-                    }
                     if(!linkName.isEmpty()) {
                         links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                                 PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
@@ -270,13 +285,8 @@ public class ResourceUtil {
                             .getValue().getResourceName());
                     
                     for (String resourceName : resourceNames) {
-                        String linkName ;
+                        String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
 
-                        if(isSelfReference(defn.getResourceName(), resourceName)) {
-                            linkName =  ResourceNames.PARENT_LINK_NAMES(resourceName);
-                        } else {
-                            linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
-                        }
                         if(!linkName.isEmpty()) {
                             links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                                     PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
@@ -394,17 +404,43 @@ public class ResourceUtil {
         return principal;
     }
 
-    public static boolean isSelfReference(String resourceName, String referenceName) {
-        boolean bSelfReference = false;
+    /**
+     * Finds the link name based on the entity type and the reference entity name
+     * @param resourceName
+     *          Entity name for which the links are generated
+     * @param referenceName
+     *          Referenced entity name
+     * @param referenceField
+     *          Referenced field Name
+     * @param isReferenceEntity
+     *          indicates whether its a referenced entity
+     * @return
+     */
+    public static String getLinkName(String resourceName, String referenceName, String referenceField, boolean isReferenceEntity) {
 
-        if(resourceName.equals(referenceName)) {
-            bSelfReference = true;
-        } else if(resourceName.equals(ResourceNames.SCHOOLS) && referenceName.equals(ResourceNames.EDUCATION_ORGANIZATIONS)) {
-            bSelfReference = true;
-        } else if(resourceName.equals(ResourceNames.EDUCATION_ORGANIZATIONS) && referenceName.equals(ResourceNames.SCHOOLS)) {
-            bSelfReference = true;
+        boolean bSelfReference = false;
+        String  linkName = "";
+        String key = resourceName + referenceName;
+        String keyWithRefField = key + referenceField + LINK;
+
+       if(isReferenceEntity) {
+            key = key + REFERENCE;
+        } else {
+            key = key +LINK;
         }
-        return bSelfReference;
+
+        if( LINK_NAMES.containsKey(key)){
+            linkName = LINK_NAMES.get(key);
+        } else if(LINK_NAMES.containsKey(keyWithRefField)) {
+            linkName = LINK_NAMES.get(keyWithRefField);
+        } else if(isReferenceEntity) {
+          linkName = ResourceNames.SINGULAR_LINK_NAMES.get(referenceName);
+        } else {
+          linkName = ResourceNames.PLURAL_LINK_NAMES.get(referenceName);
+        }
+
+        return  linkName;
     }
+
     
 }

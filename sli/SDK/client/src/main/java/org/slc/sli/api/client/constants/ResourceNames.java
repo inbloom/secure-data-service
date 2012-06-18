@@ -140,17 +140,4 @@ public final class ResourceNames {
         }
     }
 
-    public static final Map<String, String> PARENT_LINK_NAMES = new HashMap<String, String>();
-    static {
-        PARENT_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS, "getParentEducationOrganization");
-        PARENT_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getParentLearningObjective");
-    }
-
-    public static final Map<String, String> CHILD_LINK_NAMES = new HashMap<String, String>();
-    static {
-        CHILD_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS, "getFeederEducationOrganizations");
-        CHILD_LINK_NAMES.put(ResourceNames.SCHOOLS, "getFeederSchools");
-        CHILD_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getChildLearningObjectives");
-    }
-
 }
