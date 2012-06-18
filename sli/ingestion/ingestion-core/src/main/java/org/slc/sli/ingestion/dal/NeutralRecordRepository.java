@@ -27,8 +27,7 @@ import org.slc.sli.ingestion.util.LogUtil;
  *
  */
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
-    // public class NeutralRecordRepository {
-
+    
     protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     private MongoIndexManager mongoIndexManager;
@@ -209,7 +208,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
             try {
                 for (IndexDefinition definition : mongoIndexManager.getCollectionIndexes().get(collectionName)) {
-                    LOG.info("Adding Index: {}", definition);
+                    LOG.debug("Adding Index: {}", definition);
                     ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
                 }
             } catch (Exception e) {
