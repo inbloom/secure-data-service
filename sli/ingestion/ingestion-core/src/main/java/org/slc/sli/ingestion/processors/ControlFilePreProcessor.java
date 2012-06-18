@@ -246,7 +246,5 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
-        
     }
-    
 }
