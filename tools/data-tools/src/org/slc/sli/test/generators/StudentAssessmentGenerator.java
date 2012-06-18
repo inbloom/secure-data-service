@@ -8,6 +8,7 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.LanguageItemType;
 import org.slc.sli.test.edfi.entities.LinguisticAccommodationItemType;
 import org.slc.sli.test.edfi.entities.LinguisticAccommodationsType;
+import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
 import org.slc.sli.test.edfi.entities.ReasonNotTestedType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
@@ -85,8 +86,12 @@ public class StudentAssessmentGenerator {
 
             // performanceLevels
             String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
-            sa.getPerformanceLevels().add(
-                    PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
+//            sa.getPerformanceLevels().add(
+//                    PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
+            PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
+            pldt.setPerformanceLevelMet(true);
+            pldt.setCodeValue(randomPerfLevelDescId);
+            sa.getPerformanceLevels().add(pldt);
         }
 
         return sa;
