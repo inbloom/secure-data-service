@@ -64,8 +64,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
-    @Value("${sli.ingestion.cache.flush.policy}")
-    private String flushCachePolicy;
+
 
     private MessageSource messageSource;
 
@@ -78,9 +77,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        if ( "newfile".equals( flushCachePolicy ) ) {
-            cacheProvider.flush();
-        }
+
         processUsingNewBatchJob(exchange);
     }
 
