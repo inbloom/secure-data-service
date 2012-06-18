@@ -103,7 +103,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            bucketCache.flush();
+            bucketCache.flushAllBuckets();
             BatchJobUtils.stopStageAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
         }

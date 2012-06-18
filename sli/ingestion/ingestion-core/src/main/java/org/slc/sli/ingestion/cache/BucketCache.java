@@ -1,6 +1,8 @@
 package org.slc.sli.ingestion.cache;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,18 +14,34 @@ import org.springframework.stereotype.Component;
 @Component
 public class BucketCache {
 
-    @Autowired
-    private CacheProvider cacheProvider;
+    private ConcurrentMap<String, CacheProvider> bucketCache = new ConcurrentHashMap<String, CacheProvider>();
 
-    public void add(String bucket, String key, Object value) {
-        cacheProvider.add("##" + bucket + "##" + key, value);
+    public void addToBucket(String bucket, String key, Object value) {
+        CacheProvider cacheProvider = bucketCache.get(bucket);
+        if (cacheProvider == null) {
+            bucketCache.putIfAbsent(bucket, new InmemoryCacheProvider());
+            cacheProvider = bucketCache.get(bucket);
+        }
+        cacheProvider.add(key, value);
     }
 
-    public Object get(String bucket, String key) {
-        return cacheProvider.get("##" + bucket + "##" + key);
+    public Object getFromBucket(String bucket, String key) {
+        CacheProvider cacheProvider = bucketCache.get(bucket);
+        if (cacheProvider != null) {
+            return cacheProvider.get(key);
+        }
+        return null;
     }
 
-    public void flush() {
-        cacheProvider.flush();
+    public void flushAllBuckets() {
+        for (String key : bucketCache.keySet()) {
+            bucketCache.remove(key);
+        }
+    }
+
+    public void flushBucket(String bucket) {
+        if (bucket != null) {
+            bucketCache.remove(bucket);
+        }
     }
 }
