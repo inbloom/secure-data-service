@@ -28,6 +28,7 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private String checksum;
     private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
+    private File tmpProcessingDir;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
@@ -188,5 +189,23 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
      */
     public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
         this.topLevelLandingZonePath = topLevelLandingZonePath;
+    }
+
+    /**
+     * Set the location temporary files used to process this resource should be located
+     *
+     * @return the tmpProcessingDir
+     */
+    public File getTmpProcessingDir() {
+        return tmpProcessingDir;
+    }
+
+    /**
+     * Get the location temporary files used to process this resource should be located
+     *
+     * @param dir the tmpProcessingDir to set
+     */
+    public void setTmpProcessingDir(File dir) {
+        this.tmpProcessingDir = dir;
     }
 }

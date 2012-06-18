@@ -21,6 +21,10 @@
     <property name="excludeCollections" ref="excluded"/>
 </bean>
 
+<bean id="xmlFileProcessor" class="org.slc.sli.ingestion.processors.XmlFileProcessor">
+    <property name="idRefDir" value="${sli.ingestion.idref.tempDir}"/>
+</bean>
+
 </beans>
 
 

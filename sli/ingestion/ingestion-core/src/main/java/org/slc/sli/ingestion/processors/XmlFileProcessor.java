@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -45,6 +46,8 @@ public class XmlFileProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    private String idRefDir;
+
     @Override
     public void process(Exchange exchange) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
@@ -74,6 +77,12 @@ public class XmlFileProcessor implements Processor {
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
         TenantContext.setTenantId(newJob.getTenantId());
 
+        // create the directory to use for temporary file storage/processing
+        File idRefJobDir = new File(idRefDir + File.separator + batchJobId);
+        if (!idRefJobDir.exists()) {
+            idRefJobDir.mkdirs();
+        }
+
         try {
             boolean hasErrors = false;
             for (ResourceEntry resource : newJob.getResourceEntries()) {
@@ -86,7 +95,7 @@ public class XmlFileProcessor implements Processor {
                     FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
                     IngestionFileEntry fe = new IngestionFileEntry(format, type, resource.getResourceId(),
                             resource.getChecksum());
-                    fe.setBatchJobId(batchJobId);
+                    fe.setTmpProcessingDir(idRefJobDir);
 
                     fe.setFile(new File(resource.getResourceName()));
 
@@ -109,6 +118,19 @@ public class XmlFileProcessor implements Processor {
         } finally {
             BatchJobUtils.stopStageAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
+
+            if (idRefJobDir.isDirectory()) {
+                try {
+                    org.apache.commons.io.FileUtils.deleteDirectory(idRefJobDir);
+                } catch (IOException e) {
+                    try {
+                        LOG.warn("Unable to remove temporary files at {}", idRefJobDir.getCanonicalPath());
+                    } catch (IOException e1) {
+                        LOG.warn("Unable to remove temporary files at {}", idRefJobDir.getName());
+                    }
+                }
+            }
+
         }
     }
 
@@ -154,6 +176,20 @@ public class XmlFileProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    /**
+     * @return the idrefDir
+     */
+    public String getIdRefDir() {
+        return idRefDir;
+    }
+
+    /**
+     * @param idrefDir the idrefDir to set
+     */
+    public void setIdRefDir(String idRefDir) {
+        this.idRefDir = idRefDir;
     }
 
 }

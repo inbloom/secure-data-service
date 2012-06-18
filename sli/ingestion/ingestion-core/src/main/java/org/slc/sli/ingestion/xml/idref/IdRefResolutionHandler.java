@@ -62,26 +62,21 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
 
-    private String idRefDir;
-    private File idRefJobDir = null;
-
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) {
-        if (idRefJobDir == null) {
-            idRefJobDir = new File(idRefDir + "/" + fileEntry.getBatchJobId());
-            idRefJobDir.mkdirs();
-        }
-        File file = fileEntry.getFile();
 
-        file = process(file, errorReport);
+        File file = fileEntry.getFile();
+        File idRefTmpDir = fileEntry.getTmpProcessingDir();
+
+        file = process(file, idRefTmpDir, errorReport);
 
         fileEntry.setFile(file);
 
         return fileEntry;
     }
 
-    protected File process(File xml, ErrorReport errorReport) {
+    protected File process(File xml, File idRefTmpDir, ErrorReport errorReport) {
         StopWatch sw = new StopWatch("Processing " + xml.getName());
 
         sw.start("Find IDRefs to resolve");
@@ -97,11 +92,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         try {
             sw.start("Find matching entities");
-            refContent = findMatchingEntities(xml, idRefsToResolve, errorReport);
+            refContent = findMatchingEntities(xml, idRefsToResolve, idRefTmpDir, errorReport);
             sw.stop();
 
             sw.start("Resolve IDRefs");
-            semiResolvedXml = resolveIdRefs(xml, refContent, errorReport);
+            semiResolvedXml = resolveIdRefs(xml, refContent, idRefTmpDir, errorReport);
             sw.stop();
         } finally {
             if (refContent != null) {
@@ -121,7 +116,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return xml;
         } else {
             FileUtils.renameFile(semiResolvedXml, xml);
-            return process(xml, errorReport);
+            return process(xml, idRefTmpDir, errorReport);
         }
     }
 
@@ -163,7 +158,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return idRefs;
     }
 
-    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids,
+    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids, final File idRefTmpDir,
             final ErrorReport errorReport) {
         final Map<String, File> refContent = new HashMap<String, File>();
 
@@ -193,7 +188,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 Attribute id = start.getAttributeByName(ID_ATTR);
 
-                File content = getContent(xml, xmlEvent, eventReader, errorReport);
+                File content = getContent(xml, xmlEvent, eventReader, idRefTmpDir, errorReport);
                 refContent.put(id.getValue(), content);
 
                 idsToProcess--;
@@ -211,15 +206,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return refContent;
     }
 
-    protected File resolveIdRefs(final File xml, final Map<String, File> refContent, final ErrorReport errorReport) {
+    protected File resolveIdRefs(final File xml, final Map<String, File> refContent, File idRefTmpDir, final ErrorReport errorReport) {
         File newXml = null;
 
         BufferedOutputStream out = null;
         XMLEventWriter writer = null;
 
         try {
-//            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
-            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
+            newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(idRefTmpDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
@@ -418,17 +412,15 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader, final ErrorReport errorReport) {
+    private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader, File idRefTmpDir, final ErrorReport errorReport) {
         File snippet = null;
 
         BufferedOutputStream out = null;
         XMLEventWriter writer = null;
 
         try {
-//            snippet = File
-//                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
             snippet = File
-                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(idRefJobDir, ".idref"));
+                    .createTempFile("snippet", ".xml", FileUtils.getOrCreateSubDir(idRefTmpDir, ".idref"));
 
             out = new BufferedOutputStream(new FileOutputStream(snippet));
 
@@ -605,17 +597,4 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         this.supportedResolvers = supportedResolvers;
     }
 
-    /**
-     * @return the idrefDir
-     */
-    public String getIdRefDir() {
-        return idRefDir;
-    }
-
-    /**
-     * @param idrefDir the idrefDir to set
-     */
-    public void setIdRefDir(String idRefDir) {
-        this.idRefDir = idRefDir;
-    }
 }

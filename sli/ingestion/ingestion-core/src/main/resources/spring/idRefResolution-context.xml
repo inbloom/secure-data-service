@@ -167,7 +167,6 @@
       </util:list>
     </property>
     <property name="supportedResolvers" ref="strategyConfig" />
-    <property name="idRefDir" value="${sli.ingestion.idref.tempDir}"/>
   </bean>
 
   <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
