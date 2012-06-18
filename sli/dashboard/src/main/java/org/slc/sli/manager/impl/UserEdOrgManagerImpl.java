@@ -300,8 +300,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                             if (((GenericEntity) section).getId().equals(key)) {
                                 GenericEntity selectedOrg = new GenericEntity();
                                 selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                                selectedOrg.put(Constants.ATTR_SECTION, section);
+                                // clone the section and add a courseId to it, which will be used in
+                                // the js
+                                GenericEntity sectionClone = (GenericEntity) ((GenericEntity) section).clone();
+                                sectionClone.put(Constants.ATTR_COURSE_ID, ((GenericEntity) course).getId());
+                                selectedOrg.put(Constants.ATTR_SECTION, sectionClone);
                                 entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+
                                 return entity;
                             }
                         }

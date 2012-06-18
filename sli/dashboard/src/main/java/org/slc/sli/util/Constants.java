@@ -129,6 +129,7 @@ public final class Constants {
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
     public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
+    public static final String ATTR_COURSE_OFFERING_ID = "courseOfferingId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_STUDENT_ATTENDANCES_1 = "attendances.1";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
