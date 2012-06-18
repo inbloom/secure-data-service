@@ -11,7 +11,7 @@ Given there is an account in ldap for vendor "Macro Corp"
 And the account has a tenantId "MacroCorp1234"
 When the developer go to the provisioning application web page
 And the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-And I provision with high-level ed-org to "<EDORG_NAME>"
+And I provision with "production" high-level ed-org to "<EDORG_NAME>"
 Then I get the success message
 And an ed-org is created in Mongo with the "stateOrganizationId" is "<EDORG_NAME>"
 And a request to provision a landing zone is made
@@ -88,14 +88,14 @@ Then the <Ingestion_Admin> is gets an already provisioned message
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create a LZ for my sandbox tenancy
 Given there is an account in ldap for vendor "Macro Corp"
-And the account has a tenantId <DEVELOPER_EMAIL>
-And the account has a <EDORG_NAME> of "SANDBOX_EDORG"
+And the account has a tenantId "<DEVELOPER_EMAIL>"
+#And the account has a edorgId "<SANDBOX_EDORG>"
 And there is no corresponding tenant in mongo
 And there is no corresponding ed-org in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the developer provision a Landing zone
-Then a tenantId  <DEVELOPER_EMAIL> created in Mongo
+When the developer provision a "sandbox" Landing zone with edorg is "<EDORG_NAME>"
+Then a tenantId "<DEVELOPER_EMAIL>" created in Mongo
 And an ed-org is created in Mongo with the "stateOrganizationId" is "<EDORG_NAME>"
 And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap

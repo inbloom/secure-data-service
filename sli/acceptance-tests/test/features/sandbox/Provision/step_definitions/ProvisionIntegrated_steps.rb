@@ -8,14 +8,16 @@ require_relative '../../../utils/selenium_common.rb'
 
 Before do 
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])  
+   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+   @edorgId =  "Test Ed Org"
 end
 
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @email                                       if human_readable_id == "USERID"
   id = "test1234"                                   if human_readable_id == "PASSWORD"
-  id = "Test Ed Org"                                   if human_readable_id == "EDORG_NAME"
+  id = @edorgId                                     if human_readable_id == "EDORG_NAME"
+  id = "devldapuser@slidev.org"                     if human_readable_id == "DEVELOPER_EMAIL"
   id
 end
 
@@ -43,6 +45,7 @@ end
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #@email="devldapuser_#{Socket.gethostname}@slidev.org"
 @email="devldapuser@slidev.org"
+@tenantId = tenantId
 removeUser(@email)
 sleep(1)
 
@@ -58,7 +61,7 @@ sleep(1)
        :homedir => "changeit",
        :uidnumber => "500",
        :gidnumber => "500",
-       :tenantId => tenantId
+       :tenantId => @tenantId
    }
 
   ApprovalEngine.add_disabled_user(user_info)
@@ -70,6 +73,34 @@ sleep(1)
   #clear_tenant()
 end
 
+Given /^there is no corresponding tenant in mongo$/ do
+  clear_tenant
+end
+
+Given /^there is no corresponding ed\-org in mongo$/ do
+  clear_edOrg
+end
+
+When /^the developer provision a "(.*?)" Landing zone with edorg is "(.*?)"$/ do |env,edorgId|
+  step "I provision with \"#{env}\" high\-level ed\-org to \"#{edorgId}\""
+  end
+  
+Then /^a tenantId "([^"]*)" created in Mongo$/ do |tenantId|
+ tenant_coll=@db["tenant"]
+ assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
+end
+
+Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
+ tenant_coll=@db["tenant"]
+ tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
+ puts tenant_entity
+end
+
+Then /^the user gets a success message$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
@@ -80,7 +111,10 @@ When /^the developer go to the provisioning application web page$/ do
   @driver.get url
 end
 
-When /^I provision with high\-level ed\-org to "([^"]*)"$/ do |edorgName|
+When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
+  if(env=="sandbox")
+  @driver.find_element(:id, "custom").click
+  end
   @driver.find_element(:id, "custom_ed_org").send_keys edorgName
   @driver.find_element(:id, "provisionButton").click
   @edorgName=edorgName
@@ -114,10 +148,12 @@ def removeUser(email)
 end
 def clear_edOrg
    edOrg_coll=@db["educationOrganization"]
-   edOrg_coll.remove()
+   edOrg_coll.remove("body.stateOrganizationId"=>@edorgId)
+   assert(edOrg_coll.find("body.stateOrganizationId"=>@edorgId).count==0,"edorg with stateOrganizationId #{@edorgId} still exist in mongo")
 end
 
 def clear_tenant
    tenant_coll=@db["tenant"]
-   tenant_coll.remove()
+   tenant_coll.remove("body.tenantId"=>@tenantId)
+   assert(tenant_coll.find('body.tenantId'=> @tenantId).count()==0,"tenant with tenantId #{@tenantId} still exist in mongo")
 end

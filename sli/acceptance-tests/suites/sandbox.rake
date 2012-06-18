@@ -60,5 +60,18 @@ end
 # Onboarding tests end
 ############################################################
 
+###########################################################
+# Provisioning tests start
+############################################################
+
+desc "Run Provisioning Integration Sandbox Tests"
+task :provisionIntegrationSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  runTests("test/features/sandbox/Provision/provision_Integrated.feature")
+end
+############################################################
+# Provisioning tests end
+############################################################
+
 
 
