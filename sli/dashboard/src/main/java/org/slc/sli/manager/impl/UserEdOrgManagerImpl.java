@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -103,13 +102,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         // create ed-org key and save to cache
         if (edOrg != null) {
-            @SuppressWarnings("unchecked")
-            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
-            if (metaData != null && !metaData.isEmpty()) {
-                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
-                }
-            }
+            return new EdOrgKey(edOrg.getId());
         }
         return null;
     }
