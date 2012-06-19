@@ -165,11 +165,6 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         return null;
     }
 
-    protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {
-
-        return edOrgKey == null ? null : edOrgKey.getDistrictId();
-    }
-
     @Override
     @Cacheable(value = Constants.CACHE_USER_PANEL_CONFIG)
     public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
@@ -178,13 +173,6 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         // if api has config, use it, otherwise, try local config
         if (configMap != null && !configMap.isEmpty()) {
             customComponentConfig = configMap.getComponentConfig(componentId);
-        } else {
-            try {
-                customComponentConfig = loadConfig(new File(getComponentConfigLocation(getCustomConfigPathForUserDomain(edOrgKey), componentId)));
-            } catch (Exception e) {
-                logger.error("Unable to read config for " + componentId + ", for " + getCustomConfigPathForUserDomain(edOrgKey), e);
-                throw new DashboardException("Unable to read local custom config for " + componentId);
-            }
         }
         return getConfigByPath(customComponentConfig, componentId);
     }

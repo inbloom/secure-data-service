@@ -41,7 +41,6 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
     public static final String SUBSTITUTE_TOKEN_PATTERN = "\\$\\{([^}]+)\\}";
-    private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
