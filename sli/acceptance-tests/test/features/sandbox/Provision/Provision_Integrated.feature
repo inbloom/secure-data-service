@@ -119,7 +119,6 @@ And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the user gets a success message
 
-@wip
 @sandbox
 Scenario: As an developer I can use the provisioning tool to switch between LZ
 Given there is an account in ldap for vendor "Macro Corp"

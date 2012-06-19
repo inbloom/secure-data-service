@@ -9,7 +9,7 @@ require_relative '../../../utils/selenium_common.rb'
 Before do 
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-   @edorgId =  "Test Ed Org"
+   @edorgId =  "Test_Ed_Org"
    @email = "devldapuser_#{Socket.gethostname}@slidev.org"
 end
 
@@ -113,11 +113,14 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
 end
 
 Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorg|
-  puts edorg
+  clear_tenant
+  create_tenant(@tenantId,@edorgId)
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
-  puts edorg
+  user_info = ApprovalEngine.get_user(@email).merge( {:homedir => "/ingestion/lz/inbound/"+@tenantId+"/"+@edorgId})
+  puts user_info
+  ApprovalEngine.update_user_info(user_info)
 end
 
 
@@ -163,8 +166,8 @@ end
 When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
   if(env=="sandbox")
   @driver.find_element(:id, "custom").click
-  end
   @driver.find_element(:id, "custom_ed_org").send_keys edorgName
+  end
   @driver.find_element(:id, "provisionButton").click
   @edorgName=edorgName
 end
@@ -174,7 +177,7 @@ Then /^I get the success message$/ do
 end
 
 Then /^the user gets an already provisioned message$/ do
-  pending # express the regexp above with the code you wish you had
+  assertText("already been provisioned")
 end
 
 Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
