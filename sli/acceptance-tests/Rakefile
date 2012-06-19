@@ -90,8 +90,7 @@ end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   if dropExistingCollection
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+    dropCollectionsCleanly(collectionName)
   end
   
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
@@ -158,6 +157,17 @@ def cleanseApps()
     if row['body']['bootstrap'] != true
       @appColl.remove(row)
     end
+  end
+end
+
+def dropCollectionsCleanly(collectionName, specificTenant=nil)
+  if specificTenant != nil
+    #TODO make sure this works for dropping data in a collection for a specific tenant
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({\"metaData.tenantId\":\"#{specificTenant}\"})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  else
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   end
 end
 
@@ -596,7 +606,7 @@ desc "Import Secured Data Set"
 task :importSecuredData do
   $collectionSet.each do |collection|
     begin
-      sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME}m --quiet --eval db.#{collection}.drop()"
+      dropCollectionsCleanly(collection)
     rescue
     end
   end
