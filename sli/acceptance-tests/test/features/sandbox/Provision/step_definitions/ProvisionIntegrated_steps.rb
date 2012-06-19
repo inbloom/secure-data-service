@@ -17,7 +17,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @email                                       if human_readable_id == "USERID"
   id = "test1234"                                   if human_readable_id == "PASSWORD"
   id = @edorgId                                     if human_readable_id == "EDORG_NAME"
+  id = @edorgId                                     if human_readable_id == "SANDBOX_EDORG"
   id = "devldapuser@slidev.org"                     if human_readable_id == "DEVELOPER_EMAIL"
+  id = "sandbox_edorg_2"                            if human_readable_id == "SANDBOX_EDORG_2"
   id
 end
 
@@ -61,7 +63,7 @@ sleep(1)
        :homedir => "changeit",
        :uidnumber => "500",
        :gidnumber => "500",
-       :tenantId => @tenantId
+       :tenant => @tenantId
    }
 
   ApprovalEngine.add_disabled_user(user_info)
@@ -81,6 +83,36 @@ Given /^there is no corresponding ed\-org in mongo$/ do
   clear_edOrg
 end
 
+Given /^the account has a edorg of "(.*?)"$/ do |edorgId|
+user_info = ApprovalEngine.get_user(@email).merge( {:edorg => edorgId })
+ApprovalEngine.update_user_info(user_info)
+end
+
+Given /^there is already a tenant with tenantId "(.*?)" in mongo$/ do |tenantId|
+  clear_tenant
+  create_tenant(tenantId,"sandbox_edorg_2")
+end
+
+Given /^there is already a edorg with stateOrganizationId "(.*?)" in mongo$/ do |stateOrganizationId|
+  clear_edOrg
+  create_edOrg(stateOrganizationId)
+end
+
+Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
+  found = false
+  tenant_coll = @db['tenant']
+  tenant_coll.find("body.tenantId" => @tenantId).each do |tenant|
+  tenant['body']['landingZone'].each do |landing_zone|
+  if landing_zone.include?(@tenantId) and landing_zone.include?(edorgId)
+  found = true
+  puts landing_zone
+  end
+  end
+  end
+  assert(found==false,"there is a landing zone for #{edorgId} in mongo")
+end
+
+
 When /^the developer provision a "(.*?)" Landing zone with edorg is "(.*?)"$/ do |env,edorgId|
   step "I provision with \"#{env}\" high\-level ed\-org to \"#{edorgId}\""
   end
@@ -91,13 +123,22 @@ Then /^a tenantId "([^"]*)" created in Mongo$/ do |tenantId|
 end
 
 Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
+ found =false
  tenant_coll=@db["tenant"]
  tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
- puts tenant_entity
+ tenant_entity.each do |tenant|
+ tenant['body']['landingZone'].each do |landing_zone|
+ if landing_zone['path'].include?(@tenantId+"/"+@edorgId)
+ found=true
+ puts landing_zone['path']
+ end
+ end
+ end
+ assert(found,"the directory structure for the landing zone is not stored in mongo")
 end
 
 Then /^the user gets a success message$/ do
-  pending # express the regexp above with the code you wish you had
+  assertText("Success")
 end
 
 
@@ -138,6 +179,7 @@ end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
+  puts user
   assert(user[:homedir].include?(@edorgName),"the landing zone path is not stored in ldap")
 end
 
@@ -156,4 +198,63 @@ def clear_tenant
    tenant_coll=@db["tenant"]
    tenant_coll.remove("body.tenantId"=>@tenantId)
    assert(tenant_coll.find('body.tenantId'=> @tenantId).count()==0,"tenant with tenantId #{@tenantId} still exist in mongo")
+end
+
+def assertText(text)
+  @explicitWait.until{@driver.find_element(:tag_name,"body")}
+  body = @driver.find_element(:tag_name, "body")
+  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+end
+
+def create_tenant (tenantId,edorgId)
+tenant_entity = 
+{
+  "_id" => "2012lr-80a2ba9a-b9b6-11e1-a6ba-68a86d3e6628",
+  "type" => "tenant",
+  "body" => {
+    "tenantId" => tenantId,
+    "landingZone" => [
+      {
+        "ingestionServer" => "Mac.local",
+        "educationOrganization" => edorgId,
+        "desc" => nil,
+        "path" => "/ingestion/lz/inbound/devldapuser@slidev.org/"+edorgId,
+        "userNames" => nil
+      }
+    ]
+  },
+  "metaData" => {
+    "tenantId" => "SLI",
+    "createdBy" => "devldapuser@slidev.org"
+  }
+}
+tenant_coll = @db['tenant']
+tenant_coll.save(tenant_entity)
+end
+
+def create_edOrg (stateOrganizationId)
+edorg_entity={
+"_id" => "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e6628",
+  "type" => "educationOrganization",
+  "body" => {
+    "organizationCategories" => [
+      "State Education Agency"
+    ],
+    "address" => [
+      {
+        "postalCode" => "27713",
+        "streetNumberName" => "unknown",
+        "stateAbbreviation" => "NC",
+        "city" => "unknown"
+      }
+    ],
+    "stateOrganizationId" => stateOrganizationId,
+    "nameOfInstitution" => stateOrganizationId
+  },
+  "metaData" => {
+    "tenantId" => @tenantId
+  }
+}
+edorg_coll = @db["educationOrganization"]
+edorg_coll.save(edorg_entity)
 end

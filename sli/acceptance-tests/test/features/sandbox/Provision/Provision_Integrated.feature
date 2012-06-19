@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 
-
+@production
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone
 Given there is an account in ldap for vendor "Macro Corp"
 And the account has a tenantId "MacroCorp1234"
@@ -84,37 +84,35 @@ Then the <Ingestion_Admin> is authenticated to Simple IDP as user "<USERID>" wit
 When the <Ingestion_Admin> provision a Landing zone
 Then the <Ingestion_Admin> is gets an already provisioned message
 
-@wip
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create a LZ for my sandbox tenancy
 Given there is an account in ldap for vendor "Macro Corp"
 And the account has a tenantId "<DEVELOPER_EMAIL>"
-#And the account has a edorgId "<SANDBOX_EDORG>"
+#And the account has a edorg of "<SANDBOX_EDORG>"
 And there is no corresponding tenant in mongo
 And there is no corresponding ed-org in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the developer provision a "sandbox" Landing zone with edorg is "<EDORG_NAME>"
+When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
 Then a tenantId "<DEVELOPER_EMAIL>" created in Mongo
-And an ed-org is created in Mongo with the "stateOrganizationId" is "<EDORG_NAME>"
+And an ed-org is created in Mongo with the "stateOrganizationId" is "<SANDBOX_EDORG>"
 And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
 And the user gets a success message
 
-@wip
 @sandbox
 Scenario: As a developer I can use the provisioning tool to create more than one LZ for my sandbox tenancy
 Given there is an account in ldap for vendor "Macro Corp"
-And the account has a tenantId <DEVELOPER_EMAIL>
-And the account has a <EDORG_NAME> of "SANDBOX_EDORG_2"
-And there is already a tenant in mongo
-And there is already edorg in mongo
-And there is no landing zone for the <EDORG_NAME> in mongo
+And the account has a tenantId "<DEVELOPER_EMAIL>"
+And the account has a edorg of "<SANDBOX_EDORG_2>"
+And there is already a tenant with tenantId "<DEVELOPER_EMAIL>" in mongo
+And there is already a edorg with stateOrganizationId "<EDORG_NAME_2>" in mongo
+And there is no landing zone for the "<EDORG_NAME>" in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the developer provision a Landing zone
-Then an ed-org is created in Mongo with the "stateOrganizationId" is "<EDORG_NAME>"
+When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
+Then an ed-org is created in Mongo with the "stateOrganizationId" is "<SANDBOX_EDORG>"
 And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap
 And the directory structure for the landing zone is stored for tenant in mongo
