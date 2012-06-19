@@ -35,7 +35,7 @@ class LandingZoneController < ApplicationController
   end
   
   def handle_error
-    render :status => 500, :text => "An error occured when provisioning the landing zone"
+    render :status => 500, :text => "An error occurred when provisioning the landing zone"
   end
   
   def check_roles
@@ -45,7 +45,7 @@ class LandingZoneController < ApplicationController
     end
     overlapping_roles = allowed_roles & session[:roles]
     unless overlapping_roles.length > 0
-      logger.warn "Rejecting user #{session[:full_name]} due to insufficient privilages: roles: #{session[:roles]}"
+      logger.warn "Rejecting user #{session[:full_name]} due to insufficient privileges: roles: #{session[:roles]}"
       render_403
     end
   end

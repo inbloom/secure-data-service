@@ -20,6 +20,13 @@ class LandingZone
       raise ProvisioningError.new "User does not exist in LDAP"
     end
 
+    isDuplicate = false
+    if(APP_CONFIG['is_sandbox'])
+      isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
+    else
+      isDuplicate = user_info[:homedir] != "/dev/null"
+    end
+
     result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
@@ -55,7 +62,7 @@ class LandingZone
                              "as reference or contact the SLC Operator for your landing zone details."
     end
 
-    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage}
+    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
   end
 
 end

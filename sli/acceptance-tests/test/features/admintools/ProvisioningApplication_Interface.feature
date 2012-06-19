@@ -31,4 +31,4 @@ And I click the Provision button
 Then I get the success message
 When I go to the provisioning application
 And I click the Provision button
-Then I get a conflict error message
+Then I get a already provisioned message
