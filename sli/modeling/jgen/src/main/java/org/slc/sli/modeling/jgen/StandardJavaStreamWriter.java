@@ -258,6 +258,15 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public JavaStreamWriter write(final JavaSnippet snippet) throws IOException {
+        if (snippet == null) {
+            throw new NullPointerException("snippet");
+        }
+        snippet.write(this);
+        return this;
+    }
+
+    @Override
     public JavaStreamWriter write(final String text) throws IOException {
         writer.write(text);
         return this;

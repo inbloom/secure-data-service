@@ -25,6 +25,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     JavaStreamWriter castAs(JavaType type) throws IOException;
 
+    JavaStreamWriter comma() throws IOException;
+
     JavaStreamWriter dblQte() throws IOException;
 
     JavaStreamWriter elementName(String name) throws IOException;
@@ -43,6 +45,10 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     JavaStreamWriter parenR() throws IOException;
 
+    JavaStreamWriter space() throws IOException;
+
+    JavaStreamWriter write(JavaSnippet snippet) throws IOException;
+
     JavaStreamWriter write(String text) throws IOException;
 
     void writeAccessor(String name, String typeName) throws IOException;
@@ -50,10 +56,6 @@ public interface JavaStreamWriter extends Flushable, Closeable {
     void writeAttribute(JavaParam param) throws IOException;
 
     void writeAttribute(String name, String typeName) throws IOException;
-
-    JavaStreamWriter comma() throws IOException;
-
-    JavaStreamWriter space() throws IOException;
 
     void writeComment(String comment) throws IOException;
 

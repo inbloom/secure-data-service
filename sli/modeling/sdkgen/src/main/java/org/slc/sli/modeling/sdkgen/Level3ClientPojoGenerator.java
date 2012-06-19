@@ -18,10 +18,17 @@ import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
 import org.slc.sli.modeling.jgen.JavaParam;
+import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
 import org.slc.sli.modeling.jgen.JavadocHelper;
+import org.slc.sli.modeling.jgen.snippets.IfThenElse;
+import org.slc.sli.modeling.jgen.snippets.JavaIdentifier;
+import org.slc.sli.modeling.jgen.snippets.NotEqual;
+import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
+import org.slc.sli.modeling.jgen.snippets.Word;
+import org.slc.sli.modeling.sdkgen.snippets.ReturnNewClassTypeSnippet;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -261,6 +268,90 @@ public final class Level3ClientPojoGenerator {
         }
     }
 
+    private static final void writeReturnCoerceToType(final String name, final JavaType type, final JavaStreamWriter jsw)
+            throws IOException {
+        jsw.beginStmt();
+        try {
+            jsw.write("return");
+            jsw.space();
+            writeCoerceToType(name, type, jsw);
+        } finally {
+            jsw.endStmt();
+        }
+    }
+
+    private static final void writeCoerceToType(final String name, final JavaType type, final JavaStreamWriter jsw)
+            throws IOException {
+        jsw.write("Coercions.");
+        if (JavaType.JT_BIG_INTEGER.equals(type)) {
+            jsw.write("toBigInteger");
+        } else if (JavaType.JT_BOOLEAN.equals(type)) {
+            jsw.write("toBoolean");
+        } else if (JavaType.JT_DOUBLE.equals(type)) {
+            jsw.write("toDouble");
+        } else if (JavaType.JT_STRING.equals(type)) {
+            jsw.write("toString");
+        } else if (JavaType.JT_INTEGER.equals(type)) {
+            jsw.write("toInteger");
+        } else if (TYPE_UNDERLYING.equals(type)) {
+            jsw.write("toMap");
+        } else {
+            throw new AssertionError(type);
+        }
+        jsw.parenL();
+        try {
+            jsw.write(FIELD_UNDERLYING.getName()).write(".get");
+            jsw.parenL().dblQte().write(name).dblQte().parenR();
+        } finally {
+            jsw.parenR();
+        }
+    }
+
+    private static void writeClassTypeValueOfFunction(final JavaType classType, final JavaStreamWriter jsw)
+            throws IOException {
+        jsw.write("public").space().write("static").space().writeType(classType).space().write("valueOf");
+        jsw.parenL();
+        jsw.writeParams(FIELD_UNDERLYING);
+        jsw.parenR();
+        jsw.beginBlock();
+        try {
+            final JavaSnippet testSnippet = new NotEqual(new JavaIdentifier(FIELD_UNDERLYING.getName()), Word.NULL);
+            final JavaSnippet thenSnippet = new ReturnNewClassTypeSnippet(classType, FIELD_UNDERLYING);
+            final JavaSnippet elseSnippet = new ReturnStmt(Word.NULL);
+            final JavaSnippet ite = new IfThenElse(testSnippet, thenSnippet, elseSnippet);
+            ite.write(jsw);
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
+    private static void writeClassTypeGetIdMethod(final JavaStreamWriter jsw) throws IOException {
+        jsw.write("public").space().writeType(JavaType.JT_STRING).space().write("getId").parenL().parenR();
+        jsw.beginBlock();
+        try {
+            writeReturnCoerceToType("id", JavaType.JT_STRING, jsw);
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
+    private static void writeClassTypeToMapMethod(final JavaStreamWriter jsw) throws IOException {
+        jsw.write("public").space().writeType(TYPE_UNDERLYING).space().write("toMap").parenL().parenR();
+        jsw.beginBlock();
+        try {
+            jsw.beginStmt();
+            try {
+                jsw.write("return");
+                jsw.space();
+                jsw.write(FIELD_UNDERLYING.getName());
+            } finally {
+                jsw.endStmt();
+            }
+        } finally {
+            jsw.endBlock();
+        }
+    }
+
     private static final void writeClassType(final String packageName, final List<String> importNames,
             final ClassType classType, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
         final JavaParam PARAM_ENTITY = new JavaParam("data", FIELD_UNDERLYING.getType(), true);
@@ -273,6 +364,8 @@ public final class Level3ClientPojoGenerator {
                 for (final String importName : importNames) {
                     jsw.writeImport(importName);
                 }
+                // TODO: Create a complex type construction.
+                final JavaType javaClassType = JavaType.simpleType(classType.getName(), JavaType.JT_OBJECT);
                 JavadocHelper.writeJavadoc(classType, model, jsw);
                 jsw.beginClass(classType.getName());
                 try {
@@ -292,28 +385,23 @@ public final class Level3ClientPojoGenerator {
                     jsw.endStmt();
                     jsw.endBlock();
 
-                    // FIXME: Not very happy with idea that getId might conflict.
-                    jsw.write("public").space().writeType(JavaType.JT_STRING).space().write("getId").parenL().parenR();
-                    jsw.beginBlock();
-                    jsw.beginStmt();
-                    jsw.write("return");
-                    jsw.space();
-                    jsw.castAs(JavaType.JT_STRING);
-                    jsw.write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte().write("id").dblQte().parenR();
-                    jsw.endStmt();
-                    jsw.endBlock();
+                    writeClassTypeValueOfFunction(javaClassType, jsw);
+
+                    writeClassTypeGetIdMethod(jsw);
+
+                    writeClassTypeToMapMethod(jsw);
 
                     for (final JavaFeature feature : getJavaFeatures(classType, model)) {
                         if (feature.isAttribute()) {
                             final String name = feature.getName(config);
                             final JavaType type = feature.getAttributeType(config);
                             JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
-                            writeAccessor(type, name, jsw);
+                            writeGetter(type, name, jsw);
                         } else if (feature.isNavigable()) {
                             final String name = feature.getName(config);
                             final JavaType type = feature.getNavigableType();
                             JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
-                            writeAccessor(type, name, jsw);
+                            writeGetter(type, name, jsw);
                         }
                     }
                 } finally {
@@ -328,7 +416,7 @@ public final class Level3ClientPojoGenerator {
     }
 
     // FIXME: This needs to be cleaned up.
-    private static void writeAccessor(final JavaType type, final String name, final JavaStreamWriter jsw)
+    private static void writeGetter(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
         jsw.write("public");
         jsw.space();
@@ -340,34 +428,15 @@ public final class Level3ClientPojoGenerator {
         jsw.parenR();
         jsw.beginBlock();
         if (JavaType.JT_STRING.equals(type)) {
-            jsw.beginStmt();
-            jsw.write("return ").castAs(JavaType.JT_STRING).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
-                    .dblQte().write(name).dblQte().parenR();
-            jsw.endStmt();
+            writeReturnCoerceToType(name, type, jsw);
         } else if (JavaType.JT_BOOLEAN.equals(type)) {
-            jsw.beginStmt();
-            jsw.write("return ").castAs(JavaType.JT_BOOLEAN).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
-                    .dblQte().write(name).dblQte().parenR();
-            jsw.endStmt();
+            writeReturnCoerceToType(name, type, jsw);
         } else if (JavaType.JT_DOUBLE.equals(type)) {
-            jsw.beginStmt();
-            jsw.write("return ").castAs(JavaType.JT_DOUBLE).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
-                    .dblQte().write(name).dblQte().parenR();
-            jsw.endStmt();
+            writeReturnCoerceToType(name, type, jsw);
         } else if (JavaType.JT_INTEGER.equals(type)) {
-            jsw.beginStmt();
-            jsw.write("return ").castAs(JavaType.JT_INTEGER).write(FIELD_UNDERLYING.getName()).write(".get").parenL()
-                    .dblQte().write(name).dblQte().parenR();
-            jsw.endStmt();
+            writeReturnCoerceToType(name, type, jsw);
         } else if (JavaType.JT_BIG_INTEGER.equals(type)) {
-            jsw.beginStmt();
-            jsw.write("final Object object = ");
-            jsw.write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte().write(name).dblQte().parenR();
-            jsw.endStmt();
-
-            jsw.beginStmt();
-            jsw.write("return Coercions.toBigInteger(object)");
-            jsw.endStmt();
+            writeReturnCoerceToType(name, type, jsw);
         } else if (type.isEnum()) {
             if (type.isList()) {
                 jsw.beginStmt().write("final ").writeType(type).write(" list = new ArrayList<")
@@ -375,9 +444,13 @@ public final class Level3ClientPojoGenerator {
                 jsw.beginStmt().write("return list").endStmt();
             } else {
                 jsw.beginStmt();
-                jsw.write("return ").write(type.getSimpleName()).write(".valueOfName").parenL()
-                        .castAs(JavaType.JT_STRING).write(FIELD_UNDERLYING.getName()).write(".get").parenL().dblQte()
-                        .write(name).dblQte().parenR().parenR();
+                jsw.write("return ").write(type.getSimpleName()).write(".valueOfName");
+                jsw.parenL();
+                try {
+                    writeCoerceToType(name, JavaType.JT_STRING, jsw);
+                } finally {
+                    jsw.parenR();
+                }
                 jsw.endStmt();
             }
         } else if (type.isComplex()) {
@@ -393,15 +466,7 @@ public final class Level3ClientPojoGenerator {
                     jsw.writeType(type);
                     jsw.parenL();
                     try {
-                        jsw.castAs(TYPE_UNDERLYING);
-                        jsw.write(FIELD_UNDERLYING.getName());
-                        jsw.write(".get");
-                        jsw.parenL();
-                        try {
-                            jsw.dblQte().write(name).dblQte();
-                        } finally {
-                            jsw.parenR();
-                        }
+                        writeCoerceToType(name, TYPE_UNDERLYING, jsw);
                     } finally {
                         jsw.parenR();
                     }
@@ -422,15 +487,7 @@ public final class Level3ClientPojoGenerator {
                     jsw.writeType(type);
                     jsw.parenL();
                     try {
-                        jsw.castAs(type.getBase());
-                        jsw.write(FIELD_UNDERLYING.getName());
-                        jsw.write(".get");
-                        jsw.parenL();
-                        try {
-                            jsw.dblQte().write(name).dblQte();
-                        } finally {
-                            jsw.parenR();
-                        }
+                        writeCoerceToType(name, type.getBase(), jsw);
                     } finally {
                         jsw.parenR();
                     }
