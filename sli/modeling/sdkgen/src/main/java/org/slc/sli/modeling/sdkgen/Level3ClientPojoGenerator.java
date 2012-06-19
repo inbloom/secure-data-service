@@ -23,12 +23,16 @@ import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
 import org.slc.sli.modeling.jgen.JavadocHelper;
+import org.slc.sli.modeling.jgen.snippets.Block;
 import org.slc.sli.modeling.jgen.snippets.IfThenElse;
 import org.slc.sli.modeling.jgen.snippets.JavaIdentifier;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
+import org.slc.sli.modeling.jgen.snippets.ParenExpr;
 import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
 import org.slc.sli.modeling.jgen.snippets.Word;
+import org.slc.sli.modeling.sdkgen.snippets.CoerceToPojoTypeSnippet;
 import org.slc.sli.modeling.sdkgen.snippets.ReturnNewClassTypeSnippet;
+import org.slc.sli.modeling.sdkgen.snippets.SetterSnippet;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -55,8 +59,9 @@ public final class Level3ClientPojoGenerator {
             final List<String> importNames = new ArrayList<String>();
             importNames.add("java.math.*");
             importNames.add("java.util.*");
+            importNames.add("org.slc.sli.shtick.CoerceToJson");
             importNames.add("org.slc.sli.shtick.Coercions");
-            importNames.add("org.slc.sli.shtick.Entity");
+            importNames.add("org.slc.sli.shtick.Mappable");
             writeClassType(targetPkgName, importNames, classType, model, file, config);
         }
         for (final EnumType enumType : model.getEnumTypes()) {
@@ -188,8 +193,11 @@ public final class Level3ClientPojoGenerator {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 jsw.writePackage(targetPkgName);
+                jsw.writeImport("org.slc.sli.shtick.StringEnum");
                 JavadocHelper.writeJavadoc(enumType, model, jsw);
-                jsw.beginEnum(enumType.getName());
+                final List<String> implementations = new ArrayList<String>(1);
+                implementations.add("StringEnum");
+                jsw.beginEnum(enumType.getName(), implementations);
                 try {
                     final Collection<EnumLiteral> enumLiterals = ensureUnique(enumType.getLiterals());
                     final int size = enumLiterals.size();
@@ -212,6 +220,8 @@ public final class Level3ClientPojoGenerator {
                     jsw.write("this.name = name").endStmt();
                     jsw.write("}");
 
+                    jsw.write("@Override");
+                    jsw.space();
                     jsw.write("public String getName()");
                     jsw.write("{");
                     jsw.write("return name").endStmt();
@@ -268,45 +278,6 @@ public final class Level3ClientPojoGenerator {
         }
     }
 
-    private static final void writeReturnCoerceToType(final String name, final JavaType type, final JavaStreamWriter jsw)
-            throws IOException {
-        jsw.beginStmt();
-        try {
-            jsw.write("return");
-            jsw.space();
-            writeCoerceToType(name, type, jsw);
-        } finally {
-            jsw.endStmt();
-        }
-    }
-
-    private static final void writeCoerceToType(final String name, final JavaType type, final JavaStreamWriter jsw)
-            throws IOException {
-        jsw.write("Coercions.");
-        if (JavaType.JT_BIG_INTEGER.equals(type)) {
-            jsw.write("toBigInteger");
-        } else if (JavaType.JT_BOOLEAN.equals(type)) {
-            jsw.write("toBoolean");
-        } else if (JavaType.JT_DOUBLE.equals(type)) {
-            jsw.write("toDouble");
-        } else if (JavaType.JT_STRING.equals(type)) {
-            jsw.write("toString");
-        } else if (JavaType.JT_INTEGER.equals(type)) {
-            jsw.write("toInteger");
-        } else if (TYPE_UNDERLYING.equals(type)) {
-            jsw.write("toMap");
-        } else {
-            throw new AssertionError(type);
-        }
-        jsw.parenL();
-        try {
-            jsw.write(FIELD_UNDERLYING.getName()).write(".get");
-            jsw.parenL().dblQte().write(name).dblQte().parenR();
-        } finally {
-            jsw.parenR();
-        }
-    }
-
     private static void writeClassTypeValueOfFunction(final JavaType classType, final JavaStreamWriter jsw)
             throws IOException {
         jsw.write("public").space().write("static").space().writeType(classType).space().write("valueOf");
@@ -327,29 +298,14 @@ public final class Level3ClientPojoGenerator {
 
     private static void writeClassTypeGetIdMethod(final JavaStreamWriter jsw) throws IOException {
         jsw.write("public").space().writeType(JavaType.JT_STRING).space().write("getId").parenL().parenR();
-        jsw.beginBlock();
-        try {
-            writeReturnCoerceToType("id", JavaType.JT_STRING, jsw);
-        } finally {
-            jsw.endBlock();
-        }
+        new Block(new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, "id", JavaType.JT_STRING))).write(jsw);
     }
 
     private static void writeClassTypeToMapMethod(final JavaStreamWriter jsw) throws IOException {
+        jsw.write("@Override");
+        jsw.space();
         jsw.write("public").space().writeType(TYPE_UNDERLYING).space().write("toMap").parenL().parenR();
-        jsw.beginBlock();
-        try {
-            jsw.beginStmt();
-            try {
-                jsw.write("return");
-                jsw.space();
-                jsw.write(FIELD_UNDERLYING.getName());
-            } finally {
-                jsw.endStmt();
-            }
-        } finally {
-            jsw.endBlock();
-        }
+        new Block(new ReturnStmt(new JavaIdentifier(FIELD_UNDERLYING.getName()))).write(jsw);
     }
 
     private static final void writeClassType(final String packageName, final List<String> importNames,
@@ -367,7 +323,9 @@ public final class Level3ClientPojoGenerator {
                 // TODO: Create a complex type construction.
                 final JavaType javaClassType = JavaType.simpleType(classType.getName(), JavaType.JT_OBJECT);
                 JavadocHelper.writeJavadoc(classType, model, jsw);
-                jsw.beginClass(classType.getName());
+                final List<String> implementations = new ArrayList<String>(1);
+                implementations.add("Mappable");
+                jsw.beginClass(classType.getName(), implementations);
                 try {
                     // Fields
                     jsw.writeAttribute(FIELD_UNDERLYING);
@@ -397,11 +355,13 @@ public final class Level3ClientPojoGenerator {
                             final JavaType type = feature.getAttributeType(config);
                             JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
                             writeGetter(type, name, jsw);
+                            writeSetter(type, name, jsw);
                         } else if (feature.isNavigable()) {
                             final String name = feature.getName(config);
                             final JavaType type = feature.getNavigableType();
                             JavadocHelper.writeJavadoc(feature.getFeature(), model, jsw);
                             writeGetter(type, name, jsw);
+                            writeSetter(type, name, jsw);
                         }
                     }
                 } finally {
@@ -413,6 +373,11 @@ public final class Level3ClientPojoGenerator {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void writeSetter(final JavaType type, final String name, final JavaStreamWriter jsw)
+            throws IOException {
+        new SetterSnippet(type, name).write(jsw);
     }
 
     // FIXME: This needs to be cleaned up.
@@ -428,15 +393,15 @@ public final class Level3ClientPojoGenerator {
         jsw.parenR();
         jsw.beginBlock();
         if (JavaType.JT_STRING.equals(type)) {
-            writeReturnCoerceToType(name, type, jsw);
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
         } else if (JavaType.JT_BOOLEAN.equals(type)) {
-            writeReturnCoerceToType(name, type, jsw);
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
         } else if (JavaType.JT_DOUBLE.equals(type)) {
-            writeReturnCoerceToType(name, type, jsw);
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
         } else if (JavaType.JT_INTEGER.equals(type)) {
-            writeReturnCoerceToType(name, type, jsw);
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
         } else if (JavaType.JT_BIG_INTEGER.equals(type)) {
-            writeReturnCoerceToType(name, type, jsw);
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
         } else if (type.isEnum()) {
             if (type.isList()) {
                 jsw.beginStmt().write("final ").writeType(type).write(" list = new ArrayList<")
@@ -447,7 +412,7 @@ public final class Level3ClientPojoGenerator {
                 jsw.write("return ").write(type.getSimpleName()).write(".valueOfName");
                 jsw.parenL();
                 try {
-                    writeCoerceToType(name, JavaType.JT_STRING, jsw);
+                    new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, JavaType.JT_STRING).write(jsw);
                 } finally {
                     jsw.parenR();
                 }
@@ -455,28 +420,22 @@ public final class Level3ClientPojoGenerator {
             }
         } else if (type.isComplex()) {
             if (type.isList()) {
-                jsw.writeReturn("null");
+                new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();
                 try {
                     jsw.write("return");
                     jsw.space();
-                    jsw.write("new");
-                    jsw.space();
                     jsw.writeType(type);
-                    jsw.parenL();
-                    try {
-                        writeCoerceToType(name, TYPE_UNDERLYING, jsw);
-                    } finally {
-                        jsw.parenR();
-                    }
+                    jsw.write(".valueOf");
+                    new ParenExpr(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, TYPE_UNDERLYING)).write(jsw);
                 } finally {
                     jsw.endStmt();
                 }
             }
         } else {
             if (type.isList()) {
-                jsw.writeReturn("null");
+                new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();
                 try {
@@ -485,12 +444,7 @@ public final class Level3ClientPojoGenerator {
                     jsw.write("new");
                     jsw.space();
                     jsw.writeType(type);
-                    jsw.parenL();
-                    try {
-                        writeCoerceToType(name, type.getBase(), jsw);
-                    } finally {
-                        jsw.parenR();
-                    }
+                    new ParenExpr(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type.getBase())).write(jsw);
                 } finally {
                     jsw.endStmt();
                 }

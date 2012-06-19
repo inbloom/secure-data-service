@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 import org.slc.sli.modeling.uml.Feature;
@@ -12,6 +13,8 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 
 public final class StandardJavaStreamWriter implements JavaStreamWriter {
+
+    private static final List<String> EMPTY_STRING_LIST = Collections.emptyList();
 
     private static final String SPACE = " ";
     private static final String LPAREN = "(";
@@ -150,11 +153,28 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void beginEnum(final String name) throws IOException {
+        beginEnum(name, EMPTY_STRING_LIST);
+    }
+
+    @Override
+    public void beginEnum(final String name, final List<String> implementations) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (implementations == null) {
+            throw new NullPointerException("implementations");
+        }
         writer.write("public");
         writer.write(SPACE);
         writer.write("enum");
         writer.write(SPACE);
         writer.write(name);
+        if (!implementations.isEmpty()) {
+            writer.write(" implements ");
+            for (final String implementation : implementations) {
+                writer.write(implementation);
+            }
+        }
         beginBlock();
     }
 
@@ -457,16 +477,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
             writer.write(SPACE);
             writer.write(param.getName());
         }
-    }
-
-    @Override
-    public void writeReturn(final String text) throws IOException {
-        if (text == null) {
-            throw new NullPointerException("text");
-        }
-        beginStmt();
-        write("return ").write(text);
-        endStmt();
     }
 
     @Override

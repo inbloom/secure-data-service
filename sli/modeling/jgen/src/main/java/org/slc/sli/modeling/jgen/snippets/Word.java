@@ -7,7 +7,14 @@ import org.slc.sli.modeling.jgen.JavaStreamWriter;
 
 public enum Word implements JavaSnippet {
 
-    NULL("null");
+    /**
+     *
+     */
+    NULL("null"),
+    /**
+     *
+     */
+    BLANK("");
 
     private final String word;
 

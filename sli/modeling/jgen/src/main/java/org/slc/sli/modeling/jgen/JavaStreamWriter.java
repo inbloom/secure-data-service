@@ -19,6 +19,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void beginEnum(String name) throws IOException;
 
+    void beginEnum(String name, List<String> implementations) throws IOException;
+
     void beginInterface(String name) throws IOException;
 
     JavaStreamWriter beginStmt() throws IOException;
@@ -72,8 +74,6 @@ public interface JavaStreamWriter extends Flushable, Closeable {
     void writeParams(JavaParam... params) throws IOException;
 
     void writeParams(List<JavaParam> params) throws IOException;
-
-    void writeReturn(String text) throws IOException;
 
     void writeThrows(JavaType... exceptions) throws IOException;
 

@@ -11,6 +11,7 @@ import javax.xml.namespace.QName;
  */
 public final class JavaType {
 
+    public static final JavaType JT_VOID = simpleType("void");
     public static final JavaType JT_OBJECT = simpleType(Object.class.getSimpleName());
     public static final JavaType JT_STRING = simpleType(String.class.getSimpleName());
     public static final JavaType JT_BOOLEAN = simpleType(Boolean.class.getSimpleName());
