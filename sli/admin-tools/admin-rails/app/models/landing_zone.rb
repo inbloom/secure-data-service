@@ -62,7 +62,7 @@ class LandingZone
                              "as reference or contact the SLC Operator for your landing zone details."
     end
 
-    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :isDuplicate => isDuplicate}
+    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
   end
 
 end
