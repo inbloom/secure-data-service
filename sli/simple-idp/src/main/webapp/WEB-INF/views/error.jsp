@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <title>Simple IDP</title>
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 
 .error-container {

@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Script-Type" content="text/javascript"/>
 <title>Simple IDP</title>
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
