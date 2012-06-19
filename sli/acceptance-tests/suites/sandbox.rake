@@ -54,7 +54,6 @@ end
 desc "Run Onboarding Integration Tests"
 task :onboardingIntegrationSandboxTests do
   @tags = ["~@wip", "@sandbox"]
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 end
 ############################################################

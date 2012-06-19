@@ -1,27 +1,11 @@
 package org.slc.sli.test.generators;
 
-import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
-import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
-import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.Ref;
-import org.slc.sli.test.edfi.entities.ReferenceType;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
-
-
+import org.slc.sli.test.edfi.entities.*;
 
 public class StudentSchoolAssociationGenerator {
 
     public static StudentSchoolAssociation generateLowFi(String studentId, String schoolId) {
-
-    	StudentSchoolAssociation ssa = new StudentSchoolAssociation();
-    	
-    	String graduationPlan = schoolId + "-gPlan0";
-    	Ref gPlan = new Ref(graduationPlan);
-    	ReferenceType refType = new ReferenceType();
-    	refType.setRef(gPlan);
-    	ssa.setGraduationPlanReference(refType);
+        StudentSchoolAssociation ssa = new StudentSchoolAssociation();
 
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
@@ -30,15 +14,12 @@ public class StudentSchoolAssociationGenerator {
         ssa.setStudentReference(srt);
 
         EducationalOrgIdentityType eoit = new EducationalOrgIdentityType();
-//        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
-        eoit.setStateOrganizationId(schoolId);
+        eoit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
         EducationalOrgReferenceType eor = new EducationalOrgReferenceType();
         eor.setEducationalOrgIdentity(eoit);
         ssa.setSchoolReference(eor);
 
         ssa.setEntryGradeLevel(GradeLevelType.FIFTH_GRADE);
-        ssa.setSchoolYear("2011-2012");
-        ssa.setEntryDate("2011-09-01");
 
         return ssa;
     }

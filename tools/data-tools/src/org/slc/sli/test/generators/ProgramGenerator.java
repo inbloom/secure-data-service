@@ -51,16 +51,7 @@ public class ProgramGenerator {
         program.setProgramId(programId);
         
         int programTypeIndx = Math.abs(rand.nextInt() % ProgramType.values().length);
-        if( programTypeIndx == 23)
-        	programTypeIndx = programTypeIndx + 1;
-        if( programTypeIndx == 12)
-        	programTypeIndx = programTypeIndx + 1;
-        if( programTypeIndx == 15)
-        	programTypeIndx = programTypeIndx + 1;
-        
-       	
-        program.setProgramType(ProgramType.values()[programTypeIndx]);//edfi schema and sli schema has two set vale of programType, donot use value not in sli schema
-       
+        program.setProgramType(ProgramType.values()[programTypeIndx]);
         int programSponsorTypeIndx = Math.abs(rand.nextInt() % ProgramSponsorType.values().length);
         program.setProgramSponsor(ProgramSponsorType.values()[programSponsorTypeIndx]);
         
@@ -73,9 +64,8 @@ public class ProgramGenerator {
         for(ServiceDescriptor serviceDescriptor : ServiceDescriptor.values()) {
             if (rand.nextDouble() < probForServiceInAProgram) {
                 ServiceDescriptorType serviceDescriptorType = new ServiceDescriptorType();
-               // JAXBElement<String> serviceDescriptorCode =  factory.createServiceDescriptorTypeCodeValue(serviceDescriptor.codeValue);
-               // serviceDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(serviceDescriptorCode);
-                serviceDescriptorType.setCodeValue(serviceDescriptor.codeValue);
+                JAXBElement<String> serviceDescriptorCode =  factory.createServiceDescriptorTypeCodeValue(serviceDescriptor.codeValue);
+                serviceDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(serviceDescriptorCode);
                 services.add(serviceDescriptorType);
             }
         }

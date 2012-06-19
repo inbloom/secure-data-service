@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+
 import java.util.List;
 
 /**
@@ -41,7 +43,13 @@ public final class SecurityNodeBuilder {
         node.addConnection(connection);
         return this;
     }
-    
+    public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode,
+                                             NodeFilter filter, NodeAggregator aggregator) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter, aggregator);
+        node.addConnection(connection);
+        return this;
+    }
+
     public SecurityNodeBuilder addConnection(String toEntity, String withField) {
         SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField);
         node.addConnection(connection);
@@ -60,6 +68,11 @@ public final class SecurityNodeBuilder {
                                              List<NodeFilter> filter) {
         SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter);
         node.addConnection(connection);
+        return this;
+    }
+
+    public SecurityNodeBuilder addConnection(String toEntity, EntityContextResolver resolver) {
+        node.addConnection(new SecurityNodeConnection(toEntity, resolver));
         return this;
     }
 }

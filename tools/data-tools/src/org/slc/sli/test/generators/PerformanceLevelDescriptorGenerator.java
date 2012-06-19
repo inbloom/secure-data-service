@@ -27,9 +27,10 @@ public class PerformanceLevelDescriptorGenerator {
     public static PerformanceLevelDescriptorType getPerformanceLevelDescriptorType(String perfLevelDescCodeValue) {
         PerformanceLevelDescriptorType perfLevelDescType = new PerformanceLevelDescriptorType();
 
-        perfLevelDescType.setCodeValue(perfLevelDescCodeValue);
-//        perfLevelDescType.setDescription(perfLevelDescCodeValue);
-        perfLevelDescType.setPerformanceLevelMet(true);
+        perfLevelDescType.getCodeValueOrDescription().add(
+                OBJECT_FACTORY.createPerformanceLevelDescriptorTypeCodeValue(perfLevelDescCodeValue));
+        perfLevelDescType.getCodeValueOrDescription().add(
+                OBJECT_FACTORY.createPerformanceLevelDescriptorTypeDescription(perfLevelDescCodeValue));
         return perfLevelDescType;
     }
 }

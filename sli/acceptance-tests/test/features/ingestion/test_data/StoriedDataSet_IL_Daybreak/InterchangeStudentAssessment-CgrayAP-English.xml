@@ -15,7 +15,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -43,7 +42,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -68,7 +66,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -96,7 +93,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -121,7 +117,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -146,7 +141,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -171,7 +165,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -196,7 +189,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -221,7 +213,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -246,7 +237,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -274,7 +264,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -305,7 +294,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -330,7 +318,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -358,7 +345,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -386,7 +372,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -414,7 +399,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -439,7 +423,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -467,7 +450,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -495,7 +477,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -520,7 +501,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -548,7 +528,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -573,7 +552,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -601,7 +579,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -629,7 +606,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -654,7 +630,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -682,7 +657,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -707,7 +681,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -732,7 +705,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -757,7 +729,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -788,7 +759,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -816,7 +786,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -844,7 +813,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -869,7 +837,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -894,7 +861,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -919,7 +885,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -944,7 +909,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -972,7 +936,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1000,7 +963,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1025,7 +987,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1050,7 +1011,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1075,7 +1035,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1103,7 +1062,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1128,7 +1086,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>4</CodeValue> 
-           <Description>Well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1153,7 +1110,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1181,7 +1137,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1206,7 +1161,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1231,7 +1185,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>5</CodeValue> 
-           <Description>Extremely well qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1256,7 +1209,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>1</CodeValue> 
-           <Description>No recommendation</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1281,7 +1233,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>2</CodeValue> 
-           <Description>Possibly qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 
@@ -1306,7 +1257,6 @@
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>3</CodeValue> 
-           <Description>Qualified</Description> 
       </PerformanceLevels> 
       <StudentReference> 
            <StudentIdentity> 

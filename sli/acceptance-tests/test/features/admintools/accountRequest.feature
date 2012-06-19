@@ -8,7 +8,6 @@ Background:
 @production
 Scenario: As a user I request for a production account
   Given I go to the production account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -40,7 +39,7 @@ Scenario: As a user I request for a production account
 @production
 Scenario: As an slc operator I want to register unique user accounts in the system
   Given I go to the production account registration page
-  And there is an approved account with login name "<USER_ACCOUNT>"
+  And there is an pending account with login name "<USER_ACCOUNT>"
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
@@ -53,13 +52,12 @@ Scenario: As an slc operator I want to register unique user accounts in the syst
 @production
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
-  And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query the database for EULA acceptance
-  Then I get 1 record for "<USER_ACCOUNT>"
+  And there is an pending account with login name "<USER_ACCOUNT>"
+  When I query LDAP for EULA acceptance for account with login name "<USER_ACCOUNT>"
+  Then I get a record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "<USER_ACCOUNT_EMAIL>"
-  And "Environment" is "Production"
   And "Vendor" is "Acme Corp"
 
 @production
@@ -71,7 +69,6 @@ Scenario: Clicking the "cancel" button - registration form
 @production
 Scenario: Clicking the "reject" button - EULA page
   Given I go to the production account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -85,7 +82,7 @@ Scenario: Clicking the "reject" button - EULA page
   And I am redirected to a page with terms and conditions
   And when I click "Reject"
   Then I am redirected to the hosting website
-  And the account for "<USER_ACCOUNT>" is removed from SLI database
+  And the account for "<USER_ACCOUNT>" is removed from LDAP
 
 @production
 Scenario: Unhappy path: invalid form inputs
@@ -112,7 +109,6 @@ Scenario: Unhappy path: invalid form inputs
 @sandbox
 Scenario: As a user I request for a sandbox account
   Given I go to the sandbox account registration page
-  And there is no registered account for "<USER_ACCOUNT>" in the SLI database
   And there is no registered account for "<USER_ACCOUNT>" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
@@ -135,10 +131,9 @@ Scenario: As a user I request for a sandbox account
 Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
   And there is an approved account with login name "<USER_ACCOUNT>"
-  When I query the database for EULA acceptance
-  Then I get 1 record for "<USER_ACCOUNT>"
+  When I query LDAP for EULA acceptance for account with login name "<USER_ACCOUNT>"
+  Then I get a record for "<USER_ACCOUNT>"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "<USER_ACCOUNT_EMAIL>"
-  And "Environment" is "Sandbox"
   And "Vendor" is "Acme Corp"

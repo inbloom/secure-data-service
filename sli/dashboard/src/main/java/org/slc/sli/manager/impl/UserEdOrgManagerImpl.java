@@ -291,24 +291,40 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // Dashboard expects return one GenericEntity.
         entity.put(Constants.ATTR_ROOT, entities);
         if (key != null) {
-            // TODO: a better way of searching should be implemented.
+
+            // if section has been selected by user, get section info
+            GenericEntity section = getApiClient().getEntity(token, "sections", (String) key, null);
+            String schoolId = section.getString(Constants.ATTR_SCHOOL_ID);
+
+            // find the ed-org and school, given the section. set the "selectedPopulation" attribute.
             for (GenericEntity org : entities) {
-                Set schools = ((Set) org.get(Constants.ATTR_SCHOOLS));
-                for (Object school : schools) {
-                    for (Object course : ((GenericEntity) school).getList(Constants.ATTR_COURSES)) {
-                        for (Object section : ((GenericEntity) course).getList(Constants.ATTR_SECTIONS)) {
-                            if (((GenericEntity) section).getId().equals(key)) {
-                                GenericEntity selectedOrg = new GenericEntity();
-                                selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                                selectedOrg.put(Constants.ATTR_SECTION, section);
-                                entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-                                return entity;
-                            }
-                        }
+                Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
+                for (GenericEntity school : schools) {
+                    if (school.getId().equals(schoolId)) {
+                        GenericEntity selectedOrg = new GenericEntity();
+                        selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                        selectedOrg.put(Constants.ATTR_SECTION, section);
+                        entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                        return entity;
                     }
                 }
             }
+
         }
+        return entity;
+    }
+
+    /**
+     * Override from UserEdOrgManager.
+     * Signature is pre-defined by the architect.
+     */
+    @Override
+    public GenericEntity getUserCoursesAndSections(String token, Object schoolIdObj, Data config) {
+
+        String schoolId = (String) schoolIdObj;
+        List<GenericEntity> entities = getApiClient().getCoursesSectionsForSchool(token, schoolId);
+        GenericEntity entity = new GenericEntity();
+        entity.put(Constants.ATTR_ROOT, entities);
         return entity;
     }
 

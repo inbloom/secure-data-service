@@ -22,15 +22,15 @@
    "endpoints":[
       {
          "name":"Application Registration",
-         "description":"Register and manage applications that can access the platform.",
+         "description":"Register an application that can access SLC API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "Application Developer"
          ]
       },
       {
-         "name":"Application Registration Approval",
-         "description":"Approve applications to access the platform.",
+         "name":"Application Approval",
+         "description":"Approve applications that can access the platform.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "SLC Operator"
@@ -83,6 +83,20 @@
          "url":"${bootstrap.app.admin.url}/account_managements",
          "roles":[
             "SLC Operator"
+            ]
+      },
+      {
+      "name":"Change Password",
+         "description":"Change your password",
+         "url":"${bootstrap.app.admin.url}/changePassword",
+         "roles":[
+            "SLC Operator",
+            "Ingestion User",
+            "Realm Administrator",
+            "Application Developer",
+            "LEA Administrator",
+            "SEA Administrator",
+            "Application Developer"
             ]
       }
    ]
