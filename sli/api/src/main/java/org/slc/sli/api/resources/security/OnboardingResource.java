@@ -173,12 +173,12 @@ public class OnboardingResource {
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
             returnObject.put("edOrg", uuid);
-
-            if (entity == null) {
-                return Response.status(Status.CREATED).entity(returnObject).build();
+            if (entity != null) {
+                returnObject.put("isDuplicate", "true");
             } else {
-                return Response.status(Status.CONFLICT).entity(returnObject).build();
+                returnObject.put("isDuplicate", "false");
             }
+            return Response.status(Status.CREATED).entity(returnObject).build();
         } catch (TenantResourceCreationException trce) {
             EntityBody entityBody = new EntityBody();
             entityBody.put("message", trce.getMessage());
