@@ -1,12 +1,6 @@
 require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
-Transform /the student "([^"]*)"/ do |arg1|
-  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if arg1 == "Marvin Miller"
-  id = "6a98d5d3-d508-4b9c-aec2-59fce7e16825" if arg1 == "Delilah D. Sims"
-  id
-end
-
 Transform /the specific attendance document "([^"]*)"/ do |arg1|
   id = "530f0704-c240-4ed9-0a64-55c0308f91ee" if arg1 == "Marvin Miller Attendance events"
   id = "9953166a-9722-447c-094a-bfcce701c2c9" if arg1 == "Delilah D. Sims Attendance events"
@@ -28,12 +22,6 @@ end
 
 Given /^I teach (the student "[^"]*")$/ do |arg1|
   # No code needed, this is done as configuration
-end
-
-When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
-  @format = "application/vnd.slc+json"
-  restHttpGet("/v1/students/"+arg1)
-  assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I receive a JSON response$/ do
