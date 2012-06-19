@@ -26,11 +26,9 @@ import org.slc.sli.util.JsonConverter;
 /**
  *
  * ConfigManager allows other classes, such as controllers, to access and
- * persist view
- * configurations.
+ * persist view configurations.
  * Given a user, it will obtain view configuration at each level of the user's
- * hierarchy, and merge
- * them into one set for the user.
+ * hierarchy, and merge them into one set for the user.
  *
  * @author dwu
  */

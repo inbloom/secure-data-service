@@ -82,10 +82,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     @SuppressWarnings("unchecked")
     public final boolean checkCondition(Config parentConfig, Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
-            //todo: figure out what to do when no entity
+
             if (entity == null) {
                 return true;
             }
+
             Config.Condition condition = config.getCondition();
             Object[] values = condition.getValue();
             // for simplicity always treat as an array

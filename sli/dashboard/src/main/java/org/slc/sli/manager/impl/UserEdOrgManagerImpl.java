@@ -194,8 +194,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             try {
                 GenericEntity edOrgEntity = edOrgIdMap.get(edOrgId);
                 // if edOrgEntity is null, it may be API could not return entity
-                // because of error
-                // code 403.
+                // because of error code 403.
                 if (edOrgEntity != null) {
                     obj.put(Constants.ATTR_NAME, edOrgIdMap.get(edOrgId).get(Constants.ATTR_NAME_OF_INST));
                     // convert school ids to the school object array and sort based on the name of
@@ -212,7 +211,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
 
         Collection<GenericEntity> orphanSchools = findOrphanSchools(schools, schoolReachableFromEdOrg);
-        // Temporary: insert a dummy edorg for all orphan schools.
+        // insert a dummy edorg for all orphan schools.
         if (!orphanSchools.isEmpty()) {
             insertSchoolsUnderDummyEdOrg(retVal, orphanSchools);
         }
@@ -265,10 +264,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
-        // Dashboard expects return one GenericEntity.
+
         entity.put(Constants.ATTR_ROOT, entities);
         if (key != null) {
-            // TODO: a better way of searching should be implemented.
             for (GenericEntity org : entities) {
                 Set schools = ((Set) org.get(Constants.ATTR_SCHOOLS));
                 for (Object school : schools) {

@@ -8,7 +8,10 @@ import org.slc.sli.manager.PortalWSManager;
 import org.slc.sli.util.Constants;
 
 
+
+
 /**
+ * Retrieves header and footer from Portal WS
  *
  * @author svankina
  *
