@@ -12,9 +12,9 @@
 
 <body>
         <div class="error-container">
-                <div class="error-header">ERROR</div>
+                <div class="error-header">HTTP Error 500 - Internal Server Error</div>
                 <div class="error-content">
-                        <h3>We're sorry, an error occurred.</h3>
+                        <h3>We're sorry, an error occurred. The server was unable to process the request. Please check the request to make sure it is valid. </h3>
                         <c:if test="${not empty pageContext.exception.localizedMessage}" >
                             <c:out value="${pageContext.exception.localizedMessage}"/>
                         </c:if>
