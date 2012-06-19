@@ -1,12 +1,12 @@
 <% @title="Provision Landing Zone" %>
-<% custom_ed_org_text = "I want to provide my own dataset" %>
+<% custom_ed_org_text = "Provide my own dataset" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
 <div class="provision">
   <div class="page-header">
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
   </div>
 	<% if APP_CONFIG['is_sandbox']%>
-		<p>In order for your applications to be functional in the sandbox, you need to define which test data you will use. After you have configured your test data, you will be emailed with next steps.</p>
+		<p>Before your applications can be functional in the sandbox, you need to define which test data to use. After you have configured your test data, you will receive an email with further instructions.  Select one:</p>
 	<%else%>
 		<p>A Landing Zone is a directory on the SLC's server that will house and process your organization's data.</p><p>After you have created your Landing Zone, you will be able to access it using an SFTP client - don't worry, we will send you an email with information about how to upload your data for ingestion into the SLC. Please click the Create button to continue.</p>
 	<% end %>
@@ -42,7 +42,7 @@
           <%#
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
           %>
-			<input name="commit" type="submit" value="Create" id="provisionButton" class= "btn"/>
+			<input name="commit" type="submit" <% if APP_CONFIG['is_sandbox']%>value="Select"<% else %>value="Create" <%end%> id="provisionButton" class= "btn"/>
 		</div>
 	</form>
 </div>

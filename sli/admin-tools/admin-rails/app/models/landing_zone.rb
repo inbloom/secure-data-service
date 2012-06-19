@@ -4,7 +4,7 @@ class LandingZone
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
       edOrgs = []
-      edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "I want to use the SLC sample dataset")
+      edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "Use a SLC sample dataset")
      # edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
     return edOrgs
     else
