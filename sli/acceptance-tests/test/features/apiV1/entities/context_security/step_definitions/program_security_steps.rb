@@ -15,16 +15,15 @@ Transform /the student "([^"]*)"/ do |arg1|
   id = "e4f71ad7-13e5-472f-812f-99d0a8448f59" if arg1 == "Sabrina Knepper"
   id = "737dd4c1-86bd-4892-b9e0-0f24f76210be" if arg1 == "Roberta Jones"
   id = "eaa8286a-9a4f-452a-978d-aba7351c5b4f" if arg1 == "Christopher Bode"
+  id = "6f9692c7-5d41-4c07-82be-ba377ca0fbd2" if arg1 == "Todd Angulo"
+  id = "22bf5f8f-5e6b-4749-9e1a-2efda072d506" if arg1 == "Agnes Trinh"
+  id = "86af5b86-e05e-4360-858f-68ce05d32cf1" if arg1 == "Stella Rego"
+  id = "ace7d09a-56b4-486a-85bd-64474ab64083" if arg1 == "Glenda Koch"
+  id = "1c30fdce-11ad-4894-a95d-d8315c88ac7d" if arg1 == "Johnny Tallent"
+  id = "33b80864-ec9a-4836-b114-47e45b291ac6" if arg1 == "Thelma Frasier"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if arg1 == "Marvin Miller"
+  id = "6a98d5d3-d508-4b9c-aec2-59fce7e16825" if arg1 == "Delilah D. Sims"
   id
-end
-
-Given /^I am user "([^"]*)" in IDP "([^"]*)"$/ do |arg1, arg2|
-  user = arg1
-  pass = arg1+"1234"
-  realm = arg2
-  
-  idpRealmLogin(user, pass, realm)
-  assert(@sessionId != nil, "Session returned was nil")
 end
 
 When /^I make an API call to get (the program "[^"]*")$/ do |arg1|
@@ -38,15 +37,3 @@ When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
   restHttpGet("/v1/students/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
-
-Then /^I receive a JSON response$/ do
-  assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-end
-
-Then /^I get a message that I am not authorized$/ do
-  assert(@res.code == 403, "Response code not expected: expected 403 but received "+@res.code.to_s)
-end
-
-
