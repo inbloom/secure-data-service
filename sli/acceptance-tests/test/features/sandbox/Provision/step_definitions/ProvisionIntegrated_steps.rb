@@ -149,7 +149,8 @@ Then /^the directory structure for the landing zone is stored for tenant in mong
 end
 
 Then /^the user gets a success message$/ do
-  assertText("Success")
+ success = @driver.find_element(:id,"successMessage")
+ assert(success!=nil,"didnt get a success message")
 end
 
 
@@ -177,7 +178,8 @@ Then /^I get the success message$/ do
 end
 
 Then /^the user gets an already provisioned message$/ do
-  assertText("already been provisioned")
+  already_provisioned = @driver.find_element(:id,"alreadyProvisioned")
+  assert(already_provisioned!=nil,"didnt get an already provisioned message")
 end
 
 Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
