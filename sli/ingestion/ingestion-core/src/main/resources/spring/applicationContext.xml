@@ -27,12 +27,10 @@
   </bean>
 
 
-  
+
 
    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true" />
-   
-      
+      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&jms.prefetchPolicy.all=0" />
    </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->
