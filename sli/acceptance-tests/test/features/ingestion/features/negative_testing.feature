@@ -34,7 +34,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
+#  And I should see "     Instance   1" in the resulting error log file
   And I should see "     Field      sex" in the resulting error log file
   And I should see "     Value      Boy" in the resulting error log file
   And I should see "     Expected   [Female, Male]" in the resulting error log file
@@ -54,7 +54,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
+#  And I should see "     Instance   1" in the resulting error log file
   And I should see "     Field      studentUniqueStateId" in the resulting error log file
   And I should see "     Value      " in the resulting error log file
   And I should see "     Expected   [STRING]" in the resulting error log file
@@ -75,7 +75,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   2" in the resulting error log file
+#  And I should see "     Instance   2" in the resulting error log file
   And I should see "     Field      studentUniqueStateId" in the resulting error log file
   And I should see "     Value      " in the resulting error log file
   And I should see "     Expected   [STRING]" in the resulting error log file
@@ -97,7 +97,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
+#  And I should see "     Instance   1" in the resulting error log file
   And I should see "     Field      firstName" in the resulting error log file
   And I should see "     Value      " in the resulting error log file
   And I should see "     Expected   [STRING]" in the resulting error log file
@@ -118,7 +118,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
   And I should see "       Entity     student" in the resulting error log file
-  And I should see "       Instance   1" in the resulting error log file
+#  And I should see "       Instance   1" in the resulting error log file
   And I should see "       Field      firstName" in the resulting error log file
   And I should see "       Value      " in the resulting error log file
   And I should see "       Expected   [STRING]" in the resulting error log file

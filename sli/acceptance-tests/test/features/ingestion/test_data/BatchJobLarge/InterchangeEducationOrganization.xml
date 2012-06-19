@@ -309,10 +309,8 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -329,12 +327,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+            <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -351,12 +347,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -373,12 +367,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -395,12 +387,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -417,12 +407,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -439,12 +427,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -461,12 +447,10 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-        <EducationOrganizationReference>
+    <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
-	</EducationalOrgIdentity>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+	    </EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
   <Course>
@@ -485,9 +469,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -507,9 +489,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -529,9 +509,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -551,9 +529,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -575,9 +551,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -598,9 +572,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -621,9 +593,7 @@
     </MaximumAvailableCredit>
         <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>

@@ -13,7 +13,7 @@
 		           	    "path" : "metaData.externalId",
 		                "values" : 
 		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+			                "valueSource" : "body.studentUniqueStateId"
 		                }]
 		            }
 	            ]
@@ -31,27 +31,13 @@
                     { 
                         "path" : "body.incidentIdentifier",
                         "values" : 
-                        [
-                            {"valueSource" : "body.refIncidentIdentifier"}
-                        ]
+                        [{
+                            "valueSource" : "body.disciplineIncidentIdentifier"
+                        }]
                     }
                 ]
             ]
         }
-    }],
-    
-    "piiFields" : {
-        "StudentReference" : {
-            "StudentIdentity" : {
-                  "StudentIdentificationCode" : {
-                    "IdentificationCode" : true
-                  },
-                  "OtherName" : {"MiddleName" : true, "GenerationCodeSuffix" : true, "lastSurname" : true, "PersonalTitlePrefix" : true, "FirstName" : true, "OtherNameType" : true},
-                  "Sex" : true, "ProfileThumbnail" : true,
-                  "Name" : {"MiddleName" : true, "GenerationCodeSuffix" : true, "Verification" : true, "LastSurname" : true, "PersonalTitlePrefix" : true, "FirstName" : true, "MaidenName" : true},
-                  "BirthDate" : true
-                 }
-            }
-     }
+    }]
 }
 

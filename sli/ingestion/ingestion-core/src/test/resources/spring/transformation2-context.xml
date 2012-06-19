@@ -20,7 +20,7 @@
 
   <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
     <property name="entityConfigurations" ref="entityConfigurationsFactory" />
-    <property name="idNormalizer" ref="idNormalizer" />
+   
   </bean>
 
   <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer"
@@ -31,8 +31,6 @@
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:/smooksEdFi2SLI/" />
   </bean>
-
-  <bean id="idNormalizer" class="org.slc.sli.ingestion.transformation.normalization.IdNormalizer" />
 
   <bean id="neutralSchemaRepositoryProvider" class="org.slc.sli.validation.NeutralSchemaRepositoryProvider" />
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />

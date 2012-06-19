@@ -221,4 +221,19 @@ public interface Repository<T> {
      */
     public void ensureIndex(IndexDefinition index, String collection);
 
+    /**
+     * Supports configuring a write concern on a repository.
+     *
+     * @param writeConcern
+     */
+    public void setWriteConcern(String writeConcern);
+
+    /**
+     * Support configurability of performing refrence checking as a part of schema validation
+     * @param referenceCheck
+     */
+    public void setReferenceCheck(String referenceCheck);
+
+    public long count(String collectionName, Query query);
+
 }

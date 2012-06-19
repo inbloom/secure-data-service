@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.File;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.milyn.Smooks;
 import org.milyn.cdr.SmooksResourceConfiguration;
@@ -28,10 +26,6 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
 
     private Map<String, String> idRefConfigs;
 
-    public FreeMarkerExtendedReferenceResolver() {
-        smooksResolver.setIdRefConfigs(new ConcurrentHashMap<String, Smooks>());
-    }
-
     /**
      * resolve the reference
      *
@@ -42,7 +36,7 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
      * @return Resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public File resolve(String xPath, File content) {
+    public String resolve(String xPath, String content) {
         if (!reassureSmooksResolver(xPath)) {
             return null;
         }
