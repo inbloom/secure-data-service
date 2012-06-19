@@ -8,7 +8,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.slc.sli.security.PropertiesDecryptor;
 
 /**
- *
+ * To generate encrypted clientId and clientSecret by required Dashboard startup.
+ * Usage: java EncryptionGenerator <clientId> <clientSecret>
  * @author svankina
  *
  */
