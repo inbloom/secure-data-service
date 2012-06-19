@@ -36,7 +36,7 @@ public final class NameManual {
     }
 
     public void setFirstName(SimpleName firstName) {
-        this.data.put("firstName", firstName.getValue());
+        getUnderlying().put("firstName", firstName.getValue());
     }
 
     /**

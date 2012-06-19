@@ -74,7 +74,7 @@ public class StandardLevel3ClientManualTest {
             final StudentManual student = students.get(0);
             assertNotNull(student);
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-            assertEquals("Male", student.getSex().getName());
+            assertEquals(SexType.MALE, student.getSex());
             assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
             assertEquals("100000005", student.getStudentUniqueStateId().getValue());
         } catch (final IOException e) {
