@@ -98,7 +98,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) {
-        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
         if (workNote == null || workNote.getBatchJobId() == null) {
