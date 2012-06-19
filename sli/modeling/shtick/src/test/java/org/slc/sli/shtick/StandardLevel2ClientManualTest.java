@@ -52,7 +52,7 @@ public class StandardLevel2ClientManualTest {
             assertEquals("900000012", updatedStudent.get(0).getData().get("studentUniqueStateId"));
 
             // DELETE
-            client.deleteStudentById(TestingConstants.ROGERS_TOKEN, studentId);
+            client.deleteStudentsById(TestingConstants.ROGERS_TOKEN, studentId);
 
             // GET (Should fail)
             try {
@@ -79,14 +79,14 @@ public class StandardLevel2ClientManualTest {
         Map<String, Object> dataCopy = MapHelper.deepCopy(student.getData());
         dataCopy.put("id", studentId);
 
-        client.putStudent(TestingConstants.ROGERS_TOKEN, new Entity("student", dataCopy));
+        client.putStudentsById(TestingConstants.ROGERS_TOKEN, new Entity("student", dataCopy));
     }
 
     private String postStudent() throws IOException, StatusCodeException, URISyntaxException {
         final String studentData = readJsonFromFile("/testStudent.json");
         final Entity student = deserialize(studentData);
 
-        return client.postStudent(TestingConstants.ROGERS_TOKEN, student);
+        return client.postStudents(TestingConstants.ROGERS_TOKEN, student);
     }
 
     private Entity deserialize(final String studentData) throws IOException {

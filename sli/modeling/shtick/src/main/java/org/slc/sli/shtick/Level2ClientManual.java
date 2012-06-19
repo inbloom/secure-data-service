@@ -14,10 +14,10 @@ public interface Level2ClientManual {
 
     List<Entity> getStudents(String token, Map<String, Object> queryArgs) throws IOException, StatusCodeException;
 
-    void deleteStudentById(final String token, final String studentId) throws IOException,
+    void deleteStudentsById(final String token, final String studentId) throws IOException,
             StatusCodeException;
 
-    String postStudent(final String token, final Entity body) throws IOException, StatusCodeException;
+    String postStudents(final String token, final Entity body) throws IOException, StatusCodeException;
 
-    void putStudent(final String token, final Entity data) throws IOException, StatusCodeException;
+    void putStudentsById(final String token, final Entity data) throws IOException, StatusCodeException;
 }

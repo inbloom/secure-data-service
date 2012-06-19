@@ -65,7 +65,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void deleteStudentById(final String token, final String entityId) throws IOException, StatusCodeException {
+    public void deleteStudentsById(final String token, final String entityId) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -80,7 +80,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public String postStudent(final String token, final Entity entity) throws IOException, StatusCodeException {
+    public String postStudents(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
@@ -99,7 +99,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
     }
 
     @Override
-    public void putStudent(final String token, final Entity entity) throws IOException, StatusCodeException {
+    public void putStudentsById(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
             throw new NullPointerException("token");
         }
