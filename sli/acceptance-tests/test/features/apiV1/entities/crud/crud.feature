@@ -111,13 +111,13 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 6 |
+| "assessment"                   | "assessments"             | 20 |
 | "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 3 |
 | "disciplineIncident"           | "disciplineIncidents"     | 3 |
-| "educationOrganization"        | "educationOrganizations"  | 59 |
+| "educationOrganization"        | "educationOrganizations"  | 51 |
 | "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |

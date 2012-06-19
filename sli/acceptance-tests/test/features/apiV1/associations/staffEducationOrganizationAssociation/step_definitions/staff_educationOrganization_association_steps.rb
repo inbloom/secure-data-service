@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 18                                        if human_readable_id == "ASSOCIATION COUNT"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 8                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 5                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID"
-  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "0966614a-6c5d-4345-b451-7ec991823ac5"   if human_readable_id == "ASSOCIATION ID"
+  id = "0966614a-6c5d-4345-b451-7ec991823ac5"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "0966614a-6c5d-4345-b451-7ec991823ac5"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getStaffEducationOrgAssignmentAssociations" if human_readable_id == "ASSOCIATION LINK NAME"
   id = "staffEducationOrganizationAssociation"      if human_readable_id == "ASSOCIATION TYPE"
   id = "staffEducationOrgAssignmentAssociations"    if human_readable_id == "ASSOCIATION URI"
   
   #staff related data
   id = "staffReference"                         if human_readable_id == "ENDPOINT1 FIELD"
-  id = "87b82ed6-27d7-4af4-866f-be1693af549a"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "45d6c371-e7f1-4fa8-899a-e9f2309cbe4e"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #educationOrganization related data
   id = "educationOrganizationReference"         if human_readable_id == "ENDPOINT2 FIELD"
-  id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "bd086bae-ee82-4cf2-baf9-221a9407ea07"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getEducationOrganization"               if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getEducationOrganizations"              if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "educationOrganization"                  if human_readable_id == "ENDPOINT2 TYPE" 
@@ -43,12 +43,12 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "staffReference"                         if human_readable_id == "UPDATE FIELD"
-  id = "87b82ed6-27d7-4af4-866f-be1693af549a"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "ca58001c-5cda-46e3-930e-063fe3111b3a"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "45d6c371-e7f1-4fa8-899a-e9f2309cbe4e"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "7a295d99-015c-4f1c-8d84-4236d896b9b9"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
-  id = "8f403e29-2a65-643e-6fac-5ccb53000db2"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "a249d5d9-f149-d348-9b10-b26d68e7cb9c"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
   id = "0f464187-30ff-4e61-a0dd-74f45e5c7a9d"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
@@ -65,7 +65,7 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffReference" => "04f708bc-928b-420d-a440-f1592a5d1073",
+    "staffReference" => "45d6c371-e7f1-4fa8-899a-e9f2309cbe4e",
     "educationOrganizationReference" => "bd086bae-ee82-4cf2-baf9-221a9407ea07",
     "staffClassification" => "Counselor", 
     "beginDate" => "2011-01-13"

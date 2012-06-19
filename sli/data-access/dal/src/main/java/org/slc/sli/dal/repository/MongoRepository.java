@@ -1,14 +1,21 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +26,22 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
  * and field query methods for all object classes.
- * 
+ *
  * @author Thomas Shewchuk tshewchuk@wgen.net 3/2/2012 (PI3 US1226)
- * 
+ *
  */
 
 public abstract class MongoRepository<T> implements Repository<T> {
-    protected static final Logger LOG = LoggerFactory
-            .getLogger(MongoRepository.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
     protected MongoTemplate template;
 
@@ -44,6 +49,82 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Autowired
     private MongoQueryConverter queryConverter;
+
+    private static final String[] collectionsExcluded = { "tenant", "userSession", "realm", "userAccount", "roles",
+            "application" };
+    protected static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+
+    /**
+     * The purpose of this method is to add the default parameters to a neutral query. At inception,
+     * this method
+     * add the Tenant ID to a neutral query.
+     *
+     * @param query
+     *            The query returned is the same as the query passed.
+     * @return
+     *         The modified neutral query
+     */
+    protected NeutralQuery addDefaultQueryParams(NeutralQuery query, String collectionName) {
+        if (query == null) {
+            query = new NeutralQuery();
+        }
+
+        if (!template.getDb().getName().equalsIgnoreCase("SLI")) {
+            return query;
+        }
+        // Add tenant ID
+        if (!NOT_BY_TENANT.contains(collectionName)) {
+            String tenantId = TenantContext.getTenantId();
+            // We decided that if tenantId is null then we will query on blank string.
+            // This may need to be revisited.
+            if (tenantId == null) {
+                return query;
+            }
+
+            // make sure a criterion for tenantId has not already been added to this query
+            boolean addCrit = true;
+            List<NeutralCriteria> criteria = query.getCriteria();
+            if (criteria != null) {
+                ListIterator<NeutralCriteria> li = criteria.listIterator();
+                while (li.hasNext()) {
+                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
+                        addCrit = false;
+                        break;
+                    }
+                }
+            }
+            // add the tenant ID if it's not already there
+            if (addCrit) {
+                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+            }
+        }
+        return query;
+    }
+
+    /**
+     * Constructs a Criteria for tenantId. Will return null if collectionName is not restricted by
+     * tenantId.
+     *
+     * @param collectionName
+     *            The collection to which the Criteria is to be applied.
+     * @return null if the collection is not restricted. Otherwise a Criteria that restricts by
+     *         tenant id.
+     */
+    protected Criteria createTenantCriteria(String collectionName) {
+        if (NOT_BY_TENANT.contains(collectionName)) {
+            return null;
+        }
+        String tenantId = TenantContext.getTenantId();
+
+        // We decided that if tenantId is null then we will query on blank string.
+        // This may need to be revisited.
+        if (tenantId == null) {
+            return null;
+        }
+        Criteria c = new Criteria("metaData.tenantId");
+        c.is(tenantId);
+        return c;
+    }
 
     public void setTemplate(MongoTemplate template) {
         this.template = template;
@@ -68,25 +149,34 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public abstract T create(String type, Map<String, Object> body,
-            Map<String, Object> metaData, String collectionName);
+    public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
+    // DE719 -- Not sure how to handle this, since it is using Generics. We
+    // will not know until compileTime, what the object will be.
     public T create(T record, String collectionName) {
-        template.save(record, collectionName);
-        LOG.debug(" create a record in collection {} with id {}", new Object[] {
-                collectionName, getRecordId(record) });
-
+        template.insert(record, collectionName);
+        LOG.debug(" create a record in collection {} with id {}", new Object[]{collectionName, getRecordId(record)});
         return record;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] {
-                collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, databaseId));
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+
+        // convert the neutral query into a mongo query
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+
         try {
-            return template.findById(databaseId, getRecordClass(),
-                    collectionName);
+            // return template.findById(databaseId, getRecordClass(),
+            // collectionName);
+            return template.findOne(mongoQuery, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -96,11 +186,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public boolean exists(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] {
-                collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+        // We need to restrict counts by tenantId as well. So if the tenantId
+        // exist, then we append.
         try {
-            return template.getCollection(collectionName).getCount(
-                    new BasicDBObject("_id", databaseId)) != 0L;
+            String tenantId = TenantContext.getTenantId();
+            BasicDBObject obj = null;
+
+            if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+
+                obj = new BasicDBObject("metaData.tenantId", tenantId);
+                obj.append("_id", databaseId);
+            } else {
+                obj = new BasicDBObject("_id", databaseId);
+            }
+
+            return template.getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return false;
@@ -110,9 +211,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
 
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName,
-                neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an entity
         return template.findOne(mongoQuery, getRecordClass(), collectionName);
@@ -120,27 +224,36 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Iterable<T> findAll(String collectionName) {
-        return findAll(collectionName, new NeutralQuery());
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        NeutralQuery neutralQuery = new NeutralQuery();
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+
+        return findAll(collectionName, neutralQuery);
     }
 
     @Override
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName,
-                neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an instance
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
-    public Iterable<String> findAllIds(String collectionName,
-            NeutralQuery neutralQuery) {
+    public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         if (neutralQuery == null) {
             neutralQuery = new NeutralQuery();
         }
         neutralQuery.setIncludeFields("_id");
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(neutralQuery, collectionName);
 
         List<String> ids = new ArrayList<String>();
         for (T t : findAll(collectionName, neutralQuery)) {
@@ -150,14 +263,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public Iterable<T> findAllByPaths(String collectionName,
-            Map<String, String> paths, NeutralQuery neutralQuery) {
-        Query mongoQuery = this.queryConverter.convert(collectionName,
-                neutralQuery);
+    public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
-            mongoQuery.addCriteria(Criteria.where(field.getKey()).is(
-                    field.getValue()));
+            mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
         }
 
         // find and return an entity
@@ -170,8 +283,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (collection == null) {
             return 0;
         }
-        return collection.count(this.queryConverter.convert(collectionName,
-                neutralQuery).getQueryObject());
+        this.addDefaultQueryParams(neutralQuery, collectionName);
+        return collection.count(this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
     }
 
     @Override
@@ -187,7 +300,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * document, however since we are specifying IDs in the DAL instead of
      * letting Mongo create the document IDs, this method will check for the
      * existence of a document ID before saving the document.
-     * 
+     *
      * @param collection
      * @param record
      * @param body
@@ -201,29 +314,38 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         Query query = getUpdateQuery(record);
+        Criteria crit = this.createTenantCriteria(collection);
+        if (crit != null) {
+            query.addCriteria(crit);
+        }
+
         T encryptedRecord = getEncryptedRecord(record);
         Update update = getUpdateCommand(encryptedRecord);
 
-        //attempt update
+        // attempt update
         WriteResult result = template.updateFirst(query, update, collection);
-        //if no records were updated, try insert
-        //insert goes through the encryption pipeline, so use the unencrypted record
+        // if no records were updated, try insert
+        // insert goes through the encryption pipeline, so use the unencrypted record
         if (result.getN() == 0) {
             template.insert(record, collection);
         }
 
         return true;
     }
-    
+
     public WriteResult update(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        // Enforcing the tenantId query. The rationale for this is all CRUD
+        // Operations should be restricted based on tenant.
+        this.addDefaultQueryParams(query, collectionName);
+
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
         Update convertedUpdate = new Update();
-        
+
         for (Map.Entry<String, Object> entry : update.entrySet()) {
             String operation = entry.getKey();
             @SuppressWarnings("unchecked")
             Map<String, Object> operands = (Map<String, Object>) entry.getValue();
-            
+
             if (operation.equals("push")) {
                 for (Map.Entry<String, Object> fieldValues : operands.entrySet()) {
                     convertedUpdate.push(fieldValues.getKey(), fieldValues.getValue());
@@ -234,7 +356,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 }
             }
         }
-        
+
         return template.updateFirst(convertedQuery, convertedUpdate, collectionName);
     }
 
@@ -246,7 +368,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public CommandResult execute(DBObject command) {
-        return template.executeCommand(command);
+        // Due to security concerns, we are not going to support this method
+        throw new UnsupportedOperationException();
+        // return template.executeCommand(command);
     }
 
     @Override
@@ -254,25 +378,43 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (id.equals("")) {
             return false;
         }
-        T deleted = template.findAndRemove(
-                new Query(Criteria.where("_id")
-                        .is(idConverter.toDatabaseId(id))), getRecordClass(),
-                collectionName);
-        LOG.debug("delete a entity in collection {} with id {}", new Object[] {
-                collectionName, id });
+
+        Query query = null;
+        Criteria idCrit = Criteria.where("_id").is(idConverter.toDatabaseId(id));
+        Criteria tenantCrit = createTenantCriteria(collectionName);
+
+        if (tenantCrit != null) {
+            query = new Query(tenantCrit);
+            query.addCriteria(idCrit);
+        } else {
+            query = new Query(idCrit);
+        }
+
+        T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
+        LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
 
     @Override
     public void deleteAll(String collectionName) {
-        template.getCollection(collectionName).remove(new BasicDBObject());
+        // We decided that if TenantId is null, then we will search on blank.
+        // This option may need to be revisted.
+        String tenantId = TenantContext.getTenantId();
+        BasicDBObject obj = null;
+
+        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+            obj = new BasicDBObject("metaData.tenantId", tenantId);
+        } else {
+            obj = new BasicDBObject();
+        }
+
+        template.getCollection(collectionName).remove(obj);
         LOG.debug("delete all objects in collection {}", collectionName);
     }
 
     protected void logResults(String collectioName, List<T> results) {
         if (results == null) {
-            LOG.debug("find objects in collection {} with total numbers is {}",
-                    new Object[] { collectioName, 0 });
+            LOG.debug("find objects in collection {} with total numbers is {}", new Object[] { collectioName, 0 });
         } else {
             LOG.debug("find objects in collection {} with total numbers is {}",
                     new Object[] { collectioName, results.size() });
@@ -285,25 +427,36 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     @Deprecated
-    public Iterable<T> findByPaths(String collectionName,
-            Map<String, String> paths) {
-        Query query = new Query();
+    /**
+     * @Deprecated
+     * "This is a deprecated method that should only be used by the ingestion ID Normalization code.  It is not tenant-safe meaning clients of this method must include tenantId in the metaData block"
+     */
+    public Iterable<T> findByPaths(String collectionName, Map<String, String> paths) {
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+
+        Query query = this.queryConverter.convert(collectionName, neutralQuery);
 
         return findByQuery(collectionName, addSearchPathsToQuery(query, paths));
     }
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template
-                .find(query, getRecordClass(), collectionName);
+        List<T> results = template.find(query, getRecordClass(), collectionName);
         logResults(collectionName, results);
         return results;
     }
 
     @Override
     @Deprecated
-    public Iterable<T> findByQuery(String collectionName, Query query,
-            int skip, int max) {
+
+    /**
+     * @Deprecated
+     * "This is a deprecated method that should only be used by the ingestion ID Normalization code.  It is not tenant-safe meaning clients of this method must include tenantId in the metaData block"
+     */
+
+    public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
+
         if (query == null) {
             query = new Query();
         }
@@ -314,11 +467,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Deprecated
-    private Query addSearchPathsToQuery(Query query,
-            Map<String, String> searchPaths) {
+    private Query addSearchPathsToQuery(Query query, Map<String, String> searchPaths) {
         for (Map.Entry<String, String> field : searchPaths.entrySet()) {
-            Criteria criteria = Criteria.where(field.getKey()).is(
-                    field.getValue());
+            Criteria criteria = Criteria.where(field.getKey()).is(field.getValue());
             query.addCriteria(criteria);
         }
 
@@ -348,16 +499,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public void ensureIndex(IndexDefinition index, String collection) {
 
-        //TODO - This needs refactoring: template.getDb() is an expensive operations
-        // Mongo indexes names(including collection name and namespace) are limited to 128 characters.
+        // TODO - This needs refactoring: template.getDb() is an expensive operations
+        // Mongo indexes names(including collection name and namespace) are limited to 128
+        // characters.
         String nsName = (String) index.getIndexOptions().get("name") + collection + "." + template.getDb().getName();
-        
+
         // Verify the length of the name is ready
         if (nsName.length() >= 128) {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
         }
-        
         template.ensureIndex(index, collection);
 
     }
