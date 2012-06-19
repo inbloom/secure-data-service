@@ -36,6 +36,11 @@ module ActiveResource
   end
 end
 
+
+#This class is how we make the rails ActiveResource talk to our Api.
+#Any models we make that would talk to the Api should inherit from this
+#model. It handles passing your OAuth token, as well as our endpoint
+#conventions, and the media-types.
 class SessionResource < ActiveResource::Base
   cattr_accessor :auth_id, :url_type, :access_token
   self.format = ActiveResource::Formats::JsonLinkFormat

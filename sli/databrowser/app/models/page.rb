@@ -17,6 +17,10 @@ limitations under the License.
 =end
 
 
+# This model is used to encapsulate our paging information that the Api
+# gives us so that we can more easily do paging in our entities_controller.
+# It should be noted that we only ever page forward and never page back, so
+# the logic for getting the previous won't work.
 class Page
   
   attr_accessor :next, :prev

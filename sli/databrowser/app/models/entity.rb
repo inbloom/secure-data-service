@@ -17,10 +17,16 @@ limitations under the License.
 =end
 
 
+# This model represents talking to any Api endpoint and making adjustments
+# to the data we get back so that we can do more clever rendering of that
+# data.
 class Entity < SessionResource
   self.site = APP_CONFIG['api_base']
   add_response_method :http_response
   
+  # This method makes a call to get whatever it is we need from the Api
+  # and proceeds to split the data up into two objects. Simple is for
+  # the table view, and complex is a dump of the data
   def self.get_simple_and_complex(parameters)
     base = get("", parameters)
     entity = []
@@ -40,6 +46,8 @@ class Entity < SessionResource
     entity
   end
 
+  # We use this method to go through the data, detecting it's type
+  # and then building the tabular information we need to display.
   def self.build_simple_hash(type, hash)
     return nil if hash.nil?
     type = get_basic_types(hash) if type.nil?
@@ -50,6 +58,7 @@ class Entity < SessionResource
     end
     one
   end
+  
   
   def self.value_for_simple_view (type, hash)
     return nil if hash.nil? or type.nil?
