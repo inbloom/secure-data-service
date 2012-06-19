@@ -12,21 +12,24 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
 
 /**
  *Validates the xml file against an xsd. Returns false if there is any error else it will always return true. The error messages would be reported by the error handler.
  * @author ablum
  *
  */
+@Scope("prototype")
+@Component
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;

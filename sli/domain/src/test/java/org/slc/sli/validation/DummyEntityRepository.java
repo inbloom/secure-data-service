@@ -170,4 +170,20 @@ public class DummyEntityRepository implements Repository<Entity> {
         return true;
     }
 
+    @Override
+    public void setWriteConcern(String writeConcern) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public long count(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        // TODO Auto-generated method stub
+    }
+
 }

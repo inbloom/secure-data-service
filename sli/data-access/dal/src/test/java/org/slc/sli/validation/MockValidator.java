@@ -19,4 +19,8 @@ public class MockValidator implements EntityValidator {
         }
         return true;
     }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+    }
 }
