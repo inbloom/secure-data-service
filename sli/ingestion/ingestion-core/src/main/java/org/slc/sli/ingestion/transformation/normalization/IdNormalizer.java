@@ -54,27 +54,31 @@ public class IdNormalizer {
         try {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, valueSource);
 
-            // For each element in the referer's array, create a mongo query; store all matching results into a set
-            Set<String> foundIds = new HashSet<String>();
+            // Overall query
+            Query query = new Query();
+
+            // For each element in the referer's array, create a subQuery
+            // Then OR them together to make a single mongo query
             for (int refIndex = 0; refIndex < refValues.size(); refIndex++) {
                 String valueSourcePath = valueSource + ".[" + Integer.toString(refIndex) + "]";
-                Query query = new Query();
+                Query subQuery = new Query();
                 Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
 
                 // For each field in the complex object, add a criteria to the the query
                 for (String fieldName : complexFieldNames) {
-                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
+                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName); // <- if fieldValue is null, does this thrown an InvocationTargetException?
                     criteria = criteria.and(path + "." + fieldName).is(fieldValue);
                 }
-                query.addCriteria(criteria);
+                subQuery.addCriteria(criteria);
+                query.or(subQuery);
+            }
 
-                // execute query and record results
-                @SuppressWarnings("deprecation")
-                Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
-                for(Entity record : foundRecords) {
-                    foundIds.add(record.getEntityId());
-                }
-
+            // execute query and record results
+            Set<String> foundIds = new HashSet<String>();
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
+            for(Entity record : foundRecords) {
+                foundIds.add(record.getEntityId());
             }
 
             // resolution fails if not exactly one resolved object is found.
@@ -88,7 +92,6 @@ public class IdNormalizer {
             LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
-            // @@@ here you are, Simon. Add more debug information.
             errorReport.error(errorMessage, this);
         }
 
