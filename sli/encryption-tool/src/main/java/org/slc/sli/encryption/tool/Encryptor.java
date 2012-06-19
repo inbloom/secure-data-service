@@ -12,16 +12,20 @@ import java.security.KeyStore;
 import javax.crypto.Cipher;
 
 /**
- *
+ * Class used to encrypt/decrypt properties
+ * 
  * @author ccheng
  *
  */
 public class Encryptor {
 
+    private static final String KEYSTORE_TYPE = "JCEKS";
+    private static final String ALGORITHM = "AES";
+
     private String keyStorePass;
     private String keyLocation;
 
-    KeyStore ks;
+    KeyStore keystore;
 
 	public Encryptor(String keyStoreLocation, String keyStorePassword)  throws Exception {
 
@@ -30,13 +34,13 @@ public class Encryptor {
         
         File keyfile = new File(getKeyLocation());
 
-        System.out.println("\n Using keystore: " + getKeyLocation());
+        System.out.println("\nUsing keystore: " + getKeyLocation());
         
         if (keyfile.exists()) {
         	// load keystore
             FileInputStream fis = new FileInputStream(getKeyLocation());
-            ks = KeyStore.getInstance("JCEKS");
-            ks.load(fis, this.getKeyStorePass().toCharArray());
+            keystore = KeyStore.getInstance(KEYSTORE_TYPE);
+            keystore.load(fis, this.getKeyStorePass().toCharArray());
             fis.close();
         } else {
             throw new FileNotFoundException("Please specify a valid keystore file.");
@@ -46,10 +50,10 @@ public class Encryptor {
     public String encrypt(String alias, String password, String value) throws GeneralSecurityException,
             IOException {
 
-        Key k = ks.getKey(alias, password.toCharArray());
+        Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, k);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] encrypted = cipher.doFinal(value.getBytes());
 
         return byteArrayToHexString(encrypted);
@@ -58,10 +62,10 @@ public class Encryptor {
     public String decrypt(String alias, String password, String message) throws GeneralSecurityException,
             IOException {
 
-        Key k = ks.getKey(alias, password.toCharArray());
+        Key key = keystore.getKey(alias, password.toCharArray());
         // create a cipher object and use the generated key to initialize it
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, k);
+        cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
         return new String(decrypted);
     }
@@ -117,8 +121,7 @@ public class Encryptor {
 
         String encryptedString = encryptor.encrypt(args[2], args[3], args[4]);
         
-        out.println(" Encrypted String for " + args[4] + " is: " + encryptedString);
-        out.println("\n");
+        out.println("\nEncrypted String for " + args[4] + " is: " + encryptedString + "\n");
 
     }
 }
