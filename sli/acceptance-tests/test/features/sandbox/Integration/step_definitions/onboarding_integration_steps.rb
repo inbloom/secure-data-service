@@ -322,7 +322,7 @@ Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edo
   ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   user = ldap.read_user(email)
   if user[:edorg] != edorg
-    user[:edorg] == edorg
+    user[:edorg] = edorg
     ldap.update_user_info(user)
   end
 end

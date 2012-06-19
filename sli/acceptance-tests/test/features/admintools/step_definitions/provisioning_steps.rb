@@ -69,6 +69,6 @@ Then /^I can select between the the high level ed\-org of the sample data sets o
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
 end
 
-Then /^I get a conflict error message$/ do
-  assertWithWait("No conflict error message") {@driver.find_element(:id, "conflictMessage") != nil}
+Then /^I get a already provisioned message$/ do
+  assertWithWait("No already provisioned message") {@driver.find_element(:id, "alreadyProvisioned") != nil}
 end
