@@ -586,4 +586,10 @@ public class MockRepo implements Repository<Entity> {
         return null;
     }
     
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

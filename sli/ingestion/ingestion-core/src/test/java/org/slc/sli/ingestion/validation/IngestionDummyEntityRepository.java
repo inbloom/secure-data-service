@@ -150,7 +150,6 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
         return 0;
     }
-
     @Override
     public void setReferenceCheck(String referenceCheck) {
         // TODO Auto-generated method stub

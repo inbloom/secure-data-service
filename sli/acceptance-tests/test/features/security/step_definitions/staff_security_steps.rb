@@ -54,6 +54,7 @@ Then /^the response does not includes the protected fields$/ do
     next if staff['id'] == $my_id
     assert(!staff.has_key?("birthDate"), "Shouldn't see fields like BirthDay")
     staff['telephone'].each do |phone|
+      puts 'hi'
       type = phone['telephoneNumberType']
       assert(phone == nil || type == 'Work', 'Should not see non-work telephone')
     end

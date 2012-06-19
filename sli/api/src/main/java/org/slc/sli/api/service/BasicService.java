@@ -41,6 +41,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.BasicDefinitionStore;
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -180,7 +181,7 @@ public class BasicService implements EntityService {
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     *
+     * 
      * @param neutralQuery all parameters to be included in query
      * @return the body of the entity
      */
