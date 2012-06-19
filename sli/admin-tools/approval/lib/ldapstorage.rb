@@ -76,8 +76,8 @@ class LDAPStorage
   # these values are injected when the user is created
   ENTITY_CONSTANTS = {
         :emailtoken => "-",
-      :uidnumber  => CONST_GROUPID_NUM,
-      :gidnumber  => CONST_USERID_NUM,
+      :uidnumber  => CONST_USERID_NUM,
+      :gidnumber  => CONST_GROUPID_NUM,
       :vendor     => "none",
       :homedir    => "/dev/null"
   }
