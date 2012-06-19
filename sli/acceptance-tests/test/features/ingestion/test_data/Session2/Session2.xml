@@ -23,23 +23,23 @@
 		<Date>2012-02-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120223InstructionaldayDupliate">
+	<CalendarDate id="CLND_20120223InstructionaldayDuplicate">
 		<Date>2012-02-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120224InstructionaldayDupliate">
+	<CalendarDate id="CLND_20120224InstructionaldayDuplicate">
 		<Date>2012-02-24</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120225HolidayDupliate">
+	<CalendarDate id="CLND_20120225HolidayDuplicate">
 		<Date>2012-02-25</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120226HolidayDupliate">
+	<CalendarDate id="CLND_20120226HolidayDuplicate">
 		<Date>2012-02-26</Date>
 		<CalendarEvent>Holiday</CalendarEvent>
 	</CalendarDate>
-	<CalendarDate id="CLND_20120227InstructionaldayDupliate">
+	<CalendarDate id="CLND_20120227InstructionaldayDuplicate">
 		<Date>2012-02-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
