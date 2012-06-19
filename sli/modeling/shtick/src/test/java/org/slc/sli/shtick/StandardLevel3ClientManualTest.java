@@ -15,7 +15,14 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Ignore;
 
+import org.junit.Test;
+import org.slc.sli.shtick.pojo.SexType;
+import org.slc.sli.shtick.pojo.SimpleName;
 import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojo.UniqueStateIdentifier;
+import org.slc.sli.shtick.pojomanual.BirthDataManual;
+import org.slc.sli.shtick.pojomanual.NameManual;
+import org.slc.sli.shtick.pojomanual.StudentManual;
 
 public class StandardLevel3ClientManualTest {
 
@@ -27,16 +34,15 @@ public class StandardLevel3ClientManualTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<Student> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<StudentManual> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, Student> studentMap = new HashMap<String, Student>();
+            final Map<String, StudentManual> studentMap = new HashMap<String, StudentManual>();
             for (@SuppressWarnings("unused")
-            final Student student : students) {
-                // FIXME:
-                // studentMap.put(student.getId(), student);
+            final StudentManual student : students) {
+                studentMap.put(student.getId(), student);
             }
             {
-                final Student student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final StudentManual student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 // FIXME:
                 // assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
@@ -60,12 +66,12 @@ public class StandardLevel3ClientManualTest {
         try {
             final List<String> studentIds = new LinkedList<String>();
             studentIds.add(TestingConstants.TEST_STUDENT_ID);
-            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+            final List<StudentManual> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
                     EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
-            final Student student = students.get(0);
+            final StudentManual student = students.get(0);
             assertNotNull(student);
             // FIXME
             // assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
@@ -123,17 +129,51 @@ public class StandardLevel3ClientManualTest {
 
     }
 
-    @Ignore("Need POJO wrapping Entity")
+    @Test
+    public void testPostStudent() {
+        try {
+            doPostStudentUsingJson(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        } catch (StatusCodeException e) {
+            e.printStackTrace();
+            fail("Status Code Returned : " + e.getStatusCode());
+        }
+    }
+
+    private void doPostStudentUsingJson(Level2Client inner) throws IOException, StatusCodeException {
+        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
+        StudentManual student = new StudentManual(new HashMap<String, Object>());
+
+        NameManual name = new NameManual(new HashMap<String, Object>());
+        name.setFirstName(new SimpleName("Jeff"));
+        name.setMiddleName(new SimpleName("Allen"));
+        name.setLastSurname(new SimpleName("Stokes"));
+        student.setName(name);
+
+        student.setUniqueStateIdentifier(new UniqueStateIdentifier("1234-STUDENT"));
+        student.setSex(SexType.MALE);
+
+        BirthDataManual birthData = new BirthDataManual(new HashMap<String, Object>());
+        birthData.setBirthDate("1988-12-01");
+        student.setBirthData(birthData);
+
+        student.setHispanicLatinoEthnicity(false);
+        client.postStudent(TestingConstants.ROGERS_TOKEN, student);
+    }
+
+    @Ignore
     public void testGetStudentsByIdUsingJson() {
         doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }
 
-    @Ignore("Problem with the plurality of XML documents.")
+    @Ignore
     public void testGetStudentsByIdUsingStAX() {
         doGetStudentsById(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
     }
 
-    @Ignore("Need POJO wrapping Entity")
+    @Ignore
     public void testGetStudentsUsingJson() {
         doGetStudents(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }

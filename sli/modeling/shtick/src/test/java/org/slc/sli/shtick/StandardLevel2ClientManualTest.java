@@ -34,7 +34,6 @@ public class StandardLevel2ClientManualTest {
     }
 
     @Test
-    @Ignore("Don't know if this works ATM")
     public void testCRUD() {
         try {
             // POST

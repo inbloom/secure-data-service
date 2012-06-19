@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojomanual.StudentManual;
 
 public final class StandardLevel3ClientManual implements Level3ClientManual {
 
@@ -26,24 +27,29 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
+    public List<StudentManual> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
             StatusCodeException {
         final List<Entity> entities = inner.getStudents(token, queryArgs);
-        final List<Student> students = new ArrayList<Student>(entities.size());
+        final List<StudentManual> students = new ArrayList<StudentManual>(entities.size());
         for (final Entity entity : entities) {
-            students.add(new Student(entity.getData()));
+            students.add(new StudentManual(entity.getData()));
         }
         return students;
     }
 
     @Override
-    public List<Student> getStudentsById(final String token, final List<String> studentIds,
+    public List<StudentManual> getStudentsById(final String token, final List<String> studentIds,
             final Map<String, Object> queryArgs) throws IOException, StatusCodeException {
         final List<Entity> entities = inner.getStudentsById(token, studentIds, queryArgs);
-        final List<Student> students = new ArrayList<Student>(entities.size());
+        final List<StudentManual> students = new ArrayList<StudentManual>(entities.size());
         for (final Entity entity : entities) {
-            students.add(new Student(entity.getData()));
+            students.add(new StudentManual(entity.getData()));
         }
         return students;
+    }
+
+    @Override
+    public String postStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
+        return inner.postStudents(token, new Entity("student", student.getUnderlying()));
     }
 }

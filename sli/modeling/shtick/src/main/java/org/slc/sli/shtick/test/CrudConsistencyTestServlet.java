@@ -16,6 +16,7 @@ import org.slc.sli.shtick.StandardLevel3ClientManual;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojomanual.StudentManual;
 
 /**
  * Servlet for testing API crud consistency
@@ -100,13 +101,13 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         List<String> idList = new ArrayList<String>();
         idList.add(TestConstants.MARVIN_MILLER_ID);
         try {
-            List<Student> students = client.getStudentsById(TestConstants.RICK_ROGERS_TOKEN, idList,
+            List<StudentManual> students = client.getStudentsById(TestConstants.RICK_ROGERS_TOKEN, idList,
                     Collections.<String, Object> emptyMap());
             if (students.size() != 1) {
                 return String.format(TestResultConstants.ERROR_GENERIC,
                         String.format("received %s student record(s)", students.size()));
             } else {
-                Student student = students.get(0);
+                StudentManual student = students.get(0);
                 String errorMsg = "";
                 Name name = student.getName();
                 if (!name.getFirstName().getValue().equals("Marvin")) {

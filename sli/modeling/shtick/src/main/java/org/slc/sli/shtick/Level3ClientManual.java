@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojomanual.StudentManual;
 
 public interface Level3ClientManual {
 
-    public List<Student> getStudents(String token, Map<String, Object> queryArgs) throws IOException, StatusCodeException;
+    List<StudentManual> getStudents(String token, Map<String, Object> queryArgs) throws IOException, StatusCodeException;
 
-    public List<Student> getStudentsById(String token, List<String> studentIds, Map<String, Object> queryArgs)
+    List<StudentManual> getStudentsById(String token, List<String> studentIds, Map<String, Object> queryArgs)
             throws IOException, StatusCodeException;
 
+    String postStudent(String token, StudentManual student) throws IOException, StatusCodeException;
 }
