@@ -204,31 +204,34 @@ public class StandardLevel3ClientManualTest {
         return client.postStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    @Ignore
+    @Test
     public void testGetStudentsByIdUsingJson() {
         doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }
 
-    @Ignore
+    @Test
+    @Ignore("Single entity deserialization returns N-entities where N=number of properties")
     public void testGetStudentsByIdUsingStAX() {
         doGetStudentsById(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
     }
 
-    @Ignore
+    @Test
     public void testGetStudentsUsingJson() {
         doGetStudents(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }
 
-    @Ignore("Need POJO wrapping Entity")
+    @Test
     public void testGetStudentsUsingStAX() {
         doGetStudents(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
     }
 
+    @Test
     @Ignore("Problem with invalid autorization token.")
     public void testGetStudentsWithBrokenTokenUsingJson() {
         doGetStudentsWithBrokenToken(new JsonLevel1Client());
     }
 
+    @Test
     @Ignore("Problem with invalid autorization token.")
     public void testGetStudentsWithBrokenTokenUsingStAX() {
         doGetStudentsWithBrokenToken(new StAXLevel1Client());
