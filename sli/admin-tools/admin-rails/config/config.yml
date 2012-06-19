@@ -1,7 +1,7 @@
 common: &common
     recaptcha_disable: true
     terms_url: http://dev.slcedu.org/legal/terms-of-use
-    privacy_policy_url: http://dev.slcedu.oßrg/legal/privacy
+    privacy_policy_url: http://dev.slcedu.org/legal/privacy
     # TODO:  change these keys.  Use a to-be-designated WGen account to create the recaptcha API keys.  The ones below are created with my rfarris@wgen.net account.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
@@ -29,6 +29,9 @@ email_mon: &email_mon
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_username: 
+    email_password: 
+    email_tls: 
 
 email_rumbster: &email_rumbster
     email_sender_name: SLI Administrator

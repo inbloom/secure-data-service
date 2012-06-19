@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -189,6 +190,7 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCount() {
+        TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student");
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());

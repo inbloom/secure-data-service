@@ -28,7 +28,7 @@ public class ShardType1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     public String randomUUID() {
         char c1 = (char) (r.nextInt(26) + 'a');
         char c2 = (char) (r.nextInt(26) + 'a');
-        return "" + new DateTime().getYear() + c1 + c2 + "-" + generator.generate();
+        return "" + new DateTime().getYear() + c1 + c2 + "-" + generator.generate().toString();
     }
 
 }
