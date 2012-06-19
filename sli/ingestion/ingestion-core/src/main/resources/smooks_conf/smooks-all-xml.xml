@@ -2040,7 +2040,19 @@
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
+    <jb:wiring property="courseCode" beanIdRef="CourseTranscript_CourseCodeTypeArray" />
     <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
+  </jb:bean>
+
+  <jb:bean beanId="CourseTranscript_CourseCodeTypeArray" class="java.util.ArrayList" 
+    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity">
+    <jb:wiring beanIdRef="CourseTranscript_CourseCodeType" />
+  </jb:bean>
+  <jb:bean beanId="CourseTranscript_CourseCodeType" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity/CourseCode">
+    <jb:value property="ID" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
+    <jb:value property="identificationSystem" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@AssigningOrganizationCode" />
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"

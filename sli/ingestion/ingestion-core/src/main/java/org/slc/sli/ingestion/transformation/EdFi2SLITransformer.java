@@ -16,6 +16,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
@@ -88,6 +89,17 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         Entity entity = new NeutralRecordEntity(item);
 
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+
+        ComplexRefDef ref = entityConfig.getComplexReference();
+        if (ref!=null) {
+            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), 
+                                                          ref.getValueSource(), 
+                                                          ref.getFieldPath(),
+                                                          ref.getCollectionName(),
+                                                          ref.getPath(),
+                                                          ref.getComplexFieldNames(),
+                                                          errorReport);
+        }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
