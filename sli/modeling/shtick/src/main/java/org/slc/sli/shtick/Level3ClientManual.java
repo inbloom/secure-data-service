@@ -15,4 +15,8 @@ public interface Level3ClientManual {
             throws IOException, StatusCodeException;
 
     String postStudent(String token, StudentManual student) throws IOException, StatusCodeException;
+
+    void putStudent(String token, StudentManual student) throws IOException, StatusCodeException;
+
+    void deleteStudent(String token, StudentManual student) throws IOException, StatusCodeException;
 }

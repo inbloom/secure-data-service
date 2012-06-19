@@ -52,4 +52,14 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     public String postStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
         return inner.postStudents(token, new Entity("student", student.getUnderlying()));
     }
+
+    @Override
+    public void putStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
+        inner.putStudentsById(token, student.getId(), new Entity("student", student.getUnderlying()));
+    }
+
+    @Override
+    public void deleteStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
+        inner.deleteStudentsById(token, student.getId());
+    }
 }

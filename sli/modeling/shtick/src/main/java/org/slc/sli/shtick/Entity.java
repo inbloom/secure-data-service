@@ -31,7 +31,7 @@ public final class Entity {
             throw new NullPointerException("data");
         }
         this.type = type;
-        this.data = Collections.unmodifiableMap(MapHelper.deepCopy(data));
+        this.data = MapHelper.deepCopy(data);
     }
 
     /**

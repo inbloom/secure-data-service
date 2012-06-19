@@ -44,8 +44,8 @@ public final class StudentManual {
     /**
      * Full legal name of the person.
      */
-    public Name getName() {
-        return new Name((Map<String, Object>) data.get("name"));
+    public NameManual getName() {
+        return new NameManual((Map<String, Object>) data.get("name"));
     }
 
     /**

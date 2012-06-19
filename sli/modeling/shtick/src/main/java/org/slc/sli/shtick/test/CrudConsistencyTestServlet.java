@@ -16,6 +16,7 @@ import org.slc.sli.shtick.StandardLevel3ClientManual;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojomanual.NameManual;
 import org.slc.sli.shtick.pojomanual.StudentManual;
 
 /**
@@ -109,7 +110,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
             } else {
                 StudentManual student = students.get(0);
                 String errorMsg = "";
-                Name name = student.getName();
+                NameManual name = student.getName();
                 if (!name.getFirstName().getValue().equals("Marvin")) {
                     errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
                             "First name does not match.\n");

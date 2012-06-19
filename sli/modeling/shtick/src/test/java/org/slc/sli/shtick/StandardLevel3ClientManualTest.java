@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -130,20 +131,60 @@ public class StandardLevel3ClientManualTest {
     }
 
     @Test
-    public void testPostStudent() {
+    public void testCrudJson() {
         try {
-            doPostStudentUsingJson(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
-        } catch (IOException e) {
+            final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
+            final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
+
+            // POST
+            final String studentId = doPostStudentUsingJson(client);
+
+            // GET POSTED ENTITY
+            final StudentManual student = doGetStudentById(client, studentId);
+            assertEquals("Jeff", student.getName().getFirstName().getValue());
+            assertEquals("Stokes", student.getName().getLastSurname().getValue());
+            assertEquals(studentId, student.getId());
+
+            // PUT UPDATED ENTITY
+            doPutStudent(client, student);
+            // GET UPDATED ENTITY
+            final StudentManual updatedStudent = doGetStudentById(client, studentId);
+            assertEquals("John", updatedStudent.getName().getFirstName().getValue());
+            assertEquals(studentId, student.getId());
+
+            // DELETE ENTITY
+            doDeleteStudent(client, student);
+
+            // GET DELETED ENTITY (SHOULD NOW FAIL)
+            try {
+                doGetStudentById(client, studentId);
+            } catch (StatusCodeException e) {
+                assertEquals(404, e.getStatusCode());
+            }
+
+        } catch (final IOException e) {
             e.printStackTrace();
             fail(e.getMessage());
-        } catch (StatusCodeException e) {
+        } catch (final StatusCodeException e) {
             e.printStackTrace();
             fail("Status Code Returned : " + e.getStatusCode());
         }
     }
 
-    private void doPostStudentUsingJson(Level2Client inner) throws IOException, StatusCodeException {
-        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
+    private void doDeleteStudent(Level3ClientManual client, StudentManual student) throws IOException, StatusCodeException {
+        client.deleteStudent(TestingConstants.ROGERS_TOKEN, student);
+    }
+
+    private void doPutStudent(final Level3ClientManual client, final StudentManual student) throws IOException, StatusCodeException {
+        student.getName().setFirstName(new SimpleName("John"));
+        client.putStudent(TestingConstants.ROGERS_TOKEN, student);
+    }
+
+    private StudentManual doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException, StatusCodeException {
+        return client.getStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), Collections.EMPTY_MAP).get(0);
+    }
+
+    private String doPostStudentUsingJson(final Level3ClientManual client) throws IOException, StatusCodeException {
         StudentManual student = new StudentManual(new HashMap<String, Object>());
 
         NameManual name = new NameManual(new HashMap<String, Object>());
@@ -160,7 +201,7 @@ public class StandardLevel3ClientManualTest {
         student.setBirthData(birthData);
 
         student.setHispanicLatinoEthnicity(false);
-        client.postStudent(TestingConstants.ROGERS_TOKEN, student);
+        return client.postStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
     @Ignore
