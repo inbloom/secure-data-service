@@ -107,8 +107,8 @@ Given there is an account in ldap for vendor "Macro Corp"
 And the account has a tenantId "<DEVELOPER_EMAIL>"
 And the account has a edorg of "<SANDBOX_EDORG_2>"
 And there is already a tenant with tenantId "<DEVELOPER_EMAIL>" in mongo
-And there is already a edorg with stateOrganizationId "<EDORG_NAME_2>" in mongo
-And there is no landing zone for the "<EDORG_NAME>" in mongo
+And there is already a edorg with stateOrganizationId "<SANDBOX_EDORG_2>" in mongo
+And there is no landing zone for the "<SANDBOX_EDORG>" in mongo
 When the developer go to the provisioning application web page
 Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
 When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
@@ -121,15 +121,15 @@ And the user gets a success message
 @wip
 @sandbox
 Scenario: As an developer I can use the provisioning tool to switch between LZ
-Given there is an <DEVELOPER> account in ldap
-And the account has a  <tenantId>
-And the account has a <EDORG_NAME> of "SANDBOX_EDORG"
-And there is already a tenant in mongo
-And there is already ed-org in mongo
-And there is a landing zone for the ed-org in mongo
-And there is a landing zone for the <DEVELOPER> in LDAP
-When the <DEVELOPER> go to the provisioning application web page
-Then the <DEVELOPER> is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
-When the <DEVELOPER> provision a Landing zone
-Then the directory structure for the landing zone is stored in ldap for <DEVELOPER>
-Then the <DEVELOPER> is gets an already provisioned message
+Given there is an account in ldap for vendor "Macro Corp"
+And the account has a tenantId "<DEVELOPER_EMAIL>"
+And the account has a edorg of "<SANDBOX_EDORG>"
+And there is already a tenant with tenantId "<DEVELOPER_EMAIL>" in mongo
+And there is already a edorg with stateOrganizationId "<SANDBOX_EDORG>" in mongo
+And there is a landing zone for the "<SANDBOX_EDORG>" in mongo
+And there is a landing zone for the "<SANDBOX_EDORG>" in LDAP
+When the developer go to the provisioning application web page
+Then the developer is authenticated to Simple IDP as user "<USERID>" with pass "<PASSWORD>"
+When the developer provision a "sandbox" Landing zone with edorg is "<SANDBOX_EDORG>"
+Then the directory structure for the landing zone is stored in ldap
+Then the user gets an already provisioned message

@@ -10,6 +10,7 @@ Before do
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
    @edorgId =  "Test Ed Org"
+   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
 end
 
 
@@ -18,7 +19,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "test1234"                                   if human_readable_id == "PASSWORD"
   id = @edorgId                                     if human_readable_id == "EDORG_NAME"
   id = @edorgId                                     if human_readable_id == "SANDBOX_EDORG"
-  id = "devldapuser@slidev.org"                     if human_readable_id == "DEVELOPER_EMAIL"
+  id = @email                                       if human_readable_id == "DEVELOPER_EMAIL"
   id = "sandbox_edorg_2"                            if human_readable_id == "SANDBOX_EDORG_2"
   id
 end
@@ -46,7 +47,6 @@ end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
 #@email="devldapuser_#{Socket.gethostname}@slidev.org"
-@email="devldapuser@slidev.org"
 @tenantId = tenantId
 removeUser(@email)
 sleep(1)
@@ -112,6 +112,14 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
   assert(found==false,"there is a landing zone for #{edorgId} in mongo")
 end
 
+Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorg|
+  puts edorg
+end
+
+Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
+  puts edorg
+end
+
 
 When /^the developer provision a "(.*?)" Landing zone with edorg is "(.*?)"$/ do |env,edorgId|
   step "I provision with \"#{env}\" high\-level ed\-org to \"#{edorgId}\""
@@ -163,6 +171,10 @@ end
 
 Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
+end
+
+Then /^the user gets an already provisioned message$/ do
+  pending # express the regexp above with the code you wish you had
 end
 
 Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
@@ -218,14 +230,14 @@ tenant_entity =
         "ingestionServer" => "Mac.local",
         "educationOrganization" => edorgId,
         "desc" => nil,
-        "path" => "/ingestion/lz/inbound/devldapuser@slidev.org/"+edorgId,
+        "path" => "/ingestion/lz/inbound/"+tenantId+"/"+edorgId,
         "userNames" => nil
       }
     ]
   },
   "metaData" => {
     "tenantId" => "SLI",
-    "createdBy" => "devldapuser@slidev.org"
+    "createdBy" => tenantId
   }
 }
 tenant_coll = @db['tenant']
