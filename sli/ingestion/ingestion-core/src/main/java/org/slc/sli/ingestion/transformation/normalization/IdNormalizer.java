@@ -59,7 +59,14 @@ public class IdNormalizer {
     
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         
-        if (entityConfig == null || entityConfig.getReferences() == null) {
+        if (entityConfig == null) {
+            LOG.warn("Entity configuration is null --> returning...");
+            return;
+        }
+        
+        if (entityConfig.getReferences() == null) {
+            LOG.warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            resolveSubEntities(entity, tenantId, entityConfig, errorReport);
             return;
         }
         
@@ -143,8 +150,7 @@ public class IdNormalizer {
                 
                 if (reference.getRef().isRefList()) {
                     // for lists of references set the properties on each element of the
-                    // resolved ID
-                    // list
+                    // resolved ID list
                     for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
                         String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
                         PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
@@ -171,11 +177,13 @@ public class IdNormalizer {
     private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
         if (subEntityConfigs != null) {
+            LOG.info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
             for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
                 String pathString = entry.getKey();
                 boolean optional = pathString.endsWith("?");
                 String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
                 EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
+                LOG.info("Checking sub-entity: {} [optional: {}]", pathString, optional);
                 try {
                     Object subEntityObject = PropertyUtils.getProperty(entity, path);
                     if (subEntityObject == null) {
@@ -186,16 +194,20 @@ public class IdNormalizer {
                         }
                     }
                     if (subEntityObject instanceof List) {
+                        LOG.info("Resolving list of sub-entities.");
                         for (Object subEntityInstance : (List<?>) subEntityObject) {
                             resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
                         }
                     } else {
+                        LOG.info("Resolving single sub-entity.");
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
                     LOG.error("Error parsing " + entity, e);
                 }
             }
+        } else {
+            LOG.info("Entity: {} does not have any sub-entities.", entity.getType());
         }
     }
     
