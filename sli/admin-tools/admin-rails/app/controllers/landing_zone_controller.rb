@@ -14,9 +14,14 @@ class LandingZoneController < ApplicationController
       render_403
       return
     end
-
-    ed_org_id = params[:ed_org]
-    ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+    
+    if APP_CONFIG["is_sandbox"]
+      ed_org_id = params[:ed_org]
+      ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+    else
+      ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
+    end
+        
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else

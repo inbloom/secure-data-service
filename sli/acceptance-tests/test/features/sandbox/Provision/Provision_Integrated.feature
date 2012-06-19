@@ -5,6 +5,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 
+@wip
 @production
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone
 Given there is an account in ldap for vendor "Macro Corp"
