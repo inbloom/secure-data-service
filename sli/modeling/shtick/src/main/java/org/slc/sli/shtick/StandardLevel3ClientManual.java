@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.shtick.pojomanual.StudentManual;
+import org.slc.sli.shtick.pojo.Student;
 
 public final class StandardLevel3ClientManual implements Level3ClientManual {
 
@@ -26,39 +26,39 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     }
 
     @Override
-    public List<StudentManual> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
+    public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
             StatusCodeException {
         final List<Entity> entities = inner.getStudents(token, queryArgs);
-        final List<StudentManual> students = new ArrayList<StudentManual>(entities.size());
+        final List<Student> students = new ArrayList<Student>(entities.size());
         for (final Entity entity : entities) {
-            students.add(new StudentManual(entity.getData()));
+            students.add(new Student(entity.getData()));
         }
         return students;
     }
 
     @Override
-    public List<StudentManual> getStudentsById(final String token, final List<String> studentIds,
+    public List<Student> getStudentsById(final String token, final List<String> studentIds,
             final Map<String, Object> queryArgs) throws IOException, StatusCodeException {
         final List<Entity> entities = inner.getStudentsById(token, studentIds, queryArgs);
-        final List<StudentManual> students = new ArrayList<StudentManual>(entities.size());
+        final List<Student> students = new ArrayList<Student>(entities.size());
         for (final Entity entity : entities) {
-            students.add(new StudentManual(entity.getData()));
+            students.add(new Student(entity.getData()));
         }
         return students;
     }
 
     @Override
-    public String postStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
-        return inner.postStudents(token, new Entity("student", student.getUnderlying()));
+    public String postStudent(final String token, final Student student) throws IOException, StatusCodeException {
+        return inner.postStudents(token, new Entity("student", student.toMap()));
     }
 
     @Override
-    public void putStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
-        inner.putStudentsById(token, student.getId(), new Entity("student", student.getUnderlying()));
+    public void putStudent(final String token, final Student student) throws IOException, StatusCodeException {
+        inner.putStudentsById(token, student.getId(), new Entity("student", student.toMap()));
     }
 
     @Override
-    public void deleteStudent(final String token, final StudentManual student) throws IOException, StatusCodeException {
+    public void deleteStudent(final String token, final Student student) throws IOException, StatusCodeException {
         inner.deleteStudentsById(token, student.getId());
     }
 }

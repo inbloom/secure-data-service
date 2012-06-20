@@ -17,12 +17,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import org.slc.sli.shtick.pojo.BirthData;
+import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.SimpleName;
+import org.slc.sli.shtick.pojo.Student;
 import org.slc.sli.shtick.pojo.UniqueStateIdentifier;
-import org.slc.sli.shtick.pojomanual.BirthDataManual;
-import org.slc.sli.shtick.pojomanual.NameManual;
-import org.slc.sli.shtick.pojomanual.StudentManual;
 
 public class StandardLevel3ClientManualTest {
 
@@ -34,18 +34,18 @@ public class StandardLevel3ClientManualTest {
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
-            final List<StudentManual> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
+            final List<Student> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
-            final Map<String, StudentManual> studentMap = new HashMap<String, StudentManual>();
-            for (final StudentManual student : students) {
+            final Map<String, Student> studentMap = new HashMap<String, Student>();
+            for (final Student student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
-                final StudentManual student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
+                final Student student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
                 assertEquals("Male", student.getSex().getName());
-                final NameManual name = student.getName();
+                final Name name = student.getName();
                 assertEquals("Garry", name.getFirstName().getValue());
                 assertEquals("Kinsel", name.getLastSurname().getValue());
                 assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
@@ -64,12 +64,12 @@ public class StandardLevel3ClientManualTest {
         try {
             final List<String> studentIds = new LinkedList<String>();
             studentIds.add(TestingConstants.TEST_STUDENT_ID);
-            final List<StudentManual> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
+            final List<Student> students = client.getStudentsById(TestingConstants.ROGERS_TOKEN, studentIds,
                     EMPTY_QUERY_ARGS);
 
             assertNotNull(students);
             assertEquals(1, students.size());
-            final StudentManual student = students.get(0);
+            final Student student = students.get(0);
             assertNotNull(student);
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
             assertEquals(SexType.MALE, student.getSex());
@@ -136,7 +136,7 @@ public class StandardLevel3ClientManualTest {
             final String studentId = doPostStudentUsingJson(client);
 
             // GET POSTED ENTITY
-            final StudentManual student = doGetStudentById(client, studentId);
+            final Student student = doGetStudentById(client, studentId);
             assertEquals("Jeff", student.getName().getFirstName().getValue());
             assertEquals("Stokes", student.getName().getLastSurname().getValue());
             assertEquals(studentId, student.getId());
@@ -144,7 +144,7 @@ public class StandardLevel3ClientManualTest {
             // PUT UPDATED ENTITY
             doPutStudent(client, student);
             // GET UPDATED ENTITY
-            final StudentManual updatedStudent = doGetStudentById(client, studentId);
+            final Student updatedStudent = doGetStudentById(client, studentId);
             assertEquals("John", updatedStudent.getName().getFirstName().getValue());
             assertEquals(studentId, student.getId());
 
@@ -167,35 +167,35 @@ public class StandardLevel3ClientManualTest {
         }
     }
 
-    private void doDeleteStudent(Level3ClientManual client, StudentManual student) throws IOException,
+    private void doDeleteStudent(Level3ClientManual client, Student student) throws IOException,
             StatusCodeException {
         client.deleteStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private void doPutStudent(final Level3ClientManual client, final StudentManual student) throws IOException,
+    private void doPutStudent(final Level3ClientManual client, final Student student) throws IOException,
             StatusCodeException {
         student.getName().setFirstName(new SimpleName("John"));
         client.putStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private StudentManual doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException,
+    private Student doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException,
             StatusCodeException {
         return client.getStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), EMPTY_QUERY_ARGS).get(0);
     }
 
     private String doPostStudentUsingJson(final Level3ClientManual client) throws IOException, StatusCodeException {
-        StudentManual student = new StudentManual(new HashMap<String, Object>());
+        Student student = new Student(new HashMap<String, Object>());
 
-        NameManual name = new NameManual(new HashMap<String, Object>());
+        Name name = new Name(new HashMap<String, Object>());
         name.setFirstName(new SimpleName("Jeff"));
         name.setMiddleName(new SimpleName("Allen"));
         name.setLastSurname(new SimpleName("Stokes"));
         student.setName(name);
 
-        student.setUniqueStateIdentifier(new UniqueStateIdentifier("1234-STUDENT"));
+        student.setStudentUniqueStateId(new UniqueStateIdentifier("1234-STUDENT"));
         student.setSex(SexType.MALE);
 
-        BirthDataManual birthData = new BirthDataManual(new HashMap<String, Object>());
+        BirthData birthData = new BirthData(new HashMap<String, Object>());
         birthData.setBirthDate("1988-12-01");
         student.setBirthData(birthData);
 
