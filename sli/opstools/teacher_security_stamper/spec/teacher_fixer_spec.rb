@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../slc_fixer'
 
 describe SLCFixer do
   def insert_to_collection(collection, hash)
-    new_hash = {:body => hash}
+    new_hash = {:body => hash, :metaData => {:tenantId => "Waffles"}}
     collection.insert(new_hash)
   end
   before(:each) do
@@ -30,8 +30,8 @@ describe SLCFixer do
       
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should include 'teacherId'
-          student['metaData']['teacherId'].should eql teacher_id
+          student['metaData'].should include 'teacherContext'
+          student['metaData']['teacherContext'].should eql [teacher_id]
         end
       end
       it "should respect end dates for student section associations" do
@@ -46,8 +46,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
       it "should respect end dates for teacher section associations" do
@@ -62,8 +62,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
     end
@@ -80,8 +80,8 @@ describe SLCFixer do
       
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should include 'teacherId'
-          student['metaData']['teacherId'].should eql teacher_id
+          student['metaData'].should include 'teacherContext'
+          student['metaData']['teacherContext'].should eql [teacher_id]
         end
       end
       it "should respect end dates for student program associations" do
@@ -96,8 +96,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
       it "should respect end dates for staff program associations" do
@@ -112,8 +112,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
     end
@@ -130,8 +130,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should include 'teacherId'
-          student['metaData']['teacherId'].should eql teacher_id
+          student['metaData'].should include 'teacherContext'
+          student['metaData']['teacherContext'].should eql [teacher_id]
         end
       end
       it "should respect end dates for student cohort associations" do
@@ -146,8 +146,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
       it "should respect end dates for staff cohort associations" do
@@ -162,8 +162,8 @@ describe SLCFixer do
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
-          student['metaData'].should_not include 'teacherId'
-          student['metaData']['teacherId'].should_not eql teacher_id
+          student['metaData']['teacherContext'].should eql []
+          student['metaData']['teacherContext'].should_not eql [teacher_id]
         end
       end
     end
