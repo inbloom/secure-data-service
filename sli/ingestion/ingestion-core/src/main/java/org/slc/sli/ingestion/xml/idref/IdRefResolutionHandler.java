@@ -332,7 +332,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             newXml = File.createTempFile("tmp", ".xml", FileUtils.getOrCreateSubDir(xml.getParentFile(), ".idref"));
             
             out = new BufferedOutputStream(new FileOutputStream(newXml));
-            
             writer = OUTPUT_FACTORY.createXMLEventWriter(out, ENCODING);
             
             final XMLEventWriter wr = writer;
@@ -368,9 +367,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 while (attrs.hasNext()) {
                                     newAttrs.add(attrs.next());
                                 }
-
+                                
                                 Object cacheLookupObject = bucketCache.getFromBucket(namespace, ref.getValue());
-
+                                
                                 if (cacheLookupObject instanceof TransformableXmlString) {
                                     Attribute id = start.getAttributeByName(ID_ATTR);
                                     

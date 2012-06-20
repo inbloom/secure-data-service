@@ -60,11 +60,7 @@
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
-
-  <bean id="simpleEntityRepository" name="simpleValidationRepo"
-    class="org.slc.sli.dal.repository.SimpleEntityRepository">
-  </bean>
-
+  
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
 </beans>

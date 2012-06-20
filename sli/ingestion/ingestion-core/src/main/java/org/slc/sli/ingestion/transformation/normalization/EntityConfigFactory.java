@@ -43,7 +43,6 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
                 } else {
                     LOG.warn("no config found for entity type {}", entityType);
-                    entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
                 LogUtil.error(LOG, "Error loading entity type " + entityType, e);

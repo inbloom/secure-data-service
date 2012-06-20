@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #section assessment association data
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 4                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -66,7 +66,7 @@ end
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
     "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7",
-    "assessmentId" => "67ce204b-9999-4a11-bfea-000000004682",
+    "assessmentId" => "6a53f63e-deb8-443d-8138-fc5a7368239c",
     "entityType" => "sectionAssessmentAssociation"
   }
 end

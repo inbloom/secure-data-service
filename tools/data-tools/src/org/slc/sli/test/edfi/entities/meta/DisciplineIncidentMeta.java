@@ -11,13 +11,13 @@ public class DisciplineIncidentMeta {
 
     public final String id;
 
-    public DisciplineIncidentMeta(String id, SchoolMeta schoolMeta) {
+    public DisciplineIncidentMeta(String id, SchoolMeta schoolMeta, String teacherId) {
         this.id = schoolMeta.id + "-" + id;
         this.schoolId = schoolMeta.id;
 
         studentIds = new HashSet<String>();
         schoolId = schoolMeta.id;
-        staffId = null;
+        staffId = teacherId;
     }
 
     @Override
