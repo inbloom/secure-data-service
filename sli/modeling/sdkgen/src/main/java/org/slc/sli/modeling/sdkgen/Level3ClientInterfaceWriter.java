@@ -9,6 +9,16 @@ import java.util.Stack;
 import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchema;
+import org.apache.ws.commons.schema.XmlSchemaChoice;
+import org.apache.ws.commons.schema.XmlSchemaComplexType;
+import org.apache.ws.commons.schema.XmlSchemaDatatype;
+import org.apache.ws.commons.schema.XmlSchemaDerivationMethod;
+import org.apache.ws.commons.schema.XmlSchemaElement;
+import org.apache.ws.commons.schema.XmlSchemaObject;
+import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
+import org.apache.ws.commons.schema.XmlSchemaParticle;
+import org.apache.ws.commons.schema.XmlSchemaSequence;
+import org.apache.ws.commons.schema.XmlSchemaType;
 
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
@@ -21,10 +31,8 @@ import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
-import org.slc.sli.modeling.sdkgen.grammars.SdkGenElement;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
-import org.slc.sli.modeling.sdkgen.grammars.SdkGenType;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
 import org.slc.sli.modeling.xsd.XsdReader;
 
@@ -33,6 +41,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     private final String packageName;
     private final String className;
     private final File wadlFile;
+    private boolean first = true;
     /**
      * As we encounter schemas in the grammars, we add them here.
      */
@@ -72,6 +81,91 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         }
     }
 
+    private void showElement(final XmlSchemaElement element, final Stack<QName> elementNames) {
+        final QName elementName = element.getQName();
+        System.out.println("element : " + elementName);
+        final long minOccurs = element.getMinOccurs();
+        final long maxOccurs = element.getMaxOccurs();
+        System.out.println("minOccurs : " + minOccurs);
+        System.out.println("maxOccurs : " + maxOccurs);
+        if (elementNames.contains(elementName)) {
+            // Avoid infinite recursion.
+            return;
+        }
+        elementNames.push(elementName);
+        try {
+            final XmlSchemaType schemaType = element.getSchemaType();
+            showSchemaType(schemaType, elementNames);
+        } finally {
+            elementNames.pop();
+        }
+    }
+
+    private void showSchemaType(final XmlSchemaType schemaType, final Stack<QName> elementNames) {
+        if (schemaType instanceof XmlSchemaComplexType) {
+            final XmlSchemaComplexType complexType = (XmlSchemaComplexType) schemaType;
+            showComplexType(complexType, elementNames);
+        } else {
+            System.out.println("schemaType : " + schemaType);
+        }
+    }
+
+    private void showComplexType(final XmlSchemaComplexType complexType, final Stack<QName> elementNames) {
+        System.out.println("complexType : " + complexType);
+        final QName name = complexType.getQName();
+        System.out.println("complexType.name : " + name);
+        if (name != null) {
+
+        } else {
+            @SuppressWarnings("unused")
+            final XmlSchemaDatatype dataType = complexType.getDataType();
+            // System.out.println("dataType : " + dataType);
+            @SuppressWarnings("unused")
+            final XmlSchemaDerivationMethod deriveBy = complexType.getDeriveBy();
+            // System.out.println("deriveBy : " + deriveBy);
+            final XmlSchemaParticle particle = complexType.getParticle();
+            if (particle != null) {
+                showParticle(particle, elementNames);
+            }
+        }
+    }
+
+    private void showParticle(final XmlSchemaParticle particle, final Stack<QName> elementNames) {
+        if (particle == null) {
+            throw new NullPointerException("particle");
+        }
+        if (particle instanceof XmlSchemaSequence) {
+            final XmlSchemaSequence sequence = (XmlSchemaSequence) particle;
+            showSequence(sequence, elementNames);
+        } else {
+            System.out.println("particle : " + particle);
+            throw new AssertionError(particle);
+        }
+    }
+
+    private void showSequence(final XmlSchemaSequence sequence, final Stack<QName> elementNames) {
+        System.out.println("sequence : " + sequence);
+        final XmlSchemaObjectCollection items = sequence.getItems();
+        final int count = items.getCount();
+        for (int i = 0; i < count; i++) {
+            final XmlSchemaObject schemaObject = items.getItem(i);
+            showObject(schemaObject, elementNames);
+        }
+    }
+
+    private void showObject(final XmlSchemaObject schemaObject, final Stack<QName> elementNames) {
+        if (schemaObject instanceof XmlSchemaElement) {
+            final XmlSchemaElement element = (XmlSchemaElement) schemaObject;
+            // Just gone recursive on element depth.
+            showElement(element, elementNames);
+        } else if (schemaObject instanceof XmlSchemaChoice) {
+            System.out.println("choice : " + schemaObject);
+        } else {
+            System.out.println("schemaObject : " + schemaObject);
+            throw new AssertionError(schemaObject);
+        }
+    }
+
     @Override
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
@@ -89,11 +183,13 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
                     for (final Representation representation : representations) {
                         representation.getMediaType();
                         final QName elementName = representation.getElement();
-                        final SdkGenElement element = grammars.getElement(elementName);
+                        final XmlSchemaElement element = grammars.getElement(elementName);
                         if (element != null) {
-                            @SuppressWarnings("unused")
-                            final SdkGenType type = element.getType();
-                            // System.out.println(elementName.getLocalPart() + " : " + type);
+                            final Stack<QName> elementNames = new Stack<QName>();
+                            if (first) {
+                                showElement(element, elementNames);
+                                first = false;
+                            }
                         } else {
                             // FIXME: We need to resolve these issues...
                             // System.out.println(elementName +

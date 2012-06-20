@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slc.sli.shtick.StandardLevel3ClientManual;
-import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.Student;
 import org.slc.sli.shtick.pojomanual.NameManual;
@@ -112,17 +111,16 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 String errorMsg = "";
                 NameManual name = student.getName();
                 if (!name.getFirstName().getValue().equals("Marvin")) {
-                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
-                            "First name does not match.\n");
+                    errorMsg = errorMsg
+                            + String.format(TestResultConstants.ERROR_GENERIC, "First name does not match.\n");
                 }
                 if (!name.getLastSurname().getValue().equals("Miller")) {
-                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
-                            "Last name does not match.\n");
+                    errorMsg = errorMsg
+                            + String.format(TestResultConstants.ERROR_GENERIC, "Last name does not match.\n");
                 }
                 SexType sexType = student.getSex();
                 if (!sexType.getName().equals("Male")) {
-                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC,
-                            "Sex does not match.\n");
+                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC, "Sex does not match.\n");
                 }
                 // we can check more fields here if we wish
                 if (!errorMsg.isEmpty()) {

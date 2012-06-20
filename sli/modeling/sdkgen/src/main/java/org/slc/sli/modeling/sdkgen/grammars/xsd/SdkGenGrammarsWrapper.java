@@ -9,7 +9,6 @@ import javax.xml.namespace.QName;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 
-import org.slc.sli.modeling.sdkgen.grammars.SdkGenElement;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 
 public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
@@ -24,14 +23,14 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
     }
 
     @Override
-    public SdkGenElement getElement(final QName name) {
+    public XmlSchemaElement getElement(final QName name) {
         if (name == null) {
             throw new NullPointerException("name");
         }
         for (final XmlSchema xmlSchema : xmlSchemas) {
             final XmlSchemaElement element = xmlSchema.getElementByName(name);
             if (element != null) {
-                return new SdkGenElementWrapper(element);
+                return element;
             }
         }
         return null;

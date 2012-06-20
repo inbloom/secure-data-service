@@ -15,11 +15,10 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Ignore;
-
 import org.junit.Test;
+
 import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.SimpleName;
-import org.slc.sli.shtick.pojo.Student;
 import org.slc.sli.shtick.pojo.UniqueStateIdentifier;
 import org.slc.sli.shtick.pojomanual.BirthDataManual;
 import org.slc.sli.shtick.pojomanual.NameManual;
@@ -38,8 +37,7 @@ public class StandardLevel3ClientManualTest {
             final List<StudentManual> students = client.getStudents(TestingConstants.ROGERS_TOKEN, queryArgs);
             assertNotNull(students);
             final Map<String, StudentManual> studentMap = new HashMap<String, StudentManual>();
-            for (@SuppressWarnings("unused")
-            final StudentManual student : students) {
+            for (final StudentManual student : students) {
                 studentMap.put(student.getId(), student);
             }
             {
@@ -169,17 +167,20 @@ public class StandardLevel3ClientManualTest {
         }
     }
 
-    private void doDeleteStudent(Level3ClientManual client, StudentManual student) throws IOException, StatusCodeException {
+    private void doDeleteStudent(Level3ClientManual client, StudentManual student) throws IOException,
+            StatusCodeException {
         client.deleteStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private void doPutStudent(final Level3ClientManual client, final StudentManual student) throws IOException, StatusCodeException {
+    private void doPutStudent(final Level3ClientManual client, final StudentManual student) throws IOException,
+            StatusCodeException {
         student.getName().setFirstName(new SimpleName("John"));
         client.putStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
-    private StudentManual doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException, StatusCodeException {
-        return client.getStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), Collections.EMPTY_MAP).get(0);
+    private StudentManual doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException,
+            StatusCodeException {
+        return client.getStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), EMPTY_QUERY_ARGS).get(0);
     }
 
     private String doPostStudentUsingJson(final Level3ClientManual client) throws IOException, StatusCodeException {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.shtick.pojo.Student;
 import org.slc.sli.shtick.pojomanual.StudentManual;
 
 public final class StandardLevel3ClientManual implements Level3ClientManual {

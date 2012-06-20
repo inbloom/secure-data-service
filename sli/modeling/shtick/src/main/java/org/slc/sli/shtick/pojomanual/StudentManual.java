@@ -1,11 +1,40 @@
 package org.slc.sli.shtick.pojomanual;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import org.slc.sli.shtick.pojo.*;
+import org.slc.sli.shtick.Coercions;
+import org.slc.sli.shtick.pojo.Address;
+import org.slc.sli.shtick.pojo.BirthData;
+import org.slc.sli.shtick.pojo.CohortYear;
+import org.slc.sli.shtick.pojo.Disability;
+import org.slc.sli.shtick.pojo.DisplacementStatusType;
+import org.slc.sli.shtick.pojo.ElectronicMail;
+import org.slc.sli.shtick.pojo.GradeLevelType;
+import org.slc.sli.shtick.pojo.IdentificationCode;
+import org.slc.sli.shtick.pojo.LanguageItemType;
+import org.slc.sli.shtick.pojo.LearningStyles;
+import org.slc.sli.shtick.pojo.LimitedEnglishProficiencyType;
+import org.slc.sli.shtick.pojo.OldEthnicityType;
+import org.slc.sli.shtick.pojo.OtherName;
+import org.slc.sli.shtick.pojo.ProfileThumbnail;
+import org.slc.sli.shtick.pojo.ProgramParticipation;
+import org.slc.sli.shtick.pojo.RaceItemType;
+import org.slc.sli.shtick.pojo.SchoolFoodServicesEligibilityType;
+import org.slc.sli.shtick.pojo.Section504DisabilityItemType;
+import org.slc.sli.shtick.pojo.SexType;
+import org.slc.sli.shtick.pojo.StudentCharacteristic;
+import org.slc.sli.shtick.pojo.StudentIdentificationCode;
+import org.slc.sli.shtick.pojo.StudentIndicator;
+import org.slc.sli.shtick.pojo.Telephone;
+import org.slc.sli.shtick.pojo.UniqueStateIdentifier;
 
 /**
- * This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution.
+ * This entity represents an individual for whom instruction, services and/or care are provided in
+ * an early childhood, elementary or secondary educational program under the jurisdiction of a
+ * school, education agency, or other institution or program. A student is a person who has been
+ * enrolled in a school or other educational institution.
  */
 public final class StudentManual {
     private final Map<String, Object> data;
@@ -17,7 +46,6 @@ public final class StudentManual {
     public String getId() {
         return (String) data.get("id");
     }
-
 
     public Map<String, Object> getUnderlying() {
         return data;
@@ -35,7 +63,8 @@ public final class StudentManual {
     }
 
     /**
-     * A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.
+     * A coding scheme that is used for identification and record-keeping purposes by schools,
+     * social services, or other agencies to refer to a student.
      */
     public List<StudentIdentificationCode> getStudentIdentificationCode() {
         return null;
@@ -45,7 +74,7 @@ public final class StudentManual {
      * Full legal name of the person.
      */
     public NameManual getName() {
-        return new NameManual((Map<String, Object>) data.get("name"));
+        return new NameManual(Coercions.toMap(data.get("name")));
     }
 
     /**
@@ -65,11 +94,13 @@ public final class StudentManual {
     public void setSex(SexType sex) {
         this.data.put("sex", sex.getName());
     }
+
     /**
-     * The set of elements that capture relevant data regarding a person's birth, including birth date and place of birth.
+     * The set of elements that capture relevant data regarding a person's birth, including birth
+     * date and place of birth.
      */
     public BirthData getBirthData() {
-        return new BirthData((Map<String, Object>) data.get("birthData"));
+        return new BirthData(Coercions.toMap(data.get("birthData")));
     }
 
     public void setBirthData(BirthDataManual birthData) {
@@ -77,7 +108,8 @@ public final class StudentManual {
     }
 
     /**
-     * The set of elements that describes an address, including the street address, city, state, and ZIP code.
+     * The set of elements that describes an address, including the street address, city, state, and
+     * ZIP code.
      */
     public List<Address> getAddress() {
         return null;
@@ -91,7 +123,8 @@ public final class StudentManual {
     }
 
     /**
-     * The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.
+     * The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within
+     * the network to which the individual or organization belongs.
      */
     public List<ElectronicMail> getElectronicMail() {
         return null;
@@ -105,7 +138,9 @@ public final class StudentManual {
     }
 
     /**
-     * An indication that the individual traces his or her origin or descent to Mexico, Puerto Rico, Cuba, Central and South America, and other Spanish cultures, regardless of race. The term, "Spanish origin," can be used in addition to "Hispanic or Latino."
+     * An indication that the individual traces his or her origin or descent to Mexico, Puerto Rico,
+     * Cuba, Central and South America, and other Spanish cultures, regardless of race. The term,
+     * "Spanish origin," can be used in addition to "Hispanic or Latino."
      */
     public Boolean getHispanicLatinoEthnicity() {
         return (Boolean) data.get("hispanicLatinoEthnicity");
@@ -116,14 +151,19 @@ public final class StudentManual {
     }
 
     /**
-     * Previous definition of Ethnicity combining Hispanic/Latino and race: 1 - American Indian or Alaskan Native 2 - Asian or Pacific Islander 3 - Black, not of Hispanic origin 4 - Hispanic 5 - White, not of Hispanic origin
+     * Previous definition of Ethnicity combining Hispanic/Latino and race: 1 - American Indian or
+     * Alaskan Native 2 - Asian or Pacific Islander 3 - Black, not of Hispanic origin 4 - Hispanic 5
+     * - White, not of Hispanic origin
      */
     public OldEthnicityType getOldEthnicity() {
         return OldEthnicityType.valueOfName((String) data.get("oldEthnicity"));
     }
 
     /**
-     * The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies. The way this data element is listed, it must allow for multiple entries so that each individual can specify all appropriate races.
+     * The general racial category which most clearly reflects the individual's recognition of his
+     * or her community or with which the individual most identifies. The way this data element is
+     * listed, it must allow for multiple entries so that each individual can specify all
+     * appropriate races.
      */
     public List<RaceItemType> getRace() {
         final List<RaceItemType> list = new ArrayList<RaceItemType>();
@@ -131,28 +171,35 @@ public final class StudentManual {
     }
 
     /**
-     * An indication of inadequate financial condition of an individual's family, as determined by family income, number of family members/dependents, participation in public assistance programs, and/or other characteristics considered relevant by federal, state, and local policy.
+     * An indication of inadequate financial condition of an individual's family, as determined by
+     * family income, number of family members/dependents, participation in public assistance
+     * programs, and/or other characteristics considered relevant by federal, state, and local
+     * policy.
      */
     public Boolean getEconomicDisadvantaged() {
         return (Boolean) data.get("economicDisadvantaged");
     }
 
     /**
-     * An indication of a student's level of eligibility for breakfast, lunch, snack, supper, and milk programs.
+     * An indication of a student's level of eligibility for breakfast, lunch, snack, supper, and
+     * milk programs.
      */
     public SchoolFoodServicesEligibilityType getSchoolFoodServicesEligibility() {
         return SchoolFoodServicesEligibilityType.valueOfName((String) data.get("schoolFoodServicesEligibility"));
     }
 
     /**
-     * Reflects important characteristics of the student's home situation: such as Displaced Homemaker, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth, etc.
+     * Reflects important characteristics of the student's home situation: such as Displaced
+     * Homemaker, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied
+     * Youth, etc.
      */
     public List<StudentCharacteristic> getStudentCharacteristics() {
         return null;
     }
 
     /**
-     * An indication that the student has been identified as limited English proficient by the Language Proficiency Assessment Committee (LPAC), or English proficient.
+     * An indication that the student has been identified as limited English proficient by the
+     * Language Proficiency Assessment Committee (LPAC), or English proficient.
      */
     public LimitedEnglishProficiencyType getLimitedEnglishProficiency() {
         return LimitedEnglishProficiencyType.valueOfName((String) data.get("limitedEnglishProficiency"));
@@ -167,7 +214,8 @@ public final class StudentManual {
     }
 
     /**
-     * The language or dialect routinely spoken in an individual's home. This language or dialect may or may not be an individual's native language.
+     * The language or dialect routinely spoken in an individual's home. This language or dialect
+     * may or may not be an individual's native language.
      */
     public List<LanguageItemType> getHomeLanguages() {
         final List<LanguageItemType> list = new ArrayList<LanguageItemType>();
@@ -190,7 +238,8 @@ public final class StudentManual {
     }
 
     /**
-     * Indicates a state health or weather related event that displaces a group of students, and may require additional funding, educational, or social services.
+     * Indicates a state health or weather related event that displaces a group of students, and may
+     * require additional funding, educational, or social services.
      */
     public DisplacementStatusType getDisplacementStatus() {
         return new DisplacementStatusType((String) data.get("displacementStatus"));
@@ -204,21 +253,24 @@ public final class StudentManual {
     }
 
     /**
-     * The student's relative preference to visual, auditory and tactile learning expressed as percentages.
+     * The student's relative preference to visual, auditory and tactile learning expressed as
+     * percentages.
      */
     public LearningStyles getLearningStyles() {
-        return new LearningStyles((Map<String, Object>) data.get("learningStyles"));
+        return new LearningStyles(Coercions.toMap(data.get("learningStyles")));
     }
 
     /**
-     * The type and year of a cohort (e.g., 9th grade) the student belongs to as determined by the year that student entered a specific grade.
+     * The type and year of a cohort (e.g., 9th grade) the student belongs to as determined by the
+     * year that student entered a specific grade.
      */
     public List<CohortYear> getCohortYears() {
         return null;
     }
 
     /**
-     * Indicator(s) or metric(s) computed for the student (e.g., at risk) to influence more effective education or direct specific interventions.
+     * Indicator(s) or metric(s) computed for the student (e.g., at risk) to influence more
+     * effective education or direct specific interventions.
      */
     public List<StudentIndicator> getStudentIndicators() {
         return null;
