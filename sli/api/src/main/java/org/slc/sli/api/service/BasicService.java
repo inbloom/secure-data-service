@@ -798,8 +798,7 @@ public class BasicService implements EntityService {
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
-        if (type != null && type.equals(EntityNames.STAFF) &&
-            !((toType.equals(EntityNames.SCHOOL)) || (toType.equals(EntityNames.EDUCATION_ORGANIZATION)))) {
+        if (type != null && type.equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
         }
 

@@ -66,8 +66,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
                 Arrays.asList((NodeFilter)staffEdOrgEdOrgIDNodeFilter));
 
         //apply the filters
-        //ids.addAll(staffEdOrgEdOrgIDNodeFilter.filterIds(ids));
-        ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
+        //ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
         //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 
