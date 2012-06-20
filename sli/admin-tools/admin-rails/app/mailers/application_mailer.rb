@@ -34,6 +34,7 @@ class ApplicationMailer < ActionMailer::Base
     @firstName = firstName
     @serverName = serverName
     @edorgId = edorgId
+    @sample_data_link = APP_CONFIG['sample_data_url']
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
   
