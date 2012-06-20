@@ -13,6 +13,7 @@ class SLCFixer
     @basic_options = {:timeout => false, :batch_size => 100}
     #@log = logger || Logger.new(STDOUT)
     @log = Logger.new(STDOUT)
+    @log.level = Logger::ERROR
 
     @teacher_ids = {}
     @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
