@@ -796,7 +796,11 @@ public class BasicService implements EntityService {
         }
 
 
-        if( EntityNames.TEACHER.equals(type) && toType.equals(EntityNames.STUDENT)) {
+        if( EntityNames.TEACHER.equals(type) &&
+                (toType.equals(EntityNames.STUDENT) ||
+                 toType.equals(EntityNames.STUDENT_COHORT_ASSOCIATION) ||
+                 toType.equals(EntityNames.STUDENT_PROGRAM_ASSOCIATION)
+                )) {
             return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false);
         }
 
