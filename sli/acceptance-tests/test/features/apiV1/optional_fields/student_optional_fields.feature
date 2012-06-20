@@ -50,7 +50,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
   #tests will fail because of use of 'i look at the first one'.
   #It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
-  @wip
+  @wip @defective
   Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
