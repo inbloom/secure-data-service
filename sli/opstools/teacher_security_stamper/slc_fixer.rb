@@ -72,12 +72,18 @@ class SLCFixer
 
   def find_teachers_for_student_through_section(studentId)
     teachers = []
-    @db['studentSectionAssociation'].find({'body.studentId'=> studentId}, @basic_options) { |ssa_cursor|
+    @db['studentSectionAssociation'].find({'body.studentId'=> studentId, '$or'=>
+                                         [
+                                           {'body.endDate'=> {'$exists'=> false}},
+                                           {'body.endDate'=> {'$gte'=> @grace_date}}
+                                         ]}, @basic_options) { |ssa_cursor|
       ssa_cursor.each { |ssa|
-        # TODO if time not passed: if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate)))
-        @db['teacherSectionAssociation'].find({'body.sectionId'=> ssa['body']['sectionId']}, @basic_options) { |tsa_cursor|
+        @db['teacherSectionAssociation'].find({'body.sectionId'=> ssa['body']['sectionId'], '$or'=>
+                                         [
+                                           {'body.endDate'=> {'$exists'=> false}},
+                                           {'body.endDate'=> {'$gte'=> @grace_date}}
+                                         ]}, @basic_options) { |tsa_cursor|
           tsa_cursor.each { |tsa|
-            # TODO if time not passed: if (endDate == null || endDate.isEmpty() || (dateFilter.isFirstDateBeforeSecondDate(sectionGraceDate, endDate)))
             teachers.push tsa['body']['teacherId']
           }         
         }         
