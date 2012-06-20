@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../slc_fixer'
 describe SLCFixer do
   def insert_to_collection(collection, hash)
     new_hash = {:body => hash, :metaData => {:tenantId => "Waffles"}}
-    collection.insert(new_hash)
+    id = collection.insert(new_hash)
+    puts "insert id = #{id} hash = #{hash.to_s}"
+    id
   end
   before(:each) do
     conn = Mongo::Connection.new('localhost', 27017)
@@ -69,11 +71,10 @@ describe SLCFixer do
     end
     describe "by their programs" do
       it "should stamp students with program assocations" do
-        teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
+        teacher_id = insert_to_collection @db['staff'], {:name => "Teacher 1"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
-          puts "student id = #{student_id}"
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
         end
@@ -86,7 +87,7 @@ describe SLCFixer do
         end
       end
       it "should respect end dates for student program associations" do
-        teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
+        teacher_id = insert_to_collection @db['staff'], {:name => "Teacher 2"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
