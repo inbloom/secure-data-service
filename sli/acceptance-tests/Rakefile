@@ -18,6 +18,8 @@ COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
+TOREMOVE = ENV['TOREMOVE'] ? true : false
+
 #######################################################
 
 $SUCCESS=true
@@ -89,13 +91,19 @@ def runTests(testDirPath)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  if dropExistingCollection
-    dropCollectionsCleanly(collectionName)
+  if TOREMOVE
+    if dropExistingCollection
+      dropCollectionsCleanly(collectionName)
+      dropOption = ""
+    end
+  else
+    dropOption = (dropExistingCollection) ? "--drop":""
   end
+  
   
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
-  sh "#{MONGO_BIN}mongoimport -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+  sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
