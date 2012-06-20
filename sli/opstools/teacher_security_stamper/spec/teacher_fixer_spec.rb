@@ -73,6 +73,7 @@ describe SLCFixer do
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
+          puts "student id = #{student_id}"
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
         end
@@ -90,7 +91,7 @@ describe SLCFixer do
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
-          insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
+          insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id, :endDate => (Date.today - 2001).to_time.utc}
         end
         @fixer.stamp_students
 
@@ -106,7 +107,7 @@ describe SLCFixer do
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
-          insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id]}
+          insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
         end
         @fixer.stamp_students
 
@@ -124,7 +125,7 @@ describe SLCFixer do
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['cohort'], {:name => "cohort #{i}"}
           insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id]}
-          insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id]}
+          insert_to_collection @db['studentCohortAssociation'], {:cohortId => program_id, :studentId => student_id}
         end
         @fixer.stamp_students
 
@@ -140,7 +141,7 @@ describe SLCFixer do
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['cohort'], {:name => "Cohort #{i}"}
           insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id]}
-          insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
+          insert_to_collection @db['studentCohortAssociation'], {:cohortId => program_id, :studentId => student_id, :endDate => (Date.today - 2001).to_time.utc}
         end
         @fixer.stamp_students
 
@@ -156,7 +157,7 @@ describe SLCFixer do
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
-          insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id]}
+          insert_to_collection @db['studentCohortAssociation'], {:cohortId => program_id, :studentId => student_id}
         end
         @fixer.stamp_students
 
