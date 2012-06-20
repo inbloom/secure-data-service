@@ -12,7 +12,6 @@ describe SLCFixer do
   end
   describe "#fixing_students" do
     before(:each) do
-      puts "Clearing"
       @db.collection_names.each {|name| @db.drop_collection name unless name.include? 'system'}
     end
     describe "by their sections" do
@@ -73,8 +72,8 @@ describe SLCFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher 1"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
-          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
+          program_id = insert_to_collection @db['program'], {:name => "Program #{i}"}
+          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :studentRecordAccess => true}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
         end
         @fixer.stamp_students
@@ -90,7 +89,7 @@ describe SLCFixer do
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
-          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
+          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :studentRecordAccess => true}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id, :endDate => (Date.today - 2001).to_time.utc}
         end
         @fixer.stamp_students
@@ -106,7 +105,7 @@ describe SLCFixer do
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
-          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
+          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :studentRecordAccess => true, :endDate => (Date.today - 2001).to_time.utc}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
         end
         @fixer.stamp_students
