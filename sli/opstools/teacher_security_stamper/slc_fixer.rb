@@ -109,11 +109,10 @@ class SLCFixer
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuCohortAssoc->cohortId #{stu_assoc['body']['cohortId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
-        @db['staffCohortAssociation'].find({'body.cohortId'=> stu_assoc['body']['cohortId'], 'body.studentRecordAccess'=> true, '$or'=>
-                                         [
-                                           {'body.endDate'=> {'$exists'=> false}},
-                                           {'body.endDate'=> {'$gte'=> @current_date}}
-                                         ]}, @basic_options) { |staff_assoc_cursor|
+        @db['staffCohortAssociation'].find({'body.cohortId'=> stu_assoc['body']['cohortId'],
+                                              '$or'=> [ {'body.studentRecordAccess'=> {'$exists'=> false}}, {'body.studentRecordAccess'=> true} ],
+                                              '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
+                                           }, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
             #@log.debug "staffCohortAssoc->staffid #{staff_assoc['body']['staffId'].to_s}"
             #@log.debug "found assoc - #{staff_assoc['_id']} #{staff_assoc['body']['endDate']}"
@@ -140,11 +139,10 @@ class SLCFixer
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuProgramAssoc->programId #{stu_assoc['body']['programId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
-        @db['staffProgramAssociation'].find({'body.programId'=> stu_assoc['body']['programId'], 'body.studentRecordAccess'=> true, '$or'=>
-                                         [
-                                           {'body.endDate'=> {'$exists'=> false}},
-                                           {'body.endDate'=> {'$gte'=> @current_date}}
-                                         ]}, @basic_options) { |staff_assoc_cursor|
+        @db['staffProgramAssociation'].find({'body.programId'=> stu_assoc['body']['programId'],
+                                              '$or'=> [ {'body.studentRecordAccess'=> {'$exists'=> false}}, {'body.studentRecordAccess'=> true} ],
+                                              '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
+                                            }, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
             #@log.debug "staffProgramAssoc->staffid #{staff_assoc['body']['staffId'].to_s}"
             #@log.debug "found assoc - #{staff_assoc['_id']} #{staff_assoc['body']['endDate']}"
