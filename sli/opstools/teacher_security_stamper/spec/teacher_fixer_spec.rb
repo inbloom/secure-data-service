@@ -3,9 +3,7 @@ require File.dirname(__FILE__) + '/../slc_fixer'
 describe SLCFixer do
   def insert_to_collection(collection, hash)
     new_hash = {:body => hash, :metaData => {:tenantId => "Waffles"}}
-    id = collection.insert(new_hash)
-    puts "insert id = #{id} hash = #{hash.to_s}"
-    id
+    collection.insert(new_hash)
   end
   before(:each) do
     conn = Mongo::Connection.new('localhost', 27017)
@@ -13,14 +11,13 @@ describe SLCFixer do
     @fixer = SLCFixer.new(@db)
   end
   describe "#fixing_students" do
-    after(:each) do
-      @db['student'].remove
-      @db['staff'].remove
-      @db['teacherSectionAssociation'].remove
-      @db['studentSectionAssociation'].remove
+    before(:each) do
+      puts "Clearing"
+      @db.collection_names.each {|name| @db.drop_collection name unless name.include? 'system'}
     end
     describe "by their sections" do
       it "should stamp students with section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
@@ -37,6 +34,7 @@ describe SLCFixer do
         end
       end
       it "should respect end dates for student section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
@@ -53,6 +51,7 @@ describe SLCFixer do
         end
       end
       it "should respect end dates for teacher section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
