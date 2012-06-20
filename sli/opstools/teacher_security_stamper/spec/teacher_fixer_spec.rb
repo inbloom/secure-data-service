@@ -13,14 +13,13 @@ describe SLCFixer do
     @fixer = SLCFixer.new(@db)
   end
   describe "#fixing_students" do
-    after(:each) do
-      @db['student'].remove
-      @db['staff'].remove
-      @db['teacherSectionAssociation'].remove
-      @db['studentSectionAssociation'].remove
-    end
+    
     describe "by their sections" do
+      after(:each) do
+        @db.collection_names.each {|name| @db.drop_collection name}
+      end
       it "should stamp students with section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
@@ -37,6 +36,7 @@ describe SLCFixer do
         end
       end
       it "should respect end dates for student section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
@@ -53,6 +53,7 @@ describe SLCFixer do
         end
       end
       it "should respect end dates for teacher section associations" do
+        @db['staff'].count.should == 0
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
@@ -77,6 +78,9 @@ describe SLCFixer do
           program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
           insert_to_collection @db['studentProgramAssociation'], {:programId => program_id, :studentId => student_id}
+        end
+        @db['staffProgramAssociation'].find.each do |assoc|
+          puts assoc.to_s
         end
         @fixer.stamp_students
       
