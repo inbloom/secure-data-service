@@ -45,7 +45,11 @@ class SLCFixer
       @threads << Thread.new {x.report('section')    {stamp_sections}}
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
-      @threads << Thread.new {x.report('cohort')     {stamp_assessments}}
+      @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
+      @threads << Thread.new {x.report('attendance')     {stamp_attendance}}
+      @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
+      @threads << Thread.new {x.report('grades')     {stamp_grades}}
+      @threads << Thread.new {x.report('misc')     {stamp_misc}}
     end
 
     @threads.each do |th|
@@ -270,6 +274,47 @@ class SLCFixer
         @db['staffProgramAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
+  end
+  
+  def stamp_attendance
+    @db['attendance'].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |attendance|
+        teachers = @studentId_to_teachers[attendance['body']['studentId']].flatten.uniq
+        @db['attendance'].update(make_ids_obj(attendance), {'$set' => {'metaData.teacherContext' => teachers}})
+      end
+    end
+  end
+  
+  def stamp_grades
+  end
+  
+  def stamp_misc
+    @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
+        @db['staffEducationOrganizationAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => assoc['body']['staffReference']}})
+      end
+    end
+  end
+  
+  def stamp_disciplines
+    @db['disciplineAction'].find({}, {fields: ['body.studentId', 'body.staffId', 'body.disciplineIncidentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |action|
+        teachers = []
+        action['body']['staffId'].each {|id| teachers << id}
+        action['body']['studentId'].each {|id| teachers += @studentId_to_teachers[id]}
+        teachers = teachers.flatten.uniq
+        @db['disciplineAction'].update(make_ids_obj(action), {'$set' => {'metaData.teacherContext' => teachers}})
+        action['body']['disciplineIncidentId'].each do |id|
+          @db['disciplineIncident'].update({'_id' => id, 'metaData.tenantId' => action['metaData']['tenantId']}, {'$set' => {'metaData.teacherContext' => teachers}})
+        end
+      end
+    end
+    #TODO look more closely at these relationships and make sure they are stamped correctly.
+    @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
+        @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq}})
+      end
+    end
   end
 
   def stamp_assessments
