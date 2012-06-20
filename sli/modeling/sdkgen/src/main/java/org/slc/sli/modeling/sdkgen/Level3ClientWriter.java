@@ -62,7 +62,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     final XmlSchemaElement element = grammars.getElement(elementName);
                     if (element != null) {
                         final Stack<QName> elementNames = new Stack<QName>();
-                        return Level3ClientJavaHelper.showElement(element, elementNames);
+                        return Level3ClientJavaHelper.showElement(element, elementNames, grammars);
                     } else {
                         // FIXME: We need to resolve these issues...
                         // System.out.println(elementName +
@@ -86,7 +86,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                     final XmlSchemaElement element = grammars.getElement(elementName);
                     if (element != null) {
                         final Stack<QName> elementNames = new Stack<QName>();
-                        return Level3ClientJavaHelper.showElement(element, elementNames);
+                        return Level3ClientJavaHelper.showElement(element, elementNames, grammars);
                     } else {
                         // FIXME: We need to resolve these issues...
                         // System.out.println(elementName +

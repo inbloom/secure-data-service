@@ -1,1006 +1,1608 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.slcedu.org/api/v1" targetNamespace="http://www.slcedu.org/api/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:element name="academicHonors">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="academicHonor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="academicHonor" type="AcademicHonor">
     <xs:annotation>
       <xs:documentation>Academic distinctions earned by or awarded to the student</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="academicSubjectsTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="academicHonor" type="AcademicHonor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="academicSubjectsType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The teaching field(s) taught by an individual, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="academicSubjectsTypes">
+  <xs:element name="academicSubjectsType" type="AcademicSubjectsType">
     <xs:annotation>
       <xs:documentation>The teaching field(s) taught by an individual, for example English/Language Arts, Reading, Mathematics, Science, Social Sciences, etc.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="academicWeeks">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="academicSubjectsType" type="AcademicSubjectsType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="academicWeek" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the academic weeks for a school year, optionally captured to support analyses.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="academicWeeks">
+  <xs:element name="academicWeek" type="AcademicWeek">
     <xs:annotation>
       <xs:documentation>This entity represents the academic weeks for a school year, optionally captured to support analyses.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="accountabilityRatings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="academicWeek" type="AcademicWeek" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="accountabilityRating" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>An accountability rating for a school or district.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="accountabilityRatings">
+  <xs:element name="accountabilityRating" type="AccountabilityRating">
     <xs:annotation>
       <xs:documentation>An accountability rating for a school or district.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="additionalCreditss">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="accountabilityRating" type="AccountabilityRating" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="additionalCredits" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Additional credits or units of value awarded for the completion of a course (e.g., AP, IB, Dual credits)</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="additionalCreditss">
+  <xs:element name="additionalCredits" type="AdditionalCredits">
     <xs:annotation>
       <xs:documentation>Additional credits or units of value awarded for the completion of a course (e.g., AP, IB, Dual credits)</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="assessments">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="additionalCredits" type="AdditionalCredits" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="assessment" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="assessments">
+  <xs:element name="assessment" type="Assessment">
     <xs:annotation>
       <xs:documentation>This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="assessmentIdentificationCodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="assessment" type="Assessment" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="assessmentIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="assessmentIdentificationCodes">
+  <xs:element name="assessmentIdentificationCode" type="AssessmentIdentificationCode">
     <xs:annotation>
       <xs:documentation>A unique number or alphanumeric code assigned to an assessment by a school, school system, a state, or other agency or entity.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="assessmentItems">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="assessmentIdentificationCode" type="AssessmentIdentificationCode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="assessmentItem" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents one of many single measures that make up an assessment.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="assessmentItems">
+  <xs:element name="assessmentItem" type="AssessmentItem">
     <xs:annotation>
       <xs:documentation>This entity represents one of many single measures that make up an assessment.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="assessmentPerformanceLevels">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="assessmentItem" type="AssessmentItem" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="assessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Definition of the performance levels and the associated cut scores. Three styles are supported: 1. Specification of performance level by min and max score 2. Specification of performance level by cut score - min only 3. Specification of performance level without any mapping to scores</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="assessmentPerformanceLevels">
+  <xs:element name="assessmentPerformanceLevel" type="AssessmentPerformanceLevel">
     <xs:annotation>
       <xs:documentation>Definition of the performance levels and the associated cut scores. Three styles are supported: 1. Specification of performance level by min and max score 2. Specification of performance level by cut score - min only 3. Specification of performance level without any mapping to scores</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="assessmentPeriodDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="assessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="assessmentPeriodDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="assessmentPeriodDescriptors">
+  <xs:element name="assessmentPeriodDescriptor" type="AssessmentPeriodDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor holds the period or window in which an assessment is supposed to be administered (e.g., Beginning of Year, Middle of Year, End of Year).</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="attendances">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="assessmentPeriodDescriptor" type="AssessmentPeriodDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="attendance" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Daily attendance for the student at the school. Attendance is partitioned by school year. School years must be unique per school year attendance.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="attendances">
+  <xs:element name="attendance" type="Attendance">
     <xs:annotation>
       <xs:documentation>Daily attendance for the student at the school. Attendance is partitioned by school year. School years must be unique per school year attendance.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="attendanceEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="attendance" type="Attendance" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="attendanceEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A record of attendance. date: Date for this attendance event. event: The occurred attendance event, such as "Unexcused absence," "Excused absence," or "Tardy." reason: The reported reason for the event, such as a reason for absence.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="attendanceEvents">
+  <xs:element name="attendanceEvent" type="AttendanceEvent">
     <xs:annotation>
       <xs:documentation>A record of attendance. date: Date for this attendance event. event: The occurred attendance event, such as "Unexcused absence," "Excused absence," or "Tardy." reason: The reported reason for the event, such as a reason for absence.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="behaviorDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="attendanceEvent" type="AttendanceEvent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="behaviorDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor holds the categories of behavior describing a discipline incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="behaviorDescriptors">
+  <xs:element name="behaviorDescriptor" type="BehaviorDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor holds the categories of behavior describing a discipline incident.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="cTEPrograms">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="behaviorDescriptor" type="BehaviorDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="cTEProgram" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="cTEPrograms">
+  <xs:element name="cTEProgram" type="CTEProgram">
     <xs:annotation>
       <xs:documentation>The career cluster or pathway representing the career path of the Vocational/Career Tech concentrator.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="calendarDates">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="cTEProgram" type="CTEProgram" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="calendarDate" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents a day in the school calendar.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="calendarDates">
+  <xs:element name="calendarDate" type="CalendarDate">
     <xs:annotation>
       <xs:documentation>This entity represents a day in the school calendar.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="classRankings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="calendarDate" type="CalendarDate" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="classRanking" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The academic rank information of a student in relation to his or her graduating class</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="classRankings">
+  <xs:element name="classRanking" type="ClassRanking">
     <xs:annotation>
       <xs:documentation>The academic rank information of a student in relation to his or her graduating class</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="cohorts">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="classRanking" type="ClassRanking" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="cohort" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents any type of list of designated students for tracking, analysis, or intervention.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="cohorts">
+  <xs:element name="cohort" type="Cohort">
     <xs:annotation>
       <xs:documentation>This entity represents any type of list of designated students for tracking, analysis, or intervention.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="cohortYears">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="cohort" type="Cohort" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="cohortYear" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The type and year of a cohort (e.g., 9th grade) the student belongs to.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="cohortYears">
+  <xs:element name="cohortYear" type="CohortYear">
     <xs:annotation>
       <xs:documentation>The type and year of a cohort (e.g., 9th grade) the student belongs to.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="courses">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="cohortYear" type="CohortYear" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="course" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Course This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. If you are looking for a specific course instance, use section instead.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="courses">
+  <xs:element name="course" type="Course">
     <xs:annotation>
       <xs:documentation>Course This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. If you are looking for a specific course instance, use section instead.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="courseCodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="course" type="Course" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="courseCode" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A standard code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="courseCodes">
+  <xs:element name="courseCode" type="CourseCode">
     <xs:annotation>
       <xs:documentation>A standard code that identifies the organization of subject matter and related learning experiences provided for the instruction of students.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="credentials">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="courseCode" type="CourseCode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="credential" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The legal document or authorization giving authorization to perform teaching assignment services.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="credentials">
+  <xs:element name="credential" type="Credential">
     <xs:annotation>
       <xs:documentation>The legal document or authorization giving authorization to perform teaching assignment services.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="credentialFieldDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="credential" type="Credential" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="credentialFieldDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor defines the fields of certification that the SEA offers to teachers.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="credentialFieldDescriptors">
+  <xs:element name="credentialFieldDescriptor" type="CredentialFieldDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor defines the fields of certification that the SEA offers to teachers.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="creditss">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="credentialFieldDescriptor" type="CredentialFieldDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="credits" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Credits or units of value awarded for the completion of a course</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="creditss">
+  <xs:element name="credits" type="Credits">
     <xs:annotation>
       <xs:documentation>Credits or units of value awarded for the completion of a course</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="creditsByCourses">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="credits" type="Credits" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="creditsByCourse" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The total credits required to graduation by taking a specific course, or by taking one or more from a set of courses.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="creditsByCourses">
+  <xs:element name="creditsByCourse" type="CreditsByCourse">
     <xs:annotation>
       <xs:documentation>The total credits required to graduation by taking a specific course, or by taking one or more from a set of courses.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="creditsBySubjects">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="creditsByCourse" type="CreditsByCourse" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="creditsBySubject" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The total credits required in subject to graduate. Only those courses identified as a high school course requirement are eligible to meet subject credit requirements.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="creditsBySubjects">
+  <xs:element name="creditsBySubject" type="CreditsBySubject">
     <xs:annotation>
       <xs:documentation>The total credits required in subject to graduate. Only those courses identified as a high school course requirement are eligible to meet subject credit requirements.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="diplomas">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="creditsBySubject" type="CreditsBySubject" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="diploma" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This educational entity represents the conferring or certification by an educational organization that the student has successfully completed a particular course of study. It represents the electronic version of its physical document counterpart.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="diplomas">
+  <xs:element name="diploma" type="Diploma">
     <xs:annotation>
       <xs:documentation>This educational entity represents the conferring or certification by an educational organization that the student has successfully completed a particular course of study. It represents the electronic version of its physical document counterpart.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="disabilitys">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="diploma" type="Diploma" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="disability" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This type represents an impairment of body structure or function, a limitation in activities, or a restriction in participation, as ordered by severity of impairment.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="disabilitys">
+  <xs:element name="disability" type="Disability">
     <xs:annotation>
       <xs:documentation>This type represents an impairment of body structure or function, a limitation in activities, or a restriction in participation, as ordered by severity of impairment.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="disciplineActions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="disability" type="Disability" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="disciplineAction" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="disciplineActions">
+  <xs:element name="disciplineAction" type="DisciplineAction">
     <xs:annotation>
       <xs:documentation>This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="disciplineDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="disciplineAction" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="disciplineDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor defines the type of action or removal from the classroom used to discipline the student involved as a perpetrator in a discipline incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="disciplineDescriptors">
+  <xs:element name="disciplineDescriptor" type="DisciplineDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor defines the type of action or removal from the classroom used to discipline the student involved as a perpetrator in a discipline incident.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="disciplineIncidents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="disciplineDescriptor" type="DisciplineDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="disciplineIncident" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This event entity represents an occurrence of an infraction ranging from a minor problem behavior that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved. Discipline incidents are events classified as warranting discipline action.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="disciplineIncidents">
+  <xs:element name="disciplineIncident" type="DisciplineIncident">
     <xs:annotation>
       <xs:documentation>This event entity represents an occurrence of an infraction ranging from a minor problem behavior that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved. Discipline incidents are events classified as warranting discipline action.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="educationOrgIdentificationCodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="disciplineIncident" type="DisciplineIncident" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="educationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="educationOrgIdentificationCodes">
+  <xs:element name="educationOrgIdentificationCode" type="EducationOrgIdentificationCode">
     <xs:annotation>
       <xs:documentation>A unique number or alphanumeric code that is assigned to an education organization by a school, school system, a state, or other agency or entity.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="educationOrganizations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="educationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="educationOrganization" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="educationOrganizations">
+  <xs:element name="educationOrganization" type="EducationOrganization">
     <xs:annotation>
       <xs:documentation>This entity represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="educationalOrgIdentityTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="educationOrganization" type="EducationOrganization" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="educationalOrgIdentityType
+		" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="educationalOrgIdentityTypes">
+  <xs:element name="educationalOrgIdentityType
+		" type="EducationalOrgIdentityType">
     <xs:annotation>
       <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of educational organizations, especially ESCs, LEAs (districts), and schools.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="electronicMails">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="educationalOrgIdentityType
-		" type="EducationalOrgIdentityType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="electronicMail" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="electronicMails">
+  <xs:element name="electronicMail" type="ElectronicMail">
     <xs:annotation>
       <xs:documentation>The numbers, letters, and symbols used to identify an electronic mail (e-mail) user within the network to which the individual or organization belongs.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="employmentPeriods">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="electronicMail" type="ElectronicMail" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="employmentPeriod" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The set of elements defining and characterizing a person's period of employment including start and end dates and the type and reason for separation.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="employmentPeriods">
+  <xs:element name="employmentPeriod" type="EmploymentPeriod">
     <xs:annotation>
       <xs:documentation>The set of elements defining and characterizing a person's period of employment including start and end dates and the type and reason for separation.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="feederSchoolTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="employmentPeriod" type="EmploymentPeriod" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="feederSchoolType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The feeder school relationship between two schools.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="feederSchoolTypes">
+  <xs:element name="feederSchoolType" type="FeederSchoolType">
     <xs:annotation>
       <xs:documentation>The feeder school relationship between two schools.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="grades">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="feederSchoolType" type="FeederSchoolType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="grade" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This educational entity represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="grades">
+  <xs:element name="grade" type="Grade">
     <xs:annotation>
       <xs:documentation>This educational entity represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="gradebookEntrys">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="grade" type="Grade" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="gradebookEntry" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentSectionGradebookEntry, section. This is similar to a studentSectionGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="gradebookEntrys">
+  <xs:element name="gradebookEntry" type="GradebookEntry">
     <xs:annotation>
       <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentSectionGradebookEntry, section. This is similar to a studentSectionGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="gradingPeriods">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="gradebookEntry" type="GradebookEntry" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="gradingPeriod" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="gradingPeriods">
+  <xs:element name="gradingPeriod" type="GradingPeriod">
     <xs:annotation>
       <xs:documentation>This entity represents the time span for which grades are reported.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="graduationPlans">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="gradingPeriod" type="GradingPeriod" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="graduationPlan" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity is a plan outlining the required credits, credits by subject, credits by course, and other criteria required for graduation. A graduation plan may be one or more standard plans defined by an education organization and/or individual plans for some or all students.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="graduationPlans">
+  <xs:element name="graduationPlan" type="GraduationPlan">
     <xs:annotation>
       <xs:documentation>This entity is a plan outlining the required credits, credits by subject, credits by course, and other criteria required for graduation. A graduation plan may be one or more standard plans defined by an education organization and/or individual plans for some or all students.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="institutionTelephones">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="graduationPlan" type="GraduationPlan" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="institutionTelephone" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The 10-digit telephone number, including the area code, for the organization</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="institutionTelephones">
+  <xs:element name="institutionTelephone" type="InstitutionTelephone">
     <xs:annotation>
       <xs:documentation>The 10-digit telephone number, including the area code, for the organization</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningObjectives">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="institutionTelephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningObjective" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents identified learning objectives for courses in specific grades.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningObjectives">
+  <xs:element name="learningObjective" type="LearningObjective">
     <xs:annotation>
       <xs:documentation>This entity represents identified learning objectives for courses in specific grades.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningObjectiveIdentityTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningObjective" type="LearningObjective" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningObjectiveIdentityType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Objectives.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningObjectiveIdentityTypes">
+  <xs:element name="learningObjectiveIdentityType" type="LearningObjectiveIdentityType">
     <xs:annotation>
       <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Objectives.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningStandards">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningObjectiveIdentityType" type="LearningObjectiveIdentityType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningStandard" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity is a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningStandards">
+  <xs:element name="learningStandard" type="LearningStandard">
     <xs:annotation>
       <xs:documentation>This entity is a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningStandardIds">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningStandard" type="LearningStandard" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningStandardId" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The identifier for the learning standard.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningStandardIds">
+  <xs:element name="learningStandardId" type="LearningStandardId">
     <xs:annotation>
       <xs:documentation>The identifier for the learning standard.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningStandardIdentityTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningStandardId" type="LearningStandardId" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningStandardIdentityType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Standards.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningStandardIdentityTypes">
+  <xs:element name="learningStandardIdentityType" type="LearningStandardIdentityType">
     <xs:annotation>
       <xs:documentation>Encapsulates the possible attributes that can be used to lookup the identity of the Learning Standards.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="learningStyless">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningStandardIdentityType" type="LearningStandardIdentityType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="learningStyles" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The student's relative preference to visual, auditory and tactile learning expressed as percentages.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="learningStyless">
+  <xs:element name="learningStyles" type="LearningStyles">
     <xs:annotation>
       <xs:documentation>The student's relative preference to visual, auditory and tactile learning expressed as percentages.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="leaveEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="learningStyles" type="LearningStyles" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="leaveEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This event entity represents the recording of the dates of staff leave (e.g., sick leave, personal time, vacation, etc.).</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="leaveEvents">
+  <xs:element name="leaveEvent" type="LeaveEvent">
     <xs:annotation>
       <xs:documentation>This event entity represents the recording of the dates of staff leave (e.g., sick leave, personal time, vacation, etc.).</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="miscellaneousEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="leaveEvent" type="LeaveEvent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="miscellaneousEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A miscellaneous event, such as recess or lunch</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="miscellaneousEvents">
+  <xs:element name="miscellaneousEvent" type="MiscellaneousEvent">
     <xs:annotation>
       <xs:documentation>A miscellaneous event, such as recess or lunch</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="names">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="miscellaneousEvent" type="MiscellaneousEvent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="name" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The set of elements that comprise a person's legal name.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="names">
+  <xs:element name="name" type="Name">
     <xs:annotation>
       <xs:documentation>The set of elements that comprise a person's legal name.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="objectiveAssessments">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="name" type="Name" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="objectiveAssessment" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents subtests that assess specific learning objectives.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="objectiveAssessments">
+  <xs:element name="objectiveAssessment" type="ObjectiveAssessment">
     <xs:annotation>
       <xs:documentation>This entity represents subtests that assess specific learning objectives.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="openStaffPositions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="objectiveAssessment" type="ObjectiveAssessment" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="openStaffPosition" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents an open staff position that is seeking to be filled by an education organization.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="openStaffPositions">
+  <xs:element name="openStaffPosition" type="OpenStaffPosition">
     <xs:annotation>
       <xs:documentation>This entity represents an open staff position that is seeking to be filled by an education organization.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="otherNames">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="openStaffPosition" type="OpenStaffPosition" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="otherName" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Other names (e.g., alias, nickname, previous legal name) associated with a person.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="otherNames">
+  <xs:element name="otherName" type="OtherName">
     <xs:annotation>
       <xs:documentation>Other names (e.g., alias, nickname, previous legal name) associated with a person.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="parents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="otherName" type="OtherName" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="parent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents a parent or guardian of a student, such as mother, father, or caretaker.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="parents">
+  <xs:element name="parent" type="Parent">
     <xs:annotation>
       <xs:documentation>This entity represents a parent or guardian of a student, such as mother, father, or caretaker.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="performanceLevelDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="parent" type="Parent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="performanceLevelDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="performanceLevelDescriptors">
+  <xs:element name="performanceLevelDescriptor" type="PerformanceLevelDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor defines various levels or thresholds for performance on the assessment.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="postSecondaryEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="performanceLevelDescriptor" type="PerformanceLevelDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="postSecondaryEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity captures significant postsecondary events during a student's high school tenure (e.g., FASFSA application, or college application, acceptance, and enrollment).</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="postSecondaryEvents">
+  <xs:element name="postSecondaryEvent" type="PostSecondaryEvent">
     <xs:annotation>
       <xs:documentation>This entity captures significant postsecondary events during a student's high school tenure (e.g., FASFSA application, or college application, acceptance, and enrollment).</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="programs">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="postSecondaryEvent" type="PostSecondaryEvent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="program" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents any program designed to work in conjunction with or to supplement the main academic program. Programs may provide instruction, training, services or benefits through federal, state, or local agencies. Programs may also include organized extracurricular activities for students.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="programs">
+  <xs:element name="program" type="Program">
     <xs:annotation>
       <xs:documentation>This entity represents any program designed to work in conjunction with or to supplement the main academic program. Programs may provide instruction, training, services or benefits through federal, state, or local agencies. Programs may also include organized extracurricular activities for students.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="programParticipations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="program" type="Program" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="programParticipation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Programs the student is participating in or receiving services.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="programParticipations">
+  <xs:element name="programParticipation" type="ProgramParticipation">
     <xs:annotation>
       <xs:documentation>Programs the student is participating in or receiving services.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="recognitions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="programParticipation" type="ProgramParticipation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="recognition" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="recognitions">
+  <xs:element name="recognition" type="Recognition">
     <xs:annotation>
       <xs:documentation>Recognition given to the student for accomplishments in a co-curricular, or extra-curricular activity.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="restraintEvents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="recognition" type="Recognition" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="restraintEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="restraintEvents">
+  <xs:element name="restraintEvent" type="RestraintEvent">
     <xs:annotation>
       <xs:documentation>This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction, or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="restraintEventReasonsTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="restraintEvent" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="restraintEventReasonsType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The categorization of the circumstances or reason for the restraint.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="restraintEventReasonsTypes">
+  <xs:element name="restraintEventReasonsType" type="RestraintEventReasonsType">
     <xs:annotation>
       <xs:documentation>The categorization of the circumstances or reason for the restraint.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="schools">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="restraintEventReasonsType" type="RestraintEventReasonsType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="school" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="schools">
+  <xs:element name="school" type="School">
     <xs:annotation>
       <xs:documentation>This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="schoolSessionAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="school" type="School" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="schoolSessionAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the association of a school with all its sessions.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="schoolSessionAssociations">
+  <xs:element name="schoolSessionAssociation" type="SchoolSessionAssociation">
     <xs:annotation>
       <xs:documentation>This entity represents the association of a school with all its sessions.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="schoolYearAttendanceTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="schoolSessionAssociation" type="SchoolSessionAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="schoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Attendance for a school year.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="schoolYearAttendanceTypes">
+  <xs:element name="schoolYearAttendanceType" type="SchoolYearAttendanceType">
     <xs:annotation>
       <xs:documentation>Attendance for a school year.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="scoreResults">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="schoolYearAttendanceType" type="SchoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="scoreResult" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A meaningful raw score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="scoreResults">
+  <xs:element name="scoreResult" type="ScoreResult">
     <xs:annotation>
       <xs:documentation>A meaningful raw score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="secondaryBehaviors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="scoreResult" type="ScoreResult" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="secondaryBehavior" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="secondaryBehaviors">
+  <xs:element name="secondaryBehavior" type="SecondaryBehavior">
     <xs:annotation>
       <xs:documentation>Definition of the behavior coded for use in describing an incident.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="sections">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="secondaryBehavior" type="SecondaryBehavior" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="section" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Section This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. A course may be offered to more than one class/section. Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium. Associations: TeacherSectionAssociation, StudentSectionAssociation, SectionAssessmentAssociation</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="sections">
+  <xs:element name="section" type="Section">
     <xs:annotation>
       <xs:documentation>Section This educational entity represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. A course may be offered to more than one class/section. Instruction, provided by one or more teachers or other staff members, may be delivered in person or via a different medium. Associations: TeacherSectionAssociation, StudentSectionAssociation, SectionAssessmentAssociation</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="sectionAssessmentAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="section" type="Section" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="sectionAssessmentAssociation
+		" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="sectionAssessmentAssociations">
+  <xs:element name="sectionAssessmentAssociation
+		" type="SectionAssessmentAssociation">
     <xs:annotation>
       <xs:documentation>This entity represents the association of a section with an administered assessment.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="serviceDescriptors">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="sectionAssessmentAssociation
-		" type="SectionAssessmentAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="serviceDescriptor" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This descriptor defines the services provided an education organization to populations of students associated with a program.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="serviceDescriptors">
+  <xs:element name="serviceDescriptor" type="ServiceDescriptor">
     <xs:annotation>
       <xs:documentation>This descriptor defines the services provided an education organization to populations of students associated with a program.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="serviceDescriptorTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="serviceDescriptor" type="ServiceDescriptor" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="serviceDescriptorType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Provides references for service descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange. To lookup where already loaded specify either CodeValue OR ShortDescription OR Description.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="serviceDescriptorTypes">
+  <xs:element name="serviceDescriptorType" type="ServiceDescriptorType">
     <xs:annotation>
       <xs:documentation>Provides references for service descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange. To lookup where already loaded specify either CodeValue OR ShortDescription OR Description.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="sessions">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="serviceDescriptorType" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="session" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="sessions">
+  <xs:element name="session" type="Session">
     <xs:annotation>
       <xs:documentation>This entity represents the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="courseOfferings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="session" type="Session" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="courseOffering" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the association of a course with a session during which the course is offered.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="courseOfferings">
+  <xs:element name="courseOffering" type="CourseOffering">
     <xs:annotation>
       <xs:documentation>This entity represents the association of a course with a session during which the course is offered.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="staffs">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="courseOffering" type="CourseOffering" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="staff" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes: 1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings; 2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site; 3) a "volunteer" who performs services on a voluntary and uncompensated basis; 4) an in kind service provider; or 5) an independent contractor or businessperson working at a school site.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="staff">
+  <xs:element name="staff" type="Staff">
     <xs:annotation>
       <xs:documentation>This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion. For example, this includes: 1) an "employee" who performs services under the direction of the employing institution or agency, is compensated for such services by the employer, and is eligible for employee benefits and wage or salary tax withholdings; 2) a "contractor" or "consultant" who performs services for an agreed upon fee, or an employee of a management service contracted to work on site; 3) a "volunteer" who performs services on a voluntary and uncompensated basis; 4) an in kind service provider; or 5) an independent contractor or businessperson working at a school site.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="staffCohortAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="staff" type="Staff" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="staffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="staffCohortAssociations">
+  <xs:element name="staffCohortAssociation" type="StaffCohortAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="staffEducationOrganizationAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="staffCohortAssociation" type="StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="staffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the education organization to which a staff member provides services. Also known as school of service.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="staffEducationOrganizationAssociations">
+  <xs:element name="staffEducationOrganizationAssociation" type="StaffEducationOrganizationAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the education organization to which a staff member provides services. Also known as school of service.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="staffIdentificationCodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="staffEducationOrganizationAssociation" type="StaffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="staffIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="staffIdentificationCodes">
+  <xs:element name="staffIdentificationCode" type="StaffIdentificationCode">
     <xs:annotation>
       <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to staff member.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="staffProgramAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="staffIdentificationCode" type="StaffIdentificationCode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="staffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="staffProgramAssociations">
+  <xs:element name="staffProgramAssociation" type="StaffProgramAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="students">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="staffProgramAssociation" type="StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="student" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="students">
+  <xs:element name="student" type="Student">
     <xs:annotation>
       <xs:documentation>This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentAcademicRecords">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="student" type="Student" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association contains the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentAcademicRecords">
+  <xs:element name="studentAcademicRecord" type="StudentAcademicRecord">
     <xs:annotation>
       <xs:documentation>This association contains the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentAssessmentAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentAcademicRecord" type="StudentAcademicRecord" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentAssessmentAssociations">
+  <xs:element name="studentAssessmentAssociation" type="StudentAssessmentAssociation">
     <xs:annotation>
       <xs:documentation>This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentAssessmentItems">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentAssessmentAssociation" type="StudentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentAssessmentItem" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentAssessmentItems">
+  <xs:element name="studentAssessmentItem" type="StudentAssessmentItem">
     <xs:annotation>
       <xs:documentation>This entity represents the student's response to an assessment item and the item-level scores such as correct, incorrect, or met standard.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentCTEProgramAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentAssessmentItem" type="StudentAssessmentItem" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentCTEProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association represents the career and technical education (CTE) program that a student participates in. The association is an extension of the StudentProgramAssociation particular for CTE programs.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentCTEProgramAssociations">
+  <xs:element name="studentCTEProgramAssociation" type="StudentCTEProgramAssociation">
     <xs:annotation>
       <xs:documentation>This association represents the career and technical education (CTE) program that a student participates in. The association is an extension of the StudentProgramAssociation particular for CTE programs.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentCharacteristics">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentCTEProgramAssociation" type="StudentCTEProgramAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentCharacteristic" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Reflects important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentCharacteristics">
+  <xs:element name="studentCharacteristic" type="StudentCharacteristic">
     <xs:annotation>
       <xs:documentation>Reflects important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentCohortAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentCharacteristic" type="StudentCharacteristic" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association represents the cohort(s) that a student is designated for.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentCohortAssociations">
+  <xs:element name="studentCohortAssociation" type="StudentCohortAssociation">
     <xs:annotation>
       <xs:documentation>This association represents the cohort(s) that a student is designated for.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentDisciplineIncidentAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentCohortAssociation" type="StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates those students who were victims, perpetrators, witnesses, and/or reporters for a discipline incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentDisciplineIncidentAssociations">
+  <xs:element name="studentDisciplineIncidentAssociation" type="StudentDisciplineIncidentAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates those students who were victims, perpetrators, witnesses, and/or reporters for a discipline incident.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentIdentificationCodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentDisciplineIncidentAssociation" type="StudentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentIdentificationCode" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentIdentificationCodes">
+  <xs:element name="studentIdentificationCode" type="StudentIdentificationCode">
     <xs:annotation>
       <xs:documentation>A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a student.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentIndicators">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentIdentificationCode" type="StudentIdentificationCode" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentIndicator" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>An indicator or metric computed for the student (e.g., at risk) to influence more effective education or direct specific interventions.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentIndicators">
+  <xs:element name="studentIndicator" type="StudentIndicator">
     <xs:annotation>
       <xs:documentation>An indicator or metric computed for the student (e.g., at risk) to influence more effective education or direct specific interventions.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentObjectiveAssessments">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentIndicator" type="StudentIndicator" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentObjectiveAssessment" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentObjectiveAssessments">
+  <xs:element name="studentObjectiveAssessment" type="StudentObjectiveAssessment">
     <xs:annotation>
       <xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentParentAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentObjectiveAssessment" type="StudentObjectiveAssessment" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentParentAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association relates students to their parents, guardians, or caretakers.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentParentAssociations">
+  <xs:element name="studentParentAssociation" type="StudentParentAssociation">
     <xs:annotation>
       <xs:documentation>This association relates students to their parents, guardians, or caretakers.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentProgramAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentParentAssociation" type="StudentParentAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association represents the program(s) that a student participates in or is served by.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentProgramAssociations">
+  <xs:element name="studentProgramAssociation" type="StudentProgramAssociation">
     <xs:annotation>
       <xs:documentation>This association represents the program(s) that a student participates in or is served by.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentSchoolAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentProgramAssociation" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association represents the school to which a student is enrolled.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentSchoolAssociations">
+  <xs:element name="studentSchoolAssociation" type="StudentSchoolAssociation">
     <xs:annotation>
       <xs:documentation>This association represents the school to which a student is enrolled.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentSectionAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentSchoolAssociation" type="StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the course sections a student is assigned to.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentSectionAssociations">
+  <xs:element name="studentSectionAssociation" type="StudentSectionAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the course sections a student is assigned to.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentSectionGradebookEntrys">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentSectionAssociation" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>StudentSectionGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentSectionGradebookEntrys">
+  <xs:element name="studentSectionGradebookEntry" type="StudentSectionGradebookEntry">
     <xs:annotation>
       <xs:documentation>StudentSectionGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentSpecialEdProgramAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentSectionGradebookEntry" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentSpecialEdProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association represents the special education program(s) that a student participates in or receives services from. The association is an extension of the StudentProgramAssociation particular for special education programs.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentSpecialEdProgramAssociations">
+  <xs:element name="studentSpecialEdProgramAssociation" type="StudentSpecialEdProgramAssociation">
     <xs:annotation>
       <xs:documentation>This association represents the special education program(s) that a student participates in or receives services from. The association is an extension of the StudentProgramAssociation particular for special education programs.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="studentTranscriptAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentSpecialEdProgramAssociation" type="StudentSpecialEdProgramAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="studentTranscriptAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentTranscriptAssociations">
+  <xs:element name="studentTranscriptAssociation" type="StudentTranscriptAssociation">
     <xs:annotation>
       <xs:documentation>This entity is the final record of a student's performance in their courses at the end of semester or school year.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="teachers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="studentTranscriptAssociation" type="StudentTranscriptAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="teacher" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This entity represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="teachers">
+  <xs:element name="teacher" type="Teacher">
     <xs:annotation>
       <xs:documentation>This entity represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="teacherSchoolAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="teacher" type="Teacher" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="teacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the school(s) to which a teacher provides instructional services to.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="teacherSchoolAssociations">
+  <xs:element name="teacherSchoolAssociation" type="TeacherSchoolAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the school(s) to which a teacher provides instructional services to.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="teacherSectionAssociations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="teacherSchoolAssociation" type="TeacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="teacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>This association indicates the class sections to which a teacher is assigned to.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="teacherSectionAssociations">
+  <xs:element name="teacherSectionAssociation" type="TeacherSectionAssociation">
     <xs:annotation>
       <xs:documentation>This association indicates the class sections to which a teacher is assigned to.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="telephones">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="teacherSectionAssociation" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="telephone" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>The 10-digit telephone number, including the area code, for the person.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="telephones">
+  <xs:element name="telephone" type="Telephone">
     <xs:annotation>
       <xs:documentation>The 10-digit telephone number, including the area code, for the person.</xs:documentation>
     </xs:annotation>
+  </xs:element>
+  <xs:element name="weaponsTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="telephone" type="Telephone" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        <xs:element ref="weaponsType" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Identifies the type of weapon used during an incident.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="weaponsTypes">
+  <xs:element name="weaponsType" type="WeaponsType">
     <xs:annotation>
       <xs:documentation>Identifies the type of weapon used during an incident.</xs:documentation>
     </xs:annotation>
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element name="weaponsType" type="WeaponsType" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      </xs:sequence>
-    </xs:complexType>
   </xs:element>
   <xs:simpleType name="AcademicHonorsType">
     <xs:annotation>

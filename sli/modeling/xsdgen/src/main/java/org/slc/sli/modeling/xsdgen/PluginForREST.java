@@ -179,32 +179,46 @@ public final class PluginForREST implements Uml2XsdPlugin {
     @Override
     public void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model,
             final Uml2XsdPluginWriter xsw) {
+        final Type elementType = classType.getType();
+        final QName singularTopLevelElementName = getSingularTopLevelElementName(classType);
+
         xsw.element();
         try {
             xsw.elementName(getPluralTopLevelElementName(classType));
-            final Type elementType = classType.getType();
-            xsw.annotation();
-            try {
-                PluginHelpers.writeDocumentation(elementType, model, xsw);
-            } finally {
-                xsw.end();
-            }
             xsw.complexType();
             try {
                 xsw.sequence();
                 try {
                     xsw.element();
                     try {
-                        xsw.elementName(getSingularTopLevelElementName(classType));
-                        xsw.type(getQName(elementType, model));
+                        xsw.ref(singularTopLevelElementName);
                         xsw.minOccurs(Occurs.ZERO);
                         xsw.maxOccurs(Occurs.UNBOUNDED);
+                        xsw.annotation();
+                        try {
+                            PluginHelpers.writeDocumentation(elementType, model, xsw);
+                        } finally {
+                            xsw.end();
+                        }
                     } finally {
                         xsw.end();
                     }
                 } finally {
                     xsw.end();
                 }
+            } finally {
+                xsw.end();
+            }
+        } finally {
+            xsw.end();
+        }
+        xsw.element();
+        try {
+            xsw.elementName(singularTopLevelElementName);
+            xsw.type(getQName(elementType, model));
+            xsw.annotation();
+            try {
+                PluginHelpers.writeDocumentation(elementType, model, xsw);
             } finally {
                 xsw.end();
             }

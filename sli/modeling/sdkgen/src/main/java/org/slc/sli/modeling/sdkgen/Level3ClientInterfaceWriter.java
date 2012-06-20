@@ -97,11 +97,13 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
 
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        final String methodId = method.getId();
+        final String methodName = method.getId();
+        jsw.writeComment(methodId);
         jsw.beginStmt();
         try {
             // The return type is a string because we return the identifier of the posted resource.
-            jsw.writeType(JavaType.JT_STRING).space().write(method.getId());
+            jsw.writeType(JavaType.JT_STRING).space().write(methodName);
             jsw.parenL();
             final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             final JavaType requestType = getRequestJavaType(method, grammars);

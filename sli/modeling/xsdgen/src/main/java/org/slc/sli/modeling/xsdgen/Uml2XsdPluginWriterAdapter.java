@@ -16,18 +16,33 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new NullPointerException("value");
         }
         switch (value) {
-            case ZERO: {
-                return "0";
+        case ZERO: {
+            return "0";
+        }
+        case ONE: {
+            return "1";
+        }
+        case UNBOUNDED: {
+            return "unbounded";
+        }
+        default: {
+            throw new AssertionError(value);
+        }
+        }
+    }
+
+    private static final String typeLexicalName(final QName name, final XMLStreamWriter context) {
+        final NamespaceContext namespaceContext = context.getNamespaceContext();
+        final String namespace = name.getNamespaceURI();
+        if (namespace.length() > 0) {
+            final String prefix = namespaceContext.getPrefix(namespace);
+            if (prefix.length() > 0) {
+                return prefix.concat(":").concat(name.getLocalPart());
+            } else {
+                return name.getLocalPart();
             }
-            case ONE: {
-                return "1";
-            }
-            case UNBOUNDED: {
-                return "unbounded";
-            }
-            default: {
-                throw new AssertionError(value);
-            }
+        } else {
+            return name.getLocalPart();
         }
     }
 
@@ -122,6 +137,15 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     }
 
     @Override
+    public void elementName(final QName name) {
+        try {
+            xsw.writeAttribute("name", name.getLocalPart());
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void end() {
         try {
             xsw.writeEndElement();
@@ -153,9 +177,13 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     }
 
     @Override
-    public void elementName(final QName name) {
+    public void ref(final QName name) {
         try {
-            xsw.writeAttribute("name", name.getLocalPart());
+            if (name.getNamespaceURI().equals(WxsNamespace.URI)) {
+                xsw.writeAttribute("ref", prefix.concat(":").concat(name.getLocalPart()));
+            } else {
+                xsw.writeAttribute("ref", typeLexicalName(name, xsw));
+            }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -180,21 +208,6 @@ final class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private static final String typeLexicalName(final QName name, final XMLStreamWriter context) {
-        final NamespaceContext namespaceContext = context.getNamespaceContext();
-        final String namespace = name.getNamespaceURI();
-        if (namespace.length() > 0) {
-            final String prefix = namespaceContext.getPrefix(namespace);
-            if (prefix.length() > 0) {
-                return prefix.concat(":").concat(name.getLocalPart());
-            } else {
-                return name.getLocalPart();
-            }
-        } else {
-            return name.getLocalPart();
         }
     }
 }

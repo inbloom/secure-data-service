@@ -21,13 +21,13 @@
       <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
       <wadl:method name="POST" id="postStudentAcademicRecords">
         <wadl:request>
-          <wadl:representation mediaType="application/json" element="studentAcademicRecords"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentAcademicRecords"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="studentAcademicRecords"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="studentAcademicRecord"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="studentAcademicRecord"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="studentAcademicRecord"></wadl:representation>
         </wadl:request>
         <wadl:response>
-          <wadl:representation mediaType="application/json" element="studentAcademicRecords"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="studentAcademicRecords"></wadl:representation>
+          <wadl:representation mediaType="application/json"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
         </wadl:response>
       </wadl:method>
       <wadl:method name="GET" id="getStudentAcademicRecords">
@@ -56,9 +56,9 @@
         </wadl:method>
         <wadl:method name="PUT" id="putStudentAcademicRecordsById">
           <wadl:request>
-            <wadl:representation mediaType="application/json" element="studentAcademicRecords"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentAcademicRecords"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentAcademicRecords"></wadl:representation>
+            <wadl:representation mediaType="application/json" element="studentAcademicRecord"></wadl:representation>
+            <wadl:representation mediaType="application/vnd.slc+json" element="studentAcademicRecord"></wadl:representation>
+            <wadl:representation mediaType="application/xml" element="studentAcademicRecord"></wadl:representation>
           </wadl:request>
           <wadl:response>
             <wadl:representation mediaType="application/json"></wadl:representation>
@@ -3008,15 +3008,15 @@
       <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
       <wadl:method name="POST" id="postStudents">
         <wadl:request>
-          <wadl:representation mediaType="application/json" element="students"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="students"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="students"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="student"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="student"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="student"></wadl:representation>
         </wadl:request>
         <wadl:response>
-          <wadl:representation mediaType="application/json" element="students"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="students"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="students"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="students"></wadl:representation>
+          <wadl:representation mediaType="application/json"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
+          <wadl:representation mediaType="application/xml"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
         </wadl:response>
       </wadl:method>
       <wadl:method name="GET" id="getStudents">
