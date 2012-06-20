@@ -175,16 +175,22 @@ class SLCFixer
       }
     }
 
-    section_to_teachers.each { |section, teachers|
-      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
-    }
 
     @db['teacherSectionAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
-        teachers = []
-        assoc['body']['sectionId'].each { |section| teachers += section_to_teachers[section] }
+        section_id = assoc['body']['sectionId']
+        teacher_id = assoc['body']['teacherId']
+        section_to_teachers[section_id] ||= []
+        section_to_teachers[section_id].push teacher_id
+
+        teachers = section_to_teachers[assoc['body']['sectionId']]
+        next if teachers.nil?
         @db['teacherSectionAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
       }
+    }
+
+    section_to_teachers.each { |section, teachers|
+      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
     }
   end
 
