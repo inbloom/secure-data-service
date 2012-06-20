@@ -10,26 +10,25 @@ SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
-Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
-  @sandboxMode=false
+
+Given /^LDAP server has been setup and running$/ do
   ldap_base=PropLoader.getProps['ldap_base']
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-  found = @ldap.read_user("sunsetadmin")
-  if !found
-    user_info = {
-      :first      => "Sunset",
-      :last       => "Admin", 
-      :email      => "sunsetadmin",
-      :password   => "secret", 
-      :vendor     => vendor,
-      :emailtoken => "0102030405060708090A0B0C0D0E0F",
-      :status     => "submitted",
-      :homedir    => 'test',
-      :uidnumber  => '456',
-      :gidnumber  => '123'
-    }
-    @ldap.create_user(user_info)
-  end
+   @email_sender_name= "Administrator"
+     @email_sender_address= "noreply@slidev.org"
+      email_conf = {
+       :host => 'mon.slidev.org',
+       :port => 3000,
+       :sender_name => @email_sender_name,
+       :sender_email_addr => @email_sender_address
+     }
+  ApprovalEngine.init(@ldap,Emailer.new(email_conf),nil,true)
+   @edorgId =  "Test_Ed_Org"
+   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+end
+
+Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
+  @sandboxMode=false
 end
 
 When /^I go to the provisioning application$/ do
@@ -61,8 +60,31 @@ Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
 end
 
-Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |arg1|
+Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=true
+  @tenantId = @email
+remove_user(@email)
+sleep(1)
+
+  user_info = {
+      :first => "Provision",
+      :last => "test",
+       :email => @email,
+       :emailAddress => @email,
+       :password => "test1234",
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "submitted",
+       :homedir => "changeit",
+       :uidnumber => "500",
+       :gidnumber => "500",
+       :tenant => @tenantId
+   }
+
+  ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(user_info[:emailtoken])
 end
 
 Then /^I can select between the the high level ed\-org of the sample data sets or enter a custom high\-level ed\-org$/ do
@@ -73,4 +95,9 @@ end
 
 Then /^I get a already provisioned message$/ do
   assertWithWait("No already provisioned message") {@driver.find_element(:id, "alreadyProvisioned") != nil}
+end
+def remove_user(email)
+  if ApprovalEngine.user_exists?(email)
+  ApprovalEngine.remove_user(email)
+  end
 end
