@@ -11,7 +11,8 @@ class SLCFixer
   def initialize(db, logger = nil, grace_period = 2000)
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
-    @log = logger || Logger.new(STDOUT)
+    #@log = logger || Logger.new(STDOUT)
+    @log = Logger.new(STDOUT)
 
     @teacher_ids = {}
     @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -19,6 +20,9 @@ class SLCFixer
         @teacher_ids[teacher['_id']] = teacher['metaData']['tenantId']
       end
     end
+
+    @studentId_to_teachers = {}
+    @studentId_to_tenant = {}
 
     @current_date = Date.today.to_s
     @grace_date = (Date.today - grace_period).to_s
@@ -56,14 +60,16 @@ class SLCFixer
     @db['student'].find({}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |student|
         studentId = student['_id']
+        tenantId = student['metaData']['tenantId']
+        @studentId_to_tenant[studentId] = tenantId
 
         teacherIds = []
         teacherIds += find_teachers_for_student_through_section(studentId)
         teacherIds += find_teachers_for_student_through_program(studentId)
         teacherIds += find_teachers_for_student_through_cohort(studentId)
-        teacherIds = teacherIds.uniq
+        teacherIds = teacherIds.flatten.uniq
+        @studentId_to_teachers[studentId] = teacherIds
 
-        tenantId = student['metaData']['tenantId']
         @db['student'].update({'_id' => studentId, 'metaData.tenantId' => tenantId}, 
                               {'$set' => {'metaData.teacherContext' => teacherIds}})
       }
@@ -156,6 +162,7 @@ class SLCFixer
   end
 
   def stamp_sections
+    # TODO
 #    @log.info "Finding directly referenced teacherSectionAssociations and sections"
 #    @db['teacherSectionAssociation'].find({}, {fields: ['_id', 'body.teacherId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
 #      cursor.each { |assoc|
@@ -166,16 +173,25 @@ class SLCFixer
   end
 
   def stamp_cohorts
-#    @log.info "Stamping directly referenced staffCohortAssociations and cohorts"
-#    @db['staffCohortAssociation'].find({}, {fields: ['_id', 'body.staffId']}.merge(@basic_options)) { |cursor|
-#      cursor.each { |assoc|
-#        assoc['body']['staffId'].each { |id|
-#          puts 'match' if @teacher_ids.has_key? id
-#        }
-#      }
-#    }
+    @log.info "Stamping cohorts and associations"
+    @db['studentCohortAssociation'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']]
+        #@log.debug "studentCohortAssociation #{assoc['_id']} teacherContext #{teachers.to_s}" 
+        @db['studentCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+      }
+    }
   end
 
   def stamp_programs
+    # TODO
+  end
+
+  private
+  def make_ids_obj(record)
+    obj = {}
+    obj['_id'] = record['_id']
+    obj['metaData.tenantId'] = record['metaData']['tenantId']
+    obj
   end
 end
