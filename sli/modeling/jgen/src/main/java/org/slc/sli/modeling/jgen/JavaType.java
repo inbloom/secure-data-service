@@ -22,32 +22,36 @@ public final class JavaType {
     public static final JavaType JT_THROWABLE = simpleType(Exception.class.getSimpleName());
     public static final JavaType JT_EXCEPTION = simpleType(Exception.class.getSimpleName(), JT_THROWABLE);
 
-    private final QName name;
-    private final boolean isList;
-    private final boolean isMap;
-    private final boolean isEnum;
-    private final boolean isComplex;
-    private final JavaType base;
-
+    public static JavaType complexType(final String simpleName, final JavaType base) {
+        return new JavaType(simpleName, false, false, false, true, base);
+    }
+    public static JavaType enumType(final String simpleName, final JavaType base) {
+        return new JavaType(simpleName, false, false, true, false, base);
+    }
+    public static JavaType listType(final JavaType primeType) {
+        return new JavaType(primeType.getSimpleName(), true, false, primeType.isEnum, primeType.isComplex, null);
+    }
+    public static JavaType mapType(final JavaType keyType, final JavaType valueType) {
+        return new JavaType(keyType.getSimpleName(), false, true, keyType.isEnum, keyType.isComplex, null);
+    }
     private static JavaType simpleType(final String simpleName) {
         return new JavaType(simpleName, false, false, false, false, null);
     }
-
     public static JavaType simpleType(final String simpleName, final JavaType base) {
         return new JavaType(simpleName, false, false, false, false, base);
     }
 
-    public static JavaType enumType(final String simpleName, final JavaType base) {
-        return new JavaType(simpleName, false, false, true, false, base);
-    }
+    private final QName name;
 
-    public static JavaType listType(final JavaType primeType) {
-        return new JavaType(primeType.getSimpleName(), true, false, primeType.isEnum, primeType.isComplex, null);
-    }
+    private final boolean isList;
 
-    public static JavaType mapType(final JavaType keyType, final JavaType valueType) {
-        return new JavaType(keyType.getSimpleName(), false, true, keyType.isEnum, keyType.isComplex, null);
-    }
+    private final boolean isMap;
+
+    private final boolean isEnum;
+
+    private final boolean isComplex;
+
+    private final JavaType base;
 
     public JavaType(final String simpleName, final boolean isList, final boolean isMap, final boolean isEnum,
             final boolean isComplex, final JavaType base) {
@@ -72,6 +76,14 @@ public final class JavaType {
         }
     }
 
+    public JavaType getBase() {
+        if (base != null) {
+            return base;
+        } else {
+            return JT_OBJECT;
+        }
+    }
+
     public String getSimpleName() {
         return name.getLocalPart();
     }
@@ -81,28 +93,20 @@ public final class JavaType {
         return name.hashCode();
     }
 
-    public boolean isList() {
-        return isList;
-    }
-
-    public boolean isMap() {
-        return isMap;
+    public boolean isComplex() {
+        return isComplex;
     }
 
     public boolean isEnum() {
         return isEnum;
     }
 
-    public boolean isComplex() {
-        return isComplex;
+    public boolean isList() {
+        return isList;
     }
 
-    public JavaType getBase() {
-        if (base != null) {
-            return base;
-        } else {
-            return JT_OBJECT;
-        }
+    public boolean isMap() {
+        return isMap;
     }
 
     @Override
