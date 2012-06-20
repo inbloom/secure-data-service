@@ -1,0 +1,44 @@
+{
+    "keyFields" : ["metaData.externalId", "body.studentId", "body.sessionId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.studentId",
+            "ref" :
+            {
+                "collectionName" : "student",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.studentId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+            "fieldPath" : "body.sessionId",
+            "ref" :
+            {
+                "collectionName" : "session",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "metaData.externalId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.sessionId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

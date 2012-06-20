@@ -31,4 +31,3 @@ public class SessionEntityPersistHandler extends EntityPersistHandler {
         return mongoSession;
     }
 }
-

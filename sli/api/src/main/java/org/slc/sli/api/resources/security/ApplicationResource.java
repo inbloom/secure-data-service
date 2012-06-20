@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -350,6 +351,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 newReg.put(STATUS, "PENDING");
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
+            
             
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.

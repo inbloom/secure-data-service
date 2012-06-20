@@ -11,6 +11,7 @@
 @RALLY_US1964
 @RALLY_US2033
 @RALLY_US2081
+@RALLY_DE621
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -59,6 +60,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
+        | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -101,6 +103,7 @@ Then I should see following map of entry counts in the corresponding collections
         | gradingPeriod               | 17    |
         | calendarDate                | 556   |
         | reportCard                  | 2     |
+        | studentAcademicRecord       | 117   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -108,6 +111,7 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
        | student                     | 1                   | metaData.externalId      | 800000025                  | string               |
        | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 2                   | body.race                | White                      | string               |	   
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
        | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |

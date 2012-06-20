@@ -1,0 +1,7 @@
+{
+    "collection": "assessmentPeriodDescriptor",
+    "indexFields":
+    [
+        {"name" : "body.codeValue", "order" : "1"}
+    ]
+}

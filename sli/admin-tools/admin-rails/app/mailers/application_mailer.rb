@@ -5,7 +5,7 @@ class ApplicationMailer < ActionMailer::Base
   WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the SLC Developer Sandbox"
   VERIFY_EMAIL_SUBJECT_SANDBOX ="Shared Learning Collaborative Developer Sandbox Account - Email Confirmation"
   VERIFY_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Developer Account - Email Confirmation"
-  PROVISION_EMAIL_SUBJECT_SANDBOX = "Shared Learning Collaborative Developer Sandbox - Landing Zone Setup"
+  PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
 

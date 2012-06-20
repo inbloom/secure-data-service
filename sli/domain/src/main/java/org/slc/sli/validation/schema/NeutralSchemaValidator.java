@@ -32,10 +32,13 @@ public class NeutralSchemaValidator implements EntityValidator {
     // Attributes
     @Autowired
     private SchemaRepository entitySchemaRegistry;
-    
+
     @Autowired
     private Repository<Entity> validationRepo;
-    
+
+    @Autowired
+    private Repository<Entity> simpleValidationRepo;
+
     // Constructors
     public NeutralSchemaValidator() {
 
@@ -72,9 +75,19 @@ public class NeutralSchemaValidator implements EntityValidator {
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
         entitySchemaRegistry = schemaRegistry;
     }
-    
+
     public void setEntityRepository(Repository<Entity> entityRepo) {
         this.validationRepo = entityRepo;
+    }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        if ("false".equals(referenceCheck)) {
+            LOG.info("Turning off reference checking");
+
+            setEntityRepository(simpleValidationRepo);
+        }
+
     }
 
 }
