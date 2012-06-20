@@ -31,7 +31,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     }
 
     @Override
-    @Cacheable(value = Constants.CACHE_PORTAL_HEADER)
+    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'header' + #isAdmin")
     public String getHeader(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
@@ -41,7 +41,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     }
 
     @Override
-    @Cacheable(value = Constants.CACHE_PORTAL_FOOTER)
+    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'footer' + #isAdmin")
     public String getFooter(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);

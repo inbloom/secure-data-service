@@ -128,7 +128,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     * , java.lang.Object, org.slc.sli.entity.Config.Data)
     */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_LOS)
+    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;

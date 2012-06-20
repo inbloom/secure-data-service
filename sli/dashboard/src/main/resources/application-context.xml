@@ -27,7 +27,8 @@
         </property>
     </bean>
     
-    <cache:annotation-driven />
+    <cache:annotation-driven key-generator="userCacheKeyGenerator"/>
+    <bean id="userCacheKeyGenerator" class="org.slc.sli.util.UserCacheKeyGenerator" />
     
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true"/>
     
