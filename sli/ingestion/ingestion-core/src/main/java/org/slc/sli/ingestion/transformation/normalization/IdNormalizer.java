@@ -50,7 +50,7 @@ public class IdNormalizer {
     @Autowired
     @Qualifier(value = "mongoEntityRepository")
     private Repository<Entity> entityRepository;
-    
+
     @Autowired
     private CacheProvider cacheProvider;
     
@@ -389,6 +389,83 @@ public class IdNormalizer {
             cache(ids, collection, tenantId, filter);
         }
         return ids;
+    }
+
+    /**
+     * Resolves a reference represented by an array of complex objects, which
+     *
+     * @param entity - the referer entity
+     * @param tenantId - tenant's id
+     * @param valueSource - xpath to the complex object array in the referer entity
+     * @param fieldPath - xpath to the field in the referer entity where the resolved id will be written into
+     * @param targetCollection - referenced entity
+     * @param path - xpath to the complex object array in the referenced entity
+     * @param complexFieldNames - names of fields in the complex object
+     * @param errorReport - error reporter
+     */
+    public void resolveReferenceWithComplexArray(Entity entity, String tenantId,
+                                                 String valueSource, String fieldPath,
+                                                 String collectionName, String path,
+                                                 List<String> complexFieldNames,
+                                                 ErrorReport errorReport) {
+
+        try {
+            List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, valueSource);
+
+            // Overall query
+            Query query = new Query();
+
+            // For each element in the referer's array, create a subQuery
+            // Then OR them together to make a single mongo query
+            for (int refIndex = 0; refIndex < refValues.size(); refIndex++) {
+                String valueSourcePath = valueSource + ".[" + Integer.toString(refIndex) + "]";
+
+                // Create the fieldValueCriteria for matching this complex object
+                Criteria fieldValueCriteria = null;
+                for (String fieldName : complexFieldNames) {
+                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
+                    if (fieldValue == null) { continue; }
+                    if (fieldValueCriteria == null) {
+                        fieldValueCriteria = Criteria.where(fieldName).is(fieldValue);
+                    } else {
+                        fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
+                    }
+                }
+                if (fieldValueCriteria == null) { continue; }
+                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
+                criteria = criteria.and(path).elemMatch(fieldValueCriteria);
+
+                // create the subquery using the fieldValue criteria
+                Query subQuery = new Query();
+                subQuery.addCriteria(criteria);
+
+                // add the subquery to overall query
+                query.or(subQuery);
+            }
+
+            // execute query and record results
+            Set<String> foundIds = new HashSet<String>();
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
+
+            for(Entity record : foundRecords) {
+                foundIds.add(record.getEntityId());
+            }
+
+            // resolution fails if not exactly one resolved object is found.
+            if (foundIds.size() != 1) {
+                throw new RuntimeException("Number of resolved ids in resolve complex reference is not 1, but is " + foundIds.size());
+            } else {
+                PropertyUtils.setProperty(entity, fieldPath, foundIds.iterator().next());
+            }
+
+        } catch (Exception e) {
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
+            errorReport.error(errorMessage, this);
+        }
+
     }
     
     private void cache(List<String> ids, String collection, String tenantId, Query filter) {
