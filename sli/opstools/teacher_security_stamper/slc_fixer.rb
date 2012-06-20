@@ -169,9 +169,11 @@ class SLCFixer
         @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
 
         section_id = assoc['body']['sectionId']
-        section_to_tenant[section_id] ||= assoc['body']['tenant']
+        section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
         section_to_teachers[section_id] ||= []
         section_to_teachers[section_id] += teachers
+        section_to_teachers[section_id] = section_to_teachers[section_id].flatten
+        section_to_teachers[section_id] = section_to_teachers[section_id].uniq
       }
     }
 
@@ -180,17 +182,22 @@ class SLCFixer
       cursor.each { |assoc|
         section_id = assoc['body']['sectionId']
         teacher_id = assoc['body']['teacherId']
+        section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
         section_to_teachers[section_id] ||= []
         section_to_teachers[section_id].push teacher_id
+        section_to_teachers[section_id] = section_to_teachers[section_id].flatten
+        section_to_teachers[section_id] = section_to_teachers[section_id].uniq
 
-        teachers = section_to_teachers[assoc['body']['sectionId']]
-        next if teachers.nil?
-        @db['teacherSectionAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
+        teachers = section_to_teachers[section_id]
+        @db['teacherSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
 
     section_to_teachers.each { |section, teachers|
-      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
+        if section == "706ee3be-0dae-4e98-9525-f564e05aa388"
+          puts "found @@@@@@@@@@@@@@@@ #{teachers.to_s} #{teachers.nil?.to_s} #{section_to_tenant[section]}"
+        end
+      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
@@ -207,7 +214,7 @@ class SLCFixer
         @db['studentCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
 
         cohort_id = assoc['body']['cohortId']
-        cohort_to_tenant[cohort_id] ||= assoc['body']['tenant']
+        cohort_to_tenant[cohort_id] ||= assoc['metaData']['tenantId']
         cohort_to_teachers[cohort_id] ||= []
         cohort_to_teachers[cohort_id] += teachers
       }
@@ -239,7 +246,7 @@ class SLCFixer
         @db['studentProgramAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
 
         program_id = assoc['body']['programId']
-        program_to_tenant[program_id] ||= assoc['body']['tenant']
+        program_to_tenant[program_id] ||= assoc['metaData']['tenantId']
         program_to_teachers[program_id] ||= []
         program_to_teachers[program_id] += teachers
       }
