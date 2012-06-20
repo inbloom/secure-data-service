@@ -105,25 +105,25 @@ public class SessionResource extends DefaultCrudEndpoint {
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
-    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
-    }
+//    @GET
+//    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
+//    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
+//            @Context HttpHeaders headers,
+//            @Context final UriInfo uriInfo) {
+//        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
+//    }
 
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
-    public Response getSchoolSessionAssociationSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
-            @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
-    }
+//    @GET
+//    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
+//    public Response getSchoolSessionAssociationSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
+//            @Context HttpHeaders headers,
+//            @Context final UriInfo uriInfo) {
+//        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
+//    }
 
     /**
      * Returns the requested collection of resources that are associated with the specified resource.
