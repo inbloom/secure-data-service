@@ -176,19 +176,17 @@ public class BasicClient implements SLIClient {
 
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
-                if (element instanceof ArrayNode) {
+                
+                if (element.isArray()) {
                     ArrayNode arrayNode = (ArrayNode) element;
                     for (int i = 0; i < arrayNode.size(); ++i) {
                         JsonNode jsonObject = arrayNode.get(i);
                         Object entity = mapper.readValue(jsonObject, entityClass);
                         entities.add(entity);
                     }
-//                    List<Entity> tmp = mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
-//                    });
-//                    entities.addAll(tmp);
-                } else if (element instanceof ObjectNode) {
+                } else  if (element instanceof ObjectNode) {
                     Object entity = mapper.readValue(element, entityClass);
-                    entities.add(entity);
+                    entities.add(entity);                    
                 } else {
                     // not what was expected....
                     ResponseBuilder builder = Response.fromResponse(response);
