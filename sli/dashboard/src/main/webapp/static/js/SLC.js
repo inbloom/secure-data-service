@@ -1,8 +1,20 @@
-var SLC = SLC || {}; // Creates SLC global namespace
+/*  
+ * SLC global namespace
+ * http://www.wirelessgeneration.com/
+ * Proprietary Information (c) 2012 SLC, LLC
+ */
 
-// Description: This function creates namespaces under SLC.
-// Example: SLC.namespace('SLC.modules.module1');
-SLC.namespace = function (ns_string, func) {
+
+var SLC = SLC || {};
+
+/*
+ * Description: This function creates namespaces under SLC.
+ * @param ns_string - namespace string
+ * @param assignee - the function which can be assigned to the namespace
+ * @return parent object
+ * Example: SLC.namespace('SLC.modules.module1');
+ */
+SLC.namespace = function (ns_string, assignee) {
 	var parts = ns_string.split('.'),
 		parent = SLC,
 		i;
@@ -15,8 +27,8 @@ SLC.namespace = function (ns_string, func) {
 		if (typeof parent[parts[i]] === "undefined") {
 			parent[parts[i]] = {};
 			
-			if (func) {
-				parent[parts[i]] = func;
+			if (assignee) {
+				parent[parts[i]] = assignee;
 			}
 		}
 		parent = parent[parts[i]];

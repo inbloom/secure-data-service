@@ -3,9 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.1.js"></script>
+<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
+
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/bootstrap-dropdown.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
@@ -18,9 +22,14 @@
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
+</head>
+<body>
+<div class="wrapper">
+	<#include "layout/layout_header.ftl">
+	<#include "${page_to_include}">
+	<div class="clear"></div>
+</div>
+<#include "layout/layout_footer.ftl">
 
 <script type="text/javascript">
 
@@ -35,14 +44,6 @@
   })();
 
 </script>
-</head>
-<body>
-<div class="wrapper">
-	<#include "layout/layout_header.ftl">
-	<#include "${page_to_include}">
-	<div class="clear"></div>
-</div>
-<#include "layout/layout_footer.ftl">
 </body>
 </html>
 <#recover>

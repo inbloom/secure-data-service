@@ -77,4 +77,3 @@
 </script>
 
 <a href="#" onclick="expandAll()">Expand All</a>
-<!-- <a href="#" onclick="collapseAll()">Collapse All</a> -->

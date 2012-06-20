@@ -1,3 +1,6 @@
+/*
+ * SLC grid teardrop
+ */
 /*global SLC $*/
 
 SLC.namespace('SLC.grid.teardrop', (function () {

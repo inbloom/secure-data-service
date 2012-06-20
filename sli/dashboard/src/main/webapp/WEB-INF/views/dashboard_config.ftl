@@ -53,9 +53,10 @@
                     });
                 });
                 
-                // display page title
-                pageTitle = DashboardProxy.getLayoutName();
-				$("<title></title>").html(pageTitle).appendTo("head");
+            	pageTitle = SLC.dataProxy.getLayoutName();
+				document.title = pageTitle;
+				
+				setTimeout(SLC.util.placeholderFix, 500);
             });
         </script>
 

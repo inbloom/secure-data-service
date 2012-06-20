@@ -1,3 +1,6 @@
+/*
+ * SLC grid formatters
+ */
 /*global SLC $ */
 
 var contextRootPath = contextRootPath || "";

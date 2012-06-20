@@ -52,7 +52,7 @@
 	pageTitle = SLC.dataProxy.getLayoutName();
 	document.title = pageTitle;
 	
-	setTimeout(SLC.util.placeholderFix, 500);;
+	setTimeout(SLC.util.placeholderFix, 500);
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">
