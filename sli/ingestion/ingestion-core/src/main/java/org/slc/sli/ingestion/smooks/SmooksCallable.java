@@ -15,6 +15,10 @@ import org.milyn.SmooksException;
 import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -121,9 +125,9 @@ public class SmooksCallable implements Callable<Boolean> {
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-            
+
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
-            
+
         } catch (SmooksException se) {
             LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
@@ -132,7 +136,7 @@ public class SmooksCallable implements Callable<Boolean> {
             IOUtils.closeQuietly(inputStream);
         }
     }
-    
+
     private void populateRecordCountsFromSmooks(Smooks smooks, FileProcessStatus fileProcessStatus,
             IngestionFileEntry ingestionFileEntry) {
         try {
@@ -141,7 +145,7 @@ public class SmooksCallable implements Callable<Boolean> {
             VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
             ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
             SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
-            
+
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
@@ -154,7 +158,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
     private int processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus) {
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-        
+
         int errorCount = aggregateAndLogProcessingErrors(newBatchJob.getId(), fe);
         metrics.setErrorCount(errorCount);
         return errorCount;
