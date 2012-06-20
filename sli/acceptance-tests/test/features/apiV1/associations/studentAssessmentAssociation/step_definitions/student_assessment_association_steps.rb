@@ -13,9 +13,9 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student assessment association data
-  id = 6                                      if human_readable_id == "ASSOCIATION COUNT"
+  id = 32                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 3                                      if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 23                                      if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID"
@@ -48,6 +48,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "737dd4c1-86bd-4892-b9e0-0f24f76210be"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "dd916592-7d3e-4f27-a8ac-bec5f4b757f6"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"

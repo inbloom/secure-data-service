@@ -18,7 +18,6 @@ import java.util.List;
  * Filters the entity by a given date
  *
  * @author jcole
- *
  */
 @Component
 public class NodeDateFilter extends NodeFilter {
@@ -28,88 +27,101 @@ public class NodeDateFilter extends NodeFilter {
 
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    protected String getEntityName() {
-        return entityName;
-    }
-
-    protected String getReferenceId() {
-        return referenceId;
-    }
-
     protected String getGracePeriod() {
         return gracePeriod;
     }
 
-    protected String getFilterDateParam() {
-        return filterDateParam;
+    protected String getEndDateParamName() {
+        return endDateParamName;
     }
 
-    private String entityName;
-    private String referenceId;
-    private String gracePeriod;
-    private String filterDateParam;
+    public String getStartDateParamName() {
+        return startDateParamName;
+    }
 
-    public void setParameters(String entityName, String referenceId, String gracePeriod, String filterDateParam) {
-        this.entityName = entityName;
-        this.referenceId = referenceId;
+    public void setStartDateParamName(String startDateParamName) {
+        this.startDateParamName = startDateParamName;
+    }
+
+    private String gracePeriod;
+    private String endDateParamName;
+    private String startDateParamName;
+
+    public void setParameters(String gracePeriod, String endDateParamName) {
         this.gracePeriod = gracePeriod;
-        this.filterDateParam = filterDateParam;
+        this.endDateParamName = endDateParamName;
+        this.startDateParamName = "";
     }
 
     @Override
-    public List<String> filterIds(List<String> toResolve) {
+    public List<Entity> filterEntities(List<Entity> toResolve, String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        List<String> returnIds = new ArrayList<String>();
+        List<Entity> returnEntityList = new ArrayList<Entity>();
 
-        if (entityName != null && referenceId != null && gracePeriod != null && filterDateParam != null) {
+        if (gracePeriod != null && endDateParamName != null) {
             //get the filter date
-            String formattedEndDateString = helper.getFilterDate(gracePeriod, calendar);
+            String curDateWithGracePeriod = helper.getFilterDate(gracePeriod, calendar);
 
             if (!toResolve.isEmpty()) {
-                //get the entities
-                Iterable<Entity> referenceEntities = helper.getReferenceEntities(entityName,
-                        referenceId, toResolve);
+                for (Entity entity : toResolve) {
+                    String endDateStr = (String) entity.getBody().get(endDateParamName);
 
-                for (Entity entity : referenceEntities) {
-                    String filterDateString = (String) entity.getBody().get(filterDateParam);
-                    String refId = (String) entity.getBody().get(referenceId);
-                    if (!returnIds.contains(refId)
-                            && isResolvable(filterDateString, formattedEndDateString)) {
-                        returnIds.add(refId);
+                    if (startDateParamName.isEmpty()) {
+                        if (endDateStr == null || endDateStr.isEmpty() || isFirstDateBeforeSecondDate(curDateWithGracePeriod, endDateStr)) {
+                            returnEntityList.add(entity);
+                        }
+                    } else {
+                        String startDateStr = (String) entity.getBody().get(startDateParamName);
+                        String curDate = getCurrentDate();
+                        if (isDateInRange(curDate, startDateStr, endDateStr)) {
+                            returnEntityList.add(entity);
+                        }
                     }
+
                 }
             }
         }
 
-        return returnIds;
+        return returnEntityList;
+    }
+
+    protected boolean isDateInRange(String date, String startDate, String endDate) {
+        try {
+            return isDateInRange(formatter.parse(date), formatter.parse(startDate), formatter.parse(endDate));
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    protected boolean isDateInRange(Date date, Date startDate, Date endDate) {
+        return date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0;
     }
 
     /**
-     * Compares two given dates
-     * @param filterDateString
-     * @param formattedEndDateString
+     * Compares two given dates.
+     * Returns true when first date is before or second date.
+     * Determines 'is date is before end date'.
+     *
+     * @param formattedFirstDateString
+     * @param formattedSecondDateString
      * @return
      */
-    protected boolean isResolvable(String filterDateString, String formattedEndDateString) {
-
-        Date filterDate = null, endDate = null;
-        boolean retValue = true;
-
+    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) {
         try {
-            if (filterDateString != null && !filterDateString.equals("")) {
-                filterDate = formatter.parse(filterDateString);
-                endDate = formatter.parse(formattedEndDateString);
-
-                if (filterDate.before(endDate)) {
-                    retValue = false;
-                }
-            }
-
+            Date date = formatter.parse(formattedFirstDateString);
+            Date endDate = formatter.parse(formattedSecondDateString);
+            return date.before(endDate);
         } catch (ParseException e) {
-            retValue = false;
+            warn("parse exception {} {}", formattedFirstDateString, formattedSecondDateString);
+            return false;
         }
-        return retValue;
+    }
+
+    protected String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        return helper.getFilterDate(null, calendar);
     }
 
 }

@@ -20,7 +20,6 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
 import org.scribe.exceptions.OAuthException;
-
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
@@ -50,9 +49,9 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public String connect(final String authorizationToken) throws OAuthException {
+    public Response connect(final String requestCode, String authorizationToken) throws OAuthException {
         try {
-            return restClient.connect(authorizationToken);
+            return restClient.connect(requestCode, authorizationToken);
         } catch (MalformedURLException e) {
             logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         } catch (URISyntaxException e) {

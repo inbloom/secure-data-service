@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @author syau
  *
  */
-@Component
+//@Component
 public class StaffDisciplineIncidentResolver implements EntityContextResolver {
 
     @Autowired

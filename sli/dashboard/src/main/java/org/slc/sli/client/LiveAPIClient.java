@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityComparator;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger;
@@ -185,21 +184,90 @@ public class LiveAPIClient implements APIClient {
         // get schools
         schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
 
+        return schools;
+    }
+
+    @Override
+    public List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId) {
+
         // get sections
         List<GenericEntity> sections = null;
         if (SecurityUtil.isNotEducator()) {
-            sections = getSectionsForNonEducator(token);
+
+            sections = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL + "/" + schoolId +
+                    SECTIONS + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+
+            enrichSectionsWithSessionDetails(token, sections);
+
+            sections = filterCurrentSections(sections, true);
+
         } else {
             // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
-            sections = getSectionsForTeacher(teacherId, token);
+            sections = getSectionsForTeacher(teacherId, token, schoolId);
         }
 
-        // match schools and sections
-        matchSchoolToCourses(schools, sections, token);
+        // get courses
+        List<GenericEntity> courses = new ArrayList<GenericEntity>();
+        if (sections != null && !sections.isEmpty()) {
+            courses = getCourseSectionMappings(sections, token);
+        }
 
-        return schools;
+        return courses;
     }
+
+
+    /**
+     * Get the associations between courses and sections
+     */
+    private List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
+
+        Map<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
+        Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
+
+        // this temporary sectionLookup will be used for cross reference between
+        // courseId and
+        // section.
+        Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
+
+        // iterate each section
+        if (sections != null) {
+            for (GenericEntity section : sections) {
+                // Get course using courseId reference in section
+                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+                if (!sectionLookup.containsKey(courseId)) {
+                    sectionLookup.put(courseId, new HashSet<GenericEntity>());
+                }
+                sectionLookup.get(courseId).add(section);
+
+            }
+
+            // get course Entity
+            List<GenericEntity> courses = createEntitiesFromAPI(getApiUrl() + COURSES_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+
+            // update courseMap with courseId. "id" for this entity
+            for (GenericEntity course : courses) {
+                // Add course to courseMap
+                //courseMap.put(course.getId(), course);
+                Set<GenericEntity> matchedSections = sectionLookup.get(course.getId());
+                if (matchedSections != null) {
+                    // Add course to courseMap
+                    courseMap.put(course.getId(), course);
+                    Iterator<GenericEntity> sectionEntities = matchedSections.iterator();
+                    while (sectionEntities.hasNext()) {
+                        GenericEntity sectionEntity = sectionEntities.next();
+                        course.appendToList(Constants.ATTR_SECTIONS, sectionEntity);
+                        // update sectionIdToCourseIdMap
+                        sectionIDToCourseIDMap.put(sectionEntity.getId(), course.getId());
+                    }
+                }
+            }
+
+        }
+
+        return new ArrayList<GenericEntity>(courseMap.values());
+    }
+
 
     /**
      * Get a list of student objects, given the student ids
@@ -317,22 +385,6 @@ public class LiveAPIClient implements APIClient {
         return null;
     }
 
-    /**
-     * Get a list of student ids belonging to a section
-     */
-    private List<String> getStudentIdsForSection(String id, String token) {
-
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id + STUDENT_SECTION_ASSOC,
-                token);
-        List<String> studentIds = new ArrayList<String>();
-
-        if (responses != null) {
-            for (GenericEntity response : responses) {
-                studentIds.add(response.getString(Constants.ATTR_STUDENT_ID));
-            }
-        }
-        return studentIds;
-    }
 
     /**
      * Get one student
@@ -345,13 +397,14 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook", token);
+                + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook"
+                + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
     @Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
-                + "?views=gradebook", token);
+                + "?views=gradebook" + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
     @Override
@@ -469,10 +522,22 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get a list of sections, given a teacher id
      */
-    public List<GenericEntity> getSectionsForTeacher(String id, String token) {
+    public List<GenericEntity> getSectionsForTeacher(String id, String token, String schoolId) {
 
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC
                 + SECTIONS, token);
+
+        // filter by school id
+        if (schoolId != null) {
+            List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
+            for (GenericEntity section : sections) {
+                if (section.getString(Constants.ATTR_SCHOOL_ID) != null &&
+                    section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
+                    filteredSections.add(section);
+                }
+            }
+            sections = filteredSections;
+        }
 
         // This isn't really filtering, rather just adding section codes to sections with no name
         sections = filterCurrentSections(sections, false);
@@ -576,169 +641,6 @@ public class LiveAPIClient implements APIClient {
         return filteredSections;
     }
 
-    /**
-     * Match schools and sections. Also retrieve course info.
-     *
-     * @param sections
-     * @param token
-     * @return
-     */
-    public List<GenericEntity> matchSchoolToCourses(List<GenericEntity> schools, List<GenericEntity> sections,
-            String token) {
-
-        // collect associated course first.
-        HashMap<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
-        HashMap<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
-        getCourseSectionsMappings(sections, token, courseMap, sectionIDToCourseIDMap);
-
-        // now collect associated schools.
-        HashMap<String, GenericEntity> schoolMap = new HashMap<String, GenericEntity>();
-        HashMap<String, String> sectionIDToSchoolIDMap = new HashMap<String, String>();
-        getSchoolSectionsMappings(sections, token, schools, schoolMap, sectionIDToSchoolIDMap);
-
-        // Now associate course and school.
-        // There is no direct course-school association in ed-fi. For any section associated to
-        // a school, its course will also be associated.
-        HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
-
-        if (sections != null) {
-//            for (int i = 0; i < sections.size(); i++) {
-            for(GenericEntity section : sections) {
-                if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
-                        && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
-                    String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
-                    String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                    if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
-                        schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
-                    }
-                    schoolIDToCourseIDMap.get(schoolId).add(courseId);
-                }
-            }
-        }
-
-        // now create the generic entity
-        for (String schoolId : schoolIDToCourseIDMap.keySet()) {
-            GenericEntity s = schoolMap.get(schoolId);
-            for (String courseId : schoolIDToCourseIDMap.get(schoolId)) {
-                GenericEntity c = courseMap.get(courseId);
-                s.appendToList(Constants.ATTR_COURSES, c);
-            }
-            //Sort the courses based on course title.
-            List<Map<String, Object>> courses = (List<Map<String, Object>>) s.get(Constants.ATTR_COURSES);
-            if (courses != null) {
-                Collections.sort(courses, new GenericEntityComparator(Constants.ATTR_COURSE_TITLE, String.class));
-            }
-        }
-
-        return new ArrayList<GenericEntity>(schoolMap.values());
-
-    }
-
-    /**
-     * Get the associations between courses and sections
-     */
-    private void getCourseSectionsMappings(List<GenericEntity> sections, String token,
-            Map<String, GenericEntity> courseMap, Map<String, String> sectionIDToCourseIDMap) {
-
-        // this variable is used to prevent sending duplicate courseId to API
-        Set<String> courseIdTracker = new HashSet<String>();
-
-        // this temporary sectionLookup will be used for cross reference between
-        // courseId and
-        // section.
-        Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
-        StringBuilder courseIds = new StringBuilder();
-        // iterate each section
-        if (sections != null) {
-            for (GenericEntity section : sections) {
-                // Get course using courseId reference in section
-                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-                // search course which doesn't exist already
-                if (!courseMap.containsKey(courseId)) {
-                    if (!courseIdTracker.contains(courseId)) {
-                        if (courseIds.length() != 0) {
-                            courseIds.append(",");
-                        }
-                        courseIds.append(courseId);
-                        courseIdTracker.add(courseId);
-                    }
-                    if (!sectionLookup.containsKey(courseId)) {
-                        sectionLookup.put(courseId, new HashSet<GenericEntity>());
-                    }
-                    sectionLookup.get(courseId).add(section);
-                }
-
-            }
-        }
-
-        // get Entites by given courseIds
-        if (courseIds.length() != 0) {
-            // get course Entity
-            List<GenericEntity> courses = createEntitiesFromAPI(getApiUrl() + COURSES_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
-
-            // update courseMap with courseId. "id" for this entity
-            for (GenericEntity course : courses) {
-                // Add course to courseMap
-                courseMap.put(course.getId(), course);
-                Set<GenericEntity> matchedSections = sectionLookup.get(course.getId());
-                if (matchedSections != null) {
-                    Iterator<GenericEntity> sectionEntities = matchedSections.iterator();
-                    while (sectionEntities.hasNext()) {
-                        GenericEntity sectionEntity = sectionEntities.next();
-                        course.appendToList(Constants.ATTR_SECTIONS, sectionEntity);
-                        // update sectionIdToCourseIdMap
-                        sectionIDToCourseIDMap.put(sectionEntity.getId(), course.getId());
-                    }
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Get the associations between schools and sections
-     */
-    private void getSchoolSectionsMappings(List<GenericEntity> sections, String token, List<GenericEntity> schools,
-            Map<String, GenericEntity> schoolMap, Map<String, String> sectionIDToSchoolIDMap) {
-
-        // temporary cross reference between schoolId and sections
-        Map<String, Set<GenericEntity>> sectionLookup = new HashMap<String, Set<GenericEntity>>();
-
-        // iterate each section
-        if (sections != null) {
-
-            for (GenericEntity section : sections) {
-                String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
-
-                // search school which doesn't exist already
-                if (!schoolMap.containsKey(schoolId)) {
-
-                    if (!sectionLookup.containsKey(schoolId)) {
-                        sectionLookup.put(schoolId, new HashSet<GenericEntity>());
-                    }
-                    sectionLookup.get(schoolId).add(section);
-                }
-            }
-        }
-
-        if (schools != null) {
-
-            // update schoolMap with schoolId. "id" for this entity
-            for (GenericEntity school : schools) {
-                String schoolId = school.getId();
-                Set<GenericEntity> matchedSections = sectionLookup.get(schoolId);
-                if (matchedSections != null) {
-                    for (GenericEntity sectionEntity : matchedSections) {
-                        // Add school to schoolmap
-                        schoolMap.put(school.getId(), school);
-                        // update sectionIdToSchoolIdMap
-                        sectionIDToSchoolIDMap.put(sectionEntity.getId(), schoolId);
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public List<GenericEntity> getSessions(String token) {
@@ -787,7 +689,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getHomeRoomForStudent(String studentId, String token) {
-        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC;
+        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);
 
         // If only one section association exists for the student, return the
@@ -1036,7 +938,7 @@ public class LiveAPIClient implements APIClient {
             url.append(id);
         }
         // add the query string
-        if (!params.isEmpty()) {
+        if (params != null && !params.isEmpty()) {
             url.append("?");
             url.append(buildQueryString(params));
         }
@@ -1075,7 +977,7 @@ public class LiveAPIClient implements APIClient {
         // Retrieve the student school associations from the first link with
         // STUDENT_SCHOOL_ASSOCIATIONS_LINK
         // sorted by entryDate
-        String url = this.sortBy(urls.get(0), "entryDate", "descending");
+        String url = this.sortBy(urls.get(0), "entryDate", "descending") + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
 
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(url, token);
 

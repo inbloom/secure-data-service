@@ -1,0 +1,7 @@
+{
+    "collection": "assessmentItem",
+    "indexFields":
+    [
+        {"name" : "localId", "order" : "1"}
+    ]
+}

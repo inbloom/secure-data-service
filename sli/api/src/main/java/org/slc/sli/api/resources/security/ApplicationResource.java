@@ -23,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;

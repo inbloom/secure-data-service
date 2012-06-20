@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +28,16 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
-    private static final String STUDENT_TEST_ASSESSMENT_REFERENCE = "studentTestAssessmentRef";
+    private static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
+    private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
+    private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     
     private Map<Object, NeutralRecord> studentAssessments;
+    
+    @Autowired
+    private ObjectiveAssessmentBuilder builder;
     
     /**
      * Default constructor.
@@ -57,8 +62,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for studentAssessmentAssociation transformation.");
-        studentAssessments = getCollectionFromDb(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
+        studentAssessments = getCollectionFromDb(STUDENT_ASSESSMENT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
                 studentAssessments.size());
     }
     
@@ -76,14 +81,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             if (studentAssessmentAssociationId != null) {
                 List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessments(studentAssessmentAssociationId);
                 if (studentObjectiveAssessments.size() > 0) {
-                    LOG.info("found {} student objective assessments for student assessment id: {}.",
+                    LOG.debug("found {} student objective assessments for student assessment id: {}.",
                             studentObjectiveAssessments.size(), studentAssessmentAssociationId);
                     attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
                 }
                 
                 List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItems(studentAssessmentAssociationId);
                 if (studentAssessmentItems.size() > 0) {
-                    LOG.info("found {} student assessment items for student assessment id: {}.",
+                    LOG.debug("found {} student assessment items for student assessment id: {}.",
                             studentAssessmentItems.size(), studentAssessmentAssociationId);
                     attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
                 }
@@ -93,7 +98,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         studentAssessmentAssociationId);
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
+            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
+            insertRecord(neutralRecord);
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());
@@ -110,10 +116,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private List<Map<String, Object>> getStudentObjectiveAssessments(String studentAssessmentAssociationId) {
         List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(STUDENT_TEST_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
+        query.addCriteria(new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
         
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
-                .findAllForJob(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
+                .findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
         
         if (studentObjectiveAssessments != null) {
             Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();
@@ -123,11 +129,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
                 
-                Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
-                        getJob().getId()).getObjectiveAssessment(objectiveAssessmentRef);
+                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
+                        getJob(), objectiveAssessmentRef);
                 
                 if (objectiveAssessment != null) {
-                    LOG.info("Found objective assessment: {}", objectiveAssessmentRef);
+                    LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 } else {
                     LOG.warn("Failed to find objective assessment: {} for student assessment: {}",
@@ -137,7 +143,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 Map<String, Object> attributes = new HashMap<String, Object>();
                 for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
                     if (!entry.getKey().equals(OBJECTIVE_ASSESSMENT_REFERENCE)
-                            && !entry.getKey().equals(STUDENT_TEST_ASSESSMENT_REFERENCE)) {
+                            && !entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
                         attributes.put(entry.getKey(), entry.getValue());
                     }
                 }
@@ -154,7 +160,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private List<Map<String, Object>> getStudentAssessmentItems(String studentAssessmentId) {
         List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
         Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
-        studentAssessmentItemSearchPaths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+        studentAssessmentItemSearchPaths.put("localParentIds.studentResultRef", studentAssessmentId);
         
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
                 "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());

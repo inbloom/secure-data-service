@@ -15,12 +15,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -29,6 +23,11 @@ import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.validation.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit Test for SmooksEdFi2SLITransformer
@@ -211,16 +210,24 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevel1.put("maximumScore", "1600");
         assessmentPerformanceLevel1.put("minimumScore", "2400");
         assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
-        Map<String, Object> performanceLevelDescriptor1 = new HashMap<String, Object>();
-        performanceLevelDescriptor1.put("description", "description1");
+        List<Object> performanceLevelDescriptor1 = new ArrayList<Object>();
+        Map<String, Object>  description = new HashMap<String, Object>();
+        Map<String, Object> codeValue = new HashMap<String, Object>();
+        description.put("description", "description1");
+        codeValue.put("codeValue", "codeValue");
+        performanceLevelDescriptor1.add(description);
+        performanceLevelDescriptor1.add(codeValue);
         assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
 
         Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
         assessmentPerformanceLevel2.put("maximumScore", "1800");
         assessmentPerformanceLevel2.put("minimumScore", "2600");
         assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
-        Map<String, Object> performanceLevelDescriptor2 = new HashMap<String, Object>();
-        performanceLevelDescriptor2.put("description", "description2");
+        List<Object> performanceLevelDescriptor2 = new ArrayList<Object>();
+        description.put("description", "description1");
+        codeValue.put("codeValue", "codeValue");
+        performanceLevelDescriptor2.add(description);
+        performanceLevelDescriptor2.add(codeValue);
         assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
 
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);

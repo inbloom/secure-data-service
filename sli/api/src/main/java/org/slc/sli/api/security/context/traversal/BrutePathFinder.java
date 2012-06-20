@@ -8,19 +8,20 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
-import org.slc.sli.api.security.context.resolver.StudentSectionAssociationEndDateFilter;
-import org.slc.sli.api.security.context.resolver.StudentGracePeriodNodeFilter;
-import org.slc.sli.api.security.context.resolver.StaffEdOrgStaffIDNodeFilter;
 import org.slc.sli.api.security.context.resolver.StaffEdOrgEdOrgIDNodeFilter;
+import org.slc.sli.api.security.context.resolver.StudentGracePeriodNodeFilter;
+import org.slc.sli.api.security.context.resolver.StudentSectionAssociationEndDateFilter;
+import org.slc.sli.api.security.context.resolver.TeacherStudentResolver;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Basic brute force path finding implementation.
@@ -44,10 +45,10 @@ public class BrutePathFinder implements SecurityPathFinder {
     private StudentSectionAssociationEndDateFilter studentSectionAssociationEndDateFilter;
 
     @Autowired
-    private StaffEdOrgStaffIDNodeFilter staffEdOrgStaffIDNodeFilter;
+    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Autowired
-    private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
+    private TeacherStudentResolver teacherStudentResolver;
 
 
     @PostConstruct
@@ -58,19 +59,20 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
+                        .addConnection(EntityNames.STUDENT, teacherStudentResolver)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
                         .addConnection(EntityNames.TEACHER_SECTION_ASSOCIATION, "teacherId")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
-                                Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter))
+                                staffEdOrgEdOrgIDNodeFilter, edorgFilter)
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "teacherId")
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
                 SecurityNodeBuilder.buildNode(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION)
-                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId")
                         .addConnection(EntityNames.STAFF, "staffReference",
-                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
                         .construct());
 
@@ -84,7 +86,6 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
                         .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
                         .addConnection(EntityNames.PROGRAM, "programReference", "")
-                        .addConnection(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.PROGRAM, "programReference")
                         .addConnection(EntityNames.GRADEBOOK_ENTRY, "sectionId", "")
                         .addConnection(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, "sectionId")
@@ -92,8 +93,8 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
-                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_SECTION_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.ATTENDANCE, "studentId")
@@ -109,13 +110,14 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.STUDENT_PROGRAM_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, "studentId")
                         .addConnection(EntityNames.STUDENT_COHORT_ASSOCIATION, "studentId")
+                        .addConnection(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "studentId")
                         .construct());
 
         nodeMap.put(EntityNames.STAFF,
                 SecurityNodeBuilder.buildNode(EntityNames.STAFF)
                         .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
                                 ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS,
-                                Arrays.asList(staffEdOrgEdOrgIDNodeFilter, edorgFilter))
+                                staffEdOrgEdOrgIDNodeFilter, edorgFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference")
                         .addConnection(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId")
                         .addConnection(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId")
@@ -124,7 +126,7 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
-                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgStaffIDNodeFilter)
+                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, staffEdOrgEdOrgIDNodeFilter)
                         .addConnection(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference")
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
                         .addConnection(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "schoolId")
@@ -188,74 +190,23 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION).construct());
         nodeMap.put(EntityNames.SECTION_ASSESSMENT_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SECTION_ASSESSMENT_ASSOCIATION).construct());
 
-        // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
         excludePath.add(EntityNames.TEACHER + EntityNames.EDUCATION_ORGANIZATION);
+        excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT);
         excludePath.add(EntityNames.TEACHER + EntityNames.COHORT);
         excludePath.add(EntityNames.TEACHER + EntityNames.PROGRAM);
-        excludePath.add(EntityNames.STAFF + EntityNames.COHORT);
-        excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
-        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
-        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
-        excludePath.add(EntityNames.TEACHER + EntityNames.STUDENT_SCHOOL_ASSOCIATION);
-
+        excludePath.add(EntityNames.TEACHER + EntityNames.ASSESSMENT);
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER_SECTION_ASSOCIATION,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
-                        nodeMap.get(EntityNames.TEACHER_SECTION_ASSOCIATION)));        
-        
-        prePath.put(
-                EntityNames.STAFF + EntityNames.STAFF,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.STAFF)));
+                        nodeMap.get(EntityNames.TEACHER_SECTION_ASSOCIATION)));
 
         prePath.put(
-                EntityNames.STAFF + EntityNames.SECTION,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.COURSE,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.COURSE)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.SESSION,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.TEACHER,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.SCHOOL,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SCHOOL)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.GRADEBOOK_ENTRY,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.GRADEBOOK_ENTRY)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.STUDENT_COMPETENCY,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        nodeMap.get(EntityNames.STUDENT_COMPETENCY)));
-
-        prePath.put(
-                EntityNames.STAFF + EntityNames.GRADE,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        nodeMap.get(EntityNames.GRADE)));
+                EntityNames.TEACHER + EntityNames.TEACHER_SECTION_ASSOCIATION,
+                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.TEACHER_SECTION_ASSOCIATION)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -350,7 +301,7 @@ public class BrutePathFinder implements SecurityPathFinder {
     }
 
     public boolean isPathExcluded(String from, String to) {
-        return excludePath.contains(from + to);
+        return (excludePath.contains(from + to) || from.equals(EntityNames.STAFF));
     }
 
 }

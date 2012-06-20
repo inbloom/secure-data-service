@@ -3,10 +3,12 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -21,6 +23,8 @@ import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,6 +46,9 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
     
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    
     /**
      * Camel Exchange process callback method
      * 
@@ -50,8 +57,7 @@ public class TransformationProcessor implements Processor {
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
-    public void process(Exchange exchange) {
-        
+    public void process(Exchange exchange) {        
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -62,17 +68,26 @@ public class TransformationProcessor implements Processor {
     }
     
     private void processTransformations(WorkNote workNote, Exchange exchange) {
+        String batchJobId = workNote.getBatchJobId();
         Stage stage = initializeStage(workNote);
         
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
         
         // FIXME: transformation needs to actually count processed records and errors
-        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum() + 1);
+        
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+                .lte(workNote.getRangeMaximum());
+        Query query = new Query().addCriteria(limiter);
+        
+        long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
+                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
+        
+        metrics.setRecordCount(recordsToProcess);
         stage.getMetrics().add(metrics);
         
-        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        ;
+        TenantContext.setTenantId(newJob.getTenantId());
+        
         try {
             performDataTransformations(workNote, newJob);
             

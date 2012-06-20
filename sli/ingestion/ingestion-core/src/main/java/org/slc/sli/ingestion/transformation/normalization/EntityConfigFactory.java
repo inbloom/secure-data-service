@@ -46,6 +46,7 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                 }
             } catch (IOException e) {
                 LogUtil.error(LOG, "Error loading entity type " + entityType, e);
+                entityConfigurations.put(entityType, NOT_FOUND);
             } finally {
                 IOUtils.closeQuietly(configIs);
             }

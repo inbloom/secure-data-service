@@ -48,6 +48,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "04f708bc-928b-420d-a440-f1592a5d1073"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -63,8 +65,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "teacherId" => "a936f73f-7751-412d-922f-87ad78fd6bd1",
-    "sectionId" => "4efb4262-bc49-f388-0000-0000c9355700",
+    "teacherId" => "edce823c-ee28-4840-ae3d-74d9e9976dc5",
+    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7",
     "classroomPosition" => "Teacher of Record"
 }
 end

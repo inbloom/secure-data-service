@@ -123,7 +123,7 @@ public class RealmInitializer {
     }
 
     protected Map<String, Object> createSandboxRealmBody() {
-        Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, null, null, false, sandboxIdpId,
+        Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, sandboxIdpId,
                 sandboxRedirectEndpoint);
         Map<String, Object> mappings = new HashMap<String, Object>();
         mappings.put("role", getSandboxMappings());

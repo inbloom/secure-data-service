@@ -4,10 +4,9 @@ import java.util.AbstractList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * Default context traversing implementation that allows access to everything
@@ -53,7 +52,6 @@ public class AllowAllEntityContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        // Only include allow-all resolver for specific entities that are supposed to be completely public
-        return EntityNames.USER_ACCOUNT.equals(toEntityType) || EntityNames.WAITING_LIST_USER_ACCOUNT.equals(toEntityType);
+        return (toEntityType.equals(EntityNames.LEARNINGOBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD));
     }
 }
