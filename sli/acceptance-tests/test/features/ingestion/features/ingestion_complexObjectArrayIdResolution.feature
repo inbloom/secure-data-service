@@ -10,6 +10,7 @@ Given I post "complexObjectArrayIdResolutionTest.zip" file as the payload of the
 	   | collectionName                |
 	   | educationOrganization         |
 	   | course                        |
+	   | session                       |
 	   | studentAcademicRecord         |
 	   | studentTranscriptAssociation  |
 When zip file is scp to ingestion landing zone
@@ -18,6 +19,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | collectionName                | count |
 	   | educationOrganization         | 3     |
 	   | course                        | 4     |
+	   | session                       | 1     |
 	   | studentAcademicRecord         | 1     |
 	   | studentTranscriptAssociation  | 2     |
 	 And I check to find if record is in collection:
