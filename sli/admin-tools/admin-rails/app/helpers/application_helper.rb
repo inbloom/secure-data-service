@@ -137,6 +137,15 @@ module ApplicationHelper
       return user_info[:emailtoken]
     end
   end
+  
+  def self.get_edorg_from_ldap(email_address)
+    user_info = ApprovalEngine.get_user(email_address)
+    if user_info.nil?
+      return nil
+    else
+      return user_info[:edorg]
+    end
+  end
 
   # Returns an individual user via their email token or nil if the user does not exist.
   def self.get_user_with_emailtoken(email_token)

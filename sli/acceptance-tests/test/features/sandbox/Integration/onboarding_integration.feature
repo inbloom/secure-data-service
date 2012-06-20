@@ -87,9 +87,9 @@ And the email has a "<URL_TO_PORTAL>"
 
 @production
 Scenario: District admin provisions LZ for an Ed-Org
+Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
 When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"
 Then the state super admin authenticates as "<DISTRICT_ADMIN_USER>" and "<DISTRICT_ADMIN_PASS>"
-When  the state super admin set the custom high-level ed-org to "<STATE_ED_ORG>"
 And clicks on "Provision" 
 Then an "<STATE_ED_ORG>" is saved to mongo
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"
