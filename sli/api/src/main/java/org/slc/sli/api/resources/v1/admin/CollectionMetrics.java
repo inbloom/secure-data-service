@@ -14,7 +14,7 @@ class CollectionMetric {
         this.size = size;
     }
     
-    public long getRecordCount() {
+    public long getEntityCount() {
         return entityCount;
     }
     
@@ -36,17 +36,17 @@ public class CollectionMetrics extends HashMap<String, CollectionMetric> {
     private static final long serialVersionUID = -5616329370579405926L;
     private CollectionMetric allCollections = new CollectionMetric(0, 0.0);
     
-    public CollectionMetrics aggregate(final String collectionName, long recordCount, double size) {
+    public CollectionMetrics aggregate(final String collectionName, long entityCount, double size) {
         
         if (containsKey(collectionName)) {
             CollectionMetric c = get(collectionName);
-            c.entityCount += recordCount;
+            c.entityCount += entityCount;
             c.size += size;
         } else {
-            put(collectionName, new CollectionMetric(recordCount, size));
+            put(collectionName, new CollectionMetric(entityCount, size));
         }
         
-        allCollections.entityCount += recordCount;
+        allCollections.entityCount += entityCount;
         allCollections.size += size;
         
         return this;

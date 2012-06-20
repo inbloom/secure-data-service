@@ -1,8 +1,6 @@
 package org.slc.sli.api.resources.v1.admin;
 
 //
-import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,8 +11,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.util.SecurityUtil;
@@ -48,15 +44,6 @@ public class MetricsResource {
         CollectionMetrics metrics = MetricsResourceHelper.getAllCollectionMetrics(repo, fieldKey, fieldValue);
         metrics.put("== Totals ==", metrics.getTotals());
         
-        try {
-            return Response.ok().entity(MetricsResourceHelper.jsonMapper.writeValueAsString(metrics)).build();
-        } catch (JsonGenerationException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (JsonMappingException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (IOException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        }
-        
+        return Response.ok(metrics).build();
     }
 }

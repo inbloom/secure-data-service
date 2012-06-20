@@ -1,13 +1,9 @@
 class TenantMetricsController < ApplicationController
   before_filter :check_roles
-  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
 
   # GET /tenant_metrics
   # GET /tenant_metrics.json
   def index
-    # only the administrator can view all tenants
-    check_roles(true)
-
     @tenant_metrics = get_metrics(params)
 
     respond_to do |format|
@@ -27,6 +23,7 @@ class TenantMetricsController < ApplicationController
       format.json { render json: @tenant_metrics.metrics() }
     end
   end
+
 
   def check_roles(all = false)
 

@@ -41,7 +41,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.BasicDefinitionStore;
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -60,17 +59,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -181,7 +169,7 @@ public class BasicService implements EntityService {
 
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
-     * 
+     *
      * @param neutralQuery all parameters to be included in query
      * @return the body of the entity
      */
@@ -682,7 +670,8 @@ public class BasicService implements EntityService {
     /**
      * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
      * still exists so that authorization/context can be checked.
-     * 
+     *
+
      * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
     private void cascadeDelete(String sourceId) {
@@ -722,7 +711,7 @@ public class BasicService implements EntityService {
     /**
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
-     * 
+     *
      * @param right    needed Right for action
      * @param entityId id of the entity to access
      * @throws EntityNotFoundException if requested entity doesn't exist
@@ -946,7 +935,7 @@ public class BasicService implements EntityService {
 
     /**
      * Returns the needed right for a field by examining the schema
-     * 
+     *
      * @param fieldPath The field name
      * @return
      */
@@ -968,7 +957,7 @@ public class BasicService implements EntityService {
 
     /**
      * Checks query params for access restrictions
-     * 
+     *
      * @param query The query to check
      */
     protected void checkFieldAccess(NeutralQuery query) {
@@ -993,7 +982,7 @@ public class BasicService implements EntityService {
 
     /**
      * Figures out if writing to restricted fields
-     * 
+     *
      * @param eb data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
      */

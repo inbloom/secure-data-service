@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.v1.admin;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +17,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
@@ -100,15 +97,7 @@ public class TenantMetricsResource {
         }
         metrics.put("== Totals ==", new CollectionMetrics().aggregate("== Totals ==", totals.entityCount, totals.size));
         
-        try {
-            return Response.ok().entity(MetricsResourceHelper.jsonMapper.writeValueAsString(metrics)).build();
-        } catch (JsonGenerationException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (JsonMappingException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (IOException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        }
+        return Response.ok(metrics).build();
     }
     
     @GET
@@ -142,14 +131,6 @@ public class TenantMetricsResource {
         
         metrics.put("== Totals ==", new CollectionMetrics().aggregate("== Totals ==", totals.entityCount, totals.size));
         
-        try {
-            return Response.ok().entity(MetricsResourceHelper.jsonMapper.writeValueAsString(metrics)).build();
-        } catch (JsonGenerationException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (JsonMappingException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        } catch (IOException e) {
-            return Response.serverError().entity(e.getLocalizedMessage()).build();
-        }
+        return Response.ok(metrics).build();
     }
 }

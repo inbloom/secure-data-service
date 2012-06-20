@@ -26,12 +26,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.convert.IdConverter;
@@ -173,10 +167,26 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
     
+    // DE719 -- Not sure how to handle this, since it is using Generics. We
+    // will not know until compileTime, what the object will be.
     public T create(T record, String collectionName) {
-        template.save(record, collectionName);
+        template.insert(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
-        
+        return record;
+    }
+    
+    /**
+     * Makes call to mongo template insert() function, and not save (which performs upsert).
+     * 
+     * @param record
+     *            Database record to be inserted.
+     * @param collectionName
+     *            Name of collection to insert record in.
+     * @return Successfully inserted record.
+     */
+    public T insert(T record, String collectionName) {
+        template.insert(record, collectionName);
+        LOG.debug(" insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
     }
     
@@ -195,7 +205,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
         
         try {
-            return template.findById(databaseId, getRecordClass(), collectionName);
+            return template.findOne(mongoQuery, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -221,7 +231,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
                 obj = new BasicDBObject("_id", databaseId);
             }
             
-            return template.getCollection(collectionName).getCount(new BasicDBObject("_id", databaseId)) != 0L;
+            return template.getCollection(collectionName).getCount(obj) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return false;
@@ -428,8 +438,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             query = new Query(idCrit);
         }
         
-        T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                getRecordClass(), collectionName);
+        T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
         LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
@@ -494,6 +503,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
+        
         if (query == null) {
             query = new Query();
         }
@@ -548,6 +558,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         template.ensureIndex(index, collection);
         
+        LOG.info("Success!  Index for {} has been created, details {} ", collection, index);
     }
     
     /**
@@ -566,18 +577,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
             // When in doubt, play it (Replicas) safe.
             template.setWriteConcern(WriteConcern.REPLICAS_SAFE);
         }
-    @Override
-    public List<DBCollection> getCollections(boolean includeSystemCollections) {
-        List<DBCollection> collections = new ArrayList<DBCollection>();
-        
-        for (String name : getTemplate().getCollectionNames()) {
-            
-            if (!includeSystemCollections && name.startsWith("system.")) {
-                continue;
-            }
-            collections.add(getTemplate().getCollection(name));
-        }
-        return collections;
+    }
+    
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
         List<DBCollection> collections = new ArrayList<DBCollection>();
@@ -591,5 +592,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return collections;
     }
+    
     
 }

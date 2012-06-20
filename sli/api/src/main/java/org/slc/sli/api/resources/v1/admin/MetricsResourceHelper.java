@@ -4,13 +4,10 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.QueryBuilder;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
 public class MetricsResourceHelper {
-    
-    public static ObjectMapper jsonMapper = new ObjectMapper();
     
     /**
      * Collect metrics for a collection, qualified by the field with name 'qualifier'

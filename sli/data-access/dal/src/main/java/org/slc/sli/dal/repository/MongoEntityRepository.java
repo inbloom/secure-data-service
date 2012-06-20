@@ -43,16 +43,16 @@ import org.springframework.util.Assert;
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
-    
+
     @Autowired
     private EntityValidator validator;
-    
+
     @Autowired(required = false)
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
@@ -76,7 +76,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     protected String getRecordId(Entity entity) {
         return entity.getEntityId();
     }
-    
+
     @Override
     protected Class<Entity> getRecordClass() {
         return Entity.class;
@@ -98,17 +98,17 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         
         Entity entity = new MongoEntity(type, null, body, metaData);
         validator.validate(entity);
-        addTimestamps(entity);
+        this.addTimestamps(entity);
         
         return super.create(entity, collectionName);
     }
-    
+
     @Override
     protected Query getUpdateQuery(Entity entity) {
         String id = getRecordId(entity);
         return new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
     }
-    
+
     @Override
     protected Entity getEncryptedRecord(Entity entity) {
         MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
@@ -116,7 +116,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }
-    
+
     @Override
     protected Update getUpdateCommand(Entity entity) {
         // set up update query
@@ -125,31 +125,32 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
         return update;
     }
-    
+
     @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
-        updateTimestamp(entity);
+        this.updateTimestamp(entity);
         // Map<String, Object> body = entity.getBody();
         // if (encrypt != null) {
         // body = encrypt.encrypt(entity.getType(), entity.getBody());
         // }
         return update(collection, entity, null); // body);
     }
-    
+
     /** Add the created and updated timestamp to the document metadata. */
     private void addTimestamps(Entity entity) {
         // String now = DateTimeUtil.getNowInUTC();
         Date now = DateTimeUtil.getNowInUTC();
-        
+
         Map<String, Object> metaData = entity.getMetaData();
         metaData.put(EntityMetadataKey.CREATED.getKey(), now);
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
-    
+
     /** Update the updated timestamp on the document metadata. */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
     }
+
 }
