@@ -128,6 +128,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
         }
         
+        int numAttendanceIngested = 0;
         if (studentSchoolAttendanceEvents.size() > 0) {
             LOG.info("Discovered {} student-school associations from attendance events",
                     studentSchoolAttendanceEvents.size());
@@ -137,7 +138,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 List<Map<String, Object>> attendance = entry.getValue();
                 String studentId = studentSchoolPair.getLeft();
                 String schoolId = studentSchoolPair.getRight();
-                transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+                numAttendanceIngested += transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
             }
         }
         
@@ -155,11 +156,19 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 } else {
                     NeutralRecord school = schools.get(0);
                     String schoolId = (String) school.getAttributes().get("stateOrganizationId");
-                    transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+                    numAttendanceIngested += transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
                 }
             }
             
         }
+        
+        long numAttendance = attendances.size();
+        if ( numAttendance != numAttendanceIngested ) {
+            long remainingAttendances = numAttendance - numAttendanceIngested;
+            super.getErrorReport(attendances.values().iterator().next().getSourceFile())
+                .warning(Long.toString(remainingAttendances) + " attendance events are not processed, because they are not within any school year", this);
+        }
+        
         LOG.info("Finished transforming attendance data");
     }
     
@@ -174,7 +183,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * @param attendance
      *            List of transformed attendance events.
      */
-    private void transformAndPersistAttendanceEvents(String studentId, String schoolId,
+    private int transformAndPersistAttendanceEvents(String studentId, String schoolId,
             List<Map<String, Object>> attendance) {
         Map<Object, NeutralRecord> sessions = getSessions(schoolId);
         
@@ -193,11 +202,13 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         
         Map<String, List<Map<String, Object>>> schoolYears = mapAttendanceIntoSchoolYears(attendance, sessions);
         
+        int numAttendances = 0;
         if (schoolYears.entrySet().size() > 0) {
             for (Map.Entry<String, List<Map<String, Object>>> attendanceEntry : schoolYears.entrySet()) {
                 String schoolYear = attendanceEntry.getKey();
                 List<Map<String, Object>> events = attendanceEntry.getValue();
                 
+                numAttendances += events.size();
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
@@ -212,8 +223,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                         ATTENDANCE_TRANSFORMED, getBatchJobId());
                 LOG.debug("Added {} attendance events for school year: {}", events.size(), schoolYear);
             }
+            return numAttendances;
         } else {
             LOG.warn("No daily attendance for student: {} in school: {}", studentId, schoolId);
+            return 0;
         }
     }
     
@@ -294,7 +307,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         return schools;
     }
-    
+   
     /**
      * Gets all sessions associated with the specified student-school pair.
      * 
