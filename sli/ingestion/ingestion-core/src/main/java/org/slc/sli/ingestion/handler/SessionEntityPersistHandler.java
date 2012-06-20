@@ -16,18 +16,18 @@ import org.slf4j.LoggerFactory;
 public class SessionEntityPersistHandler extends EntityPersistHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(SessionEntityPersistHandler.class);
-
+    
     @Override
     protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        SimpleEntity ssAssociation = (SimpleEntity) entity.getBody().remove("schoolSessionAssociation");
+        SimpleEntity schoolSessionAssociation = (SimpleEntity) entity.getBody().remove("schoolSessionAssociation");
+        
         Entity mongoSession = super.doHandling(entity, errorReport, fileProcessStatus);
-        LOG.debug("created session : {}", mongoSession);
-
-        if ( entity.getEntityId() == null ) {
-           ssAssociation.getBody().put("sessionId",mongoSession.getEntityId());
-           Entity createdSsAssociation = super.doHandling(ssAssociation, errorReport, fileProcessStatus);
-           return createdSsAssociation;
-        }
+        if (mongoSession.getEntityId() != null) {
+            LOG.debug("id of created session: {}", mongoSession.getEntityId());
+            schoolSessionAssociation.getBody().put("sessionId", mongoSession.getEntityId());
+            super.doHandling(schoolSessionAssociation, errorReport, fileProcessStatus);
+        }       
+        
         return mongoSession;
     }
 }
