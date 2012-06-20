@@ -797,7 +797,7 @@ public class BasicService implements EntityService {
 
 
         if( EntityNames.TEACHER.equals(type) && toType.equals(EntityNames.STUDENT)) {
-            return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, principal.getEntity().getEntityId(), false);
+            return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false);
         }
 
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
