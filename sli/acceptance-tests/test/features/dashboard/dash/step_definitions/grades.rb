@@ -26,11 +26,11 @@ end
 Then /^the "([^"]*)" grade for "([^"]*)" is "([^"]*)"$/ do |gradePeriod, studentName, grade|
   attribute = ""
   if (gradePeriod == "current")
-    attribute = "FallSemester2011-2012"
+    attribute = "currentSession-0"
   elsif (gradePeriod == "last semester")
-    attribute = "SpringSemester2010-2011"
+    attribute = "previousSemester"
   elsif (gradePeriod == "2 semesters ago")
-    attribute = "FallSemester2010-2011"
+    attribute = "twoSemestersAgo"
   else
     puts "invalid grade period: " + gradePeriod
   end

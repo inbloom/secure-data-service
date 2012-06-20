@@ -76,8 +76,8 @@
         {name: "Lang.", field: "assessments.AP Language.x", width:100},
         {name: "Lit.", field: "assessments.AP Literature.x", width:100}]},
       {name: "Final Grades", items:[
-        {name: "Last Semester", field: "SpringSemester2010-2011", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
-        {name: "2 Semesters ago", field: "FallSemester2010-2011", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
+        {name: "Last Semester", field: "previousSemester", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
+        {name: "2 Semesters ago", field: "twoSemestersAgo", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
       {name: "Attendance", items:[
         {name: "Absence Count", field: "attendances.absenceCount", width: 60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
         {name: "Attendance Rate %", field: "attendances.attendanceRate", width: 75, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},
