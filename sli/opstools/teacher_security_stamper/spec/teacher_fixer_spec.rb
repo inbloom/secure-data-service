@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../teacher_fixer'
+require File.dirname(__FILE__) + '/../slc_fixer'
 
-describe TeacherFixer do
+describe SLCFixer do
   def insert_to_collection(collection, hash)
     new_hash = {:body => hash}
-    @db[collection].insert(new_hash)
+    collection.insert(new_hash)
   end
-  before(:all) do
+  before(:each) do
     conn = Mongo::Connection.new('localhost', 27017)
     @db = conn['test']
-    Object.send(:db, db)
+    @fixer = SLCFixer.new(@db)
   end
   describe "#fixing_students" do
     after(:each) do
@@ -22,11 +22,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          section_id = insert_to_collection @db['section'], {:name => "Section #{id}"}
+          section_id = insert_to_collection @db['section'], {:name => "Section #{i}"}
           insert_to_collection @db['teacherSectionAssociation'], {:sectionId => section_id, :teacherId => teacher_id}
-          insert_to_collection @db['studentSectionAssociation'], {:studentId => id, :sectionId => section_id}
+          insert_to_collection @db['studentSectionAssociation'], {:studentId => student_id, :sectionId => section_id}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
       
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -38,11 +38,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          section_id = insert_to_collection @db['section'], {:name => "Section #{id}"}
+          section_id = insert_to_collection @db['section'], {:name => "Section #{i}"}
           insert_to_collection @db['teacherSectionAssociation'], {:sectionId => section_id, :teacherId => teacher_id}
-          insert_to_collection @db['studentSectionAssociation'], {:studentId => id, :sectionId => section_id, :endDate => Date.today - 2001}
+          insert_to_collection @db['studentSectionAssociation'], {:studentId => student_id, :sectionId => section_id, :endDate => (Date.today - 2001).to_time.utc}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -54,11 +54,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          section_id = insert_to_collection @db['section'], {:name => "Section #{id}"}
-          insert_to_collection @db['teacherSectionAssociation'], {:sectionId => section_id, :teacherId => teacher_id, :endDate => Date.today - 2001}
-          insert_to_collection @db['studentSectionAssociation'], {:studentId => id, :sectionId => section_id}
+          section_id = insert_to_collection @db['section'], {:name => "Section #{i}"}
+          insert_to_collection @db['teacherSectionAssociation'], {:sectionId => section_id, :teacherId => teacher_id, :endDate => (Date.today - 2001).to_time.utc}
+          insert_to_collection @db['studentSectionAssociation'], {:studentId => student_id, :sectionId => section_id}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -72,11 +72,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['program'], {:name => "program #{id}"}
+          program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
           insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id]}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
       
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -88,11 +88,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['program'], {:name => "program #{id}"}
+          program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
           insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id]}
-          insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id], :endDate => Date.today - 2001}
+          insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -104,11 +104,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['program'], {:name => "program #{id}"}
-          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :endDate => Date.today - 2001}
+          program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
+          insert_to_collection @db['staffProgramAssociation'], {:programId => [program_id], :staffId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
           insert_to_collection @db['studentProgramAssociation'], {:programId => [program_id], :studentId => [teacher_id]}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -122,11 +122,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:body =>{:name => "Teacher"}}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['cohort'], {:name => "cohort #{id}"}
+          program_id = insert_to_collection @db['cohort'], {:name => "cohort #{i}"}
           insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id]}
           insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id]}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -138,11 +138,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['cohort'], {:name => "Cohort #{id}"}
+          program_id = insert_to_collection @db['cohort'], {:name => "Cohort #{i}"}
           insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id]}
-          insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id], :endDate => Date.today - 2001}
+          insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
@@ -154,11 +154,11 @@ describe TeacherFixer do
         teacher_id = insert_to_collection @db['staff'], {:name => "Teacher"}
         5.times do |i|
           student_id = insert_to_collection @db['student'], {:name => "Student #{i}"}
-          program_id = insert_to_collection @db['program'], {:name => "program #{id}"}
-          insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id], :endDate => Date.today - 2001}
+          program_id = insert_to_collection @db['program'], {:name => "program #{i}"}
+          insert_to_collection @db['staffCohortAssociation'], {:cohortId => [program_id], :staffId => [teacher_id], :endDate => (Date.today - 2001).to_time.utc}
           insert_to_collection @db['studentCohortAssociation'], {:cohortId => [program_id], :studentId => [teacher_id]}
         end
-        Object.send(:fix_students)
+        @fixer.stamp_students
 
         @db['student'].find.each do |student| 
           student.should include 'metaData'
