@@ -55,7 +55,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
                     stagedEntity.getCollectionNameAsStaged());
         } else {
             LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
-            workNotesForEntity = singleWorkNoteList(minTime, maxTime, 1L, stagedEntity, jobId);
+            workNotesForEntity = singleWorkNoteList(minTime, maxTime, numRecords, stagedEntity, jobId);
         }
         return workNotesForEntity;
     }
