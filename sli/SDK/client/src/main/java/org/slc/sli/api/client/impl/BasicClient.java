@@ -39,7 +39,7 @@ import org.slc.sli.api.client.util.URLBuilder;
  * 
  * @author asaarela
  */
-public final class BasicClient implements SLIClient {
+public class BasicClient implements SLIClient {
     
     private RESTClient restClient;
     private static Logger logger = Logger.getLogger("BasicClient");
