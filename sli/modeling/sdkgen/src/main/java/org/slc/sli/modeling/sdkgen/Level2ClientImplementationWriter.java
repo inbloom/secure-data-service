@@ -149,7 +149,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write("String " + method.getId());
         jsw.parenL();
         final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-        final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+        final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
         jsw.writeParams(jparams);
         jsw.parenR();
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
@@ -186,7 +186,7 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
         jsw.write("void " + method.getId());
         jsw.parenL();
         final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-        final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+        final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
         jsw.writeParams(jparams);
         jsw.parenR();
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);

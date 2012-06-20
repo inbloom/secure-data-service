@@ -6,10 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.namespace.QName;
-
 import org.apache.ws.commons.schema.XmlSchema;
-import org.apache.ws.commons.schema.XmlSchemaElement;
 
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
@@ -18,10 +15,8 @@ import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Include;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Param;
-import org.slc.sli.modeling.rest.Representation;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
-import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
@@ -77,13 +72,12 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
 
-        // We're going to need to be able to analyze the request and response types.
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
         jsw.writeComment(method.getId());
         jsw.beginStmt();
         try {
-            final JavaType responseType = getJavaType(method, grammars);
+            final JavaType responseType = getResponseJavaType(method, grammars);
             jsw.writeType(responseType).space().write(method.getId());
             jsw.parenL();
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
@@ -97,48 +91,76 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         }
     }
 
-    protected JavaType getJavaType(final Method method, final SdkGenGrammars grammars) {
-        final List<Response> responses = method.getResponses();
-        for (final Response response : responses) {
-            try {
-                final List<Representation> representations = response.getRepresentations();
-                for (final Representation representation : representations) {
-                    representation.getMediaType();
-                    final QName elementName = representation.getElement();
-                    final XmlSchemaElement element = grammars.getElement(elementName);
-                    if (element != null) {
-                        final Stack<QName> elementNames = new Stack<QName>();
-                        return Level3ClientJavaHelper.showElement(element, elementNames);
-                    } else {
-                        // FIXME: We need to resolve these issues...
-                        // System.out.println(elementName +
-                        // " cannot be resolved as a schema element name.");
-                    }
-                }
-            } finally {
-            }
-        }
-        return JavaType.JT_OBJECT;
-    }
-
     @Override
     protected void writePOST(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
+
+        final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
+
+        jsw.writeComment(method.getId());
+        jsw.beginStmt();
+        try {
+            // The return type is a string because we return the identifier of the posted resource.
+            jsw.writeType(JavaType.JT_STRING).space().write(method.getId());
+            jsw.parenL();
+            final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final JavaType requestType = getRequestJavaType(method, grammars);
+            final JavaParam requestParam = new JavaParam("entity", requestType, true);
+            final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
+            jsw.writeParams(jparams);
+            jsw.parenR();
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+        } finally {
+            jsw.endStmt();
+        }
     }
 
     @Override
     protected void writePUT(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
+
+        final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
+
+        jsw.writeComment(method.getId());
+        jsw.beginStmt();
+        try {
+            jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
+            jsw.parenL();
+            final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+            final JavaType requestType = getRequestJavaType(method, grammars);
+            final JavaParam requestParam = new JavaParam("entity", requestType, true);
+            final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
+            jsw.writeParams(jparams);
+            jsw.parenR();
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+        } finally {
+            jsw.endStmt();
+        }
     }
 
     @Override
     protected void writeDELETE(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
+        jsw.writeComment(method.getId());
+        jsw.beginStmt();
+        try {
+            jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
+            jsw.parenL();
+            final List<JavaParam> params = new LinkedList<JavaParam>();
+            params.add(PARAM_TOKEN);
+            params.add(PARAM_ENTITY_ID);
+            jsw.writeParams(params);
+            jsw.parenR();
+            jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
+        } finally {
+            jsw.endStmt();
+        }
     }
 
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        // Ignore.
     }
 
     @Override
@@ -153,5 +175,6 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     @Override
     public void endResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
+        // Ignore.
     }
 }

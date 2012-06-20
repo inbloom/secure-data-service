@@ -1,4 +1,4 @@
-package org.slc.sli.shtick.test;
+package org.slc.sli.shtick.samples;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import org.slc.sli.shtick.pojomanual.StudentManual;
  * @author chung
  */
 @SuppressWarnings("serial")
-public class CrudConsistencyTestServlet extends HttpServlet {
+public class CrudConsistencySampleServlet extends HttpServlet {
 
     StandardLevel3ClientManual client;
 
@@ -35,12 +35,12 @@ public class CrudConsistencyTestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        client = new StandardLevel3ClientManual(TestConstants.API_URL);
+        client = new StandardLevel3ClientManual(SampleConstants.API_URL);
 
         String testResult = "";
         String testType = req.getParameter("testType");
         if (testType == null) {
-            testResult = TestResultConstants.PARAMETER_TEST_TYPE_ERROR;
+            testResult = SampleLiterals.PARAMETER_TEST_TYPE_ERROR;
         } else if (testType.equals("create")) {
             testResult = testCreate();
         } else if (testType.equals("read")) {
@@ -52,7 +52,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         } else if (testType.equals("assoc-crud")) {
             testResult = testAssociationCrud();
         } else {
-            testResult = String.format(TestResultConstants.UNKNOWN_TEST_TYPE_ERROR, testType);
+            testResult = String.format(SampleLiterals.UNKNOWN_TEST_TYPE_ERROR, testType);
         }
 
         req.setAttribute("testResult", testResult);
@@ -94,17 +94,17 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         // }
 
-        return TestResultConstants.PASSED;
+        return SampleLiterals.PASSED;
     }
 
     private String testRead() {
         List<String> idList = new ArrayList<String>();
-        idList.add(TestConstants.MARVIN_MILLER_ID);
+        idList.add(SampleConstants.MARVIN_MILLER_ID);
         try {
-            List<StudentManual> students = client.getStudentsById(TestConstants.RICK_ROGERS_TOKEN, idList,
+            List<StudentManual> students = client.getStudentsById(SampleConstants.RICK_ROGERS_TOKEN, idList,
                     Collections.<String, Object> emptyMap());
             if (students.size() != 1) {
-                return String.format(TestResultConstants.ERROR_GENERIC,
+                return String.format(SampleLiterals.ERROR_GENERIC,
                         String.format("received %s student record(s)", students.size()));
             } else {
                 StudentManual student = students.get(0);
@@ -112,15 +112,15 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 NameManual name = student.getName();
                 if (!name.getFirstName().getValue().equals("Marvin")) {
                     errorMsg = errorMsg
-                            + String.format(TestResultConstants.ERROR_GENERIC, "First name does not match.\n");
+                            + String.format(SampleLiterals.ERROR_GENERIC, "First name does not match.\n");
                 }
                 if (!name.getLastSurname().getValue().equals("Miller")) {
                     errorMsg = errorMsg
-                            + String.format(TestResultConstants.ERROR_GENERIC, "Last name does not match.\n");
+                            + String.format(SampleLiterals.ERROR_GENERIC, "Last name does not match.\n");
                 }
                 SexType sexType = student.getSex();
                 if (!sexType.getName().equals("Male")) {
-                    errorMsg = errorMsg + String.format(TestResultConstants.ERROR_GENERIC, "Sex does not match.\n");
+                    errorMsg = errorMsg + String.format(SampleLiterals.ERROR_GENERIC, "Sex does not match.\n");
                 }
                 // we can check more fields here if we wish
                 if (!errorMsg.isEmpty()) {
@@ -128,17 +128,17 @@ public class CrudConsistencyTestServlet extends HttpServlet {
                 }
             }
 
-            students = client.getStudents(TestConstants.RICK_ROGERS_TOKEN, Collections.<String, Object> emptyMap());
+            students = client.getStudents(SampleConstants.RICK_ROGERS_TOKEN, Collections.<String, Object> emptyMap());
             if (students.size() != rrogersAccessibleStudentsCount) {
-                return String.format(TestResultConstants.ERROR_GENERIC,
+                return String.format(SampleLiterals.ERROR_GENERIC,
                         String.format("received %s student record(s)", students.size()));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
+            return String.format(SampleLiterals.EXCEPTION_GENERIC, e.toString());
         }
 
-        return TestResultConstants.PASSED;
+        return SampleLiterals.PASSED;
     }
 
     private String testUpdate() {
@@ -177,7 +177,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         // }
 
-        return TestResultConstants.PASSED;
+        return SampleLiterals.PASSED;
     }
 
     private String testDelete() {
@@ -204,7 +204,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         // }
 
-        return TestResultConstants.PASSED;
+        return SampleLiterals.PASSED;
     }
 
     private String testAssociationCrud() {
@@ -279,7 +279,7 @@ public class CrudConsistencyTestServlet extends HttpServlet {
         // return String.format(TestResultConstants.EXCEPTION_GENERIC, e.toString());
         // }
 
-        return TestResultConstants.PASSED;
+        return SampleLiterals.PASSED;
     }
 
     @SuppressWarnings("unused")

@@ -34,19 +34,4 @@ public final class Level2ClientJavaHelper {
         javaParams.add(new JavaParam("queryArgs", JT_MAP_STRING_TO_OBJECT, true));
         return Collections.unmodifiableList(javaParams);
     }
-
-    public static final List<JavaParam> computeParams(final JavaParam token, final List<Param> params,
-            final JavaParam entity) {
-        final List<JavaParam> javaParams = new LinkedList<JavaParam>();
-        javaParams.add(token);
-        for (final Param param : params) {
-            if (param.getStyle() == ParamStyle.TEMPLATE) {
-                final QName type = param.getType();
-                final JavaType javaType = GenericJavaHelper.getJavaType(type);
-                javaParams.add(new JavaParam(param.getName(), javaType, true));
-            }
-        }
-        javaParams.add(entity);
-        return Collections.unmodifiableList(javaParams);
-    }
 }

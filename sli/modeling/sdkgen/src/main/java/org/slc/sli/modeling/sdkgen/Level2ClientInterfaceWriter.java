@@ -5,20 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.namespace.QName;
-
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
+import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Param;
-import org.slc.sli.modeling.rest.Representation;
-import org.slc.sli.modeling.rest.Request;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
-import org.slc.sli.modeling.rest.Response;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
-import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
 /**
  * Writes the implementation for the Level 2 Client SDK.
@@ -80,36 +75,13 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         jsw.writeComment(method.getId());
         jsw.beginStmt();
         try {
-            jsw.write("String " + method.getId());
+            jsw.writeType(JavaType.JT_STRING).space().write(method.getId());
             jsw.parenL();
             final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+            final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
             jsw.writeParams(jparams);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
-            @SuppressWarnings("unused")
-            // Perhaps modify this method to generate a different naming scheme?
-            final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
-
-            final Request request = method.getRequest();
-            if (request != null) {
-                for (@SuppressWarnings("unused")
-                final Param param : request.getParams()) {
-
-                }
-            }
-
-            final List<Response> responses = method.getResponses();
-            for (final Response response : responses) {
-                try {
-                    final List<Representation> representations = response.getRepresentations();
-                    for (final Representation representation : representations) {
-                        @SuppressWarnings("unused")
-                        final QName elementName = representation.getElement();
-                    }
-                } finally {
-                }
-            }
         } finally {
             jsw.endStmt();
         }
@@ -121,36 +93,13 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         jsw.writeComment(method.getId());
         jsw.beginStmt();
         try {
-            jsw.write("void " + method.getId());
+            jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
             jsw.parenL();
             final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            final List<JavaParam> jparams = Level2ClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
+            final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, PARAM_ENTITY);
             jsw.writeParams(jparams);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
-            @SuppressWarnings("unused")
-            // Perhaps modify this method to generate a different naming scheme?
-            final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
-
-            final Request request = method.getRequest();
-            if (request != null) {
-                for (@SuppressWarnings("unused")
-                final Param param : request.getParams()) {
-
-                }
-            }
-
-            final List<Response> responses = method.getResponses();
-            for (final Response response : responses) {
-                try {
-                    final List<Representation> representations = response.getRepresentations();
-                    for (final Representation representation : representations) {
-                        @SuppressWarnings("unused")
-                        final QName elementName = representation.getElement();
-                    }
-                } finally {
-                }
-            }
         } finally {
             jsw.endStmt();
         }
@@ -162,7 +111,7 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
         jsw.writeComment(method.getId());
         jsw.beginStmt();
         try {
-            jsw.write("void " + method.getId());
+            jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
             jsw.parenL();
             final List<JavaParam> params = new LinkedList<JavaParam>();
             params.add(PARAM_TOKEN);
@@ -170,29 +119,6 @@ public final class Level2ClientInterfaceWriter extends Level2ClientWriter {
             jsw.writeParams(params);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
-            @SuppressWarnings("unused")
-            // Perhaps modify this method to generate a different naming scheme?
-            final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
-
-            final Request request = method.getRequest();
-            if (request != null) {
-                for (@SuppressWarnings("unused")
-                final Param param : request.getParams()) {
-
-                }
-            }
-
-            final List<Response> responses = method.getResponses();
-            for (final Response response : responses) {
-                try {
-                    final List<Representation> representations = response.getRepresentations();
-                    for (final Representation representation : representations) {
-                        @SuppressWarnings("unused")
-                        final QName elementName = representation.getElement();
-                    }
-                } finally {
-                }
-            }
         } finally {
             jsw.endStmt();
         }
