@@ -55,7 +55,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
         Repository<Entity> repoNull = Mockito.mock(Repository.class);
 
@@ -117,7 +117,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -160,7 +160,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -227,7 +227,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -306,7 +306,7 @@ public class IdNormalizationTest {
         expectedEntityList.add(expectedEntity2);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         //mock the repo query note this doesn't test whether the query was constructed correctly
@@ -368,7 +368,7 @@ public class IdNormalizationTest {
         ErrorReport errorReport = new TestErrorReport();
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
 
         idNorm.setEntityRepository(repo);
         idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
@@ -395,7 +395,7 @@ public class IdNormalizationTest {
         ErrorReport errorReport = new TestErrorReport();
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
 
         idNorm.setEntityRepository(repo);
         idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
@@ -422,7 +422,7 @@ public class IdNormalizationTest {
         ErrorReport errorReport = new TestErrorReport();
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
 
         idNorm.setEntityRepository(repo);
         idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
@@ -448,7 +448,7 @@ public class IdNormalizationTest {
         ErrorReport errorReport = new TestErrorReport();
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
 
         idNorm.setEntityRepository(repo);
         idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
@@ -467,10 +467,9 @@ public class IdNormalizationTest {
             jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef.json");
         }
         EntityConfig entityConfig = null;
-
         try {
             entityConfig = EntityConfig.parse(jsonFile.getInputStream());
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -364,7 +363,6 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            e.printStackTrace();
             LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collection + " unresolved";
@@ -511,8 +509,7 @@ public class IdNormalizer {
     }
 
 
-    private boolean isEmptyRef(Entity entity, Ref refConfig)
-            throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private boolean isEmptyRef(Entity entity, Ref refConfig) {
         for (List<Field> fields : refConfig.getChoiceOfFields()) {
             for (Field field : fields) {
                 for (FieldValue fv : field.getValues()) {
@@ -526,7 +523,8 @@ public class IdNormalizer {
                         try {
                             entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                         } catch (Exception e) {
-                            //do nothing?
+                            //exceptions here indicate that the something in valueSourcePath does not exist
+                            continue;
                         }
                         if (entityValue != null) {
                             return false;
