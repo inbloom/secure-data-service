@@ -12,13 +12,13 @@ Background:
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And in an entity, I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations/<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
@@ -64,13 +64,13 @@ Scenario: Traverse from parent education organization through child education or
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And in an entity, I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations/<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
