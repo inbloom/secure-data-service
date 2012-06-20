@@ -31,7 +31,9 @@ public class MetaDataTreatment implements Treatment {
 
     @Override
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
-        stored.put(METADATA, entity.getMetaData());
+        if(stored.get("entityType").equals("roles")) {
+            stored.put(METADATA, entity.getMetaData());
+        }
         
         return stored;
     }
