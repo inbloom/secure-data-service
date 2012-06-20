@@ -795,6 +795,11 @@ public class BasicService implements EntityService {
             return new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, AllowAllEntityContextResolver.SUPER_LIST);
         }
 
+
+        if( EntityNames.TEACHER.equals(type) && toType.equals(EntityNames.STUDENT)) {
+            return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, principal.getEntity().getEntityId(), false);
+        }
+
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
