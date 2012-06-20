@@ -17,7 +17,6 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -45,7 +44,7 @@ public class ControlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-    
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -155,14 +154,14 @@ public class ControlFileProcessor implements Processor {
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
-        
+
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
             LOG.debug("Matched @dry-run tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         } else {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
-        
+
         if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
             LOG.debug("Matched @no-id-ref tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
@@ -172,7 +171,7 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 
 /**
  *
@@ -52,7 +51,7 @@ public class AggregationPostProcessor implements Processor {
             LOG.info("Processing pool is now empty, continue out of orchestra routes.");
 
             exchange.getIn().setHeader("processedAllStagedEntities", true);
-            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(jobId);
+            WorkNote workNote = WorkNote.createSimpleWorkNote(jobId);
             exchange.getIn().setBody(workNote);
         }
     }
