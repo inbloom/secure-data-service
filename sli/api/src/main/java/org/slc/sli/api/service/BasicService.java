@@ -804,6 +804,8 @@ public class BasicService implements EntityService {
         }
 
         NeutralCriteria securityCriteria = new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false);
+        // if principal is teacher
+        // add criteria metaData.teacherStamp in myId
 
         return securityCriteria;
     }
