@@ -70,7 +70,7 @@ class SLCFixer
         teacherIds = teacherIds.flatten.uniq
         @studentId_to_teachers[studentId] = teacherIds
 
-        @db['student'].update({'_id' => studentId, 'metaData.tenantId' => tenantId}, 
+        @db['student'].update({'_id' => studentId, 'metaData.tenantId' => tenantId},
                               {'$set' => {'metaData.teacherContext' => teacherIds}})
       }
     }
@@ -91,8 +91,8 @@ class SLCFixer
                                          ]}, @basic_options) { |tsa_cursor|
           tsa_cursor.each { |tsa|
             teachers.push tsa['body']['teacherId']
-          }         
-        }         
+          }
+        }
       }
     }
     #@log.debug "section teachers for #{studentId}: #{teachers.to_s}"
@@ -101,9 +101,9 @@ class SLCFixer
 
   def find_teachers_for_student_through_cohort(studentId)
     teachers = []
-    @db['studentCohortAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=> 
+    @db['studentCohortAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=>
                                          [
-                                           {'body.endDate'=> {'$exists'=> false}}, 
+                                           {'body.endDate'=> {'$exists'=> false}},
                                            {'body.endDate'=> {'$gte'=> @current_date}}
                                          ]}, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
@@ -111,7 +111,7 @@ class SLCFixer
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
         @db['staffCohortAssociation'].find({'body.cohortId'=> stu_assoc['body']['cohortId'], 'body.studentRecordAccess'=> true, '$or'=>
                                          [
-                                           {'body.endDate'=> {'$exists'=> false}}, 
+                                           {'body.endDate'=> {'$exists'=> false}},
                                            {'body.endDate'=> {'$gte'=> @current_date}}
                                          ]}, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
@@ -132,9 +132,9 @@ class SLCFixer
 
   def find_teachers_for_student_through_program(studentId)
     teachers = []
-    @db['studentProgramAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=> 
+    @db['studentProgramAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=>
                                          [
-                                           {'body.endDate'=> {'$exists'=> false}}, 
+                                           {'body.endDate'=> {'$exists'=> false}},
                                            {'body.endDate'=> {'$gte'=> @current_date}}
                                          ]}, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
@@ -142,7 +142,7 @@ class SLCFixer
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
         @db['staffProgramAssociation'].find({'body.programId'=> stu_assoc['body']['programId'], 'body.studentRecordAccess'=> true, '$or'=>
                                          [
-                                           {'body.endDate'=> {'$exists'=> false}}, 
+                                           {'body.endDate'=> {'$exists'=> false}},
                                            {'body.endDate'=> {'$gte'=> @current_date}}
                                          ]}, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
@@ -166,7 +166,7 @@ class SLCFixer
 #    @log.info "Finding directly referenced teacherSectionAssociations and sections"
 #    @db['teacherSectionAssociation'].find({}, {fields: ['_id', 'body.teacherId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
 #      cursor.each { |assoc|
-#         @db['teacherSectionAssociation'].update({"_id" => assoc['_id'], 'metaData.tenantId' => assoc['metaData']['tenantId']}, 
+#         @db['teacherSectionAssociation'].update({"_id" => assoc['_id'], 'metaData.tenantId' => assoc['metaData']['tenantId']},
 #                                                 {"$set" => {"metaData.teacherContext" => [assoc['body']['teacherId']]}})
 #      }
 #    }
@@ -174,12 +174,24 @@ class SLCFixer
 
   def stamp_cohorts
     @log.info "Stamping cohorts and associations"
-    @db['studentCohortAssociation'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+
+    cohort_to_teachers = {}
+    cohort_to_tenant = {}
+
+    @db['studentCohortAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.cohortId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        #@log.debug "studentCohortAssociation #{assoc['_id']} teacherContext #{teachers.to_s}" 
         @db['studentCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        #@log.debug "studentCohortAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
+        cohort_id = assoc['body']['cohortId']
+        cohort_to_tenant[cohort_id] ||= assoc['body']['tenant']
+        cohort_to_teachers[cohort_id] ||= []
+        cohort_to_teachers[cohort_id] += teachers
       }
+    }
+
+    cohort_to_teachers.each { |cohort, teachers|
+      @db['cohort'].update({'_id'=> cohort, 'metaData.tenantId'=> cohort_to_tenant[cohort]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
