@@ -1,0 +1,12 @@
+{
+    "collection": "attendance_transformed",
+    "indexFields":
+    [
+        {"name" : "body.studentId", "order" : "1"},
+        {"name" : "body.schoolId", "order" : "1"}
+    ],
+    "options":
+    {
+        "unique" : "true"
+    }
+}

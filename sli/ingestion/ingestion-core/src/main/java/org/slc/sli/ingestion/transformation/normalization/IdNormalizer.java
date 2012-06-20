@@ -4,34 +4,392 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Internal ID resolver.
- *
+ * 
+ * 
+ * 
  * @author okrook
- *
+ * 
  */
+
+@Component
 public class IdNormalizer {
     private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
-
+    
     private static final String METADATA_BLOCK = "metaData";
-
+    
+    private static final String CACHE_NAMESPACE = "newId";
+    
+    @Autowired
+    @Qualifier(value = "mongoEntityRepository")
     private Repository<Entity> entityRepository;
+
+    @Autowired
+    private CacheProvider cacheProvider;
+    
+    @Autowired
+    private EntityConfigFactory entityConfigurations;
+    
+    public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
+        
+        if (entityConfig == null) {
+            LOG.warn("Entity configuration is null --> returning...");
+            return;
+        }
+        
+        if (entityConfig.getReferences() == null) {
+            LOG.warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            resolveSubEntities(entity, tenantId, entityConfig, errorReport);
+            return;
+        }
+        
+        String resolvedReferences = "";
+        String collectionName = null;
+        
+        try {
+            for (RefDef reference : entityConfig.getReferences()) {
+                
+                int numRefInstances = getNumRefInstances(entity, reference.getRef());
+                collectionName = reference.getRef().getCollectionName();
+                
+                resolvedReferences += "       collectionName = " + collectionName;
+                
+                for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
+                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        for (Field field : fields) {
+                            for (FieldValue fv : field.getValues()) {
+                                if (fv.getRef() == null) {
+                                    String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
+                                            reference.getRef(), refIndex);
+                                    try {
+                                        Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                        if (entityValue != null) {
+                                            if (!(entityValue instanceof Collection)) {
+                                                resolvedReferences += ", value = " + entityValue.toString() + "\n";
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        if (!reference.getRef().isOptional()) {
+                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                                    + " for bean " + entity.getType());
+                                            String errorMessage = "ERROR: Failed to resolve a reference"
+                                                    + "\n"
+                                                    + "       Entity "
+                                                    + entity.getType()
+                                                    + ": Reference to "
+                                                    + collectionName
+                                                    + " is incomplete because the following reference field is not resolved: "
+                                                    + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+                                            
+                                            errorReport.error(errorMessage, this);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                String fieldPath = reference.getFieldPath();
+                
+                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
+                        errorReport);
+                
+                if (ids == null || ids.size() == 0) {
+                    if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
+                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
+                                + collectionName);
+                        String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
+                                + entity.getType() + ": Missing reference to " + collectionName;
+                        
+                        errorReport.error(errorMessage, this);
+                    }
+                    continue;
+                }
+                
+                if (ids.size() != numRefInstances) {
+                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
+                            + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
+                    String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
+                            + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
+                            + ids.size() + " references to " + collectionName;
+                    
+                    errorReport.error(errorMessage, this);
+                }
+                
+                if (errorReport.hasErrors()) {
+                    continue;
+                }
+                
+                if (reference.getRef().isRefList()) {
+                    // for lists of references set the properties on each element of the
+                    // resolved ID list
+                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
+                        PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
+                    }
+                } else {
+                    PropertyUtils.setProperty(entity, reference.getFieldPath(), ids.get(0));
+                }
+                
+            }
+        } catch (Exception e) {
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                        + resolvedReferences;
+            }
+            
+            errorReport.error(errorMessage, this);
+        }
+        resolveSubEntities(entity, tenantId, entityConfig, errorReport);
+    }
+    
+    private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
+        Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
+        if (subEntityConfigs != null) {
+            LOG.info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
+            for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
+                String pathString = entry.getKey();
+                boolean optional = pathString.endsWith("?");
+                String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
+                EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
+                LOG.info("Checking sub-entity: {} [optional: {}]", pathString, optional);
+                try {
+                    Object subEntityObject = PropertyUtils.getProperty(entity, path);
+                    if (subEntityObject == null) {
+                        if (optional) {
+                            continue;
+                        } else {
+                            errorReport.error("Unable to find property " + path, this);
+                        }
+                    }
+                    if (subEntityObject instanceof List) {
+                        LOG.info("Resolving list of sub-entities.");
+                        for (Object subEntityInstance : (List<?>) subEntityObject) {
+                            resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
+                        }
+                    } else {
+                        LOG.info("Resolving single sub-entity.");
+                        resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
+                    }
+                } catch (Exception e) {
+                    LOG.error("Error parsing " + entity, e);
+                }
+            }
+        } else {
+            LOG.info("Entity: {} does not have any sub-entities.", entity.getType());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected void resolveSubEntity(String tenantId, ErrorReport errorReport, EntityConfig subEntityConfig,
+            Object subEntityInstance) {
+        try {
+            NeutralRecord nr = new NeutralRecord();
+            nr.setAttributes((Map<String, Object>) subEntityInstance);
+            Entity subEntity = new NeutralRecordEntity(nr);
+            resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
+        } catch (ClassCastException e) {
+            LOG.error("error resolving " + subEntityInstance, e);
+        }
+    }
+    
+    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+            ErrorReport errorReport, String resolvedReferences) {
+        LOG.debug("resolving id for {}", entity.getType());
+        List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
+        
+        if (ids.size() == 0) {
+            
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + refConfig.getCollectionName() + " unresolved" + "\n";
+            
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                        + resolvedReferences;
+            }
+            
+            errorReport.error(errorMessage, this);
+            
+            return null;
+        }
+        
+        return ids.get(0);
+    }
+    
+    /**
+     * Recursively resolves SLI internal id's.
+     * 
+     * @param entity
+     *            entity to have id's embedded on.
+     * @param tenantId
+     *            tenant of the entity.
+     * @param refConfig
+     *            reference configuration (json).
+     * @param fieldPath
+     *            field to be resolved.
+     * @param errorReport
+     *            error reporting.
+     * @return list of strings representing resolved id's.
+     */
+    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+            ErrorReport errorReport) {
+        int numRefInstances = 1;
+        try {
+            numRefInstances = getNumRefInstances(entity, refConfig);
+        } catch (Exception e) {
+            errorReport.error("Failed to get number of reference instances", this);
+        }
+        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport);
+    }
+    
+    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
+            String fieldPath, ErrorReport errorReport) {
+        
+        ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
+        
+        ArrayList<Query> queryOrList = new ArrayList<Query>();
+        String collection = refConfig.getCollectionName();
+        
+        try {
+            // if the reference is a list of references loop over all elements adding an 'or' query
+            // statement for each
+            for (List<Field> fields : refConfig.getChoiceOfFields()) {
+                
+                for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                    
+                    Query choice = new Query();
+                    
+                    choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                            tenantId));
+                    int criteriaCount = 0;
+                    
+                    for (Field field : fields) {
+                        List<Object> filterValues = new ArrayList<Object>();
+                        
+                        for (FieldValue fv : field.getValues()) {
+                            if (fv.getRef() != null) {
+                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
+                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                if (resolvedIds != null && resolvedIds.size() > 0) {
+                                    filterValues.addAll(resolvedIds);
+                                }
+                            } else {
+                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
+                                        refIndex);
+                                try {
+                                    Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                    
+                                    if (entityValue != null) {
+                                        if (entityValue instanceof Collection) {
+                                            Collection<?> entityValues = (Collection<?>) entityValue;
+                                            filterValues.addAll(entityValues);
+                                        } else if (entityValue != null) {
+                                            filterValues.add(entityValue);
+                                        }
+                                    }
+                                    
+                                } catch (Exception e) {
+                                    if (!refConfig.isOptional()) {
+                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                                + " for bean " + entity.getType(), e);
+                                        String errorMessage = "ERROR: Failed to resolve a reference"
+                                                + "\n"
+                                                + "       Entity "
+                                                + entity.getType()
+                                                + ": Reference to "
+                                                + collection
+                                                + " is incomplete because the following reference field is not resolved: "
+                                                + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
+                                        
+                                        errorReport.error(errorMessage, this);
+                                    }
+                                }
+                            }
+                        }
+                        if (filterValues.size() > 0) {
+                            LOG.debug("adding criteria for {}", field.getPath());
+                            choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
+                            criteriaCount++;
+                        }
+                    }
+                    if (criteriaCount > 0) {
+                        queryOrList.add(choice);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (refConfig.isOptional()) {
+                return new ArrayList<String>();
+            }
+            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
+                    + ": Reference to " + collection + " unresolved";
+            
+            proxyErrorReport.error(errorMessage, this);
+        }
+        
+        if (proxyErrorReport.hasErrors() || queryOrList.size() == 0) {
+            return null;
+        }
+        
+        // combine the queries with or (must be done this way because Query.or overrides itself)
+        Query filter = new Query();
+        filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
+        
+        if (collection.equals("stateEducationAgency") || collection.equals("localEducationAgency")
+                || collection.equals("school")) {
+            collection = "educationOrganization";
+        } else if (collection.equals("teacher")) {
+            collection = "staff";
+        }
+        
+        List<String> ids = checkInCache(collection, tenantId, filter);
+        
+        if (CollectionUtils.isEmpty(ids)) {
+            @SuppressWarnings("deprecation")
+            Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
+            
+            if (foundRecords != null && foundRecords.iterator().hasNext()) {
+                for (Entity record : foundRecords) {
+                    ids.add(record.getEntityId());
+                }
+            }
+            
+            cache(ids, collection, tenantId, filter);
+        }
+        return ids;
+    }
 
     /**
      * Resolves a reference represented by an array of complex objects, which
@@ -109,286 +467,57 @@ public class IdNormalizer {
         }
 
     }
-
-    public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
-
-        if (entityConfig.getReferences() == null) {
-            return;
-        }
-
-        String resolvedReferences = "";
-        String collectionName = null;
-
-        try {
-            for (RefDef reference : entityConfig.getReferences()) {
-
-                int numRefInstances = getNumRefInstances(entity, reference.getRef());
-                collectionName = reference.getRef().getCollectionName();
-
-                resolvedReferences += "       collectionName = " + collectionName;
-
-                for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
-                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                        for (Field field : fields) {
-                            for (FieldValue fv : field.getValues()) {
-                                if (fv.getRef() == null) {
-                                    String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
-                                            reference.getRef(), refIndex);
-                                    try {
-                                        Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                        if (entityValue != null) {
-                                            if (!(entityValue instanceof Collection)) {
-                                                resolvedReferences += ", value = " + entityValue.toString() + "\n";
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        if (!reference.getRef().isOptional()) {
-                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                    + " for bean " + entity.getType());
-                                            String errorMessage = "ERROR: Failed to resolve a reference"
-                                                    + "\n"
-                                                    + "       Entity "
-                                                    + entity.getType()
-                                                    + ": Reference to "
-                                                    + collectionName
-                                                    + " is incomplete because the following reference field is not resolved: "
-                                                    + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
-
-                                            errorReport.error(errorMessage, this);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                String fieldPath = reference.getFieldPath();
-
-                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
-                        errorReport);
-
-                if (ids == null || ids.size() == 0) {
-                    if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
-                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
-                                + collectionName);
-                        String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
-                                + entity.getType() + ": Missing reference to " + collectionName;
-
-                        errorReport.error(errorMessage, this);
-                    }
-                    continue;
-                }
-
-                if (ids.size() != numRefInstances) {
-                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
-                            + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
-                    String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
-                            + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
-                            + ids.size() + " references to " + collectionName;
-
-                    errorReport.error(errorMessage, this);
-                }
-
-                if (errorReport.hasErrors()) {
-                    continue;
-                }
-
-                if (reference.getRef().isRefList()) {
-                    // for lists of references set the properties on each element of the resolved ID
-                    // list
-                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                        String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
-                        PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
-                    }
-                } else {
-                    PropertyUtils.setProperty(entity, reference.getFieldPath(), ids.get(0));
-                }
-
-            }
-        } catch (Exception e) {
-            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
-            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
-                    + ": Reference to " + collectionName + " cannot be resolved" + "\n";
-            if (resolvedReferences != null && !resolvedReferences.equals("")) {
-                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
-                        + resolvedReferences;
-            }
-
-            errorReport.error(errorMessage, this);
-        }
+    
+    private void cache(List<String> ids, String collection, String tenantId, Query filter) {
+        String key = composeKey(collection, tenantId, filter);
+        
+        cacheProvider.add(key, ids);
+        
     }
-
-    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
-            ErrorReport errorReport, String resolvedReferences) {
-        LOG.debug("resolving id for {}", entity.getType());
-        List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
-
-        if (ids.size() == 0) {
-
-            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
-                    + ": Reference to " + refConfig.getCollectionName() + " unresolved" + "\n";
-
-            if (resolvedReferences != null && !resolvedReferences.equals("")) {
-                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
-                        + resolvedReferences;
-            }
-
-            errorReport.error(errorMessage, this);
-
-            return null;
-        }
-
-        return ids.get(0);
-    }
-
+    
     /**
-     * Recursively resolves SLI internal id's.
-     *
-     * @param entity
-     *            entity to have id's embedded on.
-     * @param tenantId
-     *            tenant of the entity.
-     * @param refConfig
-     *            reference configuration (json).
-     * @param fieldPath
-     *            field to be resolved.
-     * @param errorReport
-     *            error reporting.
-     * @return list of strings representing resolved id's.
+     * Check for this in the cache
+     * 
+     * @param collection
+     * @param filter
+     * @return
      */
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
-            ErrorReport errorReport) {
-        int numRefInstances = 1;
-        try {
-            numRefInstances = getNumRefInstances(entity, refConfig);
-        } catch (Exception e) {
-            errorReport.error("Failed to get number of reference instances", this);
+    @SuppressWarnings("unchecked")
+    private List<String> checkInCache(String collection, String tenantId, Query filter) {
+        List<String> ids;
+        String key = composeKey(collection, tenantId, filter);
+        Object val = cacheProvider.get(key);
+        
+        if (val == null) {
+            ids = new ArrayList<String>();
+            
+        } else {
+            ids = (List<String>) val;
         }
-        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport);
-    }
-
-    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
-            String fieldPath, ErrorReport errorReport) {
-
-        ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
-
-        ArrayList<Query> queryOrList = new ArrayList<Query>();
-        String collection = refConfig.getCollectionName();
-
-        try {
-            // if the reference is a list of references loop over all elements adding an 'or' query
-            // statement for each
-            for (List<Field> fields : refConfig.getChoiceOfFields()) {
-
-                for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-
-                    Query choice = new Query();
-
-                    choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                            tenantId));
-                    int criteriaCount = 0;
-
-                    for (Field field : fields) {
-                        List<Object> filterValues = new ArrayList<Object>();
-
-                        for (FieldValue fv : field.getValues()) {
-                            if (fv.getRef() != null) {
-                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
-                                if (resolvedIds != null && resolvedIds.size() > 0) {
-                                    filterValues.addAll(resolvedIds);
-                                }
-                            } else {
-                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
-                                        refIndex);
-                                try {
-                                    Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-
-                                    if (entityValue != null) {
-                                        if (entityValue instanceof Collection) {
-                                            Collection<?> entityValues = (Collection<?>) entityValue;
-                                            filterValues.addAll(entityValues);
-                                        } else if (entityValue != null) {
-                                            filterValues.add(entityValue);
-                                        }
-                                    }
-
-                                } catch (Exception e) {
-                                    if (!refConfig.isOptional()) {
-                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
-                                                + " for bean " + entity.getType());
-                                        String errorMessage = "ERROR: Failed to resolve a reference"
-                                                + "\n"
-                                                + "       Entity "
-                                                + entity.getType()
-                                                + ": Reference to "
-                                                + collection
-                                                + " is incomplete because the following reference field is not resolved: "
-                                                + valueSourcePath.substring(valueSourcePath.lastIndexOf('.') + 1);
-
-                                        errorReport.error(errorMessage, this);
-                                    }
-                                }
-                            }
-                        }
-                        if (filterValues.size() > 0) {
-                            LOG.debug("adding criteria for {}", field.getPath());
-                            choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
-                            criteriaCount++;
-                        }
-                    }
-                    if (criteriaCount > 0) {
-                        queryOrList.add(choice);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (refConfig.isOptional()) {
-                return new ArrayList<String>();
-            }
-            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
-            String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
-                    + ": Reference to " + collection + " unresolved";
-
-            proxyErrorReport.error(errorMessage, this);
-        }
-
-        if (proxyErrorReport.hasErrors() || queryOrList.size() == 0) {
-            return null;
-        }
-
-        // combine the queries with or (must be done this way because Query.or overrides itself)
-        Query filter = new Query();
-        filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-
-        if (collection.equals("school")) {
-            collection = "educationOrganization";
-        } else if (collection.equals("teacher")) {
-            collection = "staff";
-        }
-
-        @SuppressWarnings("deprecation")
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
-
-        List<String> ids = new ArrayList<String>();
-
-        if (foundRecords != null && foundRecords.iterator().hasNext()) {
-            for (Entity record : foundRecords) {
-                ids.add(record.getEntityId());
-            }
-        }
-
+        
         return ids;
     }
-
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private String composeKey(String collection, String tenantId, Query filter) {
+        
+        Map map = filter.getQueryObject().toMap();
+        
+        SortedMap<?, ?> sortedMap = new TreeMap();
+        sortedMap.putAll(map);
+        
+        String hash = DigestUtils.sha256Hex(sortedMap.toString());
+        return String.format("%s_%s_%s_%s", CACHE_NAMESPACE, collection, tenantId, hash);
+        
+    }
+    
     /**
      * @return the entityRepository
      */
     public Repository<Entity> getEntityRepository() {
         return entityRepository;
     }
-
+    
     /**
      * @param entityRepository
      *            the entityRepository to set
@@ -396,12 +525,12 @@ public class IdNormalizer {
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
-
+    
     /**
      * Returns the number of reference instances of a Ref object in a given entity
      */
     private int getNumRefInstances(Entity entity, Ref refConfig) throws Exception {
-
+        
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
@@ -411,16 +540,16 @@ public class IdNormalizer {
             }
             numRefInstances = valueSet.size();
         }
-
+        
         return numRefInstances;
     }
-
+    
     /**
      * Constructs the property name used by PropertyUtils.getProperty for indexed references
      */
     private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex) {
         String result = valueSource;
-
+        
         if (refConfig.isRefList()) {
             result = "";
             String refObjectPath = refConfig.getRefObjectPath();
@@ -437,7 +566,11 @@ public class IdNormalizer {
                 }
             }
         }
-
+        
         return result;
+    }
+    
+    public void setCacheProvider(CacheProvider c) {
+        this.cacheProvider = c;
     }
 }

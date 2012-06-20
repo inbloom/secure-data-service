@@ -23,6 +23,8 @@ import org.slc.sli.test.edfi.entities.CourseLevelType;
 import org.slc.sli.test.edfi.entities.CourseReferenceType;
 import org.slc.sli.test.edfi.entities.CreditType;
 import org.slc.sli.test.edfi.entities.Credits;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
+import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
@@ -36,6 +38,9 @@ public class CourseGenerator {
     private List<Course> courses = null;
     private static boolean loaded = false;
     private int courseCount = 0;
+    // private Course course;
+    private static int counter = 0;
+    private static CourseGenerator cg;
 
     public CourseGenerator(GradeLevelType grade) throws Exception {
         if (!loaded) {
@@ -248,41 +253,91 @@ public class CourseGenerator {
         }
     }
 
-    public Course getCourse(String courseId) {
-        Course course = courses.remove(0);
-        courseCount--;
+    private Course clone(Course old) {
+        Course clone = new Course();
+        clone.setCourseTitle(old.getCourseTitle());
+        clone.setNumberOfParts(old.getNumberOfParts());
+        clone.setCourseLevel(old.getCourseLevel());
+        clone.setCourseLevelCharacteristics(old.getCourseLevelCharacteristics());
+        clone.setGradesOffered(old.getGradesOffered());
+        clone.setSubjectArea(old.getSubjectArea());
+        clone.setCourseDescription(old.getCourseDescription());
+        clone.setDateCourseAdopted(old.getDateCourseAdopted());
+        clone.setHighSchoolCourseRequirement(old.isHighSchoolCourseRequirement());
+        clone.setCourseGPAApplicability(old.getCourseGPAApplicability());
+        clone.setCourseDefinedBy(old.getCourseDefinedBy());
+        clone.setMinimumAvailableCredit(old.getMinimumAvailableCredit());
+        clone.setMaximumAvailableCredit(old.getMaximumAvailableCredit());
+        clone.setCareerPathway(old.getCareerPathway());
+        clone.setEducationOrganizationReference(old.getEducationOrganizationReference());
+        return clone;
+    }
+
+    public Course getCourse(String courseId, String schoolId) {
+        Course course = null;
+        course = clone(courses.get((counter++)%courses.size()));
+
+        // courseCount--;
         course.setId(courseId);
+        CourseCode cc = new CourseCode();
+        cc.setID(courseId);
+        // cc.setID(course.getId() + courseCount);
+
+        cc.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+        course.getCourseCode().add(cc);
+
+        // TODO remove this once DE608 is resolved
+        course.setCourseTitle(cc.getID());
+
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+ 
+// TODO Comment out the next 4 lines ...
+        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+        eoic.setID(schoolId);
+        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+// TODO and uncomment this 1 line to implement changes coming out of HERMOD.
+//        edOrgIdentityType.setStateOrganizationId(schoolId);
+        // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(eoic);
+
+        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
+        schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
+        course.setEducationOrganizationReference(schoolRef);
+
         return course;
     }
 
     public int getCourseCount() {
         return courseCount;
     }
-    
-    
-    public static CourseReferenceType getCourseReferenceType(Course course)
-    {
-    	CourseReferenceType crt = new CourseReferenceType();
-    	CourseIdentityType ci = new CourseIdentityType();
-    	crt.setCourseIdentity(ci) ;
-    	ci.getCourseCode().addAll(course.getCourseCode());
-    	return crt;
+
+    public static CourseReferenceType getCourseReferenceType(Course course) {
+        CourseReferenceType crt = new CourseReferenceType();
+        CourseIdentityType ci = new CourseIdentityType();
+        crt.setCourseIdentity(ci);
+        ci.getCourseCode().addAll(course.getCourseCode());
+        return crt;
     }
 
-    public static Course generateLowFi(String id, String schoolId) {
+    public static Course generateLowFi(String id, String schoolId) throws Exception {
+
         Course course = new Course();
         course.setCourseTitle(id);
         course.setNumberOfParts(1);
-        
-		CourseCode CourseCode = new CourseCode();
-		CourseCode.setID(id);
-		CourseCode.setIdentificationSystem( CourseCodeSystemType.CSSC_COURSE_CODE );
-		CourseCode.setAssigningOrganizationCode( "200" );
-		course.getCourseCode().add(CourseCode);
+
+        CourseCode CourseCode = new CourseCode();
+        CourseCode.setID(id);
+        CourseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+        CourseCode.setAssigningOrganizationCode("200");
+        course.getCourseCode().add(CourseCode);
 
         // construct and add the school reference
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+        eoic.setID(schoolId);
+        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+        // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
 
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
@@ -292,36 +347,42 @@ public class CourseGenerator {
         return course;
     }
 
-    public static void main(String[] args) throws Exception {
-        CourseGenerator generator = new CourseGenerator(GradeLevelType.THIRD_GRADE);
-        System.out.println("Count is " + generator.getCourseCount());
-        while (generator.getCourseCount() > 0) {
-            Course course = generator.getCourse("MyCourseId");
-            String courseDesc = "\n\nId : " + course.getId() + ",\n" + "CourseTitle : " + course.getCourseTitle()
-                    + ",\n" + "NumberOfParts : " + course.getNumberOfParts() + ",\n" + "CourseLevel : "
-                    + course.getCourseLevel() + ",\n" + "CourseLevelCharacteristics : "
-                    + course.getCourseLevelCharacteristics() + ",\n" + "GradesOffered : " + course.getGradesOffered()
-                    + ",\n"
-                    + "SubjectArea : "
-                    + course.getSubjectArea()
-                    + ",\n"
-                    + "CourseDescription : "
-                    + course.getCourseDescription()
-                    + ",\n"
-                    + "DateCourseAdopted : "
-                    + course.getDateCourseAdopted()
-                    + ",\n"
-                    +
-                    // "HighSchoolCourseRequirement : " + course.getHighSchoolCourseRequirement() +
-                    // ",\n" +
-                    "CourseGPAApplicability : " + course.getCourseGPAApplicability() + ",\n" + "CourseDefinedBy : "
-                    + course.getCourseDefinedBy() + ",\n" + "MinimumAvailableCredit : "
-                    + course.getMinimumAvailableCredit() + ",\n" + "MaximumAvailableCredit : "
-                    + course.getMaximumAvailableCredit() + ",\n" + "CareerPathway : " + course.getCareerPathway()
-                    + ",\n" + "EducationOrganizationReference : " + course.getEducationOrganizationReference();
-
-            log.info(courseDesc);
-            System.out.println(courseDesc);
-        }
-    }
+    /*
+     * public static void main(String[] args) throws Exception {
+     * CourseGenerator generator = new CourseGenerator(GradeLevelType.THIRD_GRADE);
+     * System.out.println("Count is " + generator.getCourseCount());
+     * int cId = 10;
+     * while (generator.getCourseCount() > 0) {
+     * Course course = generator.getCourse("MyCourseId " + cId++);
+     * String courseDesc = "\n\nId : " + course.getId() + ",\n" + "CourseTitle : " +
+     * course.getCourseTitle()
+     * + ",\n" + "NumberOfParts : " + course.getNumberOfParts() + ",\n" + "CourseLevel : "
+     * + course.getCourseLevel() + ",\n" + "CourseLevelCharacteristics : "
+     * + course.getCourseLevelCharacteristics() + ",\n" + "GradesOffered : " +
+     * course.getGradesOffered()
+     * + ",\n"
+     * + "SubjectArea : "
+     * + course.getSubjectArea()
+     * + ",\n"
+     * + "CourseDescription : "
+     * + course.getCourseDescription()
+     * + ",\n"
+     * + "DateCourseAdopted : "
+     * + course.getDateCourseAdopted()
+     * + ",\n"
+     * +
+     * // "HighSchoolCourseRequirement : " + course.getHighSchoolCourseRequirement() +
+     * // ",\n" +
+     * "CourseGPAApplicability : " + course.getCourseGPAApplicability() + ",\n" +
+     * "CourseDefinedBy : "
+     * + course.getCourseDefinedBy() + ",\n" + "MinimumAvailableCredit : "
+     * + course.getMinimumAvailableCredit() + ",\n" + "MaximumAvailableCredit : "
+     * + course.getMaximumAvailableCredit() + ",\n" + "CareerPathway : " + course.getCareerPathway()
+     * + ",\n" + "EducationOrganizationReference : " + course.getEducationOrganizationReference();
+     *
+     * log.info(courseDesc);
+     * System.out.println(courseDesc);
+     * }
+     * }
+     */
 }

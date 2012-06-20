@@ -12,22 +12,24 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.cache.NullCacheProvider;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * ID Normalizer unit tests.
- * 
+ *
  * @author okrook
- * 
+ *
  */
 public class IdNormalizationTest {
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testRefResolution() {
@@ -35,50 +37,51 @@ public class IdNormalizationTest {
         myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
         columnField.setPath("column");
-        
+
         FieldValue columnValue = new FieldValue();
         columnValue.setValueSource("body.field");
         columnField.setValues(Arrays.asList(columnValue));
-        
+
         List<Field> fields = Arrays.asList(columnField);
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
-        
+
         IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider( new NullCacheProvider() );
         Repository<Entity> repo = Mockito.mock(Repository.class);
         Repository<Entity> repoNull = Mockito.mock(Repository.class);
-        
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("field", 5);
-        
+
         MongoEntity entity = new MongoEntity("test", body);
-        
+
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
-        
+
         Mockito.when(
                 repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecord));
         Mockito.when(
                 repoNull.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(null);
-        
+
         idNorm.setEntityRepository(repo);
-        
+
         String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
                 new DummyErrorReport(), "");
-        
+
         Assert.assertEquals("123", internalId);
-        
+
         idNorm.setEntityRepository(repoNull);
-        
+
         // Testing findByQuery returns null
         internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
                 new DummyErrorReport(), "");
-        
+
         Assert.assertEquals(null, internalId);
     }
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testRefResolution2() {
@@ -86,7 +89,7 @@ public class IdNormalizationTest {
         myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
         columnField.setPath("column");
-        
+
         List<RefDef> refDefs = new ArrayList<RefDef>();
         RefDef refDef = new RefDef();
         refDef.setRef(myCollectionId);
@@ -96,41 +99,42 @@ public class IdNormalizationTest {
         entityConfig.setReferences(refDefs);
         EntityConfig entityConfig2 = new EntityConfig();
         entityConfig2.setReferences(null);
-        
+
         FieldValue columnValue = new FieldValue();
         columnValue.setValueSource("body.field");
         columnField.setValues(Arrays.asList(columnValue));
-        
+
         List<Field> fields = Arrays.asList(columnField);
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
-        
+
         IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider( new NullCacheProvider() );
         Repository<Entity> repo = Mockito.mock(Repository.class);
-        
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("field", 5);
-        
+
         MongoEntity entity = new MongoEntity("test", body);
-        
+
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
-        
+
         Mockito.when(
                 repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecord));
-        
+
         idNorm.setEntityRepository(repo);
-        
+
         idNorm.resolveInternalIds(entity, "someNamespace", entityConfig, new DummyErrorReport());
-        
+
         Assert.assertEquals("123", entity.getBody().get("field"));
-        
+
         // Testing entityConfig.getReference == null
         idNorm.resolveInternalIds(entity, "someNamespace", entityConfig2, new DummyErrorReport());
         Assert.assertEquals("123", entity.getBody().get("field"));
     }
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testCollectionRefResolution() {
@@ -138,59 +142,60 @@ public class IdNormalizationTest {
         myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
         columnField.setPath("column");
-        
+
         FieldValue columnValue = new FieldValue();
         columnValue.setValueSource("body.field");
         columnField.setValues(Arrays.asList(columnValue));
-        
+
         List<Field> fields = Arrays.asList(columnField);
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
-        
+
         IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider( new NullCacheProvider() );
         Repository<Entity> repo = Mockito.mock(Repository.class);
-        
+
         Map<String, Object> body = new HashMap<String, Object>();
-        
+
         List<String> value = new ArrayList<String>();
-        
+
         value.add("5");
         value.add("6");
         value.add("7");
         body.put("field", value);
-        
+
         MongoEntity entity = new MongoEntity("test", body);
-        
+
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
-        
+
         Entity secondRecord = Mockito.mock(Entity.class);
         Mockito.when(secondRecord.getEntityId()).thenReturn("456");
-        
+
         Entity thirdRecord = Mockito.mock(Entity.class);
         Mockito.when(thirdRecord.getEntityId()).thenReturn("789");
-        
+
         ArrayList<Entity> records = new ArrayList<Entity>();
         records.add(expectedRecord);
         records.add(secondRecord);
         records.add(thirdRecord);
-        
+
         Mockito.when(
                 repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(records);
-        
+
         idNorm.setEntityRepository(repo);
-        
+
         String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
                 new DummyErrorReport(), "");
-        
+
         Assert.assertEquals("123", internalId);
     }
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testMultiRefResolution() {
-        
+
         Ref secondCollection = new Ref();
         secondCollection.setCollectionName("secondCollection");
         Field secondCollectionField = new Field();
@@ -199,59 +204,60 @@ public class IdNormalizationTest {
         fValue.setValueSource("body.field");
         secondCollectionField.setValues(Arrays.asList(fValue));
         secondCollection.setChoiceOfFields(Arrays.asList(Arrays.asList(secondCollectionField)));
-        
+
         Ref myCollectionId = new Ref();
         myCollectionId.setCollectionName("MyCollection");
         Field columnField = new Field();
         columnField.setPath("body.secondCollectionId");
-        
+
         FieldValue columnValue = new FieldValue();
         columnValue.setRef(secondCollection);
         columnField.setValues(Arrays.asList(columnValue));
-        
+
         List<Field> fields = Arrays.asList(columnField);
         List<List<Field>> choice = Arrays.asList(fields);
         myCollectionId.setChoiceOfFields(choice);
-        
+
         IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider( new NullCacheProvider() );
         Repository<Entity> repo = Mockito.mock(Repository.class);
-        
+
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("field", 5);
-        
+
         MongoEntity entity = new MongoEntity("test", body);
-        
+
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
-        
+
         Mockito.when(
                 repo.findByQuery(Mockito.eq("MyCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecord));
-        
+
         Entity secondRecord = Mockito.mock(Entity.class);
         Mockito.when(secondRecord.getEntityId()).thenReturn("456");
         Mockito.when(
                 repo.findByQuery(Mockito.eq("secondCollection"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(secondRecord));
-        
+
         idNorm.setEntityRepository(repo);
-        
+
         String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath",
                 new DummyErrorReport(), "");
-        
+
         Assert.assertEquals("123", internalId);
-        
+
         String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath",
                 new DummyErrorReport(), "");
-        
+
         Assert.assertEquals("456", secinternalId);
     }
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testResolveRefList() {
         final String collectionName = "collectionName";
-        
+
         //create a test refConfig
         Ref refConfig = new Ref();
         refConfig.setCollectionName(collectionName);
@@ -292,7 +298,7 @@ public class IdNormalizationTest {
         expectedEntityList.add(expectedEntity2);
 
         IdNormalizer idNorm = new IdNormalizer();
-        
+        idNorm.setCacheProvider( new NullCacheProvider() );
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         //mock the repo query note this doesn't test whether the query was constructed correctly

@@ -112,6 +112,7 @@ public class LogUtil {
      *         the new message-safe exception
      */
     private static Exception createLoggingException(Exception exception) {
+
         if (includeExceptionMessage) {
             return exception;
         }
@@ -124,7 +125,7 @@ public class LogUtil {
                     createLoggingException((Exception) exception.getCause()));
         }
         loggingException.setStackTrace(exception.getStackTrace());
-        return loggingException;
+        return exception;
     }
 
     public static boolean isIncludeExceptionMessage() {

@@ -57,7 +57,6 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: CRUD operations on invalid entities
@@ -98,7 +97,7 @@ Examples:
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
+#| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
@@ -111,13 +110,13 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 20 |
+| "assessment"                   | "assessments"             | 17 |
 | "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 7 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 3 |
 | "disciplineIncident"           | "disciplineIncidents"     | 3 |
-| "educationOrganization"        | "educationOrganizations"  | 51 |
+| "educationOrganization"        | "educationOrganizations"  | 38 |
 | "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
