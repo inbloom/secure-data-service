@@ -31,7 +31,18 @@ class SLCFixer
     time = Time.now
     @threads = []
     Benchmark.bm(20) do |x|
-      @threads << Thread.new {x.report('section')    {stamp_students}}
+      @threads << Thread.new {x.report('students')    {stamp_students}}
+    end
+
+    @threads.each do |th|
+      th.join
+    end
+
+    @threads = []
+    Benchmark.bm(20) do |x|
+      @threads << Thread.new {x.report('section')    {stamp_sections}}
+      @threads << Thread.new {x.report('program')    {stamp_programs}}
+      @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
     end
 
     @threads.each do |th|
@@ -40,7 +51,6 @@ class SLCFixer
 
     finalTime = Time.now - time
     puts "\t Final time is #{finalTime} secs"
-    puts "\t Documents(#{@count}) per second #{@count/finalTime}"
   end
 
   def stamp_students
@@ -84,7 +94,7 @@ class SLCFixer
 
   def find_teachers_for_student_through_cohort(studentId)
     teachers = []
-    @db['studentCohortAssociation'].find({'body.studentId'=> studentId, '$or'=> 
+    @db['studentCohortAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=> 
                                          [
                                            {'body.endDate'=> {'$exists'=> false}}, 
                                            {'body.endDate'=> {'$gte'=> @current_date}}
@@ -115,7 +125,7 @@ class SLCFixer
 
   def find_teachers_for_student_through_program(studentId)
     teachers = []
-    @db['studentProgramAssociation'].find({'body.studentId'=> studentId, '$or'=> 
+    @db['studentProgramAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=> 
                                          [
                                            {'body.endDate'=> {'$exists'=> false}}, 
                                            {'body.endDate'=> {'$gte'=> @current_date}}
@@ -144,25 +154,27 @@ class SLCFixer
     teachers
   end
 
-  def stamp_my_sections
-    @log.info "Finding directly referenced teacherSectionAssociations and sections"
-    @db['teacherSectionAssociation'].find({}, {fields: ['_id', 'body.teacherId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |assoc|
-         @db['teacherSectionAssociation'].update({"_id" => assoc['_id'], 'metaData.tenantId' => assoc['metaData']['tenantId']}, 
-                                                 {"$set" => {"metaData.teacherContext" => [assoc['body']['teacherId']]}})
-      }
-    }
+  def stamp_sections
+#    @log.info "Finding directly referenced teacherSectionAssociations and sections"
+#    @db['teacherSectionAssociation'].find({}, {fields: ['_id', 'body.teacherId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+#      cursor.each { |assoc|
+#         @db['teacherSectionAssociation'].update({"_id" => assoc['_id'], 'metaData.tenantId' => assoc['metaData']['tenantId']}, 
+#                                                 {"$set" => {"metaData.teacherContext" => [assoc['body']['teacherId']]}})
+#      }
+#    }
   end
 
-  def stamp_my_cohorts
-    @log.info "Stamping directly referenced staffCohortAssociations and cohorts"
-    @db['staffCohortAssociation'].find({}, {fields: ['_id', 'body.staffId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |assoc|
-        assoc['body']['staffId'].each { |id|
-          puts 'match' if @teacher_ids.has_key? id
-        }
-      }
-    }
+  def stamp_cohorts
+#    @log.info "Stamping directly referenced staffCohortAssociations and cohorts"
+#    @db['staffCohortAssociation'].find({}, {fields: ['_id', 'body.staffId']}.merge(@basic_options)) { |cursor|
+#      cursor.each { |assoc|
+#        assoc['body']['staffId'].each { |id|
+#          puts 'match' if @teacher_ids.has_key? id
+#        }
+#      }
+#    }
   end
 
+  def stamp_programs
+  end
 end
