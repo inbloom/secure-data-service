@@ -8,7 +8,7 @@
 	<% if APP_CONFIG['is_sandbox']%>
 		<p>Before your applications can be functional in the sandbox, you need to define which test data to use. After you have configured your test data, you will receive an email with further instructions.  Select one:</p>
 	<%else%>
-		<p>A Landing Zone is a directory on the SLC's server that will house and process your organization's data.</p><p>After you have created your Landing Zone, you will be able to access it using an SFTP client - don't worry, we will send you an email with information about how to upload your data for ingestion into the SLC. Please click the Create button to continue.</p>
+		<p>A Landing Zone is a directory on the SLC's server that stores and processes your organization's data.</p><p>After you have created a Landing Zone, you will be able to access it using an SFTP client. We will send you an email with information how to upload your data for ingestion into the SLC. Please click Create to continue. </p>
 	<% end %>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
 	    <% if APP_CONFIG['is_sandbox'] %>
