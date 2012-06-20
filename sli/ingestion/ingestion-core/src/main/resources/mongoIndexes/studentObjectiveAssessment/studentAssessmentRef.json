@@ -1,0 +1,7 @@
+{
+    "collection": "studentObjectiveAssessment",
+    "indexFields":
+    [
+        {"name" : "body.studentAssessmentRef" , "order" : "1"}
+    ]
+}

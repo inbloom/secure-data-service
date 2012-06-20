@@ -323,9 +323,7 @@
 		<CourseDescription>Advanced Masonry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>10000000121</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -338,9 +336,7 @@
 		<CourseDescription>Physical Sciences</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000112</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -353,9 +349,7 @@
 		<CourseDescription>Inorganic Chemistry</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>10000000121</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -368,9 +362,7 @@
 		<CourseDescription>Mathmatics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000112</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -383,9 +375,7 @@
 		<CourseDescription>Art Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000122</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -398,9 +388,7 @@
 		<CourseDescription>Structual Engineering</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000111</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -413,9 +401,7 @@
 		<CourseDescription>Sports Study</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000122</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>
@@ -428,9 +414,7 @@
 		<CourseDescription>Relativistic Physics</CourseDescription>
 		<EducationOrganizationReference>
 			<EducationalOrgIdentity>
-				<EducationOrgIdentificationCode IdentificationSystem="School">
-					<ID>1000000111</ID>
-				</EducationOrgIdentificationCode>
+				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
 	</Course>

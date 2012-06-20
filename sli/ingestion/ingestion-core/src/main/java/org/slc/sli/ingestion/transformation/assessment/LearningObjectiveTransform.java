@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
+    public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String ID_CODE = "identificationCode";
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
@@ -50,8 +51,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
 
         LOG.info("Loading data for learning objective transformation.");
-        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(EntityNames.LEARNINGOBJECTIVE);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.LEARNINGOBJECTIVE, learningObjectives.size());
+        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(LEARNING_OBJECTIVE);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
 
         for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
             NeutralRecord lo = entry.getValue();
@@ -132,7 +133,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(nr, getBatchJobId());
+            nr.setCreationTime(getWorkNote().getRangeMinimum());
+            insertRecord(nr);
         }
     }
 

@@ -23,6 +23,20 @@ class MockTransitionActionConfig
   end
 end
 
+class MockTransitionActionConfig
+  def initialize(emailer, is_sandbox)
+    @emailer = emailer
+    @is_sandbox = is_sandbox
+  end
+
+  def transition(user)
+    if user && user[:status] == ApprovalEngine::ACTION_APPROVE
+      puts 'Sending approval email'
+      @emailer.send_approval_email()
+    end
+  end
+end
+
 class TestApprovalEngine < Test::Unit::TestCase
     def setup
         # define two basic users 
