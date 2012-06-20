@@ -6,13 +6,10 @@ require 'date'
 require 'logger'
 
 class SLCFixer
-  attr_accessor :count, :db, :log
+  attr_accessor :db, :log
 
   def initialize(db, logger = nil, grace_period = 2000)
     @db = db
-    @students = @db['student']
-    @student_hash = {}
-    @count = 0
     @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
 
@@ -55,8 +52,6 @@ class SLCFixer
 
   def stamp_students
 
-    @studentId_to_teachers = {}
-    
     @log.info "Stamping students"
     @db['student'].find({}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |student|
