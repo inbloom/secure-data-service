@@ -1,9 +1,0 @@
-{
-    "collection": "studentSectionAssociation_transformed",
-    "indexFields":
-    [
-        {"name" : "body.studentId", "order" : "1"},
-        {"name" : "metaData.tenantId", "order" : "1"},
-        {"name" : "body.sectionId", "order" : "1"}
-    ]
-}

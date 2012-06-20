@@ -108,7 +108,7 @@ Scenario: Non-happy path: Attempt to create association with reference for endpo
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT1 FIELD>" to "<INACCESSIBLE REFERENCE 1>"
     When I navigate to POST "/<ASSOCIATION URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 400
 
 Scenario: Non-happy path: Attempt to create association with reference for endpoint 2 user does not have access to
    Given a valid association json document for a "<ASSOCIATION TYPE>"

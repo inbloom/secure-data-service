@@ -9,6 +9,7 @@ import java.util.List;
 import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
 
+    private static final String ERROR = "error";
+    private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
 
     private MongoTemplate batchJobMongoTemplate;
+
+    @Value("${sli.ingestion.errors.tracking}")
+    private String trackIngestionErrors;
+
+    @Value("${sli.ingestion.warnings.tracking}")
+    private String trackIngestionWarnings;
 
     @Override
     public void saveBatchJob(NewBatchJob job) {
@@ -67,7 +76,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void saveError(Error error) {
-        if (error != null) {
+        if (error != null && "true".equals(trackIngestionErrors) && 
+                ERROR.equalsIgnoreCase(error.getSeverity())) {
+            batchJobMongoTemplate.save(error);
+        }
+
+        if (error != null && "true".equals(trackIngestionWarnings) && 
+                WARNING.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
     }
