@@ -22,10 +22,6 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -33,7 +29,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -222,7 +222,7 @@ public class StudentResourceTest {
         }
     }
 
-    @Test
+    @Test(expected = EntityNotFoundException.class)
     public void testDelete() {
         //create one entity
         Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -232,15 +232,8 @@ public class StudentResourceTest {
         Response response = studentResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        try {
-            @SuppressWarnings("unused")
-            Response getResponse = studentResource.read(id, httpHeaders, uriInfo);
-            fail("should have thrown EntityNotFoundException");
-        } catch (EntityNotFoundException e) {
-            return;
-        } catch (Exception e) {
-            fail("threw wrong exception: " + e);
-        }
+        @SuppressWarnings("unused")
+        Response getResponse = studentResource.read(id, httpHeaders, uriInfo);
     }
 
     @Test

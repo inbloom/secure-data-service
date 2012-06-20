@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,15 @@ import org.springframework.stereotype.Component;
 public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
+    
     private Map<Object, NeutralRecord> assessments;
+    
+    private static final String ASSESSMENT = "assessment";
+    private static final String ASSESSMENT_FAMILY = "assessmentFamily";
+    private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    
+    @Autowired
+    private ObjectiveAssessmentBuilder builder;
     
     /**
      * Default constructor.
@@ -49,8 +57,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for assessment transformation.");
-        assessments = getCollectionFromDb(EntityNames.ASSESSMENT);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.ASSESSMENT, assessments.size());
+        assessments = getCollectionFromDb(ASSESSMENT);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", ASSESSMENT, assessments.size());
     }
     
     /**
@@ -76,9 +84,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = new ObjectiveAssessmentBuilder(
-                            getNeutralRecordMongoAccess(), getJob().getId())
-                            .getObjectiveAssessment(objectiveAssessmentRef);
+                    Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(
+                            getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
                     
                     if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
                         LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
@@ -92,47 +99,23 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
             
-            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
-            if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR,
-                        getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
-            }
-            
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> assessmentItemsRefs = (List<Map<String, Object>>) attrs.get("assessmentItemRefs");
-            if (assessmentItemsRefs != null && assessmentItemsRefs.size() > 0) {
-                List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
-                attrs.put("assessmentItem", items);
-                for (Map<String, Object> assessmentItem : assessmentItemsRefs) {
-                    String itemRef = (String) assessmentItem.get("ref");
-                    Map<String, Object> item = getAssessmentItem(itemRef);
-                    if (item != null) {
-                        items.add(item);
-                    } else {
-                        super.getErrorReport(neutralRecord.getSourceFile()).error(
-                                "Could not resolve AssessmentItemReference.  AssessmentItem with id " + itemRef
-                                        + " not found.", this);
-                    }
+            if (attrs.containsKey("assessmentItem")) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get("assessmentItem");
+                if (items == null || items.size() == 0) {
+                    attrs.remove("assessmentItem");
                 }
             }
-            attrs.remove("assessmentItemRefs");
+            
+            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
+            if (assessmentPeriodDescriptorRef != null) {
+                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+            }
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
+            neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
+            insertRecord(neutralRecord);
         }
-    }
-    
-    private Map<String, Object> getAssessmentItem(String itemRef) {
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("localId", itemRef);
-        
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                "assessmentItem", paths, getJob().getId());
-        
-        if (data.iterator().hasNext()) {
-            return data.iterator().next().getAttributes();
-        }
-        return null;
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
@@ -140,7 +123,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         paths.put("body.codeValue", assessmentPeriodDescriptorRef);
         
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
+                ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
         
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
@@ -158,7 +141,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
         
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                "assessmentFamily", paths, getJob().getId());
+                ASSESSMENT_FAMILY, paths, getJob().getId());
         
         Map<String, Object> associationAttrs;
         

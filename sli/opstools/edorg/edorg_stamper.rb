@@ -14,7 +14,7 @@ else
   hp = ARGV[0].split(":")
   connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 5, :pool_timeout => 5, :safe => {:wtimeout => 500})
   log = Logger.new(STDOUT)
-  log.level = Logger::WARN
+  log.level = Logger::ERROR
   db = connection[database]
   fixer = SLCFixer.new(db, log)
   if terminates

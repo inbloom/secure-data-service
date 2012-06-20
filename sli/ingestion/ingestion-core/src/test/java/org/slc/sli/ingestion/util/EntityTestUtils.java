@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.Map.Entry;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -238,5 +237,9 @@ public class EntityTestUtils {
             return neutralRecordList;
         }
 
+        @Override
+        public void insertResource(NeutralRecord neutralRecord, String jobId) {
+            neutralRecordList.add(neutralRecord);
+        }
     }
 }

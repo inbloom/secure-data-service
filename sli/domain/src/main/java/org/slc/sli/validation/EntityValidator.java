@@ -19,4 +19,11 @@ public interface EntityValidator {
      */
     public boolean validate(Entity entity) throws EntityValidationException;
 
+    /**
+     * Enable / disable reference checking as a part of entity validation
+     *
+     * @param referenceCheck
+     */
+    public void setReferenceCheck(String referenceCheck);
+
 }

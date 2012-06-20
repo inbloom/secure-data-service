@@ -14,7 +14,7 @@ public class ShardType1UUIDGeneratorStrategyTest {
         ShardType1UUIDGeneratorStrategy uuidGen = new ShardType1UUIDGeneratorStrategy();
         String uuid = uuidGen.randomUUID();
         assertNotNull(uuid);
-        assertEquals(uuid.charAt(22), '1'); //make sure we generated a type1 uuid
-        assertEquals(uuid.length(), 43); // 7 chars for 'yyyyrr-', 36 chars for type 1 uuid
+        assertEquals('1', uuid.charAt(22)); //make sure we generated a type1 uuid
+        assertEquals(43, uuid.length()); // 7 chars for 'yyyyrr-', 36 chars for type 1 uuid
     }
 }

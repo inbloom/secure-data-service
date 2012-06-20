@@ -79,7 +79,7 @@ public class ControlFile implements Serializable {
                 configItemMatcher = configItemPattern.matcher(line);
                 if (configItemMatcher.matches()) {
                     configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).trim().getBytes()));
-                    // System.err.println("found configItem: ["+configItemMatcher.group(1)+"]");
+                    LOG.info("Control file configuration loaded: {}", configItemMatcher.group(1).trim());
                     lineNumber += 1;
                     continue;
                 }

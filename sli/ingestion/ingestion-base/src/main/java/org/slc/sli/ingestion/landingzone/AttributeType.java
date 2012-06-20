@@ -7,7 +7,8 @@ package org.slc.sli.ingestion.landingzone;
  */
 public enum AttributeType {
     PURGE("purge"),
-    DRYRUN("dry-run");
+    DRYRUN("dry-run"),
+    NO_ID_REF("no-id-ref");
 
     private String name;
 

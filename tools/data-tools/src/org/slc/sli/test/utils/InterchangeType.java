@@ -7,6 +7,7 @@ package org.slc.sli.test.utils;
 public enum InterchangeType {
     
     STUDENT("Student"),
+    STUDENT_PARENT_ASSOCIATION("Parent"),
     EDUCATION_ORGANIZATION("EducationOrganization"),
     EDUCATION_ORG_CALENDAR("EducationOrgCalendar"),
     MASTER_SCHEDULE("MasterSchedule"),
@@ -15,8 +16,7 @@ public enum InterchangeType {
     ASSESSMENT_METADATA("AssessmentMetadata"),
     STUDENT_ASSESSMENT("StudentAssessment"),
     STUDENT_ATTENDANCE("Attendance"),
-    STUDENT_GRADES("StudentGrades"),
-    STUDENT_PARENT_ASSOCIATION("Parent");
+    STUDENT_GRADES("StudentGrades");
 
     private String name;
 

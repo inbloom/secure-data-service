@@ -1,0 +1,12 @@
+#!/bin/bash
+# Something very simple to restart tomcat on nxing(s)
+
+NODES="nxing5 nxing6 nxing7 nxing8 nxing9 nxing10 nxing11 nxing12 nxing13 nxing14 nxing15 nxing16 nxing17 nxing18 nxing19"
+#NODES="nxing5"
+for i in $NODES; do 
+	echo -ne "#########################\n"
+	echo -ne "Restarting tomcat on $i\n"
+	ssh $i.slidev.org "pkill -9  java ; /etc/init.d/tomcat start"
+	echo -ne "Done restarting tomcat on $i.\n"
+	echo -ne "#########################\n\n"
+done
