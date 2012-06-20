@@ -157,14 +157,35 @@ class SLCFixer
   end
 
   def stamp_sections
-    # TODO
-#    @log.info "Finding directly referenced teacherSectionAssociations and sections"
-#    @db['teacherSectionAssociation'].find({}, {fields: ['_id', 'body.teacherId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-#      cursor.each { |assoc|
-#         @db['teacherSectionAssociation'].update({"_id" => assoc['_id'], 'metaData.tenantId' => assoc['metaData']['tenantId']},
-#                                                 {"$set" => {"metaData.teacherContext" => [assoc['body']['teacherId']]}})
-#      }
-#    }
+    @log.info "Stamping sections and associations"
+
+    section_to_teachers = {}
+    section_to_tenant = {}
+
+    @db['studentSectionAssociation'].find({}, @basic_options) { |cursor|
+      cursor.each { |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']]
+        #@log.debug "studentSectionAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
+        @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+
+        section_id = assoc['body']['sectionId']
+        section_to_tenant[section_id] ||= assoc['body']['tenant']
+        section_to_teachers[section_id] ||= []
+        section_to_teachers[section_id] += teachers
+      }
+    }
+
+    section_to_teachers.each { |section, teachers|
+      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
+    }
+
+    @db['teacherSectionAssociation'].find({}, @basic_options) { |cursor|
+      cursor.each { |assoc|
+        teachers = []
+        assoc['body']['sectionId'].each { |section| teachers += section_to_teachers[section] }
+        @db['teacherSectionAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers.flatten.uniq}})
+      }
+    }
   end
 
   def stamp_cohorts
