@@ -5,15 +5,16 @@ class ApplicationMailer < ActionMailer::Base
   WELCOME_EMAIL_SUBJECT_SANDBOX = "Welcome to the SLC Developer Sandbox"
   VERIFY_EMAIL_SUBJECT_SANDBOX ="Shared Learning Collaborative Developer Sandbox Account - Email Confirmation"
   VERIFY_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Developer Account - Email Confirmation"
-  PROVISION_EMAIL_SUBJECT_SANDBOX = "Shared Learning Collaborative Developer Sandbox - Landing Zone Setup"
+  PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
 
   def welcome_email(user)
     @firstName = user[:first]
-    @landing_zone_link = "#{APP_CONFIG['email_replace_uri']}/landing_zone"
+    #@landing_zone_link = "#{APP_CONFIG['email_replace_uri']}/landing_zone"
     @portal_link = APP_CONFIG["portal_url"]
-    @apps_link = "#{APP_CONFIG['email_replace_uri']}/apps"
+    @documentation_link = APP_CONFIG['sample_data_url']
+    #@apps_link = "#{APP_CONFIG['email_replace_uri']}/apps"
     mail(:to => user[:emailAddress], :subject => (APP_CONFIG["is_sandbox"]?WELCOME_EMAIL_SUBJECT_SANDBOX : WELCOME_EMAIL_SUBJECT_PROD))
   end
 
@@ -30,10 +31,10 @@ class ApplicationMailer < ActionMailer::Base
   end
   
   def provision_email(email_address, firstName, serverName, edorgId)
-  @firstName = firstName
-  @serverName = serverName
-  @edorgId = edorgId
-  mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
+    @firstName = firstName
+    @serverName = serverName
+    @edorgId = edorgId
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
   
   def notify_operator(support_email, app, first_name, dev_name)
