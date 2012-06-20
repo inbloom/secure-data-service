@@ -30,14 +30,15 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "percentOfAssessment" is "33" in it
     When I go back up one level
     Then I should find "3" "studentObjectiveAssessments" in it
-    Then I should find "2" "scoreResults" in one of them
+    Then I should see "objectiveAssessment.identificationCode" is "SAT-Writing" in one of them
+    Then I should find "2" "scoreResults" in it
     Then I should see "assessmentReportingMethod" is "Scale score" in one of them
     And I should see "result" is "680" in it
 
     # Gradebook Entries
     And I should find "3" "studentGradebookEntries"
     And I should find "gradebookEntries" expanded in each of them
-    Then I should see "letterGradeEarned" is "A" in one of them
+    Then I should see "dateFulfilled" is "2012-01-31" in one of them
     And inside "gradebookEntries"
     And I should see "dateAssigned" is "2012-01-31" in it
     And I should see "gradebookEntryType" is "Quiz" in it

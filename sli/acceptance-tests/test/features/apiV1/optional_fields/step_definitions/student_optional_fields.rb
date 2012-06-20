@@ -52,11 +52,22 @@ end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)" in one of them$/ do |key, value|
   found = false
+  keys = key.split(".")
   @col.each do |doc|
-    if doc[key].to_s == value.to_s
-      found = true
-      @col = doc
-      break
+    if keys.length == 1
+      if doc[key].to_s == value.to_s
+        found = true
+        @col = doc
+        break
+      end
+    elsif keys.length == 2
+      if doc[keys[0]][keys[1]].to_s == value.to_s
+        found = true
+        @col = doc
+        break
+      end
+    else
+      raise("Key is too complex!")
     end
   end
   assert(found, "Cannot find a document with #{key}=#{value}")
