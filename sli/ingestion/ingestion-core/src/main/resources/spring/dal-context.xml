@@ -11,6 +11,9 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
   default-autowire="byName">
 
+  <bean id="simpleEntityRepository" name="simpleValidationRepo"
+    class="org.slc.sli.dal.repository.SimpleEntityRepository">
+  </bean>
 
   <!-- SHARED CONFIG -->
 

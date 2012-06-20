@@ -8,7 +8,6 @@ import com.mongodb.DBObject;
 
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -18,7 +17,7 @@ import org.slc.sli.domain.Repository;
  * @author ifaybyshev
  *
  */
-@Component
+//@Component
 public class SimpleEntityRepository implements Repository<Entity> {
 
     @Override
