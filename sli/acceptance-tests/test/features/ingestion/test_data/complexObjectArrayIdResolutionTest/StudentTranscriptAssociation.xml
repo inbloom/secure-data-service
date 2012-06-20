@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
 
 
-<!-- academic record -->
+<!-- academic records -->
     <StudentAcademicRecord id="SAR">
       <StudentReference>
         <StudentIdentity>
@@ -16,6 +16,7 @@
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
+
 
 <!-- course transcripts -->
 
@@ -46,10 +47,10 @@
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
-            <ID>Intro Algebra</ID>
+            <ID>Interm Algebra</ID>
           </CourseCode>
           <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
-            <ID>Math 101</ID>
+            <ID>Math 102</ID>
           </CourseCode>
         </CourseIdentity>
       </CourseReference>
@@ -89,10 +90,10 @@
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="Daybreak Central High">
-            <ID>Intro Algebra</ID>
+            <ID>Adv Algebra</ID>
           </CourseCode>
           <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="IL-DAYBREAK">
-            <ID>Math 101</ID>
+            <ID>Math 103</ID>
           </CourseCode>
         </CourseIdentity>
       </CourseReference>

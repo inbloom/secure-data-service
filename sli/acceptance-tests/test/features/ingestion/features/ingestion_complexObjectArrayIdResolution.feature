@@ -23,9 +23,9 @@ Then I should see following map of entry counts in the corresponding collections
 	 And I check to find if record is in collection:
 	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue          | searchType           |
 	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit             | 1                    | integer              |
-	   | studentTranscriptAssociation  | 1                   | body.finalNumericGradeEarned          | 2                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.finalNumericGradeEarned          | 3                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.finalNumericGradeEarned          | 4                    | integer              |
-	   | studentTranscriptAssociation  | 0                   | body.finalLetterGradeEarned           | 5                    | integer              |
-	And I should see "Processed 36 records." in the resulting batch job file
+	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit          | 2                    | integer              |
+	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 3                    | integer              |
+	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 4                    | integer              |
+	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit           | 5                    | integer              |
+	And I should see "Processed 16 records." in the resulting batch job file
 

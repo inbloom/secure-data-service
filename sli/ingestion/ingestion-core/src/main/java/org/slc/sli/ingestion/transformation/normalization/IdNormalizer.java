@@ -61,15 +61,27 @@ public class IdNormalizer {
             // Then OR them together to make a single mongo query
             for (int refIndex = 0; refIndex < refValues.size(); refIndex++) {
                 String valueSourcePath = valueSource + ".[" + Integer.toString(refIndex) + "]";
-                Query subQuery = new Query();
-                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
 
-                // For each field in the complex object, add a criteria to the the query
+                // Create the fieldValueCriteria for matching this complex object
+                Criteria fieldValueCriteria = null;
                 for (String fieldName : complexFieldNames) {
-                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName); // <- if fieldValue is null, does this thrown an InvocationTargetException?
-                    criteria = criteria.and(path + "." + fieldName).is(fieldValue);
+                    Object fieldValue = PropertyUtils.getProperty(entity, valueSourcePath + "." + fieldName);
+                    if (fieldValue == null) { continue; }
+                    if (fieldValueCriteria == null) {
+                        fieldValueCriteria = Criteria.where(fieldName).is(fieldValue);
+                    } else {
+                        fieldValueCriteria = fieldValueCriteria.and(fieldName).is(fieldValue);
+                    }
                 }
+                if (fieldValueCriteria == null) { continue; }
+                Criteria criteria = Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId);
+                criteria = criteria.and(path).elemMatch(fieldValueCriteria);
+
+                // create the subquery using the fieldValue criteria
+                Query subQuery = new Query();
                 subQuery.addCriteria(criteria);
+
+                // add the subquery to overall query
                 query.or(subQuery);
             }
 
@@ -77,6 +89,7 @@ public class IdNormalizer {
             Set<String> foundIds = new HashSet<String>();
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
+
             for(Entity record : foundRecords) {
                 foundIds.add(record.getEntityId());
             }
