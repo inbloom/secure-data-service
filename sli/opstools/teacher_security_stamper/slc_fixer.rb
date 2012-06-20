@@ -101,11 +101,9 @@ class SLCFixer
 
   def find_teachers_for_student_through_cohort(studentId)
     teachers = []
-    @db['studentCohortAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=>
-                                         [
-                                           {'body.endDate'=> {'$exists'=> false}},
-                                           {'body.endDate'=> {'$gte'=> @current_date}}
-                                         ]}, @basic_options) { |stu_assoc_cursor|
+    @db['studentCohortAssociation'].find({'body.studentId'=> {'$in'=> [studentId]},
+                                           '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
+                                         }, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuCohortAssoc->cohortId #{stu_assoc['body']['cohortId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
@@ -131,11 +129,9 @@ class SLCFixer
 
   def find_teachers_for_student_through_program(studentId)
     teachers = []
-    @db['studentProgramAssociation'].find({'body.studentId'=> {'$in'=> [studentId]}, '$or'=>
-                                         [
-                                           {'body.endDate'=> {'$exists'=> false}},
-                                           {'body.endDate'=> {'$gte'=> @current_date}}
-                                         ]}, @basic_options) { |stu_assoc_cursor|
+    @db['studentProgramAssociation'].find({'body.studentId'=> {'$in'=> [studentId]},
+                                            '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
+                                          }, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuProgramAssoc->programId #{stu_assoc['body']['programId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
