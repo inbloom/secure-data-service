@@ -3,11 +3,14 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
+import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.generators.GraduationPlanGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
@@ -37,20 +40,57 @@ public class InterchangeStudentEnrollmentGenerator {
         return interchange;
     }
 
-    /**
-     * Generate the individual Student Association entities.
-     *
-     * @param interchangeObjects
-     */
+    
     private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
         generateStudentSchoolAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
         generateStudentSectionAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        
+        generateGraduationPlan(interchangeObjects, MetaRelations.GRADUATION_PLAN_MAP.values());
 
     }
 
+    /**
+     * Generate the individual Graduation Plan entities.
+     *
+     * @param interchangeObjects
+     */
+    private static void generateGraduationPlan(List<Object> interchangeObjects, Collection<GraduationPlanMeta> graduationPlanMetas) {
+    	
+		long startTime = System.currentTimeMillis();
+
+		int objGenCounter = 0;
+
+		for (GraduationPlanMeta graduationPlanMeta : graduationPlanMetas) {
+
+			GraduationPlan graduationPlan;
+
+			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+				graduationPlan = null;
+			} else {
+				graduationPlan = GraduationPlanGenerator
+						.generateLowFi(graduationPlanMeta.id);
+			}
+
+			interchangeObjects.add(graduationPlan);
+
+			objGenCounter++;
+		}
+
+		System.out.println("generated " + objGenCounter
+				+ " GraduationPlan objects in: "
+				+ (System.currentTimeMillis() - startTime));
+   }
+    
+    /**
+     * Generate the individual Student Association entities.
+     *
+     * @param interchangeObjects
+     */
+    
     private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
+    	
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -75,6 +115,11 @@ public class InterchangeStudentEnrollmentGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
+    /**
+     * Generate the individual Student Section entities.
+     *
+     * @param interchangeObjects
+     */
     private static void generateStudentSectionAssoc(List<Object> interchangeObjects,
             Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();

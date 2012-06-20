@@ -68,7 +68,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         if (terminationError == null) {
 
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
+            nrMongoStagingWriter.insertResource(neutralRecord, batchJobId);
             this.recordsPerisisted++;
 
             logRecordsPersisted(neutralRecord);

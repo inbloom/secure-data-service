@@ -1,0 +1,23 @@
+{
+    "keyFields" : ["metaData.externalId"],
+    
+    "references" : [{
+        "fieldPath" : "body.learningStandards",
+        "ref" : {
+            "collectionName" : "learningStandard",
+            "isRefList" : true,
+            "refObjectPath" : "body.learningStandards",
+            "optional" : true,
+            "choiceOfFields" :
+                [
+                    [{
+                        "path" : "body.learningStandardId.identificationCode",
+                        "values" :
+                            [{
+                                "valueSource" : "body.learningStandards.identificationCode"
+                            }]
+                    }]
+                ]
+          }
+    }]
+}

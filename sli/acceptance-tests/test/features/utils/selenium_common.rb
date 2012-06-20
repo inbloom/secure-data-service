@@ -2,11 +2,26 @@ def webdriverDebugMessage(driver, message="Webdriver could not achieve expected 
   return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
 
+def lower_timeout_for_same_page_validation
+  #used for same page validation
+  @driver.manage.timeouts.implicit_wait = 2 # seconds
+end
+
+def reset_timeouts_to_default
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
+end
+
 Given /^I have an open web browser$/ do
   @profile ||= Selenium::WebDriver::Firefox::Profile.new
   @profile['network.http.prompt-temp-redirect'] = false
+
+  # if osx, use firefox background script
+  if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+    Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+  end
+
   @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
-  @driver.manage.timeouts.implicit_wait = 10 # seconds
+  reset_timeouts_to_default
 end
 
 When /^I wait for a second$/ do

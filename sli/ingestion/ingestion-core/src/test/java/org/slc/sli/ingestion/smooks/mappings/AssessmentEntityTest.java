@@ -23,22 +23,6 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  */
 public class AssessmentEntityTest {
 
-    // @Test
-    // public void csvAssessmentTest() throws Exception {
-    //
-    // String smooksConfig = "smooks_conf/smooks-assessment-csv.xml";
-    //
-    // String targetSelector = "csv-record";
-    //
-    // String assessmentCsv = "";
-    //
-    // NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig,
-    // targetSelector,
-    // assessmentCsv);
-    //
-    // checkValidAssessmentNeutralRecord(neutralRecord);
-    // }
-
     @Test
     public void edfiXmlAssessmentTest() throws IOException, SAXException {
 
@@ -84,8 +68,16 @@ public class AssessmentEntityTest {
                 + "    <ShortDescription>short desc</ShortDescription>"
                 + "    <Description>descript</Description>"
                 + "  </AssessmentPeriod>"
-                + "  <AssessmentItemReference id=\"tk31\" ref=\"TAKSReading3-1\"/>"
-                + "  <AssessmentItemReference id=\"tk32\" ref=\"TAKSReading3-2\"/>"
+                + "  <AssessmentItemReference>"
+                + "    <AssessmentItem>"
+                + "      <IdentificationCode>TAKSReading3-1</IdentificationCode>"
+                + "    </AssessmentItem>"
+                + "  </AssessmentItemReference>"
+                + "  <AssessmentItemReference>"
+                + "    <AssessmentItem>"
+                + "      <IdentificationCode>TAKSReading3-2</IdentificationCode>"
+                + "    </AssessmentItem>"
+                + "  </AssessmentItemReference>"
                 + "  <ObjectiveAssessmentReference id=\"oar1\" ref=\"TAKSReading2-1\"/>"
                 + "  <ObjectiveAssessmentReference id=\"oar2\" ref=\"TAKSReading2-2\"/>"
                 + "  <AssessmentFamilyReference id=\"famid\" ref=\"famref\">"
@@ -155,8 +147,6 @@ public class AssessmentEntityTest {
 
         Map assessmentPerformanceLevelMap = (Map) assessmentPerformanceLevelList.get(0);
         List performanceLevel = (List) assessmentPerformanceLevelMap.get("performanceLevelDescriptor");
-        //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "id", "perf id");
-        //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "ref", "perf ref");
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel.get(0), "codeValue", "the code value");
         EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel.get(1), "description", "TAKSMetStandard");
 
@@ -189,94 +179,12 @@ public class AssessmentEntityTest {
         assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
         assertEquals(Arrays.asList("TAKSReading2-1", "TAKSReading2-2"), assessmentNeutralRecord.getAttributes().get("objectiveAssessmentRefs"));
 
-        List<Map<String, Object>> assItems = (List<Map<String, Object>>) assessmentNeutralRecord.getAttributes().get(
-                "assessmentItemRefs");
-        Assert.assertNotNull(assItems);
-        assertEquals(2, assItems.size());
-        assertEquals("TAKSReading3-1", assItems.get(0).get("ref"));
-        assertEquals("TAKSReading3-2", assItems.get(1).get("ref"));
-
-        /*
-        List assessmentItemReferenceList = (List) assessmentNeutralRecord.getAttributes().get(
-                "assessmentItemReferences");
-        Map assessmentItemReferenceMap = (Map) assessmentItemReferenceList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(assessmentItemReferenceMap, "id", "tk31");
-        EntityTestUtils.assertObjectInMapEquals(assessmentItemReferenceMap, "ref", "TAKSReading3-1");
-        if (assessmentItemReferenceList.size() > 1) {
-            // TODO: remove when we support csv lists
-            Map assessmentItemReferenceMap2 = (Map) assessmentItemReferenceList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(assessmentItemReferenceMap2, "id", "tk32");
-            EntityTestUtils.assertObjectInMapEquals(assessmentItemReferenceMap2, "ref", "TAKSReading3-2");
-        }
-
-        List objectiveAssessmentReferenceList = (List) assessmentNeutralRecord.getAttributes().get(
-                "objectiveAssessmentReferences");
-        Map objectiveAssessmentReferenceMap = (Map) objectiveAssessmentReferenceList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(objectiveAssessmentReferenceMap, "id", "oar1");
-        EntityTestUtils.assertObjectInMapEquals(objectiveAssessmentReferenceMap, "ref", "TAKSReading2-1");
-        if (objectiveAssessmentReferenceList.size() > 1) {
-            // TODO: remove when we support csv lists
-            Map objectiveAssessmentReferenceMap2 = (Map) objectiveAssessmentReferenceList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(objectiveAssessmentReferenceMap2, "id", "oar2");
-            EntityTestUtils.assertObjectInMapEquals(objectiveAssessmentReferenceMap2, "ref", "TAKSReading2-2");
-        }
-
-        Map assessmentFamilyReferenceMap = (Map) assessmentNeutralRecord.getAttributes().get(
-                "assessmentFamilyReference");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyReferenceMap, "id", "famid");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyReferenceMap, "ref", "famref");
-        Map assessmentFamilyIdentityMap = (Map) assessmentFamilyReferenceMap.get("assessmentFamilyIdentity");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentityMap, "assessmentFamilyTitle", "family title");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentityMap, "version", "first");
-        List assessmentFamilyIdentificationCodeList = (List) assessmentFamilyIdentityMap
-                .get("assessmentFamilyIdentificationCodes");
-        Map assessmentFamilyIdentificationCodeMap = (Map) assessmentFamilyIdentificationCodeList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap, "identificationSystem", "idsys");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap, "assigningOrganizationCode",
-                "orgcode");
-        EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap, "ID", "1234");
-        if (assessmentFamilyIdentificationCodeList.size() > 1) {
-            // TODO: remove when we support csv lists
-            Map assessmentFamilyIdentificationCodeMap2 = (Map) assessmentFamilyIdentificationCodeList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "identificationSystem",
-                    "idsys2");
-            EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2,
-                    "assigningOrganizationCode", "orgcode2");
-            EntityTestUtils.assertObjectInMapEquals(assessmentFamilyIdentificationCodeMap2, "ID", "1235");
-        }
-
-        List sectionReferenceTypeList = (List) assessmentNeutralRecord.getAttributes().get("sectionReferences");
-        Map sectionReferenceTypeMap = (Map) sectionReferenceTypeList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "id", "myid");
-        EntityTestUtils.assertObjectInMapEquals(sectionReferenceTypeMap, "ref", "myref");
-
-        Map sectionIdentityTypeMap = (Map) sectionReferenceTypeMap.get("sectionIdentity");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "stateOrganizationId", "6789");
-
-        List educationOrgIdentificationCodeList = (List) sectionIdentityTypeMap.get("educationOrgIdentificationCodes");
-        Map educationOrgIdentificationCodeMap = (Map) educationOrgIdentificationCodeList.get(0);
-        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap, "identificationSystem",
-                "edorgsystem");
-        EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap, "id", "edorgid");
-        if (educationOrgIdentificationCodeList.size() > 1) {
-            // TODO: remove once we support csv lists
-            Map educationOrgIdentificationCodeMap2 = (Map) educationOrgIdentificationCodeList.get(1);
-            EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap2, "identificationSystem",
-                    "edorgsystem2");
-            EntityTestUtils.assertObjectInMapEquals(educationOrgIdentificationCodeMap2, "id", "edorgid2");
-        }
-
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "uniqueSectionCode", "uniquesectioncode");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "localCourseCode", "localcoursecode");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "schoolYear", "2012");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "term", "myterm");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "classPeriodName", "classperiodname");
-        EntityTestUtils.assertObjectInMapEquals(sectionIdentityTypeMap, "location", "here");
-
-        Map courseCodeMap = (Map) sectionIdentityTypeMap.get("courseCode");
-        EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "identificationSystem", "courseIdentificationSystem");
-        EntityTestUtils.assertObjectInMapEquals(courseCodeMap, "id", "courseId");
-        */
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) assessmentNeutralRecord.getAttributes().get(
+                "assessmentItem");
+        Assert.assertNotNull(assessmentItems);
+        assertEquals(2, assessmentItems.size());
+        assertEquals("TAKSReading3-1", assessmentItems.get(0).get("identificationCode"));
+        assertEquals("TAKSReading3-2", assessmentItems.get(1).get("identificationCode"));
     }
-
 }

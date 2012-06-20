@@ -97,9 +97,7 @@ end
 desc "Run V1 Teacher School Association Tests"
 task :v1TeacherSchoolAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
   runTests("test/features/apiV1/associations/teacherSchoolAssociation")
 end
@@ -107,11 +105,8 @@ end
 desc "Run V1 Teacher Section Association Tests"
 task :v1TeacherSectionAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
   setFixture("section", "section_fixture.json")
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  setFixture("teacherSectionAssociation", "smallville_teacher_sections_fixture.json", "test/data/smallville", false)
   runTests("test/features/apiV1/associations/teacherSectionAssociation")
 end
 
@@ -121,10 +116,6 @@ task :v1SectionAssessmentAssociationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("assessment", "assessment_fixture.json")
   setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
-  setFixture("sectionAssessmentAssociation", "smallville_section_assessment_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
 end
@@ -135,10 +126,6 @@ task :v1StudentAssessmentAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("assessment", "assessment_fixture.json")
   setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("assessment", "smallville_assessment_fixture.json", "test/data/smallville", false)
-  setFixture("studentAssessmentAssociation", "smallville_student_assessment_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/studentAssessmentAssociation")
 end
@@ -149,10 +136,6 @@ task :v1StudentSectionAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("studentSectionAssociation", "smallville_student_section_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/studentSectionAssociation")
 end
@@ -161,7 +144,6 @@ desc "Run V1 Staff Education Organization Association Tests"
 task :v1StaffEdOrgAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
   runTests("test/features/apiV1/associations/staffEducationOrganizationAssociation")
 end
@@ -190,10 +172,6 @@ task :v1SchoolSessionAssociationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("session", "session_fixture.json")
   setFixture("schoolSessionAssociation", "schoolSessionAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("session", "smallville_sessions_fixture.json", "test/data/smallville", false)
-  setFixture("schoolSessionAssociation", "smallville_school_session_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/schoolSessionAssociation")
 end
@@ -204,10 +182,6 @@ task :v1StudentSchoolAssociationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("studentSchoolAssociation", "smallville_student_school_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/studentSchoolAssociation")
 end
