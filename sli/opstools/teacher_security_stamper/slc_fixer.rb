@@ -457,12 +457,13 @@ class SLCFixer
   end
 
   def stamp_teacher
-    @log.info "Stamping teachers and associations"
+    @log.info "Stamping teachers and staff and associations"
 
     school_to_teachers = {}
     teacher_to_schools = {}
     teacher_to_tenant = {}
-    @db['teacherSchoolAssociation'].find({'$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]}, 
+    assoc_to_teacher = {}
+    @db['teacherSchoolAssociation'].find({'$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
                                          {fields: ['_id', 'body.teacherId', 'body.schoolId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         school_id = assoc['body']['schoolId']
@@ -474,6 +475,8 @@ class SLCFixer
 
         tenant_id = assoc['metaData']['tenantId']
         teacher_to_tenant[teacher_id] = tenant_id
+
+        assoc_to_teacher[assoc['_id']] = teacher_id
       }
     }
 
@@ -494,7 +497,18 @@ class SLCFixer
       }
     }
 
-    # TODO teacherSchoolAssociation
+    assoc_to_teacher.each { |assoc_id,teacher_id|
+      teachers = [teacher_id]
+      schools = teacher_to_schools[teacher_id]
+      unless schools.nil?
+        schools.each { |school| teachers += school_to_teachers[school] }
+        teachers = teachers.flatten
+        teachers = teachers.uniq
+      end
+      @db['teacherSchoolAssociation'].update({'_id'=> assoc_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
+
+    # TODO tag non teacher staff
   end
 
 
