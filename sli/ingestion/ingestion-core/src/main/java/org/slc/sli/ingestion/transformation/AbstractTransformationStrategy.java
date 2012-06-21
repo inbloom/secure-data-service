@@ -124,35 +124,22 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Iterable<NeutralRecord> data;
-        Query query = new Query().limit(0);
+        Query query = buildCreationTimeQuery();
 
-        WorkNote note = getWorkNote();
-        if (note.getBatchSize() == 1) {
-            Criteria limiter = Criteria.where("creationTime").gt(0);
-            query.addCriteria(limiter);
-        } else {
-            Criteria limiter = Criteria.where("creationTime").gte(note.getRangeMinimum()).lt(note.getRangeMaximum());
-            query.addCriteria(limiter);
-        }
-
-
-        data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(collectionName, query,
-                getJob().getId());
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
+                collectionName, query, getJob().getId());
 
         if (!data.iterator().hasNext()) {
             LOG.warn("Pulled nothing from {}", collectionName);
-            LOG.warn("Total for {}: {}", collectionName, getNeutralRecordMongoAccess().getRecordRepository().countForJob(collectionName, new NeutralQuery(0), getJob().getId()));
+            LOG.warn("Total for {}: {}", collectionName, getNeutralRecordMongoAccess().getRecordRepository()
+                    .countForJob(collectionName, new NeutralQuery(0), getJob().getId()));
         }
 
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
-        NeutralRecord tempNr = null;
-
-        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
-        while (neutralRecordIterator.hasNext()) {
-            tempNr = neutralRecordIterator.next();
-            collection.put(tempNr.getRecordId(), tempNr);
+        Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
+        if (collection.size() != getWorkNote().getRecordsInRange()) {
+            LOG.error("Record count ");
         }
+
         return collection;
     }
 
@@ -176,5 +163,31 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      */
     public void createRecord(NeutralRecord record) {
         neutralRecordMongoAccess.getRecordRepository().createForJob(record, job.getId());
+    }
+
+    private Query buildCreationTimeQuery() {
+        Query query = new Query().limit(0);
+
+        WorkNote note = getWorkNote();
+        if (note.getBatchSize() == 1) {
+            Criteria limiter = Criteria.where("creationTime").gt(0);
+            query.addCriteria(limiter);
+        } else {
+            Criteria limiter = Criteria.where("creationTime").gte(note.getRangeMinimum()).lt(note.getRangeMaximum());
+            query.addCriteria(limiter);
+        }
+        return query;
+    }
+
+    private Map<Object, NeutralRecord> iterableResultsToMap(Iterable<NeutralRecord> data) {
+        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
+        NeutralRecord tempNr = null;
+
+        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
+        while (neutralRecordIterator.hasNext()) {
+            tempNr = neutralRecordIterator.next();
+            collection.put(tempNr.getRecordId(), tempNr);
+        }
+        return collection;
     }
 }
