@@ -105,7 +105,7 @@ When /^I submit the sorting and pagination request$/ do
   assert(@result != nil, "Response contains no data")
 end
 
-Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
+Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)
@@ -117,6 +117,22 @@ Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
       assert(entity["entityType"] == entityType)
       @ids.push(entity["id"])
     end
+  end
+end
+
+Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Response contains no data")
+  if @result.is_a?(Hash)
+    assert(@result["entityType"] == entityType)
+  else
+    assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
+    @ids = Array.new
+    @result.each do |entity|
+      assert(entity["entityType"] == entityType)
+      @ids.push(entity["id"])
+    end
+    assert(@ids.size.to_s == size, "Got " + @ids.size.to_s + " entities, expected " + size.to_s + " in response.")
   end
 end
 
