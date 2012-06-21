@@ -318,6 +318,15 @@ When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ d
   @driver.find_element(:id, "custom_ed_org").send_keys arg1
 end
 
+Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
+  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  user = ldap.read_user(email)
+  if user[:edorg] != edorg
+    user[:edorg] = edorg
+    ldap.update_user_info(user)
+  end
+end
+
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
    ldapBase=PropLoader.getProps['ldap_base']
