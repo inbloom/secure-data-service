@@ -399,6 +399,7 @@ class SLCFixer
   end
 
   def stamp_teacher
+    #for each teacher school association map from school->teachers
     # TODO
   end
 
