@@ -4,19 +4,19 @@ require 'approval'
 require 'rumbster'
 require 'message_observers'
 require 'net/imap'
+require 'test/unit'
 require 'active_support/inflector'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
-
 
 SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Before do
+   extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-
 end
 
 After do |scenario|
@@ -138,7 +138,7 @@ end
 Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
   user=ApprovalEngine.get_user(@email)
   puts user
-  assert(user[:status]==status.downcase,"didnt create account with status is #{status}")
+  assert_equal(status.downcase, user[:status], "bad status")
 end
 
 Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
@@ -146,18 +146,18 @@ Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, em
   @email = email
   verifyEmail()
   if environment == "sandbox"
-    approval_email_subject="Welcome to the SLC Developer Sandbox"
+    approval_email_subject = "Welcome to the SLC Developer Sandbox"
   elsif environment == "production"
-    approval_email_subject="Welcome to the Shared Learning Collaborative"
+    approval_email_subject = "Welcome to the Shared Learning Collaborative"
   end
-  found=@email_subject.downcase.include?(approval_email_subject.downcase)
-  assert(found,"didnt receive approval email!")
+  assert(@email_subject.downcase.include?(approval_email_subject.downcase), "<#{@email_subject}> does not include <#{approval_email_subject.downcase}>")
 end
 
 Then /^the email has a "([^"]*)"$/ do |link|
  #link need to be fixed before uncomment out code
   found = @email_content.include?(link)
-  assert(found,"the email doesnt have the link for #{link}")
+  puts @email_content
+  assert(found, "the email doesnt have the link for #{link}")
 end
 
 Then /^a "([^"]*)" roles is a added for the user in ldap$/ do |role|
@@ -291,10 +291,6 @@ end
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
   @driver.switch_to().alert().accept()
-end
-
-Then /^an approval email is sent to "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
 end
 
 When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
