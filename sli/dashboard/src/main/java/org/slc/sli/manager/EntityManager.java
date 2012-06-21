@@ -120,7 +120,7 @@ public class EntityManager extends ApiClientManager {
 
         if (section != null) {
             student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-            GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
+            GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
 
             if (teacher != null) {
                 @SuppressWarnings("unchecked")
