@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + 'slc_fixer'
+#require File.dirname(__FILE__) + 'slc_fixer'
+require_relative 'slc_fixer'
 
 if ARGV.count < 1
   puts "Usage: teacher_stamper <dbhost:port> <database> <terminates>"
