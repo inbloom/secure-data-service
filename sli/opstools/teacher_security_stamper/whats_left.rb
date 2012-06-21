@@ -6,7 +6,7 @@ log.level = Logger::WARN
 db = connection['sli']
 fixer = SLCFixer.new(db, log)
 fixer.start
-skip = ['system.indexes', 'application', 'aggregationDefinition', 'realm', 'applicationAuthorization', 'realm', 'roles', 'system.js', 'tenant', 'assessment', 'learningStandard', 'learningObjective', 'educationOrganization', 'sectionSchoolAssociation', 'educationOrganizationAssociation', 'educationOrganizationSchoolAssociation']
+skip = ['system.indexes', 'application', 'aggregationDefinition', 'realm', 'applicationAuthorization', 'realm', 'roles', 'system.js', 'tenant', 'assessment', 'learningStandard', 'learningObjective', 'educationOrganization', 'sectionSchoolAssociation', 'educationOrganizationAssociation', 'educationOrganizationSchoolAssociation', 'error', 'securityEvent']
 stamped = []
 unstamped = []
 db.collection_names.each do |name|
