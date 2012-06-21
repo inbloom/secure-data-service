@@ -17,7 +17,7 @@
         <fileNamePattern>${log.path}/apicall-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
-      <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] -R %msg%n</Pattern>
+      <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] - %msg%n</Pattern>
     </encoder>
   </appender>
  
