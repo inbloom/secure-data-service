@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100">
+    <Session>
+        <SessionName>STD-D0-HSch0-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-30</BeginDate>
+        <EndDate>2012-11-30</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch0-ses0-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch0-ses0-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-0"/>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch0-ses1</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-11</BeginDate>
+        <EndDate>2012-11-11</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch0-ses1-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch0-ses1-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-0"/>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch1-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-26</BeginDate>
+        <EndDate>2012-11-26</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch1-ses0-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch1-ses0-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-0"/>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch1-ses1</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2012-11-02</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch1-ses1-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch1-ses1-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-0"/>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch2-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-02</BeginDate>
+        <EndDate>2012-11-02</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch2-ses0-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch2-ses0-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-0"/>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch2-ses1</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-13</BeginDate>
+        <EndDate>2012-11-13</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch2-ses1-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch2-ses1-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-0"/>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch3-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-29</BeginDate>
+        <EndDate>2012-11-29</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch3-ses0-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch3-ses0-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-0"/>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch3-ses1</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-26</BeginDate>
+        <EndDate>2012-11-26</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch3-ses1-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch3-ses1-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-0"/>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch4-ses0</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-26</BeginDate>
+        <EndDate>2012-11-26</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch4-ses0-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch4-ses0-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-0"/>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-1"/>
+    </Session>
+    <Session>
+        <SessionName>STD-D0-HSch4-ses1</SessionName>
+        <SchoolYear>2011-2012</SchoolYear>
+        <Term>Spring Semester</Term>
+        <BeginDate>2012-01-26</BeginDate>
+        <EndDate>2012-11-26</EndDate>
+        <TotalInstructionalDays>120</TotalInstructionalDays>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <GradingPeriodReference ref="STD-D0-HSch4-ses1-0-0"/>
+        <GradingPeriodReference ref="STD-D0-HSch4-ses1-0-1"/>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-0"/>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-1"/>
+    </Session>
+    <GradingPeriod id="STD-D0-HSch0-ses0-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>52</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses0-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>89</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses0-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>61</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses0-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Semester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>136</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses1-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>139</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses1-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Summer Session</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>55</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses1-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>124</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch0-ses1-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch0</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>76</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch0-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses0-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>83</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses0-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>63</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses0-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>45</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses0-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Semester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>143</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses1-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>95</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses1-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Summer Session</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>133</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses1-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>102</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch1-ses1-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch1</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>132</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch1-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses0-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>71</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses0-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses0-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>112</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses0-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Semester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>136</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses1-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>81</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses1-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Summer Session</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>125</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses1-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>71</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch2-ses1-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch2</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>94</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch2-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses0-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>145</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses0-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>103</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses0-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>82</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses0-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Semester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>50</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses1-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>83</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses1-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Summer Session</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>112</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses1-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>95</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch3-ses1-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch3</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>142</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch3-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses0-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>End of Year</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>142</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses0-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>65</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses0-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>54</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses0-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Semester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>114</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses0-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses1-0-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Six Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>102</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses1-0-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Summer Session</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>122</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-0"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses1-1-0">
+        <GradingPeriodIdentity>
+            <GradingPeriod>First Trimester</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>74</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-1"/>
+    </GradingPeriod>
+    <GradingPeriod id="STD-D0-HSch4-ses1-1-1">
+        <GradingPeriodIdentity>
+            <GradingPeriod>Fourth Nine Weeks</GradingPeriod>
+            <SchoolYear>2011-2012</SchoolYear>
+            <StateOrganizationId>STD-D0-HSch4</StateOrganizationId>
+        </GradingPeriodIdentity>
+        <BeginDate>2011-03-04</BeginDate>
+        <EndDate>2012-03-04</EndDate>
+        <TotalInstructionalDays>71</TotalInstructionalDays>
+        <CalendarDateReference ref="STD-D0-HSch4-ses1-1"/>
+    </GradingPeriod>
+    <CalendarDate id="STD-D0-HSch0-ses0-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Other</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch0-ses0-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Emergency day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch0-ses1-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch0-ses1-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch1-ses0-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Strike</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch1-ses0-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Emergency day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch1-ses1-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Strike</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch1-ses1-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch2-ses0-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch2-ses0-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch2-ses1-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Emergency day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch2-ses1-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch3-ses0-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Emergency day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch3-ses0-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Strike</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch3-ses1-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Strike</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch3-ses1-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch4-ses0-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Make-up day</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch4-ses0-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Holiday</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch4-ses1-0">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Strike</CalendarEvent>
+    </CalendarDate>
+    <CalendarDate id="STD-D0-HSch4-ses1-1">
+        <Date>2011-03-04</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+    </CalendarDate>
+</InterchangeEducationOrgCalendar>
