@@ -798,6 +798,7 @@ public class BasicService implements EntityService {
 
         if( EntityNames.TEACHER.equals(type) &&
                 (toType.equals(EntityNames.STUDENT) ||
+                        toType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) ||
                         toType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) ||
                         toType.equals(EntityNames.TEACHER_SECTION_ASSOCIATION) ||
                         toType.equals(EntityNames.SECTION) ||
