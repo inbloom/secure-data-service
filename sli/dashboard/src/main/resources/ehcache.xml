@@ -6,13 +6,7 @@
         overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
         timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="user.hierarchy" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
-        
-    <cache name="user.district" eternal="false" overflowToDisk="false" />
-
-    <cache name="user.schools" eternal="false" overflowToDisk="false"/>
-    
-    <cache name="user.los" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
+    <cache name="user.panel.data" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
         
     <cache name="user.custom.config" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
         
@@ -20,8 +14,6 @@
     
     <cache name="user.panel.config" eternal="false" overflowToDisk="false" />
         
-    <cache name="user.portal.header" eternal="false" overflowToDisk="false" />
-        
-    <cache name="user.portal.footer" eternal="false" overflowToDisk="false" />
+    <cache name="portal.data" eternal="false" overflowToDisk="false" />
         
 </ehcache>

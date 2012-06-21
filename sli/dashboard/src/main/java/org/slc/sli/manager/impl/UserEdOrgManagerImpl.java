@@ -51,7 +51,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return District name
      */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_ED_ORG)
+    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public EdOrgKey getUserEdOrg(String token) {
         GenericEntity edOrg = null;
 
@@ -127,9 +127,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      *
      * @return
      */
-    @Override
-    @Cacheable(value = Constants.CACHE_USER_HIERARCHY)
-    public List<GenericEntity> getUserInstHierarchy(String token) {
+    private List<GenericEntity> getUserInstHierarchy(String token) {
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
         if (schools == null) {
@@ -255,6 +253,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * Signature is pre-defined by the architect.
      */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();

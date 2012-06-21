@@ -255,12 +255,8 @@ public final class Constants {
     public static final String LIMIT = "limit";
     public static final String ATTR_PARENTS = "parents";
 
-    public static final String CACHE_USER_LOS = "user.los";
-    public static final String CACHE_USER_SCHOOLS = "user.schools";
-    public static final String CACHE_USER_ED_ORG = "user.district";
-    public static final String CACHE_USER_HIERARCHY = "user.hierarchy";
-    public static final String CACHE_PORTAL_HEADER = "user.portal.header";
-    public static final String CACHE_PORTAL_FOOTER = "user.portal.footer";
+    public static final String CACHE_USER_PANEL_DATA = "user.panel.data";
+    public static final String CACHE_PORTAL_DATA = "portal.data";
     public static final String CACHE_USER_CONFIG = "user.panel.config";
     public static final String CACHE_USER_WIDGET_CONFIG = "user.config.widget";
     public static final String CACHE_USER_PANEL_CONFIG = "user.panel.config";
