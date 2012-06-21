@@ -27,11 +27,28 @@
   </bean>
 
 
+  <!-- ActiveMQ -->
+  <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <property name="brokerURL"
+      value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&amp;jms.prefetchPolicy.queuePrefetch=0" />
+  </bean>
 
+  <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+    <property name="maxConnections" value="8" />
+    <property name="maximumActive" value="500" />
+    <property name="connectionFactory" ref="jmsConnectionFactory" />
+  </bean>
 
-   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true" />
-   </bean>
+  <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+    <property name="connectionFactory" ref="pooledConnectionFactory" />
+    <property name="transacted" value="false" />
+    <property name="concurrentConsumers" value="10" />
+  </bean>
+
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <property name="configuration" ref="jmsConfig" />
+  </bean>
+
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
@@ -69,8 +86,8 @@
     <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
   </bean>
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
-    <property name="entityRepository" ref="mongoEntityRepository"/>
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
+    <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
@@ -88,7 +105,7 @@
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers"/>
+    <property name="transformers" ref="transformers" />
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
