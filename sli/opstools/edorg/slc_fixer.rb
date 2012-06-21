@@ -6,7 +6,7 @@ require 'date'
 require 'logger'
 
 class SLCFixer
-  attr_accessor :count, :db, :log
+  attr_accessor :count, :db, :log, :parent_ed_org_hash
   def initialize(db, logger = nil)
     @db = db
     @students = @db['student']
@@ -14,12 +14,15 @@ class SLCFixer
     @count = 0
     @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
+    @parent_ed_org_hash = {}
   end
 
   def start
     time = Time.now
     @threads = []
+
     Benchmark.bm(20) do |x|
+      x.report("Parent EdOrgs") {build_edorg_list}
       x.report("Students")      {fix_students}
       x.report("Sections")      {fix_sections}
       x.report("Staff")         {fix_staff}
@@ -366,6 +369,7 @@ class SLCFixer
     edorgs = []
     []
   end
+
   def stamp_id(collection, id, edOrg)
     if edOrg.nil? or edOrg.empty?
       return
@@ -374,7 +378,23 @@ class SLCFixer
       tenant = collection.find_one({"_id" => id})
       tenantid = tenant['metaData']['tenantId'] if !tenant.nil? and tenant.include? 'metaData' and tenant['metaData'].include? 'tenantId'
       @log.warn "No tenantId on #{collection.name}##{id}" if tenantid.nil?
-      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"metaData.edOrgs" => edOrg}}) unless tenantid.nil?
+
+      edOrgs = []
+      parent_edOrgs = []
+      if edOrg.is_a? Array
+        edOrg.each do |i|
+            parent_edOrgs.concat(parent_ed_org_hash[i]) unless parent_ed_org_hash[i].nil?
+        end
+        edOrgs.concat(edOrg)
+      else
+        parent_edOrgs = parent_ed_org_hash[edOrg]
+        edOrgs << edOrg
+      end
+
+      edOrgs.concat(parent_edOrgs) unless parent_edOrgs.nil?
+      edOrgs = edOrgs.flatten.uniq
+
+      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
@@ -413,4 +433,33 @@ class SLCFixer
     return [] if old.nil?
     old
   end
+
+  def build_edorg_list()
+    @db['educationOrganization'].find({}, @basic_options) do |cur|
+        cur.each do |edorg|
+            id = edorg['_id']
+            edorgs = []
+            get_parent_edorgs(id, edorgs)
+
+            if !edorgs.empty?
+                @parent_ed_org_hash[edorg['_id']] = edorgs
+            end
+
+            stamp_id(@db['educationOrganization'], id, id)
+        end
+    end
+  end
+
+  def get_parent_edorgs(id, edorgs)
+    edorg = @db['educationOrganization'].find_one({"_id" => id})
+    parent_id = edorg['body']['parentEducationAgencyReference'] unless edorg.nil?
+
+    if !parent_id.nil?
+        edorgs << parent_id
+        get_parent_edorgs(parent_id, edorgs)
+    end
+
+    return
+  end
+
 end
