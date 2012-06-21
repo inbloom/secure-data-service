@@ -1,0 +1,34 @@
+{
+    "keyFields" : ["metaData.externalId"],
+    
+    "subEntities" : { "body.objectiveAssessments?" : "objectiveAssessment"},
+    
+    "references" : [{
+        "fieldPath" : "body.learningObjectives",
+        "ref" : {
+            "collectionName" : "learningObjective",
+            "isRefList" : true,
+            "refObjectPath" : "body.learningObjectives",
+            "optional" : true,
+            "choiceOfFields" :
+                [
+                    [{
+                        "path" : "body.learningObjectiveId",
+                        "values" :
+                            [{
+                                "valueSource" : 
+                                        "body.learningObjectives.learningObjectiveId"
+                            }]
+                    }],
+                    [{
+                        "path" : "body.objective",
+                        "values" :
+                            [{
+                                "valueSource" : 
+                                        "body.learningObjectives.objective"
+                            }]
+                    }]
+                ]
+          }
+    }]
+}
