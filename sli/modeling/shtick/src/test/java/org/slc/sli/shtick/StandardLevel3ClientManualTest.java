@@ -20,9 +20,7 @@ import org.junit.Test;
 import org.slc.sli.shtick.pojo.BirthData;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
-import org.slc.sli.shtick.pojo.SimpleName;
 import org.slc.sli.shtick.pojo.Student;
-import org.slc.sli.shtick.pojo.UniqueStateIdentifier;
 
 public class StandardLevel3ClientManualTest {
 
@@ -44,12 +42,12 @@ public class StandardLevel3ClientManualTest {
                 final Student student = studentMap.get(TestingConstants.TEST_STUDENT_ID);
                 assertNotNull(student);
                 assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
-                assertEquals("Male", student.getSex().getName());
+                assertEquals(SexType.MALE, student.getSex());
                 final Name name = student.getName();
-                assertEquals("Garry", name.getFirstName().getValue());
-                assertEquals("Kinsel", name.getLastSurname().getValue());
+                assertEquals("Garry", name.getFirstName());
+                assertEquals("Kinsel", name.getLastSurname());
                 assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
-                assertEquals("100000005", student.getStudentUniqueStateId().getValue());
+                assertEquals("100000005", student.getStudentUniqueStateId());
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -74,7 +72,7 @@ public class StandardLevel3ClientManualTest {
             assertEquals(TestingConstants.TEST_STUDENT_ID, student.getId());
             assertEquals(SexType.MALE, student.getSex());
             assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
-            assertEquals("100000005", student.getStudentUniqueStateId().getValue());
+            assertEquals("100000005", student.getStudentUniqueStateId());
         } catch (final IOException e) {
             throw new RuntimeException(e);
         } catch (final StatusCodeException e) {
@@ -100,7 +98,7 @@ public class StandardLevel3ClientManualTest {
                 assertEquals("student", student.getType());
                 final Map<String, Object> data = student.getData();
                 assertNotNull(data);
-                assertEquals("Male", data.get("sex"));
+                assertEquals(SexType.MALE, data.get("sex"));
                 final Object name = data.get("name");
                 assertTrue(name instanceof Map);
                 @SuppressWarnings("unchecked")
@@ -137,15 +135,15 @@ public class StandardLevel3ClientManualTest {
 
             // GET POSTED ENTITY
             final Student student = doGetStudentById(client, studentId);
-            assertEquals("Jeff", student.getName().getFirstName().getValue());
-            assertEquals("Stokes", student.getName().getLastSurname().getValue());
+            assertEquals("Jeff", student.getName().getFirstName());
+            assertEquals("Stokes", student.getName().getLastSurname());
             assertEquals(studentId, student.getId());
 
             // PUT UPDATED ENTITY
             doPutStudent(client, student);
             // GET UPDATED ENTITY
             final Student updatedStudent = doGetStudentById(client, studentId);
-            assertEquals("John", updatedStudent.getName().getFirstName().getValue());
+            assertEquals("John", updatedStudent.getName().getFirstName());
             assertEquals(studentId, student.getId());
 
             // DELETE ENTITY
@@ -174,7 +172,7 @@ public class StandardLevel3ClientManualTest {
 
     private void doPutStudent(final Level3ClientManual client, final Student student) throws IOException,
             StatusCodeException {
-        student.getName().setFirstName(new SimpleName("John"));
+        student.getName().setFirstName("John");
         client.putStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 
@@ -187,12 +185,12 @@ public class StandardLevel3ClientManualTest {
         Student student = new Student();
 
         Name name = new Name();
-        name.setFirstName(new SimpleName("Jeff"));
-        name.setMiddleName(new SimpleName("Allen"));
-        name.setLastSurname(new SimpleName("Stokes"));
+        name.setFirstName("Jeff");
+        name.setMiddleName("Allen");
+        name.setLastSurname("Stokes");
         student.setName(name);
 
-        student.setStudentUniqueStateId(new UniqueStateIdentifier("1234-STUDENT"));
+        student.setStudentUniqueStateId("1234-STUDENT");
         student.setSex(SexType.MALE);
 
         BirthData birthData = new BirthData();

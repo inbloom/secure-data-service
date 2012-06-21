@@ -18,13 +18,13 @@ import org.slc.sli.shtick.pojo.SexType;
 import org.slc.sli.shtick.pojo.Student;
 
 /**
- * Servlet for testing API crud consistency
- * using shtick (?) // TODO: update javadoc
- *
- * WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP
- *
- * @author chung
- */
+* Servlet for testing API crud consistency
+* using shtick (?) // TODO: update javadoc
+*
+* WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP WIP
+*
+* @author chung
+*/
 @SuppressWarnings("serial")
 public class CrudConsistencySampleServlet extends HttpServlet {
 
@@ -109,11 +109,11 @@ public class CrudConsistencySampleServlet extends HttpServlet {
                 Student student = students.get(0);
                 String errorMsg = "";
                 Name name = student.getName();
-                if (!name.getFirstName().getValue().equals("Marvin")) {
+                if (!name.getFirstName().equals("Marvin")) {
                     errorMsg = errorMsg
                             + String.format(SampleLiterals.ERROR_GENERIC, "First name does not match.\n");
                 }
-                if (!name.getLastSurname().getValue().equals("Miller")) {
+                if (!name.getLastSurname().equals("Miller")) {
                     errorMsg = errorMsg
                             + String.format(SampleLiterals.ERROR_GENERIC, "Last name does not match.\n");
                 }

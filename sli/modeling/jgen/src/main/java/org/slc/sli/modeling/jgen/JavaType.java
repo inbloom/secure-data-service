@@ -84,6 +84,14 @@ public final class JavaType {
         }
     }
 
+    public JavaType getBaseType() {
+        if (!getBase().equals(JavaType.JT_OBJECT) && !isEnum()) {
+            return getBase().getBaseType();
+        } else {
+            return this;
+        }
+    }
+
     public String getSimpleName() {
         return name.getLocalPart();
     }

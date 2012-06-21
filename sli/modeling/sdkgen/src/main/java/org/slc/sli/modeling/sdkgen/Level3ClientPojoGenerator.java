@@ -390,39 +390,40 @@ public final class Level3ClientPojoGenerator {
 
     private static void writeSetter(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
-        new SetterSnippet(type, name).write(jsw);
+        new SetterSnippet(type.getBaseType(), name).write(jsw);
     }
 
     // FIXME: This needs to be cleaned up.
     private static void writeGetter(final JavaType type, final String name, final JavaStreamWriter jsw)
             throws IOException {
+        final JavaType baseType = type.getBaseType();
         jsw.write("public");
         jsw.space();
-        jsw.writeType(type);
+        jsw.writeType(baseType);
         jsw.space();
         jsw.write("get");
         jsw.write(titleCase(name));
         jsw.parenL();
         jsw.parenR();
         jsw.beginBlock();
-        if (JavaType.JT_STRING.equals(type)) {
-            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
-        } else if (JavaType.JT_BOOLEAN.equals(type)) {
-            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
-        } else if (JavaType.JT_DOUBLE.equals(type)) {
-            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
-        } else if (JavaType.JT_INTEGER.equals(type)) {
-            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
-        } else if (JavaType.JT_BIG_INTEGER.equals(type)) {
-            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type)).write(jsw);
-        } else if (type.isEnum()) {
-            if (type.isList()) {
-                jsw.beginStmt().write("final ").writeType(type).write(" list = new ArrayList<")
-                        .write(type.getSimpleName()).write(">()").endStmt();
+        if (JavaType.JT_STRING.equals(baseType)) {
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
+        } else if (JavaType.JT_BOOLEAN.equals(baseType)) {
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
+        } else if (JavaType.JT_DOUBLE.equals(baseType)) {
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
+        } else if (JavaType.JT_INTEGER.equals(baseType)) {
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
+        } else if (JavaType.JT_BIG_INTEGER.equals(baseType)) {
+            new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
+        } else if (baseType.isEnum()) {
+            if (baseType.isList()) {
+                jsw.beginStmt().write("final ").writeType(baseType).write(" list = new ArrayList<")
+                        .write(baseType.getSimpleName()).write(">()").endStmt();
                 jsw.beginStmt().write("return list").endStmt();
             } else {
                 jsw.beginStmt();
-                jsw.write("return ").write(type.getSimpleName()).write(".valueOfName");
+                jsw.write("return ").write(baseType.getSimpleName()).write(".valueOfName");
                 jsw.parenL();
                 try {
                     new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, JavaType.JT_STRING).write(jsw);
@@ -431,15 +432,15 @@ public final class Level3ClientPojoGenerator {
                 }
                 jsw.endStmt();
             }
-        } else if (type.isComplex()) {
-            if (type.isList()) {
+        } else if (baseType.isComplex()) {
+            if (baseType.isList()) {
                 new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();
                 try {
                     jsw.write("return");
                     jsw.space();
-                    jsw.writeType(type);
+                    jsw.writeType(baseType);
                     jsw.write(".valueOf");
                     new ParenExpr(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, TYPE_UNDERLYING)).write(jsw);
                 } finally {
@@ -447,7 +448,7 @@ public final class Level3ClientPojoGenerator {
                 }
             }
         } else {
-            if (type.isList()) {
+            if (baseType.isList()) {
                 new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();
@@ -456,8 +457,8 @@ public final class Level3ClientPojoGenerator {
                     jsw.space();
                     jsw.write("new");
                     jsw.space();
-                    jsw.writeType(type);
-                    new ParenExpr(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, type.getBase())).write(jsw);
+                    jsw.writeType(baseType);
+                    new ParenExpr(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType.getBase())).write(jsw);
                 } finally {
                     jsw.endStmt();
                 }
