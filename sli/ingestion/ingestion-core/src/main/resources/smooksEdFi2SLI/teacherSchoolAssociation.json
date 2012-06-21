@@ -8,9 +8,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.schoolId"
 		                }]
@@ -19,16 +19,16 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.teacherId","ref" :
         {
 	        "collectionName" : "staff",
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.teacherId"
 		                }]
