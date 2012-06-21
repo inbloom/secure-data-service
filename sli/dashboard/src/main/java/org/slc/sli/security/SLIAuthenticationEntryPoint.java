@@ -1,8 +1,6 @@
 package org.slc.sli.security;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -54,10 +52,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final String OAUTH_CODE = "code";
     private static final String ENTRY_URL = "ENTRY_URL";
-    private static final String STATE_PARAMETER = "state";
     private static final String HEADER_USER_AGENT = "User-Agent";
     private static final String HEADER_AJAX_INDICATOR = "X-Requested-With";
     private static final String AJAX_REQUEST = "XmlHttpRequest";
+    
+    // Security Utilities
+    private static final String NONSECURE_ENVIRONMENT_NAME = "local";
     
     private static final String LOG_MESSAGE_AUTH_INITIATING = "Authentication: initiating {}";
     private static final String LOG_MESSAGE_AUTH_VERIFYING = "Authentication: verifying {}";
@@ -124,47 +124,47 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
     
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException, ServletException {
-        
-        HttpSession session = request.getSession();
-        
-        try {
-            
-            SliApi.setBaseUrl(apiUrl);
-            
-            // Setup OAuth service
-            OAuthService service = new ServiceBuilder().provider(SliApi.class)
-                    .apiKey(propDecryptor.getDecryptedClientId()).apiSecret(propDecryptor.getDecryptedClientSecret())
-                    .callback(callbackUrl).build();
-            
-            // Check cookies for token, if found insert into session
-            boolean cookieFound = checkCookiesForToken(request, session);
-            
-            Object token = session.getAttribute(OAUTH_TOKEN);
-            
-            if (token == null && request.getParameter(OAUTH_CODE) == null) {
-                // Initiate authentication
-                initiatingAuthentication(request, response, session, service);
-            } else if (token == null && request.getParameter(OAUTH_CODE) != null) {
-                // Verify authentication
-                verifyingAuthentication(request, response, session, service);
-            } else {
-                // Complete authentication
-                completeAuthentication(request, response, session, token, cookieFound);
-            }
-        } catch (OAuthException ex) {
-            session.invalidate();
-            LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
-            return;
-        } catch (Exception ex) {
-            session.invalidate();
-            LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-            return;
-        }
-    }
+	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+	        throws IOException, ServletException {
+	    
+		HttpSession session = request.getSession();
+	    
+	    try {
+	        
+	        SliApi.setBaseUrl(apiUrl);
+	        
+	        // Setup OAuth service
+	        OAuthService service = new ServiceBuilder().provider(SliApi.class)
+	                .apiKey(propDecryptor.getDecryptedClientId()).apiSecret(propDecryptor.getDecryptedClientSecret())
+	                .callback(callbackUrl).build();
+	        
+	        // Check cookies for token, if found insert into session
+	        boolean cookieFound = checkCookiesForToken(request, session);
+	        
+	        Object token = session.getAttribute(OAUTH_TOKEN);
+	        
+	        if (token == null && request.getParameter(OAUTH_CODE) == null) {
+	            // Initiate authentication
+	            initiatingAuthentication(request, response, session, service);
+	        } else if (token == null && request.getParameter(OAUTH_CODE) != null) {
+	        	// Verify authentication
+	            verifyingAuthentication(request, response, session, service);
+	        } else {
+	            // Complete authentication
+	            completeAuthentication(request, response, session, token, cookieFound);
+	        }
+	    } catch (OAuthException ex) {
+	        session.invalidate();
+	        LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
+	        response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
+	        return;
+	    } catch (Exception ex) {
+	        session.invalidate();
+	        LOG.error(LOG_MESSAGE_AUTH_EXCEPTION, new Object[] { ex.getMessage() });
+	        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+	        return;
+	    }
+	}
     
     private boolean isAjaxRequest(HttpServletRequest request) {        
         boolean isAjaxRequest = false;        
@@ -218,21 +218,23 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // TODO: Remove custom header and use cookie when servlet-api is upgraded to 3.0
         // response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token +
         // ";path=/;domain=" + domain of the request + ";Secure;HttpOnly");
-        response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token + ";path=/;domain="
-                + request.getServerName() + ";HttpOnly");
-        
+
+    	String headerString = DASHBOARD_COOKIE + "=" + (String) token + ";path=/;domain=" + request.getServerName() + ";HttpOnly";
+    	
+    	if(isSecureRequest(request)) 
+            headerString = headerString + (";Secure");
+    	
+        response.setHeader("Set-Cookie", headerString);
     }
     
     private void initiatingAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session, OAuthService service) throws IOException {
         
         LOG.info(LOG_MESSAGE_AUTH_INITIATING, new Object[] { request.getRemoteAddr() });
         
+        session.setAttribute(ENTRY_URL, request.getRequestURL());
+        
         // The request token doesn't matter for OAuth 2.0 which is why it's null
         String authUrl = service.getAuthorizationUrl(null);
-        
-      //State is keyword used by idp to forward parameters
-      //Adding requestUrl as state, to allow idp to send it back in the redirect
-        authUrl += "&" + STATE_PARAMETER + "=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8");
         response.sendRedirect(authUrl);        
     }
     
@@ -242,16 +244,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         
         Verifier verifier = new Verifier(request.getParameter(OAUTH_CODE));
         Token accessToken = service.getAccessToken(null, verifier);
-        
-        //setting cookie, instead of saving oauth_token in session
-        saveCookieWithToken(request, response, accessToken.getToken());
-        
-        //State is keyword used by idp to forward parameters
-        //Retrieving entryUrl from state parameter added in initiatingAuthentication
-        String entryUrl = request.getParameter(STATE_PARAMETER);
-
+        session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+        Object entryUrl = session.getAttribute(ENTRY_URL);
         if (entryUrl != null) {
-            response.sendRedirect(URLDecoder.decode(entryUrl, "UTF-8"));
+            response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
         } else {
             response.sendRedirect(request.getRequestURI());
         }        
@@ -342,4 +338,19 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         return null;
     }
     
+    
+    /**
+     * @param request - request to be determined
+     * @return if the ENV is non-local ( this is due to local jetty server does not 
+     * handle secure protocol ) and the protocol is HTTPS, return true. 
+     * Otherwise, return false.
+     */
+    static boolean isSecureRequest(HttpServletRequest request){
+
+    	String serverName = request.getServerName();
+    	boolean isSecureEnvironment = 
+    			(!serverName.substring(0, serverName.indexOf(".")).equals(NONSECURE_ENVIRONMENT_NAME));
+
+    	return (request.isSecure() && isSecureEnvironment);
+    }
 }
