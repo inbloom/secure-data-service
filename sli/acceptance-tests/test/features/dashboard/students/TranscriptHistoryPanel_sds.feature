@@ -230,7 +230,7 @@ Feature: Student Transcript History Panel
     When I click the expand button of the row "2010-2011;Fall Semester;Daybreak Central High;10;3.2;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
-    And I should see the sub row "English Language and Literature;10th Grade English;86.0;"
+    And I should see the sub row "English Language and Literature;10th Grade English;86;"
     And I should see the sub row "Science;Earth Sciences I;B;"
     And I should see the sub row "Fine and Performing Arts;Vocal Performance I;A;"
     And I should see the sub row "Physical, Health, and Safety Education;Weight Training;B;"
@@ -254,7 +254,7 @@ Feature: Student Transcript History Panel
     And I should see the sub row "Science;Earth Sciences II;C+;"
     And I should see the sub row "Fine and Performing Arts;Vocal Performance II;A;"
     And I should see the sub row "Physical, Health, and Safety Education;Nutrition;B;"
-    And I should see the sub row "English Language and Literature;10th Grade Writing;88.0;"
+    And I should see the sub row "English Language and Literature;10th Grade Writing;88;"
     And I should see the sub row "Mathematics;Algebra II;B;"
 
     When I click the expand button of the row "2009-2010;Spring Semester;Daybreak Central High;9;2.5;"
