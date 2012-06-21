@@ -1,8 +1,12 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +16,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
@@ -20,7 +26,9 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.cache.NullCacheProvider;
+import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * ID Normalizer unit tests.
@@ -47,7 +55,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
         Repository<Entity> repoNull = Mockito.mock(Repository.class);
 
@@ -109,7 +117,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -152,7 +160,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -219,7 +227,7 @@ public class IdNormalizationTest {
         myCollectionId.setChoiceOfFields(choice);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         Map<String, Object> body = new HashMap<String, Object>();
@@ -298,7 +306,7 @@ public class IdNormalizationTest {
         expectedEntityList.add(expectedEntity2);
 
         IdNormalizer idNorm = new IdNormalizer();
-        idNorm.setCacheProvider( new NullCacheProvider() );
+        idNorm.setCacheProvider(new NullCacheProvider());
         Repository<Entity> repo = Mockito.mock(Repository.class);
 
         //mock the repo query note this doesn't test whether the query was constructed correctly
@@ -339,6 +347,194 @@ public class IdNormalizationTest {
         NeutralRecord nr = new NeutralRecord();
         nr.setAttributes(attributes);
         Entity entity = new NeutralRecordEntity(nr);
+
+        return entity;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void shouldResolveNestedRef() {
+        EntityConfig entityConfig =  createNestedRefConfig(true);
+
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //mock the repo query note this doesn't test whether the query was constructed correctly
+        Mockito.when(repo.findByQuery(Mockito.eq("parentCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getParentTargetEntities());
+        Mockito.when(repo.findByQuery(Mockito.eq("childCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getChildTargetEntities());
+
+        Entity entity = createNestedSourceEntity(true);
+        ErrorReport errorReport = new TestErrorReport();
+
+        IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider(new NullCacheProvider());
+
+        idNorm.setEntityRepository(repo);
+        idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
+
+        assertNotNull("attribute parentId should not be null", entity.getBody().get("parentId"));
+        assertEquals("attribute parentId should be resolved to parent_guid", "parent_guid", entity.getBody().get("parentId"));
+        assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void shouldFailWithUnresolvedNonNullOptionalChildRef() {
+        EntityConfig entityConfig =  createNestedRefConfig(true);
+
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //mock the repo query note this doesn't test whether the query was constructed correctly
+        Mockito.when(repo.findByQuery(Mockito.eq("parentCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getParentTargetEntities());
+        Mockito.when(repo.findByQuery(Mockito.eq("childCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(new ArrayList<Entity>());
+
+        Entity entity = createNestedSourceEntity(true);
+        ErrorReport errorReport = new TestErrorReport();
+
+        IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider(new NullCacheProvider());
+
+        idNorm.setEntityRepository(repo);
+        idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
+
+        assertNull("attribute parentId should be null", entity.getBody().get("parentId"));
+        assertTrue("errors should be reported from failed reference resolution ", errorReport.hasErrors());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void shouldFailWithUnresolvedRequiredNullChildRef() {
+        //TODO
+        EntityConfig entityConfig =  createNestedRefConfig(false);
+
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //mock the repo query note this doesn't test whether the query was constructed correctly
+        Mockito.when(repo.findByQuery(Mockito.eq("parentCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getParentTargetEntities());
+        Mockito.when(repo.findByQuery(Mockito.eq("childCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(new ArrayList<Entity>());
+
+        Entity entity = createNestedSourceEntity(false);
+        ErrorReport errorReport = new TestErrorReport();
+
+        IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider(new NullCacheProvider());
+
+        idNorm.setEntityRepository(repo);
+        idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
+
+        assertNull("attribute parentId should be null", entity.getBody().get("parentId"));
+        assertTrue("errors should be reported from failed reference resolution ", errorReport.hasErrors());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void shouldResolveWithUnresolvedOptionalNullChildRef() {
+        EntityConfig entityConfig =  createNestedRefConfig(true);
+
+        @SuppressWarnings("unchecked")
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //mock the repo query note this doesn't test whether the query was constructed correctly
+        Mockito.when(repo.findByQuery(Mockito.eq("parentCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(getParentTargetEntities());
+        Mockito.when(repo.findByQuery(Mockito.eq("childCollection"), Mockito.any(Query.class),
+                Mockito.eq(0), Mockito.eq(0))).thenReturn(new ArrayList<Entity>());
+
+        Entity entity = createNestedSourceEntity(false);
+        ErrorReport errorReport = new TestErrorReport();
+
+        IdNormalizer idNorm = new IdNormalizer();
+        idNorm.setCacheProvider(new NullCacheProvider());
+
+        idNorm.setEntityRepository(repo);
+        idNorm.resolveInternalIds(entity, "SLI", entityConfig, errorReport);
+
+        assertNotNull("attribute parentId should not be null", entity.getBody().get("parentId"));
+        assertEquals("attribute parentId should be resolved to parent_guid", "parent_guid", entity.getBody().get("parentId"));
+        assertFalse("no errors should be reported from reference resolution ", errorReport.hasErrors());
+    }
+
+    //create nested ref
+    private EntityConfig createNestedRefConfig(boolean optionalChildRef) {
+        Resource jsonFile = null;
+        if (optionalChildRef) {
+            jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef_optionalChild.json");
+        } else {
+            jsonFile = new ClassPathResource("idNormalizerTestConfigs/nestedRef.json");
+        }
+        EntityConfig entityConfig = null;
+        try {
+            entityConfig = EntityConfig.parse(jsonFile.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return entityConfig;
+    }
+
+    //create nested source Entity
+    private Entity createNestedSourceEntity(boolean includeChildRefValue) {
+
+        Map<String, Object> parentRef = new HashMap<String, Object>();
+        parentRef.put("srcOtherField", "otherFieldVal");
+
+        if (includeChildRefValue) {
+            parentRef.put("srcChildRefField", "childFieldValue");
+        }
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put("parentRef", parentRef);
+
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(attributes);
+
+        Entity entity = new NeutralRecordEntity(nr);
+
+        return entity;
+    }
+
+    private List<Entity> getChildTargetEntities() {
+        List<Entity> entities = new ArrayList<Entity>();
+        entities.add(createChildTargetEntity());
+
+        return entities;
+    }
+
+    private Entity createChildTargetEntity() {
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put("childField", "childFieldValue");
+
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(attributes);
+
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
+        entity.setEntityId("child_guid");
+
+        return entity;
+    }
+
+    private List<Entity> getParentTargetEntities() {
+        List<Entity> entities = new ArrayList<Entity>();
+        entities.add(createParentTargetEntity());
+
+        return entities;
+    }
+
+    private Entity createParentTargetEntity() {
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put("childId", "child_guid");
+
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(attributes);
+
+        NeutralRecordEntity entity = new NeutralRecordEntity(nr);
+        entity.setEntityId("parent_guid");
 
         return entity;
     }

@@ -25,4 +25,10 @@ public class FieldValue {
     public void setRef(Ref ref) {
         this.ref = ref;
     }
+
+    @Override
+    public String toString() {
+        return "FieldValue [valueSource=" + valueSource + ", ref=" + ref + "]";
+    }
+
 }

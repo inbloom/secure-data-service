@@ -9,9 +9,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
 		                }]
@@ -20,7 +20,7 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.programId",
         "ref" :
         {
@@ -28,9 +28,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
 		                }]
@@ -47,9 +47,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
 		                [{
 			                "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
 		                }]
@@ -58,7 +58,7 @@
 	        ]
         }
     }],
-    
+
     "piiFields" : {
         "StudentReference" : {
             "StudentIdentity" : {
@@ -80,7 +80,7 @@
                     "FirstName" : true,
                     "MiddleName" : true,
                     "LastSurname" : true,
-                    "GenerationCodeSuffix" : true 
+                    "GenerationCodeSuffix" : true
                   },
                 "BirthDate" : true,
                 "Sex" : true
