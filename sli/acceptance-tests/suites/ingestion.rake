@@ -134,11 +134,8 @@ end
 desc "Run Ingestion ACT Assessment Tests"
 task :ingestionACTAssessmentTests do
   runTests("test/features/ingestion/features/ACTAssessment.feature")
-end
-
-desc "Run Ingestion ACT Assessment Tests"
-task :ingestionAssessmentItemMappingTests do
   runTests("test/features/ingestion/features/assessmentItem_mapping.feature")
+  runTests("test/features/ingestion/features/StudentAssessmentItem_SOA_SAA_Mapping.feature")
 end
 
 desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
