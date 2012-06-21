@@ -44,6 +44,7 @@ class SLCFixer
       @threads << Thread.new {x.report('section')    {stamp_sections}}
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
+      @threads << Thread.new {x.report('parent')     {stamp_parents}}
     end
 
     @threads.each do |th|
@@ -186,6 +187,27 @@ class SLCFixer
 
     cohort_to_teachers.each { |cohort, teachers|
       @db['cohort'].update({'_id'=> cohort, 'metaData.tenantId'=> cohort_to_tenant[cohort]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
+  end
+
+  def stamp_parents
+    @log.info "Stamping parents and associations"
+
+    parent_to_teachers = {}
+    parent_to_tenant = {}
+    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']]
+        parent_id = assoc['body']['parentId']
+        parent_to_tenant[parent_id] ||= assoc['body']['tenant']
+        parent_to_teachers[parent_id] ||= []
+        parent_to_teachers[parent_id] += teachers
+        @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+      }
+    }
+
+    parent_to_teachers.each { |parent_id, teachers|
+      @db['parent'].update({'_id' => parent_id, 'metaData.tenantId' => parent_to_tenant[parent_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
