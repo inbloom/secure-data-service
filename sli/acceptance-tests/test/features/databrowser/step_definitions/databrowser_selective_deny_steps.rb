@@ -8,7 +8,6 @@ Transform /^IDs for "([^"]*)"$/ do |idCategory|
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak and Sunset"
     expectedIds = ["67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak only"
     expectedIds
 end

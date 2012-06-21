@@ -204,7 +204,7 @@ public class IdNormalizer {
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
-                    LOG.error("Error parsing " + entity, e);
+                    LogUtil.error(LOG, "Error parsing " + entity, e);
                 }
             }
         } else {
@@ -221,7 +221,7 @@ public class IdNormalizer {
             Entity subEntity = new NeutralRecordEntity(nr);
             resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
         } catch (ClassCastException e) {
-            LOG.error("error resolving " + subEntityInstance, e);
+            LogUtil.error(LOG, "error resolving " + subEntityInstance, e);
         }
     }
 
@@ -322,7 +322,7 @@ public class IdNormalizer {
 
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
-                                        LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                        LogUtil.error(LOG, "Error accessing indexed bean property " + valueSourcePath
                                                 + " for bean " + entity.getType(), e);
                                         String errorMessage = "ERROR: Failed to resolve a reference"
                                                 + "\n"
