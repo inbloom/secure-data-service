@@ -172,7 +172,6 @@ class SLCFixer
     section_to_teachers = {}
     section_assoc_to_teachers = {}
     section_to_tenant = {}
-    section_to_session = {}
 
     @db['studentSectionAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
@@ -231,13 +230,19 @@ class SLCFixer
     end
 
 
+    section_to_session = {}
+    session_to_sections = {}
     #Session related stuff
     #Map section to session
     course_to_sections = {}
     @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
         section_id = item['_id']
-        section_to_session[section_id] = item['body']['sessionId']
+        session_id = item['body']['sessionId']
+        section_to_session[section_id] = session_id
+
+        session_to_sections[session_id] ||= []
+        session_to_sections[session_id].push section_id
 
         course_id = item['body']['courseId']
         course_to_sections[course_id] ||= []
@@ -245,8 +250,15 @@ class SLCFixer
       end
     end
 
+    session_to_sections.each { |session, sections|
+      teachers = []
+      sections.each { |section| teachers << section_to_teachers[section] }
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      @db['session'].update({'_id'=> session}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
+
     section_to_session.each { |section, session|
-      @db['session'].update({'_id'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['schoolSessionAssociation'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
@@ -259,6 +271,31 @@ class SLCFixer
       teachers = teachers.flatten
       teachers = teachers.uniq
       @db['course'].update({'_id'=>course_id, 'metaData.tenantId'=>section_to_tenant[section_ids.first]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
+
+    # tag grading periods
+    grading_period_to_sessions = {}
+    @db['session'].find({}, @basic_options) { |cursor|
+      cursor.each { |item|
+        session_id = item['_id']
+        grading_period_id = item['body']['gradingPeriodReference']
+        grading_period_to_sessions[grading_period_id] ||= []
+        grading_period_to_sessions[grading_period_id].push session_id
+      }
+    }
+
+    grading_period_to_sessions.each { |grading_period, sessions|
+      teachers = []
+      tenant_id = nil
+      sessions.each { |session|
+        sections = session_to_sections[session]
+        next if sections.nil?
+        sections.each { |section| teachers << section_to_teachers[section] }
+        tenant_id = section_to_tenant[sections.first] unless sections.empty?
+      }
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      @db['gradingPeriod'].update({'_id'=>grading_period, 'metaData.tenantId'=>tenant_id}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
   end

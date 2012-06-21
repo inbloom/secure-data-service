@@ -90,6 +90,7 @@ public class BasicService implements EntityService {
             EntityNames.STUDENT_COMPETENCY,
             EntityNames.GRADE,
             EntityNames.GRADEBOOK_ENTRY,
+            EntityNames.GRADING_PERIOD,
             EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
             EntityNames.REPORT_CARD,
             EntityNames.STUDENT_ACADEMIC_RECORD,
