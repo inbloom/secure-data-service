@@ -7,9 +7,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/vnd.slc+json"
 
-  #tests will fail because of use of 'i look at the first one'.
-  #It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
-  @wip @defective
   Scenario: Applying optional fields - attendances, assessments, gradebook
     Given optional field "assessments"
     And optional field "gradebook"
@@ -47,9 +44,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "gradebookEntryType" is "Quiz" in it
     And I should see "entityType" is "gradebookEntry" in it
 
-  #tests will fail because of use of 'i look at the first one'.
-  #It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
-  @wip @defective
   Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
@@ -72,9 +66,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     Then inside "courses"
     And I should see "courseDescription" is "Intro to Russian" in it
 
-  #tests will fail because of use of 'i look at the first one'.
-  #It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
-  @wip @defective
   Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"

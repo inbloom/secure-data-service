@@ -7,7 +7,6 @@ Feature: As an SLI application, I want to be able to view more student data in a
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And format "application/vnd.slc+json"
 
-  @wip @defective
   Scenario: Applying optional fields - attendances, assessments, gradebook
     Given optional field "attendances"
     And optional field "assessments"
@@ -51,9 +50,6 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And I should see "entityType" is "gradebookEntry" in it
 
 
-    #tests will fail because of use of 'i look at the first one'.
-    #It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
-    @wip @defective
     Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/students/<STUDENT_ID>"
@@ -74,7 +70,6 @@ Feature: As an SLI application, I want to be able to view more student data in a
     Then inside "courses"
     And I should see "courseDescription" is "Intro to Russian" in it
 
-  @wip @defective
   Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"
     When I navigate to GET "/v1/students/<STUDENT_ID>"
