@@ -178,6 +178,8 @@ class SLCFixer
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentSectionAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
         @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        # NOTE verify other solution @db['studentCompetency'].update({'body.studentSectionAssociationId'=>assoc['_id']}, {'$set' => {'metaData.teacherContext' => teachers}})
+        # NOTE studentCompetencyObjective? 
          
         section_assoc_to_teachers[assoc['_id']] = teachers
         section_id = assoc['body']['sectionId']
