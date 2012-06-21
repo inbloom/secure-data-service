@@ -55,4 +55,10 @@ public class Ref {
         return optional;
     }
 
+    @Override
+    public String toString() {
+        return "Ref [collectionName=" + collectionName + ", choiceOfFields=" + choiceOfFields + ", isRefList="
+                + isRefList + ", refObjectPath=" + refObjectPath + ", optional=" + optional + "]";
+    }
+
 }

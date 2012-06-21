@@ -25,5 +25,11 @@ public class RefDef {
     public void setRef(Ref ref) {
         this.ref = ref;
     }
+
+    @Override
+    public String toString() {
+        return "RefDef [fieldPath=" + fieldPath + ", ref=" + ref + "]";
+    }
+
 }
 
