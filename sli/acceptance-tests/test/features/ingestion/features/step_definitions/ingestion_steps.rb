@@ -1497,8 +1497,12 @@ When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collectio
   step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
 end
 
-Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
-  object = @record
+When /^I find a record in "(.*?)" under "(.*?)" where "(.*?)" is "(.*?)"$/ do |collection, field, searchTerm, value|
+  step "I find a record in \"#{collection}\" with \"#{field + "." + searchTerm}\" equal to \"#{value}\""
+  @record = findField(@record, field).find_all{|r| findField(r, searchTerm) == value}[0]
+end
+
+def findField(object, field)
   field.split('.').each do |f|
     if /(.+)\[(\d+)\]/.match f
       f = $1
@@ -1511,12 +1515,23 @@ Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
       object = object[f]
     end
   end
-  assert(object.length==Integer(arrayCount),"the field #{field} is not an array of size #{arrayCount}")
+  object
+end
+  
+Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
+  object = findField(@record, field)
+  assert(object.length==Integer(arrayCount),"the field #{field}, #{object} is not an array of size #{arrayCount}")
   @idsArray
 end
 
-Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |arg1, collection, identificationCode, guid|
-  step "I find a record in \"#{collection}\" with \"#{identificationCode}\" equal to \"#{guid}\""
+Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
+  db = @conn[INGESTION_DB_NAME]
+  collection = db.collection(collection)
+  referred = collection.find_one({searchTerm => value})
+  referred.should_not == nil
+  id = referred["_id"]
+  references = findField(@record, referenceField)
+  assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
 end
 
 ############################################################

@@ -69,7 +69,7 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "100"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
-And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
+And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are mapped correctly:
  |grade|teardrop           |
  |A+   |teardrop-darkgreen |
  |A-   |teardrop-darkgreen |
@@ -331,7 +331,7 @@ And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy
 # Attendance rate < 90
 And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "85"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
-And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
+And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are mapped correctly:
  |grade|teardrop           |
  |A+   |teardrop-darkgreen |
  |A-   |teardrop-darkgreen |

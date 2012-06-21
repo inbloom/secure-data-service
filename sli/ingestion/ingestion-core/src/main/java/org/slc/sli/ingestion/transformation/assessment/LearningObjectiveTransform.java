@@ -61,8 +61,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
-                    super.getErrorReport(lo.getSourceFile()).error(
-                            "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
+                    super.getErrorReport(lo.getSourceFile())
+                            .error("Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
                                     + objectiveId + ", ContentStandardName" + contentStandard, this);
                     continue;
                 }
@@ -93,13 +93,13 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                         childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
                         childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
                     } else {
-                        super.getErrorReport(childLo.getSourceFile())
-                                .error("LearningObjective cannot have multiple parents. IdentificationCode: "
+                        super.getErrorReport(childLo.getSourceFile()).error(
+                                "LearningObjective cannot have multiple parents. IdentificationCode: "
                                         + loId.objectiveId, this);
                     }
                 } else {
                     super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve LearningObjectiveReference with IdentificationCode " + loId
+                            "Could not resolve LearningObjectiveReference with IdentificationCode " + objectiveId
                                     + ", ContentStandardName " + contentStandard, this);
                 }
             }
@@ -112,16 +112,22 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             ArrayList<String> uuidRefs = new ArrayList<String>();
             if (childLearningStdRefs != null) {
                 for (Map<String, Object> learnStdRef : childLearningStdRefs) {
-                    String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
-                    String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
-                    if (idCode != null) {
-                        Map<String, Object> ref = new HashMap<String, Object>();
-                        ref.put(ID_CODE, idCode);
-                        ref.put(CONTENT_STANDARD_NAME, csn);
-                        lsRefList.add(ref);
-                        uuidRefs.add(null); // this is slightly hacky, but the IdNormalizer will
-                                            // throw ArrayIndexOutOfBounds unless we pre-populate
-                                            // the list the UUIDs will be added to.
+                    if (learnStdRef == null) {
+                        super.getErrorReport(parentLO.getSourceFile()).error(
+                                "Could not resolve child learning standard references for learning objective "
+                                        + parentObjectiveId, this);
+                    } else {
+                        String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
+                        String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
+                        if (idCode != null) {
+                            Map<String, Object> ref = new HashMap<String, Object>();
+                            ref.put(ID_CODE, idCode);
+                            ref.put(CONTENT_STANDARD_NAME, csn);
+                            lsRefList.add(ref);
+                            uuidRefs.add(null); // this is slightly hacky, but the IdNormalizer will
+                            // throw ArrayIndexOutOfBounds unless we pre-populate
+                            // the list the UUIDs will be added to.
+                        }
                     }
                 }
             }
