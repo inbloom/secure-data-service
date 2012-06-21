@@ -334,7 +334,7 @@ class SLCFixer
     @db['staffCohortAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = []
-        assoc['body']['cohortId'].each { |cohort| teachers += cohort_to_teachers[cohort] }
+        assoc['body']['cohortId'].each { |cohort| teachers += cohort_to_teachers[cohort] unless cohort_to_teachers[cohort].nil? }
         teachers = teachers.flatten
         teachers = teachers.uniq
         @db['staffCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
@@ -393,7 +393,7 @@ class SLCFixer
     @db['staffProgramAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = []
-        assoc['body']['programId'].each { |program| teachers += program_to_teachers[program] }
+        assoc['body']['programId'].each { |program| teachers += program_to_teachers[program] unless program_to_teachers[program].nil? }
         teachers = teachers.flatten
         teachers = teachers.uniq
         @db['staffProgramAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
