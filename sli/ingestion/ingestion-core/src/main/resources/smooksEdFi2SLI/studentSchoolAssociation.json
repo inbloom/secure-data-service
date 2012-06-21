@@ -9,9 +9,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "metaData.externalId",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.studentId"
                         }]
@@ -20,7 +20,7 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.schoolId",
         "ref" :
         {
@@ -28,9 +28,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
-                        "path" : "metaData.externalId",
-                        "values" : 
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
                         [
                             {"valueSource" : "body.schoolId"}
                         ]

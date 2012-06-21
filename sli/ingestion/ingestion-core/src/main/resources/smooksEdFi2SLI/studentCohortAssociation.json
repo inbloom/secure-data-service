@@ -9,9 +9,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.studentId.StudentIdentity.StudentUniqueStateId"
 		                }]
@@ -20,7 +20,7 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.cohortId",
         "ref" :
         {
@@ -28,16 +28,16 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.cohortId.CohortIdentity.CohortIdentifier"
 		                }]
 		            },
                     {
                         "path" : "body.educationOrgId",
-                        "values" : 
+                        "values" :
                         [
                             {"ref" :
                                 {
@@ -45,8 +45,8 @@
                                     "choiceOfFields" :
                                     [[
                                         {
-                                            "path" : "metaData.externalId",
-                                            "values": 
+                                            "path" : "body.stateOrganizationId",
+                                            "values":
                                             [
                                                 {"valueSource": "body.cohortId.CohortIdentity.StateOrganizationId"}
                                             ]
@@ -82,7 +82,7 @@
                     "FirstName" : true,
                     "MiddleName" : true,
                     "LastSurname" : true,
-                    "GenerationCodeSuffix" : true 
+                    "GenerationCodeSuffix" : true
                   },
                 "BirthDate" : true,
                 "Sex" : true
