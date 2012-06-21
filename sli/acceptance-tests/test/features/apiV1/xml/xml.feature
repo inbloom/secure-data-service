@@ -109,6 +109,7 @@ Scenario: Applying optional fields
   And I should find "<courses>" under "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections>"
   And I should see "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections><courses><entityType>" is "course"
 
+  @wip @defective
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
   And optional field "assessments"
