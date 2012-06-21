@@ -234,12 +234,13 @@ class SLCFixer
     #Session related stuff
     #Map section to session
     course_to_sections = {}
-    @db[:section].find({}, {fields: ['body.sessionId', 'body.courseId' 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+    @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
         section_id = item['_id']
         section_to_session[section_id] = item['body']['sessionId']
 
         course_id = item['body']['courseId']
+        puts "course '#{course_id}' '#{item['body']}'"
         course_to_sections[course_id] ||= []
         course_to_sections[course_id].push section_id
       end
@@ -257,7 +258,7 @@ class SLCFixer
       section_ids.each { |section| teachers << section_to_teachers[section] }
       teachers = teachers.flatten
       teachers = teachers.uniq
-      @db[:course].update({'_id'=>course_id, 'metaData.tenantId'=>section_to_tenant[section_ids.first]}, {'$set' => {'metaData.teacherContext' => teachers}})
+      @db['course'].update({'_id'=>course_id, 'metaData.tenantId'=>section_to_tenant[section_ids.first]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
   end
