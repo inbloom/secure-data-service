@@ -11,18 +11,22 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.io.LimitInputStream;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author okrook
  *
  */
 public final class SnippetFile implements Closeable {
+    public static final Logger LOG = LoggerFactory.getLogger(SnippetFile.class);
 
     private File snippet;
     private RandomAccessFile raf;
@@ -78,22 +82,27 @@ public final class SnippetFile implements Closeable {
             return null;
         }
 
-        return new ByteBufferBackedInputStream(fileChannel.map(MapMode.READ_ONLY, snippets.get(id).position, snippets.get(id).size));
+        fileChannel.position(snippets.get(id).position);
+
+        //LOG.debug(String.format("Input %s: ch - %d, p - %d. Size: %d. ID: %s", snippet.getName(), fileChannel.size(), fileChannel.position(), snippets.get(id).size, id));
+
+        return new LimitInputStream(new NonClosingInputStream(Channels.newInputStream(fileChannel)), snippets.get(id).size);
     }
 
     public OutputStream allocateOutputStream(String id) throws IOException {
         SnippetBlock sb = new SnippetBlock();
         sb.position = fileChannel.size();
+        fileChannel.position(sb.position); // sync up the file position with the channel size
         snippets.put(id, sb);
+
+        //LOG.debug(String.format("Output %s: ch - %d, p - %d. Size: %d. ID: %s", snippet.getName(), fileChannel.size(), fileChannel.position(), snippets.get(id).size, id));
 
         return new NonClosingOutputStream(Channels.newOutputStream(fileChannel));
     }
 
     public void commitSnippet(String id) throws IOException {
         snippets.get(id).size = fileChannel.size() - snippets.get(id).position;
-    }
 
-    public void rollbackSnippet(String id) throws IOException {
-        snippets.get(id).size = 0;
+        //LOG.debug(String.format("Commit %s: ch - %d, p - %d. Size: %d. ID: %s", snippet.getName(), fileChannel.size(), fileChannel.position(), snippets.get(id).size, id));
     }
 }

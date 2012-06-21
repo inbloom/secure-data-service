@@ -8,7 +8,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.milyn.Smooks;
-import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +59,9 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             StreamResult result = new StreamResult(converedContent);
 
             smooks.filterSource(source, result);
-        } catch (SmooksException e) {
+
+            converedContent.flush();
+        } catch (Exception e) {
             LogUtil.debug(LOG, e.getMessage(), e);
 
             return false;

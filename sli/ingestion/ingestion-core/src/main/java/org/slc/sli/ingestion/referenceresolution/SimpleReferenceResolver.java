@@ -39,6 +39,8 @@ public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
     public boolean resolve(String xPath, InputStream content, OutputStream convertedContext) {
         try {
             IOUtils.copyLarge(content, convertedContext);
+
+            convertedContext.flush();
         } catch (IOException e) {
             LogUtil.debug(LOG, "Error while resolving a reference for : " + xPath, e);
 

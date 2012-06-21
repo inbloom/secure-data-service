@@ -15,13 +15,6 @@ public class NonClosingOutputStream extends OutputStream {
         this.out = out;
     }
 
-    /**
-     * Does nothing.
-     */
-    @Override
-    public void close() throws IOException {
-    }
-
     @Override
     public void write(int b) throws IOException {
         out.write(b);

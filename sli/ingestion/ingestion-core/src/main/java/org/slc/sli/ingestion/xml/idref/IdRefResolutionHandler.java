@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -104,6 +105,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 sw.stop();
             }
         } catch (IOException e) {
+            LogUtil.debug(LOG, "Error resolving IDREF", e);
             semiResolvedXml = null;
         } finally {
             if (refContent != null) {
@@ -215,15 +217,18 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 Attribute id = start.getAttributeByName(ID_ATTR);
 
+                OutputStream out = null;
                 try {
-                    OutputStream os = snippets.allocateOutputStream(id.getValue());
+                    out = new BufferedOutputStream(snippets.allocateOutputStream(id.getValue()));
 
-                    writeContent(os, xmlEvent, eventReader, errorReport);
+                    writeContent(out, xmlEvent, eventReader, errorReport);
 
+                    out.flush();
                     snippets.commitSnippet(id.getValue());
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LogUtil.debug(LOG, "Error while processing an element with ID attribute", e);
+                } finally {
+                    IOUtils.closeQuietly(out);
                 }
 
                 idsToProcess--;
@@ -249,7 +254,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     protected File resolveIdRefs(final File xml, final SnippetFile snippets, final ErrorReport errorReport) {
         File newXml = null;
-
+        RandomAccessFile raf = null;
         OutputStream out = null;
         XMLEventWriter writer = null;
         SnippetFile smooksSnippets = null;
@@ -260,7 +265,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             newXml = File.createTempFile("tmp", ".xml", xml.getParentFile());
 
-            out = new BufferedOutputStream(new FileOutputStream(newXml));
+            raf = new RandomAccessFile(xml, "rw");
+
+            //out = new BufferedOutputStream(Channels.newOutputStream(raf.getChannel()));
+           out = new BufferedOutputStream(new FileOutputStream(newXml));
             writer = OUTPUT_FACTORY.createXMLEventWriter(out, XML_ENCODING);
             final XMLEventWriter wr = writer;
 
@@ -381,12 +389,19 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                             // Resolved content is not cached yet, so lets resolve it and cache it.
 
-                            boolean success = rrs.resolve(currentXPath, is, smooks.allocateOutputStream(ref.getValue()));
+                            InputStream in = new BufferedInputStream(is);
+                            OutputStream out = new BufferedOutputStream(smooks.allocateOutputStream(ref.getValue()));
 
-                            if (success) {
-                                smooks.commitSnippet(ref.getValue());
-                            } else {
-                                smooks.rollbackSnippet(ref.getValue());
+                            try {
+                                boolean success = rrs.resolve(currentXPath, in, out);
+
+                                if (success) {
+                                    out.flush();
+                                    smooks.commitSnippet(ref.getValue());
+                                }
+                            } finally {
+                                IOUtils.closeQuietly(in);
+                                IOUtils.closeQuietly(out);
                             }
 
                             if (smooks.get(ref.getValue()) == null) {
@@ -397,7 +412,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             }
                         }
                     } else {
-                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()));
                         errorReport.warning(
                                 MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
                                 IdRefResolutionHandler.class);
@@ -410,10 +425,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(xml, replaceRefContent, errorReport);
 
             writer.flush();
+            out.flush();
         } catch (Exception e) {
             closeResources(writer);
 
             IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(raf);
 
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
@@ -424,6 +441,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         } finally {
             closeResources(writer);
             IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(raf);
 
             if (smooksSnippets != null) {
                 smooksSnippets.delete();
@@ -434,9 +452,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     }
 
     private boolean browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {
-        BufferedInputStream xmlStream = null;
+        InputStream xmlStream = null;
+        RandomAccessFile raf = null;
 
         try {
+            raf = new RandomAccessFile(xml, "r");
+            //xmlStream = new BufferedInputStream(Channels.newInputStream(raf.getChannel()));
             xmlStream = new BufferedInputStream(new FileInputStream(xml));
 
             browse(xmlStream, browser, errorReport);
@@ -450,6 +471,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return false;
         } finally {
             IOUtils.closeQuietly(xmlStream);
+            IOUtils.closeQuietly(raf);
         }
     }
 
