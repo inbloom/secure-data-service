@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -62,6 +63,23 @@ public class BasicService implements EntityService {
     private static final String METADATA = "metaData";
     private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+
+    private static final Set<String> teacherStampedEntities = new HashSet<String>(Arrays.asList(
+            EntityNames.STUDENT,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.TEACHER_SECTION_ASSOCIATION,
+            EntityNames.SECTION,
+            EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.COHORT,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.PROGRAM,
+            EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
+            EntityNames.ASSESSMENT,
+            EntityNames.PARENT
+    ));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -795,23 +813,7 @@ public class BasicService implements EntityService {
             return new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, AllowAllEntityContextResolver.SUPER_LIST);
         }
 
-
-        if( EntityNames.TEACHER.equals(type) &&
-                (toType.equals(EntityNames.STUDENT) ||
-                        toType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) ||
-                        toType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) ||
-                        toType.equals(EntityNames.TEACHER_SECTION_ASSOCIATION) ||
-                        toType.equals(EntityNames.SECTION) ||
-                        toType.equals(EntityNames.STUDENT_COHORT_ASSOCIATION) ||
-                        toType.equals(EntityNames.STAFF_COHORT_ASSOCIATION) ||
-                        toType.equals(EntityNames.COHORT) ||
-                        toType.equals(EntityNames.STUDENT_PROGRAM_ASSOCIATION) ||
-                        toType.equals(EntityNames.STAFF_PROGRAM_ASSOCIATION) ||
-                        toType.equals(EntityNames.PROGRAM) ||
-                        toType.equals(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION) ||
-                        toType.equals(EntityNames.ASSESSMENT) ||
-                        toType.equals(EntityNames.PARENT) 
-        )) {
+        if( EntityNames.TEACHER.equals(type) && teacherStampedEntities.contains(toType)) {
             return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false);
         }
 

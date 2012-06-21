@@ -254,7 +254,7 @@ class SLCFixer
         @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
         
         parent_id = assoc['body']['parentId']
-        parent_to_tenant[parent_id] ||= assoc['body']['tenant']
+        parent_to_tenant[parent_id] ||= assoc['metaData']['tenantId']
         parent_to_teachers[parent_id] ||= []
         parent_to_teachers[parent_id] += teachers
       }
