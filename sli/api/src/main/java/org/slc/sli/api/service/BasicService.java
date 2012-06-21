@@ -65,6 +65,7 @@ public class BasicService implements EntityService {
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
 
     private static final Set<String> teacherStampedEntities = new HashSet<String>(Arrays.asList(
+            EntityNames.SESSION,
             EntityNames.STUDENT,
             EntityNames.STUDENT_SCHOOL_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION,
@@ -73,16 +74,25 @@ public class BasicService implements EntityService {
             EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STAFF_COHORT_ASSOCIATION,
             EntityNames.COHORT,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.DISCIPLINE_INCIDENT,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.DISCIPLINE_ACTION,
             EntityNames.STUDENT_PROGRAM_ASSOCIATION,
             EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION,
             EntityNames.PROGRAM,
             EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
             EntityNames.PARENT,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
             EntityNames.STUDENT_COMPETENCY,
             EntityNames.GRADE,
+            EntityNames.GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
             EntityNames.REPORT_CARD,
             EntityNames.STUDENT_ACADEMIC_RECORD,
             EntityNames.ATTENDANCE,
+            EntityNames.SCHOOL_SESSION_ASSOCIATION,
             EntityNames.TEACHER,
             EntityNames.TEACHER_SCHOOL_ASSOCIATION
     ));
