@@ -45,6 +45,7 @@
 	                        "ref":
                              {
                                  "collectionName" : "session",
+                                 "optional" : true,
                                  "choiceOfFields" :
                                   [
                                       [
@@ -67,6 +68,7 @@
 	                        "ref":
                              {
                                  "collectionName" : "course",
+                                 "optional" : true,
                                  "choiceOfFields" :
                                   [
                                       [
