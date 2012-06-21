@@ -33,6 +33,7 @@ import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
@@ -1064,48 +1065,5 @@ public class BasicService implements EntityService {
 
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
         this.clientInfo = clientInfo;
-    }
-
-    /**
-     * Encapsulates security criteria used by queries
-     * Should be moved out if the class evolves more
-     */
-    private class SecurityCriteria {
-        private NeutralCriteria securityCriteria;
-        private NeutralCriteria blacklistCriteria;
-
-        public SecurityCriteria() {
-        }
-
-        public NeutralCriteria getSecurityCriteria() {
-            return securityCriteria;
-        }
-
-        public NeutralCriteria getBlacklistCriteria() {
-            return blacklistCriteria;
-        }
-
-        public void setSecurityCriteria(NeutralCriteria securityCriteria) {
-            this.securityCriteria = securityCriteria;
-        }
-
-        public void setBlacklistCriteria(NeutralCriteria blacklistCriteria) {
-            this.blacklistCriteria = blacklistCriteria;
-        }
-
-        /**
-         * Apply the security criteria to the given query
-         * @param query The query to manipulate
-         * @return
-         */
-        public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-            query.addCriteria(securityCriteria);
-
-            if (blacklistCriteria != null) {
-                query.addCriteria(blacklistCriteria);
-            }
-
-            return query;
-        }
     }
 }
