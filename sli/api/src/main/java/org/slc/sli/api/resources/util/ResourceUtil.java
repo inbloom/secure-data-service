@@ -44,19 +44,19 @@ public class ResourceUtil {
     private static final String BLANK = "";
     private static final  Map<String, String> LINK_NAMES = new HashMap<String, String>();
     static {
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.EDUCATION_ORGANIZATIONS+REFERENCE,"getParentEducationOrganization");
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.SCHOOLS+LINK,"getFeederSchools");
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.EDUCATION_ORGANIZATIONS+LINK,"getFeederEducationOrganizations");
-        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.EDUCATION_ORGANIZATIONS+REFERENCE,"getParentEducationOrganization");
-        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES+ResourceNames.LEARNINGOBJECTIVES+REFERENCE,"getParentLearningObjective");
-        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES+ResourceNames.LEARNINGOBJECTIVES+LINK,"getChildLearningObjectives");
-        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.SCHOOLS+REFERENCE,BLANK);
-        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.SCHOOLS+LINK,BLANK);
-        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.EDUCATION_ORGANIZATIONS+LINK,BLANK);
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ResourceNames.SCHOOLS+REFERENCE,BLANK);
-        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS+"responsibilitySchoolId"+LINK, "getDisciplineActionsAsResponsibleSchool");
-        LINK_NAMES.put(ResourceNames.SCHOOLS+ResourceNames.DISCIPLINE_ACTIONS+"assignmentSchoolId"+LINK, "getDisciplineActionsAsAssignedSchool");
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS+LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE, "getParentEducationOrganization");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.SCHOOLS + LINK, "getFeederSchools");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + LINK, "getFeederEducationOrganizations");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE, "getParentEducationOrganization");
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.LEARNINGOBJECTIVES + REFERENCE, "getParentLearningObjective");
+        LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.LEARNINGOBJECTIVES + LINK, "getChildLearningObjectives");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.SCHOOLS + REFERENCE, BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.SCHOOLS + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.SCHOOLS + REFERENCE, BLANK);
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS + "responsibilitySchoolId" + LINK, "getDisciplineActionsAsResponsibleSchool");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS + "assignmentSchoolId" + LINK, "getDisciplineActionsAsAssignedSchool");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS + LINK, BLANK);
 
     }
     /**
@@ -239,7 +239,7 @@ public class ResourceUtil {
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
                     String linkName = getLinkName(defn.getResourceName(), definition.getResourceName(), referenceFieldName, false);
 
-                    if(!linkName.isEmpty()) {
+                    if (!linkName.isEmpty()) {
                         links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                                 PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
                                 + "?" + referenceFieldName + "=" + id));
@@ -287,7 +287,7 @@ public class ResourceUtil {
                     for (String resourceName : resourceNames) {
                         String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
 
-                        if(!linkName.isEmpty()) {
+                        if (!linkName.isEmpty()) {
                             links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                                     PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
                         }
@@ -423,17 +423,17 @@ public class ResourceUtil {
         String key = resourceName + referenceName;
         String keyWithRefField = key + referenceField + LINK;
 
-       if(isReferenceEntity) {
+       if (isReferenceEntity) {
             key = key + REFERENCE;
         } else {
-            key = key +LINK;
+            key = key + LINK;
         }
 
-        if( LINK_NAMES.containsKey(key)){
+        if (LINK_NAMES.containsKey(key)) {
             linkName = LINK_NAMES.get(key);
-        } else if(LINK_NAMES.containsKey(keyWithRefField)) {
+        } else if (LINK_NAMES.containsKey(keyWithRefField)) {
             linkName = LINK_NAMES.get(keyWithRefField);
-        } else if(isReferenceEntity) {
+        } else if (isReferenceEntity) {
           linkName = ResourceNames.SINGULAR_LINK_NAMES.get(referenceName);
         } else {
           linkName = ResourceNames.PLURAL_LINK_NAMES.get(referenceName);
