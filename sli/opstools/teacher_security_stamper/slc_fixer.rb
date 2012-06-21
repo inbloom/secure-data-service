@@ -416,12 +416,6 @@ class SLCFixer
   end
   
   def stamp_misc
-    @log.info "Stamping staffEducationOrganizationAssociation"
-    @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cursor|
-      cursor.each do |assoc|
-        @db['staffEducationOrganizationAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => assoc['body']['staffReference']}})
-      end
-    end
   end
   
   def stamp_disciplines
@@ -572,11 +566,33 @@ class SLCFixer
       @db['teacherSchoolAssociation'].update({'_id'=> assoc_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
+    # tag staff ed orgs
+    # NOTE staff ed org tagging on basis that teachers are connected to ed orgs through teacherSchoolAssociation and staff through staffEdOrgAssociation
+    staff_to_schools = {}
+    staff_to_tenant = {}
+    @log.info "Stamping staffEducationOrganizationAssociation"
+    @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
+        staff_id = assoc['body']['staffReference']
+        ed_org_id = assoc['body']['educationOrganizationReference']
+        tenant_id = assoc['metaData']['tenantId']
+        @db['staffEducationOrganizationAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => staff_id}})
+        if school_to_teachers.has_key? ed_org_id
+          staff_to_schools[staff_id] ||= []
+          staff_to_schools[staff_id].push ed_org_id
+          staff_to_tenant[staff_id] = tenant_id
+        end
+      end
+    end
+
     # tag non-teacher staff
-    #@db['staffAssociation'].find({'$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
-    #                                     {fields: ['_id', 'body.teacherId', 'body.schoolId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-    #  cursor.each { |assoc|
-    #    school_id = assoc['body']['schoolId']
+    staff_to_schools.each { |staff_id, schools|
+      teachers = []
+      schools.each { |school| teachers << school_to_teachers[school] }
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      @db['staff'].update({'_id'=>staff_id, 'metaData.tenantId'=>staff_to_tenant[staff_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
   end
 
   private

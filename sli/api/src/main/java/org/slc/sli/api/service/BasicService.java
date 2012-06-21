@@ -83,6 +83,7 @@ public class BasicService implements EntityService {
             EntityNames.SECTION,
             EntityNames.SECTION_ASSESSMENT_ASSOCIATION,
             EntityNames.SESSION,
+            EntityNames.STAFF,
             EntityNames.STAFF_COHORT_ASSOCIATION,
             EntityNames.STAFF_ED_ORG_ASSOCIATION,
             EntityNames.STAFF_PROGRAM_ASSOCIATION,
