@@ -249,11 +249,13 @@ class SLCFixer
     @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
+        teachers = [] if teachers == nil
+        @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        
         parent_id = assoc['body']['parentId']
         parent_to_tenant[parent_id] ||= assoc['body']['tenant']
         parent_to_teachers[parent_id] ||= []
         parent_to_teachers[parent_id] += teachers
-        @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
 

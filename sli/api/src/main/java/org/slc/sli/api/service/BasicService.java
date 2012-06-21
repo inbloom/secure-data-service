@@ -808,7 +808,8 @@ public class BasicService implements EntityService {
                         toType.equals(EntityNames.STAFF_PROGRAM_ASSOCIATION) ||
                         toType.equals(EntityNames.PROGRAM) ||
                         toType.equals(EntityNames.STUDENT_ASSESSMENT_ASSOCIATION) ||
-                        toType.equals(EntityNames.ASSESSMENT)
+                        toType.equals(EntityNames.ASSESSMENT) ||
+                        toType.equals(EntityNames.PARENT) 
         )) {
             return new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false);
         }
