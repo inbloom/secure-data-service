@@ -39,7 +39,7 @@ import org.slc.sli.api.client.util.URLBuilder;
  * 
  * @author asaarela
  */
-public final class BasicClient implements SLIClient {
+public class BasicClient implements SLIClient {
     
     private RESTClient restClient;
     private static Logger logger = Logger.getLogger("BasicClient");
@@ -167,7 +167,7 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public Response getResource(final String sessionToken, List<Entity> entities, URL restURL, Class entityClass)
+    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
 
@@ -176,13 +176,17 @@ public final class BasicClient implements SLIClient {
 
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
-                if (element instanceof ArrayNode) {
-                    List<Entity> tmp = mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
-                    });
-                    entities.addAll(tmp);
-                } else if (element instanceof ObjectNode) {
-                    Entity entity = mapper.readValue(element, GenericEntity.class);
-                    entities.add(entity);
+                
+                if (element.isArray()) {
+                    ArrayNode arrayNode = (ArrayNode) element;
+                    for (int i = 0; i < arrayNode.size(); ++i) {
+                        JsonNode jsonObject = arrayNode.get(i);
+                        Object entity = mapper.readValue(jsonObject, entityClass);
+                        entities.add(entity);
+                    }
+                } else  if (element instanceof ObjectNode) {
+                    Object entity = mapper.readValue(element, entityClass);
+                    entities.add(entity);                    
                 } else {
                     // not what was expected....
                     ResponseBuilder builder = Response.fromResponse(response);

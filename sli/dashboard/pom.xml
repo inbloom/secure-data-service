@@ -122,6 +122,21 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
+
+    <!-- Due to multiple transitive dependencies on guava, we have opted to exclude 
+        the older ones. Because we need the newest Version 11.0.1 will be pulled from jersey-client -->
+    <dependency>
+        <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+        <artifactId>ehcache-spring-annotations</artifactId>
+        <version>1.2.0</version>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+        
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -174,16 +189,21 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- SLI  -->
-		<dependency>
-			<groupId>org.slc.sli.domain</groupId>
-			<artifactId>domain</artifactId>
-		</dependency>
+    <!-- SLI -->
+    <dependency>
+        <groupId>org.slc.sli.domain</groupId>
+        <artifactId>domain</artifactId>
+    </dependency>
 
-		<dependency>
-            <groupId>org.slc.sli.common</groupId>
-            <artifactId>sli-common</artifactId>
-        </dependency>
+    <dependency>
+        <groupId>org.slc.sli.common</groupId>
+        <artifactId>sli-common</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>client-api</artifactId>
+    </dependency>
 
 		<!-- Freemarker -->
 		<dependency>

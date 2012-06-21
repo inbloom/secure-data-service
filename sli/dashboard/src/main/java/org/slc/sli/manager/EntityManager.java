@@ -1,6 +1,6 @@
 package org.slc.sli.manager;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.client.SDKConstants;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.ContactSorter;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -49,7 +50,11 @@ public class EntityManager extends ApiClientManager {
     }
 
     /**
+<<<<<<< HEAD
      * Get a single student entity with optional fields embedded.
+=======
+     * Returns a single student entity with optional fields embedded.
+>>>>>>> master
      *
      * @param token
      *            - authentication token
@@ -75,8 +80,8 @@ public class EntityManager extends ApiClientManager {
      * @return studentList
      *            - the student entity list
      */
-    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds) {
-        return getApiClient().getStudents(token, studentIds);
+    public List<GenericEntity> getStudents(final String token, String sectionId) {
+        return getApiClient().getStudentsForSection(token, sectionId);
     }
 
     /**
@@ -110,24 +115,26 @@ public class EntityManager extends ApiClientManager {
         }
         student = ContactSorter.sort(student);
         student = GenericEntityEnhancer.enhanceStudent(student);
-        GenericEntity section = getApiClient().getHomeRoomForStudent(studentId, token);
+
+        GenericEntity section = getApiClient().getSectionHomeForStudent(token, studentId);
 
         if (section != null) {
             student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
             GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
 
             if (teacher != null) {
-                Map teacherName = (Map) teacher.get(Constants.ATTR_NAME);
+                @SuppressWarnings("unchecked")
+                Map<String, Object> teacherName = (Map<String, Object>) teacher.get(Constants.ATTR_NAME);
                 if (teacherName != null) {
                     student.put(Constants.ATTR_TEACHER_NAME, teacherName);
                 }
             }
         }
 
-        List<GenericEntity> studentEnrollment = getApiClient().getStudentEnrollment(token, student);
+        List<GenericEntity> studentEnrollment = getApiClient().getEnrollmentForStudent(token, student.getId());
         student.put(Constants.ATTR_STUDENT_ENROLLMENT, studentEnrollment);
 
-        List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId);
+        List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId, null);
 
         //sort parent Contact if there are more than 2.
         if (parents != null && parents.size() > 1) {
@@ -153,7 +160,12 @@ public class EntityManager extends ApiClientManager {
      */
     public List<GenericEntity> getAttendance(final String token, final String studentId, final String start,
             final String end) {
-        return getApiClient().getStudentAttendance(token, studentId, start, end);
+        Map<String, String> params = new HashMap<String, String>();
+        if (start != null && start.length() > 0) {
+            params.put(SDKConstants.PARAM_EVENT_DATE + ">", "" + start);
+            params.put(SDKConstants.PARAM_EVENT_DATE + "<", "" + end);
+        }
+        return getApiClient().getAttendanceForStudent(token, studentId, params);
     }
 
     /**
@@ -168,7 +180,7 @@ public class EntityManager extends ApiClientManager {
      * @return
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
-        return getApiClient().getCourses(token, studentId, params);
+        return getApiClient().getCoursesForStudent(token, studentId, params);
     }
 
     /**
@@ -184,11 +196,11 @@ public class EntityManager extends ApiClientManager {
      */
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
             Map<String, String> params) {
-        return getApiClient().getStudentSectionGradebookEntries(token, studentId, params);
+        return getApiClient().getCoursesForStudent(token, studentId, params);
     }
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
-        return getApiClient().getStudentsWithGradebookEntries(token, sectionId);
+        return getApiClient().getStudentsForSectionWithGradebookEntries(token, sectionId);
     }
 
     /**
@@ -208,20 +220,6 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getEntity(token, type, id, params);
     }
 
-    /**
-     * Return a list of students for a section with the optional fields
-     *
-     * @param token
-     *            - security token
-     * @param sectionId
-     *            - the section id
-     * @param studentIds
-     *            - the student ids (this is only here to get MockClient working)
-     * @return
-     */
-    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        return getApiClient().getStudents(token, sectionId, studentIds);
-    }
 
     /**
      * Returns a list of students, which match the search parameters
@@ -231,7 +229,6 @@ public class EntityManager extends ApiClientManager {
      * @param lastName
      * @return
      */
-
     public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName) {
         return getApiClient().getStudentsWithSearch(token, firstName, lastName);
     }
@@ -240,13 +237,18 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getSession(token, sessionId);
     }
 
+    // TODO Change body of created methods use File | Settings | File Templates.
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
-        return getApiClient().getSessionsByYear(token, schoolYear);  // To change body of created
-                                                                    // methods use File | Settings |
-                                                                    // File Templates.
+        return getApiClient().getSessionsForYear(token, schoolYear);
     }
 
-    public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
-        return getApiClient().getAcademicRecord(token, params);
+    public GenericEntity getAcademicRecord(String token, String studentId, Map<String, String> params) {
+        List<GenericEntity> entities = getApiClient().getAcademicRecordsForStudent(token, studentId, params);
+
+        if (entities == null || entities.size() <= 0) {
+            return null;
+        }
+
+        return entities.get(0);
     }
 }

@@ -6,18 +6,15 @@ package org.slc.sli.manager.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.slc.sli.client.LiveAPIClient;
+import org.slc.sli.client.APIClient;
+import org.slc.sli.client.SDKAPIClient;
 import org.slc.sli.entity.ConfigMap;
-import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 
 /**
@@ -32,7 +29,8 @@ public class UserEdOrgManagerImplTest {
      */
     @Before
     public void setUp() throws Exception {
-        LiveAPIClient apiClient = new LiveAPIClient() {
+
+            APIClient apiClient = new SDKAPIClient() {
 
             private String customConfigJson = "{}";
 
@@ -41,10 +39,8 @@ public class UserEdOrgManagerImplTest {
                 return new GsonBuilder().create().fromJson(customConfigJson, ConfigMap.class);
             }
 
-            @Override
-            public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-                Gson gson = new GsonBuilder().create();
-                customConfigJson = gson.toJson(configMap);
+            public void putEdOrgCustomData(String token, String id, String customJson) {
+                customConfigJson = customJson;
             }
 
             @Override
@@ -62,24 +58,25 @@ public class UserEdOrgManagerImplTest {
             }
 
         };
-        testInstitutionalHierarchyManagerImpl = new UserEdOrgManagerImpl() {
+        this.testInstitutionalHierarchyManagerImpl = new UserEdOrgManagerImpl() {
             @Override
             public String getToken() {
                 return "";
             }
         };
-        testInstitutionalHierarchyManagerImpl.setApiClient(apiClient);
+        this.testInstitutionalHierarchyManagerImpl.setApiClient(apiClient);
     }
 
     /**
      * Test method for
-     * {@link org.slc.sli.manager.impl.UserEdOrgManagerImpl#getUserEdOrg(java.lang.String)} .
+     * {@link org.slc.sli.manager.impl.UserEdOrgManagerImpl#getUserEdOrg(java.lang.String)}
+     * .
      */
     @Test
     @Ignore
     public void testGetUserDistrictId() {
-        EdOrgKey key = testInstitutionalHierarchyManagerImpl.getUserEdOrg("fakeToken");
-        Assert.assertEquals("aa", key.getSliId());
+        //EdOrgKey key = this.testInstitutionalHierarchyManagerImpl.getUserEdOrg("fakeToken");
+        //Assert.assertEquals("my test district name", key.getDistrictId());
     }
 
 }

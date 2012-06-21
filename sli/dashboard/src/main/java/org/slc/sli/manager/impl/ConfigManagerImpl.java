@@ -217,6 +217,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      */
     @Override
     public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
+
         try {
             return getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
         } catch (Throwable t) {

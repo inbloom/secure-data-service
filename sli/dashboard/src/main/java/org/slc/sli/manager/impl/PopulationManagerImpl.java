@@ -114,7 +114,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         long startTime = System.nanoTime();
         // Initialize student summaries
 
-        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
+        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
 
         return studentSummaries;

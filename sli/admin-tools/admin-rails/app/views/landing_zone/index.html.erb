@@ -48,5 +48,8 @@
 </div>
 <script type="text/javascript">
     var is_sandbox = <%= APP_CONFIG['is_sandbox'] %>
-    $("#tooltip").tooltip();
+    <% if APP_CONFIG['is_sandbox'] %>
+        $("#tooltip").tooltip();
+    <% end %>
 </script>
+

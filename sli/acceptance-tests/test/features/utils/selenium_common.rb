@@ -4,7 +4,8 @@ end
 
 def lower_timeout_for_same_page_validation
   #used for same page validation
-  @driver.manage.timeouts.implicit_wait = 2 # seconds
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
+  #@driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 def reset_timeouts_to_default
