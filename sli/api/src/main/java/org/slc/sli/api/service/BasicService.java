@@ -83,9 +83,7 @@ public class BasicService implements EntityService {
             EntityNames.REPORT_CARD,
             EntityNames.STUDENT_ACADEMIC_RECORD,
             EntityNames.ATTENDANCE,
-            EntityNames.COURSE_OFFERING,
-            EntityNames.SESSION,
-            EntityNames.SCHOOL_SESSION_ASSOCIATION
+            EntityNames.TEACHER
     ));
 
     private String collectionName;
