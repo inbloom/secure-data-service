@@ -237,7 +237,7 @@ class SLCFixer
         assoc['body']['cohortId'].each { |cohort| teachers += cohort_to_teachers[cohort] }
         teachers = teachers.flatten
         teachers = teachers.uniq
-        @db['staffCohortAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        @db['staffCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
   end
