@@ -66,6 +66,10 @@ public class Stage {
         return stageName;
     }
 
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
     public void setStageName(String stageName) {
         this.stageName = stageName;
     }

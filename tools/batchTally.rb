@@ -57,20 +57,36 @@ rcStage={
 maestroProcessingTime=0
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
-    # Pit nodes
-    stage["chunks"].each do |chunk|
-      pitProcessingStartTime=chunk["startTimestamp"].to_i unless chunk["startTimestamp"].to_i>pitProcessingStartTime
-      chunk["metrics"].each do |metric|
 
-        pitElapsedPerResource[metric["resourceId"]]=0 unless pitElapsedPerResource[metric["resourceId"]]
-        pitElapsedPerResource[metric["resourceId"]]+=chunk["elapsedTime"] unless chunk.nil?
+    # Updated Pit Magic    
+    colStage = db.collection("batchJobStage")
+    countOfStages = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).count.to_s
+    puts "Found " + countOfStages + " " + stage["stageName"] + " stage entries in batchJobStage collection"
+    
+    stageEntries = colStage.find({"jobId" => id, "stageName" => stage["stageName"]})
+    stageEntries.each do |entry|
+      
+      #puts entry
+      
+      if entry["metrics"].length > 0
+        
+        #puts entry["metrics"]
 
-        rcPerResource[metric["resourceId"]]=0 unless rcPerResource[metric["resourceId"]]
-        rcPerResource[metric["resourceId"]]+=metric["recordCount"] unless metric.nil? or metric["recordCount"].nil?
-
-        rcStage[stage["stageName"]]+=metric["recordCount"]
+        entry["metrics"].each do |metric|
+          pitElapsedPerResource[metric["resourceId"]]=0 unless pitElapsedPerResource[metric["resourceId"]]
+          pitElapsedPerResource[metric["resourceId"]]+=entry["elapsedTime"]
+          
+          rcPerResource[metric["resourceId"]]=0 unless rcPerResource[metric["resourceId"]]
+          rcPerResource[metric["resourceId"]]+=metric["recordCount"] unless metric.nil? or metric["recordCount"].nil?
+          
+          rcStage[stage["stageName"]]+=metric["recordCount"]          
+        end
+        
       end
     end
+    
+    rcStage[stage["stageName"]] = 0
+    
   elsif stage["stageName"]=="JobReportingProcessor"
     # Job reporting
     jobProcessingEndTime = stage["chunks"][0]["stopTimestamp"].to_i
@@ -177,7 +193,7 @@ dbs.each_value{|time| totalMongoTime+=time["time"]}
 
 puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/60000.0).round(2)} min)    \e[0m"
 puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"
-printf "Mongo Time per node: \e[35m%d\e[0m mins (nodes: \e[35m%d\e[0m)\n",(totalMongoTime/60000.0).round(2)/(job['executionStats'].size-1),job['executionStats'].size-1
+printf "Mongo Time per node: \e[35m%d\e[0m mins (nodes: \e[35m%d\e[0m)\n",(totalMongoTime/60000.0).round(2)/(job['executionStats'].size),job['executionStats'].size-1
 printf "Average times (read/write): \e[35m%.2f/%.2f\e[0m\n",readTime.to_f/readCount,writeTime.to_f/writeCount
 printf "Total sli counts (read/write): \e[35m%d/%d\e[0m  ratio: \e[35m%.2f\e[0m\n",readCount,writeCount,readCount.to_f/writeCount
 printf "Total sli times(read/write): \e[35m%d/%d\e[0m ratio: \e[35m%.2f\e[0m\n",readTime,writeTime,readTime.to_f/writeTime
@@ -198,9 +214,9 @@ if  !totalJobTime.nil?
   puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
   puts "Transformed / job time RPS \e[35m#{transformedRecordCount / totalJobTime.round()}\e[0m"
   puts "Total Job time #{totalJobTime} sec"
-
 end
-dataSet = id.slice(0, id.index("_"))
+
+dataSet = id.slice(0, id.index("-"))
 puts "PIT #{pitRPS} Job: #{jobRps}  Jobtime: #{(totalJobTime/60).round()} minutes Dataset: #{dataSet}"
 puts "ALL DONE"
 
