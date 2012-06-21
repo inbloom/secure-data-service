@@ -57,10 +57,41 @@ public class LongSchemaTest {
         assertTrue(convertedInput.longValue() == value);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testBadConvert() {
-        Object convertedValue = this.schema.convert("INVALID INPUT");
-        assertFalse(convertedValue instanceof Long);
+        this.schema.convert("INVALID INPUT");
+    }
+
+    @Test
+    public void testNonConvert() {
+        Object convertedValue = this.schema.convert(12345L);
+        assertTrue(convertedValue instanceof Long);
+    }
+    
+
+    @Test
+    public void testLongConverter() {
+        
+        long data = 12345L;
+        int intData = (int) data;
+        
+        assertTrue("Failure returning same object",
+                this.schema.convert(data).equals(data));
+        assertTrue("Failure parsing long from integer",
+                this.schema.convert(intData).equals(data));
+        assertTrue("Failure parsing long data", 
+                this.schema.convert("" + data).equals(data));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidStringThrowsException() throws IllegalArgumentException {
+        this.schema.convert("INVALID INPUT");
+    }
+    
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnsupportedObjectTypeThrowsException() throws IllegalArgumentException {
+        this.schema.convert(new Object());
     }
     
 }

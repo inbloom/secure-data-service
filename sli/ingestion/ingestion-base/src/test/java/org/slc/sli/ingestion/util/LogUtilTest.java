@@ -6,7 +6,6 @@ import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
@@ -17,16 +16,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * LogUtil unit-tests
- * 
+ *
  * @author tshewchuk
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LogUtilTest {
-    
+
     @Test
-    @Ignore("Temporarily disabling log util from swallowing exception message")
     public void testLogUtil() {
         // Log a nested exception.
         final Logger mockLogger = Mockito.mock(Logger.class);
@@ -41,14 +39,14 @@ public class LogUtilTest {
                     throw new AccessException("*** EXCEPTION MESSAGE THREE!!! ***", re2);
                 } catch (AccessException ae) {
                     String message = "This is a test of the LogUtil utility";
-                    
+
                     // Now test what would be logged.
-                    
+
                     // First, without exception local message logging.
                     LogUtil.setIncludeExceptionMessage(false);
                     LogUtil.error(mockLogger, message, ae);
                     Mockito.verify(mockLogger).error(Mockito.eq(message), Mockito.argThat(new IsCorrectException()));
-                    
+
                     // Next, with exception local message logging.
                     LogUtil.setIncludeExceptionMessage(true);
                     LogUtil.error(mockLogger, message, ae);
@@ -56,22 +54,24 @@ public class LogUtilTest {
                 }
             }
         }
+
     }
-    
+
     private class IsCorrectException extends ArgumentMatcher<Exception> {
-        
+
         @Override
         public boolean matches(Object argument) {
             Exception arg = (Exception) argument;
-            
+
             // Verify the logged contents.
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);
             arg.printStackTrace(ps);
             String logContents = baos.toString(); // e.g. ISO-8859-1
-            
+
             // Verify the presence of the logged exception message based upon the configuration
-            // property value.
+            // property
+            // value.
             if (LogUtil.isIncludeExceptionMessage()) {
                 // Verify log file DOES contain exception local message.
                 if (!logContents.contains("java.rmi.AccessException: *** EXCEPTION MESSAGE THREE!!! ***")
@@ -88,7 +88,7 @@ public class LogUtilTest {
                         || logContents.contains("*** EXCEPTION MESSAGE ONE!!! ***")) {
                     return false;
                 }
-                
+
                 // Verify log file DOES specialized exception types.
                 if (!logContents.contains("java.lang.Exception: class java.rmi.AccessException")
                         || !logContents.contains("Caused by: java.lang.Exception: class java.lang.RuntimeException")
@@ -96,9 +96,9 @@ public class LogUtilTest {
                     return false;
                 }
             }
-            
+
             Pattern p = Pattern.compile(".*\\.\\.\\. [\\d]* more.*", Pattern.DOTALL);
-            
+
             // Verify log file DOES contain nested exception stack traces.
             if (!logContents.contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:39)")
                     || !logContents
@@ -108,9 +108,9 @@ public class LogUtilTest {
                             .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:33)")) {
                 return false;
             }
-            
+
             return true;
         }
     };
-    
+
 }

@@ -89,15 +89,15 @@ public class NeutralSchemaFactory implements SchemaFactory {
     private NeutralSchema createSchema(NeutralSchemaType schemaType) {
         switch (schemaType) {
             case BOOLEAN:
-                return new BooleanSchema(schemaType.getName());
+                return new BooleanSchema();
             case INT:
-                return new IntegerSchema(schemaType.getName());
+                return new IntegerSchema();
             case INTEGER:
-                return new IntegerSchema(schemaType.getName());
+                return new IntegerSchema();
             case LONG:
-                return new LongSchema(schemaType.getName());
+                return new LongSchema();
             case DOUBLE:
-                return new DoubleSchema(schemaType.getName());
+                return new DoubleSchema();
             case DATE:
                 return new DateSchema(schemaType.getName());
             case TIME:

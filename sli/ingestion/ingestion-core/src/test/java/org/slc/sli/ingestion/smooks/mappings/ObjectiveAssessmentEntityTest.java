@@ -104,35 +104,6 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("50", entity.get("percentOfAssessment").toString());
         Assert.assertEquals("nomenclature", entity.get("nomenclature"));
 
-//        @SuppressWarnings("unchecked")
-//        List<Map<String, Object>> assessmentPerformanceLevelList = (List<Map<String, Object>>) entity.get("assessmentPerformanceLevel");
-//        Assert.assertTrue(assessmentPerformanceLevelList != null);
-//        Map<String, Object> assessmentPerformanceLevel = assessmentPerformanceLevelList.get(0);
-//        Assert.assertTrue(assessmentPerformanceLevel != null);
-//        Assert.assertEquals("ACT score", assessmentPerformanceLevel.get("assessmentReportingMethod"));
-//        Assert.assertEquals("1", assessmentPerformanceLevel.get("minimumScore").toString());
-//        Assert.assertEquals("20", assessmentPerformanceLevel.get("maximumScore").toString());
-
-//        @SuppressWarnings("unchecked")
-//        List<Map<String, Object>> performanceLevelList = (List<Map<String, Object>>) assessmentPerformanceLevel.get("performanceLevelDescriptor");
-//        Assert.assertTrue(performanceLevelList != null);
-//        Map<String, Object> performanceLevel = performanceLevelList.get(0);
-//        Assert.assertTrue(performanceLevel != null);
-//        Assert.assertEquals("description", performanceLevel.get("description"));
-//        performanceLevel = performanceLevelList.get(1);
-//        Assert.assertTrue(performanceLevel != null);
-//        Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
-
-//        @SuppressWarnings("unchecked")
-//        List<Map<String, Object>> performanceLevelList = (List<Map<String, Object>>) assessmentPerformanceLevel.get("performanceLevelDescriptor");
-//        Assert.assertTrue(performanceLevelList != null);
-//        Map<String, Object> performanceLevel = performanceLevelList.get(0);
-//        Assert.assertTrue(performanceLevel != null);
-//        Assert.assertEquals("description", performanceLevel.get("description"));
-//        performanceLevel = performanceLevelList.get(1);
-//        Assert.assertTrue(performanceLevel != null);
-//        Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
-
         List<?> subObjectiveAssessments = (List<?>) entity.get(ObjectiveAssessmentBuilder.SUB_OBJECTIVE_REFS);
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);

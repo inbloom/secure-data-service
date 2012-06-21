@@ -57,9 +57,37 @@ public class IntegerSchemaTest {
         assertTrue(convertedInput.intValue() == value);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testBadConvert() {
-        Object convertedValue = this.schema.convert("INVALID INPUT");
-        assertFalse(convertedValue instanceof Integer);
+        this.schema.convert("INVALID INPUT");
     }
+
+    @Test
+    public void testNonConvert() {
+        Object convertedValue = this.schema.convert(12);
+        assertTrue(convertedValue instanceof Integer);
+    }
+    
+
+    @Test
+    public void testIntegerConverter() {
+        
+        int data = 123;
+        
+        assertTrue("Failure returning same object",
+                this.schema.convert(data).equals(data));
+        assertTrue("Failure parsing int data", 
+                this.schema.convert("" + data).equals(data));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidStringThrowsException() throws IllegalArgumentException {
+        this.schema.convert("INVALID INPUT");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnsupportedObjectTypeThrowsException() throws IllegalArgumentException {
+        this.schema.convert(new Object());
+    }
+    
 }
