@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId"],
+    "keyFields" : ["body.stateOrganizationId"],
     "references" :
     [
         {
