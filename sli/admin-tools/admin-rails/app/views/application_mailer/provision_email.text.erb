@@ -3,7 +3,7 @@ Welcome <%= @firstName %>,
 
 You have successfully created a landing zone on your Shared Learning Collaborative sandbox.
 
-If you chose to use one of the SLC sample data sets, you can download them from:
+If you chose to use one of the SLC sample datasets, you can download it from:
 <%= @sample_data_link %>
 
 Next, SFTP to the server below and upload the data file (SLC sample data or your own Ed-Fi data) for ingestion.
@@ -11,14 +11,20 @@ Next, SFTP to the server below and upload the data file (SLC sample data or your
 Server: <%= @serverName %>
 Education organization: <%= @edorgId %>
 
-Thank you,
-The Shared Learning Collaborative
+For more information, please see <%= @redirect_email %>
 
-P.S. For more information, please see <%= @redirect_email %>
+Thank you,
+
+The Shared Learning Collaborative
 <% else %>
 Welcome <%= @firstName %>,
 
 You have successfully created a landing zone for your education organization.
+<<<<<<< HEAD
+=======
+     
+To load your data, sftp to the directory below and upload the data file you created in order for it to be ingested by the system.
+>>>>>>> 5122ba8... DE1012:  Run email text by tech writer.
 
 To ingest the data for your education organization, SFTP to the directory below, and upload the data file.
 
@@ -26,5 +32,6 @@ Server: <%= @serverName %>
 Education organization: <%= @edorgId %>
 
 Thank you,
+
 The Shared Learning Collaborative
 <% end %>
