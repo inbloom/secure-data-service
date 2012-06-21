@@ -150,7 +150,7 @@ class TestApprovalEngine < Test::Unit::TestCase
     end
     
 
-    def xxtest_production
+    def test_production
         regular_workflow(false)
     end
 
