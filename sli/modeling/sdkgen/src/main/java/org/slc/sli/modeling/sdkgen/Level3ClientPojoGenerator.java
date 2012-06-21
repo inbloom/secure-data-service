@@ -343,6 +343,8 @@ public final class Level3ClientPojoGenerator {
                     jsw.endStmt();
                     jsw.endBlock();
 
+                    writeDefaultConstructor(classType, jsw);
+
                     writeClassTypeValueOfFunction(javaClassType, jsw);
 
                     writeClassTypeGetIdMethod(jsw);
@@ -373,6 +375,17 @@ public final class Level3ClientPojoGenerator {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void writeDefaultConstructor(final ClassType classType, final JavaStreamWriter jsw) throws IOException {
+        // Default initializer
+        jsw.write("public");
+        jsw.space();
+        jsw.write(classType.getName()).parenL().parenR().beginBlock();
+        jsw.write("this").parenL().write(Word.NEW).space()
+           .write("HashMap<String,Object>").parenL().parenR()
+           .parenR().endStmt();
+        jsw.endBlock();
     }
 
     private static void writeSetter(final JavaType type, final String name, final JavaStreamWriter jsw)

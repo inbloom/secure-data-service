@@ -184,9 +184,9 @@ public class StandardLevel3ClientManualTest {
     }
 
     private String doPostStudentUsingJson(final Level3ClientManual client) throws IOException, StatusCodeException {
-        Student student = new Student(new HashMap<String, Object>());
+        Student student = new Student();
 
-        Name name = new Name(new HashMap<String, Object>());
+        Name name = new Name();
         name.setFirstName(new SimpleName("Jeff"));
         name.setMiddleName(new SimpleName("Allen"));
         name.setLastSurname(new SimpleName("Stokes"));
@@ -195,7 +195,7 @@ public class StandardLevel3ClientManualTest {
         student.setStudentUniqueStateId(new UniqueStateIdentifier("1234-STUDENT"));
         student.setSex(SexType.MALE);
 
-        BirthData birthData = new BirthData(new HashMap<String, Object>());
+        BirthData birthData = new BirthData();
         birthData.setBirthDate("1988-12-01");
         student.setBirthData(birthData);
 

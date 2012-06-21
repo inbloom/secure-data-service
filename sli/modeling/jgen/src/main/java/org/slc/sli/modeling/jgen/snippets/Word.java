@@ -14,7 +14,11 @@ public enum Word implements JavaSnippet {
     /**
      *
      */
-    BLANK("");
+    BLANK(""),
+    /**
+     *
+     */
+    NEW("new");
 
     private final String word;
 
