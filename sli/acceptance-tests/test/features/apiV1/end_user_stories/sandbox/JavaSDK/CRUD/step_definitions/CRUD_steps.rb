@@ -1,12 +1,43 @@
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
-  @byPassToken = $SESSION_MAP[user+"_IL"]
-  assert(@byPassToken!=nil,"cant login user #{user}")
+Given /^the Java SDK test app  is deployed on test app server$/ do
+  @appPrefix = "sample/"
 end
 
-Given /^the Java SDK test app  is deployed on test app server$/ do
+Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm "([^"]*)"$/ do |user, pass, realm|
+  url = PropLoader.getProps['sampleApp_server_address']
+  url = url + @appPrefix
+  puts url
+  @driver.get url
+
+  # assert I am redirected to the simpleIDP login screen
+  assert(@driver.current_url.include?("/api/oauth/authorize"))
+
+  # choose the realm that was speicified in the realm chooser
+  sleep(1)
+
+  realm_select = @driver.find_element(:name=> "realmId")
+  options = realm_select.find_elements(:tag_name=>"option")
+  options.each do |e1|
+    if (e1.text == realm)
+      e1.click()
+      break
+    end
+  end
+  clickButton("go", "id")
+
+  # make sure I am iat the login screen 
+  sleep(1)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+  wait.until{@driver.find_element(:id, "user_id")}.send_keys user
+  @driver.find_element(:id, "password").send_keys pass
+  @driver.find_element(:id, "login_button").click  
+
+  # make sure I am logged in 
+  sleep(1)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
+  assert(@driver.current_url.include?(url))
   @appPrefix = "sample/testsdk"
 end
 
@@ -40,11 +71,9 @@ end
 
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
   url = PropLoader.getProps['sampleApp_server_address']
-  url = url + @appPrefix+"?byPassToken="+URI.escape(@byPassToken)+"&test="+testType
+  url = url + @appPrefix + "?test="+testType
   puts url
-  @driver.get url
-  
-  
+  @driver.get url 
 end
 
 Then /^I should receive response "([^"]*)"$/ do |arg1|

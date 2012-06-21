@@ -18,6 +18,9 @@ import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 /**
  * Servlet that do CRUD test against Java SDK.
  * 
@@ -30,6 +33,7 @@ public class TestSDKServlet extends HttpServlet {
      *
      */
     private static final long serialVersionUID = 3258845941340138511L;
+    private static final Logger LOG = LoggerFactory.getLogger(TestSDKServlet.class);
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -68,26 +72,40 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
+            LOG.error("RESPONSEx:" + response.getStatus()); 
+            
             if (response.getStatus() != 201) {
+            	LOG.error("FAILED: create !"); 
                 testResult = "failed";
                 return testResult;
             }
+            LOG.error("1:--------------------------------------------------" + testResult); 
+
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
+            LOG.error("1b:--------------------------------------------------" + id);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            LOG.error("1c:--------------------------------------------------" + collection);
             if (collection != null && collection.size() == 1) {
+                LOG.error("2:--------------------------------------------------" + testResult); 
                 
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
                 if (firstName.equals("Monique") && lastSurname.equals("Johnson")) {
                     testResult = "succeed";
                 } else {
+                    LOG.error("Wrong response:" + firstName + " " + lastSurname); 
                     testResult = "failed";
                 }
             }
+            LOG.error("3:--------------------------------------------------" + testResult); 
+            
         } catch (Exception e) {
+            LOG.error("Exception:" + e.getMessage()); 
             testResult = "failed";
         }
+        LOG.error("4:--------------------------------------------------" + testResult); 
+        
         return testResult;
     }
     
@@ -101,6 +119,8 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
+            LOG.error("RESPONSE:" + response.getStatus()); 
+            
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
@@ -126,6 +146,7 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
         } catch (Exception e) {
+            LOG.error("RESPONSE:" + e.getMessage());         	
             testResult = "failed";
         }
         return testResult;
@@ -140,6 +161,8 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         try {
             Response response = client.create(student);
+            LOG.error("RESPONSE:" + response.getStatus()); 
+            
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
@@ -160,6 +183,7 @@ public class TestSDKServlet extends HttpServlet {
             }
             
         } catch (Exception e) {
+            LOG.error("RESPONSE:" + e.getMessage());         	
             testResult = "failed";
         }
         return testResult;
@@ -183,6 +207,7 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
         } catch (Exception e) {
+            LOG.error("RESPONSE:" + e.getMessage());         	
             testResult = "failed";
         }
         

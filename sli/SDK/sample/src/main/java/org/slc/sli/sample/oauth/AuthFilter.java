@@ -43,18 +43,23 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
+/*        if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
             byPassAuthenticate(request, response);
             chain.doFilter(request, response);
-        } else if (req.getRequestURI().equals("/sample/callback")) {
+        } else */ 
+        LOG.info("URI:" + req.getRequestURI()); 
+        if (req.getRequestURI().equals("/sample/callback")) {
             if (handleCallback(request, response)) {
                 ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
             }
+            LOG.info("callback");
             return;
         } else if (req.getSession().getAttribute("client") == null) {
+            LOG.info("authenticate");
             authenticate(request, response);
         } else {
             try {
+                LOG.info("chain");
                 chain.doFilter(request, response);
             } catch (Exception e) {
                 // Redirect to login on any errors
@@ -96,7 +101,7 @@ public class AuthFilter implements Filter {
         return true;
     }
     
-    private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
+/*    private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
         BasicClient client = null;
         if (((HttpServletRequest) req).getSession().getAttribute("client") == null) {
             client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
@@ -107,7 +112,7 @@ public class AuthFilter implements Filter {
         client.setToken(sessionToken);
         ((HttpServletRequest) req).getSession().removeAttribute("client");
         ((HttpServletRequest) req).getSession().setAttribute("client", client);
-    }
+    } */ 
     
     private void authenticate(ServletRequest req, ServletResponse res) {
         

@@ -4,8 +4,7 @@ Background:
 
 Given I have an open web browser
 Given the Java SDK test app  is deployed on test app server 
-Given I am logged in using "rrogers" and "rrogers1234" to realm Daybreak Central High
-
+Given I am logged in using "rrogers" and "rrogers1234" to realm "Illinois Daybreak School District 4529"
 
 Scenario: IT Admin Add a students		
 		When I put "STUDENTS"  with Name "Monique L Johnson" 
