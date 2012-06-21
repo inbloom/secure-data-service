@@ -77,7 +77,12 @@ public class BasicService implements EntityService {
             EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.PROGRAM,
             EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
-            EntityNames.PARENT
+            EntityNames.PARENT,
+            EntityNames.STUDENT_COMPETENCY,
+            EntityNames.GRADE,
+            EntityNames.REPORT_CARD,
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.ATTENDANCE
     ));
 
     private String collectionName;
