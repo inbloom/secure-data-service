@@ -171,6 +171,7 @@ class SLCFixer
     section_to_teachers = {}
     section_assoc_to_teachers = {}
     section_to_tenant = {}
+    section_to_session = {}
 
     @db['studentSectionAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
@@ -227,6 +228,22 @@ class SLCFixer
         @db[:gradebookEntry].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
       end
     end
+
+
+    #Session related stuff
+    #Map section to session
+    @db[:section].find({}, {fields: ['body.sessionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |item|
+        section_to_session[item['_id']] = item['body']['sessionId']
+      end
+    end
+
+    section_to_session.each { |section, session|
+      @db['session'].update({'_id'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
+      @db['schoolSessionAssociation'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
+      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
+      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
+    }
 
   end
 
