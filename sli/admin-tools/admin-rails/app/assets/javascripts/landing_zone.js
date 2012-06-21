@@ -1,8 +1,8 @@
 $(document).ready(function() {
+  $("#addKeyBtn").unbind("click");
   $("#addKeyBtn").click(function() {
-    alert("pause");
-    $("#rsaKeyField").toggle();
-//    $("#rsaKeyField").val(""); // this doesn't work, want to clear the text whenever shown/hidden
+    $("#rsaKeyField").toggle(250);
+    $("#rsaKeyField").val(""); // this doesn't work, want to clear the text whenever shown/hidden
   });
 	if (is_sandbox) {
   var buttonEnableForCustom = function() {
