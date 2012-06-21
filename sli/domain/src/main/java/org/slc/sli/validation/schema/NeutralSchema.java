@@ -281,6 +281,12 @@ public abstract class NeutralSchema {
         }
         return isValid;
     }
+    
+    protected boolean addError(String fieldName, Object fieldValue, String expectedType,
+            ErrorType errorType, List<ValidationError> errors) {
+    
+        return this.addError(false, fieldName, fieldValue, expectedType, errorType, errors);
+    }
 
     /**
      * @param isValid

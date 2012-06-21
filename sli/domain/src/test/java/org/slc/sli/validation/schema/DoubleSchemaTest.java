@@ -58,10 +58,47 @@ public class DoubleSchemaTest {
         assertTrue(convertedInput.doubleValue() == value);
     }
     
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testBadConvert() {
-        Object convertedValue = this.schema.convert("INVALID INPUT");
-        assertFalse(convertedValue instanceof Double);
+        this.schema.convert("INVALID INPUT");
     }
+
+    @Test
+    public void testNonConvert() {
+        Object convertedValue = this.schema.convert(12.345);
+        assertTrue(convertedValue instanceof Double);
+    }
+
+    @Test
+    public void testDoubleConverter() {
+        
+        double data = 12.0;
+        float floatData = (float) data;
+        int intData = (int) data;
+        long longData = (long) data;
+        
+        
+        assertTrue("Failure returning same object",
+                this.schema.convert(data).equals(data));
+        assertTrue("Failure parsing double from long",
+                this.schema.convert(longData).equals(data));
+        assertTrue("Failure parsing double from integer",
+                this.schema.convert(intData).equals(data));
+        assertTrue("Failure parsing double from float",
+                this.schema.convert(floatData).equals(data));
+        assertTrue("Failure parsing double data", 
+                this.schema.convert("" + data).equals(data));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidStringThrowsException() throws IllegalArgumentException {
+        this.schema.convert("INVALID INPUT");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnsupportedObjectTypeThrowsException() throws IllegalArgumentException {
+        this.schema.convert(new Object());
+    }
+    
     
 }
