@@ -169,6 +169,7 @@ class SLCFixer
     @log.info "Stamping sections and associations"
 
     section_to_teachers = {}
+    section_assoc_to_teachers = {}
     section_to_tenant = {}
 
     @db['studentSectionAssociation'].find({}, @basic_options) { |cursor|
@@ -176,7 +177,8 @@ class SLCFixer
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentSectionAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
         @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-
+         
+        section_assoc_to_teachers[assoc['_id']] = teachers
         section_id = assoc['body']['sectionId']
         section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
         section_to_teachers[section_id] ||= []
@@ -186,6 +188,19 @@ class SLCFixer
       }
     }
 
+    @db['grade'].find({}, @basic_options) { |cursor|
+      cursor.each { |grade|
+        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq
+        @db[:grade].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
+      }
+    }
+
+    @db['studentCompetency'].find({}, @basic_options) { |cursor|
+      cursor.each { |grade|
+        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq
+        @db[:studentCompetency].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
+      }
+    }
 
     @db['teacherSectionAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
