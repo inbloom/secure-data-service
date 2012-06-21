@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -55,7 +54,6 @@ public class ControlFileProcessor implements Processor {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    @Profiled
     public void process(Exchange exchange) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
