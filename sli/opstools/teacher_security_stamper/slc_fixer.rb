@@ -46,9 +46,9 @@ class SLCFixer
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
       @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
-      @threads << Thread.new {x.report('attendance')     {stamp_attendance}}
       @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
       @threads << Thread.new {x.report('grades')     {stamp_grades}}
+      @threads << Thread.new {x.report('other')     {stamp_other}}
       @threads << Thread.new {x.report('misc')     {stamp_misc}}
       @threads << Thread.new {x.report('student_school_association')     {stamp_student_school_association}}
     end
@@ -277,15 +277,6 @@ class SLCFixer
     }
   end
   
-  def stamp_attendance
-    @db['attendance'].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
-      cursor.each do |attendance|
-        teachers = @studentId_to_teachers[attendance['body']['studentId']].flatten.uniq
-        @db['attendance'].update(make_ids_obj(attendance), {'$set' => {'metaData.teacherContext' => teachers}})
-      end
-    end
-  end
-  
   def stamp_grades
   end
   
@@ -310,6 +301,7 @@ class SLCFixer
         end
       end
     end
+
     #TODO look more closely at these relationships and make sure they are stamped correctly.
     @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
@@ -354,6 +346,23 @@ class SLCFixer
         @db['studentSchoolAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
+  end
+
+  def stamp_other
+    stamp_direct_student_association :reportCard
+    stamp_direct_student_association :studentAcademicRecord
+    stamp_direct_student_association :attendance
+  end
+
+  # Stamp non-association types that reference students through studentId
+  def stamp_direct_student_association(type)
+    @log.info "Stamping #{type}"
+    @db[type].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |item|
+        teachers = @studentId_to_teachers[item['body']['studentId']].flatten.uniq
+        @db[type].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
+      end
+    end
   end
 
 
