@@ -593,6 +593,18 @@ public class SDKAPIClient implements APIClient {
             // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token, null);
+
+            // filter by school id
+            if (schoolId != null) {
+                List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
+                for (GenericEntity section : sections) {
+                    if (section.getString(Constants.ATTR_SCHOOL_ID) != null &&
+                        section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
+                        filteredSections.add(section);
+                    }
+                }
+                sections = filteredSections;
+            }
         }
 
         // get courses
