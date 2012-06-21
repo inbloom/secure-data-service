@@ -215,17 +215,21 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // postExtract
         // we enter here after EdFiProcessor. everything has been staged.
         from("direct:postExtract").routeId("postExtract")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Entering Maestro orchestration.")
-                .process(orchestraPreProcessor).choice().when(header("stagedEntitiesEmpty").isEqualTo(true))
-                .to("direct:stop").otherwise().to("direct:transformationSplitter");
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to Maestro orchestration.")
+                .process(orchestraPreProcessor)
+                .choice()
+                .when(header("stagedEntitiesEmpty").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .to("direct:transformationSplitter");
 
         // transformationSplitter
         // split WorkNotes into separate Exchanges and drop into the pit node queue.
         from("direct:transformationSplitter")
                 .routeId("transformationSplitter")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - ${file:name} - Maestro deriving and splitting WorkNotes for transformation.")
-                .split().method("WorkNoteSplitter", "split")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for transformation splitting.")
+                .split()
+                    .method("WorkNoteSplitter", "split")
                 .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
                 .to(pitNodeQueueUri);
 
@@ -235,19 +239,23 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // and drop into the pit node queue.
         from("direct:persistenceSplitter")
                 .routeId("persistenceSplitter")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - Maestro pass-through-splitting WorkNotes for persistance.").split()
-                .method("WorkNoteSplitter", "passThroughSplit")
-                .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for persistence splitting.")
+                .split()
+                    .method("WorkNoteSplitter", "passThroughSplit")
+                .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name()))
+                .to(pitNodeQueueUri);
 
         // aggregationSwitch
         // a switch to route 'completed' WorkNotes from the maestro queue (coming from pits) to the
         // correct aggregator.
-        from(maestroQueueUri).routeId("aggregationSwitch").choice()
+        from(maestroQueueUri)
+                .routeId("aggregationSwitch")
+                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Routing to aggregators: ${body}")
+                .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                .to("direct:transformationAggregator")
+                    .to("direct:transformationAggregator")
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .to("direct:persistenceAggregator");
+                    .to("direct:persistenceAggregator");
 
         // transformationAggregator
         // aggregates WorkNotes based on their IngestionStagedEntity + BatchJobId.
@@ -257,10 +265,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // IngestionStagedEntity.
         from("direct:transformationAggregator")
                 .routeId("transformationAggregator")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - Maestro aggregating WorkNotes after transformations.")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to transformation aggregator.")
                 .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
-                .completionSize(simple("${in.header.workNoteByEntityCount}")).to("direct:persistenceSplitter");
+                .completionSize(simple("${in.header.workNoteByEntityCount}"))
+                .to("direct:persistenceSplitter");
 
         // persistenceAggregator
         // aggregates WorkNotes based on their BatchJobId.
@@ -271,12 +279,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // 'tier.'
         from("direct:persistenceAggregator")
                 .routeId("persistenceAggregator")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - Maestro aggregating WorkNotes after persistances.")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to persistence aggregator.")
                 .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
-                .completionSize(simple("${in.header.totalWorkNoteCount}")).process(aggregationPostProcessor).choice()
-                .when(header("processedAllStagedEntities").isEqualTo(true)).to("direct:stop").otherwise()
-                .to("direct:transformationSplitter");
+                .completionSize(simple("${in.header.totalWorkNoteCount}"))
+                .process(aggregationPostProcessor)
+                .choice()
+                .when(header("processedAllStagedEntities").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .to("direct:transformationSplitter");
     }
 
     /**
@@ -289,31 +300,37 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void configureLandingZonePollers(String workItemQueueUri, LocalFileSystemLandingZone lz) {
         String inboundDir = lz.getDirectory().getAbsolutePath();
         log.info("Configuring route for landing zone: {} ", inboundDir);
+
         // routeId: ctlFilePoller
-        from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$" + "&move="
+        from("file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$" + "&move="
                         + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed="
                         + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("ctlFilePoller-" + inboundDir)
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
-                .process(controlFilePreProcessor).to(workItemQueueUri);
+                .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
+                .process(controlFilePreProcessor)
+                .to(workItemQueueUri);
 
         // routeId: zipFilePoller
-        from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
+        from("file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("zipFilePoller-" + inboundDir)
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
-                .process(zipFileProcessor).choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop")
-                .otherwise().process(controlFilePreProcessor).to(workItemQueueUri);
+                .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
+                .process(zipFileProcessor)
+                .choice()
+                .when(header("hasErrors").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                    .process(controlFilePreProcessor)
+                    .to(workItemQueueUri);
 
-        from(
-                "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
+        from("file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
                         + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
                         + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("noextract-" + inboundDir)
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
-                .process(noExtractProcessor).to("direct:postExtract");
+                .log(LoggingLevel.INFO, "CamelRouting", "No-extract command file detected. Routing to NoExtractProcessor.")
+                .process(noExtractProcessor)
+                .to("direct:postExtract");
     }
 
     /**
@@ -326,12 +343,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildExtractionRoutes(String workItemQueueUri) {
 
         Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(edfiProcessorMode) ) {
+        if ("concurrent".equals(edfiProcessorMode)) {
             edfiProcessorToUse = concurrentEdFiProcessor;
         }
 
         Processor xmlFileProcessorToUse = xmlFileProcessor;
-        if ("concurrent".equals(xmlProcessorMode) ) {
+        if ("concurrent".equals(xmlProcessorMode)) {
             xmlFileProcessorToUse = concurrentXmlFileProcessor;
         }
 
@@ -340,53 +357,46 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .routeId("extraction")
                 .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - ${file:name} - Error in processing, directing to stop.")
-                .to("direct:stop")
+                    .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.")
+                    .to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
-                .process(ctlFileProcessor)
-                .to("direct:assembledJobs")
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to ControlFileProcessor.")
+                    .process(ctlFileProcessor)
+                    .to("direct:assembledJobs")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - ${file:name} - Performing Purge Operation.").process(purgeProcessor)
-                .to("direct:stop")
+                    .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
+                    .process(purgeProcessor)
+                    .to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
-                .process(xmlFileProcessorToUse).to(workItemQueueUri)
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")
+                    .process(xmlFileProcessorToUse)
+                    .to(workItemQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process(edfiProcessorToUse).to("direct:postExtract");
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + edfiProcessorMode + "EdfiProcessor.")
+                    .process(edfiProcessorToUse)
+                    .to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs")
                 .routeId("assembledJobs")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispatching jobs for file.")
-                .choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop").otherwise().to(workItemQueueUri);
-
-        // routeId: persistencePipeline
-        from("direct:persist")
-                .routeId("persistencePipeline")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-                .log("persist: jobId: " + header("jobId").toString()).choice()
-                .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
-                .log("job has errors or dry-run specified; data will not be published").to("direct:stop").otherwise()
-                .log("publishing data now!").process(persistenceProcessor).to("direct:stop");
-
-        // routeId: jobReporting
-        from("direct:jobReporting")
-                .routeId("jobReporting")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor",
-                        "- ${id} - ${file:name} - Reporting on jobs for file.").process(jobReportingProcessor);
+                .choice()
+                .when(header("hasErrors").isEqualTo(true))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.")
+                    .to("direct:stop")
+                .otherwise()
+                    .to(workItemQueueUri);
 
         // end of routing
-        from("direct:stop").routeId("stop").wireTap("direct:jobReporting")
-                .log("end of job: " + header("jobId").toString())
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.").stop();
+        from("direct:stop")
+                .routeId("stop")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to JobReportingProcessor.")
+                .process(jobReportingProcessor)
+                .log(LoggingLevel.INFO, "CamelRouting", "Stop. Job routing complete.")
+                .stop();
     }
 
     /**
@@ -400,20 +410,29 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: pitNodes
         from(pitNodeQueueUri)
                 .routeId("pitNodes")
+                .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}")
                 .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
-                .process(transformationProcessor)
-                .to(maestroQueueUri)
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
+                    .process(transformationProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
+                    .to(maestroQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-                .log("persist: jobId: " + header("jobId").toString()).choice().when(header("dry-run").isEqualTo(true))
-                .log("job has dry-run specified; data will not be published").to("direct:stop").otherwise()
-                .log("persisting data now!").process(persistenceProcessor).to(maestroQueueUri)
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                    .log("persist: jobId: " + header("jobId").toString())
+                    .choice()
+                    .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
+                        .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
+                        .to(maestroQueueUri)
+                    .otherwise()
+                        .process(persistenceProcessor)
+                        .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
+                        .to(maestroQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
-                .log("Error: ${header.ErrorMessage}").to("direct:stop");
+                    .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing back to Maestro.")
+                    .to(maestroQueueUri);
     }
 
     /**

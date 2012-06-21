@@ -124,7 +124,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Query query = buildCreationTimeQuery();
+        WorkNote workNote = getWorkNote();
+
+        Query query = buildCreationTimeQuery(workNote);
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
                 collectionName, query, getJob().getId());
@@ -136,8 +138,10 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         }
 
         Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
-        if (collection.size() != getWorkNote().getRecordsInRange()) {
-            LOG.error("Record count ");
+
+        if (collection.size() != workNote.getRecordsInRange()) {
+            LOG.error("Number of records in creationTime query result ({}) does not match resultsInRange of {} ",
+                    collection.size(), workNote);
         }
 
         return collection;
@@ -165,10 +169,8 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         neutralRecordMongoAccess.getRecordRepository().createForJob(record, job.getId());
     }
 
-    private Query buildCreationTimeQuery() {
+    private Query buildCreationTimeQuery(WorkNote note) {
         Query query = new Query().limit(0);
-
-        WorkNote note = getWorkNote();
         if (note.getBatchSize() == 1) {
             Criteria limiter = Criteria.where("creationTime").gt(0);
             query.addCriteria(limiter);
