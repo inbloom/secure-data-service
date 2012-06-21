@@ -57,7 +57,6 @@ public class ResourceUtil {
         LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS + "responsibilitySchoolId" + LINK, "getDisciplineActionsAsResponsibleSchool");
         LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.DISCIPLINE_ACTIONS + "assignmentSchoolId" + LINK, "getDisciplineActionsAsAssignedSchool");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.DISCIPLINE_ACTIONS + LINK, BLANK);
-
     }
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
@@ -286,7 +285,6 @@ public class ResourceUtil {
                     
                     for (String resourceName : resourceNames) {
                         String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
-
                         if (!linkName.isEmpty()) {
                             links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                                     PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
@@ -422,7 +420,6 @@ public class ResourceUtil {
         String  linkName = "";
         String key = resourceName + referenceName;
         String keyWithRefField = key + referenceField + LINK;
-
        if (isReferenceEntity) {
             key = key + REFERENCE;
         } else {
@@ -438,7 +435,6 @@ public class ResourceUtil {
         } else {
           linkName = ResourceNames.PLURAL_LINK_NAMES.get(referenceName);
         }
-
         return  linkName;
     }
 
