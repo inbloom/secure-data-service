@@ -199,7 +199,7 @@ class SLCFixer
         @db['teacherSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
-
+  
     section_to_teachers.each { |section, teachers|
       @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
@@ -311,7 +311,7 @@ class SLCFixer
   end
 
   def stamp_assessments
-    @log.info "Stamping assessments and associations"
+    @log.info "Stamping assessment associations"
     assessment_to_teachers = {}
     assessment_to_tenant = {}
 
@@ -328,12 +328,12 @@ class SLCFixer
       }
     }
 
-    assessment_to_teachers.each { |assessment, teachers|
-      teachers = teachers.flatten
-      teachers = teachers.uniq
-      @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
-
+    #not stamping assessments because they are public
+    #assessment_to_teachers.each { |assessment, teachers|
+    #  teachers = teachers.flatten
+    #  teachers = teachers.uniq
+    #  @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    #}
     # TODO sectionAssesmentAssociation?
   end
 
