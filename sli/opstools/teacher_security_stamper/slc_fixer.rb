@@ -204,6 +204,14 @@ class SLCFixer
     section_to_teachers.each { |section, teachers|
       @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
+
+    @db[:gradebookEntry].find({}, {fields: ['body.sectionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |item|
+        teachers = section_to_teachers[item['body']['sectionId']].flatten.uniq
+        @db[:gradebookEntry].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
+      end
+    end
+
   end
 
   def stamp_cohorts
@@ -388,6 +396,7 @@ class SLCFixer
       end
     end
   end
+
 
 
   private
