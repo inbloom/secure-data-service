@@ -1,9 +1,12 @@
 $(document).ready(function() {
+
   $("#addKeyBtn").unbind("click");
   $("#addKeyBtn").click(function() {
     $("#rsaKeyField").toggle(250);
     $("#rsaKeyField").val(""); // this doesn't work, want to clear the text whenever shown/hidden
+    $("#key_arrow").toggleClass("icon-chevron-left, icon-chevron-down");
   });
+
 	if (is_sandbox) {
   var buttonEnableForCustom = function() {
     if($("#custom_ed_org").val().length == 0) {

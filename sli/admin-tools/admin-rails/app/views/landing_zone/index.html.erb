@@ -40,12 +40,10 @@
 		<% end %>
 		<% end %>
 		<div class="rsaKeyBlock">
-			<!--<i id="key_arrow" class="icon-arrow-left">
-			<label for="key_arrow">Add Public Key to SFTP<label/>
-			<i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>-->
-		    
-		    <label id="addKeyBtn">Add Public Key to SFTP</label>
-			<i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>
+	          <label id="addKeyBtn">Add Public Key to SFTP
+		    <i id="key_arrow" class="icon-chevron-left"></i>
+                  </label>
+		  <i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>
 		</div>
 		<div id="rsaKeyField" style="display: none">
 		    <%= text_area_tag(:message, nil, :size => "72x10") %>
