@@ -52,6 +52,7 @@ class SLCFixer
       @threads << Thread.new {x.report('other')     {stamp_other}}
       @threads << Thread.new {x.report('misc')     {stamp_misc}}
       @threads << Thread.new {x.report('student_school_association')     {stamp_student_school_association}}
+      @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
     end
 
     @threads.each do |th|
@@ -397,6 +398,9 @@ class SLCFixer
     end
   end
 
+  def stamp_teacher
+    # TODO
+  end
 
 
   private
