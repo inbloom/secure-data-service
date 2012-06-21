@@ -1036,6 +1036,7 @@
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
     <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
     <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
+    <jb:wiring property="learningObjectives" beanIdRef="OAlearningObjectiveReferenceArray" />
   </jb:bean>
 
   <!-- Objective Assessments Performance Levels Type -->
@@ -1162,10 +1163,14 @@
 
   <jb:bean beanId="learningStandardRefIdRef" class="java.util.HashMap" createOnElement="LearningStandardReference/LearningStandardIdentity/LearningStandardId">
     <jb:value property="identificationCode"  data="LearningStandardId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningStandardId/IdentificationCode/@ContentStandardName" />
+    <jb:value property="contentStandardName" data="LearningStandardId/@ContentStandardName" />
   </jb:bean>
 
   <jb:bean beanId="learningObjectiveReferenceArrayLO" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/LearningObjective">
+    <jb:wiring beanIdRef="learningObjectiveReference" />
+  </jb:bean>
+
+  <jb:bean beanId="OAlearningObjectiveReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
     <jb:wiring beanIdRef="learningObjectiveReference" />
   </jb:bean>
 
@@ -1176,7 +1181,7 @@
 
   <jb:bean beanId="learningObjectiveRefIdRef" class="java.util.HashMap" createOnElement="LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId">
     <jb:value property="identificationCode" data="LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
+    <jb:value property="contentStandardName" data="LearningObjectiveIdentity/LearningObjectiveId/@ContentStandardName" />
   </jb:bean>
 
   <!-- Learning Standard mapping -->
@@ -1197,7 +1202,7 @@
 
    <jb:bean beanId="LearningStandardId" class="java.util.HashMap" createOnElement="LearningStandard">
     <jb:value property="identificationCode" data="LearningStandardId/IdentificationCode"></jb:value>
-    <jb:value property="contentStandardName" data="LearningStandardId/ContentStandardName"></jb:value>
+    <jb:value property="contentStandardName" data="LearningStandardId/@ContentStandardName"></jb:value>
   </jb:bean>
 
   <!-- ObjectiveAssessmentReferenceType -->
@@ -1987,7 +1992,19 @@
     <jb:value property="courseRepeatCode" data="CourseRepeatCode" />
     <jb:value property="gradeType" data="GradeType" />
     <jb:value property="courseId" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
+    <jb:wiring property="courseCode" beanIdRef="CourseTranscript_CourseCodeTypeArray" />
     <jb:value property="studentAcademicRecordId" data="StudentAcademicRecordReference/@ref" />
+  </jb:bean>
+
+  <jb:bean beanId="CourseTranscript_CourseCodeTypeArray" class="java.util.ArrayList" 
+    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity">
+    <jb:wiring beanIdRef="CourseTranscript_CourseCodeType" />
+  </jb:bean>
+  <jb:bean beanId="CourseTranscript_CourseCodeType" class="java.util.HashMap" 
+    createOnElement="InterchangeStudentGrade/CourseTranscript/CourseReference/CourseIdentity/CourseCode">
+    <jb:value property="ID" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/ID" />
+    <jb:value property="identificationSystem" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="CourseTranscript/CourseReference/CourseIdentity/CourseCode/@AssigningOrganizationCode" />
   </jb:bean>
 
   <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap"

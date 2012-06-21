@@ -52,7 +52,7 @@ def getColumnLookupName(headerName)
   elsif (headerName == "statetest writing performance level") 
     return "StateTest Writing.perfLevel"
   elsif (headerName == "unit test 1")
-    return "FallSemester2011-2012"
+    return "currentSession-0"
   else
     assert(false, "unknown header name: " + headerName)
   end

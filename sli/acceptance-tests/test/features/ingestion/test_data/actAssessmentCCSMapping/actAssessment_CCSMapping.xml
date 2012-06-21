@@ -13,15 +13,15 @@
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<MaxRawScore>36</MaxRawScore>
+		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
 		<ObjectiveAssessmentReference ref="ACTEnglish"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTReading"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathematics"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTScience"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTWriting"></ObjectiveAssessmentReference>
-		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
-		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
@@ -115,14 +115,14 @@
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.2</IdentificationCode>
+					<IdentificationCode>G-SRT.2</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.3</IdentificationCode>
+					<IdentificationCode>G-SRT.3</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
@@ -136,7 +136,7 @@
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.5</IdentificationCode>
+					<IdentificationCode>G-SRT.5</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
@@ -150,7 +150,7 @@
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.6</IdentificationCode>
+					<IdentificationCode>G-SRT.6</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
@@ -161,7 +161,9 @@
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
-				<IdentificationCode>RI-11-12</IdentificationCode>
+                                <LearningObjectiveId>
+                                        <IdentificationCode>RI-11-12</IdentificationCode>
+                                </LearningObjectiveId>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
 		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
@@ -179,11 +181,11 @@
 
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
-		<LearningStandardReference>
+		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<Objective>Reading: Informational Text</Objective>
 			</LearningObjectiveIdentity>
-		</LearningStandardReference>
+		</LearningObjectiveReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTScience">
