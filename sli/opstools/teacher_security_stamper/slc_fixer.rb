@@ -240,7 +240,6 @@ class SLCFixer
         section_to_session[section_id] = item['body']['sessionId']
 
         course_id = item['body']['courseId']
-        puts "course '#{course_id}' '#{item['body']}'"
         course_to_sections[course_id] ||= []
         course_to_sections[course_id].push section_id
       end
