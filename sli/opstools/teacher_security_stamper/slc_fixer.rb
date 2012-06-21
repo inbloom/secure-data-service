@@ -51,7 +51,7 @@ class SLCFixer
       @threads << Thread.new {x.report('grades')     {stamp_grades}}
       @threads << Thread.new {x.report('other')     {stamp_other}}
       @threads << Thread.new {x.report('misc')     {stamp_misc}}
-      @threads << Thread.new {x.report('student_school_association')     {stamp_student_school_association}}
+      @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
       @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
       @threads << Thread.new {x.report('studentSectionGradebookEntry')     {stamp_gradebook}}
     end
@@ -178,6 +178,8 @@ class SLCFixer
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentSectionAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
         @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        # NOTE verify other solution @db['studentCompetency'].update({'body.studentSectionAssociationId'=>assoc['_id']}, {'$set' => {'metaData.teacherContext' => teachers}})
+        # NOTE studentCompetencyObjective? 
          
         section_assoc_to_teachers[assoc['_id']] = teachers
         section_id = assoc['body']['sectionId']
@@ -278,9 +280,12 @@ class SLCFixer
     @db['session'].find({}, @basic_options) { |cursor|
       cursor.each { |item|
         session_id = item['_id']
-        grading_period_id = item['body']['gradingPeriodReference']
-        grading_period_to_sessions[grading_period_id] ||= []
-        grading_period_to_sessions[grading_period_id].push session_id
+        grading_periods = item['body']['gradingPeriodReference']
+        next if grading_periods.nil?
+        grading_periods.each { |grading_period_id|
+          grading_period_to_sessions[grading_period_id] ||= []
+          grading_period_to_sessions[grading_period_id].push session_id
+        }
       }
     }
 
@@ -295,6 +300,7 @@ class SLCFixer
       }
       teachers = teachers.flatten
       teachers = teachers.uniq
+      #@log.debug "teachers = #{teachers} tenant = #{tenant_id}  grading peiod = #{grading_period}"
       @db['gradingPeriod'].update({'_id'=>grading_period, 'metaData.tenantId'=>tenant_id}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
@@ -469,14 +475,18 @@ class SLCFixer
     # TODO sectionAssesmentAssociation?
   end
 
-  def stamp_student_school_association
-    @log.info "Stamping student school associations"
+  def stamp_student_associations
+    @log.info "Stamping student associations"
 
     @db['studentSchoolAssociation'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         @db['studentSchoolAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
+    }
+
+    @studentId_to_teachers.each { |student,teachers|
+      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
