@@ -62,6 +62,9 @@ Scenario: Getting response from PUT - Update (school)
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
 
+#tests will fail because of use of 'the one at position X'.
+#It is not correct to assume a given order unless our query specifies to sort. tests wip until fixed
+@wip @defective
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"
