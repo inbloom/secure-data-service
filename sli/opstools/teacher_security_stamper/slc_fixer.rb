@@ -185,7 +185,7 @@ class SLCFixer
         section_id = assoc['body']['sectionId']
         section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
         section_to_teachers[section_id] ||= []
-        section_to_teachers[section_id] += teachers
+        section_to_teachers[section_id] += teachers unless teachers.nil?
         section_to_teachers[section_id] = section_to_teachers[section_id].flatten
         section_to_teachers[section_id] = section_to_teachers[section_id].uniq
       }
@@ -193,14 +193,14 @@ class SLCFixer
 
     @db['grade'].find({}, @basic_options) { |cursor|
       cursor.each { |grade|
-        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq
+        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq unless section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].nil?
         @db[:grade].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
 
     @db['studentCompetency'].find({}, @basic_options) { |cursor|
       cursor.each { |grade|
-        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq
+        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq unless section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].nil?
         @db[:studentCompetency].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
@@ -226,7 +226,7 @@ class SLCFixer
 
     @db[:gradebookEntry].find({}, {fields: ['body.sectionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |item|
-        teachers = section_to_teachers[item['body']['sectionId']].flatten.uniq
+        teachers = section_to_teachers[item['body']['sectionId']].flatten.uniq unless section_to_teachers[item['body']['sectionId']].nil?
         @db[:gradebookEntry].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
       end
     end
@@ -321,7 +321,7 @@ class SLCFixer
         cohort_id = assoc['body']['cohortId']
         cohort_to_tenant[cohort_id] ||= assoc['metaData']['tenantId']
         cohort_to_teachers[cohort_id] ||= []
-        cohort_to_teachers[cohort_id] += teachers
+        cohort_to_teachers[cohort_id] += teachers unless teachers.nil?
         cohort_to_teachers[cohort_id] = cohort_to_teachers[cohort_id].flatten
         cohort_to_teachers[cohort_id] = cohort_to_teachers[cohort_id].uniq
       }
@@ -356,7 +356,7 @@ class SLCFixer
         parent_id = assoc['body']['parentId']
         parent_to_tenant[parent_id] ||= assoc['metaData']['tenantId']
         parent_to_teachers[parent_id] ||= []
-        parent_to_teachers[parent_id] += teachers
+        parent_to_teachers[parent_id] += teachers unless teachers.nil?
       }
     }
 
@@ -380,7 +380,7 @@ class SLCFixer
         program_id = assoc['body']['programId']
         program_to_tenant[program_id] ||= assoc['metaData']['tenantId']
         program_to_teachers[program_id] ||= []
-        program_to_teachers[program_id] += teachers
+        program_to_teachers[program_id] += teachers unless teachers.nil?
       }
     }
 
@@ -430,7 +430,7 @@ class SLCFixer
       cursor.each do |action|
         teachers = []
         action['body']['staffId'].each {|id| teachers << id}
-        action['body']['studentId'].each {|id| teachers += @studentId_to_teachers[id]}
+        action['body']['studentId'].each {|id| teachers += @studentId_to_teachers[id] unless @studentId_to_teachers[id].nil?}
         teachers = teachers.flatten.uniq
         @db['disciplineAction'].update(make_ids_obj(action), {'$set' => {'metaData.teacherContext' => teachers}})
         action['body']['disciplineIncidentId'].each do |id|
@@ -443,7 +443,7 @@ class SLCFixer
     @log.info "Stamping studentDisciplineIncidentAssociation"
     @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
-        @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq}})
+        @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
       end
     end
   end
@@ -501,7 +501,7 @@ class SLCFixer
     @log.info "Stamping #{type}"
     @db[type].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |item|
-        teachers = @studentId_to_teachers[item['body']['studentId']].flatten.uniq
+        teachers = @studentId_to_teachers[item['body']['studentId']].flatten.uniq unless @studentId_to_teachers[item['body']['studentId']].nil?
         @db[type].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
       end
     end
@@ -550,7 +550,7 @@ class SLCFixer
 
         schools = teacher_to_schools[teacher_id]
         unless schools.nil?
-          schools.each { |school| teachers += school_to_teachers[school] }
+          schools.each { |school| teachers += school_to_teachers[school] unless school_to_teachers[school].nil?}
           teachers = teachers.flatten
           teachers = teachers.uniq
         end
@@ -565,7 +565,7 @@ class SLCFixer
       teachers = [teacher_id]
       schools = teacher_to_schools[teacher_id]
       unless schools.nil?
-        schools.each { |school| teachers += school_to_teachers[school] }
+        schools.each { |school| teachers += school_to_teachers[school] unless school_to_teachers[school].nil?}
         teachers = teachers.flatten
         teachers = teachers.uniq
       end
