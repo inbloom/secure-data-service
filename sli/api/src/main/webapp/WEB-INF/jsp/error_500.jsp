@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Error</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/error.css"/>"/>
+<link rel="icon" type="image/x-icon" href="<c:url value="/resources/favicon.ico"/>"/>
 </head>
 
 <body>

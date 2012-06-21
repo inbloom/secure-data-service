@@ -757,7 +757,7 @@ local:
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
-        bootstrap.app.admin.url: http://local.slidev.org:3000
+        bootstrap.app.admin.url: http://local.slidev.org:3001
         bootstrap.app.admin.client_id: Eg6eseKRzN
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
 

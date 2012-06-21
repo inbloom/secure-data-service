@@ -1,9 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false"%>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
+<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 <title>Simple IDP</title>
+<link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -24,9 +27,9 @@
 	margin-top: 30px;
 }
 </style>
-<link href="resources/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
-<body OnLoad="document.login_form.user_id.focus();">
+<body onload="document.login_form.user_id.focus();">
 
 	<div class="container">
 		
@@ -35,16 +38,16 @@
 				<span class="heading">
 					<c:choose>
 						<c:when test ="${realm=='SLIAdmin'}">
-							<img src="resources/SLIAdmin.png"/>
+							<img src="resources/SLIAdmin.png" alt="SLC IDP Logo"/>
 						</c:when>
 						<c:when test="${is_sandbox}">
-							<img src="resources/sandbox.png"/>
+							<img src="resources/sandbox.png" alt="Sandbox IDP Logo"/>
 						</c:when>
 						<c:when test="${realm!=null}">
-							<img src="resources/${fn:escapeXml(realm)}.png"/>
+							<img src="resources/${fn:escapeXml(realm)}.png" alt="${fn:escapeXml(realm)} IDP Logo"/>
 						</c:when>
 						<c:otherwise>
-							<img src="resources/default.png"/>
+							<img src="resources/default.png" alt="IDP Logo"/>
 						</c:otherwise>
 					</c:choose>
 					
