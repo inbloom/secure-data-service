@@ -8,7 +8,7 @@ dashboard_app_selector_page: "/appselector"
 dashboard_api_server_uri: "http://local.slidev.org:8080"
 realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
 
-admintools_server_url: "http://local.slidev.org:3000"
+admintools_server_url: "http://local.slidev.org:3001"
 api_server_url: "http://local.slidev.org:8080"
 databrowser_server_url: "http://local.slidev.org:3000"
 sli_idp_server_url: "https://devapp1.slidev.org/sp/"
@@ -38,7 +38,7 @@ simpleIDP_realm_suffix: "Local"
 ldap_hostname: ldap.slidev.org
 ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
 
-user_registration_app_production_url: "http://local.slidev.org:3000"
+user_registration_app_production_url: "http://local.slidev.org:3001"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
