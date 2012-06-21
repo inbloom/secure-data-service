@@ -40,8 +40,9 @@ def makeFeatureMap(feature_files, path):
 	return result
 	
 def topHtmlTable(out, hdr):
-	out.write( '<html><head><link href="coffee-with-milk.css" rel="stylesheet" type="text/css"></head><table>' )
-	out.write( '<thead><tr>' )
+	out.write( '<html><head><link href="coffee-with-milk.css" rel="stylesheet" type="text/css"></head>' )
+	out.write( '<h3>Legend:</h3><h4>* - Documentation or process story. No tests required.<br />** - Feature not implemented<br />*** - No automated tests for story</h4>')
+	out.write( '<table><thead><tr>' )
 	for col in hdr:
 		out.write( '<th>'+col+'</th>' )
 	out.write( '<th> Tests </th>' )
@@ -65,6 +66,8 @@ if __name__=='__main__':
 	parser = OptionParser(usage=usage)
 	parser.add_option("-p", "--path", dest="path",
 	                  help="Specify path to feature files", default=".")
+	parser.add_option("-c", "--column", dest="col",
+	                  help="Specify which column of input contains tag names", type="int", default=3)
 	(options, args) = parser.parse_args()
 
 	# Get all the feature files in path
@@ -90,7 +93,7 @@ if __name__=='__main__':
 	for row in table_rows:
 		# Determine set of features that apply for all the stories in this row
 		canonical_feature_set = []
-		stories = row[3].split(' ')
+		stories = row[options.col].split(' ')
 		for s in stories:
 			if s in tags:
 				for f in tags[s]:

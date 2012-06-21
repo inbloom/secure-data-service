@@ -5,23 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
@@ -86,8 +86,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+
+        ComplexRefDef ref = entityConfig.getComplexReference();
+        if (ref!=null) {
+            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(), 
+                                                          ref.getValueSource(), 
+                                                          ref.getFieldPath(),
+                                                          ref.getCollectionName(),
+                                                          ref.getPath(),
+                                                          ref.getComplexFieldNames(),
+                                                          errorReport);
+        }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
@@ -112,8 +122,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
+        String collection = null;
+        if (entity.getType().equals("stateEducationAgency") 
+                || entity.getType().equals("localEducationAgency")) {
+            collection = "educationOrganization";
+        } else if (entity.getType().equals("teacher")) {
+            collection = "staff";
+        } else {
+            collection = entity.getType();
+        }
+        
         @SuppressWarnings("deprecation")
-        Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
+        Iterable<Entity> match = entityRepository.findByQuery(collection, query, 0, 0);
 
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
@@ -190,5 +210,4 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
-
 }

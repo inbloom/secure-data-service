@@ -19,8 +19,8 @@
                 <xs:element name="behavior" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:enumeration value="Iframe App" />
-                            <xs:enumeration value="Wsrp App" />
+                            <xs:enumeration value="iframe App" />
+                            <xs:enumeration value="WSRP App" />
                             <xs:enumeration value="Full Window App" />
                         </xs:restriction>
                     </xs:simpleType>
@@ -88,6 +88,7 @@
                         <xs:restriction base="xs:string">
                             <xs:pattern value="([a-zA-Z0-9.])*" />
                             <xs:minLength value="3" />
+                            <xs:maxLength value="25" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>

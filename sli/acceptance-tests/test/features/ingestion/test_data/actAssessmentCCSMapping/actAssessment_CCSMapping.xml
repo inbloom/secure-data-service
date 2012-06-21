@@ -1,0 +1,199 @@
+<InterchangeAssessmentMetadata
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+	<Assessment id="ACT-1">
+		<AssessmentTitle>ACT 2011</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>ACT</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>College entrance exam</AssessmentCategory>
+		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>36</MaxRawScore>
+		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+		<ObjectiveAssessmentReference ref="ACTEnglish"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTReading"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTMathematics"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTScience"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTWriting"></ObjectiveAssessmentReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>ACT-Family</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	
+	<AssessmentFamily id="ACT-Family">
+		<AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>ACT</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
+	<ObjectiveAssessment id="ACTEnglish">
+		<IdentificationCode>ACT-English</IdentificationCode>
+		<ObjectiveAssessmentReference ref="ACTEnglishUsage"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTEnglishRhetorical"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTEnglishUsage">
+		<IdentificationCode>ACT-English-Usage</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTEnglishRhetorical">
+		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTMathematics">
+		<IdentificationCode>ACT-Mathematics</IdentificationCode>
+		<ObjectiveAssessmentReference ref="ACTMathematicsPreAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTMathemacticsAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTMathematicsPlaneGeometry"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTMathematicsPreAlgebra">
+		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
+		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
+<!--		
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+-->
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
+		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
+<!--
+		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+-->
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<Objective>Circles</Objective>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+	</ObjectiveAssessment>
+	
+	<AssessmentItem id="AssessmentItem-1">
+		<IdentificationCode>AssessmentItem-1</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-C.4</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-C.5</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-2">
+		<IdentificationCode>AssessmentItem-2</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-SRT.2</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-SRT.3</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-3">
+		<IdentificationCode>AssessmentItem-3</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-SRT.5</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+	</AssessmentItem>
+	
+	<AssessmentItem id="AssessmentItem-4">
+		<IdentificationCode>AssessmentItem-4</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-SRT.6</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+	</AssessmentItem>
+
+
+	<ObjectiveAssessment id="ACTReading">
+		<IdentificationCode>ACT-Reading</IdentificationCode>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+                                <LearningObjectiveId>
+                                        <IdentificationCode>RI-11-12</IdentificationCode>
+                                </LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ACTReadingArts"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTReadingSocialStudies">
+		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<Objective>Reading: Informational Text</Objective>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ACTReadingArts">
+		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<Objective>Reading: Informational Text</Objective>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTScience">
+		<IdentificationCode>ACT-Science</IdentificationCode>
+	</ObjectiveAssessment>
+	
+	<ObjectiveAssessment id="ACTWriting">
+		<IdentificationCode>ACT-Writing</IdentificationCode>
+	</ObjectiveAssessment>
+	
+</InterchangeAssessmentMetadata>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
 
   	<!--  Rebecca Braverman's 1st graders -->
     <Student>
@@ -21,14 +21,13 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60908-1028</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
             <City>Toronto</City>
             <StateAbbreviation>WA</StateAbbreviation>
             <PostalCode>A1B 2C3</PostalCode>
-            <CountryCode>CA</CountryCode>
         </Address>
         <ElectronicMail EmailAddressType="Other">
             <EmailAddress>Bennie.C@gmail.com</EmailAddress>
@@ -63,7 +62,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60057-5477</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Physical">
             <StreetNumberName>8523 Lester Court</StreetNumberName>
@@ -71,7 +70,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10062-3727</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>331-703-1951</TelephoneNumber>
@@ -134,7 +133,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60863-4143</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>847-977-0907</TelephoneNumber>
@@ -171,7 +170,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60447-1536</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Mailing">
             <StreetNumberName>7472 Ross Street</StreetNumberName>
@@ -179,7 +178,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10180-7445</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>262-298-8577</TelephoneNumber>
@@ -217,7 +216,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60267-4406</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>224-167-3247</TelephoneNumber>
@@ -252,7 +251,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60813-4537</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Physical">
             <StreetNumberName>6248 Livonia Avenue</StreetNumberName>
@@ -261,7 +260,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10639-1170</PostalCode>
             <NameOfCounty>Kings</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>708-028-5573</TelephoneNumber>
@@ -298,7 +297,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60991-2644</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>262-583-8809</TelephoneNumber>
@@ -345,7 +344,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60013-2084</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Other">
             <StreetNumberName>4692 Hutchinson Court</StreetNumberName>
@@ -353,7 +352,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10751-7708</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>815-380-7412</TelephoneNumber>
@@ -385,7 +384,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60727-9444</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Billing">
             <StreetNumberName>2886 Front Street</StreetNumberName>
@@ -393,7 +392,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10668-8353</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>779-857-5369</TelephoneNumber>
@@ -431,7 +430,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60457-1957</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Home">
             <StreetNumberName>4256 Wyckoff Street</StreetNumberName>
@@ -439,7 +438,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10473-1436</PostalCode>
             <NameOfCounty>Kings</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>773-549-3782</TelephoneNumber>
@@ -483,7 +482,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60139-2152</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>708-432-9033</TelephoneNumber>
@@ -514,7 +513,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60848-7633</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Physical">
             <StreetNumberName>1537 Steuben Street</StreetNumberName>
@@ -523,7 +522,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10753-2389</PostalCode>
             <NameOfCounty>New York</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>630-667-8063</TelephoneNumber>
@@ -636,7 +635,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60053-4640</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>779-512-3391</TelephoneNumber>
@@ -674,7 +673,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60620-0477</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>847-208-3627</TelephoneNumber>
@@ -723,7 +722,7 @@
             <City>Daybreak</City>
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>82 N. Central Pkwy.</StreetNumberName>
@@ -731,7 +730,7 @@
             <City>Daybreak</City>
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>75229</PostalCode>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>309-555-5210</TelephoneNumber>
@@ -768,7 +767,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60499-8718</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <ElectronicMail EmailAddressType="Other">
             <EmailAddress>lauretta_virga@gmail.com</EmailAddress>
@@ -837,7 +836,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60978-5182</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>5537 Guider Avenue</StreetNumberName>
@@ -845,7 +844,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10663-9072</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>224-199-2969</TelephoneNumber>
@@ -888,7 +887,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60683-4656</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Billing">
             <StreetNumberName>318 Ocean Avenue</StreetNumberName>
@@ -897,7 +896,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10078-7909</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>312-265-8668</TelephoneNumber>
@@ -940,7 +939,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60683-4656</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Billing">
             <StreetNumberName>318 Ocean Avenue</StreetNumberName>
@@ -949,7 +948,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10078-7909</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>312-265-8668</TelephoneNumber>
@@ -992,7 +991,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60683-4656</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Billing">
             <StreetNumberName>318 Ocean Avenue</StreetNumberName>
@@ -1001,7 +1000,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10078-7909</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>312-265-8668</TelephoneNumber>
@@ -1044,7 +1043,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60683-4656</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Address AddressType="Billing">
             <StreetNumberName>318 Ocean Avenue</StreetNumberName>
@@ -1053,7 +1052,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10078-7909</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
             <TelephoneNumber>312-265-8668</TelephoneNumber>
@@ -1099,7 +1098,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60057-1857</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-471-5210</TelephoneNumber>
@@ -1136,7 +1135,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60927-8918</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>815-126-3941</TelephoneNumber>
@@ -1176,7 +1175,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60605-1327</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-115-0626</TelephoneNumber>
@@ -1211,7 +1210,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60248-9017</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>2738 Duryea Place</StreetNumberName>
@@ -1220,7 +1219,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10395-8698</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>224-531-2436</TelephoneNumber>
@@ -1327,7 +1326,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60886-1475</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Temporary">
 			<StreetNumberName>9041 Scholes Street</StreetNumberName>
@@ -1335,7 +1334,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10798-3311</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Home/Personal">
 			<EmailAddress>f.cianciolo@yahoo.com</EmailAddress>
@@ -1365,7 +1364,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60408-8581</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>779-742-5225</TelephoneNumber>
@@ -1408,7 +1407,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60836-2298</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-196-0500</TelephoneNumber>
@@ -1458,7 +1457,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60150-4290</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>4656 India Street</StreetNumberName>
@@ -1467,7 +1466,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10079-9386</PostalCode>
 			<NameOfCounty>New York</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Organization">
 			<EmailAddress>M.Costillo@gmail.com</EmailAddress>
@@ -1538,7 +1537,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60941-6938</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Other">
 			<StreetNumberName>1004 Boerum Street</StreetNumberName>
@@ -1547,7 +1546,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10913-4746</PostalCode>
 			<NameOfCounty>Kings</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Organization">
 			<EmailAddress>H.Franz@gmail.com</EmailAddress>
@@ -1578,7 +1577,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60570-0943</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
 		<Race/>
@@ -1603,7 +1602,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60503-8238</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-854-6185</TelephoneNumber>
@@ -1637,7 +1636,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60243-6306</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Temporary">
 			<StreetNumberName>5779 Wilson Avenue</StreetNumberName>
@@ -1645,7 +1644,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10413-3715</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>312-018-6309</TelephoneNumber>
@@ -1681,7 +1680,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60232-1150</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>219-983-8533</TelephoneNumber>
@@ -1729,7 +1728,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60746-2709</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-248-4247</TelephoneNumber>
@@ -1800,7 +1799,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60851-4437</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Other">
 			<StreetNumberName>6891 Avenue Z </StreetNumberName>
@@ -1809,7 +1808,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10376-2852</PostalCode>
 			<NameOfCounty>Kings</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>312-791-6989</TelephoneNumber>
@@ -1883,7 +1882,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60340-6299</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Work">
 			<StreetNumberName>7548 Bay 32nd Street</StreetNumberName>
@@ -1892,7 +1891,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10723-1449</PostalCode>
 			<NameOfCounty>New York</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>847-553-2343</TelephoneNumber>
@@ -1959,7 +1958,7 @@
             <StateAbbreviation>IL</StateAbbreviation>
             <PostalCode>60851-4437</PostalCode>
             <NameOfCounty>Cook</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
             <TelephoneNumber>312-971-6989</TelephoneNumber>
@@ -2062,7 +2061,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60206-1877</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>224-017-8015</TelephoneNumber>
@@ -2143,7 +2142,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60765-0772</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Home/Personal">
 			<EmailAddress>dberdan@yahoo.com</EmailAddress>
@@ -2172,7 +2171,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60777-4651</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>815-708-1107</TelephoneNumber>
@@ -2211,7 +2210,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60662-4239</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>219-873-5319</TelephoneNumber>
@@ -2249,7 +2248,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60659-2020</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>9054 Tech Place</StreetNumberName>
@@ -2257,7 +2256,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10604-3953</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-313-2495</TelephoneNumber>
@@ -2315,7 +2314,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60804-3717</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Temporary">
 			<StreetNumberName>2404 Pitkin Avenue</StreetNumberName>
@@ -2324,7 +2323,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10479-4003</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-548-0274</TelephoneNumber>
@@ -2391,7 +2390,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60552-2373</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Physical">
 			<StreetNumberName>6896 Bath Avenue</StreetNumberName>
@@ -2399,7 +2398,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10031-6756</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Other">
 			<EmailAddress>oraliadiego@gmail.com</EmailAddress>
@@ -2431,7 +2430,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60491-6536</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>331-428-7697</TelephoneNumber>
@@ -2459,7 +2458,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60289-2096</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Home/Personal">
 			<EmailAddress>zlocust@yahoo.com</EmailAddress>
@@ -2488,7 +2487,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60552-3075</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>4008 Lawn Court</StreetNumberName>
@@ -2497,7 +2496,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10378-4475</PostalCode>
 			<NameOfCounty>Kings</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>630-832-7779</TelephoneNumber>
@@ -2542,7 +2541,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60860-4641</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Work">
 			<StreetNumberName>33 Grace Court Alley</StreetNumberName>
@@ -2551,7 +2550,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10520-7529</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>773-559-7308</TelephoneNumber>
@@ -2596,7 +2595,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60582-1590</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>847-612-5733</TelephoneNumber>
@@ -2629,7 +2628,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60676-9425</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>3747 Bay 40th Street</StreetNumberName>
@@ -2638,7 +2637,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10627-8871</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<ElectronicMail EmailAddressType="Home/Personal">
 			<EmailAddress>pilar.moench@gmail.com</EmailAddress>
@@ -2670,7 +2669,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60423-1182</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>219-414-0577</TelephoneNumber>
@@ -2716,7 +2715,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60572-3074</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-403-2467</TelephoneNumber>
@@ -2784,7 +2783,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60735-0394</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>331-272-2393</TelephoneNumber>
@@ -2844,7 +2843,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60016-2835</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Other">
 			<StreetNumberName>6900 60th Place</StreetNumberName>
@@ -2853,7 +2852,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10082-4493</PostalCode>
 			<NameOfCounty>Bronx</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>574-550-9523</TelephoneNumber>
@@ -2887,7 +2886,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60063-3281</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>219-189-5867</TelephoneNumber>
@@ -2927,7 +2926,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60361-2677</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>779-463-5621</TelephoneNumber>
@@ -2972,7 +2971,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60561-5469</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>5961 Mermaid Avenue</StreetNumberName>
@@ -2980,7 +2979,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10952-6484</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 		<Race/>
@@ -3006,7 +3005,7 @@
 			<StateAbbreviation>IL</StateAbbreviation>
 			<PostalCode>60561-5469</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<Address AddressType="Home">
 			<StreetNumberName>5961 Mermaid Avenue</StreetNumberName>
@@ -3014,7 +3013,7 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10952-6484</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
+			
 		</Address>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
 		<Race/>
@@ -3039,7 +3038,7 @@
             <StateAbbreviation>NY</StateAbbreviation>
             <PostalCode>10952-6484</PostalCode>
             <NameOfCounty>Queens</NameOfCounty>
-            <CountryCode>US</CountryCode>
+            
         </Address>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
         <Race/>

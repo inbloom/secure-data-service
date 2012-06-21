@@ -11,5 +11,6 @@
         return '${id}';
     }
     var instHierarchy=SLC.dataProxy.getData('populationWidget')['root'];
+    var courseSectionData;
     populateInstHierarchy();
 </script>

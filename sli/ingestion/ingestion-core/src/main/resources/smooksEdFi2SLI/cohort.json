@@ -10,9 +10,9 @@
                 "choiceOfFields" :
                 [
                     [
-                        { 
-                            "path" : "metaData.externalId",
-                            "values" : 
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
                             [{
                                 "valueSource" : "body.educationOrgReference.EducationalOrgIdentity.StateOrganizationId"
                             }]
@@ -32,9 +32,9 @@
                 "choiceOfFields" :
                 [
                   [
-                    { 
+                    {
                         "path" : "metaData.externalId",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.programReferences.ProgramIdentity.ProgramId"
                         }]

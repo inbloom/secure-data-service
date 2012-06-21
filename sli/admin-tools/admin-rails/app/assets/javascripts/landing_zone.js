@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	if (is_sandbox) {
   var buttonEnableForCustom = function() {
     if($("#custom_ed_org").val().length == 0) {
       $("#provisionButton").attr("disabled","disabled")
@@ -18,4 +19,5 @@ $(document).ready(function() {
     $("#custom_ed_org").attr("disabled","disabled")
   }
   $("#provisionButton").attr("disabled", "disabled")
-  })
+  }
+})

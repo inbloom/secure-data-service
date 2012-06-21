@@ -11,4 +11,3 @@ When /^I make an API call to get (the cohort "[^"]*")$/ do |arg1|
   restHttpGet("/v1/cohorts/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
-

@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
+    public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String ID_CODE = "identificationCode";
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
@@ -50,8 +51,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
 
         LOG.info("Loading data for learning objective transformation.");
-        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(EntityNames.LEARNINGOBJECTIVE);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.LEARNINGOBJECTIVE, learningObjectives.size());
+        Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(LEARNING_OBJECTIVE);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
 
         for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
             NeutralRecord lo = entry.getValue();
@@ -60,8 +61,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
-                    super.getErrorReport(lo.getSourceFile()).error(
-                            "Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
+                    super.getErrorReport(lo.getSourceFile())
+                            .error("Two or more LearningObjectives have duplicate IdentificationCode, ContentStandardName combination. IdentificationCode: "
                                     + objectiveId + ", ContentStandardName" + contentStandard, this);
                     continue;
                 }
@@ -92,13 +93,13 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                         childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
                         childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
                     } else {
-                        super.getErrorReport(childLo.getSourceFile())
-                                .error("LearningObjective cannot have multiple parents. IdentificationCode: "
+                        super.getErrorReport(childLo.getSourceFile()).error(
+                                "LearningObjective cannot have multiple parents. IdentificationCode: "
                                         + loId.objectiveId, this);
                     }
                 } else {
                     super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve LearningObjectiveReference with IdentificationCode " + loId
+                            "Could not resolve LearningObjectiveReference with IdentificationCode " + objectiveId
                                     + ", ContentStandardName " + contentStandard, this);
                 }
             }
@@ -111,16 +112,22 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             ArrayList<String> uuidRefs = new ArrayList<String>();
             if (childLearningStdRefs != null) {
                 for (Map<String, Object> learnStdRef : childLearningStdRefs) {
-                    String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
-                    String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
-                    if (idCode != null) {
-                        Map<String, Object> ref = new HashMap<String, Object>();
-                        ref.put(ID_CODE, idCode);
-                        ref.put(CONTENT_STANDARD_NAME, csn);
-                        lsRefList.add(ref);
-                        uuidRefs.add(null); // this is slightly hacky, but the IdNormalizer will
-                                            // throw ArrayIndexOutOfBounds unless we pre-populate
-                                            // the list the UUIDs will be added to.
+                    if (learnStdRef == null) {
+                        super.getErrorReport(parentLO.getSourceFile()).error(
+                                "Could not resolve child learning standard references for learning objective "
+                                        + parentObjectiveId, this);
+                    } else {
+                        String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);
+                        String csn = getByPath(LS_CONTENT_STANDARD_NAME_PATH, learnStdRef);
+                        if (idCode != null) {
+                            Map<String, Object> ref = new HashMap<String, Object>();
+                            ref.put(ID_CODE, idCode);
+                            ref.put(CONTENT_STANDARD_NAME, csn);
+                            lsRefList.add(ref);
+                            uuidRefs.add(null); // this is slightly hacky, but the IdNormalizer will
+                            // throw ArrayIndexOutOfBounds unless we pre-populate
+                            // the list the UUIDs will be added to.
+                        }
                     }
                 }
             }
@@ -132,7 +139,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(nr, getBatchJobId());
+            nr.setCreationTime(getWorkNote().getRangeMinimum());
+            insertRecord(nr);
         }
     }
 

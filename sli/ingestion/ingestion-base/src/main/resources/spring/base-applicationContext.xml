@@ -28,6 +28,13 @@
     </property>
   </bean>
 
+  <bean id="includeExceptionMessage"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass" value="org.slc.sli.ingestion.util.LogUtil" />
+    <property name="targetMethod" value="setIncludeExceptionMessage" />
+   <property name="arguments" value="${sli.ingestion.exception.message.log}"/>
+  </bean>
+
   <!-- Main application context, contains all other contexts in /spring -->
 
   <aop:aspectj-autoproxy />

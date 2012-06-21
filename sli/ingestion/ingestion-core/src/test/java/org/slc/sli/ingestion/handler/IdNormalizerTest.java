@@ -17,16 +17,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.ingestion.util.IdNormalizer;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.util.InternalIdNormalizer;
+import org.slc.sli.ingestion.validation.ErrorReport;
 /**
  * Tests for EntityPersistHandler
  *
@@ -44,6 +45,9 @@ public class IdNormalizerTest {
 
     //Mock entityRepository data
     private LinkedList<Entity> schoolList;
+
+    private InternalIdNormalizer idNormalizer = new InternalIdNormalizer();
+
     //private ErrorReport errorReport;
 
     private static final String REGION_ID = "dc=slidev,dc=net";
@@ -68,6 +72,7 @@ public class IdNormalizerTest {
         schoolList.add(school);
 
         when(mockedEntityRepository.findByPaths(Mockito.eq("school"), Mockito.any(Map.class))).thenReturn(schoolList);
+
     }
 
     @Test
@@ -85,7 +90,7 @@ public class IdNormalizerTest {
         simpleSectionFilter.put("metaData." + EntityMetadataKey.TENANT_ID.getKey() , REGION_ID);
         when(mockedEntityRepository.findByPaths("section", simpleSectionFilter)).thenReturn(sectionList);
 
-        String internalId = IdNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, "aSectionId", mock(ErrorReport.class));
+        String internalId = idNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, "aSectionId", mock(ErrorReport.class));
         Assert.assertEquals("aSectionId", internalId);
 
     }
@@ -101,7 +106,7 @@ public class IdNormalizerTest {
 
         when(mockedEntityRepository.findByQuery(Mockito.eq("section"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(1))).thenReturn(sectionList);
 
-        String internalId = IdNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, complexReference, mock(ErrorReport.class));
+        String internalId = idNormalizer.resolveInternalId(mockedEntityRepository, COLLECTION, REGION_ID, complexReference, mock(ErrorReport.class));
 
         Assert.assertEquals("aSectionId", internalId);
     }
@@ -125,7 +130,7 @@ public class IdNormalizerTest {
         Map<String, String> filterFields = new HashMap<String, String>();
         filterFields.put("metaData.tenantId", REGION_ID);
 
-        PrivateAccessor.invoke(IdNormalizer.class, "resolveSearchCriteria",
+        PrivateAccessor.invoke(InternalIdNormalizer.class, "resolveSearchCriteria",
                 new Class[]{Repository.class, String.class, Map.class, Map.class, Query.class, String.class, ErrorReport.class},
                 new Object[]{mockedEntityRepository, "section", filterFields , complexReference, actualQuery, REGION_ID, mock(ErrorReport.class)});
 

@@ -25,7 +25,6 @@ public class ControlFileTest {
 
         String sep = System.getProperty("line.separator");
         String content = "@hello=world" + sep + " " + sep
-                + "csv,Student,the-students.csv,95b3b66973da25541e7939753b1abf04" + sep
                 + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep;
 
         File tmpFile = File.createTempFile("test", ".ctl");
@@ -36,17 +35,12 @@ public class ControlFileTest {
 
         ArrayList<IngestionFileEntry> items = (ArrayList<IngestionFileEntry>) controlFile.getFileEntries();
 
-        assertEquals(items.size(), 2);
+        assertEquals(items.size(), 1);
 
-        assertEquals(items.get(0).getFileFormat(), FileFormat.CSV);
-        assertEquals(items.get(0).getFileType(), FileType.CSV_STUDENT);
-        assertEquals(items.get(0).getFileName(), "the-students.csv");
-        assertEquals(items.get(0).getChecksum(), "95b3b66973da25541e7939753b1abf04");
-
-        assertEquals(items.get(1).getFileFormat(), FileFormat.EDFI_XML);
-        assertEquals(items.get(1).getFileType(), FileType.XML_STUDENT_ENROLLMENT);
-        assertEquals(items.get(1).getFileName(), "data.xml");
-        assertEquals(items.get(1).getChecksum(), "756a5e96e330082424b83902908b070a");
+        assertEquals(items.get(0).getFileFormat(), FileFormat.EDFI_XML);
+        assertEquals(items.get(0).getFileType(), FileType.XML_STUDENT_ENROLLMENT);
+        assertEquals(items.get(0).getFileName(), "data.xml");
+        assertEquals(items.get(0).getChecksum(), "756a5e96e330082424b83902908b070a");
 
         String[] configPropNames = new String[1];
         Enumeration<?> e = controlFile.configProperties.propertyNames();

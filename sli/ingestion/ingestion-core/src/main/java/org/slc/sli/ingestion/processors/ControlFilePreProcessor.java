@@ -12,6 +12,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -69,7 +70,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      */
     @Override
     public void process(Exchange exchange) throws Exception {
-        
         processUsingNewBatchJob(exchange);
     }
     
@@ -98,6 +98,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
+            
+            TenantContext.setTenantId(newBatchJob.getTenantId());
             
             // determine whether to override the tenantId property with a LZ derived value
             if (deriveTenantId) {
@@ -234,7 +236,5 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
-        
     }
-    
 }

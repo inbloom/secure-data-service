@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student cohort association data
-  when "ASSOCIATION COUNT" then 13
+  when "ASSOCIATION COUNT" then 14
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 3
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
@@ -49,6 +49,8 @@ Transform /^<([^"]*)>$/ do |val|
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
+  when "INACCESSIBLE REFERENCE 1" then "737dd4c1-86bd-4892-b9e0-0f24f76210be"
+  when "INACCESSIBLE REFERENCE 2" then "a50121a2-c566-401b-99a5-71eb5cab5f4f"
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then @newId
   when "VALIDATION" then "Validation failed"
@@ -62,8 +64,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "e0e99028-6360-4247-ae48-d3bb3ecb606a",
-    "cohortId" => "a6929135-4782-46f1-ab01-b4df2e6ad093",
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+    "cohortId" => "b408d88e-8fd5-11e1-86ec-0021701f543f",
     "beginDate" => "2012-02-29",
     "endDate" => "2012-03-29"
   }

@@ -65,7 +65,7 @@ Transform /list of sections that "([^\"]*)" teaches/ do |arg1|
   array = ["eb4d7e1b-7bed-890a-d974-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-dd74-cdb25a29fc2d"] if arg1 == "Ted Bear"
   array = ["eb4d7e1b-7bed-890a-d5b4-cdb25a29fc2d"] if arg1 == "John Doe 2"
-  array = ["eb4d7e1b-7bed-890a-d9b4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
+  array = ["eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "Elizabeth Jane"
   array = ["eb4d7e1b-7bed-890a-d5f4-cdb25a29fc2d",
            "eb4d7e1b-7bed-890a-d9f4-cdb25a29fc2d"] if arg1 == "John Doe 3"
   array = [] if arg1 == "Emily Jane"
@@ -93,10 +93,19 @@ Transform /list of students in section "([^\"]*)"/ do |arg1|
            "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d",
            "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d"] if arg1 == "PDMS-Trig"
   array = ["eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d",
-           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d",
+           "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d", 
            "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d"] if arg1 == "PDMS-Geometry"
   array
 end
+
+Transform /the staff "[^"]*"/ do |arg1| 
+  id = nil 
+  case arg1 
+  when /Rick Rogers/ 
+    id = "/v1/staff/85585b27-5368-4f10-a331-3abcaf3a3f4c" 
+  end 
+  id 
+end 
 
 Given /^I have a Role attribute that equals "([^"]*)"$/ do |arg1|
   #No code needed, this is done as configuration
@@ -107,7 +116,13 @@ Given /^my School is "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the school "[^"]*")$/ do |arg1|
-  restHttpGet("/schools/"+arg1)
+  restHttpGet("/v1/schools/"+arg1)
+  assert(@res != nil, "Response from rest-client GET is nil")
+end
+
+When /^I make an API call to get (the staff "[^"]*")$/ do |arg1|
+  puts #{arg1}
+  restHttpGet(arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -123,7 +138,7 @@ Then /^I should get a message that I am not authorized$/ do
 end
 
 When /^I make an API call to get (the teacher "[^"]*")$/ do |arg1|
-  restHttpGet("/teachers/"+arg1)
+  restHttpGet("/v1/teachers/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -139,7 +154,8 @@ Then /^I receive a JSON response that includes the teacher "([^"]*)" and its att
 end
 
 When /^I make an API call to get list of teachers from (the school "[^"]*")$/ do |arg1|
-  restHttpGet("/teacher-school-associations/"+arg1+"/targets")
+  restHttpGet("/v1/schools/" + arg1 + "/teacherSchoolAssociations/teachers")
+#  assert(false, "#{arg1} Response from rest-client GET is nil")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -157,21 +173,25 @@ Then /^I receive a JSON response that includes a (list of teachers from school "
 end
 
 When /^I make an API call to get the list of sections taught by (the teacher "[^"]*")$/ do |arg1|
-  restHttpGet("/teacher-section-associations/"+arg1+"/targets")
+  restHttpGet("/v1/teachers/" + arg1 + "/teacherSectionAssociations/sections")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
 Then /^I receive a JSON response that includes the (list of sections that "[^"]*" teaches)$/ do |arg1|
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  numMatches = 0
-  result.each {|jsonObj| 
-    # Find each ID in the JSON
-    assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
-    numMatches += 1
-  }
-  assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  if arg1.empty?
+    assert(@res.code == 404, "Return code was not expected: "+@res.code.to_s+" but expected 404")
+  else
+    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+    result = JSON.parse(@res.body)
+    assert(result != nil, "Result of JSON parsing is nil")
+    numMatches = 0
+    result.each {|jsonObj| 
+      # Find each ID in the JSON
+      assert(arg1.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
+      numMatches += 1
+    }
+    assert(numMatches == arg1.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+arg1.length.to_s+" maches")
+  end
 end
 
 Given /^I teach in "([^"]*)"$/ do |arg1|
@@ -179,7 +199,7 @@ Given /^I teach in "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the section "[^"]*")$/ do |arg1|
-  restHttpGet("/sections/"+arg1)
+  restHttpGet("/v1/sections/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -191,7 +211,7 @@ Then /^I receive a JSON response that includes the section "([^"]*)" and its att
 end
 
 When /^I make an API call to get a list of students in (the section "[^"]*")$/ do |arg1|
-  restHttpGet("/student-section-associations/"+arg1+"/targets")
+  restHttpGet("/v1/sections/" + arg1 + "/studentSectionAssociations/students")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
@@ -213,7 +233,7 @@ Given /^I teach the student "([^"]*)"$/ do |arg1|
 end
 
 When /^I make an API call to get (the student "[^"]*")$/ do |arg1|
-  restHttpGet("/students/"+arg1)
+  restHttpGet("/v1/students/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

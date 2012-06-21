@@ -13,14 +13,15 @@ import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
 import org.scribe.exceptions.OAuthException;
-
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
@@ -50,9 +51,9 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
-    public String connect(final String authorizationToken) throws OAuthException {
+    public Response connect(final String requestCode, String authorizationToken) throws OAuthException {
         try {
-            return restClient.connect(authorizationToken);
+            return restClient.connect(requestCode, authorizationToken);
         } catch (MalformedURLException e) {
             logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
         } catch (URISyntaxException e) {
@@ -69,8 +70,15 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response create(final Entity e) throws URISyntaxException, IOException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        return restClient.postRequest(url, mapper.writeValueAsString(e));
+        return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e));
     }
+    
+    @Override
+    public Response create(final String sessionToken, final String resourceUrl, final Entity e)
+            throws URISyntaxException, IOException {
+        return restClient.postRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
+                mapper.writeValueAsString(e));
+    }  
     
     @Override
     public Response read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
@@ -82,15 +90,19 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response read(List<Entity> entities, final String type, final String id, final Query query)
             throws URISyntaxException, MessageProcessingException, IOException {
-        
         entities.clear();
-        
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
         if (id != null) {
             builder.id(id);
         }
-        
         return getResource(entities, builder.build(), query);
+    }
+    
+    @Override
+    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+            throws URISyntaxException, MessageProcessingException, IOException {
+        entities.clear();
+        return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
     }
     
     @Override
@@ -100,9 +112,22 @@ public final class BasicClient implements SLIClient {
     }
     
     @Override
+    public Response update(final String sessionToken, final String resourceUrl, final Entity e)
+            throws IOException, URISyntaxException {
+        return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
+                mapper.writeValueAsString(e));
+    }
+    
+    @Override
     public Response delete(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         return restClient.deleteRequest(url);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public Response delete(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
+        return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
     
     @SuppressWarnings("unchecked")
@@ -116,6 +141,39 @@ public final class BasicClient implements SLIClient {
         
         Response response = restClient.getRequest(urlBuilder.build());
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            try {
+                JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
+                if (element instanceof ArrayNode) {
+                    List<Entity> tmp = mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
+                    });
+                    entities.addAll(tmp);
+                } else if (element instanceof ObjectNode) {
+                    Entity entity = mapper.readValue(element, GenericEntity.class);
+                    entities.add(entity);
+                } else {
+                    // not what was expected....
+                    ResponseBuilder builder = Response.fromResponse(response);
+                    builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                    return builder.build();
+                }
+            } catch (JsonParseException e) {
+                // invalid Json, or non-Json response?
+                ResponseBuilder builder = Response.fromResponse(response);
+                builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+                return builder.build();
+            }
+        }
+        return response;
+    }
+    
+    @Override
+    public Response getResource(final String sessionToken, List<Entity> entities, URL restURL, Class entityClass)
+            throws URISyntaxException, MessageProcessingException, IOException {
+        entities.clear();
+
+        Response response = restClient.getRequest(sessionToken, restURL);
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
                 if (element instanceof ArrayNode) {
@@ -187,5 +245,10 @@ public final class BasicClient implements SLIClient {
      */
     public void setToken(String sessionToken) {
         restClient.setSessionToken(sessionToken);
+    }
+
+    @Override
+    public String getToken() {
+        return restClient.getSessionToken();
     }
 }

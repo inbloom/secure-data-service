@@ -162,6 +162,15 @@ public class NeutralQuery {
     public void addCriteria(NeutralCriteria criteria) {
         this.queryCriteria.add(criteria);
     }
+    
+    /**
+     * Adds a criteria to the list of criteria this neutral query tracks.
+     *
+     * @param criteria neutral criteria that must be satisfied for query results
+     */
+    public void prependCriteria(NeutralCriteria criteria) {
+        this.queryCriteria.add(0, criteria);
+    }
 
     /**
      * Returns all criteria associated to this query.

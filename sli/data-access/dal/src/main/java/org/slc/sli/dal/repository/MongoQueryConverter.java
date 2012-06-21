@@ -82,7 +82,7 @@ public class MongoQueryConverter {
         }
 
         if (idList == null) {
-            throw new QueryParseException("Invalid paramater for IDs", rawValues.toString());
+            throw new QueryParseException("Invalid paramater for IDs", (rawValues == null) ? "NULL" : rawValues.toString());
         }
 
         //conversion
@@ -124,6 +124,9 @@ public class MongoQueryConverter {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                } else if (criteria != null) {
+                    criteria.in((List<Object>) neutralCriteria.getValue());
+                    return criteria;
                 } else {
                      try {
                         return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
@@ -132,6 +135,24 @@ public class MongoQueryConverter {
                      }
                  }
              }
+        });
+
+        this.operatorImplementations.put("nin", new MongoCriteriaGenerator() {
+            @SuppressWarnings("unchecked")
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (neutralCriteria.getKey().equals(MONGO_ID)) {
+                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                } else if (criteria != null) {
+                    criteria.nin(neutralCriteria.getValue());
+                    return criteria;
+                } else {
+                    try {
+                        return Criteria.where(prefixKey(neutralCriteria)).nin(neutralCriteria.getValue());
+                    } catch (ClassCastException cce) {
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                    }
+                }
+            }
         });
 
         // >=

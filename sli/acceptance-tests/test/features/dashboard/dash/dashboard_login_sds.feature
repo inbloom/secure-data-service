@@ -34,7 +34,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Invalid User Name or password"
 
-@integration
+@integration @wip
 Scenario: Login with cookie
 
 When I navigate to the Dashboard home page

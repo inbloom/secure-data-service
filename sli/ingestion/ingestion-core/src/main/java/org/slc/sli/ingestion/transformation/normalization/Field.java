@@ -27,4 +27,10 @@ public class Field {
     public void setValues(List<FieldValue> values) {
         this.values = values;
     }
+
+    @Override
+    public String toString() {
+        return "Field [path=" + path + ", values=" + values + "]";
+    }
+
 }

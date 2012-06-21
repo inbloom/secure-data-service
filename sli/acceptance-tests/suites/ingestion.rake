@@ -136,6 +136,11 @@ task :ingestionACTAssessmentTests do
   runTests("test/features/ingestion/features/ACTAssessment.feature")
 end
 
+desc "Run Ingestion ACT Assessment Tests"
+task :ingestionAssessmentItemMappingTests do
+  runTests("test/features/ingestion/features/assessmentItem_mapping.feature")
+end
+
 desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
 task :ingestionIDReferenceResolutionTest do
   runTests("test/features/ingestion/features/ingestion_IDRef.feature")
@@ -210,6 +215,11 @@ end
 desc "Run Course Update Test"
 task :ingestionCourseUpdateTest do
   runTests("test/features/ingestion/features/ingestion_courseUpdate.feature")
+end
+
+desc "Run Complex Object Array Id Reference Resolution Test"
+task :ingestionComplexObjectArrayIdRefTest do
+  runTests("test/features/ingestion/features/ingestion_complexObjectArrayIdResolution.feature")
 end
 
 ############################################################

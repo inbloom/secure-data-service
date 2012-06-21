@@ -1,6 +1,8 @@
 require_relative "../slc_fixer"
 
 describe SLCFixer do
+  describe "stamp_id" do
+  end
   describe '#start' do
     before(:each) do
       connection = Mongo::Connection.new('localhost', 27017)
@@ -12,7 +14,8 @@ describe SLCFixer do
     it "should have stamped nearly everything with an edorg" do
       filtered = ['tenant', 'userSession', 'realm', 'userAccount', 'roles', 'realm', 'application', 'applicationAuthorization',
         'system.indexes', 'system.js', 'school', 'educationOrganization', 'educationOrganizationSchoolAssociation', 'educationOrganizationAssociation',
-        'aggregationDefinition', 'learningStandard', 'learningObjective']
+        'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities',
+        'calendarDate', 'studentCompetencyObjective']
       @db.collections.each do |collection|
         col_count = collection.count
         stamped_count = collection.find({'metaData.edOrgs' => {"$exists" => true}}).count
@@ -33,7 +36,7 @@ describe SLCFixer do
       failed = []
       @db['student'].find({'metaData.edOrgs'=> {'$exists' => false }}).each {|s| failed << s['_id']}
       assoc = []
-      @db['studentSchoolAssociation'].find.each {|s| assoc << s['body']['studentId']}
+      @db['studentSchoolAssociation'].find.each {|s| assoc << s['body']['studentId'] unless s['body'].include? 'exitWithdrawDate' and Date.parse(s['body']['exitWithdrawDate']) <= Date.today - 2000}
       assoc.uniq!
       associated = @db['student'].count - assoc.size
       puts associated
@@ -57,9 +60,10 @@ describe SLCFixer do
     end
     it "should update all staff who are associated to an edorg" do
       failed = []
-      @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }}).each {|s| failed << s['_id']}
+      @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }, 'metaData.tenantId' => {'$exists' => true}}).each {|s| failed << s['_id']}
       assoc = []
-      @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference']}
+      @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference'] if s['metaData'].include? 'tenantId'}
+      @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId'] if s['metaData'].include? 'tenantId'}
       assoc.uniq!
       unassociated = @db['staff'].count - assoc.size
       unassociated.should == failed.size
