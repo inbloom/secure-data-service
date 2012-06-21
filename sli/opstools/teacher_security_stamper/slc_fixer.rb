@@ -278,9 +278,12 @@ class SLCFixer
     @db['session'].find({}, @basic_options) { |cursor|
       cursor.each { |item|
         session_id = item['_id']
-        grading_period_id = item['body']['gradingPeriodReference']
-        grading_period_to_sessions[grading_period_id] ||= []
-        grading_period_to_sessions[grading_period_id].push session_id
+        grading_periods = item['body']['gradingPeriodReference']
+        next if grading_periods.nil?
+        grading_periods.each { |grading_period_id|
+          grading_period_to_sessions[grading_period_id] ||= []
+          grading_period_to_sessions[grading_period_id].push session_id
+        }
       }
     }
 
@@ -295,6 +298,7 @@ class SLCFixer
       }
       teachers = teachers.flatten
       teachers = teachers.uniq
+      #@log.debug "teachers = #{teachers} tenant = #{tenant_id}  grading peiod = #{grading_period}"
       @db['gradingPeriod'].update({'_id'=>grading_period, 'metaData.tenantId'=>tenant_id}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
