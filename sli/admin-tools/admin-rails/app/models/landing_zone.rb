@@ -12,7 +12,7 @@ class LandingZone
     end
   end
 
-  def self.provision(edorg_id, tenant, uid)
+  def self.provision(edorg_id, tenant, uid, use_rsa)
     Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}"
 
     user_info = APP_LDAP_CLIENT.read_user(uid)

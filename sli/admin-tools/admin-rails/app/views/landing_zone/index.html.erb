@@ -1,6 +1,7 @@
 <% @title="Provision Landing Zone" %>
 <% custom_ed_org_text = "Provide my own dataset" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
+<% key_tooltip_text =  "You can provide a public key" %>
 <div class="provision">
   <div class="page-header">
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
@@ -38,6 +39,15 @@
 			</div>
 		<% end %>
 		<% end %>
+		<div class="rsaKeyBlock">
+	          <label id="addKeyBtn">Add Public Key to SFTP
+		    <i id="key_arrow" class="icon-chevron-left"></i>
+                  </label>
+		  <i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>
+		</div>
+		<div id="rsaKeyField" style="display: none">
+		    <%= text_area_tag(:message, nil, :size => "72x10") %>
+		</div>
 		<div class="form-actions">
           <%#
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
