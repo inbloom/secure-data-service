@@ -1,11 +1,17 @@
-        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-1.7.1.js"></script>
-        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/js/jquery.jqGrid.min.js"></script>
-        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/3p/raphael-min.js"></script>
+        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.1.js"></script>
+        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
+        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
+
+<#if minifyJs?? && minifyJs= false>
         <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/dashboardUtil.js"></script>
-        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/fuelGaugeWidget.js"></script>
-        <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/3p/jqGrid/css/ui.jqgrid.css" media="screen" />
+        <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/fuelGaugeWidget.js"></script>    
+<#else>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
+</#if>
+        
+        <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
         <style>
             .selector {

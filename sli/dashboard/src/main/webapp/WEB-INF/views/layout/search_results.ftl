@@ -2,7 +2,12 @@
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>
+<#if minifyJs?? && minifyJs= true>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>    
+<#else>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
+</#if>
+
 <div class="panel-container">
     <div class="panel-left">
 	    <div class="panel">

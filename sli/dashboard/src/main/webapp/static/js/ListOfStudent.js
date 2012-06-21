@@ -18,7 +18,7 @@ function printStudentList() {
 	var options={};
 	if(viewIndex != -1) {
 		jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-		SLC.grid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
+		SLC.grid.tablegrid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
 	}
 }
     
@@ -34,7 +34,7 @@ function filterStudentList(filterBy) {
 		jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
 	      
 		if (filterBy == undefined) {
-			SLC.grid.create(getTableId(), options, SLC.dataProxy.getData(listOfStudents), {});
+			SLC.grid.tablegrid.create(getTableId(), options, SLC.dataProxy.getData(listOfStudents), {});
 		} else {
 	         
 			var filteredData = jQuery.extend({}, SLC.dataProxy.getData(listOfStudents));
@@ -48,7 +48,7 @@ function filterStudentList(filterBy) {
 			});
 	
 			filteredData.students = filteredStudents;
-			SLC.grid.create(getTableId(), options, filteredData, {});
+			SLC.grid.tablegrid.create(getTableId(), options, filteredData, {});
 		}
 	}
 }

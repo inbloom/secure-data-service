@@ -4,7 +4,7 @@
  */
 /*global SLC $ jQuery*/
 
-SLC.namespace('SLC.grid', (function () {
+SLC.namespace('SLC.grid.tablegrid', (function () {
 	
 		var util = SLC.util;
 		

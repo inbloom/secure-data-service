@@ -31,7 +31,7 @@
 </div>
     <script type="text/javascript">
       <#-- make grid -->
-      SLC.grid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+      SLC.grid.tablegrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
 
     </script>
 

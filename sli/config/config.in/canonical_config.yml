@@ -164,6 +164,8 @@ default:
 
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
+        
+        dashboard.minify.js: true
 
 
     app: &APPS-DEFAULT
@@ -710,7 +712,9 @@ local:
 
         # (only used in dashboard)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
-
+        
+        dashboard.minify.js: false
+        
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
         bootstrap.app.admin.url: http://local.slidev.org:3000

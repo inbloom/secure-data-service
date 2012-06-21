@@ -12,16 +12,24 @@
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/bootstrap-dropdown.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.util.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>
+
+<#if minifyJs?? && minifyJs= false>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.util.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.tablegrid.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>    
+<#else>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/controller.js"></script>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
+</#if>
+
 </head>
 <body>
 <div class="wrapper">
