@@ -45,6 +45,7 @@ class SLCFixer
       @threads << Thread.new {x.report('section')    {stamp_sections}}
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
+      @threads << Thread.new {x.report('parent')     {stamp_parents}}
       @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
       @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
       @threads << Thread.new {x.report('grades')     {stamp_grades}}
@@ -199,7 +200,7 @@ class SLCFixer
         @db['teacherSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
     }
-
+  
     section_to_teachers.each { |section, teachers|
       @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
@@ -246,6 +247,29 @@ class SLCFixer
         teachers = teachers.uniq
         @db['staffCohortAssociaiton'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
       }
+    }
+  end
+
+  def stamp_parents
+    @log.info "Stamping parents and associations"
+
+    parent_to_teachers = {}
+    parent_to_tenant = {}
+    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']]
+        teachers = [] if teachers == nil
+        @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        
+        parent_id = assoc['body']['parentId']
+        parent_to_tenant[parent_id] ||= assoc['metaData']['tenantId']
+        parent_to_teachers[parent_id] ||= []
+        parent_to_teachers[parent_id] += teachers
+      }
+    }
+
+    parent_to_teachers.each { |parent_id, teachers|
+      @db['parent'].update({'_id' => parent_id, 'metaData.tenantId' => parent_to_tenant[parent_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
@@ -319,7 +343,7 @@ class SLCFixer
   end
 
   def stamp_assessments
-    @log.info "Stamping assessments and associations"
+    @log.info "Stamping assessment associations"
     assessment_to_teachers = {}
     assessment_to_tenant = {}
 
@@ -336,12 +360,12 @@ class SLCFixer
       }
     }
 
-    assessment_to_teachers.each { |assessment, teachers|
-      teachers = teachers.flatten
-      teachers = teachers.uniq
-      @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
-
+    #not stamping assessments because they are public
+    #assessment_to_teachers.each { |assessment, teachers|
+    #  teachers = teachers.flatten
+    #  teachers = teachers.uniq
+    #  @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    #}
     # TODO sectionAssesmentAssociation?
   end
 
