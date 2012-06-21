@@ -310,10 +310,22 @@ class SLCFixer
     }
   end
   
+  def stamp_attendance
+    @log.info "Stamping attendance"
+    @db['attendance'].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |attendance|
+        teachers = @studentId_to_teachers[attendance['body']['studentId']].flatten.uniq
+        @db['attendance'].update(make_ids_obj(attendance), {'$set' => {'metaData.teacherContext' => teachers}})
+      end
+    end
+  end
+
   def stamp_grades
+
   end
   
   def stamp_misc
+    @log.info "Stamping staffEducationOrganizationAssociation"
     @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
         @db['staffEducationOrganizationAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => assoc['body']['staffReference']}})
@@ -322,6 +334,7 @@ class SLCFixer
   end
   
   def stamp_disciplines
+    @log.info "Stamping disciplineAction and disciplineIncident"
     @db['disciplineAction'].find({}, {fields: ['body.studentId', 'body.staffId', 'body.disciplineIncidentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |action|
         teachers = []
@@ -336,6 +349,7 @@ class SLCFixer
     end
 
     #TODO look more closely at these relationships and make sure they are stamped correctly.
+    @log.info "Stamping studentDisciplineIncidentAssociation"
     @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
         @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq}})
