@@ -104,53 +104,52 @@ expected={
   "teacherSchoolAssociation"=>324,
   "teacherSectionAssociation"=>4032
   },
-    
- # actual record count: 4,477,346
- #  entities not persisted:
- #  - AssessmentFamily           --> count: 74
- #  - AssessmentItem             --> count: 0
- #  - AssessmentPeriodDescriptor --> count: 111
- #  - CourseOffering             --> count: 0
- #  - Grade                      --> count: 0
- #  - ObjectiveAssessment        --> count: 97
- #  - PerformanceLevelDescriptor --> count: 117
- #  - ServiceDescriptor          --> count: 4
- #  - StudentAssessmentItem      --> count: 0
- #  - StudentObjectiveAssessment --> count: 30596
+  
+ # actual record count: 4,598,548
+ # entities not persisted:
+ # - assessmentFamily --> count: 74
+ # - assessmentItem --> count: 388
+ # - assessmentPeriodDescriptor --> count: 111
+ # - courseOffering --> count: 0
+ # - objectiveAssessment --> count: 97
+ # - performanceLevelDescriptor --> count: 128
+ # - serviceDescriptor --> count: 4
+ # - studentAssessmentItem --> count: 0
+ # - studentObjectiveAssessment --> count: 30596
  "8M" => {
   "assessment"=>163,
   "attendance"=>30544,
   "calendarDate"=>184,
   "cohort"=>92,
+  "compentencyLevelDescriptor"=>0,
   "course"=>100,
-  "courseOffering"=>0,
-  "courseSectionAssociation"=>0,
   "disciplineAction"=>44022,
   "disciplineIncident"=>44022,
   "educationOrganization"=>48,
   "educationOrganizationAssociation"=>135,
   "educationOrganizationSchoolAssociation"=>0,
+  "grade"=>0,
   "gradebookEntry"=>0,
   "gradingPeriod"=>736,
+  "graduationPlan"=>0,
   "learningObjective"=>51,
   "learningStandard"=>279,
   "parent"=>45904,
   "program"=>47,
-  "school"=>0,
-  "schoolSessionAssociation"=>92, 
+  "reportCard"=>0,
+  "schoolSessionAssociation"=>92,
   "section"=>30912,
-  "sectionAssessmentAssociation"=>0,
-  "sectionSchoolAssociation"=>0,
   "session"=>92,
-  "sessionCourseAssociation"=>0,
   "staff"=>2619,
   "staffCohortAssociation"=>92,
-  "staffEducationOrganizationAssociation"=>135,
+  "staffEducationOrgAssignmentAssociation"=>135,
   "staffProgramAssociation"=>47,
   "student"=>30544,
   "studentAcademicRecord"=>0,
   "studentAssessmentAssociation"=>305440,
   "studentCohortAssociation"=>32983,
+  "studentCompetency"=>0,
+  "studentCompetencyObjective"=>0,
   "studentDisciplineIncidentAssociation"=>44022,
   "studentParentAssociation"=>45904,
   "studentProgramAssociation"=>26267,
@@ -158,10 +157,9 @@ expected={
   "studentSectionAssociation"=>427616,
   "studentSectionGradebookEntry"=>0,
   "studentTranscriptAssociation"=>0,
-  "teacher"=>0,
   "teacherSchoolAssociation"=>2484,
   "teacherSectionAssociation"=>30912
-  },
+ },
   
  # actual record count: 17,902,691
  #  entities not persisted:
