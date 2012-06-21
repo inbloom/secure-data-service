@@ -174,10 +174,6 @@ public class SDKAPIClient implements APIClient {
     public ConfigMap getEdOrgCustomData(String token, String id) {
         GenericEntity ge = (GenericEntity) readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA, GenericEntity.class);
         return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
-        //        Map<String, Object> jsonConfig = (Map<String, Object>) ge.get("config");
-//        return JsonConverter.fromJson(jsonConfig.get("value").toString(), ConfigMap.class);
-//        return (ConfigMap) this.readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA,
-//                ConfigMap.class);
     }
 
     /**
@@ -189,10 +185,8 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
-        Map<String, Object> entityMap = new HashMap<String, Object>();
-//        entityMap.put("config", new CustomEntityWrapper(JsonConverter.toJson(configMap)));
-        entityMap.put("config", JsonConverter.toJson(configMap));
-        GenericEntity configMapEntity = new GenericEntity(entityMap);
+        GenericEntity configMapEntity = new GenericEntity();
+        configMapEntity.put("config", JsonConverter.toJson(configMap));
         this.createEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA, configMapEntity);
     }
 
@@ -600,8 +594,8 @@ public class SDKAPIClient implements APIClient {
             if (schoolId != null) {
                 List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
                 for (GenericEntity section : sections) {
-                    if (section.getString(Constants.ATTR_SCHOOL_ID) != null &&
-                        section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
+                    if (section.getString(Constants.ATTR_SCHOOL_ID) != null
+                            && section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
                         filteredSections.add(section);
                     }
                 }

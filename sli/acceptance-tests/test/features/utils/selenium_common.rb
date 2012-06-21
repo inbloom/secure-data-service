@@ -4,7 +4,8 @@ end
 
 def lower_timeout_for_same_page_validation
   #used for same page validation
-  @driver.manage.timeouts.implicit_wait = 2 # seconds
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
+  #@driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 def reset_timeouts_to_default
@@ -16,9 +17,9 @@ Given /^I have an open web browser$/ do
   @profile['network.http.prompt-temp-redirect'] = false
 
   # if osx, use firefox background script
-  if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-  end
+  #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+  #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+  #end
 
   @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   reset_timeouts_to_default
