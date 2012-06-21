@@ -99,40 +99,49 @@ public final class SdkGen {
                     final File outFolder = options.valueOf(outFolderSpec);
                     // The package name is currently the same.
                     final String packageName = options.valueOf(packageSpec);
-                    final List<String> interfaces = new LinkedList<String>();
 
                     final boolean writeLevel2 = true;
-                    // Interface
                     if (writeLevel2) {
-                        final String className = LEVEL_2_CLIENT;
-                        interfaces.add(className);
-                        final File interfaceFile = new File(outFolder, className.concat(".java"));
-                        writeLevel2ClientInterface(new QName(packageName, className),
-                                new Wadl<File>(wadlApp, wadlFile), model, interfaceFile, config);
-                    }
-                    // Implementation
-                    if (writeLevel2) {
-                        final String className = "Standard".concat(LEVEL_2_CLIENT);
-                        final File clazzFile = new File(outFolder, className.concat(".java"));
-                        writeLevel2ClientImplementation(new QName(packageName, className), interfaces, new Wadl<File>(
-                                wadlApp, wadlFile), model, clazzFile, config);
+                        final List<String> interfaces = new LinkedList<String>();
+                        // Interface
+                        if (writeLevel2) {
+                            final String className = LEVEL_2_CLIENT;
+                            interfaces.add(className);
+                            final File interfaceFile = new File(outFolder, className.concat(".java"));
+                            writeLevel2ClientInterface(new QName(packageName, className), new Wadl<File>(wadlApp,
+                                    wadlFile), model, interfaceFile, config);
+                        }
+                        // Implementation
+                        if (writeLevel2) {
+                            final String className = "Standard".concat(LEVEL_2_CLIENT);
+                            final File clazzFile = new File(outFolder, className.concat(".java"));
+                            writeLevel2ClientImplementation(new QName(packageName, className), interfaces,
+                                    new Wadl<File>(wadlApp, wadlFile), model, clazzFile, config);
+                        }
                     }
                     // POJOs
                     final boolean writeLevel3 = true;
                     if (writeLevel3) {
-                        // POJOs
-                        final File dir = new File(outFolder, "/pojo");
-                        Level3ClientPojoGenerator.doModel(model, dir, packageName.concat(".pojo"), config);
+                        final List<String> interfaces = new LinkedList<String>();
+                        if (writeLevel3) {
+                            // POJOs
+                            final File dir = new File(outFolder, "/pojo");
+                            Level3ClientPojoGenerator.doModel(model, dir, packageName.concat(".pojo"), config);
 
-                        // Interface
-                        final String className = LEVEL_3_CLIENT;
-                        interfaces.add(className);
-                        final File interfaceFile = new File(outFolder, className.concat(".java"));
-                        writeLevel3ClientInterface(new QName(packageName, className),
-                                new Wadl<File>(wadlApp, wadlFile), model, interfaceFile, config);
-
+                            // Interface
+                            final String className = LEVEL_3_CLIENT;
+                            interfaces.add(className);
+                            final File interfaceFile = new File(outFolder, className.concat(".java"));
+                            writeLevel3ClientInterface(new QName(packageName, className), new Wadl<File>(wadlApp,
+                                    wadlFile), model, interfaceFile, config);
+                        }
                         // Implementation
-                        // TODO
+                        if (writeLevel3) {
+                            final String className = "Standard".concat(LEVEL_3_CLIENT);
+                            final File clazzFile = new File(outFolder, className.concat(".java"));
+                            writeLevel3ClientImplementation(new QName(packageName, className), interfaces,
+                                    new Wadl<File>(wadlApp, wadlFile), model, clazzFile, config);
+                        }
                     }
                 } catch (final FileNotFoundException e) {
                     throw new RuntimeException(e);
@@ -166,6 +175,24 @@ public final class SdkGen {
         }
     }
 
+    private static final void writeLevel3ClientImplementation(final QName name, final List<String> interfaces,
+            final Wadl<File> wadl, final ModelIndex model, final File file, final JavaGenConfig config) {
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
+            try {
+                writeLevel3ClientImplementation(name, interfaces, wadl, model, outstream, config);
+            } finally {
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static final void writeLevel2ClientImplementation(final QName name, final List<String> interfaces,
             final Wadl<File> wadl, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
         final JavaOutputFactory jof = JavaOutputFactory.newInstance();
@@ -174,6 +201,22 @@ public final class SdkGen {
             try {
                 new WadlWalker(new Level2ClientImplementationWriter(name.getNamespaceURI(), name.getLocalPart(),
                         interfaces, jsw)).walk(wadl.getApplication());
+            } finally {
+                jsw.flush();
+            }
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final void writeLevel3ClientImplementation(final QName name, final List<String> interfaces,
+            final Wadl<File> wadl, final ModelIndex model, final OutputStream outstream, final JavaGenConfig config) {
+        final JavaOutputFactory jof = JavaOutputFactory.newInstance();
+        try {
+            final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
+            try {
+                new WadlWalker(new Level3ClientImplementationWriter(name.getNamespaceURI(), name.getLocalPart(),
+                        interfaces, wadl.getSource(), jsw)).walk(wadl.getApplication());
             } finally {
                 jsw.flush();
             }

@@ -311,6 +311,34 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void writeArgs(final List<String> args) throws IOException {
+        boolean first = true;
+        for (final String arg : args) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            writer.write(arg);
+        }
+    }
+
+    @Override
+    public void writeArgs(final String... args) throws IOException {
+        boolean first = true;
+        for (final String arg : args) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            writer.write(arg);
+        }
+    }
+
+    @Override
     public void writeAttribute(final JavaParam param) throws IOException {
         if (param == null) {
             throw new NullPointerException("param");
