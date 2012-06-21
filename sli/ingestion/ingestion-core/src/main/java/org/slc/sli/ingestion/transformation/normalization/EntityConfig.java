@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class EntityConfig {
     private List<String> keyFields;
     private List<RefDef> references;
+    private ComplexRefDef complexReference;
     private Map<String, Object> piiFields;
     private Map<String, String> subEntities;
 
@@ -33,6 +34,14 @@ public class EntityConfig {
 
     public void setReferences(List<RefDef> references) {
         this.references = references;
+    }
+
+    public ComplexRefDef getComplexReference() {
+        return complexReference;
+    }
+
+    public void setComplexReference(ComplexRefDef reference) {
+        this.complexReference = reference;
     }
 
     public void setPiiFields(Map<String, Object> piiFields) {

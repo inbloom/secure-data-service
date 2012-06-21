@@ -115,7 +115,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     private boolean isExpired(Entity sessionEntity) {
         long expiration = (Long) sessionEntity.getBody().get("expiration");
-        if (expiration < System.currentTimeMillis()) {
+        long hardLogout = (Long) sessionEntity.getBody().get("hardLogout");
+        if (expiration < System.currentTimeMillis() || hardLogout < System.currentTimeMillis()) {
             debug("session has expired.");
             return true;
         }

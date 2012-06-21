@@ -4,7 +4,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
 When /^I navigate to the Realm page URL$/ do
-  @url = PropLoader.getProps['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3000/callback"
+  @url = PropLoader.getProps['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3001/callback"
   @driver.get @url
 end
 

@@ -46,10 +46,10 @@ development:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
+    redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
-    email_replace_uri: http://local.slidev.org:3000
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     
 local-acceptance-tests:
@@ -59,7 +59,7 @@ local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
+    redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     is_sandbox: false
     email_replace_uri: http://local.slidev.org:2000
@@ -73,9 +73,9 @@ development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
-    redirect_uri: http://local.slidev.org:3000/callback
+    redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
-    email_replace_uri: http://local.slidev.org:3000
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
     
 team:
@@ -111,7 +111,7 @@ test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_base: ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
-    email_replace_uri: http://local.slidev.org:3000
+    email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     
 production:

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+
+<!-- ed org and schools --> 
+	<StateEducationAgency>
+		<StateOrganizationId>IL</StateOrganizationId>
+		<NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>State Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+                <Address>
+                  <StreetNumberName>123 Street</StreetNumberName>
+                  <City>Chicago</City>
+                  <StateAbbreviation>IL</StateAbbreviation>
+                  <PostalCode>00000</PostalCode>
+                </Address>
+	</StateEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+		<NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<LEACategory>Independent</LEACategory>
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+                <Address>
+                  <StreetNumberName>123 Street</StreetNumberName>
+                  <City>Chicago</City>
+                  <StateAbbreviation>IL</StateAbbreviation>
+                  <PostalCode>00000</PostalCode>
+                </Address>
+	</LocalEducationAgency>
+	<School>
+		<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>Daybreak Central High</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<GradesOffered>
+			<GradeLevel>Third grade</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>Elementary School</SchoolCategory>
+		</SchoolCategories>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+                <Address>
+                  <StreetNumberName>123 Street</StreetNumberName>
+                  <City>Chicago</City>
+                  <StateAbbreviation>IL</StateAbbreviation>
+                  <PostalCode>00000</PostalCode>
+                </Address>
+	</School>
+<!-- end edorg and schools -->
+
+<!-- courses -->
+
+  <Course>
+    <CourseTitle>COURSE 1</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-10</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+      <ID>Intro Algebra</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+      <ID>Math 101</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>COURSE 2</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-20</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+      <ID>Interm Algebra</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+      <ID>Math 102</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>COURSE 3</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-30</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+      <ID>Adv Algebra</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+      <ID>Math 103</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>COURSE 4</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-40</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="IL-DAYBREAK">
+      <ID>Hon Algebra</ID>
+    </CourseCode>
+    <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+      <ID>Math 201</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+  
+</InterchangeEducationOrganization>
