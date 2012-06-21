@@ -21,12 +21,14 @@ class LandingZoneController < ApplicationController
     else
       ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
     end
-        
+    
+    use_rsa = params[:use_rsa]
+     
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-      @landingzone = LandingZone.provision ed_org_id, tenant, uid
+      @landingzone = LandingZone.provision ed_org_id, tenant, uid, use_rsa
     end
   end
 

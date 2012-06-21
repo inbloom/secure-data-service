@@ -8,6 +8,13 @@ $(document).ready(function() {
       $("#provisionButton").removeAttr("disabled")
     }
   }
+  
+  $("#use_rsa").click(function() {
+   alert("hit");
+   $("#rsaKeyField").toggle(this.checked);
+   $("#rsaKeyField").val("");
+  });
+  
   $("input[type=radio][id!=custom]").click(function() {
    $("#custom_ed_org").attr("disabled","disabled");
    $("#provisionButton").removeAttr("disabled")});

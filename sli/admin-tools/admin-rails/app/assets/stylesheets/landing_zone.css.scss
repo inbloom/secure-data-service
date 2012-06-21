@@ -39,6 +39,36 @@ div.edOrgIdSelect label{
   height:0px;
 }
 
+div.rsaKeyBlock{
+  overflow:hidden;
+  display:block;
+  clear:both;
+}
+
+div.rsaKeyBlock label{
+  color:#0000FF;
+  margin-left:10px;
+  margin-right:10px;
+}
+
+div.rsaKeyBlock i{
+  margin-left:10px;
+  margin-right:10px;
+}
+
+div.rsaKeyBlock input{
+  margin-left:10px;
+  margin-right:10px;
+}
+
+div#rsaKeyField textarea{
+  overflow:hidden;
+  display:block;
+  clear:both;
+  height:300px;
+  width:500px;
+}
+
 div.provisionButtons input{
   margin-top:18px;
   float:right;
@@ -46,5 +76,9 @@ div.provisionButtons input{
 
 div.sidebar {
   float:right
+}
+
+div.form-actions{
+  clear:both
 }
 
