@@ -217,6 +217,11 @@ task :ingestionCourseUpdateTest do
   runTests("test/features/ingestion/features/ingestion_courseUpdate.feature")
 end
 
+desc "Run Complex Object Array Id Reference Resolution Test"
+task :ingestionComplexObjectArrayIdRefTest do
+  runTests("test/features/ingestion/features/ingestion_complexObjectArrayIdResolution.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
