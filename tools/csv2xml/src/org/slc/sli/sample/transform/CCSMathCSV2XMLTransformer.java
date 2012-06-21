@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.slc.sli.sample.entities.AcademicSubjectType;
+import org.slc.sli.sample.entities.GradeLevelType;
 import org.slc.sli.sample.entities.LearningObjective;
 import org.slc.sli.sample.entities.LearningStandardId;
 import org.slc.sli.sample.entities.LearningStandardIdentityType;
@@ -96,6 +96,27 @@ public class CCSMathCSV2XMLTransformer {
                 }
                 return id;
             }
+        });
+        transformer.setGradeLevelMapper(new CcsCsv2XmlTransformer.GradeLevelMapper() {
+            @Override
+            public int getGradeLevel(String dotNotation) {
+                String[] gradeLevels = dotNotation.split("\\.");
+                int gradeLevel = 0;
+                try {
+                    gradeLevel = Integer.parseInt(gradeLevels[0]);
+                } catch (NumberFormatException e) {
+                    if (gradeLevels[0].toLowerCase().equals("k")) {
+                        gradeLevel = 0;
+                    } else {
+
+                        // return Ninth grade for high school for now
+                        // TODO map the grade level for each high school math
+                        gradeLevel = 9;
+                    }
+                }
+                return gradeLevel;
+            }
+
         });
         transformer.printLearningStandards();
         SchemaValidator.check(outputPath);

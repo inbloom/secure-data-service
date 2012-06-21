@@ -300,10 +300,20 @@ public class IdNormalizer {
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                List<String> resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                boolean isEmptyRef = isEmptyRef(entity, fv.getRef());
+                                List<String> resolvedIds = null;
+                                if (!isEmptyRef) {
+                                    resolvedIds = resolveReferenceInternalIds(entity, tenantId,
+                                            numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                }
+
+                                //it is acceptable for a child reference to not be resolved iff it is
+                                //an optional reference and the source is empty
+                                //otherwise fail the parent reference by returning an empty list
                                 if (resolvedIds != null && resolvedIds.size() > 0) {
                                     filterValues.addAll(resolvedIds);
+                                } else if (!fv.getRef().isOptional() || !isEmptyRef) {
+                                    return new ArrayList<String>();
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
@@ -573,5 +583,33 @@ public class IdNormalizer {
 
     public void setCacheProvider(CacheProvider c) {
         this.cacheProvider = c;
+    }
+
+
+    private boolean isEmptyRef(Entity entity, Ref refConfig) {
+        for (List<Field> fields : refConfig.getChoiceOfFields()) {
+            for (Field field : fields) {
+                for (FieldValue fv : field.getValues()) {
+                    if (fv.getRef() != null) {
+                        if (!isEmptyRef(entity, fv.getRef())) {
+                            return false;
+                        }
+                    } else {
+                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0);
+                        Object entityValue = null;
+                        try {
+                            entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                        } catch (Exception e) {
+                            //exceptions here indicate that the something in valueSourcePath does not exist
+                            continue;
+                        }
+                        if (entityValue != null) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

@@ -9,16 +9,16 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.sectionId"
 		                }]
 		            },
 		            {
 	                    "path" : "body.schoolId",
-	                    "values" : 
+	                    "values" :
 	                    [{
 	                        "ref":
                              {
@@ -27,7 +27,7 @@
                                   [
                                       [
                                           {
-                                              "path" : "metaData.externalId",
+                                              "path" : "body.stateOrganizationId",
                                               "values" :
                                                [{
                                                     "valueSource" : "localParentIds.schoolId"
@@ -40,11 +40,12 @@
 	                },
 	                {
 	                    "path" : "body.sessionId",
-	                    "values" : 
+	                    "values" :
 	                    [{
 	                        "ref":
                              {
                                  "collectionName" : "session",
+                                 "optional" : true,
                                  "choiceOfFields" :
                                   [
                                       [
@@ -62,11 +63,12 @@
 	                },
 	                {
 	                    "path" : "body.courseId",
-	                    "values" : 
+	                    "values" :
 	                    [{
 	                        "ref":
                              {
                                  "collectionName" : "course",
+                                 "optional" : true,
                                  "choiceOfFields" :
                                   [
                                       [
@@ -86,7 +88,7 @@
 	        ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.teacherId",
         "ref" :
         {
@@ -94,9 +96,9 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "metaData.externalId",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "body.teacherId"
 		                }]
