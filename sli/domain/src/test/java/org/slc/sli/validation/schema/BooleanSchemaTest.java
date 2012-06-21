@@ -66,10 +66,25 @@ public class BooleanSchemaTest {
         assertTrue(convertedInput.booleanValue() == value);
     }
     
-    @Test
-    public void testBadConvert() {
-        Object convertedValue = this.schema.convert("INVALID INPUT");
-        assertFalse(convertedValue instanceof Boolean);
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidStringThrowsException() throws IllegalArgumentException {
+        this.schema.convert("INVALID INPUT");
     }
+    
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnsupportedObjectTypeThrowsException() throws IllegalArgumentException {
+        this.schema.convert(new Object());
+    }
+    
+    @Test
+    public void testBooleanConverter() {
+
+        assertTrue("Failure returning same object", this.schema.convert(true).equals(Boolean.TRUE));
+        assertTrue("Failure returning same object", this.schema.convert(false).equals(Boolean.FALSE));
+        assertTrue("Failure parsing true", this.schema.convert("true").equals(Boolean.TRUE));
+        assertTrue("Failure parsing false", this.schema.convert("false").equals(Boolean.FALSE));
+    }
+    
     
 }
