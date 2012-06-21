@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.security;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -176,7 +177,7 @@ public class OnboardingResourceTest {
 
         // Attempt to create the same edorg.
         res = resource.provision(requestBody, null);
-        assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CONFLICT);
+        assertEquals(Status.CREATED, Status.fromStatusCode(res.getStatus()));
     }
 
     @Test

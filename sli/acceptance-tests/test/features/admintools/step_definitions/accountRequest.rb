@@ -25,6 +25,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @baseUrl + @validationBaseSuffix + "/invalid123"        if human_readable_id == "INVALID VERIFICATION LINK"
   url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
   url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
+  url = "devldapuser_#{Socket.gethostname}@slidev.org"           if human_readable_id == "USER_ID"
+  url = "test1234"                                               if human_readable_id == "USER_PASS"
   #return the translated value
   url
 end
@@ -195,6 +197,7 @@ def getEmailToken(email)
 end
 
 def removeUser(email)
+puts email
   if ApprovalEngine.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
