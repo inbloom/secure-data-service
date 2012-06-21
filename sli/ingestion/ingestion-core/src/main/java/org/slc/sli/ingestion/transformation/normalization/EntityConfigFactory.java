@@ -12,7 +12,6 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.util.LogUtil;
 
 /**
@@ -24,7 +23,7 @@ import org.slc.sli.ingestion.util.LogUtil;
 public class EntityConfigFactory implements ResourceLoaderAware {
     private static final String CONFIG_EXT = ".json";
     private static final EntityConfig NOT_FOUND = null;
-    private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EntityConfigFactory.class);
 
 
     private String searchPath;
@@ -43,6 +42,7 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
                 } else {
                     LOG.warn("no config found for entity type {}", entityType);
+                    entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
                 LogUtil.error(LOG, "Error loading entity type " + entityType, e);
