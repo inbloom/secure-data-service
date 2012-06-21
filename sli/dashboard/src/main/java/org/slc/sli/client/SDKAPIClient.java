@@ -173,8 +173,9 @@ public class SDKAPIClient implements APIClient {
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
         GenericEntity ge = (GenericEntity) readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA, GenericEntity.class);
-        Map<String, Object> jsonConfig = (Map) ge.get("config");
-        return JsonConverter.fromJson(jsonConfig.get("value").toString(), ConfigMap.class);
+        return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
+        //        Map<String, Object> jsonConfig = (Map<String, Object>) ge.get("config");
+//        return JsonConverter.fromJson(jsonConfig.get("value").toString(), ConfigMap.class);
 //        return (ConfigMap) this.readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA,
 //                ConfigMap.class);
     }
@@ -189,7 +190,8 @@ public class SDKAPIClient implements APIClient {
     @Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
         Map<String, Object> entityMap = new HashMap<String, Object>();
-        entityMap.put("config", new CustomEntityWrapper(JsonConverter.toJson(configMap)));
+//        entityMap.put("config", new CustomEntityWrapper(JsonConverter.toJson(configMap)));
+        entityMap.put("config", JsonConverter.toJson(configMap));
         GenericEntity configMapEntity = new GenericEntity(entityMap);
         this.createEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA, configMapEntity);
     }
