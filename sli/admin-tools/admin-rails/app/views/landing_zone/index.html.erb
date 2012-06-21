@@ -44,12 +44,11 @@
 			<label for="key_arrow">Add Public Key to SFTP<label/>
 			<i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>-->
 		    
-		    <%= check_box_tag "use_rsa", nil, false %>
-		    <label for="use_rsa">Add RSA to SFTP</label>
+		    <label id="addKeyBtn">Add Public Key to SFTP</label>
 			<i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>"></i>
-		    <div id="rsaKeyField" style="display: none">
-		   	  <%= text_area_tag(:message, nil, :size => "72x10") %>
-			</div>
+		</div>
+		<div id="rsaKeyField" style="display: none">
+		    <%= text_area_tag(:message, nil, :size => "72x10") %>
 		</div>
 		<div class="form-actions">
           <%#

@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  $("#addKeyBtn").click(function() {
+    alert("pause");
+    $("#rsaKeyField").toggle();
+//    $("#rsaKeyField").val(""); // this doesn't work, want to clear the text whenever shown/hidden
+  });
 	if (is_sandbox) {
   var buttonEnableForCustom = function() {
     if($("#custom_ed_org").val().length == 0) {
@@ -8,12 +13,6 @@ $(document).ready(function() {
       $("#provisionButton").removeAttr("disabled")
     }
   }
-  
-  $("#use_rsa").click(function() {
-   alert("hit");
-   $("#rsaKeyField").toggle(this.checked);
-   $("#rsaKeyField").val("");
-  });
   
   $("input[type=radio][id!=custom]").click(function() {
    $("#custom_ed_org").attr("disabled","disabled");
