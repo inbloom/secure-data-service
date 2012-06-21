@@ -16,22 +16,21 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 1     |
-     | learningStandard            | 10    |
+     | learningObjective           | 70    |
+     | learningStandard            | 954   |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                              | searchValue           		|
-     | learningObjective           | 1                   | body.objective					            | Reading: Informational Text  	|
-     | learningObjective           | 1                   | body.objectiveGradeLevel                   	| Twelfth grade                 |
-     | learningStandard            | 10                  | body.gradeLevel                              | Twelfth grade               |
-     | learningStandard            | 10                  | body.subjectArea                             | ELA    |
-     | learningStandard            | 10                  | body.contentStandard                         | State Standard    |
+     | collectionName              | expectedRecordCount | searchParameter                              | searchValue                   |
+     | learningObjective           | 3                   | body.objective                               | Reading Science/Technical     |
+     | learningObjective           | 8                   | body.objectiveGradeLevel                     | Eleventh grade                |
+     | learningStandard            | 113                 | body.gradeLevel                              | Eleventh grade                |
+     | learningStandard            | 954                 | body.subjectArea                             | English                       |
+     | learningStandard            | 954                 | body.contentStandard                         | State Standard                |
 
-  And I should see "Processed 11 records." in the resulting batch job file
+  And I should see "Processed 1024 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "Grade_12_English_CCS_RI_11_12.xml records considered: 1" in the resulting batch job file
-  And I should see "Grade_12_English_CCS_RI_11_12.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "Grade_12_English_CCS_RI_11_12.xml records failed: 0" in the resulting batch job file
-
+  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records considered: 1024" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records ingested successfully: 1024" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-CCS-English.xml records failed: 0" in the resulting batch job file
 
 
 Scenario: Post a zip file containing all configured High School Math CCS interchanges as a payload of the ingestion job: Clean Database
@@ -64,7 +63,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered: 574" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records ingested successfully: 574" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed: 0" in the resulting batch job file
-
 
 Scenario: Verify resolved references and ingestion to populated database
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
