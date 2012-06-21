@@ -233,9 +233,15 @@ class SLCFixer
 
     #Session related stuff
     #Map section to session
-    @db[:section].find({}, {fields: ['body.sessionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+    course_to_sections = {}
+    @db[:section].find({}, {fields: ['body.sessionId', 'body.courseId' 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |item|
-        section_to_session[item['_id']] = item['body']['sessionId']
+        section_id = item['_id']
+        section_to_session[section_id] = item['body']['sessionId']
+
+        course_id = item['body']['courseId']
+        course_to_sections[course_id] ||= []
+        course_to_sections[course_id].push section_id
       end
     end
 
@@ -244,6 +250,14 @@ class SLCFixer
       @db['schoolSessionAssociation'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
+    }
+
+    course_to_sections.each { |course_id, section_ids|
+      teachers = []
+      section_ids.each { |section| teachers << section_to_teachers[section] }
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      @db[:course].update({'_id'=>course_id, 'metaData.tenantId'=>section_to_tenant[section_ids.first]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
   end
@@ -480,6 +494,7 @@ class SLCFixer
       }
     }
 
+    # tag teachers
     @db['staff'].find({'type'=>'teacher'}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |teacher|
         teacher_id = teacher['_id']
@@ -497,6 +512,7 @@ class SLCFixer
       }
     }
 
+    # tag teacherSchoolAssociations
     assoc_to_teacher.each { |assoc_id,teacher_id|
       teachers = [teacher_id]
       schools = teacher_to_schools[teacher_id]
@@ -508,9 +524,12 @@ class SLCFixer
       @db['teacherSchoolAssociation'].update({'_id'=> assoc_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
 
-    # TODO tag non teacher staff
+    # tag non-teacher staff
+    #@db['staffAssociation'].find({'$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
+    #                                     {fields: ['_id', 'body.teacherId', 'body.schoolId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+    #  cursor.each { |assoc|
+    #    school_id = assoc['body']['schoolId']
   end
-
 
   private
   def make_ids_obj(record)
