@@ -6,13 +6,12 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
 import org.slc.sli.sample.entities.AcademicSubjectType;
 import org.slc.sli.sample.entities.ComplexObjectType;
 import org.slc.sli.sample.entities.ContentStandardType;
@@ -26,6 +25,7 @@ public class CcsCsv2XmlTransformer {
     private CcsCsvReader ccsCsvReader;
     private DotNotationToId dotNotationToId;
     private LearningObjectiveGenerator learningObjectiveGenerator;
+    private GradeLevelMapper gradeLevelMapper;
     private String outputLocation;
     private AcademicSubjectType academicSubjectType;
     private boolean ignoreNonExistentGuid;
@@ -54,6 +54,10 @@ public class CcsCsv2XmlTransformer {
 
     void setLearningObjectiveGenerator(LearningObjectiveGenerator learningObjectiveGenerator) {
         this.learningObjectiveGenerator = learningObjectiveGenerator;
+    }
+    
+    void setGradeLevelMapper(GradeLevelMapper gradeLevelMapper) {
+        this.gradeLevelMapper = gradeLevelMapper;
     }
 
     static abstract class DotNotationToId {
@@ -116,9 +120,17 @@ public class CcsCsv2XmlTransformer {
                 continue;
             }
         }
-        learningStandards.addAll(learningObjectiveGenerator
-.generateLearningObjectives(
-                learningObjectiveIdToLearningStandardResults, IdToGuidMapper.getInstance().getIdToGuidMap()));
+        Collection<LearningObjective> learningObjectives = learningObjectiveGenerator.generateLearningObjectives(learningObjectiveIdToLearningStandardResults, IdToGuidMapper.getInstance().getIdToGuidMap());
+        Collection<String> learningObjectiveIds = new HashSet<String>();
+        Collection<String> learningObjectiveText = new HashSet<String>();
+        for(LearningObjective learningObjective : learningObjectives) {
+            if(learningObjective.getLearningObjectiveId().getIdentificationCode() != null)
+                learningObjectiveIds.add(learningObjective.getLearningObjectiveId().getIdentificationCode().trim());
+            if(learningObjective.getObjective() != null) {
+                learningObjectiveText.add(learningObjective.getObjective().trim());
+            }
+        }
+        learningStandards.addAll(learningObjectives);
         JAXBContext context = JAXBContext.newInstance(LearningStandard.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", getCopyrightXmlComment());
@@ -126,98 +138,12 @@ public class CcsCsv2XmlTransformer {
         marshaller.marshal(interchangeAssessmentMetadata, new PrintStream(new File(outputLocation), "UTF-8"));
         System.out.println("Total " + learningStandardCounter + " LearningStandards are exported.");
         System.out.println("Total " + learningObjectiveIdToLearningStandardResults.keySet().size() + " LearningObjectives are exported");
+        System.out.println("Total Learning Objective IDs = " + learningObjectiveIds.size());
+        System.out.println("Total Learning Objective Texts = " + learningObjectiveText.size());
     }
-
-    static class LearningStandardResult {
-        private LearningStandard learningStandard;
-        private String id;
-        private String category;
-        private String subCategory;
-
-        public LearningStandard getLearningStandard() {
-            return learningStandard;
-        }
-
-        public void setLearningStandard(LearningStandard learningStandard) {
-            this.learningStandard = learningStandard;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-        private String getSubCategory() {
-            return subCategory;
-        }
-
-        public void setSubCategory(String subCategory) {
-            this.subCategory = subCategory;
-        }
-    }
-
-    private LearningStandardResult getLearningStandard() throws IOException {
-        Map<String, String> learningStandardRecord = ccsCsvReader.getCurrentRecord();
-        String dotNotation = learningStandardRecord.get("ID");
-
-        String id = dotNotationToId.getId(dotNotation);
-        String guid = IdToGuidMapper.getInstance().getGuid(id);
-        if(guid == null) {
-            System.out.println("Dot Notation = <" + dotNotation + ">" + " ID = <" + id +
-                    "> does not have guid. State Standard = <" + learningStandardRecord.get("State Standard") + ">");
-            if(ignoreNonExistentGuid) {
-                return null;
-            }
-        }
-
-        LearningStandardId learningStandardId = new LearningStandardId();
-        learningStandardId.setIdentificationCode(guid);
-        LearningStandard learningStandard = new LearningStandard();
-        learningStandard.setLearningStandardId(learningStandardId);
-        learningStandard.setContentStandard(ContentStandardType.STATE_STANDARD);
-        String description = learningStandardRecord.get("State Standard");
-        if (description == null || description.equals("")) {
-            System.out.println("no description for" + id);
-        }
-        learningStandard.setDescription(description);
-        learningStandard.setGradeLevel(getGradeLevel(dotNotation));
-        learningStandard.setSubjectArea(academicSubjectType);
-
-        LearningStandardResult learningStandardResult = new LearningStandardResult();
-        learningStandardResult.setId(id);
-        learningStandardResult.setLearningStandard(learningStandard);
-        learningStandardResult.setCategory(learningStandardRecord.get("Category"));
-        learningStandardResult.setSubCategory(learningStandardRecord.get("Sub Category"));
-        return learningStandardResult;
-    }
-
-    private GradeLevelType getGradeLevel(String dotNotation) {
-        String[] gradeLevels = dotNotation.split("\\.");
+    
+    GradeLevelType getGradeLevel(int intGradeLevel) {
         GradeLevelType gradeLevel;
-        int intGradeLevel = 0;
-        try {
-            intGradeLevel = Integer.parseInt(gradeLevels[0]);
-        } catch (NumberFormatException e) {
-            if (gradeLevels[0].toLowerCase().equals("k")) {
-                intGradeLevel = 0;
-            } else {
-
-                // return Ninth grade for high school for now
-                // TODO map the grade level for each high school math
-                intGradeLevel = 9;
-            }
-        }
-
         switch (intGradeLevel) {
         case 0:
             gradeLevel = GradeLevelType.KINDERGARTEN;
@@ -261,10 +187,87 @@ public class CcsCsv2XmlTransformer {
         default:
             throw new RuntimeException("Should never reach here");
         }
-
         return gradeLevel;
     }
 
+    static class LearningStandardResult {
+        private LearningStandard learningStandard;
+        private String id;
+        private String category;
+        private String subCategory;
+
+        public LearningStandard getLearningStandard() {
+            return learningStandard;
+        }
+
+        public void setLearningStandard(LearningStandard learningStandard) {
+            this.learningStandard = learningStandard;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+        
+        private String getSubCategory() {
+            return subCategory;
+        }
+
+        public void setSubCategory(String subCategory) {
+            this.subCategory = subCategory;
+        }
+    }
+
+    private LearningStandardResult getLearningStandard() throws IOException {
+        Map<String, String> learningStandardRecord = ccsCsvReader.getCurrentRecord();
+        String dotNotation = learningStandardRecord.get("ID");
+
+        String id = dotNotationToId.getId(dotNotation);
+        String guid = IdToGuidMapper.getInstance().getGuid(id);
+        if(guid == null) {
+            System.out.println("Dot Notation = <" + dotNotation + ">" + " ID = <" + id +
+                    "> does not have guid. State Standard = <" + learningStandardRecord.get("State Standard") + ">");
+            if(ignoreNonExistentGuid) {
+                return null;
+            }
+        }
+
+        LearningStandardId learningStandardId = new LearningStandardId();
+        learningStandardId.setIdentificationCode(guid);
+        LearningStandard learningStandard = new LearningStandard();
+        learningStandard.setLearningStandardId(learningStandardId);
+        learningStandard.setContentStandard(ContentStandardType.STATE_STANDARD);
+        String description = learningStandardRecord.get("State Standard");
+        if (description == null || description.equals("")) {
+            System.out.println("no description for" + id);
+        }
+        learningStandard.setDescription(description);
+        learningStandard.setGradeLevel(getGradeLevel(gradeLevelMapper.getGradeLevel(dotNotation)));
+        learningStandard.setSubjectArea(academicSubjectType);
+
+        LearningStandardResult learningStandardResult = new LearningStandardResult();
+        learningStandardResult.setId(id);
+        learningStandardResult.setLearningStandard(learningStandard);
+        learningStandardResult.setCategory(learningStandardRecord.get("Category"));
+        learningStandardResult.setSubCategory(learningStandardRecord.get("Sub Category"));
+        return learningStandardResult;
+    }
+
+    static abstract class GradeLevelMapper {
+        abstract int getGradeLevel(String dotNotation);
+    }
+    
     static class IdToGuidMapper {
         private final String identifiersCSVFile = "data/E0330_ccss_identifiers.csv";
         private Map<String, String> idToGuid = null;
