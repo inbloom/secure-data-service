@@ -55,16 +55,16 @@ Then /^the row for "([^"]*)" displays entity count "(\d+)"$/ do |tenantId, count
 
 end
 
-Then /^the row for "(.*?)" displays size "(.*?)"$/ do |tenantId, count|
+Then /^the row for "(.*?)" displays size greater than "(.*?)"$/ do |tenantId, size|
     assert(@tenant_data != nil, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_data_size")
-    assert(data.text == count)
+    assert(data.text >= size)
 end
 
-Then /^I am displayed the total data size as "(.*?)"$/ do |data_size|
+Then /^I am displayed the total data size is greater than "(.*?)"$/ do |data_size|
   summary = @driver.find_element(:class_name, "metrics_summary")
   size = summary.find_element(:class_name, "tenant_metrics_data_size").text
-  assert(size == data_size, "Expecting size: " + data_size + ", found size: " + size)
+  assert(size >= data_size, "Expecting size: " + data_size + ", found size: " + size)
 end
 
 Then /^I am displayed the total entity count as "(.*?)"$/ do |entity_count|
@@ -107,7 +107,7 @@ Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
   assert(f == true, "Did not find the expected collection: " + name)
 end
 
-Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
+Then /^next to "(.*?)" is size greater than "(.*?)"$/ do |name, size|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   rows = @tranHistTable.find_elements(:tag_name, "tr")
 
@@ -119,7 +119,7 @@ Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
          if data.text == name
             f = true
             row_size = row.find_element(:class_name, "tenant_metrics_data_size")
-            assert(row_size.text == size, "Wrong collection data size.")
+            assert(row_size.text >= size, "Wrong collection data size.")
             break
          end
      rescue
@@ -128,12 +128,4 @@ Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
   end
 
   assert(f == true, "Did not find the expected collection: " + name)
-end
-
-Then /^the total entity data size is "(.*?)"$/ do |count|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the total entity count is "(.*?)"$/ do |count|
-  pending # express the regexp above with the code you wish you had
 end
