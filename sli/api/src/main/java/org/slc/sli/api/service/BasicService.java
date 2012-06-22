@@ -79,6 +79,7 @@ public class BasicService implements EntityService {
             EntityNames.PARENT,
             EntityNames.PROGRAM,
             EntityNames.REPORT_CARD,
+            EntityNames.SCHOOL,
             EntityNames.SCHOOL_SESSION_ASSOCIATION,
             EntityNames.SECTION,
             EntityNames.SECTION_ASSESSMENT_ASSOCIATION,

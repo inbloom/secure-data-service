@@ -54,6 +54,7 @@ class SLCFixer
       @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
       @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
       @threads << Thread.new {x.report('studentSectionGradebookEntry')     {stamp_gradebook}}
+      @threads << Thread.new {x.report('school')     {stamp_schools}}
     end
 
     @threads.each do |th|
@@ -592,6 +593,24 @@ class SLCFixer
       teachers = teachers.flatten
       teachers = teachers.uniq
       @db['staff'].update({'_id'=>staff_id, 'metaData.tenantId'=>staff_to_tenant[staff_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    }
+  end
+
+  def stamp_schools
+    @log.info "Stamping schools"
+    @db['educationOrganization'].find({'type'=>'school'}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |school|
+        teachers = {}
+        @db['teacherSchoolAssociation'].find({'body.schoolId'=>school['_id'], '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
+                                             {fields: ['body.teacherId']}.merge(@basic_options)) { |cursor|
+          cursor.each { |tsa|
+            teacher_id = tsa['body']['teacherId']
+            teachers[teacher_id] = true
+          }
+        }
+        @db['educationOrganization'].update(make_ids_obj(school), {'$set' => {'metaData.teacherContext' => teachers.keys}})
+        #@log.debug "school #{school['_id']} teachers #{teachers.keys}" 
+      }
     }
   end
 
