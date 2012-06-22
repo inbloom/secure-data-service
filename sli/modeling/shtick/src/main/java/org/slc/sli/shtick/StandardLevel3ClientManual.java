@@ -61,4 +61,20 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
     public void deleteStudent(final String token, final Student student) throws IOException, StatusCodeException {
         inner.deleteStudentsById(token, student.getId());
     }
+
+    @Override
+    public List<Map<String, Object>> getCustomForStudentsById(String token, List<String> studentIds, Map<String, Object> queryArgs)
+            throws IOException, StatusCodeException {
+        final List<Entity> entities = inner.getCustomForStudentsById(token, studentIds, queryArgs);
+        final List<Map<String, Object>> customs = new ArrayList<Map<String, Object>>();
+        for (final Entity entity : entities) {
+            customs.add(entity.getData());
+        }
+        return customs;
+    }
+
+    @Override
+    public void postCustomForStudentsById(String token, String id, Entity entity) throws IOException, StatusCodeException {
+        inner.postCustomForStudentsById(token, id, entity);
+    }
 }

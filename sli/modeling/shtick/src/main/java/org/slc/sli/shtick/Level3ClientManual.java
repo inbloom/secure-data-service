@@ -20,4 +20,8 @@ public interface Level3ClientManual {
 
     void deleteStudent(String token, Student student) throws IOException, StatusCodeException;
 
+    List<Map<String, Object>> getCustomForStudentsById(String token, List<String> studentIds, Map<String, Object> queryArgs)
+            throws IOException, StatusCodeException;
+
+    void postCustomForStudentsById(String token, String id, Entity entity) throws IOException, StatusCodeException;
 }
