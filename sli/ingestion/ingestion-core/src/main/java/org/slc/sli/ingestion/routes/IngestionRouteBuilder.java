@@ -291,9 +291,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         log.info("Configuring route for landing zone: {} ", inboundDir);
         // routeId: ctlFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$" + "&move="
-                        + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed="
-                        + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "&delete=true" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("ctlFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(controlFilePreProcessor).to(workItemQueueUri);
@@ -301,7 +299,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
-                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000")
+                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
                 .routeId("zipFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor).choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop")
@@ -326,12 +324,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildExtractionRoutes(String workItemQueueUri) {
 
         Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(edfiProcessorMode) ) {
+        if ("concurrent".equals(edfiProcessorMode)) {
             edfiProcessorToUse = concurrentEdFiProcessor;
         }
 
         Processor xmlFileProcessorToUse = xmlFileProcessor;
-        if ("concurrent".equals(xmlProcessorMode) ) {
+        if ("concurrent".equals(xmlProcessorMode)) {
             xmlFileProcessorToUse = concurrentXmlFileProcessor;
         }
 

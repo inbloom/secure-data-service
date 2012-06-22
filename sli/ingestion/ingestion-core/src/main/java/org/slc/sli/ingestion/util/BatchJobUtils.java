@@ -77,6 +77,20 @@ public class BatchJobUtils {
         }
     }
 
+    public static void writeWarningssWithDAO(String batchId, String resourceId, BatchJobStageType stage,
+            FaultsReport errorReport, BatchJobDAO batchJobDAO) {
+        String severity;
+        List<Fault> faults = errorReport.getFaults();
+        for (Fault fault : faults) {
+            if (fault.isWarning()) {
+                severity = FaultType.TYPE_WARNING.getName();
+                Error error = Error.createIngestionError(batchId, resourceId, stage.getName(), null, null, null,
+                        severity, null, fault.getMessage());
+                batchJobDAO.saveError(error);
+            }
+        }
+    }
+
     public static void completeStageAndJob(Stage stage, NewBatchJob job) {
         job.stop();
         stopStageAndAddToJob(stage, job);
