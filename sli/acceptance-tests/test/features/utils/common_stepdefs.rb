@@ -70,12 +70,16 @@ end
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   assert(@result.has_key?("links"), "Response contains no links")
   found = false
-  @result["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
+  if !rel.nil? && !rel.empty?
+    @result["links"].each do |link|
+      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+        found = true
+      end
     end
+  else
+    found = true
   end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")  
 end
 
 When /^I PUT the entity to "([^"]*)"$/ do |url|
