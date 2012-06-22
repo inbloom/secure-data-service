@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.traversal;
 
 import java.util.ArrayList;
@@ -137,13 +154,11 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.SESSION,
                 SecurityNodeBuilder.buildNode(EntityNames.SESSION)
-                        .addConnection(EntityNames.SCHOOL_SESSION_ASSOCIATION, "sessionId")
                         .addConnection(EntityNames.COURSE_OFFERING, "sessionId")
                         .addLocalReference(EntityNames.GRADING_PERIOD, "gradingPeriodReference")
                         .construct());
 
         // Leaf Nodes are unconnected
-        nodeMap.put(EntityNames.SCHOOL_SESSION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.SCHOOL_SESSION_ASSOCIATION).construct());
         nodeMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SECTION_ASSOCIATION).construct());
         nodeMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, SecurityNodeBuilder.buildNode(EntityNames.TEACHER_SCHOOL_ASSOCIATION).construct());
 
@@ -227,17 +242,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION)));
-        prePath.put(
-                EntityNames.TEACHER + EntityNames.SCHOOL_SESSION_ASSOCIATION,
-                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
-                        nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
-                        nodeMap.get(EntityNames.SESSION), nodeMap.get(EntityNames.SCHOOL_SESSION_ASSOCIATION)));
 
-        prePath.put(
-                EntityNames.STAFF + EntityNames.SCHOOL_SESSION_ASSOCIATION,
-                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
-                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION),
-                        nodeMap.get(EntityNames.SCHOOL_SESSION_ASSOCIATION)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.SCHOOL,

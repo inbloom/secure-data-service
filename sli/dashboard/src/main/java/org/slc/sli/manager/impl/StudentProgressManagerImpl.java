@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.manager.impl;
 
 import java.text.DateFormat;
@@ -73,7 +90,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
             return new GenericEntity();
         }
-
         for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
             Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssociation,
                     studentTranscriptAssociations);
@@ -281,7 +297,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
      * @param studentTranscriptAssociations a set of transcripts for a given student
      * @return The transcript that applies to a given section
      */
-    @SuppressWarnings("unchecked")
     private Map<String, Object> getCourseTranscriptForSection(Map<String, Object> studentSectionAssoc,
                                                               List<Map<String, Object>> studentTranscriptAssociations) {
         String courseId = "";
@@ -306,7 +321,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
      * @param subjectArea The filter to look at
      * @return Filtered list of student section associations
      */
-    @SuppressWarnings("unchecked")
     private List<Map<String, Object>> filterBySubjectArea(List<Map<String, Object>> studentSectionAssociations, String subjectArea) {
         if (subjectArea == null) {
             log.warn("Subject Area to match is null!");

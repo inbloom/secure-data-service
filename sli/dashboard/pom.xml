@@ -14,10 +14,12 @@
 	<name>SLI Dashboard</name>
 
 	<properties>
+	    <spring.version>3.1.1.RELEASE</spring.version>
+	    <spring.security.version>3.0.6.RELEASE</spring.security.version>
 		<freemarker.version>2.3.18</freemarker.version>
 		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
-
+		
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
@@ -150,13 +152,13 @@
 		    <artifactId>joda-time</artifactId>
 		    <version>2.1</version>
 	    </dependency>
-
-        <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache-core</artifactId>
-                <version>2.5.1</version>
-                <type>pom</type>
-        </dependency>
+		    
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+            
         <dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -222,20 +224,18 @@
 			<version>${gson.version}</version>
 		</dependency>
 
-    <!-- Selenium dependency -->
-    <!-- Due to multiple transitive dependencies on guava, we have opted to exclude 
-        the older ones. Because we need the newest Version 11.0.1 will be pulled from jersey-client -->
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>2.14.0</version>
-        <exclusions>
-            <exclusion>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
+		<!-- Selenium dependency -->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+	            <version>2.14.0</version>
+		    <exclusions>
+			<exclusion>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+			</exclusion>
+		    </exclusions>
+		</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>
@@ -245,21 +245,59 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring AOP dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring Context dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring Beans dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Spring Expression dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Spring Security dependency -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 
 		<!-- Spring Test dependency -->

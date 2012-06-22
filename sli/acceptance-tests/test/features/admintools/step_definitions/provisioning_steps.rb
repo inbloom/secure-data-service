@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require "json"
 require 'approval'
@@ -16,19 +35,45 @@ Given /^LDAP server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
    @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
-      email_conf = {
+      @email_conf = {
        :host => 'mon.slidev.org',
        :port => 3000,
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
      }
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),nil,true)
+  
    @edorgId =  "Test_Ed_Org"
    @email = "devldapuser_#{Socket.gethostname}@slidev.org"
 end
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  @tenantId = @email
+  remove_user(@email)
+  sleep(1)
+
+  user_info = {
+      :first => "Provision",
+      :last => "test",
+       :email => @email,
+       :emailAddress => @email,
+       :password => "test1234",
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "submitted",
+       :homedir => "/dev/null",
+       :uidnumber => "500",
+       :gidnumber => "500",
+       :tenant => @tenantId,
+       :edorg => @edorgId
+   }
+
+  ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(user_info[:emailtoken])
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
 end
 
 When /^I go to the provisioning application$/ do
@@ -62,6 +107,7 @@ end
 
 Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=true
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
   @tenantId = @email
 remove_user(@email)
 sleep(1)

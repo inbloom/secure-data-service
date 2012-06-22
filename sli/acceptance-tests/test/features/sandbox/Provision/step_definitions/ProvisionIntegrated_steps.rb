@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require 'approval'
 require "mongo" 
@@ -21,6 +40,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @edorgId                                     if human_readable_id == "SANDBOX_EDORG"
   id = @email                                       if human_readable_id == "DEVELOPER_EMAIL"
   id = "sandbox_edorg_2"                            if human_readable_id == "SANDBOX_EDORG_2"
+  id = @email                                       if human_readable_id == "TENANTID"
+  id = @edorgId                                     if human_readable_id == "PROD_EDORG"
+  id = "district_edorg"                             if human_readable_id == "DISTRICT_EDORG"
   id
 end
 
@@ -30,18 +52,23 @@ Given /^LDAP server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
    @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
-      email_conf = {
+      @email_conf = {
        :host => 'mon.slidev.org',
        :port => 3000,
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
      }
   
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),nil,true)
 end
 
-Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
-@vendor = vendor
+Given /^there is an sandbox account in ldap$/ do
+@sandbox = true
+ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
+end
+
+Given /^there is an production Ingestion Admin account in ldap$/ do
+@sandbox = false
+ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
 
 end
 
@@ -58,9 +85,9 @@ sleep(1)
        :emailAddress => @email,
        :password => "test1234",
        :emailtoken => "token",
-       :vendor => @vendor,
+       :vendor => "test",
        :status => "submitted",
-       :homedir => "changeit",
+       :homedir => "/dev/null",
        :uidnumber => "500",
        :gidnumber => "500",
        :tenant => @tenantId
@@ -70,10 +97,14 @@ sleep(1)
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
+  if(@sandbox==false)
+ ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
+ end
   #ApprovalEngine.change_user_status(@email,"approve",true)
   #clear_edOrg()
   #clear_tenant()
 end
+
 
 Given /^there is no corresponding tenant in mongo$/ do
   clear_tenant
@@ -84,6 +115,7 @@ Given /^there is no corresponding ed\-org in mongo$/ do
 end
 
 Given /^the account has a edorg of "(.*?)"$/ do |edorgId|
+@edorgName = edorgId
 user_info = ApprovalEngine.get_user(@email).merge( {:edorg => edorgId })
 ApprovalEngine.update_user_info(user_info)
 end
@@ -112,9 +144,14 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
   assert(found==false,"there is a landing zone for #{edorgId} in mongo")
 end
 
-Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorg|
+Given /^there is no landing zone for the user in LDAP$/ do
+ user_info = ApprovalEngine.get_user(@email)
+ assert(user_info[:homedir].include?("dev/null"),"the user landing zone is already set to #{user_info[:homedir]}")
+end
+
+Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
   clear_tenant
-  create_tenant(@tenantId,@edorgId)
+  create_tenant(@tenantId,edorgId)
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
@@ -128,7 +165,12 @@ When /^the developer provision a "(.*?)" Landing zone with edorg is "(.*?)"$/ do
   step "I provision with \"#{env}\" high\-level ed\-org to \"#{edorgId}\""
   end
   
-Then /^a tenantId "([^"]*)" created in Mongo$/ do |tenantId|
+When /^the Ingestion Admin go to the provisioning application web page$/ do
+  step "the developer go to the provisioning application web page"
+end
+
+  
+Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
  tenant_coll=@db["tenant"]
  assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
 end
@@ -139,7 +181,7 @@ Then /^the directory structure for the landing zone is stored for tenant in mong
  tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
  tenant_entity.each do |tenant|
  tenant['body']['landingZone'].each do |landing_zone|
- if landing_zone['path'].include?(@tenantId+"/"+@edorgId)
+ if landing_zone['path'].include?(@tenantId+"/"+@edorgName)
  found=true
  puts landing_zone['path']
  end
@@ -153,8 +195,21 @@ Then /^the user gets a success message$/ do
  assert(success!=nil,"didnt get a success message")
 end
 
+Then /^the Ingestion Admin gets a success message$/ do
+ step "the user gets a success message"
+end
+
+Then /^the Ingestion Admin gets an already provisioned message$/ do
+  step "the user gets an already provisioned message"
+end
+
+
 
 When /^the developer is authenticated to Simple IDP as user "([^"]*)" with pass "([^"]*)"$/ do |user, pass|
+  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+end
+
+Then /^the Ingestion Admin is authenticated to Simple IDP as user "(.*?)" with pass "(.*?)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
 
@@ -163,6 +218,15 @@ When /^the developer go to the provisioning application web page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
 end
+
+When /^I provision a Landing zone$/ do
+  @driver.find_element(:id, "provisionButton").click
+end
+
+When /^the Ingestion Admin provision a Landing zone$/ do
+  step "I provision a Landing zone"
+end
+
 
 When /^I provision with "([^"]*)" high\-level ed\-org to "([^"]*)"$/ do |env,edorgName|
   if(env=="sandbox")
@@ -197,7 +261,7 @@ end
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
   puts user
-  assert(user[:homedir].include?(@edorgName),"the landing zone path is not stored in ldap")
+  assert(user[:homedir].include?(@edorgName) && user[:homedir].include?(@tenantId),"the landing zone path is not stored in ldap")
 end
 
 def removeUser(email)

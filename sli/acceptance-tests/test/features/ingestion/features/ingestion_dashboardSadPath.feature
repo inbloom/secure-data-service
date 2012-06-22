@@ -20,7 +20,6 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
-        | schoolSessionAssociation    |
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |

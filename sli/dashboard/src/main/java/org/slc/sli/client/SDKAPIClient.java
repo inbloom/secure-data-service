@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.client;
 
 import java.text.DateFormat;
@@ -306,19 +323,7 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getSchools(String token, List<String> ids) {
 
         // get schools
-        List<GenericEntity> schools = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY);
-
-        // get sections
-        List<GenericEntity> sections = null;
-        if (SecurityUtil.isNotEducator()) {
-            sections = getSectionsForNonEducator(token, null);
-        } else {
-            String teacherId = this.getId(token);
-            sections = getSectionsForTeacher(teacherId, token, null);
-        }
-
-        // match schools and sections
-        matchSchoolsAndSections(schools, sections, token);
+        List<GenericEntity> schools = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
 
         return schools;
     }
@@ -586,7 +591,6 @@ public class SDKAPIClient implements APIClient {
             sections = filterCurrentSections(sections, true);
 
         } else {
-            // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token, null);
 
@@ -1368,7 +1372,7 @@ public class SDKAPIClient implements APIClient {
             }
 
             // get course Entity
-            List<GenericEntity> courses = readEntityList(token, SDKConstants.COURSES_ENTITY);
+            List<GenericEntity> courses = readEntityList(token, SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {

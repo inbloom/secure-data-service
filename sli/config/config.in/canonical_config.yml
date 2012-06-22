@@ -169,7 +169,7 @@ default:
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
-        log.level: warn
+        dashboard.log.level: warn
 
         # oauth security parameter (only used in dashboard)
         oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
@@ -186,13 +186,12 @@ default:
         # Custom configuration directory (only used in dashboard)
         panel.config.custom.dir: custom
 
-        # (only used in dashboard)
-        panel.data.use.cache: true
-
         dashboard.google_analytics.id: UA-31838086-1
 
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
+        
+        dashboard.cache.disable: false
 
 
     app: &APPS-DEFAULT
@@ -754,6 +753,8 @@ local:
 
         # (only used in dashboard)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+        
+        dashboard.log.level: info
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
