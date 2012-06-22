@@ -20,10 +20,11 @@
       if tenant_id == "== Totals =="
            @totals = tenant_metric
            next
-      end
+      end %>
 
-      concat ("<tr><td class='tenant_metrics_collection_name'><b><a href='http://local.slidev.org:3000/tenant_metrics/" + tenant_id + "?details=true'>" + tenant_id + "</a></b></td>").html_safe
+      <tr><td class='tenant_metrics_collection_name'><b> <%= link_to tenant_id, "tenant_metrics/" + tenant_id %></b></td>
 
+      <%
       tenant_metric.each do |collectionName, collectionData|
         if collectionName == "== Totals =="
           concat ("<td class='tenant_metrics_entity_count'>" + collectionData['entityCount'].to_s() + "</td>").html_safe
