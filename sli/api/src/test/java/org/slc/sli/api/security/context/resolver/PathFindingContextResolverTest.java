@@ -42,12 +42,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -92,80 +89,10 @@ public class PathFindingContextResolverTest {
     @Test
     public void testCanResolve() throws Exception {
         assertFalse(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
-        assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.TEACHER));
+        assertFalse(resolver.canResolve(EntityNames.STUDENT, EntityNames.TEACHER));
         assertFalse(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.TEACHER));
     }
-    
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testFindTeacherToSections() throws Exception {
-        injector.setDemoContext();
-        Entity mockEntity = Mockito.mock(Entity.class);
-        when(mockEntity.getEntityId()).thenReturn("1");
-
-        //override for demo user
-        Map<String, Object> mockBody = new HashMap<String, Object>();
-        mockBody.put("staffUniqueStateId", "mock");
-        when(mockEntity.getBody()).thenReturn(mockBody);
-
-        List<String> finalList = Arrays.asList(new String[] { "2", "3", "4" });
-        assertTrue("Can resolve teacher to section", resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
-                        eq("teacherId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "5", "6", "7" }));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("sectionId"), eq("studentId"), any(List.class), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "8", "9", "10" }));
-        when(mockHelper.getAssocKeys(eq(EntityNames.STUDENT), any(AssociationDefinition.class))).thenReturn(
-                Arrays.asList(new String[] { "studentId", "sectionId" }));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("studentId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(finalList);
-        
-        List<String> returned = resolver.findAccessible(mockEntity);
-        // assertTrue(returned.size() == finalList.size());
-        for (String id : finalList) {
-            assertTrue("List contains " + id, returned.contains(id));
-        }
-        
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testFindTeacherToTeacher() throws Exception {
-        injector.setDemoContext();
-        Entity mockEntity = Mockito.mock(Entity.class);
-
-        //override for demo user
-        Map<String, Object> mockBody = new HashMap<String, Object>();
-        mockBody.put("staffUniqueStateId", "mock");
-        when(mockEntity.getBody()).thenReturn(mockBody);
-
-        when(mockEntity.getEntityId()).thenReturn("1");
-        List<String> finalList = Arrays.asList(new String[] { "1" });
-        List<String> tsKeys1 = Arrays.asList(new String[] { "schoolId", "teacherId" });
-        List<String> tsKeys2 = Arrays.asList(new String[] { "teacherId", "schoolId" });
-
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.TEACHER));
-        when(mockHelper.getAssocKeys(eq(EntityNames.SCHOOL), any(AssociationDefinition.class))).thenReturn(tsKeys1);
-        when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys2);
-        when(
-                mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
-                        eq("teacherId"), eq("schoolId"), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "2", "3", "4" }));
-        
-        when(
-                mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
-                        eq("schoolId"), eq("teacherId"), any(List.class))).thenReturn(finalList);
-        List<String> returned = resolver.findAccessible(mockEntity);
-        // assertTrue(returned.size() == finalList.size());
-        for (String id : finalList) {
-            assertTrue(returned.contains(id));
-        }
-    }
     
     @Test
     public void testGetResourceName() throws Exception {
