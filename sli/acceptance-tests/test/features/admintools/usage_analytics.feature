@@ -42,7 +42,6 @@ Scenario: As a SLC Operator I can determine the total mongo entity count and dat
 
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I am displayed a list of "3" tenants
-          And the row for <Tenant_id> displays size greater than <Size>
         And I am displayed the total data size is greater than "600"
         And I am displayed the total entity count as "595"
 
