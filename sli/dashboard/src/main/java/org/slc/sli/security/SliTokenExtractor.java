@@ -32,15 +32,12 @@ import org.scribe.utils.Preconditions;
  */
 public class SliTokenExtractor  implements AccessTokenExtractor {
     private static final String TOKEN_REGEX = "\"access_token\":\"([^&\"]+)\"";
-//    private static final Logger LOG = LoggerFactory.getLogger(SliTokenExtractor.class);
 
     @Override
     public Token extract(String response) {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(response).getAsJsonObject();
-//        DE260 - Logging of possibly sensitive data
-//        LOG.debug("Response to extract token from - ", json);
 
         if (json.has("error")) {
             throw new OAuthException(json.get("error_description").getAsString());

@@ -93,6 +93,12 @@ public class PropertiesDecryptor {
         return new String(decodedBytes);
     }
 
+    /**
+     * Convert string to Encrypted CVS byte string
+     * @param toEncode
+     * @return Encrypted comma delimited byte string. 
+     * @throws Exception
+     */
     public String getEncryptedByteCSString(String toEncode) throws Exception {
         byte[] encoded = encryptCipher.doFinal(toEncode.getBytes());
 

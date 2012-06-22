@@ -51,7 +51,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
     }
 
     /**
-     * Prehandle performs a session check on all incoming requests to ensure a user with an active spring securoty session,
+     * Prehandle performs a session check on all incoming requests to ensure a user with an active spring security session,
      *  is still authenticated against the api.
      */
     @Override

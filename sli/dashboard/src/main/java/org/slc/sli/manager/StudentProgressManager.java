@@ -17,14 +17,15 @@
 
 package org.slc.sli.manager;
 
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
-
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+
 /**
+ * Gathers and provides information needed for the student progress view
  * @author jstokes
  */
 @Manager.EntityMappingManager

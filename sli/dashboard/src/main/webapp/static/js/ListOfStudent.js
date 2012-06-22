@@ -15,6 +15,7 @@
  */
 
 
+/*global $ contextRootPath*/
 var listOfStudents = 'listOfStudents';
 
 function getStudentListData() {
@@ -29,12 +30,12 @@ function getStudentListData() {
   
 function printStudentList() {
 	var tableId = getTableId();
-	var panelConfig = DashboardProxy.getConfig(listOfStudents);
+	var panelConfig = SLC.dataProxy.getConfig(listOfStudents);
 	var viewIndex=$("#viewSelect").val();
 	var options={};
 	if(viewIndex != -1) {
 		jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-		DashboardUtil.makeGrid(tableId, options, DashboardProxy.getData(listOfStudents), {});
+		SLC.grid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
 	}
 }
     
@@ -43,17 +44,17 @@ function clearStudentList() {
 }
     
 function filterStudentList(filterBy) {
-	var panelConfig = DashboardProxy.getConfig(listOfStudents);
+	var panelConfig = SLC.dataProxy.getConfig(listOfStudents);
 	var options={};
 	var viewIndex = $("#viewSelect").val();
 	if(viewIndex != -1) {
 		jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
 	      
 		if (filterBy == undefined) {
-			DashboardUtil.makeGrid(getTableId(), options, DashboardProxy.getData(listOfStudents), {});
+			SLC.grid.create(getTableId(), options, SLC.dataProxy.getData(listOfStudents), {});
 		} else {
 	         
-			var filteredData = jQuery.extend({}, DashboardProxy.getData(listOfStudents));
+			var filteredData = jQuery.extend({}, SLC.dataProxy.getData(listOfStudents));
 			filteredStudents = filteredData.students;
 			fieldName = filterBy['condition']['field'];
 			fieldValues = filterBy['condition']['value'];
@@ -64,14 +65,16 @@ function filterStudentList(filterBy) {
 			});
 	
 			filteredData.students = filteredStudents;
-			DashboardUtil.makeGrid(getTableId(), options, filteredData, {});
+			SLC.grid.create(getTableId(), options, filteredData, {});
 		}
 	}
 }
 
 
 function filterStudents() {
-    var filterSelect = $("#filterSelect").val();
-    filterStudentList(DashboardProxy.widgetConfig.lozenge.items[filterSelect]); 
+    var filterSelect = $("#filterSelect").val(),
+    	widgetConfig = SLC.dataProxy.getWidgetConfig("lozenge");
+    	
+    filterStudentList(widgetConfig.items[filterSelect]); 
 }
 

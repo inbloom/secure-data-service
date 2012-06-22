@@ -39,8 +39,6 @@ import org.slc.sli.util.SecurityUtil;
 /**
  * Controller for all types of requests.
  *
- * TODO: Refactor methods to be private and mock in unit tests with PowerMockito
- *
  * @author dwu
  */
 @Controller
@@ -85,7 +83,6 @@ public abstract class GenericLayoutController {
 
         model.addAttribute(Constants.MM_KEY_LOGGER, logger);
         addCommonData(model, request);
-        // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
     }
@@ -108,7 +105,6 @@ public abstract class GenericLayoutController {
     }
 
 
-    // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {
         model.addAttribute("random", new Random());
     }

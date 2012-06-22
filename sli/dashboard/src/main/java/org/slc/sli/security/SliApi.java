@@ -24,6 +24,8 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 /**
+ * Class has the information needed for integrating with OAuth to which implement for the Scribe library.
+ * 
  * @author jnanney
  *
  */

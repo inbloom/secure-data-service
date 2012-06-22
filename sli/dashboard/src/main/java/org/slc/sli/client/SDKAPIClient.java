@@ -323,19 +323,7 @@ public class SDKAPIClient implements APIClient {
     public List<GenericEntity> getSchools(String token, List<String> ids) {
 
         // get schools
-        List<GenericEntity> schools = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY);
-
-        // get sections
-        List<GenericEntity> sections = null;
-        if (SecurityUtil.isNotEducator()) {
-            sections = getSectionsForNonEducator(token, null);
-        } else {
-            String teacherId = this.getId(token);
-            sections = getSectionsForTeacher(teacherId, token, null);
-        }
-
-        // match schools and sections
-        matchSchoolsAndSections(schools, sections, token);
+        List<GenericEntity> schools = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
 
         return schools;
     }
@@ -603,7 +591,6 @@ public class SDKAPIClient implements APIClient {
             sections = filterCurrentSections(sections, true);
 
         } else {
-            // TODO: (sivan) check if a simple /section will work for teachers as well
             String teacherId = getId(token);
             sections = getSectionsForTeacher(teacherId, token, null);
 
@@ -1385,7 +1372,7 @@ public class SDKAPIClient implements APIClient {
             }
 
             // get course Entity
-            List<GenericEntity> courses = readEntityList(token, SDKConstants.COURSES_ENTITY);
+            List<GenericEntity> courses = readEntityList(token, SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {

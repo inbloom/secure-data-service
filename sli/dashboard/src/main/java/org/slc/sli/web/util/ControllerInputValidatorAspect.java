@@ -72,7 +72,7 @@ public class ControllerInputValidatorAspect {
 
 
     /**
-     * Around for poincut defined by controllerMethodInvocation
+     * Around for pointcut defined by controllerMethodInvocation
      * @param joinPoint
      * @return
      * @throws Throwable

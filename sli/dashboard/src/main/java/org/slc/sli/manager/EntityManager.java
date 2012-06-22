@@ -36,7 +36,6 @@ import org.slc.sli.util.DashboardException;
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
  * by the MVC framework.
- * GenericEntity kickoff.
  *
  * @author Sravan Vankina
  * @author David Wu
@@ -61,24 +60,27 @@ public class EntityManager extends ApiClientManager {
      * @param schoolIds
      *            - the school id list
      * @return schoolList
-     *         - the school entity list
+     *         	  - the school entity list
      */
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
         return getApiClient().getSchools(token, schoolIds);
     }
 
     /**
+<<<<<<< HEAD
+     * Get a single student entity with optional fields embedded.
+=======
      * Returns a single student entity with optional fields embedded.
+>>>>>>> master
      *
      * @param token
-     *            authentication token
+     *            - authentication token
      * @param studentId
-     *            The student we are looking for
-     * @param views
-     *            A list of "optional views" that we are appending to the student. These could be
-     *            related
-     *            to attendance, assessments, etc..
-     * @return A single student entity with selected optional views embedded.
+     *            - the student we are looking for
+     * @param optionalFields
+     *            - a list of "optional views" that we are appending to the student, which could be
+     *            related to attendance, assessments, etc..
+     * @return a single student entity with selected optional views embedded
      */
     public GenericEntity getStudentWithOptionalFields(final String token, String studentId, List<String> optionalFields) {
         return getApiClient().getStudentWithOptionalFields(token, studentId, optionalFields);
@@ -93,7 +95,7 @@ public class EntityManager extends ApiClientManager {
      * @param studentIds
      *            - the student id list
      * @return studentList
-     *         - the student entity list
+     *            - the student entity list
      */
     public List<GenericEntity> getStudents(final String token, String sectionId) {
         return getApiClient().getStudentsForSection(token, sectionId);
@@ -121,7 +123,7 @@ public class EntityManager extends ApiClientManager {
      * @param studentId
      *            - the student id
      * @return student
-     *         - the student entity
+     *            - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
@@ -130,11 +132,12 @@ public class EntityManager extends ApiClientManager {
         }
         student = ContactSorter.sort(student);
         student = GenericEntityEnhancer.enhanceStudent(student);
+
         GenericEntity section = getApiClient().getSectionHomeForStudent(token, studentId);
 
         if (section != null) {
             student.put(Constants.ATTR_SECTION_ID, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
-            GenericEntity teacher = getApiClient().getTeacherForSection(section.getString(Constants.ATTR_ID), token);
+            GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
 
             if (teacher != null) {
                 @SuppressWarnings("unchecked")
@@ -167,9 +170,9 @@ public class EntityManager extends ApiClientManager {
      * Retrieves a list of attendance objects for a single student.
      *
      * @param token
-     *            The current authentication token.
+     *            - the current authentication token
      * @param studentId
-     *            The studentID that you want to get your attendance objects for.
+     *            - the student that you want to get your attendance objects for
      * @return a list of attendance objects
      */
     public List<GenericEntity> getAttendance(final String token, final String studentId, final String start,
@@ -186,11 +189,11 @@ public class EntityManager extends ApiClientManager {
      * Returns a list of courses for a given student and params
      *
      * @param token
-     *            Security token
+     *            - the security token
      * @param studentId
-     *            The student Id
+     *            - the student id
      * @param params
-     *            param map
+     *            - param map
      * @return
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
@@ -201,11 +204,11 @@ public class EntityManager extends ApiClientManager {
      * Returns a list of student grade book entries for a given student and params
      *
      * @param token
-     *            Security token
+     *            - the security token
      * @param studentId
-     *            The student Id
+     *            - the student id
      * @param params
-     *            param map
+     *            - param map
      * @return
      */
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
@@ -221,18 +224,19 @@ public class EntityManager extends ApiClientManager {
      * Returns an entity for the given type, id and params
      *
      * @param token
-     *            Security token
+     *            - security token
      * @param type
-     *            Type of the entity
+     *            - type of the entity
      * @param id
-     *            The id of the entity
+     *            - the id of the entity
      * @param params
-     *            param map
+     *            - param map
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
         return getApiClient().getEntity(token, type, id, params);
     }
+
 
     /**
      * Returns a list of students, which match the search parameters

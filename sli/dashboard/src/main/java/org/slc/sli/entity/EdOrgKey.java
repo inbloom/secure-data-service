@@ -26,24 +26,10 @@ import java.io.Serializable;
  */
 public class EdOrgKey implements Serializable {
     private static final long serialVersionUID = -6946791865233296339L;
-    private String districtId;
     private String sliId;
 
-    public EdOrgKey(String districtId) {
-        this(districtId, null);
-    }
-
-    public EdOrgKey(String districtId, String sliId) {
-        this.districtId = districtId;
+    public EdOrgKey(String sliId) {
         this.sliId = sliId;
-    }
-
-    /**
-     * Get the id of the district
-     * @return
-     */
-    public String getDistrictId() {
-        return districtId;
     }
 
     /**
@@ -58,7 +44,7 @@ public class EdOrgKey implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-        return prime + ((districtId == null) ? 0 : districtId.hashCode());
+        return prime + ((sliId == null) ? 0 : sliId.hashCode());
     }
 
     @Override
@@ -73,11 +59,11 @@ public class EdOrgKey implements Serializable {
             return false;
         }
         EdOrgKey other = (EdOrgKey) obj;
-        if (districtId == null) {
-            if (other.districtId != null) {
+        if (sliId == null) {
+            if (other.sliId != null) {
                 return false;
             }
-        } else if (!districtId.equals(other.districtId)) {
+        } else if (!sliId.equals(other.sliId)) {
             return false;
         }
         return true;

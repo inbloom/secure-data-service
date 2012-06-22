@@ -18,6 +18,7 @@
 package org.slc.sli.manager;
 
 /**
+ * Retrieves header and footer from Portal WS
  *
  * @author svankina
  *

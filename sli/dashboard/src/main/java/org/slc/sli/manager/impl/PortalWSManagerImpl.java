@@ -17,15 +17,18 @@
 
 package org.slc.sli.manager.impl;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.manager.PortalWSManager;
+import org.slc.sli.util.Constants;
+
+
 
 
 /**
+ * Retrieves header and footer from Portal WS
  *
  * @author svankina
  *
@@ -48,7 +51,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     }
 
     @Override
-    @Cacheable(cacheName = "user.portal.header")
+    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'header' + #isAdmin")
     public String getHeader(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + isAdmin, true);
@@ -58,7 +61,7 @@ public class PortalWSManagerImpl implements PortalWSManager {
     }
 
     @Override
-    @Cacheable(cacheName = "user.portal.footer")
+    @Cacheable(value = Constants.CACHE_PORTAL_DATA, key = "'footer' + #isAdmin")
     public String getFooter(boolean isAdmin) {
         try {
             return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + isAdmin, true);

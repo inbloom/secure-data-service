@@ -47,10 +47,6 @@ public class ConfigManagerTest {
         mockClient = new MockAPIClient();
         configManager = new ConfigManagerImpl() {
             @Override
-            protected String getCustomConfigPathForUserDomain(EdOrgKey key) {
-                return "aa";
-            }
-            @Override
             public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
                 return null;
             }
