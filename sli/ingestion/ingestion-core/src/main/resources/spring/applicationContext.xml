@@ -28,25 +28,9 @@
 
 
   <!-- ActiveMQ -->
-  <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
     <property name="brokerURL"
       value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&amp;jms.prefetchPolicy.queuePrefetch=0" />
-  </bean>
-
-  <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
-    <property name="maxConnections" value="8" />
-    <property name="maximumActive" value="500" />
-    <property name="connectionFactory" ref="jmsConnectionFactory" />
-  </bean>
-
-  <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
-    <property name="connectionFactory" ref="pooledConnectionFactory" />
-    <property name="transacted" value="false" />
-    <property name="concurrentConsumers" value="10" />
-  </bean>
-
-  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="configuration" ref="jmsConfig" />
   </bean>
 
 

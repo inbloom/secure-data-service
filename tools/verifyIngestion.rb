@@ -3,17 +3,24 @@ require 'mongo'
 require 'json'
 
 #Talk to maestro's mongos
-mongohost = 'nxmaestro.slidev.org'
+mongohost = ARGV[1]
+if (mongohost.nil?) 
+	mongohost = "nxmaestro.slidev.org"
+end
+
 mongoport = 27017
 
-dbName = ARGV[1]
+dbName = ARGV[2]
 if ( dbName.nil? ) 
 	dbName = "sli"
 end
 
-puts "\==========================================================="
-puts "Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor #{dbName} database"
-  
+puts ""
+puts " \==========================================================="
+puts " Talking to mongo \e[32m#{mongohost}:#{mongoport} \e[0mfor #{dbName} database"
+puts " \==========================================================="
+puts ""
+
 expected={
  "900K" => {
   "assessment"=>4,
@@ -104,6 +111,60 @@ expected={
   "teacherSchoolAssociation"=>324,
   "teacherSectionAssociation"=>4032
   },
+  
+ # actual record count: 3,860,248
+ # entities not persisted:
+ # - assessmentFamily           --> count: 82
+ # - assessmentItem             --> count: 352
+ # - assessmentPeriodDescriptor --> count: 116
+ # - courseOffering             --> count: 2880
+ # - objectiveAssessment        --> count: 88
+ # - performanceLevelDescriptor --> count: 131
+ # - serviceDescriptor          --> count: 4
+ # - studentAssessmentItem      --> count: 99509
+ # - studentObjectiveAssessment --> count: 99937
+ "5M" => {
+  "assessment"=>163,
+  "attendance"=>19920,
+  "calendarDate"=>120,
+  "cohort"=>60,
+  "compentencyLevelDescriptor"=>2,
+  "course"=>1440,
+  "disciplineAction"=>28710,
+  "disciplineIncident"=>28710,
+  "educationOrganization"=>34,
+  "grade"=>278880,
+  "gradebookEntry"=>1,
+  "gradingPeriod"=>480,
+  "graduationPlan"=>30,
+  "learningObjective"=>44,
+  "learningStandard"=>244,
+  "parent"=>29713,
+  "program"=>37,
+  "reportCard"=>19920,
+  "schoolSessionAssociation"=>60,
+  "section"=>20160,
+  "session"=>60,
+  "staff"=>1755,
+  "staffCohortAssociation"=>60,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>37,
+  "student"=>19920,
+  "studentAcademicRecord"=>19920,
+  "studentAssessmentAssociation"=>199200,
+  "studentCohortAssociation"=>21545,
+  "studentCompetency"=>39840,
+  "studentCompetencyObjective"=>1,
+  "studentDisciplineIncidentAssociation"=>28710,
+  "studentParentAssociation"=>29713,
+  "studentProgramAssociation"=>17165,
+  "studentSchoolAssociation"=>19920,
+  "studentSectionAssociation"=>278880,
+  "studentSectionGradebookEntry"=>19920,
+  "studentTranscriptAssociation"=>298800,
+  "teacherSchoolAssociation"=>1620,
+  "teacherSectionAssociation"=>20160
+ },
   
  # actual record count: 4,598,548
  # entities not persisted:
@@ -344,15 +405,13 @@ expected={
   }  
 }
 
-# Print total counts
+# Set total counts
 expectationTotals = { "900K" => 0, "1M" => 0, "8M" => 0, "22M" => 0, "25M" => 0, "100M" => 0 }
-
 expected.each do |set,collections|
   total=0
   collections.each do |name,count|
     total+=count
   end
-  printf "%s %d\n",set,total
   expectationTotals[set] = total
 end
 
@@ -362,11 +421,13 @@ if ARGV.count() < 1
   exit
 end
 
-
 if !expected.has_key?(ARGV[0])
-  puts "Unsupported batch \e[31m#{ARGV[0]}\e[0m"
-  puts "Supported: "
-  expected.each_key {|key| puts key}
+  puts " Unsupported data set size: \e[31m#{ARGV[0]}\e[0m"
+  puts " Supported values: "
+  puts " ------------------------------------------"
+  expected.each_key {|key| puts " #{key}"}
+  puts " ------------------------------------------"
+  puts ""
   exit
 end
 
@@ -374,25 +435,34 @@ connection = Mongo::Connection.new( mongohost, mongoport)
 
 db = connection.db( dbName )
 
-printf "\e[35m%-40s %s\n","Collection","Actual(Expected)\e[0m"
-puts "---------------------------------------------------------"
+puts " Collection                            Actual(Expected)"
+puts " ---------------------------------------------------------"
 
+allCountsCorrect=true
 totalActualCount = 0
-
 setName = ARGV[0]
 expected[ setName ].each do |collectionName,expectedCount|
   coll = db.collection(collectionName)
-
   count = coll.count()
-	totalActualCount += count
+  totalActualCount += count
   color="\e[32m"
   if expectedCount != count
+    allCountsCorrect=false
     color="\e[31m"
-  end
-  printf "#{color}%-40s %d(%d)\e[0m\n",collectionName,count,expectedCount
+    printf " #{color}%-40s %d(%d)\e[0m\n",collectionName,count,expectedCount
+  end  
+end
 
+if allCountsCorrect
+  color="\e[32m"
+  printf "#{color} All collections have correct count! \n"
 end
 
 expectedSetTotal = expectationTotals[setName]
-puts "Expected #{expectedSetTotal} and saw #{totalActualCount}"
-puts "ALL DONE"
+if expectedSetTotal != totalActualCount
+  color="\e[31m"
+  printf "#{color} Ingestion failed! \n\n"
+else
+  color="\e[32m"
+  printf "#{color} Ingestion succeeded! \n\n"
+end
