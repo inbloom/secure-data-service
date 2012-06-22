@@ -11,9 +11,10 @@ class SLCFixer
   def initialize(db, logger = nil, grace_period = 2000)
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
-    #@log = logger || Logger.new(STDOUT)
-    @log = Logger.new(STDOUT)
-    @log.level = Logger::ERROR
+    @count = 0
+    @log = logger || Logger.new(STDOUT)
+    # @log = Logger.new(STDOUT)
+    @log.level ||= Logger::WARN
 
     @teacher_ids = {}
     @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -31,26 +32,17 @@ class SLCFixer
 
   def start
     time = Time.now
-    @threads = []
-    Benchmark.bm(20) do |x|
-      @threads << Thread.new {x.report('students')    {stamp_students}}
-    end
-
-    @threads.each do |th|
-      th.join
-    end
 
     @threads = []
     Benchmark.bm(20) do |x|
+      x.report('students')    {stamp_students}
       @threads << Thread.new {x.report('section')    {stamp_sections}}
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
       @threads << Thread.new {x.report('parent')     {stamp_parents}}
       @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
       @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
-      @threads << Thread.new {x.report('grades')     {stamp_grades}}
       @threads << Thread.new {x.report('other')     {stamp_other}}
-      @threads << Thread.new {x.report('misc')     {stamp_misc}}
       @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
       @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
       @threads << Thread.new {x.report('studentSectionGradebookEntry')     {stamp_gradebook}}
@@ -81,7 +73,7 @@ class SLCFixer
         teacherIds = teacherIds.flatten
         teacherIds = teacherIds.uniq
         @studentId_to_teachers[studentId] = teacherIds
-        stamp_context(@db['student'], studentId, tenantId, teacherIds)
+        stamp_full_context(@db['student'], studentId, tenantId, teacherIds)
       }
     }
   end
@@ -182,6 +174,7 @@ class SLCFixer
          
         section_assoc_to_teachers[assoc['_id']] = teachers
         section_id = assoc['body']['sectionId']
+        #This won't work
         section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
         section_to_teachers[section_id] ||= []
         section_to_teachers[section_id] += teachers unless teachers.nil?
@@ -220,7 +213,7 @@ class SLCFixer
     }
   
     section_to_teachers.each { |section, teachers|
-      stamp_context(@db['section'], section, section_to_tenant[section], teachers)
+      stamp_full_context(@db['section'], section, section_to_tenant[section], teachers)
     }
 
     @db[:gradebookEntry].find({}, {fields: ['body.sectionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -267,13 +260,16 @@ class SLCFixer
       @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
       @db['sectionAssessmentAssociation'].update({'body.sectionId'=> section}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
     }
-
     course_to_sections.each { |course_id, section_ids|
       teachers = []
       section_ids.each { |section| teachers << section_to_teachers[section] }
       teachers = teachers.flatten
       teachers = teachers.uniq
-      stamp_context(@db['course'], course_id, section_to_tenant[section_ids.first], teachers)
+      if teachers.nil? or teachers.empty? or section_to_tenant[section_ids.first].nil?
+        tmp_section =@db['section'].find_one({'_id' => section_ids.first})
+        @log.debug {"Section doesn't exist that course references for course: #{course_id} -> #{tmp_section.to_s}"}
+      end
+      stamp_full_context(@db['course'], course_id, section_to_tenant[section_ids.first], teachers)
     }
 
     # tag grading periods
@@ -302,7 +298,7 @@ class SLCFixer
       teachers = teachers.flatten
       teachers = teachers.uniq
       #@log.debug "teachers = #{teachers} tenant = #{tenant_id}  grading peiod = #{grading_period}"
-      stamp_context(@db['gradingPeriod'], grading_period, tenant_id, teachers)
+      stamp_full_context(@db['gradingPeriod'], grading_period, tenant_id, teachers)
     }
 
   end
@@ -329,7 +325,7 @@ class SLCFixer
     }
 
     cohort_to_teachers.each { |cohort, teachers|
-      stamp_context(@db['cohort'], cohort, cohort_to_tenant[cohort], teachers)
+      stamp_full_context(@db['cohort'], cohort, cohort_to_tenant[cohort], teachers)
     }
 
     @db['staffCohortAssociation'].find({}, @basic_options) { |cursor|
@@ -362,7 +358,7 @@ class SLCFixer
     }
 
     parent_to_teachers.each { |parent_id, teachers|
-      stamp_context(@db['parent'], parent_id, parent_to_tenant[parent_id], teachers)
+      stamp_full_context(@db['parent'], parent_id, parent_to_tenant[parent_id], teachers)
     }
   end
 
@@ -376,7 +372,7 @@ class SLCFixer
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentProgramAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
-        stamp_context(@['studentProgramAssociation'], assoc, teachers)
+        stamp_context(@db['studentProgramAssociation'], assoc, teachers)
 
         program_id = assoc['body']['programId']
         program_to_tenant[program_id] ||= assoc['metaData']['tenantId']
@@ -388,7 +384,7 @@ class SLCFixer
     program_to_teachers.each do |program, teachers|
       teachers = teachers.flatten
       teachers = teachers.uniq
-      stamp_context(@db['program'], program, program_to_tenant[program], teachers)
+      stamp_full_context(@db['program'], program, program_to_tenant[program], teachers)
     end
 
     @db['staffProgramAssociation'].find({}, @basic_options) do |cursor|
@@ -422,9 +418,9 @@ class SLCFixer
         action['body']['staffId'].each {|id| teachers << id}
         action['body']['studentId'].each {|id| teachers += @studentId_to_teachers[id] unless @studentId_to_teachers[id].nil?}
         teachers = teachers.flatten.uniq
-        stamp_context(@['disciplineAction'], action, teachers)
+        stamp_context(@db['disciplineAction'], action, teachers)
         action['body']['disciplineIncidentId'].each do |id|
-          stamp_context(@db['disciplineIncidentId'], id, action['metaData']['tenantId'], teachers)
+          stamp_full_context(@db['disciplineIncident'], id, action['metaData']['tenantId'], teachers)
         end
       end
     end
@@ -581,7 +577,7 @@ class SLCFixer
         teachers = teachers.flatten
         teachers = teachers.uniq
       end
-      stamp_context(@db['teacherSchoolAssociation'], assoc_id, teacher_to_tenant[teacher_id], teachers)
+      stamp_full_context(@db['teacherSchoolAssociation'], assoc_id, teacher_to_tenant[teacher_id], teachers)
     }
 
     # tag staff ed orgs
@@ -609,7 +605,7 @@ class SLCFixer
       schools.each { |school| teachers << school_to_teachers[school] }
       teachers = teachers.flatten
       teachers = teachers.uniq
-      stamp_context(@db['staff'], staff_id, staff_to_tenant[staff_id], teachers)
+      stamp_full_context(@db['staff'], staff_id, staff_to_tenant[staff_id], teachers)
     }
   end
 
@@ -635,19 +631,26 @@ class SLCFixer
   def make_ids_obj(record)
     obj = {}
     obj['_id'] = record['_id']
-    obj['metaData.tenantId'] = record['metaData']['tenantId']
+    if record.include? 'metaData' and record['metaData'].include? 'tenantId'
+      obj['metaData.tenantId'] = record['metaData']['tenantId']
+    else
+      obj['metaData.tenantId'] = nil
+    end
     obj
   end
   def stamp_context(collection, object, teachers)
-    stamp_context(collection, make_ids_obj(object), teachers)
+    obj = make_ids_obj(object)
+    stamp_full_context(collection, obj['_id'], obj['metaData.tenantId'], teachers)
   end
-  def stamp_context(collection, id, tenant, teachers)
-    if tenant.nil? or teachers.nil? or teachers.empty?
-      @log.warn "No tenant/teachers for #{collection.name}##{id}"
-      return
+  def stamp_full_context(collection, id, tenant, teachers)
+    if tenant.nil?
+      @log.warn "No tenant for #{collection.name}##{id}"
+      # return
     end
     begin
-      collection.update({"_id" => id, "metaData.tenantId" => tenant}, {'$set' => 'metaData.teacherContext' => teachers})
+      collection.update({"_id" => id, "metaData.tenantId" => tenant}, {'$set' => {'metaData.teacherContext' => teachers}})
+      @count += 1
+      @log.info {"Stamping #{collection.name}"} if @count % 200 == 0
     rescue Exception => e
       @log.warn e.message
     end
