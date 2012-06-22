@@ -9,7 +9,7 @@ fixer.start
 skip = ['system.indexes', 'application', 'aggregationDefinition', 'realm', 'applicationAuthorization', 'realm', 'roles', 'system.js', 'tenant', 'assessment', 'learningStandard', 'learningObjective', 'sectionSchoolAssociation', 'educationOrganizationAssociation', 'educationOrganizationSchoolAssociation', 'error', 'securityEvent', 'courseSectionAssociation', 'teacher', 'school', 'userSession', 'custom_entities', 'userAccount', 'adminDelegation', 'calendarDate', 'studentCompetencyObjective']
 stamped = {}
 unstamped = []
-db.collection_names.each do |name|
+db.collection_names.sort.each do |name|
   if !skip.include? name
     exists = db[name].find({'metaData.teacherContext' => {'$exists' => true}}).count
     stamped[name] = db[name].find({'metaData.teacherContext' => {'$exists' => false}}).count if exists > 0
