@@ -472,8 +472,8 @@ class SLCFixer
       }
     }
 
-    @db['studentTranscriptAssociation'].find({}, @basic_options) { |cursor|
-      cursor.each { |assoc|
+    @db['studentTranscriptAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
         student_id = assoc['body']['studentId']
         record_id = assoc['body']['studentAcademicRecordId']
         tenant_id = assoc['metaData']['tenantId']
@@ -491,7 +491,8 @@ class SLCFixer
         end
 
         stamp_context(@db['studentTranscriptAssociation'], assoc, teachers)
-      }
+      end
+    end
     @studentId_to_teachers.each { |student,teachers|
       #TODO Add tenantId
       @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {'$set' => {'metaData.teacherContext' => teachers}})
