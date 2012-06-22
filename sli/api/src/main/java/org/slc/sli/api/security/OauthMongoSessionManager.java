@@ -197,13 +197,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         principal.setEntity(locator.locate((String) principal.getTenantId(), principal.getExternalId()).getEntity());
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
 
-        //If the list of authorized apps is null, we weren't able to figure out the user's LEA.
-        //TODO: deny access if no context information is available--to fix in oauth hardening
-        if (authorizedAppIds != null && !authorizedAppIds.contains(app.getEntityId())) {
+        if (!authorizedAppIds.contains(app.getEntityId())) {
             throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"),
                     (String) session.getBody().get("state"));
-        }
+        
 
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
 
