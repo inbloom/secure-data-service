@@ -1,0 +1,6 @@
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-ACT.xml,4b1b68935640b129f5faeaf0eeafa087
+edfi-xml,AssessmentMetadata,Grade_12_English_CCS_RI_11_12.xml,
+edfi-xml,AssessmentMetadata,Grade_12_Math_CCS_G_C.xml,
+edfi-xml,AssessmentMetadata,Grade_12_Math_CCS_G_SRT.xml,
+edfi-xml,StudentParent,InterchangeStudent.xml,0bcbb18ed9f2f76ce2d14cc93d34678b
+edfi-xml,StudentAssessment,StudentAssessmentItem_ACTAssessmentItem_Mapping.xml,54a9ff1742a5d1e3eb93335eb9a037c7
