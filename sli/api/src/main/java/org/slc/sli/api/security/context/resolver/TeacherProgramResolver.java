@@ -43,7 +43,8 @@ public class TeacherProgramResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")

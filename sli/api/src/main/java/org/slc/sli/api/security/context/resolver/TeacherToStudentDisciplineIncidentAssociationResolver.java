@@ -17,16 +17,15 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Resolves which StudentDisciplineIncidentAssociation a given teacher is allowed to see.
@@ -39,7 +38,8 @@ public class TeacherToStudentDisciplineIncidentAssociationResolver implements En
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
