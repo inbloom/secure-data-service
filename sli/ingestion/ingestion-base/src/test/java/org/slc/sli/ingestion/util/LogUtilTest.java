@@ -117,12 +117,12 @@ public class LogUtilTest {
             Pattern p = Pattern.compile(".*\\.\\.\\. [\\d]* more.*", Pattern.DOTALL);
 
             // Verify log file DOES contain nested exception stack traces.
-            if (!logContents.contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:39)")
+            if (!logContents.contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:56)")
                     || !logContents
-                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:36)")
+                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:53)")
                     || !p.matcher(logContents).matches()
                     || !logContents
-                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:33)")) {
+                            .contains("at org.slc.sli.ingestion.util.LogUtilTest.testLogUtil(LogUtilTest.java:50)")) {
                 return false;
             }
 

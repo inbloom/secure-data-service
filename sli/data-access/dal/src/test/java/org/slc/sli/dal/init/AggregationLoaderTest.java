@@ -64,6 +64,7 @@ public class AggregationLoaderTest {
         aggregationLoader.init();
     }
 
+    /*
     @Test
     public void testLoadJavascriptFile() {
         String testFile = "testJS.js";
@@ -72,6 +73,7 @@ public class AggregationLoaderTest {
         String out = aggregationLoader.loadJavascriptFile(in);
         assertEquals("test aggregation loader\n\n", out);
     }
+    */
 
     @Test
     public void testLoadNonExistentFile() {
