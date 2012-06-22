@@ -23,6 +23,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "sandbox_edorg_2"                            if human_readable_id == "SANDBOX_EDORG_2"
   id = @email                                       if human_readable_id == "TENANTID"
   id = @edorgId                                     if human_readable_id == "PROD_EDORG"
+  id = "district_edorg"                             if human_readable_id == "DISTRICT_EDORG"
   id
 end
 
@@ -77,7 +78,7 @@ sleep(1)
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
-  if(@sabdbox==false)
+  if(@sandbox==false)
  ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
  end
   #ApprovalEngine.change_user_status(@email,"approve",true)
@@ -124,9 +125,14 @@ Given /^there is no landing zone for the "(.*?)" in mongo$/ do |edorgId|
   assert(found==false,"there is a landing zone for #{edorgId} in mongo")
 end
 
-Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorg|
+Given /^there is no landing zone for the user in LDAP$/ do
+ user_info = ApprovalEngine.get_user(@email)
+ assert(user_info[:homedir].include?("dev/null"),"the user landing zone is already set to #{user_info[:homedir]}")
+end
+
+Given /^there is a landing zone for the "(.*?)" in mongo$/ do |edorgId|
   clear_tenant
-  create_tenant(@tenantId,@edorgId)
+  create_tenant(@tenantId,edorgId)
 end
 
 Given /^there is a landing zone for the "(.*?)" in LDAP$/ do |edorg|
@@ -145,7 +151,7 @@ When /^the Ingestion Admin go to the provisioning application web page$/ do
 end
 
   
-Then /^a tenantId "([^"]*)" created in Mongo$/ do |tenantId|
+Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
  tenant_coll=@db["tenant"]
  assert( tenant_coll.find("body.tenantId" => tenantId).count >0 ,"the tenantId #{tenantId} is not created in mongo")
 end
@@ -172,6 +178,10 @@ end
 
 Then /^the Ingestion Admin gets a success message$/ do
  step "the user gets a success message"
+end
+
+Then /^the Ingestion Admin gets an already provisioned message$/ do
+  step "the user gets an already provisioned message"
 end
 
 
